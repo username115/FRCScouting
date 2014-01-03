@@ -18,7 +18,7 @@ package org.frc836.ultimateascent;
 
 import java.util.Map;
 
-import org.growingstems.scouting.PitStats;
+import org.frc836.database.PitStats;
 
 public class PitStatsUA extends PitStats {
 	

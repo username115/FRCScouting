@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.growingstems.scouting;
+package org.frc836.database;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.frc836.ultimateascent.*;
+import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
 
 import android.content.Context;

@@ -19,7 +19,7 @@ package org.frc836.ultimateascent;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.growingstems.scouting.MatchStatsStruct;
+import org.frc836.database.MatchStatsStruct;
 
 public class MatchStatsStructUA extends MatchStatsStruct {
 	

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.growingstems.scouting;
+package org.frc836.database;
 
 import java.util.HashMap;
 import java.util.Map;

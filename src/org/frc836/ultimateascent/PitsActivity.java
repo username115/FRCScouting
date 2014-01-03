@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.frc836.database.DB;
+import org.frc836.database.XMLDBParser;
 import org.growingstems.scouting.*;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;

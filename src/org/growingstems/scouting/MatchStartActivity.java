@@ -16,6 +16,7 @@
 
 package org.growingstems.scouting;
 
+import org.frc836.database.DB;
 import org.frc836.ultimateascent.MatchActivity;
 import org.growingstems.scouting.R;
 import org.sigmond.net.AsyncPictureRequest;

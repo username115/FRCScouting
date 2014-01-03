@@ -16,6 +16,7 @@
 
 package org.growingstems.scouting;
 
+import org.frc836.database.DB;
 import org.frc836.ultimateascent.PitsActivity;
 import org.growingstems.scouting.R;
 import org.sigmond.net.HttpCallback;

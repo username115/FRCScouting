@@ -18,6 +18,7 @@ package org.growingstems.scouting;
 
 import java.util.List;
 
+import org.frc836.database.DB;
 import org.growingstems.scouting.R;
 import org.growingstems.scouting.EventList.EventCallback;
 import org.sigmond.net.HttpCallback;

@@ -18,6 +18,7 @@ package org.growingstems.scouting;
 
 import java.util.List;
 
+import org.frc836.database.DB;
 import org.frc836.ultimateascent.TeamStats;
 import org.growingstems.scouting.R;
 

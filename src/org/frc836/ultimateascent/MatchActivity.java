@@ -18,7 +18,7 @@ package org.frc836.ultimateascent;
 
 import java.util.List;
 
-import org.growingstems.scouting.DB;
+import org.frc836.database.DB;
 import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.MatchSchedule;
 import org.growingstems.scouting.ParamList;
