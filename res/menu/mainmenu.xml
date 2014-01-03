@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/settingsitem"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/menu_settings"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/refreshMatchesItem"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:title="Refresh Match Schedule"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/helpitem"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="Help" android:enabled="true" android:visible="true">
+    </item>
+
+</menu>

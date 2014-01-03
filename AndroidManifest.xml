@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.growingstems.scouting"
+    android:versionName="1.2013.3.2" android:versionCode="16">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="10" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name="org.frc836.ultimateascent.MatchActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/match_label"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="org.growingstems.scouting.MatchStartActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/waiting" >
+        </activity>
+        <activity android:name="org.growingstems.scouting.Prefs" >
+        </activity>
+        <activity
+            android:name="org.growingstems.scouting.DashboardActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.frc836.ultimateascent.PitsActivity"
+            android:configChanges="orientation"
+            android:label="@string/pits_label" >
+        </activity>
+        <activity
+            android:name="org.growingstems.scouting.DataActivity"
+            android:label="@string/title_activity_data" android:configChanges="keyboardHidden|orientation">
+        </activity>
+        <activity android:name="org.growingstems.scouting.EventStatsActivity"></activity>
+        <activity android:name="org.growingstems.scouting.TeamStatsActivity"></activity>
+        <activity android:name="org.growingstems.scouting.MatchStatsActivity" android:label="@string/title_activity_data" android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:name="org.growingstems.scouting.GraphActivity"></activity>
+    </application>
+
+</manifest>

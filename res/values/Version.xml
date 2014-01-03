@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="VersionID">1.2013.3.2</string>
+    <string name="APKURL">http://robobees.org/android/FRCScouting_%s.apk</string>
+    <string name="VersionDate">2013–04-26</string>
+    <string name="dev_email">username115@gmail.com</string>
+    
+</resources>

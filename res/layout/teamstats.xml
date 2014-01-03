@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teamstatslayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/data_team_input_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <AutoCompleteTextView
+            android:id="@+id/data_team_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/team_hint"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/data_teamB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="@string/team_lookup" />
+    </LinearLayout>
+
+    <ExpandableListView
+        android:id="@+id/team_data_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" >
+    </ExpandableListView>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:defaultValue="red 1"
+        android:dialogTitle="Position"
+        android:entries="@array/positions"
+        android:entryValues="@array/positions"
+        android:key="positionPref"
+        android:summary="Select position to watch"
+        android:title="Position" />
+    <ListPreference
+        android:dialogTitle="Event"
+        android:entries="@array/Events"
+        android:entryValues="@array/Events"
+        android:key="eventPref"
+        android:summary="Select Event Attending"
+        android:title="Event" />
+
+    <EditTextPreference
+        android:inputType="textUri"
+        android:key="databaseURLPref"
+        android:summary="Enter the URL for the server"
+        android:title="Server Address" />
+    <EditTextPreference
+        android:inputType="textPassword"
+        android:key="passPref"
+        android:summary="Enter the password for the server"
+        android:title="Password" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:enabled="true"
+        android:key="robotPicPref"
+        android:summary="Automatically download pictures of robots?"
+        android:title="Download Pictures" />
+
+    <EditTextPreference
+        android:inputType="number"
+        android:key="teamPref"
+        android:summary="Enter your team number"
+        android:title="Team Number" />
+
+</PreferenceScreen>
