@@ -19,17 +19,23 @@ package org.frc836.database;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 import org.frc836.ultimateascent.*;
 import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class DB {
 
 	private HttpUtils utils;
 	private String password;
 	private Context context;
+	private ScoutingDBHelper helper;
 
 	@SuppressWarnings("unused")
 	private DB() {
@@ -39,12 +45,24 @@ public class DB {
 		utils = new HttpUtils();
 		password = pass;
 		this.context = context;
+		helper = new ScoutingDBHelper(context);
 	}
 
 	public DB(Context context) {
 		this.context = context;
 		utils = new HttpUtils();
 		password = Prefs.getSavedPassword(context);
+		helper = new ScoutingDBHelper(context);
+	}
+	
+	protected static Map<String,String> getPostData(ContentValues values)
+	{
+		Map<String,String> data = new HashMap<String,String>();
+		for(String key: values.keySet())
+		{
+			data.put(key, values.getAsString(key));
+		}
+		return data;
 	}
 
 	public void submitMatch(MatchStatsStruct auto, MatchStatsStruct tele,
@@ -53,7 +71,10 @@ public class DB {
 		args.putAll(auto.getPost());
 		args.put("type", "match");
 		args.put("password", password);
-
+		SQLiteDatabase db = helper.getWritableDatabase();
+		ContentValues values = tele.getValues(this);
+		values.putAll(auto.getValues(this));
+		db.insertOrThrow(FACT_MATCH_DATA_Entry.TABLE_NAME, null, values);
 		utils.doPost(Prefs.getScoutingURL(context), args, callback);
 	}
 
@@ -159,6 +180,23 @@ public class DB {
 		args.put("type", "paramRequest");
 		args.put("req", table);
 		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+	}
+	
+	public long getEventIDFromName(String EventName)
+	{
+		SQLiteDatabase db = helper.getReadableDatabase();
+		String[] projection = {EVENT_LU_Entry.COLUMN_NAME_ID};
+		String[] where = {EventName};
+		Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, //from the event_lu table
+				projection, //select 
+				EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME, //where event_name == 
+				where, //EventName
+				null, //don't group 
+				null, //don't filter
+				null, //don't order
+				"0,1"); //limit to 1
+		c.moveToFirst();
+		return c.getLong(c.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
 	}
 
 }

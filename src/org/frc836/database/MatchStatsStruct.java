@@ -19,6 +19,10 @@ package org.frc836.database;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+
+import android.content.ContentValues;
+
 public abstract class MatchStatsStruct {
 	
 	
@@ -29,8 +33,8 @@ public abstract class MatchStatsStruct {
 	public boolean autonomous;
 	public String notes;
 	public boolean tipOver;
-	public boolean penalty;
-	public boolean mpenalty;
+	public boolean foul;
+	public boolean tech_foul;
 	public boolean yellowCard;
 	public boolean redCard;
 	
@@ -63,6 +67,10 @@ public abstract class MatchStatsStruct {
 		autonomous = true;
 		tipOver = false;
 		notes = "";
+		foul = false;
+		tech_foul = false;
+		yellowCard = false;
+		redCard = false;
 	}
 	
 	public Map<String, String> getPost()
@@ -73,10 +81,26 @@ public abstract class MatchStatsStruct {
 		args.put("match_id", String.valueOf(match));
 		args.put("notes", notes);
 		args.put("tip_over", String.valueOf(tipOver?1:0));
-		args.put("penalty", String.valueOf(penalty?1:0));
-		args.put("mpenalty", String.valueOf(mpenalty?1:0));
+		args.put("penalty", String.valueOf(foul?1:0));
+		args.put("mpenalty", String.valueOf(tech_foul?1:0));
 		args.put("yellow_card", String.valueOf(yellowCard?1:0));
 		args.put("red_card", String.valueOf(redCard?1:0));
+		
+		return args;
+	}
+	
+	public ContentValues getValues(DB db)
+	{
+		ContentValues args = new ContentValues();
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event));
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES, notes);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER, tipOver?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL, foul?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL, tech_foul?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD, yellowCard?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD, redCard?1:0);
 		
 		return args;
 	}

@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="org.frc836.ultimateascent.MatchActivity"
+            android:name="org.frc836.aerialassist.MatchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/match_label"
             android:windowSoftInputMode="stateHidden" >

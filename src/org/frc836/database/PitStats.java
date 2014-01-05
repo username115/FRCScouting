@@ -19,6 +19,10 @@ package org.frc836.database;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
+
+import android.content.ContentValues;
+
 public abstract class PitStats {
 	
 	public int team;
@@ -53,6 +57,19 @@ public abstract class PitStats {
 		args.put("wheel_base_id", wheel_base);
 		args.put("autonomous_mode", auto_mode ? "1" : "0");
 		args.put("scout_comments", comments);
+		
+		return args;
+	}
+	
+	public ContentValues getContent(DB db)
+	{
+		ContentValues args = new ContentValues();
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID, chassis_config);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID, wheel_type);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID, wheel_base);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE, auto_mode ? 1 : 0);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS, comments);
 		
 		return args;
 	}

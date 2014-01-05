@@ -159,5 +159,9 @@
     <string name="refresh_data">Refresh Data</string>
     <string name="max_height_text">Max Height:</string>
     <string name="max_height_hint">inches</string>
+    <string name="match_hint">Match#</string>
+    <string name="team_1_hint">Team# 1</string>
+    <string name="team_2_hint">Team# 2</string>
+    <string name="team_3_hint">Team# 3</string>
 
 </resources>

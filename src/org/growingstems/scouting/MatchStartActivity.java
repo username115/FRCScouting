@@ -17,7 +17,7 @@
 package org.growingstems.scouting;
 
 import org.frc836.database.DB;
-import org.frc836.ultimateascent.MatchActivity;
+import org.frc836.aerialassist.MatchActivity;
 import org.growingstems.scouting.R;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.HttpCallback;
@@ -51,7 +51,7 @@ import android.widget.TextView;
 public class MatchStartActivity extends Activity implements PicCallback {
 
 	private EditText teamNum;
-	private TextView position;
+	//private TextView position;
 	private EditText matchNum;
 	private Button startB;
 	private ImageView robotPic;
@@ -76,13 +76,13 @@ public class MatchStartActivity extends Activity implements PicCallback {
 				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
 				+ "Match number and team number will automatically update upon successful submission of match data.";
 
-		teamNum = (EditText) findViewById(R.id.startTeamNum);
-		position = (TextView) findViewById(R.id.startPos);
+		teamNum = (EditText) findViewById(R.id.startTeamNum1);
+		//position = (TextView) findViewById(R.id.startPos);
 		matchNum = (EditText) findViewById(R.id.startMatchNum);
 		startB = (Button) findViewById(R.id.startMatchB);
 		robotPic = (ImageView) findViewById(R.id.robotPic);
 
-		position.setOnClickListener(new positionClickListener());
+		//position.setOnClickListener(new positionClickListener());
 		startB.setOnClickListener(new StartClickListener());
 		robotPic.setOnClickListener(new PictureClickListener());
 
@@ -99,11 +99,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 				.getDefaultSharedPreferences(getBaseContext());
 		String pos = prefs.getString("positionPref", "red 1");
 
-		position.setText(pos);
+		/*position.setText(pos);
 		if (pos.contains("blue"))
 			position.setTextColor(Color.BLUE);
 		else
-			position.setTextColor(Color.RED);
+			position.setTextColor(Color.RED);*/
 		if (!schedule.isValid(this)) {
 			schedule.updateSchedule(
 					prefs.getString("eventPref", "Chesapeake Regional"), this,
@@ -178,11 +178,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 			String pos = prefs.getString("positionPref", "red 1");
 
-			position.setText(pos);
+			/*position.setText(pos);
 			if (pos.contains("blue"))
 				position.setTextColor(Color.BLUE);
 			else
-				position.setTextColor(Color.RED);
+				position.setTextColor(Color.RED);*/
 			if (matchNum.getText().length() > 0)
 				setMatch(Integer.valueOf(matchNum.getText().toString()));
 			notesList.downloadParamList(null, null);
@@ -202,8 +202,8 @@ public class MatchStartActivity extends Activity implements PicCallback {
 			def = "";
 		}
 		
-		teamNum.setText(schedule.getTeam(matchNum, position.getText()
-				.toString(), this, def));
+		/*teamNum.setText(schedule.getTeam(matchNum, position.getText()
+				.toString(), this, def));*/
 		if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
 			loadPicture();
 		}
