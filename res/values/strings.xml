@@ -7,12 +7,8 @@
     <string name="pits_label">Pit Data Entry</string>
 
     <string-array name="positions">
-        <item name="red 1">red 1</item>
-        <item name="red 2">red 2</item>
-        <item name="red 3">red 3</item>
-        <item name="blue 1">blue 1</item>
-        <item name="blue 2">blue 2</item>
-        <item name="blue 3">blue 3</item>
+        <item name="red">Red</item>
+        <item name="blue">Blue</item>
     </string-array>
     <string-array name="numbers">
         <item>0</item>

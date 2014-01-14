@@ -178,10 +178,10 @@ public class Prefs extends PreferenceActivity {
 				.getString("eventPref", defaultValue);
 	}
 
-	public static boolean getRobotPicPref(Context context, boolean defaultValue) {
+	/*public static boolean getRobotPicPref(Context context, boolean defaultValue) {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean("robotPicPref", defaultValue);
-	}
+	}*/
 
 	public static String getDefaultTeamNumber(Context context,
 			String defaultValue) {

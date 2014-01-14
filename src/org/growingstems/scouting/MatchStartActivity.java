@@ -50,8 +50,10 @@ import android.widget.TextView;
 
 public class MatchStartActivity extends Activity implements PicCallback {
 
-	private EditText teamNum;
-	//private TextView position;
+	private EditText teamNum1;
+	private EditText teamNum2;
+	private EditText teamNum3;
+	// private TextView position;
 	private EditText matchNum;
 	private Button startB;
 	private ImageView robotPic;
@@ -76,13 +78,15 @@ public class MatchStartActivity extends Activity implements PicCallback {
 				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
 				+ "Match number and team number will automatically update upon successful submission of match data.";
 
-		teamNum = (EditText) findViewById(R.id.startTeamNum1);
-		//position = (TextView) findViewById(R.id.startPos);
+		teamNum1 = (EditText) findViewById(R.id.startTeamNum1);
+		teamNum2 = (EditText) findViewById(R.id.startTeamNum2);
+		teamNum3 = (EditText) findViewById(R.id.startTeamNum3);
+		// position = (TextView) findViewById(R.id.startPos);
 		matchNum = (EditText) findViewById(R.id.startMatchNum);
 		startB = (Button) findViewById(R.id.startMatchB);
 		robotPic = (ImageView) findViewById(R.id.robotPic);
 
-		//position.setOnClickListener(new positionClickListener());
+		// position.setOnClickListener(new positionClickListener());
 		startB.setOnClickListener(new StartClickListener());
 		robotPic.setOnClickListener(new PictureClickListener());
 
@@ -97,13 +101,8 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		super.onResume();
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
-		String pos = prefs.getString("positionPref", "red 1");
+		updatePosition();
 
-		/*position.setText(pos);
-		if (pos.contains("blue"))
-			position.setTextColor(Color.BLUE);
-		else
-			position.setTextColor(Color.RED);*/
 		if (!schedule.isValid(this)) {
 			schedule.updateSchedule(
 					prefs.getString("eventPref", "Chesapeake Regional"), this,
@@ -112,13 +111,14 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 	}
 
-	private class positionClickListener implements OnClickListener {
-
-		public void onClick(View v) {
-			MainMenuSelection.openSettings(MatchStartActivity.this);
-		}
-
-	}
+	/*
+	 * private class positionClickListener implements OnClickListener {
+	 * 
+	 * public void onClick(View v) {
+	 * MainMenuSelection.openSettings(MatchStartActivity.this); }
+	 * 
+	 * }
+	 */
 
 	private class matchTextListener implements TextWatcher {
 
@@ -158,10 +158,28 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		public void onClick(View v) {
 			Intent intent = new Intent(MatchStartActivity.this,
 					MatchActivity.class);
-			intent.putExtra("team", teamNum.getText().toString());
+			intent.putExtra("team1", teamNum1.getText().toString());
+			intent.putExtra("team2", teamNum2.getText().toString());
+			intent.putExtra("team3", teamNum3.getText().toString());
 			intent.putExtra("match", matchNum.getText().toString());
 			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
 
+		}
+
+	}
+
+	private void updatePosition() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		String pos = prefs.getString("positionPref", "Red");
+		if (pos.contains("Blue")) {
+			teamNum1.setBackgroundResource(R.drawable.blueborder);
+			teamNum2.setBackgroundResource(R.drawable.blueborder);
+			teamNum3.setBackgroundResource(R.drawable.blueborder);
+		} else {
+			teamNum1.setBackgroundResource(R.drawable.redborder);
+			teamNum2.setBackgroundResource(R.drawable.redborder);
+			teamNum3.setBackgroundResource(R.drawable.redborder);
 		}
 
 	}
@@ -176,13 +194,8 @@ public class MatchStartActivity extends Activity implements PicCallback {
 					prefs.getString("eventPref", "Chesapeake Regional"), this,
 					false);
 
-			String pos = prefs.getString("positionPref", "red 1");
+			updatePosition();
 
-			/*position.setText(pos);
-			if (pos.contains("blue"))
-				position.setTextColor(Color.BLUE);
-			else
-				position.setTextColor(Color.RED);*/
 			if (matchNum.getText().length() > 0)
 				setMatch(Integer.valueOf(matchNum.getText().toString()));
 			notesList.downloadParamList(null, null);
@@ -193,20 +206,17 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void setMatch(int matchNum) {
-		
-		String def = teamNum.getText().toString().trim();
-		try {
-			if (def.length() > 9 || Integer.valueOf(def) <= 0)
-				def = "";
-		} catch (Exception e) {
-			def = "";
-		}
-		
-		/*teamNum.setText(schedule.getTeam(matchNum, position.getText()
-				.toString(), this, def));*/
-		if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
-			loadPicture();
-		}
+		// TODO fixme
+		/*
+		 * String def = teamNum.getText().toString().trim(); try { if
+		 * (def.length() > 9 || Integer.valueOf(def) <= 0) def = ""; } catch
+		 * (Exception e) { def = ""; }
+		 * 
+		 * teamNum.setText(schedule.getTeam(matchNum, position.getText()
+		 * .toString(), this, def)); if
+		 * (Prefs.getRobotPicPref(getApplicationContext(), false)) {
+		 * loadPicture(); }
+		 */
 	}
 
 	private class PictureClickListener implements OnClickListener {
@@ -221,8 +231,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void loadPicture() {
-		DB db = new DB(getApplicationContext());
-		db.getPictureURL(teamNum.getText().toString(), new PictureURLCallback());
+		/*
+		 * DB db = new DB(getApplicationContext());
+		 * db.getPictureURL(teamNum.getText().toString(), new
+		 * PictureURLCallback());
+		 */
 	}
 
 	private class PictureURLCallback implements HttpCallback {

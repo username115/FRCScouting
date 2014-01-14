@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<style parent="@android:style/Widget.Spinner" name="SpinnerAsEditText"><item name="android:background">@android:drawable/edit_text</item>
-</style>
+
+    <style name="SpinnerAsEditText" parent="@android:style/Widget.Spinner">
+        <item name="android:background">@android:drawable/edit_text</item>
+    </style>
+    
+    <style name="TextViewAsEditText" parent="@android:style/Widget.TextView">
+        <item name="android:background">@android:drawable/edit_text</item>
+    </style>
+
 </resources>
