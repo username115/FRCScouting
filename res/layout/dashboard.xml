@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Data Lookup"
+            android:enabled="false"
             />
 
         <View
@@ -47,7 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="Pits" />
+            android:text="Pits" 
+            android:enabled="false" />
     </LinearLayout>
 
     <TextView
