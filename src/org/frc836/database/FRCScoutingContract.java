@@ -51,17 +51,11 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_TEAM_ID = "team_id";
 		public static final String COLUMN_NAME_AUTO_HIGH = "auto_high";
-		public static final String COLUMN_NAME_AUTO_HIGH_ATTEMPT = "auto_high_attempt";
 		public static final String COLUMN_NAME_AUTO_HIGH_HOT = "auto_high_hot";
-		public static final String COLUMN_NAME_AUTO_HIGH_HOT_ATTEMPT = "auto_high_hot_attempt";
 		public static final String COLUMN_NAME_AUTO_LOW = "auto_low";
-		public static final String COLUMN_NAME_AUTO_LOW_ATTEMPT = "auto_low_attempt";
 		public static final String COLUMN_NAME_AUTO_LOW_HOT = "auto_low_hot";
-		public static final String COLUMN_NAME_AUTO_LOW_HOT_ATTEMPT = "auto_low_hot_attempt";
 		public static final String COLUMN_NAME_HIGH = "high";
-		public static final String COLUMN_NAME_HIGH_ATTEMPT = "high_attempt";
 		public static final String COLUMN_NAME_LOW = "low";
-		public static final String COLUMN_NAME_LOW_ATTEMPT = "low_attempt";
 		public static final String COLUMN_NAME_AUTO_MOBILE = "auto_mobile";
 		public static final String COLUMN_NAME_FOUL = "foul";
 		public static final String COLUMN_NAME_TECH_FOUL = "tech_foul";
@@ -126,7 +120,7 @@ public final class FRCScoutingContract {
 		"-- http://www.phpmyadmin.net\n" + 
 		"--\n" + 
 		"-- Host: localhost\n" + 
-		"-- Generation Time: Jan 13, 2014 at 07:48 PM\n" + 
+		"-- Generation Time: Jan 15, 2014 at 07:43 PM\n" + 
 		"-- Server version: 5.1.72-cll\n" + 
 		"-- PHP Version: 5.3.17\n" + 
 		"\n" + 
@@ -331,17 +325,11 @@ public final class FRCScoutingContract {
 		"  `match_id` int(3) unsigned NOT NULL,\n" + 
 		"  `team_id` int(5) unsigned NOT NULL,\n" + 
 		"  `auto_high` int(1) unsigned NOT NULL,\n" + 
-		"  `auto_high_attempt` int(1) unsigned NOT NULL,\n" + 
 		"  `auto_high_hot` int(1) unsigned NOT NULL,\n" + 
-		"  `auto_high_hot_attempt` int(1) unsigned NOT NULL,\n" + 
 		"  `auto_low` int(1) unsigned NOT NULL,\n" + 
-		"  `auto_low_attempt` int(1) unsigned NOT NULL,\n" + 
 		"  `auto_low_hot` int(1) unsigned NOT NULL,\n" + 
-		"  `auto_low_hot_attempt` int(1) unsigned NOT NULL,\n" + 
 		"  `high` int(1) unsigned NOT NULL,\n" + 
-		"  `high_attempt` int(1) unsigned NOT NULL,\n" + 
 		"  `low` int(1) unsigned NOT NULL,\n" + 
-		"  `low_attempt` int(1) unsigned NOT NULL,\n" + 
 		"  `auto_mobile` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `foul` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `tech_foul` tinyint(1) unsigned NOT NULL,\n" + 

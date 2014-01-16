@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 13, 2014 at 07:48 PM
+-- Generation Time: Jan 15, 2014 at 07:43 PM
 -- Server version: 5.1.72-cll
 -- PHP Version: 5.3.17
 
@@ -208,17 +208,11 @@ CREATE TABLE IF NOT EXISTS `fact_match_data` (
   `match_id` int(3) unsigned NOT NULL,
   `team_id` int(5) unsigned NOT NULL,
   `auto_high` int(1) unsigned NOT NULL,
-  `auto_high_attempt` int(1) unsigned NOT NULL,
   `auto_high_hot` int(1) unsigned NOT NULL,
-  `auto_high_hot_attempt` int(1) unsigned NOT NULL,
   `auto_low` int(1) unsigned NOT NULL,
-  `auto_low_attempt` int(1) unsigned NOT NULL,
   `auto_low_hot` int(1) unsigned NOT NULL,
-  `auto_low_hot_attempt` int(1) unsigned NOT NULL,
   `high` int(1) unsigned NOT NULL,
-  `high_attempt` int(1) unsigned NOT NULL,
   `low` int(1) unsigned NOT NULL,
-  `low_attempt` int(1) unsigned NOT NULL,
   `auto_mobile` tinyint(1) unsigned NOT NULL,
   `foul` tinyint(1) unsigned NOT NULL,
   `tech_foul` tinyint(1) unsigned NOT NULL,

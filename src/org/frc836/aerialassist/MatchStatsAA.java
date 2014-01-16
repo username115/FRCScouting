@@ -29,13 +29,11 @@ import android.content.ContentValues;
 public class MatchStatsAA extends MatchStatsStruct {
 
 	public int auto_high;
-	public int auto_high_attempt;
 	public int auto_high_hot;
-	public int auto_high_hot_attempt;
 	public int auto_low;
-	public int auto_low_attempt;
 	public int auto_low_hot;
-	public int auto_low_hot_attempt;
+	public int high;
+	public int low;
 	public boolean auto_mobile;
 
 	public List<CycleStatsStruct> cycles;
@@ -57,13 +55,11 @@ public class MatchStatsAA extends MatchStatsStruct {
 	public void init() {
 		super.init();
 		auto_high = 0;
-		auto_high_attempt = 0;
 		auto_high_hot = 0;
-		auto_high_hot_attempt = 0;
 		auto_low = 0;
-		auto_low_attempt = 0;
 		auto_low_hot = 0;
-		auto_low_hot_attempt = 0;
+		high = 0;
+		low = 0;
 		auto_mobile = false;
 		cycles = new ArrayList<MatchStatsAA.CycleStatsStruct>();
 	}
@@ -72,17 +68,11 @@ public class MatchStatsAA extends MatchStatsStruct {
 		ContentValues vals = super.getValues(db);
 
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH, auto_high);
-		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_ATTEMPT,
-				auto_high_attempt);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT, auto_high_hot);
-		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT_ATTEMPT,
-				auto_high_hot_attempt);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW, auto_low);
-		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_ATTEMPT,
-				auto_low_attempt);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT, auto_low_hot);
-		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT_ATTEMPT,
-				auto_low_hot_attempt);
+		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH, high);
+		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW, low);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE, auto_mobile ? 1
 				: 0);
 
