@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 15, 2014 at 07:43 PM
+-- Generation Time: Jan 20, 2014 at 11:02 AM
 -- Server version: 5.1.72-cll
 -- PHP Version: 5.3.17
 
@@ -179,9 +179,9 @@ CREATE TABLE IF NOT EXISTS `fact_cycle_data` (
   `match_id` int(3) unsigned NOT NULL,
   `team_id` int(5) unsigned NOT NULL,
   `cycle_num` int(3) unsigned NOT NULL,
-  `red_poss` tinyint(1) unsigned NOT NULL,
+  `near_poss` tinyint(1) unsigned NOT NULL,
   `white_poss` tinyint(1) unsigned NOT NULL,
-  `blue_poss` tinyint(1) unsigned NOT NULL,
+  `far_poss` tinyint(1) unsigned NOT NULL,
   `truss` tinyint(1) unsigned NOT NULL,
   `truss_attempt` tinyint(1) unsigned NOT NULL,
   `catch` tinyint(1) unsigned NOT NULL,

@@ -17,7 +17,9 @@
 package org.frc836.aerialassist;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.frc836.database.DB;
 import org.frc836.database.MatchStatsStruct;
@@ -36,7 +38,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 	public int low;
 	public boolean auto_mobile;
 
-	public List<CycleStatsStruct> cycles;
+	public Map<Integer,CycleStatsStruct> cycles;
 
 	public MatchStatsAA() {
 		init();
@@ -61,7 +63,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 		high = 0;
 		low = 0;
 		auto_mobile = false;
-		cycles = new ArrayList<MatchStatsAA.CycleStatsStruct>();
+		cycles = new HashMap<Integer,MatchStatsAA.CycleStatsStruct>();
 	}
 
 	public ContentValues getValues(DB db) {
@@ -82,8 +84,8 @@ public class MatchStatsAA extends MatchStatsStruct {
 	public List<ContentValues> getCycles() {
 		List<ContentValues> vals = new ArrayList<ContentValues>(cycles.size());
 
-		for (CycleStatsStruct cycle : cycles) {
-			vals.add(cycle.getValues());
+		for (Integer cycle : cycles.keySet()) {
+			vals.add(cycles.get(cycle).getValues());
 		}
 
 		return vals;
@@ -91,9 +93,9 @@ public class MatchStatsAA extends MatchStatsStruct {
 
 	public class CycleStatsStruct {
 		public int cycle_number;
-		public boolean red_poss;
+		public boolean near_poss;
 		public boolean white_poss;
-		public boolean blue_poss;
+		public boolean far_poss;
 		public boolean truss;
 		public int truss_attempt;
 		public boolean truss_catch;
@@ -108,11 +110,11 @@ public class MatchStatsAA extends MatchStatsStruct {
 			ContentValues vals = new ContentValues();
 
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM, cycle_number);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_RED_POSS, red_poss ? 1
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS, near_poss ? 1
 					: 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
 					white_poss ? 1 : 0);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_BLUE_POSS, blue_poss ? 1
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS, far_poss ? 1
 					: 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS, truss ? 1 : 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS_ATTEMPT,

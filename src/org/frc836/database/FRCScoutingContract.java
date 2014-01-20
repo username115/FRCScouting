@@ -29,9 +29,9 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_TEAM_ID = "team_id";
 		public static final String COLUMN_NAME_CYCLE_NUM = "cycle_num";
-		public static final String COLUMN_NAME_RED_POSS = "red_poss";
+		public static final String COLUMN_NAME_NEAR_POSS = "near_poss";
 		public static final String COLUMN_NAME_WHITE_POSS = "white_poss";
-		public static final String COLUMN_NAME_BLUE_POSS = "blue_poss";
+		public static final String COLUMN_NAME_FAR_POSS = "far_poss";
 		public static final String COLUMN_NAME_TRUSS = "truss";
 		public static final String COLUMN_NAME_TRUSS_ATTEMPT = "truss_attempt";
 		public static final String COLUMN_NAME_CATCH = "catch";
@@ -120,7 +120,7 @@ public final class FRCScoutingContract {
 		"-- http://www.phpmyadmin.net\n" + 
 		"--\n" + 
 		"-- Host: localhost\n" + 
-		"-- Generation Time: Jan 15, 2014 at 07:43 PM\n" + 
+		"-- Generation Time: Jan 20, 2014 at 11:02 AM\n" + 
 		"-- Server version: 5.1.72-cll\n" + 
 		"-- PHP Version: 5.3.17\n" + 
 		"\n" + 
@@ -296,9 +296,9 @@ public final class FRCScoutingContract {
 		"  `match_id` int(3) unsigned NOT NULL,\n" + 
 		"  `team_id` int(5) unsigned NOT NULL,\n" + 
 		"  `cycle_num` int(3) unsigned NOT NULL,\n" + 
-		"  `red_poss` tinyint(1) unsigned NOT NULL,\n" + 
+		"  `near_poss` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `white_poss` tinyint(1) unsigned NOT NULL,\n" + 
-		"  `blue_poss` tinyint(1) unsigned NOT NULL,\n" + 
+		"  `far_poss` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `truss` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `truss_attempt` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `catch` tinyint(1) unsigned NOT NULL,\n" + 
