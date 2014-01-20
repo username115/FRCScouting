@@ -38,6 +38,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class MatchActivity extends Activity {
@@ -64,25 +65,23 @@ public class MatchActivity extends Activity {
 
 	private int currentView; // 0=auto, 1=cycles, 2=endgame
 	private int currentCycle;
-	
+
 	private LinearLayout autoLayout;
 	private LinearLayout cycleLayout;
 
 	private EditText matchT;
-	
+
 	private Button lastB;
 	private Button nextB;
-	private Button lastCycleB;
-	private Button nextCycleB;
+
+	private TextView cycleT;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.match);
-		
+
 		lastB = (Button) findViewById(R.id.backB);
 		nextB = (Button) findViewById(R.id.nextB);
-		lastCycleB = (Button) findViewById(R.id.lastCycleB);
-		nextCycleB = (Button) findViewById(R.id.nextCycleB);
 
 		orientation = getResources().getConfiguration().orientation;
 
@@ -107,7 +106,7 @@ public class MatchActivity extends Activity {
 		autoLayouts[6] = (LinearLayout) findViewById(R.id.team3Ball1Box);
 		autoLayouts[7] = (LinearLayout) findViewById(R.id.team3Ball2Box);
 		autoLayouts[8] = (LinearLayout) findViewById(R.id.team3Ball3Box);
-		
+
 		autoLayout = (LinearLayout) findViewById(R.id.autoLayout);
 		cycleLayout = (LinearLayout) findViewById(R.id.cycleLayout);
 
@@ -151,7 +150,11 @@ public class MatchActivity extends Activity {
 
 		currentView = 0;
 		currentCycle = 1;
-		
+
+		cycleT = (TextView) findViewById(R.id.cycleText);
+
+		cycleT.setTextSize(new Button(this).getTextSize());
+
 		setAuto();
 
 	}
@@ -180,6 +183,20 @@ public class MatchActivity extends Activity {
 			for (LinearLayout layout : autoLayouts) {
 				layout.setBackgroundResource(R.drawable.blueborder);
 			}
+
+			findViewById(R.id.team1FarPoss).setBackgroundResource(
+					R.drawable.bluebackground);
+			findViewById(R.id.team2FarPoss).setBackgroundResource(
+					R.drawable.bluebackground);
+			findViewById(R.id.team3FarPoss).setBackgroundResource(
+					R.drawable.bluebackground);
+			findViewById(R.id.team1NearPoss).setBackgroundResource(
+					R.drawable.redbackground);
+			findViewById(R.id.team2NearPoss).setBackgroundResource(
+					R.drawable.redbackground);
+			findViewById(R.id.team3NearPoss).setBackgroundResource(
+					R.drawable.redbackground);
+
 		} else {
 			teamText1.setBackgroundResource(R.drawable.redborder);
 			teamText2.setBackgroundResource(R.drawable.redborder);
@@ -187,6 +204,18 @@ public class MatchActivity extends Activity {
 			for (LinearLayout layout : autoLayouts) {
 				layout.setBackgroundResource(R.drawable.redborder);
 			}
+			findViewById(R.id.team1FarPoss).setBackgroundResource(
+					R.drawable.redbackground);
+			findViewById(R.id.team2FarPoss).setBackgroundResource(
+					R.drawable.redbackground);
+			findViewById(R.id.team3FarPoss).setBackgroundResource(
+					R.drawable.redbackground);
+			findViewById(R.id.team1NearPoss).setBackgroundResource(
+					R.drawable.bluebackground);
+			findViewById(R.id.team2NearPoss).setBackgroundResource(
+					R.drawable.bluebackground);
+			findViewById(R.id.team3NearPoss).setBackgroundResource(
+					R.drawable.bluebackground);
 		}
 	}
 
@@ -823,12 +852,404 @@ public class MatchActivity extends Activity {
 		}
 	}
 
+	public void onPoss(View v) {
+		if (!(v instanceof Button))
+			return;
+
+		Button poss = (Button) v;
+
+		if (poss.getText().toString().contains("X"))
+			poss.setText("");
+		else
+			poss.setText("X");
+
+		// TODO highlight assists
+	}
+
+	public void onTruss(View v) {
+		if (!(v instanceof ToggleButton))
+			return;
+		ToggleButton truss = (ToggleButton) v;
+
+		if (truss.isChecked()) {
+			switch (truss.getId()) {
+			case R.id.team1Truss:
+				findViewById(R.id.team1Catch).setEnabled(false);
+				findViewById(R.id.team2Catch).setEnabled(true);
+				findViewById(R.id.team3Catch).setEnabled(true);
+				((ToggleButton) findViewById(R.id.team2Truss))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3Truss))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1Catch))
+						.setChecked(false);
+				break;
+			case R.id.team2Truss:
+				findViewById(R.id.team1Catch).setEnabled(true);
+				findViewById(R.id.team2Catch).setEnabled(false);
+				findViewById(R.id.team3Catch).setEnabled(true);
+				((ToggleButton) findViewById(R.id.team1Truss))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3Truss))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2Catch))
+						.setChecked(false);
+				break;
+			case R.id.team3Truss:
+				findViewById(R.id.team1Catch).setEnabled(true);
+				findViewById(R.id.team2Catch).setEnabled(true);
+				findViewById(R.id.team3Catch).setEnabled(false);
+				((ToggleButton) findViewById(R.id.team2Truss))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1Truss))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3Catch))
+						.setChecked(false);
+				break;
+			}
+		} else {
+			findViewById(R.id.team1Catch).setEnabled(false);
+			findViewById(R.id.team2Catch).setEnabled(false);
+			findViewById(R.id.team3Catch).setEnabled(false);
+			((ToggleButton) findViewById(R.id.team1Catch)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team2Catch)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team3Catch)).setChecked(false);
+		}
+	}
+
+	public void onCatch(View v) {
+		if (!(v instanceof ToggleButton))
+			return;
+
+		ToggleButton c = (ToggleButton) v;
+
+		if (c.isChecked()) {
+			switch (c.getId()) {
+			case R.id.team1Catch:
+				((ToggleButton) findViewById(R.id.team2Catch))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3Catch))
+						.setChecked(false);
+				break;
+			case R.id.team2Catch:
+				((ToggleButton) findViewById(R.id.team1Catch))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3Catch))
+						.setChecked(false);
+				break;
+			case R.id.team3Catch:
+				((ToggleButton) findViewById(R.id.team2Catch))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1Catch))
+						.setChecked(false);
+				break;
+			}
+		}
+	}
+
+	public void onHigh(View v) {
+		if (!(v instanceof ToggleButton))
+			return;
+
+		ToggleButton c = (ToggleButton) v;
+
+		if (c.isChecked()) {
+			switch (c.getId()) {
+			case R.id.team1HighScore:
+				((ToggleButton) findViewById(R.id.team2HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3LowScore))
+						.setChecked(false);
+				break;
+			case R.id.team2HighScore:
+				((ToggleButton) findViewById(R.id.team1HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3LowScore))
+						.setChecked(false);
+				break;
+			case R.id.team3HighScore:
+				((ToggleButton) findViewById(R.id.team1HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3LowScore))
+						.setChecked(false);
+				break;
+			}
+		}
+	}
+
+	public void onLow(View v) {
+		if (!(v instanceof ToggleButton))
+			return;
+
+		ToggleButton c = (ToggleButton) v;
+
+		if (c.isChecked()) {
+			switch (c.getId()) {
+			case R.id.team1LowScore:
+				((ToggleButton) findViewById(R.id.team2LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3HighScore))
+						.setChecked(false);
+				break;
+			case R.id.team2LowScore:
+				((ToggleButton) findViewById(R.id.team1LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3HighScore))
+						.setChecked(false);
+				break;
+			case R.id.team3LowScore:
+				((ToggleButton) findViewById(R.id.team1LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2LowScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team1HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team2HighScore))
+						.setChecked(false);
+				((ToggleButton) findViewById(R.id.team3HighScore))
+						.setChecked(false);
+				break;
+			}
+		}
+	}
+
+	public void nextCycle(View v) {
+		saveCycle();
+		currentCycle++;
+		loadCycle(currentCycle);
+		findViewById(R.id.lastCycleB).setEnabled(true);
+		((TextView) findViewById(R.id.cycleText)).setText(String
+				.valueOf(currentCycle));
+		// TODO
+	}
+
+	public void lastCycle(View v) {
+		if (currentCycle <= 1)
+			return;
+		saveCycle();
+		currentCycle--;
+		loadCycle(currentCycle);
+		if (currentCycle <= 1)
+			findViewById(R.id.lastCycleB).setEnabled(false);
+		((TextView) findViewById(R.id.cycleText)).setText(String
+				.valueOf(currentCycle));
+		// TODO
+	}
+
+	private void saveCycle() {
+
+		MatchStatsAA.CycleStatsStruct cycle1 = team1Data.cycles
+				.get(currentCycle);
+		MatchStatsAA.CycleStatsStruct cycle2 = team2Data.cycles
+				.get(currentCycle);
+		MatchStatsAA.CycleStatsStruct cycle3 = team3Data.cycles
+				.get(currentCycle);
+		if (cycle1 == null)
+			cycle1 = team1Data.new CycleStatsStruct();
+		if (cycle2 == null)
+			cycle2 = team2Data.new CycleStatsStruct();
+		if (cycle3 == null)
+			cycle3 = team3Data.new CycleStatsStruct();
+
+		cycle1.cycle_number = currentCycle;
+		cycle1.near_poss = ((Button) findViewById(R.id.team1NearPoss))
+				.getText().toString().contains("X");
+		cycle1.white_poss = ((Button) findViewById(R.id.team1WhitePoss))
+				.getText().toString().contains("X");
+		cycle1.far_poss = ((Button) findViewById(R.id.team1FarPoss)).getText()
+				.toString().contains("X");
+		cycle1.truss = ((ToggleButton) findViewById(R.id.team1Truss))
+				.isChecked();
+		cycle1.truss_catch = ((ToggleButton) findViewById(R.id.team1Catch))
+				.isChecked();
+		cycle1.high = ((ToggleButton) findViewById(R.id.team1HighScore))
+				.isChecked();
+		cycle1.low = ((ToggleButton) findViewById(R.id.team1LowScore))
+				.isChecked();
+
+		cycle2.cycle_number = currentCycle;
+		cycle2.near_poss = ((Button) findViewById(R.id.team2NearPoss))
+				.getText().toString().contains("X");
+		cycle2.white_poss = ((Button) findViewById(R.id.team2WhitePoss))
+				.getText().toString().contains("X");
+		cycle2.far_poss = ((Button) findViewById(R.id.team2FarPoss)).getText()
+				.toString().contains("X");
+		cycle2.truss = ((ToggleButton) findViewById(R.id.team2Truss))
+				.isChecked();
+		cycle2.truss_catch = ((ToggleButton) findViewById(R.id.team2Catch))
+				.isChecked();
+		cycle2.high = ((ToggleButton) findViewById(R.id.team2HighScore))
+				.isChecked();
+		cycle2.low = ((ToggleButton) findViewById(R.id.team2LowScore))
+				.isChecked();
+
+		cycle3.cycle_number = currentCycle;
+		cycle3.near_poss = ((Button) findViewById(R.id.team3NearPoss))
+				.getText().toString().contains("X");
+		cycle3.white_poss = ((Button) findViewById(R.id.team3WhitePoss))
+				.getText().toString().contains("X");
+		cycle3.far_poss = ((Button) findViewById(R.id.team3FarPoss)).getText()
+				.toString().contains("X");
+		cycle3.truss = ((ToggleButton) findViewById(R.id.team3Truss))
+				.isChecked();
+		cycle3.truss_catch = ((ToggleButton) findViewById(R.id.team3Catch))
+				.isChecked();
+		cycle3.high = ((ToggleButton) findViewById(R.id.team3HighScore))
+				.isChecked();
+		cycle3.low = ((ToggleButton) findViewById(R.id.team3LowScore))
+				.isChecked();
+
+		// TODO save off assist count
+
+		team1Data.cycles.put(currentCycle, cycle1);
+		team2Data.cycles.put(currentCycle, cycle2);
+		team3Data.cycles.put(currentCycle, cycle3);
+	}
+
+	private void loadCycle(int cycle) {
+
+		MatchStatsAA.CycleStatsStruct cycle1 = team1Data.cycles.get(cycle);
+		MatchStatsAA.CycleStatsStruct cycle2 = team2Data.cycles.get(cycle);
+		MatchStatsAA.CycleStatsStruct cycle3 = team3Data.cycles.get(cycle);
+
+		if (cycle1 == null) {
+			((Button) findViewById(R.id.team1FarPoss)).setText("");
+			((Button) findViewById(R.id.team1WhitePoss)).setText("");
+			((Button) findViewById(R.id.team1NearPoss)).setText("");
+			((ToggleButton) findViewById(R.id.team1Truss)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team1Catch)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team1HighScore))
+					.setChecked(false);
+			((ToggleButton) findViewById(R.id.team1LowScore)).setChecked(false);
+		} else {
+			((Button) findViewById(R.id.team1FarPoss))
+					.setText(cycle1.far_poss ? "X" : "");
+			((Button) findViewById(R.id.team1WhitePoss))
+					.setText(cycle1.white_poss ? "X" : "");
+			((Button) findViewById(R.id.team1NearPoss))
+					.setText(cycle1.near_poss ? "X" : "");
+			((ToggleButton) findViewById(R.id.team1Truss))
+					.setChecked(cycle1.truss);
+			if (cycle1.truss)
+				onTruss(findViewById(R.id.team1Truss));
+			((ToggleButton) findViewById(R.id.team1Catch))
+					.setChecked(cycle1.truss_catch);
+			if (cycle1.truss_catch)
+				onCatch(findViewById(R.id.team1Catch));
+			((ToggleButton) findViewById(R.id.team1HighScore))
+					.setChecked(cycle1.high);
+			if (cycle1.high)
+				onHigh(findViewById(R.id.team1HighScore));
+			((ToggleButton) findViewById(R.id.team1LowScore))
+					.setChecked(cycle1.low);
+			if (cycle1.low)
+				onLow(findViewById(R.id.team1LowScore));
+		}
+		if (cycle2 == null) {
+			((Button) findViewById(R.id.team2FarPoss)).setText("");
+			((Button) findViewById(R.id.team2WhitePoss)).setText("");
+			((Button) findViewById(R.id.team2NearPoss)).setText("");
+			((ToggleButton) findViewById(R.id.team2Truss)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team2Catch)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team2HighScore))
+					.setChecked(false);
+			((ToggleButton) findViewById(R.id.team2LowScore)).setChecked(false);
+		} else {
+			((Button) findViewById(R.id.team2FarPoss))
+					.setText(cycle2.far_poss ? "X" : "");
+			((Button) findViewById(R.id.team2WhitePoss))
+					.setText(cycle2.white_poss ? "X" : "");
+			((Button) findViewById(R.id.team2NearPoss))
+					.setText(cycle2.near_poss ? "X" : "");
+			((ToggleButton) findViewById(R.id.team2Truss))
+					.setChecked(cycle2.truss);
+			if (cycle2.truss)
+				onTruss(findViewById(R.id.team2Truss));
+			((ToggleButton) findViewById(R.id.team2Catch))
+					.setChecked(cycle2.truss_catch);
+			if (cycle2.truss_catch)
+				onCatch(findViewById(R.id.team2Catch));
+			((ToggleButton) findViewById(R.id.team2HighScore))
+					.setChecked(cycle2.high);
+			if (cycle2.high)
+				onHigh(findViewById(R.id.team2HighScore));
+			((ToggleButton) findViewById(R.id.team2LowScore))
+					.setChecked(cycle2.low);
+			if (cycle2.low)
+				onLow(findViewById(R.id.team2LowScore));
+		}
+		if (cycle3 == null) {
+			((Button) findViewById(R.id.team3FarPoss)).setText("");
+			((Button) findViewById(R.id.team3WhitePoss)).setText("");
+			((Button) findViewById(R.id.team3NearPoss)).setText("");
+			((ToggleButton) findViewById(R.id.team3Truss)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team3Catch)).setChecked(false);
+			((ToggleButton) findViewById(R.id.team3HighScore))
+					.setChecked(false);
+			((ToggleButton) findViewById(R.id.team3LowScore)).setChecked(false);
+		} else {
+			((Button) findViewById(R.id.team3FarPoss))
+					.setText(cycle3.far_poss ? "X" : "");
+			((Button) findViewById(R.id.team3WhitePoss))
+					.setText(cycle3.white_poss ? "X" : "");
+			((Button) findViewById(R.id.team3NearPoss))
+					.setText(cycle3.near_poss ? "X" : "");
+			((ToggleButton) findViewById(R.id.team3Truss))
+					.setChecked(cycle3.truss);
+			if (cycle3.truss)
+				onTruss(findViewById(R.id.team3Truss));
+			((ToggleButton) findViewById(R.id.team3Catch))
+					.setChecked(cycle3.truss_catch);
+			if (cycle3.truss_catch)
+				onCatch(findViewById(R.id.team3Catch));
+			((ToggleButton) findViewById(R.id.team3HighScore))
+					.setChecked(cycle3.high);
+			if (cycle3.high)
+				onHigh(findViewById(R.id.team3HighScore));
+			((ToggleButton) findViewById(R.id.team3LowScore))
+					.setChecked(cycle3.low);
+			if (cycle3.low)
+				onLow(findViewById(R.id.team3LowScore));
+		}
+
+		// TODO load assists if added?
+	}
+
 	public void onBack(View v) {
 		if (currentView == 0) // auto
 			showDialog(CANCEL_DIALOG);
-		else if (currentView == 1)
-		{
-			saveTele();
+		else if (currentView == 1) {
+			saveCycle();
 			setAuto();
 		}
 
@@ -984,10 +1405,6 @@ public class MatchActivity extends Activity {
 						: 0);
 	}
 
-	public void saveTele() {
-		// TODO
-	}
-	
 	public void setTele() {
 		currentView = 1;
 		autoLayout.setVisibility(View.GONE);
@@ -995,13 +1412,13 @@ public class MatchActivity extends Activity {
 		lastB.setText("Auto");
 		nextB.setText("End Game");
 	}
-	
+
 	public void setAuto() {
 		currentView = 0;
 		autoLayout.setVisibility(View.VISIBLE);
 		cycleLayout.setVisibility(View.GONE);
 		lastB.setText("Cancel");
-		nextB.setText("Cycles"); 
+		nextB.setText("Cycles");
 	}
 
 	protected Dialog onCreateDialog(int id) {

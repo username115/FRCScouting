@@ -873,7 +873,8 @@
                         android:id="@+id/team1FarPoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/redbackground" />
+                        android:background="@drawable/redbackground"
+                        android:onClick="onPoss" />
 
                     <View
                         android:layout_width="0dp"
@@ -883,7 +884,9 @@
                         android:id="@+id/team1WhitePoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/whitebackground" />
+                        android:background="@drawable/whitebackground"
+                        android:onClick="onPoss"
+                        android:textColor="@color/black" />
 
                     <View
                         android:layout_width="0dp"
@@ -893,44 +896,54 @@
                         android:id="@+id/team1NearPoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bluebackground" />
+                        android:background="@drawable/bluebackground"
+                        android:onClick="onPoss" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team1Truss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Truss" />
+                        android:onClick="onTruss"
+                        android:textOff="Truss"
+                        android:textOn="Truss" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team1Catch"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:enabled="false"
-                        android:text="Catch" />
+                        android:onClick="onCatch"
+                        android:textOff="Catch"
+                        android:textOn="Catch" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team1HighScore"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="High" />
+                        android:onClick="onHigh"
+                        android:textOff="High"
+                        android:textOn="High" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team1LowScore"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Low" />
-                    
+                        android:onClick="onLow"
+                        android:textOff="Low"
+                        android:textOn="Low" />
+
                     <Button
                         android:id="@+id/lastCycleB"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Last" 
-                        />
+                        android:onClick="lastCycle"
+                        android:text="Last"
+                        android:enabled="false" />
                 </LinearLayout> <!-- /team1Cycle -->
 
                 <View
@@ -952,7 +965,8 @@
                         android:id="@+id/team2FarPoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/redbackground" />
+                        android:background="@drawable/redbackground"
+                        android:onClick="onPoss" />
 
                     <View
                         android:layout_width="0dp"
@@ -962,7 +976,9 @@
                         android:id="@+id/team2WhitePoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/whitebackground" />
+                        android:background="@drawable/whitebackground"
+                        android:onClick="onPoss"
+                        android:textColor="@color/black" />
 
                     <View
                         android:layout_width="0dp"
@@ -972,36 +988,52 @@
                         android:id="@+id/team2NearPoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bluebackground" />
+                        android:background="@drawable/bluebackground"
+                        android:onClick="onPoss" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team2Truss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Truss" />
+                        android:onClick="onTruss"
+                        android:textOff="Truss"
+                        android:textOn="Truss" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team2Catch"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:enabled="false"
-                        android:text="Catch" />
+                        android:onClick="onCatch"
+                        android:textOff="Catch"
+                        android:textOn="Catch" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team2HighScore"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="High" />
+                        android:onClick="onHigh"
+                        android:textOff="High"
+                        android:textOn="High" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team2LowScore"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Low" />
+                        android:onClick="onLow"
+                        android:textOff="Low"
+                        android:textOn="Low" />
+
+                    <TextView
+                        android:id="@+id/cycleText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="1" />
                 </LinearLayout> <!-- /team2Cycle -->
 
                 <View
@@ -1023,7 +1055,8 @@
                         android:id="@+id/team3FarPoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/redbackground" />
+                        android:background="@drawable/redbackground"
+                        android:onClick="onPoss" />
 
                     <View
                         android:layout_width="0dp"
@@ -1033,7 +1066,9 @@
                         android:id="@+id/team3WhitePoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/whitebackground" />
+                        android:background="@drawable/whitebackground"
+                        android:onClick="onPoss"
+                        android:textColor="@color/black" />
 
                     <View
                         android:layout_width="0dp"
@@ -1043,44 +1078,53 @@
                         android:id="@+id/team3NearPoss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bluebackground" />
+                        android:background="@drawable/bluebackground"
+                        android:onClick="onPoss" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team3Truss"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Truss" />
+                        android:onClick="onTruss"
+                        android:textOff="Truss"
+                        android:textOn="Truss" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team3Catch"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:enabled="false"
-                        android:text="Catch" />
+                        android:onClick="onCatch"
+                        android:textOff="Catch"
+                        android:textOn="Catch" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team3HighScore"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="High" />
+                        android:onClick="onHigh"
+                        android:textOff="High"
+                        android:textOn="High" />
 
-                    <CheckBox
+                    <ToggleButton
                         android:id="@+id/team3LowScore"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Low" />
-                    
+                        android:onClick="onLow"
+                        android:textOff="Low"
+                        android:textOn="Low" />
+
                     <Button
                         android:id="@+id/nextCycleB"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Next" 
-                        />
+                        android:onClick="nextCycle"
+                        android:text="Next" />
                 </LinearLayout> <!-- /team3Cycle -->
 
             </LinearLayout> <!-- /cycleLayout -->
