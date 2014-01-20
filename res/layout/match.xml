@@ -856,7 +856,8 @@
                 android:id="@+id/cycleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <LinearLayout
                     android:id="@+id/team1Cycle"
@@ -940,10 +941,10 @@
                         android:id="@+id/lastCycleB"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:gravity="center"
                         android:onClick="lastCycle"
-                        android:text="Last"
-                        android:enabled="false" />
+                        android:text="Last" />
                 </LinearLayout> <!-- /team1Cycle -->
 
                 <View
@@ -1128,6 +1129,178 @@
                 </LinearLayout> <!-- /team3Cycle -->
 
             </LinearLayout> <!-- /cycleLayout -->
+
+            <LinearLayout
+                android:id="@+id/endGameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/team1notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Notes"
+                        android:inputType="textMultiLine" />
+
+                    <Spinner
+                        android:id="@+id/team1common_notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/match_notes_options" />
+
+                    <CheckBox
+                        android:id="@+id/team1tipped"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Tipped" />
+
+                    <CheckBox
+                        android:id="@+id/team1foul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Foul" />
+
+                    <CheckBox
+                        android:id="@+id/team1techfoul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="TFoul" />
+
+                    <CheckBox
+                        android:id="@+id/team1yellowcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="YCard" />
+
+                    <CheckBox
+                        android:id="@+id/team1redcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="RCard" />
+                </LinearLayout> <!-- team1endgame -->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/team2notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Notes"
+                        android:inputType="textMultiLine" />
+
+                    <Spinner
+                        android:id="@+id/team2common_notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/match_notes_options" />
+
+                    <CheckBox
+                        android:id="@+id/team2tipped"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Tipped" />
+
+                    <CheckBox
+                        android:id="@+id/team2foul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Foul" />
+
+                    <CheckBox
+                        android:id="@+id/team2techfoul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="TFoul" />
+
+                    <CheckBox
+                        android:id="@+id/team2yellowcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="YCard" />
+
+                    <CheckBox
+                        android:id="@+id/team2redcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="RCard" />
+                </LinearLayout> <!-- team2endgame -->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/team3notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Notes"
+                        android:inputType="textMultiLine" />
+
+                    <Spinner
+                        android:id="@+id/team3common_notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/match_notes_options" />
+
+                    <CheckBox
+                        android:id="@+id/team3tipped"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Tipped" />
+
+                    <CheckBox
+                        android:id="@+id/team3foul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Foul" />
+
+                    <CheckBox
+                        android:id="@+id/team3techfoul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="TFoul" />
+
+                    <CheckBox
+                        android:id="@+id/team3yellowcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="YCard" />
+
+                    <CheckBox
+                        android:id="@+id/team3redcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="RCard" />
+                </LinearLayout> <!-- team3endgame -->
+            </LinearLayout> <!-- endGameLayout -->
         </LinearLayout>
     </ScrollView>
 

@@ -34,14 +34,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class MatchActivity extends Activity {
+public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 	private static final int CANCEL_DIALOG = 0;
 
@@ -68,6 +71,7 @@ public class MatchActivity extends Activity {
 
 	private LinearLayout autoLayout;
 	private LinearLayout cycleLayout;
+	private LinearLayout endGameLayout;
 
 	private EditText matchT;
 
@@ -75,6 +79,14 @@ public class MatchActivity extends Activity {
 	private Button nextB;
 
 	private TextView cycleT;
+
+	private EditText team1Notes;
+	private EditText team2Notes;
+	private EditText team3Notes;
+
+	private Spinner team1CommonNotes;
+	private Spinner team2CommonNotes;
+	private Spinner team3CommonNotes;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,6 +105,18 @@ public class MatchActivity extends Activity {
 		teamText2 = (EditText) findViewById(R.id.team2T);
 		teamText3 = (EditText) findViewById(R.id.team3T);
 
+		team1Notes = (EditText) findViewById(R.id.team1notes);
+		team2Notes = (EditText) findViewById(R.id.team2notes);
+		team3Notes = (EditText) findViewById(R.id.team3notes);
+
+		team1CommonNotes = (Spinner) findViewById(R.id.team1common_notes);
+		team2CommonNotes = (Spinner) findViewById(R.id.team2common_notes);
+		team3CommonNotes = (Spinner) findViewById(R.id.team3common_notes);
+
+		team1CommonNotes.setOnItemSelectedListener(this);
+		team2CommonNotes.setOnItemSelectedListener(this);
+		team3CommonNotes.setOnItemSelectedListener(this);
+
 		matchT = (EditText) findViewById(R.id.matchT);
 
 		autoLayouts = new LinearLayout[9];
@@ -109,6 +133,7 @@ public class MatchActivity extends Activity {
 
 		autoLayout = (LinearLayout) findViewById(R.id.autoLayout);
 		cycleLayout = (LinearLayout) findViewById(R.id.cycleLayout);
+		endGameLayout = (LinearLayout) findViewById(R.id.endGameLayout);
 
 		Intent intent = getIntent();
 
@@ -1050,7 +1075,6 @@ public class MatchActivity extends Activity {
 		findViewById(R.id.lastCycleB).setEnabled(true);
 		((TextView) findViewById(R.id.cycleText)).setText(String
 				.valueOf(currentCycle));
-		// TODO
 	}
 
 	public void lastCycle(View v) {
@@ -1063,7 +1087,6 @@ public class MatchActivity extends Activity {
 			findViewById(R.id.lastCycleB).setEnabled(false);
 		((TextView) findViewById(R.id.cycleText)).setText(String
 				.valueOf(currentCycle));
-		// TODO
 	}
 
 	private void saveCycle() {
@@ -1251,6 +1274,9 @@ public class MatchActivity extends Activity {
 		else if (currentView == 1) {
 			saveCycle();
 			setAuto();
+		} else if (currentView == 2) {
+			saveEnd();
+			setTele();
 		}
 
 		// TODO
@@ -1260,6 +1286,8 @@ public class MatchActivity extends Activity {
 		if (currentView == 0) {
 			saveAuto();
 			setTele();
+		} else if (currentView == 1) {
+			setEnd();
 		}
 		// TODO
 	}
@@ -1405,10 +1433,15 @@ public class MatchActivity extends Activity {
 						: 0);
 	}
 
+	private void saveEnd() {
+		// TODO
+	}
+
 	public void setTele() {
 		currentView = 1;
 		autoLayout.setVisibility(View.GONE);
 		cycleLayout.setVisibility(View.VISIBLE);
+		endGameLayout.setVisibility(View.GONE);
 		lastB.setText("Auto");
 		nextB.setText("End Game");
 	}
@@ -1417,8 +1450,18 @@ public class MatchActivity extends Activity {
 		currentView = 0;
 		autoLayout.setVisibility(View.VISIBLE);
 		cycleLayout.setVisibility(View.GONE);
+		endGameLayout.setVisibility(View.GONE);
 		lastB.setText("Cancel");
 		nextB.setText("Cycles");
+	}
+
+	public void setEnd() {
+		currentView = 2;
+		autoLayout.setVisibility(View.GONE);
+		cycleLayout.setVisibility(View.GONE);
+		endGameLayout.setVisibility(View.VISIBLE);
+		lastB.setText("Cycles");
+		nextB.setText("Submit");
 	}
 
 	protected Dialog onCreateDialog(int id) {
@@ -1480,6 +1523,44 @@ public class MatchActivity extends Activity {
 	public void onBackPressed() {
 		onBack(null);
 		return;
+	}
+
+	public void onItemSelected(AdapterView<?> parent, View v, int position,
+			long id) {
+
+		if (position == 0 || !(parent instanceof Spinner))
+			return;
+		EditText notes;
+		switch (parent.getId()) {
+		case R.id.team1common_notes:
+			notes = team1Notes;
+			break;
+		case R.id.team2common_notes:
+			notes = team2Notes;
+			break;
+		case R.id.team3common_notes:
+			notes = team3Notes;
+			break;
+		default:
+			notes = team1Notes;
+			break;
+		}
+		Spinner par = (Spinner) parent;
+		String note = notes.getText().toString();
+		if (!note.contains(par.getItemAtPosition(position).toString())) {
+			if (!note.trim().equals(""))
+				note = note + "; ";
+			note = note + par.getItemAtPosition(position);
+			notes.setText(note);
+		}
+		par.setSelection(0);
+
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// do nothing
 	}
 
 }

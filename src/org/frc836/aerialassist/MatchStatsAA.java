@@ -17,9 +17,7 @@
 package org.frc836.aerialassist;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.frc836.database.DB;
 import org.frc836.database.MatchStatsStruct;
@@ -27,6 +25,7 @@ import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 
 import android.content.ContentValues;
+import android.util.SparseArray;
 
 public class MatchStatsAA extends MatchStatsStruct {
 
@@ -38,7 +37,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 	public int low;
 	public boolean auto_mobile;
 
-	public Map<Integer,CycleStatsStruct> cycles;
+	public SparseArray<CycleStatsStruct> cycles;
 
 	public MatchStatsAA() {
 		init();
@@ -63,7 +62,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 		high = 0;
 		low = 0;
 		auto_mobile = false;
-		cycles = new HashMap<Integer,MatchStatsAA.CycleStatsStruct>();
+		cycles = new SparseArray<MatchStatsAA.CycleStatsStruct>();
 	}
 
 	public ContentValues getValues(DB db) {
@@ -84,8 +83,8 @@ public class MatchStatsAA extends MatchStatsStruct {
 	public List<ContentValues> getCycles() {
 		List<ContentValues> vals = new ArrayList<ContentValues>(cycles.size());
 
-		for (Integer cycle : cycles.keySet()) {
-			vals.add(cycles.get(cycle).getValues());
+		for (int i = 0; i < cycles.size(); i++) {
+			vals.add(cycles.valueAt(i).getValues());
 		}
 
 		return vals;
