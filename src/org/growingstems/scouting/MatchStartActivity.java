@@ -56,7 +56,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	// private TextView position;
 	private EditText matchNum;
 	private Button startB;
-	private ImageView robotPic;
+	//private ImageView robotPic;
 
 	private String HELPMESSAGE;
 
@@ -84,11 +84,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		// position = (TextView) findViewById(R.id.startPos);
 		matchNum = (EditText) findViewById(R.id.startMatchNum);
 		startB = (Button) findViewById(R.id.startMatchB);
-		robotPic = (ImageView) findViewById(R.id.robotPic);
+		//robotPic = (ImageView) findViewById(R.id.robotPic);
 
 		// position.setOnClickListener(new positionClickListener());
 		startB.setOnClickListener(new StartClickListener());
-		robotPic.setOnClickListener(new PictureClickListener());
+		//robotPic.setOnClickListener(new PictureClickListener());
 
 		matchNum.addTextChangedListener(new matchTextListener());
 		schedule = new MatchSchedule();
@@ -257,11 +257,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	public void onFinished(Drawable drawable) {
 		if (pd != null)
 			pd.dismiss();
-		if (drawable == null) {
+		/*if (drawable == null) {
 			robotPic.setImageResource(R.drawable.robot);
 		} else {
 			robotPic.setImageDrawable(drawable);
-		}
+		}*/
 	}
 
 	protected Dialog onCreateDialog(int id) {

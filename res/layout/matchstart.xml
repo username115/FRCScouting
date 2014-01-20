@@ -78,7 +78,7 @@
         android:layout_gravity="center_horizontal"
         android:text="Start Match" />
 
-    <ScrollView
+   <!-- <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
@@ -92,6 +92,6 @@
             android:clickable="true"
             android:contentDescription="Robot Picture"
             android:src="@drawable/robot" />
-    </ScrollView>
+    </ScrollView>  --> 
 
 </LinearLayout>
