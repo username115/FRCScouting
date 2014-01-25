@@ -16,6 +16,8 @@
 
 package org.frc836.aerialassist;
 
+import java.util.List;
+
 import org.frc836.database.DB;
 import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.ParamList;
@@ -25,6 +27,7 @@ import org.growingstems.scouting.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -97,7 +101,12 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 		orientation = getResources().getConfiguration().orientation;
 
-		// TODO write help message
+		notesOptions = new ParamList(getApplicationContext(), "notes_options");
+
+		HELPMESSAGE = "Record the match data on these screens.\n"
+				+ "Record data for the 3 autonomous balls on the first screen, then separate data for each cycle of the match.\n\n"
+				+ "AH = Auto High\n" + "AL = Auto Low\n" + "H = High\n"
+				+ "L = Low\n" + "Yellow Text = Hot Goal\n";
 
 		notesOptions = new ParamList(getApplicationContext(), "notes_options");
 
@@ -195,6 +204,20 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 				"Chesapeake Regional");
 
 		updatePosition();
+
+		List<String> options = notesOptions.getParamList("option_text");
+
+		options.add(0, team1CommonNotes.getItemAtPosition(0).toString());
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, options);
+
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		team1CommonNotes.setAdapter(adapter);
+		team2CommonNotes.setAdapter(adapter);
+		team3CommonNotes.setAdapter(adapter);
+
 	}
 
 	private void updatePosition() {
@@ -1090,6 +1113,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	}
 
 	private void saveCycle() {
+		saveTeamInfo();
 
 		MatchStatsAA.CycleStatsStruct cycle1 = team1Data.cycles
 				.get(currentCycle);
@@ -1278,8 +1302,6 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			saveEnd();
 			setTele();
 		}
-
-		// TODO
 	}
 
 	public void onNext(View v) {
@@ -1287,9 +1309,12 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			saveAuto();
 			setTele();
 		} else if (currentView == 1) {
+			saveCycle();
 			setEnd();
+		} else if (currentView == 2) {
+			saveEnd();
+			submit();
 		}
-		// TODO
 	}
 
 	private void saveTeamInfo() {
@@ -1434,7 +1459,40 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	}
 
 	private void saveEnd() {
-		// TODO
+		saveTeamInfo();
+
+		team1Data.notes = team1Notes.getText().toString();
+		team1Data.tipOver = ((CheckBox) findViewById(R.id.team1tipped))
+				.isChecked();
+		team1Data.foul = ((CheckBox) findViewById(R.id.team1foul)).isChecked();
+		team1Data.tech_foul = ((CheckBox) findViewById(R.id.team1techfoul))
+				.isChecked();
+		team1Data.yellowCard = ((CheckBox) findViewById(R.id.team1yellowcard))
+				.isChecked();
+		team1Data.redCard = ((CheckBox) findViewById(R.id.team1redcard))
+				.isChecked();
+
+		team2Data.notes = team2Notes.getText().toString();
+		team2Data.tipOver = ((CheckBox) findViewById(R.id.team2tipped))
+				.isChecked();
+		team2Data.foul = ((CheckBox) findViewById(R.id.team2foul)).isChecked();
+		team2Data.tech_foul = ((CheckBox) findViewById(R.id.team2techfoul))
+				.isChecked();
+		team2Data.yellowCard = ((CheckBox) findViewById(R.id.team2yellowcard))
+				.isChecked();
+		team2Data.redCard = ((CheckBox) findViewById(R.id.team2redcard))
+				.isChecked();
+
+		team3Data.notes = team3Notes.getText().toString();
+		team3Data.tipOver = ((CheckBox) findViewById(R.id.team3tipped))
+				.isChecked();
+		team3Data.foul = ((CheckBox) findViewById(R.id.team3foul)).isChecked();
+		team3Data.tech_foul = ((CheckBox) findViewById(R.id.team3techfoul))
+				.isChecked();
+		team3Data.yellowCard = ((CheckBox) findViewById(R.id.team3yellowcard))
+				.isChecked();
+		team3Data.redCard = ((CheckBox) findViewById(R.id.team3redcard))
+				.isChecked();
 	}
 
 	public void setTele() {
@@ -1462,6 +1520,14 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		endGameLayout.setVisibility(View.VISIBLE);
 		lastB.setText("Cycles");
 		nextB.setText("Submit");
+	}
+
+	public void submit() {
+		submitter.submitMatch(team1Data, team2Data, team3Data);
+		nextB.setEnabled(false);
+		if (matchT.getText().length() > 0)
+			setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+		finish();
 	}
 
 	protected Dialog onCreateDialog(int id) {
@@ -1554,8 +1620,6 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			notes.setText(note);
 		}
 		par.setSelection(0);
-
-		// TODO Auto-generated method stub
 
 	}
 

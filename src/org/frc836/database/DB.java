@@ -65,9 +65,9 @@ public class DB {
 		return data;
 	}
 
-	public void submitMatch(MatchStatsStruct auto, MatchStatsStruct tele,
-			HttpCallback callback) {
-		Map<String, String> args = tele.getPost();
+	public void submitMatch(MatchStatsStruct team1Data, MatchStatsStruct team2Data,
+			MatchStatsStruct team3Data) {
+		/*Map<String, String> args = tele.getPost();
 		args.putAll(auto.getPost());
 		args.put("type", "match");
 		args.put("password", password);
@@ -75,7 +75,7 @@ public class DB {
 		ContentValues values = tele.getValues(this);
 		values.putAll(auto.getValues(this));
 		db.insertOrThrow(FACT_MATCH_DATA_Entry.TABLE_NAME, null, values);
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 
 	public void submitPits(PitStats stats, HttpCallback callback) {
