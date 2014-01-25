@@ -13,6 +13,7 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "configuration_lu";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_CONFIGURATION_DESC = "configuration_desc";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 
 	public static abstract class EVENT_LU_Entry implements BaseColumns {
@@ -20,6 +21,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_EVENT_NAME = "event_name";
 		public static final String COLUMN_NAME_MATCH_URL = "match_url";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 
 	public static abstract class FACT_CYCLE_DATA_Entry implements BaseColumns {
@@ -70,6 +72,7 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "notes_options";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_OPTION_TEXT = "option_text";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 
 	public static abstract class ROBOT_LU_Entry implements BaseColumns {
@@ -77,6 +80,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_TEAM_ID = "team_id";
 		public static final String COLUMN_NAME_ROBOT_PHOTO = "robot_photo";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 
 	public static abstract class SCOUT_PIT_DATA_Entry implements BaseColumns {
@@ -106,12 +110,14 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "wheel_base_lu";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_WHEEL_BASE_DESC = "wheel_base_desc";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 
 	public static abstract class WHEEL_TYPE_LU_Entry implements BaseColumns {
 		public static final String TABLE_NAME = "wheel_type_lu";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_WHEEL_TYPE_DESC = "wheel_type_desc";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 
 
@@ -120,7 +126,7 @@ public final class FRCScoutingContract {
 		"-- http://www.phpmyadmin.net\n" + 
 		"--\n" + 
 		"-- Host: localhost\n" + 
-		"-- Generation Time: Jan 20, 2014 at 11:02 AM\n" + 
+		"-- Generation Time: Jan 25, 2014 at 10:26 AM\n" + 
 		"-- Server version: 5.1.72-cll\n" + 
 		"-- PHP Version: 5.3.17\n" + 
 		"\n" + 
@@ -146,21 +152,23 @@ public final class FRCScoutingContract {
 		"CREATE TABLE IF NOT EXISTS `configuration_lu` (\n" + 
 		"  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n" + 
 		"  `configuration_desc` text COLLATE latin1_general_cs NOT NULL,\n" + 
-		"  PRIMARY KEY (`id`)\n" + 
+		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
+		"  PRIMARY KEY (`id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=8 ;\n" + 
 		"\n" + 
 		"--\n" + 
 		"-- Dumping data for table `configuration_lu`\n" + 
 		"--\n" + 
 		"\n" + 
-		"INSERT INTO `configuration_lu` (`id`, `configuration_desc`) VALUES\n" + 
-		"(1, 'Wide'),\n" + 
-		"(2, 'Long'),\n" + 
-		"(3, 'Square'),\n" + 
-		"(4, 'Round'),\n" + 
-		"(5, 'Hex'),\n" + 
-		"(6, 'Triangle'),\n" + 
-		"(7, 'Other');\n" + 
+		"INSERT INTO `configuration_lu` (`id`, `configuration_desc`, `timestamp`) VALUES\n" + 
+		"(1, 'Wide', '2014-01-25 15:18:38'),\n" + 
+		"(2, 'Long', '2014-01-25 15:18:38'),\n" + 
+		"(3, 'Square', '2014-01-25 15:18:38'),\n" + 
+		"(4, 'Round', '2014-01-25 15:18:38'),\n" + 
+		"(5, 'Hex', '2014-01-25 15:18:38'),\n" + 
+		"(6, 'Triangle', '2014-01-25 15:18:38'),\n" + 
+		"(7, 'Other', '2014-01-25 15:18:38');\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
 		"\n" + 
@@ -172,117 +180,119 @@ public final class FRCScoutingContract {
 		"  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n" + 
 		"  `event_name` varchar(70) COLLATE latin1_general_cs NOT NULL,\n" + 
 		"  `match_url` text COLLATE latin1_general_cs NOT NULL,\n" + 
+		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
 		"  PRIMARY KEY (`id`),\n" + 
-		"  UNIQUE KEY `event_name` (`event_name`)\n" + 
+		"  UNIQUE KEY `event_name` (`event_name`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=103 ;\n" + 
 		"\n" + 
 		"--\n" + 
 		"-- Dumping data for table `event_lu`\n" + 
 		"--\n" + 
 		"\n" + 
-		"INSERT INTO `event_lu` (`id`, `event_name`, `match_url`) VALUES\n" + 
-		"(1, 'Central Illinois Regional', 'http://www2.usfirst.org/2014comp/Events/ILIL/ScheduleQual.html'),\n" + 
-		"(2, 'Palmetto Regional', 'http://www2.usfirst.org/2014comp/Events/SCMB/ScheduleQual.html'),\n" + 
-		"(3, 'Alamo Regional', 'http://www2.usfirst.org/2014comp/Events/TXSA/ScheduleQual.html'),\n" + 
-		"(4, 'Greater Toronto West Regional', 'http://www2.usfirst.org/2014comp/Events/ONTO2/ScheduleQual.html'),\n" + 
-		"(5, 'Inland Empire Regional', 'http://www2.usfirst.org/2014comp/Events/CASB/ScheduleQual.html'),\n" + 
-		"(6, 'Israel Regional', 'http://www2.usfirst.org/2014comp/Events/ISTA/ScheduleQual.html'),\n" + 
-		"(7, 'Greater Toronto East Regional', 'http://www2.usfirst.org/2014comp/Events/ONTO/ScheduleQual.html'),\n" + 
-		"(8, 'Arkansas Regional', 'http://www2.usfirst.org/2014comp/Events/ARFA/ScheduleQual.html'),\n" + 
-		"(9, 'San Diego Regional', 'http://www2.usfirst.org/2014comp/Events/CASD/ScheduleQual.html'),\n" + 
-		"(10, 'Crossroads Regional', 'http://www2.usfirst.org/2014comp/Events/INTH/ScheduleQual.html'),\n" + 
-		"(11, 'Lake Superior Regional', 'http://www2.usfirst.org/2014comp/Events/MNDU/ScheduleQual.html'),\n" + 
-		"(12, 'Northern Lights Regional', 'http://www2.usfirst.org/2014comp/Events/MNDU2/ScheduleQual.html'),\n" + 
-		"(13, 'Hub City Regional', 'http://www2.usfirst.org/2014comp/Events/TXLU/ScheduleQual.html'),\n" + 
-		"(14, 'Central Valley Regional', 'http://www2.usfirst.org/2014comp/Events/CAMA/ScheduleQual.html'),\n" + 
-		"(15, 'Mexico City Regional', 'http://www2.usfirst.org/2014comp/Events/MXMC/ScheduleQual.html'),\n" + 
-		"(16, 'Sacramento Regional', 'http://www2.usfirst.org/2014comp/Events/CASA/ScheduleQual.html'),\n" + 
-		"(17, 'Orlando Regional', 'http://www2.usfirst.org/2014comp/Events/FLOR/ScheduleQual.html'),\n" + 
-		"(18, 'Greater Kansas City Regional', 'http://www2.usfirst.org/2014comp/Events/MOKC/ScheduleQual.html'),\n" + 
-		"(19, 'St. Louis Regional', 'http://www2.usfirst.org/2014comp/Events/MOSL/ScheduleQual.html'),\n" + 
-		"(20, 'North Carolina Regional', 'http://www2.usfirst.org/2014comp/Events/NCRE/ScheduleQual.html'),\n" + 
-		"(21, 'New York Tech Valley Regional', 'http://www2.usfirst.org/2014comp/Events/NYTR/ScheduleQual.html'),\n" + 
-		"(22, 'Dallas Regional', 'http://www2.usfirst.org/2014comp/Events/TXDA/ScheduleQual.html'),\n" + 
-		"(23, 'Utah Regional', 'http://www2.usfirst.org/2014comp/Events/UTWV/ScheduleQual.html'),\n" + 
-		"(24, 'Waterloo Regional', 'http://www2.usfirst.org/2014comp/Events/ONWA/ScheduleQual.html'),\n" + 
-		"(25, 'Festival de Robotique FRC a Montreal Regional', 'http://www2.usfirst.org/2014comp/Events/QCMO/ScheduleQual.html'),\n" + 
-		"(26, 'Arizona Regional', 'http://www2.usfirst.org/2014comp/Events/AZCH/ScheduleQual.html'),\n" + 
-		"(27, 'Los Angeles Regional', 'http://www2.usfirst.org/2014comp/Events/CALB/ScheduleQual.html'),\n" + 
-		"(28, 'Boilermaker Regional', 'http://www2.usfirst.org/2014comp/Events/INWL/ScheduleQual.html'),\n" + 
-		"(29, 'Buckeye Regional', 'http://www2.usfirst.org/2014comp/Events/OHCL/ScheduleQual.html'),\n" + 
-		"(30, 'Virginia Regional', 'http://www2.usfirst.org/2014comp/Events/VARI/ScheduleQual.html'),\n" + 
-		"(31, 'Wisconsin Regional', 'http://www2.usfirst.org/2014comp/Events/WIMI/ScheduleQual.html'),\n" + 
-		"(32, 'North Bay Regional', 'http://www2.usfirst.org/2014comp/Events/ONNB/ScheduleQual.html'),\n" + 
-		"(33, 'Peachtree Regional', 'http://www2.usfirst.org/2014comp/Events/GADU/ScheduleQual.html'),\n" + 
-		"(34, 'Hawaii Regional', 'http://www2.usfirst.org/2014comp/Events/HIHO/ScheduleQual.html'),\n" + 
-		"(35, 'Minnesota North Star Regional', 'http://www2.usfirst.org/2014comp/Events/MNMI2/ScheduleQual.html'),\n" + 
-		"(36, 'Minnesota 1000 Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/MNMI/ScheduleQual.html'),\n" + 
-		"(37, 'SBPLI Long Island Regional', 'http://www2.usfirst.org/2014comp/Events/NYLI/ScheduleQual.html'),\n" + 
-		"(38, 'Finger Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/NYRO/ScheduleQual.html'),\n" + 
-		"(39, 'Queen City Regional', 'http://www2.usfirst.org/2014comp/Events/OHCI/ScheduleQual.html'),\n" + 
-		"(40, 'Oklahoma Regional', 'http://www2.usfirst.org/2014comp/Events/OKOK/ScheduleQual.html'),\n" + 
-		"(41, 'Greater Pittsburgh Regional', 'http://www2.usfirst.org/2014comp/Events/PAPI/ScheduleQual.html'),\n" + 
-		"(42, 'Smoky Mountains Regional', 'http://www2.usfirst.org/2014comp/Events/TNKN/ScheduleQual.html'),\n" + 
-		"(43, 'Greater DC Regional', 'http://www2.usfirst.org/2014comp/Events/DCWA/ScheduleQual.html'),\n" + 
-		"(44, 'Western Canada Regional', 'http://www2.usfirst.org/2014comp/Events/ABCA/ScheduleQual.html'),\n" + 
-		"(45, 'Windsor Essex Great Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/ONWI/ScheduleQual.html'),\n" + 
-		"(46, 'Silicon Valley Regional', 'http://www2.usfirst.org/2014comp/Events/CASJ/ScheduleQual.html'),\n" + 
-		"(47, 'Colorado Regional', 'http://www2.usfirst.org/2014comp/Events/CODE/ScheduleQual.html'),\n" + 
-		"(48, 'South Florida Regional', 'http://www2.usfirst.org/2014comp/Events/FLFO/ScheduleQual.html'),\n" + 
-		"(49, 'Midwest Regional', 'http://www2.usfirst.org/2014comp/Events/ILCH/ScheduleQual.html'),\n" + 
-		"(50, 'Bayou Regional', 'http://www2.usfirst.org/2014comp/Events/LAKE/ScheduleQual.html'),\n" + 
-		"(51, 'Chesapeake Regional', 'http://www2.usfirst.org/2014comp/Events/MDBA/ScheduleQual.html'),\n" + 
-		"(52, 'Las Vegas Regional', 'http://www2.usfirst.org/2014comp/Events/NVLV/ScheduleQual.html'),\n" + 
-		"(53, 'New York City Regional', 'http://www2.usfirst.org/2014comp/Events/NYNY/ScheduleQual.html'),\n" + 
-		"(54, 'Lone Star Regional', 'http://www2.usfirst.org/2014comp/Events/TXHO/ScheduleQual.html'),\n" + 
-		"(55, 'Michigan FRC State Championship', 'http://www2.usfirst.org/2014comp/Events/MICMP/ScheduleQual.html'),\n" + 
-		"(56, 'Mid-Atlantic Robotics FRC Region Championship', 'http://www2.usfirst.org/2014comp/Events/MRCMP/ScheduleQual.html'),\n" + 
-		"(57, 'New England FRC Region Championship', 'http://www2.usfirst.org/2014comp/Events/NECMP/ScheduleQual.html'),\n" + 
-		"(58, 'Autodesk PNW FRC Championship', 'http://www2.usfirst.org/2014comp/Events/PNCMP/ScheduleQual.html'),\n" + 
-		"(59, 'Center Line FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MICEN/ScheduleQual.html'),\n" + 
-		"(60, 'Southfield FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MISOU/ScheduleQual.html'),\n" + 
-		"(61, 'Kettering University FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIKET/ScheduleQual.html'),\n" + 
-		"(62, 'Gull Lake FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIGUL/ScheduleQual.html'),\n" + 
-		"(63, 'Escanaba FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIESC/ScheduleQual.html'),\n" + 
-		"(64, 'Howell FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIHOW/ScheduleQual.html'),\n" + 
-		"(65, 'West Michigan FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIWMI/ScheduleQual.html'),\n" + 
-		"(66, 'Great Lakes Bay Region FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIMID/ScheduleQual.html'),\n" + 
-		"(67, 'Traverse City FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MITVC/ScheduleQual.html'),\n" + 
-		"(68, 'Livonia FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MILIV/ScheduleQual.html'),\n" + 
-		"(69, 'St. Joseph FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MISJO/ScheduleQual.html'),\n" + 
-		"(70, 'Waterford FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIWAT/ScheduleQual.html'),\n" + 
-		"(71, 'Lansing FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MILAN/ScheduleQual.html'),\n" + 
-		"(72, 'Bedford FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIBED/ScheduleQual.html'),\n" + 
-		"(73, 'Troy FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MITRY/ScheduleQual.html'),\n" + 
-		"(74, 'MAR FIRST Robotics Mt. Olive District Competition', 'http://www2.usfirst.org/2014comp/Events/NJFLA/ScheduleQual.html'),\n" + 
-		"(75, 'MAR FIRST Robotics Hatboro-Horsham District Competition', 'http://www2.usfirst.org/2014comp/Events/PAHAT/ScheduleQual.html'),\n" + 
-		"(76, 'MAR FIRST Robotics Springside Chestnut Hill District Competition', 'http://www2.usfirst.org/2014comp/Events/PAPHI/ScheduleQual.html'),\n" + 
-		"(77, 'MAR FIRST Robotics Cliffton District Competition', 'http://www2.usfirst.org/2014comp/Events/NJCLI/ScheduleQual.html'),\n" + 
-		"(78, 'MAR FIRST Robotics Lenape-Seneca District Competition', 'http://www2.usfirst.org/2014comp/Events/NJTAB/ScheduleQual.html'),\n" + 
-		"(79, 'MAR FIRST Robotics Bridgewater-Raritan District Competition', 'http://www2.usfirst.org/2014comp/Events/NJBRI/ScheduleQual.html'),\n" + 
-		"(80, 'Granite State District Event', 'http://www2.usfirst.org/2014comp/Events/NHNAS/ScheduleQual.html'),\n" + 
-		"(81, 'UNH District Event', 'http://www2.usfirst.org/2014comp/Events/NHDUR/ScheduleQual.html'),\n" + 
-		"(82, 'Groton District Event', 'http://www2.usfirst.org/2014comp/Events/CTGRO/ScheduleQual.html'),\n" + 
-		"(83, 'WPI District Event', 'http://www2.usfirst.org/2014comp/Events/NAWOR/ScheduleQual.html'),\n" + 
-		"(84, 'Rhode Island District Event', 'http://www2.usfirst.org/2014comp/Events/RISMI/ScheduleQual.html'),\n" + 
-		"(85, 'Southington District Event', 'http://www2.usfirst.org/2014comp/Events/CTSOU/ScheduleQual.html'),\n" + 
-		"(86, 'Northeastern University District Event', 'http://www2.usfirst.org/2014comp/Events/MABOS/ScheduleQual.html'),\n" + 
-		"(87, 'Hartford District Event', 'http://www2.usfirst.org/2014comp/Events/CTHAR/ScheduleQual.html'),\n" + 
-		"(88, 'Pinetree District Event', 'http://www2.usfirst.org/2014comp/Events/MELEW/ScheduleQual.html'),\n" + 
-		"(89, 'PNW FIRST Robotics Auburn Mountainview District Event', 'http://www2.usfirst.org/2014comp/Events/WAAMV/ScheduleQual.html'),\n" + 
-		"(90, 'PNW FIRST Robotics Oregon City District Event', 'http://www2.usfirst.org/2014comp/Events/ORORE/ScheduleQual.html'),\n" + 
-		"(91, 'PNW FIRST Robotics Glacier Peak District Event', 'http://www2.usfirst.org/2014comp/Events/WASNO/ScheduleQual.html'),\n" + 
-		"(92, 'PNW FIRST Robotics Eastern Washington University District Event', 'http://www2.usfirst.org/2014comp/Events/WACHE/ScheduleQual.html'),\n" + 
-		"(93, 'PNW FIRST Robotics Mt. Vernon District Event', 'http://www2.usfirst.org/2014comp/Events/WAMOU/ScheduleQual.html'),\n" + 
-		"(94, 'PNW FIRST Robotics Wilsonville District Event', 'http://www2.usfirst.org/2014comp/Events/ORWIL/ScheduleQual.html'),\n" + 
-		"(95, 'PNW FIRST Robotics Shorewood District Event', 'http://www2.usfirst.org/2014comp/Events/WASHO/ScheduleQual.html'),\n" + 
-		"(96, 'PNW FIRST Robotics Auburn District Event', 'http://www2.usfirst.org/2014comp/Events/WAAHS/ScheduleQual.html'),\n" + 
-		"(97, 'PNW FIRST Robotics Central Washington University District Event', 'http://www2.usfirst.org/2014comp/Events/WAELO/ScheduleQual.html'),\n" + 
-		"(98, 'PNW FIRST Robotics Oregon State University District Event', 'http://www2.usfirst.org/2014comp/Events/OROSU/ScheduleQual.html'),\n" + 
-		"(99, 'Championship - Archimedes', 'http://www2.usfirst.org/2014comp/Events/Archimedes/ScheduleQual.html'),\n" + 
-		"(100, 'Championship - Curie', 'http://www2.usfirst.org/2014comp/Events/Curie/ScheduleQual.html'),\n" + 
-		"(101, 'Championship - Galileo', 'http://www2.usfirst.org/2014comp/Events/Galileo/ScheduleQual.html'),\n" + 
-		"(102, 'Championship - Newton', 'http://www2.usfirst.org/2014comp/Events/Newton/ScheduleQual.html');\n" + 
+		"INSERT INTO `event_lu` (`id`, `event_name`, `match_url`, `timestamp`) VALUES\n" + 
+		"(1, 'Central Illinois Regional', 'http://www2.usfirst.org/2014comp/Events/ILIL/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(2, 'Palmetto Regional', 'http://www2.usfirst.org/2014comp/Events/SCMB/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(3, 'Alamo Regional', 'http://www2.usfirst.org/2014comp/Events/TXSA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(4, 'Greater Toronto West Regional', 'http://www2.usfirst.org/2014comp/Events/ONTO2/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(5, 'Inland Empire Regional', 'http://www2.usfirst.org/2014comp/Events/CASB/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(6, 'Israel Regional', 'http://www2.usfirst.org/2014comp/Events/ISTA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(7, 'Greater Toronto East Regional', 'http://www2.usfirst.org/2014comp/Events/ONTO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(8, 'Arkansas Regional', 'http://www2.usfirst.org/2014comp/Events/ARFA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(9, 'San Diego Regional', 'http://www2.usfirst.org/2014comp/Events/CASD/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(10, 'Crossroads Regional', 'http://www2.usfirst.org/2014comp/Events/INTH/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(11, 'Lake Superior Regional', 'http://www2.usfirst.org/2014comp/Events/MNDU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(12, 'Northern Lights Regional', 'http://www2.usfirst.org/2014comp/Events/MNDU2/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(13, 'Hub City Regional', 'http://www2.usfirst.org/2014comp/Events/TXLU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(14, 'Central Valley Regional', 'http://www2.usfirst.org/2014comp/Events/CAMA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(15, 'Mexico City Regional', 'http://www2.usfirst.org/2014comp/Events/MXMC/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(16, 'Sacramento Regional', 'http://www2.usfirst.org/2014comp/Events/CASA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(17, 'Orlando Regional', 'http://www2.usfirst.org/2014comp/Events/FLOR/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(18, 'Greater Kansas City Regional', 'http://www2.usfirst.org/2014comp/Events/MOKC/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(19, 'St. Louis Regional', 'http://www2.usfirst.org/2014comp/Events/MOSL/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(20, 'North Carolina Regional', 'http://www2.usfirst.org/2014comp/Events/NCRE/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(21, 'New York Tech Valley Regional', 'http://www2.usfirst.org/2014comp/Events/NYTR/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(22, 'Dallas Regional', 'http://www2.usfirst.org/2014comp/Events/TXDA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(23, 'Utah Regional', 'http://www2.usfirst.org/2014comp/Events/UTWV/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(24, 'Waterloo Regional', 'http://www2.usfirst.org/2014comp/Events/ONWA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(25, 'Festival de Robotique FRC a Montreal Regional', 'http://www2.usfirst.org/2014comp/Events/QCMO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(26, 'Arizona Regional', 'http://www2.usfirst.org/2014comp/Events/AZCH/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(27, 'Los Angeles Regional', 'http://www2.usfirst.org/2014comp/Events/CALB/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(28, 'Boilermaker Regional', 'http://www2.usfirst.org/2014comp/Events/INWL/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(29, 'Buckeye Regional', 'http://www2.usfirst.org/2014comp/Events/OHCL/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(30, 'Virginia Regional', 'http://www2.usfirst.org/2014comp/Events/VARI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(31, 'Wisconsin Regional', 'http://www2.usfirst.org/2014comp/Events/WIMI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(32, 'North Bay Regional', 'http://www2.usfirst.org/2014comp/Events/ONNB/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(33, 'Peachtree Regional', 'http://www2.usfirst.org/2014comp/Events/GADU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(34, 'Hawaii Regional', 'http://www2.usfirst.org/2014comp/Events/HIHO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(35, 'Minnesota North Star Regional', 'http://www2.usfirst.org/2014comp/Events/MNMI2/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(36, 'Minnesota 1000 Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/MNMI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(37, 'SBPLI Long Island Regional', 'http://www2.usfirst.org/2014comp/Events/NYLI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(38, 'Finger Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/NYRO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(39, 'Queen City Regional', 'http://www2.usfirst.org/2014comp/Events/OHCI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(40, 'Oklahoma Regional', 'http://www2.usfirst.org/2014comp/Events/OKOK/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(41, 'Greater Pittsburgh Regional', 'http://www2.usfirst.org/2014comp/Events/PAPI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(42, 'Smoky Mountains Regional', 'http://www2.usfirst.org/2014comp/Events/TNKN/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(43, 'Greater DC Regional', 'http://www2.usfirst.org/2014comp/Events/DCWA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(44, 'Western Canada Regional', 'http://www2.usfirst.org/2014comp/Events/ABCA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(45, 'Windsor Essex Great Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/ONWI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(46, 'Silicon Valley Regional', 'http://www2.usfirst.org/2014comp/Events/CASJ/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(47, 'Colorado Regional', 'http://www2.usfirst.org/2014comp/Events/CODE/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(48, 'South Florida Regional', 'http://www2.usfirst.org/2014comp/Events/FLFO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(49, 'Midwest Regional', 'http://www2.usfirst.org/2014comp/Events/ILCH/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(50, 'Bayou Regional', 'http://www2.usfirst.org/2014comp/Events/LAKE/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(51, 'Chesapeake Regional', 'http://www2.usfirst.org/2014comp/Events/MDBA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(52, 'Las Vegas Regional', 'http://www2.usfirst.org/2014comp/Events/NVLV/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(53, 'New York City Regional', 'http://www2.usfirst.org/2014comp/Events/NYNY/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(54, 'Lone Star Regional', 'http://www2.usfirst.org/2014comp/Events/TXHO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(55, 'Michigan FRC State Championship', 'http://www2.usfirst.org/2014comp/Events/MICMP/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(56, 'Mid-Atlantic Robotics FRC Region Championship', 'http://www2.usfirst.org/2014comp/Events/MRCMP/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(57, 'New England FRC Region Championship', 'http://www2.usfirst.org/2014comp/Events/NECMP/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(58, 'Autodesk PNW FRC Championship', 'http://www2.usfirst.org/2014comp/Events/PNCMP/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(59, 'Center Line FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MICEN/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(60, 'Southfield FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MISOU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(61, 'Kettering University FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIKET/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(62, 'Gull Lake FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIGUL/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(63, 'Escanaba FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIESC/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(64, 'Howell FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIHOW/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(65, 'West Michigan FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIWMI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(66, 'Great Lakes Bay Region FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIMID/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(67, 'Traverse City FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MITVC/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(68, 'Livonia FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MILIV/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(69, 'St. Joseph FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MISJO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(70, 'Waterford FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIWAT/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(71, 'Lansing FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MILAN/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(72, 'Bedford FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIBED/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(73, 'Troy FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MITRY/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(74, 'MAR FIRST Robotics Mt. Olive District Competition', 'http://www2.usfirst.org/2014comp/Events/NJFLA/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(75, 'MAR FIRST Robotics Hatboro-Horsham District Competition', 'http://www2.usfirst.org/2014comp/Events/PAHAT/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(76, 'MAR FIRST Robotics Springside Chestnut Hill District Competition', 'http://www2.usfirst.org/2014comp/Events/PAPHI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(77, 'MAR FIRST Robotics Cliffton District Competition', 'http://www2.usfirst.org/2014comp/Events/NJCLI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(78, 'MAR FIRST Robotics Lenape-Seneca District Competition', 'http://www2.usfirst.org/2014comp/Events/NJTAB/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(79, 'MAR FIRST Robotics Bridgewater-Raritan District Competition', 'http://www2.usfirst.org/2014comp/Events/NJBRI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(80, 'Granite State District Event', 'http://www2.usfirst.org/2014comp/Events/NHNAS/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(81, 'UNH District Event', 'http://www2.usfirst.org/2014comp/Events/NHDUR/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(82, 'Groton District Event', 'http://www2.usfirst.org/2014comp/Events/CTGRO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(83, 'WPI District Event', 'http://www2.usfirst.org/2014comp/Events/NAWOR/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(84, 'Rhode Island District Event', 'http://www2.usfirst.org/2014comp/Events/RISMI/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(85, 'Southington District Event', 'http://www2.usfirst.org/2014comp/Events/CTSOU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(86, 'Northeastern University District Event', 'http://www2.usfirst.org/2014comp/Events/MABOS/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(87, 'Hartford District Event', 'http://www2.usfirst.org/2014comp/Events/CTHAR/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(88, 'Pinetree District Event', 'http://www2.usfirst.org/2014comp/Events/MELEW/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(89, 'PNW FIRST Robotics Auburn Mountainview District Event', 'http://www2.usfirst.org/2014comp/Events/WAAMV/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(90, 'PNW FIRST Robotics Oregon City District Event', 'http://www2.usfirst.org/2014comp/Events/ORORE/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(91, 'PNW FIRST Robotics Glacier Peak District Event', 'http://www2.usfirst.org/2014comp/Events/WASNO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(92, 'PNW FIRST Robotics Eastern Washington University District Event', 'http://www2.usfirst.org/2014comp/Events/WACHE/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(93, 'PNW FIRST Robotics Mt. Vernon District Event', 'http://www2.usfirst.org/2014comp/Events/WAMOU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(94, 'PNW FIRST Robotics Wilsonville District Event', 'http://www2.usfirst.org/2014comp/Events/ORWIL/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(95, 'PNW FIRST Robotics Shorewood District Event', 'http://www2.usfirst.org/2014comp/Events/WASHO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(96, 'PNW FIRST Robotics Auburn District Event', 'http://www2.usfirst.org/2014comp/Events/WAAHS/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(97, 'PNW FIRST Robotics Central Washington University District Event', 'http://www2.usfirst.org/2014comp/Events/WAELO/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(98, 'PNW FIRST Robotics Oregon State University District Event', 'http://www2.usfirst.org/2014comp/Events/OROSU/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(99, 'Championship - Archimedes', 'http://www2.usfirst.org/2014comp/Events/Archimedes/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(100, 'Championship - Curie', 'http://www2.usfirst.org/2014comp/Events/Curie/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(101, 'Championship - Galileo', 'http://www2.usfirst.org/2014comp/Events/Galileo/ScheduleQual.html', '2014-01-25 15:19:51'),\n" + 
+		"(102, 'Championship - Newton', 'http://www2.usfirst.org/2014comp/Events/Newton/ScheduleQual.html', '2014-01-25 15:19:51');\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
 		"\n" + 
@@ -310,7 +320,8 @@ public final class FRCScoutingContract {
 		"  `assists` int(3) unsigned NOT NULL,\n" + 
 		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
 		"  PRIMARY KEY (`id`),\n" + 
-		"  KEY `event_id` (`event_id`,`match_id`,`team_id`,`cycle_num`)\n" + 
+		"  KEY `event_id` (`event_id`,`match_id`,`team_id`,`cycle_num`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
@@ -339,7 +350,8 @@ public final class FRCScoutingContract {
 		"  `notes` varchar(1024) COLLATE latin1_general_cs NOT NULL,\n" + 
 		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
 		"  PRIMARY KEY (`id`),\n" + 
-		"  KEY `event_id` (`event_id`,`match_id`,`team_id`)\n" + 
+		"  KEY `event_id` (`event_id`,`match_id`,`team_id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
@@ -351,20 +363,20 @@ public final class FRCScoutingContract {
 		"CREATE TABLE IF NOT EXISTS `notes_options` (\n" + 
 		"  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n" + 
 		"  `option_text` text COLLATE latin1_general_cs NOT NULL,\n" + 
-		"  PRIMARY KEY (`id`)\n" + 
-		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=8 ;\n" + 
+		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
+		"  PRIMARY KEY (`id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
+		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=5 ;\n" + 
 		"\n" + 
 		"--\n" + 
 		"-- Dumping data for table `notes_options`\n" + 
 		"--\n" + 
 		"\n" + 
-		"INSERT INTO `notes_options` (`id`, `option_text`) VALUES\n" + 
-		"(1, 'No Show'),\n" + 
-		"(2, 'Non-functional'),\n" + 
-		"(3, 'Defender'),\n" + 
-		"(5, 'Trouble loading'),\n" + 
-		"(6, 'Floor pickup'),\n" + 
-		"(7, 'Long-range shooter');\n" + 
+		"INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`) VALUES\n" + 
+		"(1, 'No Show', '2014-01-25 15:21:36'),\n" + 
+		"(2, 'Non-functional', '2014-01-25 15:21:36'),\n" + 
+		"(3, 'Defender', '2014-01-25 15:21:36'),\n" + 
+		"(4, 'Catcher', '2014-01-25 15:21:36');\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
 		"\n" + 
@@ -376,94 +388,11 @@ public final class FRCScoutingContract {
 		"  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n" + 
 		"  `team_id` int(5) unsigned NOT NULL,\n" + 
 		"  `robot_photo` text COLLATE latin1_general_cs NOT NULL,\n" + 
+		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
 		"  PRIMARY KEY (`id`),\n" + 
-		"  KEY `team_id` (`team_id`)\n" + 
-		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=80 ;\n" + 
-		"\n" + 
-		"--\n" + 
-		"-- Dumping data for table `robot_lu`\n" + 
-		"--\n" + 
-		"\n" + 
-		"INSERT INTO `robot_lu` (`id`, `team_id`, `robot_photo`) VALUES\n" + 
-		"(1, 3824, 'http://robobees.org/robot_pics/3824.jpg'),\n" + 
-		"(2, 1051, 'http://robobees.org/robot_pics/1051.jpg'),\n" + 
-		"(3, 342, 'http://robobees.org/robot_pics/342.jpg'),\n" + 
-		"(4, 245, 'http://robobees.org/robot_pics/245.jpg'),\n" + 
-		"(5, 4823, 'http://robobees.org/robot_pics/4823.jpg'),\n" + 
-		"(6, 1915, 'http://robobees.org/robot_pics/1915.jpg'),\n" + 
-		"(7, 1553, 'http://robobees.org/robot_pics/1553.jpg'),\n" + 
-		"(8, 2363, 'http://robobees.org/robot_pics/2363.jpg'),\n" + 
-		"(9, 1758, 'http://robobees.org/robot_pics/1758.jpg'),\n" + 
-		"(10, 4075, 'http://robobees.org/robot_pics/4075.jpg'),\n" + 
-		"(11, 3196, 'http://robobees.org/robot_pics/3196.jpg'),\n" + 
-		"(12, 3140, 'http://robobees.org/robot_pics/3140.jpg'),\n" + 
-		"(13, 4248, 'http://robobees.org/robot_pics/4248.jpg'),\n" + 
-		"(14, 1319, 'http://robobees.org/robot_pics/1319.jpg'),\n" + 
-		"(15, 1598, 'http://robobees.org/robot_pics/1598.jpg'),\n" + 
-		"(16, 346, 'http://robobees.org/robot_pics/346.jpg'),\n" + 
-		"(17, 4847, 'http://robobees.org/robot_pics/4847.jpg'),\n" + 
-		"(18, 4452, 'http://robobees.org/robot_pics/4452.jpg'),\n" + 
-		"(19, 4261, 'http://robobees.org/robot_pics/4261.jpg'),\n" + 
-		"(20, 1027, 'http://robobees.org/robot_pics/1027.jpg'),\n" + 
-		"(21, 4533, 'http://robobees.org/robot_pics/4533.jpg'),\n" + 
-		"(22, 2059, 'http://robobees.org/robot_pics/2059.jpg'),\n" + 
-		"(23, 88, 'http://robobees.org/robot_pics/88.jpg'),\n" + 
-		"(24, 1539, 'http://robobees.org/robot_pics/1539.jpg'),\n" + 
-		"(25, 1610, 'http://robobees.org/robot_pics/1610.jpg'),\n" + 
-		"(26, 4074, 'http://robobees.org/robot_pics/4074.jpg'),\n" + 
-		"(27, 3959, 'http://robobees.org/robot_pics/3959.jpg'),\n" + 
-		"(28, 3459, 'http://robobees.org/robot_pics/3459.jpg'),\n" + 
-		"(29, 343, 'http://robobees.org/robot_pics/343.jpg'),\n" + 
-		"(30, 3976, 'http://robobees.org/robot_pics/3976.jpg'),\n" + 
-		"(31, 435, 'http://robobees.org/robot_pics/435.jpg'),\n" + 
-		"(32, 2187, 'http://robobees.org/robot_pics/2187.jpg'),\n" + 
-		"(33, 4582, 'http://robobees.org/robot_pics/4582.jpg'),\n" + 
-		"(34, 11, 'http://robobees.org/robot_pics/11.jpg'),\n" + 
-		"(35, 2483, 'http://robobees.org/robot_pics/2483.jpg'),\n" + 
-		"(36, 836, 'http://robobees.org/robot_pics/836.jpg'),\n" + 
-		"(37, 4243, 'http://robobees.org/robot_pics/4243.jpg'),\n" + 
-		"(38, 1398, 'http://robobees.org/robot_pics/1398.jpg'),\n" + 
-		"(39, 2815, 'http://robobees.org/robot_pics/2815.jpg'),\n" + 
-		"(40, 3506, 'http://robobees.org/robot_pics/3506.jpg'),\n" + 
-		"(41, 1772, 'http://robobees.org/robot_pics/1772.jpg'),\n" + 
-		"(42, 2632, 'http://robobees.org/robot_pics/2632.jpg'),\n" + 
-		"(43, 20, 'http://robobees.org/robot_pics/20.jpg'),\n" + 
-		"(44, 379, 'http://robobees.org/robot_pics/379.jpg'),\n" + 
-		"(45, 955, 'http://robobees.org/robot_pics/955.jpg'),\n" + 
-		"(46, 51, 'http://robobees.org/robot_pics/51.jpg'),\n" + 
-		"(47, 71, 'http://robobees.org/robot_pics/71.jpg'),\n" + 
-		"(48, 812, 'http://robobees.org/robot_pics/812.jpg'),\n" + 
-		"(49, 32, 'http://robobees.org/robot_pics/32.jpg'),\n" + 
-		"(50, 126, 'http://robobees.org/robot_pics/126.jpg'),\n" + 
-		"(51, 1714, 'http://robobees.org/robot_pics/1714.jpg'),\n" + 
-		"(52, 948, 'http://robobees.org/robot_pics/948.jpg'),\n" + 
-		"(53, 326, 'http://robobees.org/robot_pics/326.jpg'),\n" + 
-		"(54, 172, 'http://robobees.org/robot_pics/172.jpg'),\n" + 
-		"(55, 1100, 'http://robobees.org/robot_pics/1100.jpg'),\n" + 
-		"(56, 910, 'http://robobees.org/robot_pics/910.jpg'),\n" + 
-		"(57, 1519, 'http://robobees.org/robot_pics/1519.jpg'),\n" + 
-		"(58, 291, 'http://robobees.org/robot_pics/291.jpg'),\n" + 
-		"(59, 840, 'http://robobees.org/robot_pics/840.jpg'),\n" + 
-		"(60, 1011, 'http://robobees.org/robot_pics/1011.jpg'),\n" + 
-		"(61, 78, 'http://robobees.org/robot_pics/78.jpg'),\n" + 
-		"(62, 846, 'http://robobees.org/robot_pics/846.jpg'),\n" + 
-		"(63, 1075, 'http://robobees.org/robot_pics/1075.jpg'),\n" + 
-		"(64, 4466, 'http://robobees.org/robot_pics/4466.jpg'),\n" + 
-		"(65, 433, 'http://robobees.org/robot_pics/433.jpg'),\n" + 
-		"(66, 2468, 'http://robobees.org/robot_pics/2468.jpg'),\n" + 
-		"(67, 1595, 'http://robobees.org/robot_pics/1595.jpg'),\n" + 
-		"(68, 4471, 'http://robobees.org/robot_pics/4471.jpg'),\n" + 
-		"(69, 2137, 'http://robobees.org/robot_pics/2137.jpg'),\n" + 
-		"(70, 1902, 'http://robobees.org/robot_pics/1902.jpg'),\n" + 
-		"(71, 868, 'http://robobees.org/robot_pics/868.jpg'),\n" + 
-		"(72, 801, 'http://robobees.org/robot_pics/801.jpg'),\n" + 
-		"(73, 2543, 'http://robobees.org/robot_pics/2543.jpg'),\n" + 
-		"(74, 33, 'http://robobees.org/robot_pics/33.jpg'),\n" + 
-		"(75, 1796, 'http://robobees.org/robot_pics/1796.jpg'),\n" + 
-		"(76, 365, 'http://robobees.org/robot_pics/365.jpg'),\n" + 
-		"(77, 2959, 'http://robobees.org/robot_pics/2959.jpg'),\n" + 
-		"(78, 2457, 'http://robobees.org/robot_pics/2457.jpg'),\n" + 
-		"(79, 2590, 'http://robobees.org/robot_pics/2590.jpg');\n" + 
+		"  KEY `team_id` (`team_id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
+		") ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
 		"\n" + 
@@ -491,7 +420,8 @@ public final class FRCScoutingContract {
 		"  `score_high` tinyint(1) NOT NULL,\n" + 
 		"  `score_low` tinyint(1) NOT NULL,\n" + 
 		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
-		"  PRIMARY KEY (`id`)\n" + 
+		"  PRIMARY KEY (`id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
@@ -503,22 +433,24 @@ public final class FRCScoutingContract {
 		"CREATE TABLE IF NOT EXISTS `wheel_base_lu` (\n" + 
 		"  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n" + 
 		"  `wheel_base_desc` text COLLATE latin1_general_cs NOT NULL,\n" + 
-		"  PRIMARY KEY (`id`)\n" + 
+		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
+		"  PRIMARY KEY (`id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=9 ;\n" + 
 		"\n" + 
 		"--\n" + 
 		"-- Dumping data for table `wheel_base_lu`\n" + 
 		"--\n" + 
 		"\n" + 
-		"INSERT INTO `wheel_base_lu` (`id`, `wheel_base_desc`) VALUES\n" + 
-		"(1, '2 Wheel Drive'),\n" + 
-		"(2, '4 Wheel Drive'),\n" + 
-		"(3, '6 Wheel Drive'),\n" + 
-		"(5, 'Crab Drive'),\n" + 
-		"(6, 'Swerve Drive'),\n" + 
-		"(7, 'Tank Drive'),\n" + 
-		"(8, 'Other'),\n" + 
-		"(4, '8 Wheel Drive (or more)');\n" + 
+		"INSERT INTO `wheel_base_lu` (`id`, `wheel_base_desc`, `timestamp`) VALUES\n" + 
+		"(1, '2 Wheel Drive', '2014-01-25 15:23:47'),\n" + 
+		"(2, '4 Wheel Drive', '2014-01-25 15:23:47'),\n" + 
+		"(3, '6 Wheel Drive', '2014-01-25 15:23:47'),\n" + 
+		"(5, 'Crab Drive', '2014-01-25 15:23:47'),\n" + 
+		"(6, 'Swerve Drive', '2014-01-25 15:23:47'),\n" + 
+		"(7, 'Tank Drive', '2014-01-25 15:23:47'),\n" + 
+		"(8, 'Other', '2014-01-25 15:23:47'),\n" + 
+		"(4, '8 Wheel Drive (or more)', '2014-01-25 15:23:47');\n" + 
 		"\n" + 
 		"-- --------------------------------------------------------\n" + 
 		"\n" + 
@@ -529,24 +461,26 @@ public final class FRCScoutingContract {
 		"CREATE TABLE IF NOT EXISTS `wheel_type_lu` (\n" + 
 		"  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n" + 
 		"  `wheel_type_desc` text COLLATE latin1_general_cs NOT NULL,\n" + 
-		"  PRIMARY KEY (`id`)\n" + 
+		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
+		"  PRIMARY KEY (`id`),\n" + 
+		"  KEY `timestamp` (`timestamp`)\n" + 
 		") ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=11 ;\n" + 
 		"\n" + 
 		"--\n" + 
 		"-- Dumping data for table `wheel_type_lu`\n" + 
 		"--\n" + 
 		"\n" + 
-		"INSERT INTO `wheel_type_lu` (`id`, `wheel_type_desc`) VALUES\n" + 
-		"(1, 'Kit Wheels'),\n" + 
-		"(2, 'IFI'),\n" + 
-		"(3, 'Omni'),\n" + 
-		"(4, 'Mecanum'),\n" + 
-		"(5, 'Nylon'),\n" + 
-		"(6, 'Rubber'),\n" + 
-		"(7, 'Tank Tread'),\n" + 
-		"(8, 'Swerve'),\n" + 
-		"(9, 'Custom'),\n" + 
-		"(10, 'Pneumatic');\n" + 
+		"INSERT INTO `wheel_type_lu` (`id`, `wheel_type_desc`, `timestamp`) VALUES\n" + 
+		"(1, 'Kit Wheels', '2014-01-25 15:25:39'),\n" + 
+		"(2, 'IFI', '2014-01-25 15:25:39'),\n" + 
+		"(3, 'Omni', '2014-01-25 15:25:39'),\n" + 
+		"(4, 'Mecanum', '2014-01-25 15:25:39'),\n" + 
+		"(5, 'Nylon', '2014-01-25 15:25:39'),\n" + 
+		"(6, 'Rubber', '2014-01-25 15:25:39'),\n" + 
+		"(7, 'Tank Tread', '2014-01-25 15:25:39'),\n" + 
+		"(8, 'Swerve', '2014-01-25 15:25:39'),\n" + 
+		"(9, 'Custom', '2014-01-25 15:25:39'),\n" + 
+		"(10, 'Pneumatic', '2014-01-25 15:25:39');\n" + 
 		"\n" + 
 		"/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n" + 
 		"/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n" + 

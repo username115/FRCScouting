@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.growingstems.scouting"
-    android:versionName="1.2013.3.2" android:versionCode="16">
+    android:versionCode="16"
+    android:versionName="1.2013.3.2" >
 
     <uses-sdk
         android:minSdkVersion="13"
@@ -43,12 +44,25 @@
         </activity>
         <activity
             android:name="org.growingstems.scouting.DataActivity"
-            android:label="@string/title_activity_data" android:configChanges="keyboardHidden|orientation">
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_data" >
         </activity>
-        <activity android:name="org.growingstems.scouting.EventStatsActivity"></activity>
-        <activity android:name="org.growingstems.scouting.TeamStatsActivity"></activity>
-        <activity android:name="org.growingstems.scouting.MatchStatsActivity" android:label="@string/title_activity_data" android:configChanges="keyboardHidden|orientation"></activity>
-        <activity android:name="org.growingstems.scouting.GraphActivity"></activity>
+        <activity android:name="org.growingstems.scouting.EventStatsActivity" >
+        </activity>
+        <activity android:name="org.growingstems.scouting.TeamStatsActivity" >
+        </activity>
+        <activity
+            android:name="org.growingstems.scouting.MatchStatsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_data" >
+        </activity>
+        <activity android:name="org.growingstems.scouting.GraphActivity" >
+        </activity>
+
+        <service
+            android:name="org.frc836.database.DBSyncService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
