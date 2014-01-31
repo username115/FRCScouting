@@ -6,61 +6,39 @@ define('INCLUDE_CHECK', true);
 
 include('scouting-header.php');
 
-if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-    echo 'success';
-} elseif ($_POST['type'] == 'versioncheck') {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-    echo $ver;
-} elseif ($_POST['type'] == 'robotPic') {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-    $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
-    $query = 'SELECT robot_photo FROM robot_lu WHERE team_id='.$team_id;
-    
-    $result =  mysql_query($query);
-    
-    $row = mysql_fetch_array($result);
-    echo $row['robot_photo'];
-    
-} elseif ($_POST['type'] == 'paramRequest') {
-    $validReq = false;
-    if ($_POST['req'] == 'eventList') {
-        $query = 'SELECT event_name, match_url FROM event_lu';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'notes_options') {
-        $query = 'SELECT option_text FROM notes_options';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'configuration_lu') {
-        $query = 'SELECT configuration_desc FROM configuration_lu';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'wheel_type_lu') {
-        $query = 'SELECT wheel_type_desc FROM wheel_type_lu';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'wheel_base_drive') {
-        $query = 'SELECT wheel_base_drive_desc FROM wheel_base_drive';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'speed_lu') {
-        $query = 'SELECT speed_desc FROM speed_lu';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'maueverability_lu') {
-        $query = 'SELECT manueverability_desc FROM manueverability_lu';
-        $validReq = true;
-    } elseif ($_POST['req'] == 'max_shot_distance_lu') {
-        $query = 'SELECT max_shot_distance FROM max_shot_distance_lu';
-        $validReq = true;
-    }
-    if ($validReq == true) {
-        $result = mysql_query($query);
-        header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-        header("Content-type: text/xml");
-        $XML = "<?xml version=\"1.0\"?>\n";
-        if ($xslt_file)
-            $XML .= "<?xml-stylesheet href=\"$xslt_file\" type=\"text/xsl\" ?>";
 
-        // root node
-        $XML .= "<result>\n";
-        // rows
-        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+function genJSON($sql_result, $tablename) {
+    
+    $json = '"' . $tablename . '":[';
+    
+    $firstrow = true;
+    
+    while($row = mysql_fetch_array($result, MYSQLI_ASSOC)) {
+        if ($firstrow == false) {
+            $json .= ",";
+        }
+        $i = 0;
+        $json .= "{";
+        foreach($row as $cell) {
+            // Escaping illegal characters
+            $cell = str_replace("\"", "\\\"", $cell);
+            $cell = str_replace("\\", "\\\\", $cell);
+            $cell = str_replace("/", "\\/", $cell);
+            $cell = str_replace("\n", "\\n", $cell);
+            $cell = str_replace("\r", "\\r", $cell);
+            $cell = str_replace("\t", "\\t", $cell);
+            
+            $col_name = mysql_field_name($result, $i);
+            
+            // TODO output cell to JSON
+            
+            $i++;
+        }
+        
+    }
+    
+    
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
             $XML .= "\t<row>\n";
             $i = 0;
             // cells
@@ -77,13 +55,22 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
             }
             $XML .= "\t</row>\n";
         }
-        $XML .= "</result>\n";
+}
 
-        // output the whole XML string
-        echo $XML;
-    }
+
+
+if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
+    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+    echo 'success';
+} elseif ($_POST['type'] == 'versioncheck') {
+    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+    echo $ver;
 } elseif ($_POST['password'] == $pass) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+    
+    if ($_POST['type'] == 'fullsync') {
+        //perform a full sync, send client entire database.
+    }
 
     if ($_POST['type'] == 'match') {
         $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
