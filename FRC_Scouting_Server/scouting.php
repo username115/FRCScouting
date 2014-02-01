@@ -13,48 +13,112 @@ function genJSON($sql_result, $tablename) {
     
     $firstrow = true;
     
-    while($row = mysql_fetch_array($result, MYSQLI_ASSOC)) {
+    while($row = mysql_fetch_array($sql_result, 1)) {
         if ($firstrow == false) {
             $json .= ",";
         }
+        $firstrow = false;
         $i = 0;
         $json .= "{";
+        $firstcell = true;
         foreach($row as $cell) {
+            if ($firstcell == false) {
+                $json .= ",";
+            }
+            $firstcell = false;
             // Escaping illegal characters
-            $cell = str_replace("\"", "\\\"", $cell);
             $cell = str_replace("\\", "\\\\", $cell);
+            $cell = str_replace("\"", "\\\"", $cell);
             $cell = str_replace("/", "\\/", $cell);
             $cell = str_replace("\n", "\\n", $cell);
             $cell = str_replace("\r", "\\r", $cell);
             $cell = str_replace("\t", "\\t", $cell);
             
-            $col_name = mysql_field_name($result, $i);
+            $col_name = mysql_field_name($sql_result, $i);
+            $col_type = mysql_fetch_field($sql_result, $i);
             
-            // TODO output cell to JSON
+            $json .= '"' . $col_name . '":' ;
             
+            //echo $col_name . ": " . $col_type->type . "\n";
+            if ($col_type->type == 'timestamp') {
+                $json .= strtotime($cell);
+            }
+            elseif ($col_type->numeric == 1 ) {
+                $json .= $cell;
+            } else {
+                $json .= '"' . $cell . '"';
+            }
             $i++;
         }
-        
+        $json .= "}";
     }
     
+    $json .= "]";
     
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            $XML .= "\t<row>\n";
-            $i = 0;
-            // cells
-            foreach ($row as $cell) {
-                // Escaping illegal characters - not tested actually 
-                $cell = str_replace("&", "&amp;", $cell);
-                $cell = str_replace("<", "&lt;", $cell);
-                $cell = str_replace(">", "&gt;", $cell);
-                $cell = str_replace("\"", "&quot;", $cell);
-                $col_name = mysql_field_name($result, $i);
-                // creates the "<tag>contents</tag>" representing the column
-                $XML .= "\t\t<" . $col_name . ">" . $cell . "</" . $col_name . ">\n";
-                $i++;
-            }
-            $XML .= "\t</row>\n";
-        }
+    return $json;
+}
+
+if ($_GET['type'] == 'test') {
+    $json = "{";
+        
+        $query = "SELECT * FROM configuration_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "configuration_lu") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM event_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "event_lu") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM fact_cycle_data";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "fact_cycle_data") . ",";
+        mysql_free_result($result);
+        
+        
+        
+        $query = "SELECT * FROM fact_match_data";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "fact_match_data") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM notes_options";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "notes_options") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM scout_pit_data";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "scout_pit_data") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM wheel_base_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "wheel_base_lu") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM wheel_type_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "wheel_type_lu") . "}";
+        mysql_free_result($result);
+        
+        echo $json;
+    
 }
 
 
@@ -70,6 +134,67 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
     
     if ($_POST['type'] == 'fullsync') {
         //perform a full sync, send client entire database.
+        
+        $json = "{";
+        
+        $query = "SELECT * FROM configuration_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "configuration_lu") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM event_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "event_lu") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM fact_cycle_data";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "fact_cycle_data") . ",";
+        mysql_free_result($result);
+        
+        
+        
+        $query = "SELECT * FROM fact_match_data";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "fact_match_data") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM notes_options";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "notes_options") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM scout_pit_data";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "scout_pit_data") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM wheel_base_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "wheel_base_lu") . ",";
+        mysql_free_result($result);
+        
+        
+        $query = "SELECT * FROM wheel_type_lu";
+        $result = mysql_query($query);
+        
+        $json .= genJSON($result, "wheel_type_lu") . "}";
+        mysql_free_result($result);
+        
+        echo $json;
+        
     }
 
     if ($_POST['type'] == 'match') {
