@@ -58,24 +58,37 @@ function genJSON($sql_result, $tablename) {
     return $json;
 }
 
-if ($_GET['type'] == 'test') {
-    $json = "{";
+if ($_GET['test'] == 'test') {
+    if ($_GET['type'] == 'fullsync') {
+            $suffix = ';';
+        } else {
+            $suffix = ' WHERE timestamp > FROM_UNIXTIME(' . $_GET['timestamp'] . ');';
+        }
         
-        $query = "SELECT * FROM configuration_lu";
+        echo $suffix . '<br>';
+        
+        
+        $temp =  mysql_query('SELECT FROM_UNIXTIME(' . $_GET['timestamp'] . ');');
+        
+        echo mysql_result($temp, 0) . '<br>';
+        
+        $json = "{";
+        
+        $query = "SELECT * FROM configuration_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "configuration_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM event_lu";
+        $query = "SELECT * FROM event_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "event_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM fact_cycle_data";
+        $query = "SELECT * FROM fact_cycle_data" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "fact_cycle_data") . ",";
@@ -83,35 +96,35 @@ if ($_GET['type'] == 'test') {
         
         
         
-        $query = "SELECT * FROM fact_match_data";
+        $query = "SELECT * FROM fact_match_data_2013" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "fact_match_data") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM notes_options";
+        $query = "SELECT * FROM notes_options" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "notes_options") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM scout_pit_data";
+        $query = "SELECT * FROM scout_pit_data" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "scout_pit_data") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM wheel_base_lu";
+        $query = "SELECT * FROM wheel_base_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "wheel_base_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM wheel_type_lu";
+        $query = "SELECT * FROM wheel_type_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "wheel_type_lu") . "}";
@@ -132,26 +145,31 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
 } elseif ($_POST['password'] == $pass) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     
-    if ($_POST['type'] == 'fullsync') {
-        //perform a full sync, send client entire database.
+    if ($_POST['type'] == 'fullsync' || $_POST['type'] == 'sync') {
+        //syncronization request. if it's a fullsync, then send all data, otherwise use the timestamp (in unix time)
+        if ($_POST['type'] == 'fullsync') {
+            $suffix = ';';
+        } else {
+            $suffix = ' WHERE timestamp >= FROM_UNIXTIME(' . $_POST['timestamp'] . ');';
+        }
         
         $json = "{";
         
-        $query = "SELECT * FROM configuration_lu";
+        $query = "SELECT * FROM configuration_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "configuration_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM event_lu";
+        $query = "SELECT * FROM event_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "event_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM fact_cycle_data";
+        $query = "SELECT * FROM fact_cycle_data" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "fact_cycle_data") . ",";
@@ -159,35 +177,35 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         
         
         
-        $query = "SELECT * FROM fact_match_data";
+        $query = "SELECT * FROM fact_match_data" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "fact_match_data") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM notes_options";
+        $query = "SELECT * FROM notes_options" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "notes_options") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM scout_pit_data";
+        $query = "SELECT * FROM scout_pit_data" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "scout_pit_data") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM wheel_base_lu";
+        $query = "SELECT * FROM wheel_base_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "wheel_base_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM wheel_type_lu";
+        $query = "SELECT * FROM wheel_type_lu" . $suffix;
         $result = mysql_query($query);
         
         $json .= genJSON($result, "wheel_type_lu") . "}";
@@ -198,86 +216,156 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
     }
 
     if ($_POST['type'] == 'match') {
+        
         $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
         $match_id = mysql_real_escape_string(stripslashes(trim($_POST['match_id'])));
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
-        $auto_score_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_high'])));
-        $auto_score_high_attempt = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_high_attempt'])));
-        $auto_score_mid_left = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_mid_left'])));
-        $auto_score_mid_left_attempt = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_mid_left_attempt'])));
-        $auto_score_mid_right = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_mid_right'])));
-        $auto_score_mid_right_attempt = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_mid_right_attempt'])));
-        $auto_score_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_low'])));
-        $auto_score_low_attempt = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_low_attempt'])));
-        $score_high = mysql_real_escape_string(stripslashes(trim($_POST['score_high'])));
-        $score_high_attempt = mysql_real_escape_string(stripslashes(trim($_POST['score_high_attempt'])));
-        $score_mid_left = mysql_real_escape_string(stripslashes(trim($_POST['score_mid_left'])));
-        $score_mid_left_attempt = mysql_real_escape_string(stripslashes(trim($_POST['score_mid_left_attempt'])));
-        $score_mid_right = mysql_real_escape_string(stripslashes(trim($_POST['score_mid_right'])));
-        $score_mid_right_attempt = mysql_real_escape_string(stripslashes(trim($_POST['score_mid_right_attempt'])));
-        $score_low = mysql_real_escape_string(stripslashes(trim($_POST['score_low'])));
-        $score_low_attempt = mysql_real_escape_string(stripslashes(trim($_POST['score_low_attempt'])));
-        $score_pyramid = mysql_real_escape_string(stripslashes(trim($_POST['score_pyramid'])));
-        $score_pyramid_attempt = mysql_real_escape_string(stripslashes(trim($_POST['score_pyramid_attempt'])));
-        $pyramid_level_climbed = mysql_real_escape_string(stripslashes(trim($_POST['pyramid_level_climbed'])));
-        $pyramid_attempted = mysql_real_escape_string(stripslashes(trim($_POST['pyramid_level_attempt'])));
-        $penalty = mysql_real_escape_string(stripslashes(trim($_POST['penalty'])));
-        $mpenalty = mysql_real_escape_string(stripslashes(trim($_POST['mpenalty'])));
+        $auto_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_high'])));
+        $auto_high_hot = mysql_real_escape_string(stripslashes(trim($_POST['auto_high_hot'])));
+        $auto_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_low'])));
+        $auto_low_hot = mysql_real_escape_string(stripslashes(trim($_POST['auto_low_hot'])));
+        $high = mysql_real_escape_string(stripslashes(trim($_POST['high'])));
+        $low = mysql_real_escape_string(stripslashes(trim($_POST['low'])));
+        $auto_mobile = mysql_real_escape_string(stripslashes(trim($_POST['auto_mobile'])));
+        $foul = mysql_real_escape_string(stripslashes(trim($_POST['foul'])));
+        $tech_foul = mysql_real_escape_string(stripslashes(trim($_POST['tech_foul'])));
         $tip_over = mysql_real_escape_string(stripslashes(trim($_POST['tip_over'])));
         $yellow_card = mysql_real_escape_string(stripslashes(trim($_POST['yellow_card'])));
         $red_card = mysql_real_escape_string(stripslashes(trim($_POST['red_card'])));
         $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
+        
+        
+        $result = mysql_query("SELECT id FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
+                . $match_id . " AND team_id=" . $team_id );
+        $row = mysql_fetch_array($result);
+        $match_row_id = $row["id"];
+        
+        if (mysql_num_rows($result) == 0) {
+        
+            $query = "INSERT INTO fact_match_data(event_id,match_id,team_id,auto_high,auto_high_hot,auto_low,auto_low_hot,high,low,"
+                    . "auto_mobile,foul,tech_foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
+                    . $event_id . ","
+                    . $match_id . ","
+                    . $team_id . ","
+                    . $auto_high . ","
+                    . $auto_high_hot . ","
+                    . $auto_low . ","
+                    . $auto_low_hot . ","
+                    . $high . ","
+                    . $low . ","
+                    . $auto_mobile . ","
+                    . $foul . ","
+                    . $tech_foul . ","
+                    . $tip_over . ","
+                    . $yellow_card . ","
+                    . $red_card . ",'"
+                    . $notes . "',0);";
 
+            $success = mysql_query($query);
+            
+        } 
+        else {
+            $query = "UPDATE fact_match_data SET "
+                    . "event_id=" . $event_id
+                    . ",match_id=" . $match_id
+                    . ",team_id=" . $team_id
+                    . ",auto_high=" . $auto_high
+                    . ",auto_high_hot=" . $auto_high_hot
+                    . ",auto_low=" . $auto_low
+                    . ",auto_low_hot=" . $auto_low_hot
+                    . ",high=" . $high
+                    . ",low=" . $low
+                    . ",auto_mobile=" . $auto_mobile
+                    . ",foul=" . $foul
+                    . ",tech_foul=" . $tech_foul
+                    . ",tip_over=" . $tip_over
+                    . ",yellow_card=" . $yellow_card
+                    . ",red_card=" . $red_card
+                    . ",notes='" . $notes
+                    . "',invalid=0"
+                    . " WHERE id=" . $match_row_id;
 
-
-
-
-        $query = " INSERT INTO fact_match_data(event_id,match_id,team_id,auto_score_high,auto_score_high_attempt,auto_score_mid_left,";
-        $query .= "auto_score_mid_left_attempt,auto_score_mid_right,auto_score_mid_right_attempt,auto_score_low,auto_score_low_attempt,";
-        $query .= "score_high,score_high_attempt,score_mid_left,score_mid_left_attempt,score_mid_right,score_mid_right_attempt,score_low,score_low_attempt,";
-        $query .= "score_pyramid,score_pyramid_attempt,pyramid_level_climbed,pyramid_attempted,";
-        $query .= "penalty,mpenalty,tip_over,yellow_card,red_card,notes) ";
-        $query .= "SELECT id,
-					" . $match_id . ",
-					" . $team_id . ",
-					" . $auto_score_high . ",
-					" . $auto_score_high_attempt . ",
-					" . $auto_score_mid_left . ",
-					" . $auto_score_mid_left_attempt . ",
-					" . $auto_score_mid_right . ",
-					" . $auto_score_mid_right_attempt . ",
-					" . $auto_score_low . ",
-					" . $auto_score_low_attempt . ",
-					" . $score_high . ",
-					" . $score_high_attempt . ",
-					" . $score_mid_left . ",
-					" . $score_mid_left_attempt . ",
-					" . $score_mid_right . ",
-					" . $score_mid_right_attempt . ",
-					" . $score_low . ",
-					" . $score_low_attempt . ",
-					" . $score_pyramid . ",
-					" . $score_pyramid_attempt . ",
-					" . $pyramid_level_climbed . ",
-					" . $pyramid_attempted . ",
-					" . $penalty . ",
-					" . $mpenalty . ",
-					" . $tip_over . ",
-					" . $yellow_card . ",
-					" . $red_card . ",
-					'" . $notes . "'
-					FROM event_lu WHERE event_name = '" . $event_id . "'";
-
-        $success = mysql_query($query);
-
+            $success = mysql_query($query);
+        }
+        
+        
         if ($success) {
-            $resp = 'success';
+            $result = mysql_query("SELECT id, timestamp FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
+                    . $match_id . " AND team_id=" . $team_id);
+            $row = mysql_fetch_array($result);
+            $resp = $row["id"];
         } else {
             $resp = 'Database Query Failed';
         }
 
         //$resp = $query;
-    } else if ($_POST['type'] == 'pits') {
+    } 
+    else if ($_POST['type'] == 'cycle') {
+        $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
+        $match_id = mysql_real_escape_string(stripslashes(trim($_POST['match_id'])));
+        $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
+        $cycle_num = mysql_real_escape_string(stripslashes(trim($_POST['cycle_num'])));
+        $near_poss = mysql_real_escape_string(stripslashes(trim($_POST['near_poss'])));
+        $white_poss = mysql_real_escape_string(stripslashes(trim($_POST['white_poss'])));
+        $far_poss = mysql_real_escape_string(stripslashes(trim($_POST['far_poss'])));
+        $truss = mysql_real_escape_string(stripslashes(trim($_POST['truss'])));
+        $catch = mysql_real_escape_string(stripslashes(trim($_POST['catch'])));
+        $high = mysql_real_escape_string(stripslashes(trim($_POST['high'])));
+        $low = mysql_real_escape_string(stripslashes(trim($_POST['low'])));
+        $assists = mysql_real_escape_string(stripslashes(trim($_POST['assists'])));
+        
+        $result = mysql_query("SELECT id FROM fact_cycle_data WHERE event_id=" . $event_id . " AND match_id="
+                . $match_id . " AND team_id=" . $team_id . " AND cycle_num=" . $cycle_num);
+        $row = mysql_fetch_array($result);
+        $match_row_id = $row["id"];
+        
+        if (mysql_num_rows($result) == 0) {
+            $query = "INSERT INTO fact_cycle_data(event_id,match_id,team_id,cycle_num,near_poss,white_poss,far_poss,"
+                    . "truss,catch,high,low,assists,invalid) VALUES("
+                    . $event_id . ","
+                    . $match_id . ","
+                    . $team_id . ","
+                    . $cycle_num . ","
+                    . $near_poss . ","
+                    . $white_poss . ","
+                    . $far_poss . ","
+                    . $truss . ","
+                    . $catch . ","
+                    . $high . ","
+                    . $low . ","
+                    . $assists . ",0);";
+
+            $success = mysql_query($query);
+        }
+        else {
+            $query = "UPDATE fact_cycle_data SET "
+                    . "event_id=" . $event_id
+                    . ",match_id=" . $match_id
+                    . ",team_id=" . $team_id
+                    . ",cycle_num=" . $cycle_num
+                    . ",near_poss=" . $near_poss
+                    . ",white_poss=" . $white_poss
+                    . ",far_poss=" . $far_poss
+                    . ",truss=" . $truss
+                    . ",catch=" . $catch
+                    . ",high=" . $high
+                    . ",low=" . $low
+                    . ",assists=" . $assists
+                    . ",invalid=0"
+                    . " WHERE id=" . $match_row_id;
+
+            $success = mysql_query($query);
+        }
+        if ($success) {
+            $result = mysql_query("SELECT id, timestamp FROM fact_cycle_data WHERE event_id=" . $event_id . " AND match_id="
+                    . $match_id . " AND team_id=" . $team_id . " AND cycle_num=" . $cycle_num);
+            $row = mysql_fetch_array($result);
+            $resp = $row["id"];
+        } else {
+            $resp = 'Database Query Failed';
+        }
+    }
+    else if ($_POST['type'] == 'pits') {
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
         $configuration_id = mysql_real_escape_string(stripslashes(trim($_POST['configuration_id'])));
         $wheel_type_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_type_id'])));
