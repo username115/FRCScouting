@@ -67,6 +67,8 @@ public class DB {
 
 	public void submitMatch(MatchStatsStruct team1Data, MatchStatsStruct team2Data,
 			MatchStatsStruct team3Data) {
+		
+		//TODO
 		/*Map<String, String> args = tele.getPost();
 		args.putAll(auto.getPost());
 		args.put("type", "match");
@@ -79,11 +81,12 @@ public class DB {
 	}
 
 	public void submitPits(PitStats stats, HttpCallback callback) {
-		Map<String, String> args = stats.getPost();
+		//TODO
+		/*Map<String, String> args = stats.getPost();
 		args.put("type", "pits");
 		args.put("password", password);
 
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 
 	public void setPass(String pass) {
@@ -105,39 +108,44 @@ public class DB {
 	}
 
 	public void getTeamPitInfo(String teamNum, HttpCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("team_id", teamNum);
 		args.put("type", "pitInfo");
 		args.put("password", password);
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 
 	public void getEventList(HttpCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("type", "paramRequest");
 		args.put("req", "eventList");
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 
 	public void getParams(String tableName, HttpCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("type", "paramRequest");
 		args.put("req", tableName);
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 
 	public void getEventStats(String eventName,
 			EventStats.EventCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("type", "eventStats");
 		args.put("password", password);
 		args.put("event_name", eventName);
 		utils.doPost(Prefs.getScoutingURL(context), args, new EventStats(
-				callback));
+				callback));*/
 	}
 
 	public void getTeamStats(int teamId, TeamStats.TeamCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("type", "teamStats");
 		args.put("password", password);
 		args.put("team_id", String.valueOf(teamId));
@@ -145,41 +153,44 @@ public class DB {
 				Prefs.getScoutingURL(context),
 				args,
 				new TeamStats(callback, teamId, Prefs.getEvent(context,
-						"Chesapeake Regional")));
+						"Chesapeake Regional")));*/
 	}
 
 	public void getMatchStats(String event, String match,
 			MatchStats.MatchCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("event_name", event);
 		args.put("match_id", match);
 		args.put("password", password);
 		args.put("type", "matchStats");
 		utils.doPost(Prefs.getScoutingURL(context), args, new MatchStats(
-				callback));
+				callback));*/
 	}
 
-	public void getPictureURL(String teamID, HttpCallback callback) {
+	/*public void getPictureURL(String teamID, HttpCallback callback) {
 		Map<String, String> args = new HashMap<String, String>();
 		args.put("type", "robotPic");
 		args.put("team_id", teamID);
 		utils.doPost(Prefs.getScoutingURL(context), args, callback);
-	}
+	}*/
 
 	public void getTeamPitStats(int teamId, HttpCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("type", "teamStats");
 		args.put("password", password);
 		args.put("team_id", String.valueOf(teamId));
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 
 	public void getParamsPass(String table, HttpCallback callback) {
-		Map<String, String> args = new HashMap<String, String>();
+		//TODO
+		/*Map<String, String> args = new HashMap<String, String>();
 		args.put("password", password);
 		args.put("type", "paramRequest");
 		args.put("req", table);
-		utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		utils.doPost(Prefs.getScoutingURL(context), args, callback);*/
 	}
 	
 	public long getEventIDFromName(String EventName)
