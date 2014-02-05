@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 27, 2014 at 07:11 PM
+-- Generation Time: Feb 04, 2014 at 06:53 PM
 -- Server version: 5.1.72-cll
 -- PHP Version: 5.3.17
 
@@ -189,13 +189,9 @@ CREATE TABLE IF NOT EXISTS `fact_cycle_data` (
   `white_poss` tinyint(1) unsigned NOT NULL,
   `far_poss` tinyint(1) unsigned NOT NULL,
   `truss` tinyint(1) unsigned NOT NULL,
-  `truss_attempt` tinyint(1) unsigned NOT NULL,
   `catch` tinyint(1) unsigned NOT NULL,
-  `catch_attempt` tinyint(1) unsigned NOT NULL,
   `high` tinyint(1) unsigned NOT NULL,
-  `high_attempt` int(3) unsigned NOT NULL,
   `low` tinyint(1) unsigned NOT NULL,
-  `low_attempt` int(3) unsigned NOT NULL,
   `assists` int(3) unsigned NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -299,9 +295,10 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data` (
   `catch` tinyint(1) unsigned NOT NULL,
   `active_control` tinyint(1) unsigned NOT NULL,
   `launch_ball` tinyint(1) unsigned NOT NULL,
-  `scout_comments` text COLLATE latin1_general_cs NOT NULL,
   `score_high` tinyint(1) NOT NULL,
   `score_low` tinyint(1) NOT NULL,
+  `max_height` int(10) unsigned NOT NULL,
+  `scout_comments` text COLLATE latin1_general_cs NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),

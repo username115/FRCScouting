@@ -80,11 +80,11 @@ public class MatchStatsAA extends MatchStatsStruct {
 		return vals;
 	}
 
-	public List<ContentValues> getCycles() {
+	public List<ContentValues> getCycles(DB db) {
 		List<ContentValues> vals = new ArrayList<ContentValues>(cycles.size());
 
 		for (int i = 0; i < cycles.size(); i++) {
-			vals.add(cycles.valueAt(i).getValues());
+			vals.add(cycles.valueAt(i).getValues(db));
 		}
 
 		return vals;
@@ -96,18 +96,17 @@ public class MatchStatsAA extends MatchStatsStruct {
 		public boolean white_poss;
 		public boolean far_poss;
 		public boolean truss;
-		public int truss_attempt;
 		public boolean truss_catch;
-		public boolean truss_catch_attempt;
 		public boolean high;
-		public int high_attempt;
 		public boolean low;
-		public int low_attempt;
 		public int assists;
 
-		public ContentValues getValues() {
+		public ContentValues getValues(DB db) {
 			ContentValues vals = new ContentValues();
 
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event));
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM, cycle_number);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS, near_poss ? 1
 					: 0);
@@ -116,17 +115,10 @@ public class MatchStatsAA extends MatchStatsStruct {
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS, far_poss ? 1
 					: 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS, truss ? 1 : 0);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS_ATTEMPT,
-					truss_attempt);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH, truss_catch ? 1
 					: 0);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH_ATTEMPT,
-					truss_catch_attempt ? 1 : 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH, high ? 1 : 0);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH_ATTEMPT,
-					high_attempt);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW, low ? 1 : 0);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW_ATTEMPT, low_attempt);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS, assists);
 
 			return vals;

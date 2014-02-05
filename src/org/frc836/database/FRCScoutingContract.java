@@ -37,13 +37,9 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_WHITE_POSS = "white_poss";
 		public static final String COLUMN_NAME_FAR_POSS = "far_poss";
 		public static final String COLUMN_NAME_TRUSS = "truss";
-		public static final String COLUMN_NAME_TRUSS_ATTEMPT = "truss_attempt";
 		public static final String COLUMN_NAME_CATCH = "catch";
-		public static final String COLUMN_NAME_CATCH_ATTEMPT = "catch_attempt";
 		public static final String COLUMN_NAME_HIGH = "high";
-		public static final String COLUMN_NAME_HIGH_ATTEMPT = "high_attempt";
 		public static final String COLUMN_NAME_LOW = "low";
-		public static final String COLUMN_NAME_LOW_ATTEMPT = "low_attempt";
 		public static final String COLUMN_NAME_ASSISTS = "assists";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_INVALID = "invalid";
@@ -106,9 +102,10 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_CATCH = "catch";
 		public static final String COLUMN_NAME_ACTIVE_CONTROL = "active_control";
 		public static final String COLUMN_NAME_LAUNCH_BALL = "launch_ball";
-		public static final String COLUMN_NAME_SCOUT_COMMENTS = "scout_comments";
 		public static final String COLUMN_NAME_SCORE_HIGH = "score_high";
 		public static final String COLUMN_NAME_SCORE_LOW = "score_low";
+		public static final String COLUMN_NAME_MAX_HEIGHT = "max_height";
+		public static final String COLUMN_NAME_SCOUT_COMMENTS = "scout_comments";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
@@ -135,7 +132,7 @@ public final class FRCScoutingContract {
 		"-- http://www.phpmyadmin.net\n" + 
 		"--\n" + 
 		"-- Host: localhost\n" + 
-		"-- Generation Time: Jan 27, 2014 at 07:11 PM\n" + 
+		"-- Generation Time: Feb 04, 2014 at 06:53 PM\n" + 
 		"-- Server version: 5.1.72-cll\n" + 
 		"-- PHP Version: 5.3.17\n" + 
 		"\n" + 
@@ -321,13 +318,9 @@ public final class FRCScoutingContract {
 		"  `white_poss` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `far_poss` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `truss` tinyint(1) unsigned NOT NULL,\n" + 
-		"  `truss_attempt` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `catch` tinyint(1) unsigned NOT NULL,\n" + 
-		"  `catch_attempt` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `high` tinyint(1) unsigned NOT NULL,\n" + 
-		"  `high_attempt` int(3) unsigned NOT NULL,\n" + 
 		"  `low` tinyint(1) unsigned NOT NULL,\n" + 
-		"  `low_attempt` int(3) unsigned NOT NULL,\n" + 
 		"  `assists` int(3) unsigned NOT NULL,\n" + 
 		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
 		"  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',\n" + 
@@ -431,9 +424,10 @@ public final class FRCScoutingContract {
 		"  `catch` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `active_control` tinyint(1) unsigned NOT NULL,\n" + 
 		"  `launch_ball` tinyint(1) unsigned NOT NULL,\n" + 
-		"  `scout_comments` text COLLATE latin1_general_cs NOT NULL,\n" + 
 		"  `score_high` tinyint(1) NOT NULL,\n" + 
 		"  `score_low` tinyint(1) NOT NULL,\n" + 
+		"  `max_height` int(10) unsigned NOT NULL,\n" + 
+		"  `scout_comments` text COLLATE latin1_general_cs NOT NULL,\n" + 
 		"  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" + 
 		"  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',\n" + 
 		"  PRIMARY KEY (`id`),\n" + 

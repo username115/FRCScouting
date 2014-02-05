@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Daniel Logan
+ * Copyright 2014 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,6 @@
  */
 
 package org.frc836.database;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 
@@ -71,22 +68,6 @@ public abstract class MatchStatsStruct {
 		tech_foul = false;
 		yellowCard = false;
 		redCard = false;
-	}
-	
-	public Map<String, String> getPost()
-	{
-		HashMap<String, String> args = new HashMap<String, String>();
-		args.put("team_id", String.valueOf(team));
-		args.put("event_id", event);
-		args.put("match_id", String.valueOf(match));
-		args.put("notes", notes);
-		args.put("tip_over", String.valueOf(tipOver?1:0));
-		args.put("penalty", String.valueOf(foul?1:0));
-		args.put("mpenalty", String.valueOf(tech_foul?1:0));
-		args.put("yellow_card", String.valueOf(yellowCard?1:0));
-		args.put("red_card", String.valueOf(redCard?1:0));
-		
-		return args;
 	}
 	
 	public ContentValues getValues(DB db)
