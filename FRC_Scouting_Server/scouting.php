@@ -81,7 +81,7 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
             $suffix = ' WHERE timestamp >= FROM_UNIXTIME(' . $_POST['timestamp'] . ');';
         }
         
-        $json = "{";
+        $json = '{"timestamp" : ' + strtotime(date()) + ',';
         
         $query = "SELECT * FROM configuration_lu" . $suffix;
         $result = mysql_query($query);
