@@ -200,7 +200,7 @@ public class DB {
 		String[] where = {EventName};
 		Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, //from the event_lu table
 				projection, //select 
-				EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME, //where event_name == 
+				EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME + "=?", //where event_name == 
 				where, //EventName
 				null, //don't group 
 				null, //don't filter
