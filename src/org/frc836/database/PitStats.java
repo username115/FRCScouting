@@ -61,7 +61,7 @@ public abstract class PitStats {
 		return args;
 	}
 	
-	public ContentValues getContent(DB db)
+	public ContentValues getValues(DB db)
 	{
 		ContentValues args = new ContentValues();
 		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, team);

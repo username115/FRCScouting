@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.frc836.ultimateascent.PitsActivity"
+            android:name="org.frc836.aerialassist.PitsActivity"
             android:configChanges="orientation"
             android:label="@string/pits_label" >
         </activity>
