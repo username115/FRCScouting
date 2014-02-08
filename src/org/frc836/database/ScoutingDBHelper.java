@@ -15,13 +15,11 @@ class ScoutingDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		db.execSQL(FRCScoutingContract.SQL_CREATE_ENTRIES);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
 		db.execSQL(FRCScoutingContract.SQL_DELETE_ENTRIES);
 		onCreate(db);
 	}
