@@ -36,6 +36,9 @@ Database Structure:
 -event_lu: this table stores the names of all events. Adding or removing entries from this table will change what events appear in the event list in the app.
 		The "match_url" column stores the url to the match schedule posted by FIRST for each event.
 		
+-fact_cycle_data: New to 2014. This table stores the data on each individual cycle for a match. There will be multiple
+		entries in this table for each entry in fact_match_data.
+		
 -fact_match_data: this table stores all data recorded during match scouting.
 
 -notes_options: this table stores the options presented to the scouter in the "Common Notes" dropdown in match scouting.
