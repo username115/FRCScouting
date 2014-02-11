@@ -82,6 +82,7 @@ public abstract class MatchStatsStruct {
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL, tech_foul?1:0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD, yellowCard?1:0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD, redCard?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID, 1);
 		
 		return args;
 	}

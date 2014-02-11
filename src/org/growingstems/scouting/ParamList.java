@@ -38,7 +38,7 @@ public class ParamList implements HttpCallback {
 	public ParamList(Context parent, String table) {
 		_parent = parent;
 		tableName = table;
-		database = new DB(parent);
+		database = new DB(parent, null); //binder not needed, this class only does local DB operations
 	}
 
 	public void downloadParamList(String name, ParamCallback callback) {

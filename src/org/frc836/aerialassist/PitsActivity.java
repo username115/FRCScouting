@@ -20,9 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 import org.frc836.database.DB;
+import org.frc836.database.DBSyncService;
 import org.frc836.database.FRCScoutingContract;
 import org.frc836.database.XMLDBParser;
+import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.*;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
@@ -31,10 +34,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -79,6 +86,8 @@ public class PitsActivity extends Activity {
 	private Button submitB;
 	private TextView teamInfoT;
 	private EditText heightT;
+	
+	private LocalBinder binder;
 
 	private Handler timer = new Handler();
 	private static final int DELAY = 500;
@@ -92,12 +101,15 @@ public class PitsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pits);
+		
+		Intent sync = new Intent(this, DBSyncService.class);
+		bindService(sync, new ServiceWatcher(), BIND_AUTO_CREATE);
 
 		HELPMESSAGE = "Enter requested information about each team.\n\n"
 				+ "When a team number is entered, the last time that data was collected about this team will be shown.\n"
 				+ "If the date shown is during the current event, data does not need to be collected.";
 
-		submitter = new DB(getBaseContext());
+		submitter = new DB(getBaseContext(), binder);
 		stats = new PitStatsAA();
 		teamT = (EditText) findViewById(R.id.pits_teamT);
 		configS = (Spinner) findViewById(R.id.pits_configS);
@@ -138,6 +150,19 @@ public class PitsActivity extends Activity {
 			timer.removeCallbacks(task);
 		}
 		tasks.clear();
+	}
+	
+	protected class ServiceWatcher implements ServiceConnection {
+
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			if (service instanceof LocalBinder) {
+				binder = (LocalBinder) service;
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName name) {
+		}
+
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {

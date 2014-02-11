@@ -120,6 +120,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH, high ? 1 : 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW, low ? 1 : 0);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS, assists);
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID, 1);
 
 			return vals;
 		}

@@ -72,7 +72,16 @@ public class DataActivity extends TabActivity {
 		mTabs = this;
 
 		db = new DB(getApplicationContext(),
-				Prefs.getSavedPassword(getApplicationContext()));
+				Prefs.getSavedPassword(getApplicationContext()), null); // temporary
+																		// change
+																		// to
+																		// fix
+																		// errors
+																		// until
+																		// this
+																		// class
+																		// is
+																		// re-written
 
 		mTabHost = getTabHost();
 

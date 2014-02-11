@@ -19,6 +19,8 @@ package org.frc836.aerialassist;
 import java.util.List;
 
 import org.frc836.database.DB;
+import org.frc836.database.DBSyncService;
+import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.ParamList;
 import org.growingstems.scouting.Prefs;
@@ -27,11 +29,13 @@ import org.growingstems.scouting.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,7 +64,6 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	private MatchStatsAA team2Data;
 	private MatchStatsAA team3Data;
 
-	private int orientation;
 
 	private ParamList notesOptions;
 
@@ -91,15 +94,19 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	private Spinner team1CommonNotes;
 	private Spinner team2CommonNotes;
 	private Spinner team3CommonNotes;
+	
+	private LocalBinder binder;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.match);
+		
+		Intent sync = new Intent(this, DBSyncService.class);
+		bindService(sync, new ServiceWatcher(), BIND_AUTO_CREATE);
 
 		lastB = (Button) findViewById(R.id.backB);
 		nextB = (Button) findViewById(R.id.nextB);
 
-		orientation = getResources().getConfiguration().orientation;
 
 		notesOptions = new ParamList(getApplicationContext(), "notes_options");
 
@@ -152,7 +159,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 		String match = intent.getStringExtra("match");
 
-		submitter = new DB(this);
+		submitter = new DB(this, binder);
 
 		teamText1.setText(team1);
 		teamText2.setText(team2);
@@ -217,6 +224,19 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		team1CommonNotes.setAdapter(adapter);
 		team2CommonNotes.setAdapter(adapter);
 		team3CommonNotes.setAdapter(adapter);
+
+	}
+	
+	protected class ServiceWatcher implements ServiceConnection {
+
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			if (service instanceof LocalBinder) {
+				binder = (LocalBinder) service;
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName name) {
+		}
 
 	}
 

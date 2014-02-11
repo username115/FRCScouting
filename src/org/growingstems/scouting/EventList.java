@@ -40,7 +40,8 @@ public class EventList implements HttpCallback {
 
 	public EventList(Context parent) {
 		_parent = parent;
-		database = new DB(parent);
+		database = new DB(parent, null); // temporary change to fix errors until
+											// this class is re-written
 		if (getEvents() == "")
 			downloadEventsList(null);
 	}

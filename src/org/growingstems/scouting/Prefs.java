@@ -80,7 +80,7 @@ public class Prefs extends PreferenceActivity {
 
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-			DB db = new DB(getBaseContext());
+			DB db = new DB(getBaseContext(), null); //does not perform databse sync operations
 			db.checkPass(newValue.toString(), new PasswordCallback());
 			return true;
 		}

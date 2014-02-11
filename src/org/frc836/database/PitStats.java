@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Daniel Logan
+ * Copyright 2014 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 
 package org.frc836.database;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
 
@@ -48,18 +46,6 @@ public abstract class PitStats {
 		comments = "";
 	}
 	
-	public Map<String, String> getPost()
-	{
-		HashMap<String, String> args = new HashMap<String, String>();
-		args.put("team_id", String.valueOf(team));
-		args.put("configuration_id", chassis_config);
-		args.put("wheel_type_id", wheel_type);
-		args.put("wheel_base_id", wheel_base);
-		args.put("autonomous_mode", auto_mode ? "1" : "0");
-		args.put("scout_comments", comments);
-		
-		return args;
-	}
 	
 	public ContentValues getValues(DB db)
 	{
@@ -70,6 +56,7 @@ public abstract class PitStats {
 		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID, wheel_base);
 		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE, auto_mode ? 1 : 0);
 		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS, comments);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID, 1);
 		
 		return args;
 	}
