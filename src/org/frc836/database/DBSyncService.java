@@ -4,11 +4,14 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.http.params.HttpParams;
 import org.frc836.database.FRCScoutingContract.*;
 import org.growingstems.scouting.Prefs;
 import org.json.JSONArray;
@@ -46,6 +49,8 @@ public class DBSyncService extends Service {
 
 	private Timestamp lastSync;
 
+	private List<Map<String, String>> outgoing;
+
 	private enum Actions {
 		NOTHING, INSERT, UPDATE, DELETE
 	};
@@ -64,8 +69,9 @@ public class DBSyncService extends Service {
 
 		password = Prefs.getSavedPassword(getApplicationContext());
 
-		initialSync();
+		outgoing = new ArrayList<Map<String, String>>();
 
+		initialSync();
 	}
 
 	private void loadTimestamp() {
@@ -83,16 +89,6 @@ public class DBSyncService extends Service {
 
 	private void updateTimeStamp(long time) {
 		lastSync = new Timestamp(time);
-		saveTimestamp();
-	}
-
-	private void updateTimeStamp(Timestamp time) {
-		lastSync = new Timestamp(time.getTime());
-		saveTimestamp();
-	}
-
-	private void updateTimestamp() {
-		lastSync = new Timestamp(new Date().getTime());
 		saveTimestamp();
 	}
 
@@ -146,10 +142,8 @@ public class DBSyncService extends Service {
 
 		@Override
 		protected Integer doInBackground(String... params) {
+			SQLiteDatabase db = helper.getWritableDatabase();
 			try {
-				SQLiteDatabase db = helper.getWritableDatabase();
-
-				// TODO send updates to database
 
 				JSONObject json = new JSONObject(params[0]);
 
@@ -181,11 +175,26 @@ public class DBSyncService extends Service {
 
 				updateTimeStamp(json.getLong("timestamp"));
 
+				sendMatches(db);
+				sendPits(db);
+
 			} catch (JSONException e) {
-				// TODO
+				mTimerTask.postDelayed(dataTask, DELAY);
+			}
+			db.close();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			super.onPostExecute(result);
+			synchronized (outgoing) {
+				if (!outgoing.isEmpty())
+					utils.doPost(Prefs
+							.getScoutingURLNoDefault(getApplicationContext()),
+							outgoing.get(0), new ChangeResponseCallback());
 			}
 
-			return null;
 		}
 	}
 
@@ -193,14 +202,11 @@ public class DBSyncService extends Service {
 	private class SyncCallback implements HttpCallback {
 
 		public void onResponse(HttpRequestInfo resp) {
-			// TODO Auto-generated method stub
 			ProcessData dataProc = new ProcessData();
 			dataProc.execute(resp.getResponseString());
 		}
 
 		public void onError(Exception e) {
-			// TODO Auto-generated method stub
-
 			mTimerTask.postDelayed(dataTask, DELAY);
 		}
 	}
@@ -209,32 +215,164 @@ public class DBSyncService extends Service {
 	private class ChangeResponseCallback implements HttpCallback {
 
 		public void onResponse(HttpRequestInfo resp) {
-			// TODO Auto-generated method stub
-
-			mTimerTask.postDelayed(dataTask, DELAY);
+			ChangeResponseProcess dataProc = new ChangeResponseProcess();
+			dataProc.execute(resp);
 		}
 
 		public void onError(Exception e) {
-			// TODO Auto-generated method stub
-
 		}
 
 	}
 
 	// processes responses from server for updates sent
 	private class ChangeResponseProcess extends
-			AsyncTask<String, Integer, Integer> {
+			AsyncTask<HttpRequestInfo, Integer, Integer> {
 
 		@Override
-		protected Integer doInBackground(String... params) {
-			// TODO
+		protected Integer doInBackground(HttpRequestInfo... params) {
+
+			int match = -1, event = -1, team = -1, cycle = -1;
+			HttpParams sent = params[0].getRequest().getParams();
+			synchronized (outgoing) {
+				for (int i = 0; i < outgoing.size(); i++) {
+					Map<String, String> args = outgoing.get(i);
+
+					if (sent.getParameter("type").toString()
+							.equalsIgnoreCase("match")
+							&& sent.getParameter(
+									FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID))
+							&& sent.getParameter(
+									FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID))
+							&& sent.getParameter(
+									FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID))) {
+
+						match = sent.getIntParameter(
+								FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID, -1);
+						event = sent.getIntParameter(
+								FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, -1);
+						team = sent.getIntParameter(
+								FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, -1);
+						outgoing.remove(i);
+						break;
+					} else if (sent.getParameter("type").toString()
+							.equalsIgnoreCase("cycle")
+							&& sent.getParameter(
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID))
+							&& sent.getParameter(
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID))
+							&& sent.getParameter(
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID))
+							&& sent.getParameter(
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM))) {
+						match = sent.getIntParameter(
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID, -1);
+						event = sent.getIntParameter(
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, -1);
+						team = sent.getIntParameter(
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID, -1);
+						cycle = sent
+								.getIntParameter(
+										FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
+										-1);
+						outgoing.remove(i);
+						break;
+					} else if (sent.getParameter("type").toString()
+							.equalsIgnoreCase("pits")
+							&& sent.getParameter(
+									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID)
+									.toString()
+									.equalsIgnoreCase(
+											args.get(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID))) {
+						team = sent.getIntParameter(
+								SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, -1);
+						outgoing.remove(i);
+						break;
+					}
+				}
+			}
+
+			String[] r = params[0].getResponseString().split(",");
+
+			SQLiteDatabase db = helper.getWritableDatabase();
+			ContentValues values = new ContentValues();
+			if (cycle > 0) { // cycle was updated
+				values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID,
+						Integer.valueOf(r[0]));
+				values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+						dateParser.format(new Date(Long.valueOf(r[1]))));
+
+				String[] selectionArgs = { String.valueOf(event),
+						String.valueOf(match), String.valueOf(team),
+						String.valueOf(cycle) };
+				db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, values,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
+								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+								+ "=? AND "
+								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+								+ "=? AND "
+								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
+								+ "=?", selectionArgs);
+			} else if (match > 0) { // match was updated
+				values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
+						Integer.valueOf(r[0]));
+				values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+						dateParser.format(new Date(Long.valueOf(r[1]))));
+
+				String[] selectionArgs = { String.valueOf(event),
+						String.valueOf(match), String.valueOf(team) };
+				db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, values,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
+								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
+								+ "=? AND "
+								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
+								+ "=?", selectionArgs);
+			} else if (team > 0) { // pits were updated
+				values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
+						Integer.valueOf(r[0]));
+				values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+						dateParser.format(new Date(Long.valueOf(r[1]))));
+
+				String[] selectionArgs = { String.valueOf(team) };
+				db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, values,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
+						selectionArgs);
+			}
+			db.close();
 
 			return null;
 		}
 
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
-
+			synchronized (outgoing) {
+				if (!outgoing.isEmpty())
+					utils.doPost(Prefs
+							.getScoutingURLNoDefault(getApplicationContext()),
+							outgoing.get(0), new ChangeResponseCallback());
+				else
+					mTimerTask.postDelayed(dataTask, DELAY);
+			}
 		}
 
 	}
@@ -894,6 +1032,116 @@ public class DBSyncService extends Service {
 			}
 		} catch (JSONException e) {
 			// TODO handle error
+		}
+	}
+
+	private void sendMatches(SQLiteDatabase db) {
+		// repurposed invalid flag for marking fields that need to be uploaded
+		String[] matchProjection = {
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD,
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES };
+
+		Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME, matchProjection,
+				"invalid<>0", null, null, null, null);
+
+		synchronized (outgoing) {
+
+			c.moveToFirst();
+			do {
+				Map<String, String> args = new HashMap<String, String>();
+				args.put("password", password);
+				args.put("type", "match");
+				for (int i = 0; i < matchProjection.length; i++) {
+					args.put(matchProjection[i],
+							c.getString(c.getColumnIndex(matchProjection[i])));
+				}
+				outgoing.add(args);
+			} while (c.moveToNext());
+		}
+
+		String[] cycleProjection = {
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
+
+		c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
+				"invalid<>0", null, null, null, null);
+
+		synchronized (outgoing) {
+
+			c.moveToFirst();
+			do {
+				Map<String, String> args = new HashMap<String, String>();
+				args.put("password", password);
+				args.put("type", "cycle");
+				for (int i = 0; i < cycleProjection.length; i++) {
+					args.put(cycleProjection[i],
+							c.getString(c.getColumnIndex(cycleProjection[i])));
+				}
+				outgoing.add(args);
+			} while (c.moveToNext());
+		}
+	}
+
+	private void sendPits(SQLiteDatabase db) {
+		String[] pitProjection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_MAX_HEIGHT,
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS };
+
+		Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, pitProjection,
+				"invalid<>0", null, null, null, null);
+
+		synchronized (outgoing) {
+
+			c.moveToFirst();
+			do {
+				Map<String, String> args = new HashMap<String, String>();
+				args.put("password", password);
+				args.put("type", "pits");
+				for (int i = 0; i < pitProjection.length; i++) {
+					args.put(pitProjection[i],
+							c.getString(c.getColumnIndex(pitProjection[i])));
+				}
+				outgoing.add(args);
+			} while (c.moveToNext());
 		}
 	}
 }
