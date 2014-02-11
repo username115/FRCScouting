@@ -38,11 +38,11 @@ public class DBSyncService extends Service {
 
 	private IBinder mBinder = new LocalBinder();
 
-	private HttpUtils utils = new HttpUtils();
+	private HttpUtils utils;
 
-	private ScoutingDBHelper helper = null;
+	private ScoutingDBHelper helper;
 
-	private String password = null;
+	private String password;
 
 	private Handler mTimerTask;
 	private SyncDataTask dataTask;
@@ -62,6 +62,9 @@ public class DBSyncService extends Service {
 
 	public void onCreate() {
 		loadTimestamp();
+		password = "";
+
+		helper = new ScoutingDBHelper(getApplicationContext());
 
 		mTimerTask = new Handler();
 
@@ -70,6 +73,8 @@ public class DBSyncService extends Service {
 		password = Prefs.getSavedPassword(getApplicationContext());
 
 		outgoing = new ArrayList<Map<String, String>>();
+
+		utils = new HttpUtils();
 
 		initialSync();
 	}
@@ -106,7 +111,7 @@ public class DBSyncService extends Service {
 	public IBinder onBind(Intent arg0) {
 		return mBinder;
 	}
-	
+
 	public void onDestroy() {
 		super.onDestroy();
 		mTimerTask.removeCallbacks(dataTask);
@@ -1061,7 +1066,8 @@ public class DBSyncService extends Service {
 				FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES };
 
 		Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME, matchProjection,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID+"<>0", null, null, null, null);
+				FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
+				null, null);
 
 		synchronized (outgoing) {
 
@@ -1093,7 +1099,8 @@ public class DBSyncService extends Service {
 				FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
 
 		c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID+"<>0", null, null, null, null);
+				FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
+				null, null);
 
 		synchronized (outgoing) {
 
@@ -1132,7 +1139,8 @@ public class DBSyncService extends Service {
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS };
 
 		Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, pitProjection,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID+"<>0", null, null, null, null);
+				SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
+				null, null);
 
 		synchronized (outgoing) {
 

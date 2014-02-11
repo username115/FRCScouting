@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class ScoutingDBHelper extends SQLiteOpenHelper {
 	
-	public static final int DATABASE_VERSION = 20143;
+	public static final int DATABASE_VERSION = 20144;
 	public static final String DATABASE_NAME = "FRCscouting.db";
 	
 	public ScoutingDBHelper(Context context) {

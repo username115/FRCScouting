@@ -61,7 +61,7 @@
 
         <service
             android:name="org.frc836.database.DBSyncService"
-            android:exported="false" >
+            android:exported="false" android:enabled="true" android:stopWithTask="true">
         </service>
     </application>
 

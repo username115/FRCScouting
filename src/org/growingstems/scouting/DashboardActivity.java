@@ -82,7 +82,7 @@ public class DashboardActivity extends Activity {
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
 
 		Intent intent = new Intent(this, DBSyncService.class);
-		bindService(intent, new ServiceWatcher(), BIND_AUTO_CREATE);
+		bindService(intent, new ServiceWatcher(), 0);
 
 		match.setOnClickListener(new OnClickListener() {
 
@@ -140,6 +140,14 @@ public class DashboardActivity extends Activity {
 			showDialog(URL_DIALOG);
 		}
 
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		if (binder == null) {
+
+		}
 	}
 
 	protected class ServiceWatcher implements ServiceConnection {

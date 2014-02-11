@@ -103,7 +103,7 @@ public class PitsActivity extends Activity {
 		setContentView(R.layout.pits);
 		
 		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, new ServiceWatcher(), BIND_AUTO_CREATE);
+		bindService(sync, new ServiceWatcher(), 0);
 
 		HELPMESSAGE = "Enter requested information about each team.\n\n"
 				+ "When a team number is entered, the last time that data was collected about this team will be shown.\n"

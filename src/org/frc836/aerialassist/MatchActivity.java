@@ -102,7 +102,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		setContentView(R.layout.match);
 		
 		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, new ServiceWatcher(), BIND_AUTO_CREATE);
+		bindService(sync, new ServiceWatcher(), 0);
 
 		lastB = (Button) findViewById(R.id.backB);
 		nextB = (Button) findViewById(R.id.nextB);
