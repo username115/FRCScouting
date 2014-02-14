@@ -17,8 +17,17 @@
     </item>
     <item
         android:id="@+id/helpitem"
+        android:enabled="true"
         android:icon="@android:drawable/ic_menu_help"
-        android:title="Help" android:enabled="true" android:visible="true">
+        android:title="Help"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/exportItem"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Export"
+        android:visible="true">
     </item>
 
 </menu>

@@ -40,8 +40,6 @@ public class DBSyncService extends Service {
 
 	private HttpUtils utils;
 
-	private ScoutingDBHelper helper;
-
 	private String password;
 
 	private Handler mTimerTask;
@@ -63,8 +61,6 @@ public class DBSyncService extends Service {
 	public void onCreate() {
 		loadTimestamp();
 		password = "";
-
-		helper = new ScoutingDBHelper(getApplicationContext());
 
 		mTimerTask = new Handler();
 
@@ -126,10 +122,6 @@ public class DBSyncService extends Service {
 			password = pass;
 		}
 
-		void setDatabase(ScoutingDBHelper database) {
-			helper = database;
-		}
-
 		void startSync() {
 			mTimerTask.removeCallbacks(dataTask);
 			mTimerTask.post(dataTask);
@@ -152,46 +144,58 @@ public class DBSyncService extends Service {
 
 		@Override
 		protected Integer doInBackground(String... params) {
-			SQLiteDatabase db = helper.getWritableDatabase();
-			try {
+			synchronized (ScoutingDBHelper.helper) {
 
-				JSONObject json = new JSONObject(params[0]);
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getWritableDatabase();
+				try {
 
-				processConfig(
-						json.getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME),
-						db);
+					JSONObject json = new JSONObject(params[0]);
 
-				processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME), db);
+					processConfig(
+							json.getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME),
+							db);
 
-				processCycles(
-						json.getJSONArray(FACT_CYCLE_DATA_Entry.TABLE_NAME), db);
+					processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME),
+							db);
 
-				processMatches(
-						json.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME), db);
+					processCycles(
+							json.getJSONArray(FACT_CYCLE_DATA_Entry.TABLE_NAME),
+							db);
 
-				processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME),
-						db);
+					processMatches(
+							json.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME),
+							db);
 
-				processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME), db);
+					processNotes(
+							json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME),
+							db);
 
-				processPits(json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME),
-						db);
+					processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
+							db);
 
-				processWheelBase(
-						json.getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME), db);
+					processPits(
+							json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME),
+							db);
 
-				processWheelType(
-						json.getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME), db);
+					processWheelBase(
+							json.getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME),
+							db);
 
-				updateTimeStamp(json.getLong("timestamp"));
+					processWheelType(
+							json.getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME),
+							db);
 
-				sendMatches(db);
-				sendPits(db);
+					updateTimeStamp(json.getLong("timestamp"));
 
-			} catch (JSONException e) {
-				mTimerTask.postDelayed(dataTask, DELAY);
+					sendMatches(db);
+					sendPits(db);
+
+				} catch (JSONException e) {
+					mTimerTask.postDelayed(dataTask, DELAY);
+				}
+				db.close();
 			}
-			db.close();
 			return null;
 		}
 
@@ -323,52 +327,60 @@ public class DBSyncService extends Service {
 			}
 
 			String[] r = params[0].getResponseString().split(",");
+			synchronized (ScoutingDBHelper.helper) {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getWritableDatabase();
+				ContentValues values = new ContentValues();
+				if (cycle > 0) { // cycle was updated
+					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID,
+							Integer.valueOf(r[0]));
+					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+							dateParser.format(new Date(Long.valueOf(r[1]))));
 
-			SQLiteDatabase db = helper.getWritableDatabase();
-			ContentValues values = new ContentValues();
-			if (cycle > 0) { // cycle was updated
-				values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID,
-						Integer.valueOf(r[0]));
-				values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(Long.valueOf(r[1]))));
+					String[] selectionArgs = { String.valueOf(event),
+							String.valueOf(match), String.valueOf(team),
+							String.valueOf(cycle) };
+					db.update(
+							FACT_CYCLE_DATA_Entry.TABLE_NAME,
+							values,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
+									+ "=? AND "
+									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+									+ "=? AND "
+									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+									+ "=? AND "
+									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
+									+ "=?", selectionArgs);
+				} else if (match > 0) { // match was updated
+					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
+							Integer.valueOf(r[0]));
+					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+							dateParser.format(new Date(Long.valueOf(r[1]))));
 
-				String[] selectionArgs = { String.valueOf(event),
-						String.valueOf(match), String.valueOf(team),
-						String.valueOf(cycle) };
-				db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, values,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
-								+ "=?", selectionArgs);
-			} else if (match > 0) { // match was updated
-				values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
-						Integer.valueOf(r[0]));
-				values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(Long.valueOf(r[1]))));
+					String[] selectionArgs = { String.valueOf(event),
+							String.valueOf(match), String.valueOf(team) };
+					db.update(
+							FACT_MATCH_DATA_Entry.TABLE_NAME,
+							values,
+							FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID
+									+ "=? AND "
+									+ FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
+									+ "=? AND "
+									+ FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
+									+ "=?", selectionArgs);
+				} else if (team > 0) { // pits were updated
+					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
+							Integer.valueOf(r[0]));
+					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+							dateParser.format(new Date(Long.valueOf(r[1]))));
 
-				String[] selectionArgs = { String.valueOf(event),
-						String.valueOf(match), String.valueOf(team) };
-				db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, values,
-						FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
-								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND "
-								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
-								+ "=?", selectionArgs);
-			} else if (team > 0) { // pits were updated
-				values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
-						Integer.valueOf(r[0]));
-				values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(Long.valueOf(r[1]))));
-
-				String[] selectionArgs = { String.valueOf(team) };
-				db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, values,
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
-						selectionArgs);
+					String[] selectionArgs = { String.valueOf(team) };
+					db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, values,
+							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
+							selectionArgs);
+				}
+				db.close();
 			}
-			db.close();
 
 			return null;
 		}

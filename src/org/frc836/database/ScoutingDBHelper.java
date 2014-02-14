@@ -6,8 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class ScoutingDBHelper extends SQLiteOpenHelper {
 	
-	public static final int DATABASE_VERSION = 20144;
+	public static final int DATABASE_VERSION = 20146;
 	public static final String DATABASE_NAME = "FRCscouting.db";
+	
+	public static ScoutingDBHelper helper;
 	
 	public ScoutingDBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -15,12 +17,14 @@ class ScoutingDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(FRCScoutingContract.SQL_CREATE_ENTRIES);
+		for (int i = 0; i<FRCScoutingContract.SQL_CREATE_ENTRIES.length; i++)
+			db.execSQL(FRCScoutingContract.SQL_CREATE_ENTRIES[i]);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(FRCScoutingContract.SQL_DELETE_ENTRIES);
+		for (int i = 0; i<FRCScoutingContract.SQL_DELETE_ENTRIES.length; i++)
+			db.execSQL(FRCScoutingContract.SQL_DELETE_ENTRIES[i]);
 		onCreate(db);
 	}
 	

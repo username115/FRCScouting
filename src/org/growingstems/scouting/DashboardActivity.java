@@ -68,6 +68,7 @@ public class DashboardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
+		
 		versionCode = "";
 
 		HELPMESSAGE = "Version: " + getString(R.string.VersionID) + "\nDate: "

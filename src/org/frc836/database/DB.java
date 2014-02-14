@@ -16,11 +16,12 @@
 
 package org.frc836.database;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.frc836.aerialassist.MatchStatsAA;
-import org.frc836.aerialassist.MatchStatsAA.CycleStatsStruct;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
@@ -33,13 +34,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.widget.Toast;
 
 public class DB {
 
 	private HttpUtils utils;
 	private String password;
 	private Context context;
-	private ScoutingDBHelper helper;
 	private LocalBinder binder;
 
 	@SuppressWarnings("unused")
@@ -50,7 +53,9 @@ public class DB {
 		utils = new HttpUtils();
 		password = pass;
 		this.context = context;
-		helper = new ScoutingDBHelper(context);
+		if (ScoutingDBHelper.helper == null)
+			ScoutingDBHelper.helper = new ScoutingDBHelper(
+					context.getApplicationContext());
 		this.binder = binder;
 	}
 
@@ -58,10 +63,12 @@ public class DB {
 		this.context = context;
 		utils = new HttpUtils();
 		password = Prefs.getSavedPassword(context);
-		helper = new ScoutingDBHelper(context);
+		if (ScoutingDBHelper.helper == null)
+			ScoutingDBHelper.helper = new ScoutingDBHelper(
+					context.getApplicationContext());
 		this.binder = binder;
 	}
-	
+
 	public void setBinder(LocalBinder binder) {
 		this.binder = binder;
 	}
@@ -76,38 +83,45 @@ public class DB {
 
 	public void submitMatch(MatchStatsStruct team1Data,
 			MatchStatsStruct team2Data, MatchStatsStruct team3Data) {
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getWritableDatabase();
+				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+						team1Data.getValues(this));
+				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+						team2Data.getValues(this));
+				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+						team3Data.getValues(this));
 
-		SQLiteDatabase db = helper.getWritableDatabase();
-		db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-				team1Data.getValues(this));
-		db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-				team2Data.getValues(this));
-		db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-				team3Data.getValues(this));
+				MatchStatsAA data;
+				if (team1Data instanceof MatchStatsAA) {
+					data = (MatchStatsAA) team1Data;
+					for (ContentValues cycle : data.getCycles(this)) {
+						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+					}
+				}
+				if (team2Data instanceof MatchStatsAA) {
+					data = (MatchStatsAA) team2Data;
+					for (ContentValues cycle : data.getCycles(this)) {
+						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+					}
+				}
+				if (team3Data instanceof MatchStatsAA) {
+					data = (MatchStatsAA) team3Data;
+					for (ContentValues cycle : data.getCycles(this)) {
+						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+					}
+				}
+				ScoutingDBHelper.helper.close();
 
-		MatchStatsAA data;
-		if (team1Data instanceof MatchStatsAA) {
-			data = (MatchStatsAA) team1Data;
-			for (ContentValues cycle : data.getCycles(this)) {
-				db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+				binder.setPassword(password);
+				binder.startSync();
+			} catch (Exception e) {
+				String temp = e.getMessage();
+				int i = 1;
 			}
 		}
-		if (team2Data instanceof MatchStatsAA) {
-			data = (MatchStatsAA) team2Data;
-			for (ContentValues cycle : data.getCycles(this)) {
-				db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
-			}
-		}
-		if (team3Data instanceof MatchStatsAA) {
-			data = (MatchStatsAA) team3Data;
-			for (ContentValues cycle : data.getCycles(this)) {
-				db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
-			}
-		}
-		db.close();
-
-		binder.setPassword(password);
-		binder.startSync();
 	}
 
 	public void submitPits(PitStats stats, HttpCallback callback) {
@@ -229,22 +243,116 @@ public class DB {
 	}
 
 	public long getEventIDFromName(String EventName) {
-		SQLiteDatabase db = helper.getReadableDatabase();
-		String[] projection = { EVENT_LU_Entry.COLUMN_NAME_ID };
-		String[] where = { EventName };
-		Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the event_lu
-														// table
-				projection, // select
-				EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME + "=?", // where
-																// event_name ==
-				where, // EventName
-				null, // don't group
-				null, // don't filter
-				null, // don't order
-				"0,1"); // limit to 1
-		c.moveToFirst();
-		db.close();
-		return c.getLong(c.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
+		synchronized (ScoutingDBHelper.helper) {
+			SQLiteDatabase db = ScoutingDBHelper.helper.getReadableDatabase();
+			String[] projection = { EVENT_LU_Entry.COLUMN_NAME_ID };
+			String[] where = { EventName };
+			Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the event_lu
+															// table
+					projection, // select
+					EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME + "=?", // where
+																	// event_name
+																	// ==
+					where, // EventName
+					null, // don't group
+					null, // don't filter
+					null, // don't order
+					"0,1"); // limit to 1
+			c.moveToFirst();
+			db.close();
+			return c.getLong(c
+					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
+		}
+	}
+
+	public static void exportToCSV(Context context) {
+		try {
+
+			ExportCallback cb = new ExportCallback();
+
+			cb.context = context;
+
+			CSVExporter export = new CSVExporter();
+			export.execute(cb);
+
+		} catch (Exception e) {
+			Toast.makeText(context, "Error exporting Database",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private static class ExportCallback {
+		Context context;
+
+		public void finish(int code) {
+			if (code == 0)
+				Toast.makeText(context, "DB Exported", Toast.LENGTH_LONG)
+						.show();
+			else
+				Toast.makeText(context, "Error exporting Database",
+						Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private static class CSVExporter extends
+			AsyncTask<ExportCallback, Integer, Integer> {
+
+		ExportCallback callback;
+
+		@Override
+		protected Integer doInBackground(ExportCallback... params) {
+			synchronized (ScoutingDBHelper.helper) {
+				try {
+
+					SQLiteDatabase db = ScoutingDBHelper.helper
+							.getReadableDatabase();
+
+					callback = params[0];
+
+					String match_data = "";
+
+					Cursor c;
+
+					c = db.rawQuery(
+							"SELECT * FROM "
+									+ FRCScoutingContract.FACT_MATCH_DATA_Entry.TABLE_NAME,
+							null);
+
+					for (int i = 0; i < c.getColumnCount(); i++) {
+						if (i > 0)
+							match_data += ",";
+						match_data += c.getColumnName(i);
+					}
+					match_data += "\n";
+					if (c.moveToFirst())
+						do {
+							for (int j = 0; j < c.getColumnCount(); j++) {
+								if (j > 0)
+									match_data += ",";
+								match_data += c.getString(j);
+							}
+							match_data += "\n";
+						} while (c.moveToNext());
+
+					File sd = new File(
+							Environment
+									.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+							"matches.csv");
+					FileOutputStream destination = new FileOutputStream(sd);
+					destination.write(match_data.getBytes());
+					destination.close();
+
+					return 0;
+				} catch (Exception e) {
+					return 1;
+				}
+			}
+		}
+
+		protected void onPostExecute(Integer result) {
+			callback.finish(result);
+		}
+
 	}
 
 }
