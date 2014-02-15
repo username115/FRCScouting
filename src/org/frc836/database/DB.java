@@ -81,6 +81,13 @@ public class DB {
 		return data;
 	}
 
+	public void startSync() {
+		if (binder != null) {
+			binder.setPassword(password);
+			binder.startSync();
+		}
+	}
+
 	public void submitMatch(MatchStatsStruct team1Data,
 			MatchStatsStruct team2Data, MatchStatsStruct team3Data) {
 		synchronized (ScoutingDBHelper.helper) {
@@ -114,14 +121,11 @@ public class DB {
 					}
 				}
 				ScoutingDBHelper.helper.close();
+				
+				startSync();
 
-				if (binder != null) {
-					binder.setPassword(password);
-					binder.startSync();
-				}
 			} catch (Exception e) {
-				String temp = e.getMessage();
-				int i = 1;
+
 			}
 		}
 	}

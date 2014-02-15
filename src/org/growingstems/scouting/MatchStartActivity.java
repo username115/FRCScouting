@@ -16,15 +16,10 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.database.DB;
 import org.frc836.aerialassist.MatchActivity;
 import org.growingstems.scouting.R;
-import org.sigmond.net.AsyncPictureRequest;
-import org.sigmond.net.HttpCallback;
-import org.sigmond.net.HttpRequestInfo;
-import org.sigmond.net.PicCallback;
-import org.sigmond.net.PicRequestInfo;
 
+import org.sigmond.net.PicCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,7 +27,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,8 +39,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class MatchStartActivity extends Activity implements PicCallback {
 
@@ -56,7 +48,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	// private TextView position;
 	private EditText matchNum;
 	private Button startB;
-	//private ImageView robotPic;
+	// private ImageView robotPic;
 
 	private String HELPMESSAGE;
 
@@ -84,11 +76,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		// position = (TextView) findViewById(R.id.startPos);
 		matchNum = (EditText) findViewById(R.id.startMatchNum);
 		startB = (Button) findViewById(R.id.startMatchB);
-		//robotPic = (ImageView) findViewById(R.id.robotPic);
+		// robotPic = (ImageView) findViewById(R.id.robotPic);
 
 		// position.setOnClickListener(new positionClickListener());
 		startB.setOnClickListener(new StartClickListener());
-		//robotPic.setOnClickListener(new PictureClickListener());
+		// robotPic.setOnClickListener(new PictureClickListener());
 
 		matchNum.addTextChangedListener(new matchTextListener());
 		schedule = new MatchSchedule();
@@ -219,49 +211,42 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		 */
 	}
 
-	private class PictureClickListener implements OnClickListener {
-
-		public void onClick(View v) {
-			pd = ProgressDialog.show(MatchStartActivity.this, "Busy",
-					"Retrieving Team Robot Photo", false);
-			pd.setCancelable(true);
-			loadPicture();
-		}
-
-	}
-
-	private void loadPicture() {
-		/*
-		 * DB db = new DB(getApplicationContext());
-		 * db.getPictureURL(teamNum.getText().toString(), new
-		 * PictureURLCallback());
-		 */
-	}
-
-	private class PictureURLCallback implements HttpCallback {
-
-		public void onResponse(HttpRequestInfo resp) {
-			PicRequestInfo info = new PicRequestInfo(resp.getResponseString(),
-					MatchStartActivity.this);
-			AsyncPictureRequest req = new AsyncPictureRequest();
-			req.execute(info);
-		}
-
-		public void onError(Exception e) {
-			if (pd != null)
-				pd.dismiss();
-		}
-
-	}
+	/*
+	 * private class PictureClickListener implements OnClickListener {
+	 * 
+	 * public void onClick(View v) { pd =
+	 * ProgressDialog.show(MatchStartActivity.this, "Busy",
+	 * "Retrieving Team Robot Photo", false); pd.setCancelable(true);
+	 * loadPicture(); }
+	 * 
+	 * }
+	 * 
+	 * private void loadPicture() {
+	 * 
+	 * DB db = new DB(getApplicationContext());
+	 * db.getPictureURL(teamNum.getText().toString(), new PictureURLCallback());
+	 * 
+	 * }
+	 * 
+	 * 
+	 * private class PictureURLCallback implements HttpCallback {
+	 * 
+	 * public void onResponse(HttpRequestInfo resp) { PicRequestInfo info = new
+	 * PicRequestInfo(resp.getResponseString(), MatchStartActivity.this);
+	 * AsyncPictureRequest req = new AsyncPictureRequest(); req.execute(info); }
+	 * 
+	 * public void onError(Exception e) { if (pd != null) pd.dismiss(); }
+	 * 
+	 * }
+	 */
 
 	public void onFinished(Drawable drawable) {
 		if (pd != null)
 			pd.dismiss();
-		/*if (drawable == null) {
-			robotPic.setImageResource(R.drawable.robot);
-		} else {
-			robotPic.setImageDrawable(drawable);
-		}*/
+		/*
+		 * if (drawable == null) { robotPic.setImageResource(R.drawable.robot);
+		 * } else { robotPic.setImageDrawable(drawable); }
+		 */
 	}
 
 	protected Dialog onCreateDialog(int id) {
