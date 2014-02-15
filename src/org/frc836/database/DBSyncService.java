@@ -31,8 +31,11 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.widget.Toast;
 
 public class DBSyncService extends Service {
+	
+	public static final boolean debug = true;
 
 	private static final String FILENAME = "DBtimestamp";
 
@@ -58,7 +61,9 @@ public class DBSyncService extends Service {
 	private static final SimpleDateFormat dateParser = new SimpleDateFormat(
 			"yyyy-MM-ddTHH:mm:ss.sss", Locale.US);
 
+	@Override
 	public void onCreate() {
+		super.onCreate();
 		loadTimestamp();
 		password = "";
 
@@ -73,6 +78,8 @@ public class DBSyncService extends Service {
 		utils = new HttpUtils();
 
 		initialSync();
+		if (debug)
+			Toast.makeText(getApplicationContext(), "Service Started", Toast.LENGTH_SHORT).show();
 	}
 
 	private void loadTimestamp() {
@@ -108,21 +115,22 @@ public class DBSyncService extends Service {
 		return mBinder;
 	}
 
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		mTimerTask.removeCallbacks(dataTask);
 	}
 
 	public class LocalBinder extends Binder {
-		DBSyncService getService() {
+		public DBSyncService getService() {
 			return DBSyncService.this;
 		}
 
-		void setPassword(String pass) {
+		public void setPassword(String pass) {
 			password = pass;
 		}
 
-		void startSync() {
+		public void startSync() {
 			mTimerTask.removeCallbacks(dataTask);
 			mTimerTask.post(dataTask);
 		}
@@ -145,6 +153,9 @@ public class DBSyncService extends Service {
 		@Override
 		protected Integer doInBackground(String... params) {
 			synchronized (ScoutingDBHelper.helper) {
+				
+				if (debug)
+					Toast.makeText(getApplicationContext(), "ProcessDataTask", Toast.LENGTH_SHORT).show();
 
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
@@ -194,7 +205,7 @@ public class DBSyncService extends Service {
 				} catch (JSONException e) {
 					mTimerTask.postDelayed(dataTask, DELAY);
 				}
-				db.close();
+				ScoutingDBHelper.helper.close();
 			}
 			return null;
 		}
@@ -379,7 +390,7 @@ public class DBSyncService extends Service {
 							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
 							selectionArgs);
 				}
-				db.close();
+				ScoutingDBHelper.helper.close();
 			}
 
 			return null;

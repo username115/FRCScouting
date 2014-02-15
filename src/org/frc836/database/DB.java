@@ -88,35 +88,37 @@ public class DB {
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
 				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-						team1Data.getValues(this));
+						team1Data.getValues(this, db));
 				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-						team2Data.getValues(this));
+						team2Data.getValues(this, db));
 				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-						team3Data.getValues(this));
+						team3Data.getValues(this, db));
 
 				MatchStatsAA data;
 				if (team1Data instanceof MatchStatsAA) {
 					data = (MatchStatsAA) team1Data;
-					for (ContentValues cycle : data.getCycles(this)) {
+					for (ContentValues cycle : data.getCycles(this, db)) {
 						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
 					}
 				}
 				if (team2Data instanceof MatchStatsAA) {
 					data = (MatchStatsAA) team2Data;
-					for (ContentValues cycle : data.getCycles(this)) {
+					for (ContentValues cycle : data.getCycles(this, db)) {
 						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
 					}
 				}
 				if (team3Data instanceof MatchStatsAA) {
 					data = (MatchStatsAA) team3Data;
-					for (ContentValues cycle : data.getCycles(this)) {
+					for (ContentValues cycle : data.getCycles(this, db)) {
 						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
 					}
 				}
 				ScoutingDBHelper.helper.close();
 
-				binder.setPassword(password);
-				binder.startSync();
+				if (binder != null) {
+					binder.setPassword(password);
+					binder.startSync();
+				}
 			} catch (Exception e) {
 				String temp = e.getMessage();
 				int i = 1;
@@ -242,9 +244,9 @@ public class DB {
 		 */
 	}
 
-	public long getEventIDFromName(String EventName) {
+	public long getEventIDFromName(String EventName, SQLiteDatabase db) {
 		synchronized (ScoutingDBHelper.helper) {
-			SQLiteDatabase db = ScoutingDBHelper.helper.getReadableDatabase();
+
 			String[] projection = { EVENT_LU_Entry.COLUMN_NAME_ID };
 			String[] where = { EventName };
 			Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the event_lu
@@ -259,7 +261,6 @@ public class DB {
 					null, // don't order
 					"0,1"); // limit to 1
 			c.moveToFirst();
-			db.close();
 			return c.getLong(c
 					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
 		}
@@ -284,23 +285,18 @@ public class DB {
 	private static class ExportCallback {
 		Context context;
 
-		public void finish(int code) {
-			if (code == 0)
-				Toast.makeText(context, "DB Exported", Toast.LENGTH_LONG)
-						.show();
-			else
-				Toast.makeText(context, "Error exporting Database",
-						Toast.LENGTH_LONG).show();
+		public void finish(String result) {
+			Toast.makeText(context, result, Toast.LENGTH_LONG).show();
 		}
 	}
 
 	private static class CSVExporter extends
-			AsyncTask<ExportCallback, Integer, Integer> {
+			AsyncTask<ExportCallback, Integer, String> {
 
 		ExportCallback callback;
 
 		@Override
-		protected Integer doInBackground(ExportCallback... params) {
+		protected String doInBackground(ExportCallback... params) {
 			synchronized (ScoutingDBHelper.helper) {
 				try {
 
@@ -341,15 +337,17 @@ public class DB {
 					FileOutputStream destination = new FileOutputStream(sd);
 					destination.write(match_data.getBytes());
 					destination.close();
-
-					return 0;
+					ScoutingDBHelper.helper.close();
+					return "DB exported to " + sd.getAbsolutePath();
 				} catch (Exception e) {
-					return 1;
+					ScoutingDBHelper.helper.close();
+					return "Error during export";
 				}
+
 			}
 		}
 
-		protected void onPostExecute(Integer result) {
+		protected void onPostExecute(String result) {
 			callback.finish(result);
 		}
 

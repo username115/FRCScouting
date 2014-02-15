@@ -19,6 +19,7 @@ package org.frc836.database;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 public abstract class MatchStatsStruct {
 	
@@ -70,11 +71,11 @@ public abstract class MatchStatsStruct {
 		redCard = false;
 	}
 	
-	public ContentValues getValues(DB db)
+	public ContentValues getValues(DB db, SQLiteDatabase database)
 	{
 		ContentValues args = new ContentValues();
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
-		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event));
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event, database));
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES, notes);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER, tipOver?1:0);

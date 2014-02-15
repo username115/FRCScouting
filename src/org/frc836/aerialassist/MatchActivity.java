@@ -64,7 +64,6 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	private MatchStatsAA team2Data;
 	private MatchStatsAA team3Data;
 
-
 	private ParamList notesOptions;
 
 	private EditText teamText1;
@@ -94,19 +93,20 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	private Spinner team1CommonNotes;
 	private Spinner team2CommonNotes;
 	private Spinner team3CommonNotes;
-	
+
 	private LocalBinder binder;
+
+	private ServiceWatcher watcher = new ServiceWatcher();
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.match);
-		
+
 		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, new ServiceWatcher(), 0);
+		bindService(sync, watcher, 0);
 
 		lastB = (Button) findViewById(R.id.backB);
 		nextB = (Button) findViewById(R.id.nextB);
-
 
 		notesOptions = new ParamList(getApplicationContext(), "notes_options");
 
@@ -226,7 +226,13 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		team3CommonNotes.setAdapter(adapter);
 
 	}
-	
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbindService(watcher);
+	}
+
 	protected class ServiceWatcher implements ServiceConnection {
 
 		public void onServiceConnected(ComponentName name, IBinder service) {

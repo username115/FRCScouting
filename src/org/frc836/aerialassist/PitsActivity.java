@@ -88,6 +88,7 @@ public class PitsActivity extends Activity {
 	private EditText heightT;
 	
 	private LocalBinder binder;
+	private ServiceWatcher watcher = new ServiceWatcher();
 
 	private Handler timer = new Handler();
 	private static final int DELAY = 500;
@@ -103,7 +104,7 @@ public class PitsActivity extends Activity {
 		setContentView(R.layout.pits);
 		
 		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, new ServiceWatcher(), 0);
+		bindService(sync, watcher, 0);
 
 		HELPMESSAGE = "Enter requested information about each team.\n\n"
 				+ "When a team number is entered, the last time that data was collected about this team will be shown.\n"
@@ -150,6 +151,12 @@ public class PitsActivity extends Activity {
 			timer.removeCallbacks(task);
 		}
 		tasks.clear();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbindService(watcher);
 	}
 	
 	protected class ServiceWatcher implements ServiceConnection {

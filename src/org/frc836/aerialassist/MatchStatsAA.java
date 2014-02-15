@@ -25,6 +25,7 @@ import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.SparseArray;
 
 public class MatchStatsAA extends MatchStatsStruct {
@@ -65,8 +66,8 @@ public class MatchStatsAA extends MatchStatsStruct {
 		cycles = new SparseArray<MatchStatsAA.CycleStatsStruct>();
 	}
 
-	public ContentValues getValues(DB db) {
-		ContentValues vals = super.getValues(db);
+	public ContentValues getValues(DB db, SQLiteDatabase database) {
+		ContentValues vals = super.getValues(db, database);
 
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH, auto_high);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT, auto_high_hot);
@@ -80,11 +81,11 @@ public class MatchStatsAA extends MatchStatsStruct {
 		return vals;
 	}
 
-	public List<ContentValues> getCycles(DB db) {
+	public List<ContentValues> getCycles(DB db, SQLiteDatabase database) {
 		List<ContentValues> vals = new ArrayList<ContentValues>(cycles.size());
 
 		for (int i = 0; i < cycles.size(); i++) {
-			vals.add(cycles.valueAt(i).getValues(db));
+			vals.add(cycles.valueAt(i).getValues(db, database));
 		}
 
 		return vals;
@@ -101,10 +102,10 @@ public class MatchStatsAA extends MatchStatsStruct {
 		public boolean low;
 		public int assists;
 
-		public ContentValues getValues(DB db) {
+		public ContentValues getValues(DB db, SQLiteDatabase database) {
 			ContentValues vals = new ContentValues();
 
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event));
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event, database));
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM, cycle_number);
