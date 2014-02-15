@@ -34,12 +34,12 @@ import android.os.IBinder;
 import android.widget.Toast;
 
 public class DBSyncService extends Service {
-	
+
 	public static final boolean debug = true;
 
 	private static final String FILENAME = "DBtimestamp";
 
-	private IBinder mBinder = new LocalBinder();
+	private final IBinder mBinder = new LocalBinder();
 
 	private HttpUtils utils;
 
@@ -52,14 +52,13 @@ public class DBSyncService extends Service {
 
 	private List<Map<String, String>> outgoing;
 
-	private enum Actions {
+	private static enum Actions {
 		NOTHING, INSERT, UPDATE, DELETE
 	};
 
 	private static final int DELAY = 60000;
 
-	private static final SimpleDateFormat dateParser = new SimpleDateFormat(
-			"yyyy-MM-ddTHH:mm:ss.sss", Locale.US);
+	private static final SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss", Locale.US);
 
 	@Override
 	public void onCreate() {
@@ -79,7 +78,8 @@ public class DBSyncService extends Service {
 
 		initialSync();
 		if (debug)
-			Toast.makeText(getApplicationContext(), "Service Started", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Service Started",
+					Toast.LENGTH_SHORT).show();
 	}
 
 	private void loadTimestamp() {
@@ -153,9 +153,10 @@ public class DBSyncService extends Service {
 		@Override
 		protected Integer doInBackground(String... params) {
 			synchronized (ScoutingDBHelper.helper) {
-				
+
 				if (debug)
-					Toast.makeText(getApplicationContext(), "ProcessDataTask", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "ProcessDataTask",
+							Toast.LENGTH_SHORT).show();
 
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();

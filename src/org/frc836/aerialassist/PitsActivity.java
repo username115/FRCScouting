@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.FRCScoutingContract;
@@ -35,6 +34,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -70,7 +70,7 @@ public class PitsActivity extends Activity {
 	private Spinner drivetrainS;
 	private Spinner wheeltypeS;
 	// private Spinner cgS;
-	
+
 	private CheckBox auto_highC;
 	private CheckBox auto_lowC;
 	private CheckBox auto_hotC;
@@ -86,7 +86,7 @@ public class PitsActivity extends Activity {
 	private Button submitB;
 	private TextView teamInfoT;
 	private EditText heightT;
-	
+
 	private LocalBinder binder;
 	private ServiceWatcher watcher = new ServiceWatcher();
 
@@ -102,9 +102,9 @@ public class PitsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pits);
-		
+
 		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, 0);
+		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
 
 		HELPMESSAGE = "Enter requested information about each team.\n\n"
 				+ "When a team number is entered, the last time that data was collected about this team will be shown.\n"
@@ -117,7 +117,7 @@ public class PitsActivity extends Activity {
 		drivetrainS = (Spinner) findViewById(R.id.pits_drivetrainS);
 		wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
 		// cgS = (Spinner) findViewById(R.id.pits_cgS);
-		
+
 		auto_highC = (CheckBox) findViewById(R.id.pits_auto_highC);
 		auto_lowC = (CheckBox) findViewById(R.id.pits_auto_lowC);
 		auto_hotC = (CheckBox) findViewById(R.id.pits_auto_hotC);
@@ -128,7 +128,7 @@ public class PitsActivity extends Activity {
 		catchC = (CheckBox) findViewById(R.id.pits_catchC);
 		score_highC = (CheckBox) findViewById(R.id.pits_highC);
 		score_lowC = (CheckBox) findViewById(R.id.pits_lowC);
-		
+
 		// weightT = (EditText) findViewById(R.id.pits_weightT);
 		commentsT = (EditText) findViewById(R.id.pits_commentsT);
 		submitB = (Button) findViewById(R.id.pits_submitB);
@@ -152,13 +152,13 @@ public class PitsActivity extends Activity {
 		}
 		tasks.clear();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		unbindService(watcher);
 	}
-	
+
 	protected class ServiceWatcher implements ServiceConnection {
 
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -238,7 +238,7 @@ public class PitsActivity extends Activity {
 		}
 
 	}
-	
+
 	protected void submit() {
 		// TODO add options for "Other"
 		stats.auto_score_high = auto_highC.isChecked();
@@ -265,57 +265,11 @@ public class PitsActivity extends Activity {
 		else
 			stats.height = 0;
 
-		pd = ProgressDialog.show(this, "Busy", "Submitting", false);
-		pd.setCancelable(true);
-
-		submitter.submitPits(stats, new PitsCallback());
-		submitB.setEnabled(false);
-
-	}
-
-	private class PitsCallback implements HttpCallback {
-
-		public void onResponse(HttpRequestInfo resp) {
-			pd.dismiss();
-
-			String r = resp.getResponseString();
-
-			if (r.contains("success")) {
-				Toast toast = Toast.makeText(getBaseContext(),
-						"Submitted Successfully", Toast.LENGTH_SHORT);
-				toast.show();
-				clear();
-			} else if (resp.getResponse().getStatusLine().toString()
-					.contains("403")) {
-				Toast toast = Toast.makeText(getApplicationContext(),
-						"Authentication Error.", Toast.LENGTH_SHORT);
-				toast.show();
-			} else if (r.contains("Failed") || r.contains("invalid")) {
-				Toast toast = Toast.makeText(getApplicationContext(), r.trim(),
-						Toast.LENGTH_SHORT);
-				toast.show();
-			} else {
-				Toast toast = Toast.makeText(getApplicationContext(), resp
-						.getResponse().getStatusLine().toString(),
-						Toast.LENGTH_SHORT);
-				toast.show();
-			}
-
-			submitB.setEnabled(true);
-
-		}
-
-		public void onError(Exception e) {
-			pd.dismiss();
-			Toast toast = Toast
-					.makeText(
-							getBaseContext(),
-							"Error Submitting Data.\nEnsure you have internet connectivity",
-							Toast.LENGTH_SHORT);
-			toast.show();
-			submitB.setEnabled(true);
-
-		}
+		if (submitter.submitPits(stats))
+			clear();
+		else
+			Toast.makeText(getApplicationContext(), "Error in local database", Toast.LENGTH_LONG).show();
+		
 
 	}
 
@@ -323,8 +277,7 @@ public class PitsActivity extends Activity {
 		teamT.setText("");
 		clearData();
 	}
-	
-	
+
 	protected void clearData() {
 		// TODO add options for "Other"
 		teamInfoT.setText("");
@@ -377,52 +330,24 @@ public class PitsActivity extends Activity {
 	}
 
 	private void setTeam(int teamNum) {
-		submitter.getTeamPitInfo(String.valueOf(teamNum), new teamNumCallback(
-				teamNum));
-	}
-
-	private class teamNumCallback implements HttpCallback {
-
-		int team;
-
-		public teamNumCallback(int teamNum) {
-			team = teamNum;
-		}
-
-		public void onResponse(HttpRequestInfo resp) {
-			if (resp.getResponse().getStatusLine().toString().contains("200")) {
-				try {
-					String r = resp.getResponseString();
-					if (!r.contains("no info") && !(r.trim().length() == 0)) {
-						teamInfoT.setText("Last Updated: " + r.trim());
-						getTeamStats(team);
-					} else {
-						teamInfoT.setText("");
-						clearData();
-					}
-				} catch (Exception e) {
-					teamInfoT.setText("");
-					clearData();
-				}
-			} else {
-				teamInfoT.setText("");
-				clearData();
-			}
-		}
-
-		public void onError(Exception e) {
+		String date = submitter.getTeamPitInfo(String.valueOf(teamNum));
+		if (date.length() > 0) {
+			teamInfoT.setText("Last Updated: " + date.trim());
+			getTeamStats(teamNum);
+		} else {
 			teamInfoT.setText("");
 			clearData();
 		}
-
 	}
+
 
 	private class TeamNumTask implements Runnable {
 
 		int teamNum;
 
 		public void run() {
-			if (teamT.getText().length() > 0 && Integer.valueOf(teamT.getText().toString()) == teamNum) {
+			if (teamT.getText().length() > 0
+					&& Integer.valueOf(teamT.getText().toString()) == teamNum) {
 				setTeam(teamNum);
 			}
 		}
@@ -488,18 +413,43 @@ public class PitsActivity extends Activity {
 		index = ((ArrayAdapter) wheeltypeS.getAdapter()).getPosition(row
 				.get("wheel_type_id"));
 		wheeltypeS.setSelection(index);
-		auto_highC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH).compareTo("1") == 0);
-		auto_lowC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW).compareTo("1") == 0);
-		auto_hotC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT).compareTo("1") == 0);
-		auto_mobileC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE).compareTo("1") == 0);
-		trussC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS).compareTo("1") == 0);
-		launchC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL).compareTo("1") == 0);
-		active_controlC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL).compareTo("1") == 0);
-		catchC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH).compareTo("1") == 0);
-		score_highC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH).compareTo("1") == 0);
-		score_lowC.setChecked(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW).compareTo("1") == 0);
+		auto_highC.setChecked(row.get(
+				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH)
+				.compareTo("1") == 0);
+		auto_lowC.setChecked(row.get(
+				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW)
+				.compareTo("1") == 0);
+		auto_hotC.setChecked(row.get(
+				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT)
+				.compareTo("1") == 0);
+		auto_mobileC
+				.setChecked(row
+						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE)
+						.compareTo("1") == 0);
+		trussC.setChecked(row.get(
+				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS)
+				.compareTo("1") == 0);
+		launchC.setChecked(row
+				.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL)
+				.compareTo("1") == 0);
+		active_controlC
+				.setChecked(row
+						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL)
+						.compareTo("1") == 0);
+		catchC.setChecked(row.get(
+				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH)
+				.compareTo("1") == 0);
+		score_highC
+				.setChecked(row
+						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH)
+						.compareTo("1") == 0);
+		score_lowC.setChecked(row.get(
+				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW)
+				.compareTo("1") == 0);
 		heightT.setText(row.get("max_height"));
-		commentsT.setText(row.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS));
+		commentsT
+				.setText(row
+						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS));
 	}
 
 }

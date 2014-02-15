@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -83,9 +84,11 @@ public class DashboardActivity extends Activity {
 		data = (Button) findViewById(R.id.dataB);
 		beeLogo = (ImageView) findViewById(R.id.beeLogo);
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
+		
 
-		Intent intent = new Intent(this, DBSyncService.class);
-		bindService(intent, watcher, 0);
+		Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
+		//intent.setPackage("org.frc836.database");
+		bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
 		match.setOnClickListener(new OnClickListener() {
 
@@ -143,6 +146,10 @@ public class DashboardActivity extends Activity {
 			showDialog(URL_DIALOG);
 		}
 
+	}
+	
+	protected void onStart() {
+		super.onStart();
 	}
 
 	@Override

@@ -30,6 +30,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -103,7 +104,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		setContentView(R.layout.match);
 
 		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, 0);
+		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
 
 		lastB = (Button) findViewById(R.id.backB);
 		nextB = (Button) findViewById(R.id.nextB);
