@@ -26,6 +26,7 @@ import org.frc836.database.DBSyncService.LocalBinder;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
 import org.frc836.ultimateascent.*;
 import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
@@ -88,7 +89,7 @@ public class DB {
 		}
 	}
 
-	public void submitMatch(MatchStatsStruct team1Data,
+	public boolean submitMatch(MatchStatsStruct team1Data,
 			MatchStatsStruct team2Data, MatchStatsStruct team3Data) {
 		synchronized (ScoutingDBHelper.helper) {
 			try {
@@ -121,23 +122,34 @@ public class DB {
 					}
 				}
 				ScoutingDBHelper.helper.close();
-				
+
 				startSync();
 
-			} catch (Exception e) {
+				return true;
 
+			} catch (Exception e) {
+				return false;
 			}
 		}
 	}
 
-	public void submitPits(PitStats stats, HttpCallback callback) {
-		// TODO
-		/*
-		 * Map<String, String> args = stats.getPost(); args.put("type", "pits");
-		 * args.put("password", password);
-		 * 
-		 * utils.doPost(Prefs.getScoutingURL(context), args, callback);
-		 */
+	public boolean submitPits(PitStats stats) {
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getWritableDatabase();
+
+				db.insert(FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
+						null, stats.getValues(this));
+				ScoutingDBHelper.helper.close();
+
+				startSync();
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
 	}
 
 	public void setPass(String pass) {
@@ -158,14 +170,42 @@ public class DB {
 		utils.doPost(Prefs.getScoutingURL(context), args, callback);
 	}
 
-	public void getTeamPitInfo(String teamNum, HttpCallback callback) {
-		// TODO
-		/*
-		 * Map<String, String> args = new HashMap<String, String>();
-		 * args.put("team_id", teamNum); args.put("type", "pitInfo");
-		 * args.put("password", password);
-		 * utils.doPost(Prefs.getScoutingURL(context), args, callback);
-		 */
+	public String getTeamPitInfo(String teamNum) {
+
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP };
+				String[] where = { teamNum };
+				Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, // from the
+																		// scout_pit_data
+						// table
+						projection, // select
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?", // where
+																			// team_id
+																			// ==
+						where, // teamNum
+						null, // don't group
+						null, // don't filter
+						null, // don't order
+						"0,1"); // limit to 1
+				c.moveToFirst();
+
+				String date = c
+						.getString(c
+								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP));
+
+				ScoutingDBHelper.helper.close();
+
+				return date;
+
+			} catch (Exception e) {
+				return "";
+			}
+		}
 	}
 
 	public void getEventList(HttpCallback callback) {
@@ -229,6 +269,17 @@ public class DB {
 	 */
 
 	public void getTeamPitStats(int teamId, HttpCallback callback) {
+
+		synchronized (ScoutingDBHelper.helper) {
+
+			try {
+
+			} catch (Exception e) {
+				//return null;
+			}
+
+		}
+
 		// TODO
 		/*
 		 * Map<String, String> args = new HashMap<String, String>();
