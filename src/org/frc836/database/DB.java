@@ -22,11 +22,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.frc836.aerialassist.MatchStatsAA;
+import org.frc836.aerialassist.PitStatsAA;
 import org.frc836.database.DBSyncService.LocalBinder;
+import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
+import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
 import org.frc836.ultimateascent.*;
 import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
@@ -141,7 +145,7 @@ public class DB {
 						.getWritableDatabase();
 
 				db.insert(FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
-						null, stats.getValues(this));
+						null, stats.getValues(this, db));
 				ScoutingDBHelper.helper.close();
 
 				startSync();
@@ -268,25 +272,59 @@ public class DB {
 	 * utils.doPost(Prefs.getScoutingURL(context), args, callback); }
 	 */
 
-	public void getTeamPitStats(int teamId, HttpCallback callback) {
+	public PitStats getTeamPitStats(int teamNum) {
 
 		synchronized (ScoutingDBHelper.helper) {
 
 			try {
+				PitStatsAA stats = new PitStatsAA();
 
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = {
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_MAX_HEIGHT,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS };
+				String[] where = { String.valueOf(teamNum) };
+				Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, // from the
+																		// scout_pit_data
+						// table
+						projection, // select
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?", // where
+																			// team_id
+																			// ==
+						where, // teamNum
+						null, // don't group
+						null, // don't filter
+						null, // don't order
+						"0,1"); // limit to 1
+
+				stats.fromCursor(c, this, db);
+
+				ScoutingDBHelper.helper.close();
+
+				return stats;
 			} catch (Exception e) {
-				//return null;
+				return null;
 			}
 
 		}
-
-		// TODO
-		/*
-		 * Map<String, String> args = new HashMap<String, String>();
-		 * args.put("type", "teamStats"); args.put("password", password);
-		 * args.put("team_id", String.valueOf(teamId));
-		 * utils.doPost(Prefs.getScoutingURL(context), args, callback);
-		 */
 	}
 
 	public void getParamsPass(String table, HttpCallback callback) {
@@ -299,26 +337,118 @@ public class DB {
 		 */
 	}
 
-	public long getEventIDFromName(String EventName, SQLiteDatabase db) {
-		synchronized (ScoutingDBHelper.helper) {
+	public long getEventIDFromName(String eventName, SQLiteDatabase db) {
 
-			String[] projection = { EVENT_LU_Entry.COLUMN_NAME_ID };
-			String[] where = { EventName };
-			Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the event_lu
-															// table
-					projection, // select
-					EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME + "=?", // where
+		String[] projection = { EVENT_LU_Entry.COLUMN_NAME_ID };
+		String[] where = { eventName };
+		Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the event_lu
+														// table
+				projection, // select
+				EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME + " LIKE ?", // where
 																	// event_name
 																	// ==
-					where, // EventName
-					null, // don't group
-					null, // don't filter
-					null, // don't order
-					"0,1"); // limit to 1
-			c.moveToFirst();
-			return c.getLong(c
-					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
-		}
+				where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getLong(c.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
+	}
+
+	public long getConfigIDFromName(String config, SQLiteDatabase db) {
+
+		String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_ID };
+		String[] where = { config };
+		Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection, // select
+				CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC
+						+ "LIKE ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getLong(c
+				.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_ID));
+	}
+
+	public long getWheelBaseIDFromName(String base, SQLiteDatabase db) {
+
+		String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_ID };
+		String[] where = { base };
+		Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME,
+				projection, // select
+				WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC + "LIKE ?",
+				where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getLong(c
+				.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID));
+	}
+
+	public long getWheelTypeIDFromName(String type, SQLiteDatabase db) {
+
+		String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID };
+		String[] where = { type };
+		Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME,
+				projection, // select
+				WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC + "LIKE ?",
+				where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getLong(c
+				.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID));
+	}
+
+	public String getConfigNameFromID(int config, SQLiteDatabase db) {
+
+		String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
+		String[] where = { String.valueOf(config) };
+		Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection, // select
+				CONFIGURATION_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getString(c
+				.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
+	}
+
+	public String getWheelBaseNameFromID(int base, SQLiteDatabase db) {
+
+		String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
+		String[] where = { String.valueOf(base) };
+		Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME, projection, // select
+				WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getString(c
+				.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
+	}
+
+	public String getWheelTypeNameFromID(int type, SQLiteDatabase db) {
+
+		String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
+		String[] where = { String.valueOf(type) };
+		Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME, projection, // select
+				WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + "LIKE ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		c.moveToFirst();
+		return c.getString(c
+				.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
 	}
 
 	public static void exportToCSV(Context context) {
@@ -360,7 +490,7 @@ public class DB {
 
 					callback = params[0];
 
-					String match_data = "";
+					String match_data = "", cycle_data = "", pit_data = "";
 
 					Cursor c;
 
@@ -385,12 +515,59 @@ public class DB {
 							match_data += "\n";
 						} while (c.moveToNext());
 
-					File sd = new File(
-							Environment
-									.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-							"matches.csv");
-					FileOutputStream destination = new FileOutputStream(sd);
+					c = db.rawQuery(
+							"SELECT * FROM "
+									+ FRCScoutingContract.FACT_CYCLE_DATA_Entry.TABLE_NAME,
+							null);
+					for (int i = 0; i < c.getColumnCount(); i++) {
+						if (i > 0)
+							cycle_data += ",";
+						cycle_data += c.getColumnName(i);
+					}
+					cycle_data += "\n";
+					if (c.moveToFirst())
+						do {
+							for (int j = 0; j < c.getColumnCount(); j++) {
+								if (j > 0)
+									cycle_data += ",";
+								cycle_data += c.getString(j);
+							}
+							cycle_data += "\n";
+						} while (c.moveToNext());
+
+					c = db.rawQuery(
+							"SELECT * FROM "
+									+ FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
+							null);
+					for (int i = 0; i < c.getColumnCount(); i++) {
+						if (i > 0)
+							pit_data += ",";
+						pit_data += c.getColumnName(i);
+					}
+					pit_data += "\n";
+					if (c.moveToFirst())
+						do {
+							for (int j = 0; j < c.getColumnCount(); j++) {
+								if (j > 0)
+									pit_data += ",";
+								pit_data += c.getString(j);
+							}
+							pit_data += "\n";
+						} while (c.moveToNext());
+
+					File sd = Environment
+							.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+					File match = new File(sd, "matches.csv");
+					File cycle = new File(sd, "cycles.csv");
+					File pits = new File(sd, "pits.csv");
+					FileOutputStream destination = new FileOutputStream(match);
 					destination.write(match_data.getBytes());
+					destination.close();
+					destination = new FileOutputStream(cycle);
+					destination.write(cycle_data.getBytes());
+					destination.close();
+					destination = new FileOutputStream(pits);
+					destination.write(pit_data.getBytes());
 					destination.close();
 					ScoutingDBHelper.helper.close();
 					return "DB exported to " + sd.getAbsolutePath();
@@ -398,7 +575,6 @@ public class DB {
 					ScoutingDBHelper.helper.close();
 					return "Error during export";
 				}
-
 			}
 		}
 

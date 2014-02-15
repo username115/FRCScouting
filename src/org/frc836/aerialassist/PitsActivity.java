@@ -18,16 +18,12 @@ package org.frc836.aerialassist;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
-import org.frc836.database.FRCScoutingContract;
-import org.frc836.database.XMLDBParser;
+import org.frc836.database.PitStats;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.*;
-import org.sigmond.net.HttpCallback;
-import org.sigmond.net.HttpRequestInfo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -268,8 +264,8 @@ public class PitsActivity extends Activity {
 		if (submitter.submitPits(stats))
 			clear();
 		else
-			Toast.makeText(getApplicationContext(), "Error in local database", Toast.LENGTH_LONG).show();
-		
+			Toast.makeText(getApplicationContext(), "Error in local database",
+					Toast.LENGTH_LONG).show();
 
 	}
 
@@ -340,7 +336,6 @@ public class PitsActivity extends Activity {
 		}
 	}
 
-
 	private class TeamNumTask implements Runnable {
 
 		int teamNum;
@@ -357,99 +352,38 @@ public class PitsActivity extends Activity {
 		pd = ProgressDialog.show(this, "Busy", "Retrieving Team Pit Data",
 				false);
 		pd.setCancelable(false);
-		submitter.getTeamPitStats(teamNum, new TeamPitStatsCallback());
-	}
+		PitStats s = submitter.getTeamPitStats(teamNum);
+		if (s instanceof PitStatsAA)
+			stats = (PitStatsAA) s;
+		else
+			return;
 
-	private class TeamPitStatsCallback implements HttpCallback {
-
-		public void onResponse(HttpRequestInfo resp) {
-			try {
-				String XML = resp.getResponseString();
-				String[] split = XML.split("\\<\\/result\\>");
-				String pits = "";
-				for (int i = 0; i < split.length; i++) {
-					if (split[i].trim().length() > 0) {
-						split[i] = (split[i] + "</result>\n").trim();
-						int j = split[i].indexOf("<result");
-						j = split[i].indexOf("table", j + 1);
-						j = split[i].indexOf("=", j + 1);
-						j = split[i].indexOf("\"", j + 1);
-						int k = split[i].indexOf("\"", j + 1);
-						String table = split[i].substring(j + 1, k);
-
-						if (table.trim().compareToIgnoreCase("scout_pit_data") == 0) {
-							pits = split[i];
-							if (i > 0)
-								pits = "<?xml version=\"1.0\"?>\n" + pits;
-							break;
-						}
-					}
-				}
-
-				List<Map<String, String>> rows = XMLDBParser.extractRows(null,
-						null, pits);
-				if (rows.size() > 0) {
-					populateData(rows.get(0));
-				}
-			} catch (Exception e) {
-				onError(e);
-			}
-			pd.dismiss();
-		}
-
-		public void onError(Exception e) {
-			pd.dismiss();
-		}
+		populateData(stats);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void populateData(Map<String, String> row) {
-		int index = ((ArrayAdapter) configS.getAdapter()).getPosition(row
-				.get("configuration_id"));
+	public void populateData(PitStatsAA stats) {
+		int index = ((ArrayAdapter) configS.getAdapter())
+				.getPosition(stats.chassis_config);
 		configS.setSelection(index);
-		index = ((ArrayAdapter) drivetrainS.getAdapter()).getPosition(row
-				.get("wheel_base_id"));
+		index = ((ArrayAdapter) drivetrainS.getAdapter())
+				.getPosition(stats.wheel_base);
 		drivetrainS.setSelection(index);
-		index = ((ArrayAdapter) wheeltypeS.getAdapter()).getPosition(row
-				.get("wheel_type_id"));
+		index = ((ArrayAdapter) wheeltypeS.getAdapter())
+				.getPosition(stats.wheel_type);
 		wheeltypeS.setSelection(index);
-		auto_highC.setChecked(row.get(
-				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH)
-				.compareTo("1") == 0);
-		auto_lowC.setChecked(row.get(
-				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW)
-				.compareTo("1") == 0);
-		auto_hotC.setChecked(row.get(
-				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT)
-				.compareTo("1") == 0);
-		auto_mobileC
-				.setChecked(row
-						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE)
-						.compareTo("1") == 0);
-		trussC.setChecked(row.get(
-				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS)
-				.compareTo("1") == 0);
-		launchC.setChecked(row
-				.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL)
-				.compareTo("1") == 0);
-		active_controlC
-				.setChecked(row
-						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL)
-						.compareTo("1") == 0);
-		catchC.setChecked(row.get(
-				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH)
-				.compareTo("1") == 0);
-		score_highC
-				.setChecked(row
-						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH)
-						.compareTo("1") == 0);
-		score_lowC.setChecked(row.get(
-				FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW)
-				.compareTo("1") == 0);
-		heightT.setText(row.get("max_height"));
-		commentsT
-				.setText(row
-						.get(FRCScoutingContract.SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS));
+		auto_highC.setChecked(stats.auto_score_high);
+		auto_lowC.setChecked(stats.auto_score_low);
+		auto_hotC.setChecked(stats.auto_score_hot);
+		auto_mobileC.setChecked(stats.auto_score_mobile);
+		trussC.setChecked(stats.truss);
+		launchC.setChecked(stats.launch);
+		active_controlC.setChecked(stats.active_control);
+		catchC.setChecked(stats.catchBall);
+		score_highC.setChecked(stats.score_high);
+		score_lowC.setChecked(stats.score_low);
+		heightT.setText(String.valueOf(stats.height));
+		commentsT.setText(stats.comments);
 	}
 
 }

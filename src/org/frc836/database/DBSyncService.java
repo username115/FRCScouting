@@ -58,7 +58,8 @@ public class DBSyncService extends Service {
 
 	private static final int DELAY = 60000;
 
-	private static final SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss", Locale.US);
+	private static final SimpleDateFormat dateParser = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss.sss", Locale.US);
 
 	@Override
 	public void onCreate() {
@@ -154,10 +155,6 @@ public class DBSyncService extends Service {
 		protected Integer doInBackground(String... params) {
 			synchronized (ScoutingDBHelper.helper) {
 
-				if (debug)
-					Toast.makeText(getApplicationContext(), "ProcessDataTask",
-							Toast.LENGTH_SHORT).show();
-
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
 				try {
@@ -183,8 +180,8 @@ public class DBSyncService extends Service {
 							json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME),
 							db);
 
-					processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
-							db);
+					// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
+					// db);
 
 					processPits(
 							json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME),
@@ -203,8 +200,9 @@ public class DBSyncService extends Service {
 					sendMatches(db);
 					sendPits(db);
 
-				} catch (JSONException e) {
-					mTimerTask.postDelayed(dataTask, DELAY);
+				} catch (Exception e) {
+					int i = 1;
+					// mTimerTask.postDelayed(dataTask, DELAY);
 				}
 				ScoutingDBHelper.helper.close();
 			}
@@ -219,6 +217,8 @@ public class DBSyncService extends Service {
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
+				else
+					mTimerTask.postDelayed(dataTask, DELAY);
 			}
 
 		}
@@ -228,6 +228,9 @@ public class DBSyncService extends Service {
 	private class SyncCallback implements HttpCallback {
 
 		public void onResponse(HttpRequestInfo resp) {
+			if (debug)
+				Toast.makeText(getApplicationContext(), "response to sync req",
+						Toast.LENGTH_SHORT).show();
 			ProcessData dataProc = new ProcessData();
 			dataProc.execute(resp.getResponseString());
 		}
@@ -258,80 +261,75 @@ public class DBSyncService extends Service {
 		protected Integer doInBackground(HttpRequestInfo... params) {
 
 			int match = -1, event = -1, team = -1, cycle = -1;
-			HttpParams sent = params[0].getRequest().getParams();
+			Map<String, String> sent = params[0].getParams();
 			synchronized (outgoing) {
 				for (int i = 0; i < outgoing.size(); i++) {
 					Map<String, String> args = outgoing.get(i);
 
-					if (sent.getParameter("type").toString()
-							.equalsIgnoreCase("match")
-							&& sent.getParameter(
+					if (sent.get("type").equalsIgnoreCase("match")
+							&& sent.get(
 									FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID))
-							&& sent.getParameter(
+							&& sent.get(
 									FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID))
-							&& sent.getParameter(
+							&& sent.get(
 									FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID))) {
 
-						match = sent.getIntParameter(
-								FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID, -1);
-						event = sent.getIntParameter(
-								FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, -1);
-						team = sent.getIntParameter(
-								FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, -1);
+						match = Integer
+								.valueOf(sent
+										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID));
+						event = Integer
+								.valueOf(sent
+										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID));
+						team = Integer
+								.valueOf(sent
+										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID));
 						outgoing.remove(i);
 						break;
-					} else if (sent.getParameter("type").toString()
-							.equalsIgnoreCase("cycle")
-							&& sent.getParameter(
+					} else if (sent.get("type").equalsIgnoreCase("cycle")
+							&& sent.get(
 									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID))
-							&& sent.getParameter(
+							&& sent.get(
 									FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID))
-							&& sent.getParameter(
+							&& sent.get(
 									FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID))
-							&& sent.getParameter(
+							&& sent.get(
 									FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM)
-									.toString()
 									.equalsIgnoreCase(
 											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM))) {
-						match = sent.getIntParameter(
-								FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID, -1);
-						event = sent.getIntParameter(
-								FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, -1);
-						team = sent.getIntParameter(
-								FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID, -1);
-						cycle = sent
-								.getIntParameter(
-										FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
-										-1);
+						match = Integer
+								.valueOf(sent
+										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID));
+						event = Integer
+								.valueOf(sent
+										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID));
+						team = Integer
+								.valueOf(sent
+										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID));
+						cycle = Integer
+								.valueOf(sent
+										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM));
 						outgoing.remove(i);
 						break;
-					} else if (sent.getParameter("type").toString()
-							.equalsIgnoreCase("pits")
-							&& sent.getParameter(
+					} else if (sent.get("type").equalsIgnoreCase("pits")
+							&& sent.get(
 									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID)
-									.toString()
+
 									.equalsIgnoreCase(
 											args.get(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID))) {
-						team = sent.getIntParameter(
-								SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, -1);
+						team = Integer.valueOf(sent
+								.get(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID));
 						outgoing.remove(i);
 						break;
 					}
@@ -345,9 +343,10 @@ public class DBSyncService extends Service {
 				ContentValues values = new ContentValues();
 				if (cycle > 0) { // cycle was updated
 					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID,
-							Integer.valueOf(r[0]));
+							Integer.valueOf(r[0].trim()));
 					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-							dateParser.format(new Date(Long.valueOf(r[1]))));
+							dateParser.format(new Date(
+									Long.valueOf(r[1].trim()) * 1000)));
 
 					String[] selectionArgs = { String.valueOf(event),
 							String.valueOf(match), String.valueOf(team),
@@ -365,9 +364,10 @@ public class DBSyncService extends Service {
 									+ "=?", selectionArgs);
 				} else if (match > 0) { // match was updated
 					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
-							Integer.valueOf(r[0]));
+							Integer.valueOf(r[0].trim()));
 					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-							dateParser.format(new Date(Long.valueOf(r[1]))));
+							dateParser.format(new Date(
+									Long.valueOf(r[1].trim()) * 1000)));
 
 					String[] selectionArgs = { String.valueOf(event),
 							String.valueOf(match), String.valueOf(team) };
@@ -382,9 +382,10 @@ public class DBSyncService extends Service {
 									+ "=?", selectionArgs);
 				} else if (team > 0) { // pits were updated
 					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
-							Integer.valueOf(r[0]));
+							Integer.valueOf(r[0].trim()));
 					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-							dateParser.format(new Date(Long.valueOf(r[1]))));
+							dateParser.format(new Date(
+									Long.valueOf(r[1].trim()) * 1000)));
 
 					String[] selectionArgs = { String.valueOf(team) };
 					db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, values,
@@ -444,7 +445,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
@@ -506,8 +507,8 @@ public class DBSyncService extends Service {
 						row.getString(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
 				vals.put(
 						EVENT_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(row
-								.getLong(EVENT_LU_Entry.COLUMN_NAME_TIMESTAMP))));
+						dateParser.format(new Date(
+								row.getLong(EVENT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME };
@@ -585,7 +586,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID };
@@ -598,9 +599,9 @@ public class DBSyncService extends Service {
 						projection, // select
 						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
 								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND"
+								+ "=? AND "
 								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-								+ "=? AND"
+								+ "=? AND "
 								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
 								+ "=?", where, null, // don't
 						// group
@@ -617,13 +618,13 @@ public class DBSyncService extends Service {
 					id = c.getInt(c
 							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
 
-				where[0] = String.valueOf(id);
+				String[] where2 = { String.valueOf(id) };
 
 				switch (action) {
 				case UPDATE:
 					db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, vals,
 							FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where);
+							where2);
 					break;
 				case INSERT:
 					db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, vals);
@@ -631,7 +632,7 @@ public class DBSyncService extends Service {
 				case DELETE:
 					db.delete(FACT_CYCLE_DATA_Entry.TABLE_NAME,
 							FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where);
+							where2);
 					break;
 				default:
 				}
@@ -689,7 +690,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { FACT_MATCH_DATA_Entry.COLUMN_NAME_ID };
@@ -701,7 +702,7 @@ public class DBSyncService extends Service {
 						projection, // select
 						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
 								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND"
+								+ "=? AND "
 								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
 								+ "=?", where, null, // don't
 						// group
@@ -718,13 +719,13 @@ public class DBSyncService extends Service {
 					id = c.getInt(c
 							.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
 
-				where[0] = String.valueOf(id);
+				String[] where2 = { String.valueOf(id) };
 
 				switch (action) {
 				case UPDATE:
 					db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, vals,
 							FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where);
+							where2);
 					break;
 				case INSERT:
 					db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null, vals);
@@ -732,7 +733,7 @@ public class DBSyncService extends Service {
 				case DELETE:
 					db.delete(FACT_MATCH_DATA_Entry.TABLE_NAME,
 							FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where);
+							where2);
 					break;
 				default:
 				}
@@ -759,7 +760,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						NOTES_OPTIONS_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(NOTES_OPTIONS_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(NOTES_OPTIONS_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT };
@@ -816,8 +817,8 @@ public class DBSyncService extends Service {
 						row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO));
 				vals.put(
 						ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(row
-								.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP))));
+						dateParser.format(new Date(
+								row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO };
@@ -911,7 +912,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID };
@@ -972,7 +973,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
@@ -1029,7 +1030,7 @@ public class DBSyncService extends Service {
 				vals.put(
 						WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP,
 						dateParser.format(new Date(
-								row.getLong(WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP))));
+								row.getLong(WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
 				String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
@@ -1095,17 +1096,17 @@ public class DBSyncService extends Service {
 
 		synchronized (outgoing) {
 
-			c.moveToFirst();
-			do {
-				Map<String, String> args = new HashMap<String, String>();
-				args.put("password", password);
-				args.put("type", "match");
-				for (int i = 0; i < matchProjection.length; i++) {
-					args.put(matchProjection[i],
-							c.getString(c.getColumnIndex(matchProjection[i])));
-				}
-				outgoing.add(args);
-			} while (c.moveToNext());
+			if (c.moveToFirst())
+				do {
+					Map<String, String> args = new HashMap<String, String>();
+					args.put("password", password);
+					args.put("type", "match");
+					for (int i = 0; i < matchProjection.length; i++) {
+						args.put(matchProjection[i], c.getString(c
+								.getColumnIndex(matchProjection[i])));
+					}
+					outgoing.add(args);
+				} while (c.moveToNext());
 		}
 
 		String[] cycleProjection = {
@@ -1128,17 +1129,17 @@ public class DBSyncService extends Service {
 
 		synchronized (outgoing) {
 
-			c.moveToFirst();
-			do {
-				Map<String, String> args = new HashMap<String, String>();
-				args.put("password", password);
-				args.put("type", "cycle");
-				for (int i = 0; i < cycleProjection.length; i++) {
-					args.put(cycleProjection[i],
-							c.getString(c.getColumnIndex(cycleProjection[i])));
-				}
-				outgoing.add(args);
-			} while (c.moveToNext());
+			if (c.moveToFirst())
+				do {
+					Map<String, String> args = new HashMap<String, String>();
+					args.put("password", password);
+					args.put("type", "cycle");
+					for (int i = 0; i < cycleProjection.length; i++) {
+						args.put(cycleProjection[i], c.getString(c
+								.getColumnIndex(cycleProjection[i])));
+					}
+					outgoing.add(args);
+				} while (c.moveToNext());
 		}
 	}
 
@@ -1168,17 +1169,17 @@ public class DBSyncService extends Service {
 
 		synchronized (outgoing) {
 
-			c.moveToFirst();
-			do {
-				Map<String, String> args = new HashMap<String, String>();
-				args.put("password", password);
-				args.put("type", "pits");
-				for (int i = 0; i < pitProjection.length; i++) {
-					args.put(pitProjection[i],
-							c.getString(c.getColumnIndex(pitProjection[i])));
-				}
-				outgoing.add(args);
-			} while (c.moveToNext());
+			if (c.moveToFirst())
+				do {
+					Map<String, String> args = new HashMap<String, String>();
+					args.put("password", password);
+					args.put("type", "pits");
+					for (int i = 0; i < pitProjection.length; i++) {
+						args.put(pitProjection[i],
+								c.getString(c.getColumnIndex(pitProjection[i])));
+					}
+					outgoing.add(args);
+				} while (c.moveToNext());
 		}
 	}
 }

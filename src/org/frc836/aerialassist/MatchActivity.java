@@ -1348,10 +1348,10 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		String team1 = teamText1.getText().toString();
 		if (team1 != null && team1.length() > 0)
 			team1Data.team = Integer.valueOf(team1);
-		String team2 = teamText1.getText().toString();
+		String team2 = teamText2.getText().toString();
 		if (team2 != null && team2.length() > 0)
 			team2Data.team = Integer.valueOf(team2);
-		String team3 = teamText1.getText().toString();
+		String team3 = teamText3.getText().toString();
 		if (team3 != null && team3.length() > 0)
 			team3Data.team = Integer.valueOf(team3);
 		String match = matchT.getText().toString();

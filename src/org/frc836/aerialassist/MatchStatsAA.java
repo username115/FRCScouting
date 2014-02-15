@@ -104,8 +104,9 @@ public class MatchStatsAA extends MatchStatsStruct {
 
 		public ContentValues getValues(DB db, SQLiteDatabase database) {
 			ContentValues vals = new ContentValues();
-
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event, database));
+			long ev = db.getEventIDFromName(event, database);
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, ev*1000000000l + match*1000000 + cycle_number*10000 + team);
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, ev);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM, cycle_number);

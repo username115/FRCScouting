@@ -74,8 +74,10 @@ public abstract class MatchStatsStruct {
 	public ContentValues getValues(DB db, SQLiteDatabase database)
 	{
 		ContentValues args = new ContentValues();
+		long ev = db.getEventIDFromName(event, database);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID, ev*10000000 + match*10000 + team);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
-		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, db.getEventIDFromName(event, database));
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, ev);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES, notes);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER, tipOver?1:0);
