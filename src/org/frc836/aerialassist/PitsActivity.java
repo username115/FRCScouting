@@ -160,6 +160,7 @@ public class PitsActivity extends Activity {
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LocalBinder) {
 				binder = (LocalBinder) service;
+				submitter.setBinder(binder);
 			}
 		}
 

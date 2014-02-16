@@ -236,6 +236,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LocalBinder) {
 				binder = (LocalBinder) service;
+				submitter.setBinder(binder);
 			}
 		}
 

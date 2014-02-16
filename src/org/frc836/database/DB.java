@@ -100,6 +100,8 @@ public class DB {
 			MatchStatsStruct team2Data, MatchStatsStruct team3Data) {
 		synchronized (ScoutingDBHelper.helper) {
 			try {
+				
+				//TODO check if entry already exists, update if so
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
 				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
@@ -146,6 +148,7 @@ public class DB {
 
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
+				//TODO check if entry already exists, update if so.
 
 				db.insert(FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
 						null, stats.getValues(this, db));
@@ -177,7 +180,7 @@ public class DB {
 		utils.doPost(Prefs.getScoutingURL(context), args, callback);
 	}
 
-	public static String getTeamPitInfo(String teamNum) {
+	public String getTeamPitInfo(String teamNum) {
 
 		synchronized (ScoutingDBHelper.helper) {
 			try {
@@ -423,7 +426,7 @@ public class DB {
 		String[] where = { config };
 		Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection, // select
 				CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC
-						+ "LIKE ?", where, // EventName
+						+ " LIKE ?", where, // EventName
 				null, // don't group
 				null, // don't filter
 				null, // don't order
@@ -439,7 +442,7 @@ public class DB {
 		String[] where = { base };
 		Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME,
 				projection, // select
-				WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC + "LIKE ?",
+				WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC + " LIKE ?",
 				where, // EventName
 				null, // don't group
 				null, // don't filter
@@ -456,7 +459,7 @@ public class DB {
 		String[] where = { type };
 		Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME,
 				projection, // select
-				WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC + "LIKE ?",
+				WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC + " LIKE ?",
 				where, // EventName
 				null, // don't group
 				null, // don't filter
@@ -502,7 +505,7 @@ public class DB {
 		String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
 		String[] where = { String.valueOf(type) };
 		Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME, projection, // select
-				WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + "LIKE ?", where, // EventName
+				WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " LIKE ?", where, // EventName
 				null, // don't group
 				null, // don't filter
 				null, // don't order
