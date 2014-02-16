@@ -109,6 +109,13 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Moved" />
 
+                    <CheckBox
+                        android:id="@+id/team1AutoGoalie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Goalie" />
+
                     <LinearLayout
                         android:id="@+id/team1Ball1Box"
                         android:layout_width="match_parent"
@@ -361,6 +368,13 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Moved" />
 
+                    <CheckBox
+                        android:id="@+id/team2AutoGoalie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Goalie" />
+
                     <LinearLayout
                         android:id="@+id/team2Ball1Box"
                         android:layout_width="match_parent"
@@ -612,6 +626,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Moved" />
+
+                    <CheckBox
+                        android:id="@+id/team3AutoGoalie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Goalie" />
 
                     <LinearLayout
                         android:id="@+id/team3Ball1Box"

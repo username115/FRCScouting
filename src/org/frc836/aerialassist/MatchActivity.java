@@ -208,7 +208,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		updatePosition();
 
 		List<String> options = submitter.getNotesOptions();
-		
+
 		if (options == null)
 			options = new ArrayList<String>(1);
 
@@ -1365,6 +1365,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		// team1
 		team1Data.auto_mobile = ((CheckBox) findViewById(R.id.team1AutoMoved))
 				.isChecked();
+		team1Data.auto_goalie = ((CheckBox) findViewById(R.id.team1AutoGoalie))
+				.isChecked();
 		team1Data.auto_high = (((ToggleButton) findViewById(R.id.team1AutoHigh1))
 				.isChecked() ? 1 : 0)
 				+ (((ToggleButton) findViewById(R.id.team1AutoHigh2))
@@ -1405,6 +1407,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		// team2
 		team2Data.auto_mobile = ((CheckBox) findViewById(R.id.team2AutoMoved))
 				.isChecked();
+		team2Data.auto_goalie = ((CheckBox) findViewById(R.id.team2AutoGoalie))
+				.isChecked();
 		team2Data.auto_high = (((ToggleButton) findViewById(R.id.team2AutoHigh1))
 				.isChecked() ? 1 : 0)
 				+ (((ToggleButton) findViewById(R.id.team2AutoHigh2))
@@ -1444,6 +1448,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 		// team3
 		team3Data.auto_mobile = ((CheckBox) findViewById(R.id.team3AutoMoved))
+				.isChecked();
+		team3Data.auto_goalie = ((CheckBox) findViewById(R.id.team3AutoGoalie))
 				.isChecked();
 		team3Data.auto_high = (((ToggleButton) findViewById(R.id.team3AutoHigh1))
 				.isChecked() ? 1 : 0)
