@@ -44,7 +44,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
 
@@ -168,12 +167,10 @@ public class DashboardActivity extends Activity {
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LocalBinder) {
 				binder = (LocalBinder) service;
-				Toast.makeText(getApplicationContext(), "Service Bound", Toast.LENGTH_SHORT).show();
 			}
 		}
 
 		public void onServiceDisconnected(ComponentName name) {
-			Toast.makeText(getApplicationContext(), "Service UnBound", Toast.LENGTH_SHORT).show();
 		}
 
 	}

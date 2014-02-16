@@ -30,11 +30,8 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.Toast;
 
 public class DBSyncService extends Service {
-
-	public static final boolean debug = true;
 
 	private static final String FILENAME = "DBtimestamp";
 
@@ -77,9 +74,6 @@ public class DBSyncService extends Service {
 		utils = new HttpUtils();
 
 		initialSync();
-		if (debug)
-			Toast.makeText(getApplicationContext(), "Service Started",
-					Toast.LENGTH_SHORT).show();
 	}
 
 	private void loadTimestamp() {
@@ -225,9 +219,6 @@ public class DBSyncService extends Service {
 	private class SyncCallback implements HttpCallback {
 
 		public void onResponse(HttpRequestInfo resp) {
-			if (debug)
-				Toast.makeText(getApplicationContext(), "response to sync req",
-						Toast.LENGTH_SHORT).show();
 			ProcessData dataProc = new ProcessData();
 			dataProc.execute(resp.getResponseString());
 		}
