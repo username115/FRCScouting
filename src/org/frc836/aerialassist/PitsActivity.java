@@ -71,6 +71,7 @@ public class PitsActivity extends Activity {
 	private CheckBox auto_lowC;
 	private CheckBox auto_hotC;
 	private CheckBox auto_mobileC;
+	private CheckBox auto_goalie_C;
 	private CheckBox trussC;
 	private CheckBox launchC;
 	private CheckBox active_controlC;
@@ -118,6 +119,7 @@ public class PitsActivity extends Activity {
 		auto_lowC = (CheckBox) findViewById(R.id.pits_auto_lowC);
 		auto_hotC = (CheckBox) findViewById(R.id.pits_auto_hotC);
 		auto_mobileC = (CheckBox) findViewById(R.id.pits_auto_mobileC);
+		auto_goalie_C = (CheckBox) findViewById(R.id.pits_auto_goalieC);
 		trussC = (CheckBox) findViewById(R.id.pits_trussC);
 		launchC = (CheckBox) findViewById(R.id.pits_launchC);
 		active_controlC = (CheckBox) findViewById(R.id.pits_active_controlC);
@@ -242,6 +244,7 @@ public class PitsActivity extends Activity {
 		stats.auto_score_low = auto_lowC.isChecked();
 		stats.auto_score_hot = auto_hotC.isChecked();
 		stats.auto_score_mobile = auto_mobileC.isChecked();
+		stats.auto_goalie = auto_goalie_C.isChecked();
 		stats.truss = trussC.isChecked();
 		stats.launch = launchC.isChecked();
 		stats.active_control = active_controlC.isChecked();
@@ -282,6 +285,7 @@ public class PitsActivity extends Activity {
 		auto_lowC.setChecked(false);
 		auto_hotC.setChecked(false);
 		auto_mobileC.setChecked(false);
+		auto_goalie_C.setChecked(false);
 		// cgS.setSelection(0);
 		commentsT.setText("");
 		configS.setSelection(0);
@@ -377,6 +381,7 @@ public class PitsActivity extends Activity {
 		auto_lowC.setChecked(stats.auto_score_low);
 		auto_hotC.setChecked(stats.auto_score_hot);
 		auto_mobileC.setChecked(stats.auto_score_mobile);
+		auto_goalie_C.setChecked(stats.auto_goalie);
 		trussC.setChecked(stats.truss);
 		launchC.setChecked(stats.launch);
 		active_controlC.setChecked(stats.active_control);

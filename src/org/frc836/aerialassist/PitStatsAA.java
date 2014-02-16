@@ -36,6 +36,7 @@ public class PitStatsAA extends PitStats {
 	public boolean catchBall;
 	public boolean score_high;
 	public boolean score_low;
+	public boolean auto_goalie;
 	public int height;
 
 	public PitStatsAA() {
@@ -68,6 +69,8 @@ public class PitStatsAA extends PitStats {
 				: 0);
 		vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
 				auto_score_mobile ? 1 : 0);
+		vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE, auto_goalie ? 1
+				: 0);
 		vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS, truss ? 1 : 0);
 		vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL, launch ? 1 : 0);
 		vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL,
@@ -96,6 +99,9 @@ public class PitStatsAA extends PitStats {
 		auto_score_mobile = c
 				.getInt(c
 						.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE)) != 0;
+		auto_goalie = c
+				.getInt(c
+						.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE)) != 0;
 		truss = c.getInt(c
 				.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS)) != 0;
 		launch = c

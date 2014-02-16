@@ -148,5 +148,6 @@
     <string name="catch_text">Catch ball</string>
     <string name="active_control_text">Active control of ball</string>
     <string name="launch_text">Able to launch ball</string>
+    <string name="goalie_text">Goalie</string>
 
 </resources>

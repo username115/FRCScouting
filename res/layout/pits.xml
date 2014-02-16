@@ -133,6 +133,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/does_bot_have_mobility_text" />
+        
+        <CheckBox
+            android:id="@+id/pits_auto_goalieC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goalie_text" />
 
         <TextView
             android:layout_width="wrap_content"
