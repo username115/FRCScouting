@@ -1214,6 +1214,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		MatchStatsAA.CycleStatsStruct cycle2 = team2Data.cycles.get(cycle);
 		MatchStatsAA.CycleStatsStruct cycle3 = team3Data.cycles.get(cycle);
 
+		boolean truss = false, cat = false;
+
 		if (cycle1 == null) {
 			((Button) findViewById(R.id.team1FarPoss)).setText("");
 			((Button) findViewById(R.id.team1WhitePoss)).setText("");
@@ -1223,6 +1225,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			((ToggleButton) findViewById(R.id.team1HighScore))
 					.setChecked(false);
 			((ToggleButton) findViewById(R.id.team1LowScore)).setChecked(false);
+			onTruss(findViewById(R.id.team1Truss));
+			onCatch(findViewById(R.id.team1Catch));
 		} else {
 			((Button) findViewById(R.id.team1FarPoss))
 					.setText(cycle1.far_poss ? "X" : "");
@@ -1232,12 +1236,16 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 					.setText(cycle1.near_poss ? "X" : "");
 			((ToggleButton) findViewById(R.id.team1Truss))
 					.setChecked(cycle1.truss);
-			if (cycle1.truss)
+			if (cycle1.truss) {
 				onTruss(findViewById(R.id.team1Truss));
+				truss = true;
+			}
 			((ToggleButton) findViewById(R.id.team1Catch))
 					.setChecked(cycle1.truss_catch);
-			if (cycle1.truss_catch)
+			if (cycle1.truss_catch) {
 				onCatch(findViewById(R.id.team1Catch));
+				cat = true;
+			}
 			((ToggleButton) findViewById(R.id.team1HighScore))
 					.setChecked(cycle1.high);
 			if (cycle1.high)
@@ -1256,6 +1264,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			((ToggleButton) findViewById(R.id.team2HighScore))
 					.setChecked(false);
 			((ToggleButton) findViewById(R.id.team2LowScore)).setChecked(false);
+			onTruss(findViewById(R.id.team2Truss));
+			onCatch(findViewById(R.id.team2Catch));
 		} else {
 			((Button) findViewById(R.id.team2FarPoss))
 					.setText(cycle2.far_poss ? "X" : "");
@@ -1265,12 +1275,16 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 					.setText(cycle2.near_poss ? "X" : "");
 			((ToggleButton) findViewById(R.id.team2Truss))
 					.setChecked(cycle2.truss);
-			if (cycle2.truss)
+			if (cycle2.truss) {
 				onTruss(findViewById(R.id.team2Truss));
+				truss = true;
+			}
 			((ToggleButton) findViewById(R.id.team2Catch))
 					.setChecked(cycle2.truss_catch);
-			if (cycle2.truss_catch)
+			if (cycle2.truss_catch) {
 				onCatch(findViewById(R.id.team2Catch));
+				cat = true;
+			}
 			((ToggleButton) findViewById(R.id.team2HighScore))
 					.setChecked(cycle2.high);
 			if (cycle2.high)
@@ -1289,6 +1303,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			((ToggleButton) findViewById(R.id.team3HighScore))
 					.setChecked(false);
 			((ToggleButton) findViewById(R.id.team3LowScore)).setChecked(false);
+			onTruss(findViewById(R.id.team3Truss));
+			onCatch(findViewById(R.id.team3Catch));
 		} else {
 			((Button) findViewById(R.id.team3FarPoss))
 					.setText(cycle3.far_poss ? "X" : "");
@@ -1298,12 +1314,16 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 					.setText(cycle3.near_poss ? "X" : "");
 			((ToggleButton) findViewById(R.id.team3Truss))
 					.setChecked(cycle3.truss);
-			if (cycle3.truss)
+			if (cycle3.truss) {
 				onTruss(findViewById(R.id.team3Truss));
+				truss = true;
+			}
 			((ToggleButton) findViewById(R.id.team3Catch))
 					.setChecked(cycle3.truss_catch);
-			if (cycle3.truss_catch)
+			if (cycle3.truss_catch) {
 				onCatch(findViewById(R.id.team3Catch));
+				cat = true;
+			}
 			((ToggleButton) findViewById(R.id.team3HighScore))
 					.setChecked(cycle3.high);
 			if (cycle3.high)
@@ -1313,6 +1333,11 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 			if (cycle3.low)
 				onLow(findViewById(R.id.team3LowScore));
 		}
+
+		if (!cat)
+			onCatch(findViewById(R.id.team1Catch));
+		if (!truss)
+			onTruss(findViewById(R.id.team1Truss));
 
 		// TODO load assists if added?
 	}
