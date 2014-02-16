@@ -50,7 +50,7 @@ public class ParamList implements HttpCallback {
 	public void downloadParamListWithPass(String name, ParamCallback callback) {
 		listName = name;
 		_callback = callback;
-		database.getParamsPass(tableName, this);
+		//database.getParamsPass(tableName, this);
 	}
 
 	public void onResponse(HttpRequestInfo resp) {

@@ -19,6 +19,7 @@ package org.growingstems.scouting;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 
+import org.frc836.database.DB;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
@@ -32,20 +33,22 @@ public class MatchSchedule implements HttpCallback {
 
 	private boolean offseason = false;
 	private boolean toastComplete;
+	
+	private DB db;
 
 	private Context _parent;
 
-	public void updateSchedule(String event, Context parent, boolean toastWhenComplete) {
+	public void updateSchedule(String event, Context parent,
+			boolean toastWhenComplete) {
 		HttpUtils utils = new HttpUtils();
 		_parent = parent;
 		toastComplete = toastWhenComplete;
-
-		EventList eventList = new EventList(parent);
 		
-		utils.doGet(eventList.getMatchScheduleURL(event), this);
+		db = new DB(_parent, null);
+
+		utils.doGet(db.getURLFromEventName(event), this);
 
 	}
-
 
 	public void onResponse(HttpRequestInfo resp) {
 		try {
@@ -62,17 +65,21 @@ public class MatchSchedule implements HttpCallback {
 				fos.close();
 			}
 			if (toastComplete)
-				Toast.makeText(_parent, "Schedule Successfully Updated", Toast.LENGTH_SHORT).show();
+				Toast.makeText(_parent, "Schedule Successfully Updated",
+						Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
 			if (toastComplete)
-				Toast.makeText(_parent, "Error Saving Schedule: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(_parent,
+						"Error Saving Schedule: " + e.getMessage(),
+						Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	public void onError(Exception e) {
 		try {
 			if (toastComplete)
-				Toast.makeText(_parent, "Error Downloading Schedule", Toast.LENGTH_SHORT).show();
+				Toast.makeText(_parent, "Error Downloading Schedule",
+						Toast.LENGTH_SHORT).show();
 			if (offseason) {
 				FileOutputStream fos = _parent.openFileOutput(FILENAME,
 						Context.MODE_PRIVATE);
@@ -84,12 +91,13 @@ public class MatchSchedule implements HttpCallback {
 		}
 
 	}
-	
+
 	public String getTeam(int match, String pos, Context parent) {
 		return getTeam(match, pos, parent, "");
 	}
 
-	public String getTeam(int match, String pos, Context parent, String defaultVal) {
+	public String getTeam(int match, String pos, Context parent,
+			String defaultVal) {
 		try {
 			String schedule = getSchedule(parent);
 			if (schedule.compareTo("No Schedule") == 0)
@@ -123,7 +131,6 @@ public class MatchSchedule implements HttpCallback {
 
 			int k = schedule.indexOf("<", i);
 
-			
 			String ret = schedule.substring(i + 1, k).trim();
 			if (ret.length() < 10 && Integer.valueOf(ret) > 0)
 				return ret;
@@ -154,6 +161,5 @@ public class MatchSchedule implements HttpCallback {
 		else
 			return false;
 	}
-
 
 }

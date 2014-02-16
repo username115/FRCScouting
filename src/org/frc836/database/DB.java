@@ -18,7 +18,9 @@ package org.frc836.database;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.frc836.aerialassist.MatchStatsAA;
@@ -174,7 +176,7 @@ public class DB {
 		utils.doPost(Prefs.getScoutingURL(context), args, callback);
 	}
 
-	public String getTeamPitInfo(String teamNum) {
+	public static String getTeamPitInfo(String teamNum) {
 
 		synchronized (ScoutingDBHelper.helper) {
 			try {
@@ -212,13 +214,61 @@ public class DB {
 		}
 	}
 
-	public void getEventList(HttpCallback callback) {
-		// TODO
-		/*
-		 * Map<String, String> args = new HashMap<String, String>();
-		 * args.put("type", "paramRequest"); args.put("req", "eventList");
-		 * utils.doPost(Prefs.getScoutingURL(context), args, callback);
-		 */
+	public List<String> getEventList() {
+
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = { EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME };
+
+				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+						null, null, null, null, EVENT_LU_Entry.COLUMN_NAME_ID);
+
+				List<String> ret = new ArrayList<String>(c.getCount());
+
+				if (c.moveToFirst())
+					do {
+						ret.add(c.getString(c
+								.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME)));
+					} while (c.moveToNext());
+				else
+					return null;
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	public String getURLFromEventName(String eventName) {
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+				String[] projection = { EVENT_LU_Entry.COLUMN_NAME_MATCH_URL };
+				String[] where = { eventName };
+				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the
+																// event_lu
+																// table
+						projection, // select
+						EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME + " LIKE ?", // where
+																			// event_name
+																			// ==
+						where, // EventName
+						null, // don't group
+						null, // don't filter
+						null, // don't order
+						"0,1"); // limit to 1
+				c.moveToFirst();
+				return c.getString(c
+						.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
+			} catch (Exception e) {
+				return null;
+			}
+		}
 	}
 
 	public void getParams(String tableName, HttpCallback callback) {
@@ -325,16 +375,6 @@ public class DB {
 			}
 
 		}
-	}
-
-	public void getParamsPass(String table, HttpCallback callback) {
-		// TODO
-		/*
-		 * Map<String, String> args = new HashMap<String, String>();
-		 * args.put("password", password); args.put("type", "paramRequest");
-		 * args.put("req", table); utils.doPost(Prefs.getScoutingURL(context),
-		 * args, callback);
-		 */
 	}
 
 	public long getEventIDFromName(String eventName, SQLiteDatabase db) {

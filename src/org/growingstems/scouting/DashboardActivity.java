@@ -139,9 +139,6 @@ public class DashboardActivity extends Activity {
 		if (url.length() > 0) {
 			DB db = new DB(getBaseContext(), binder);
 			db.checkVersion(new VersionCallback());
-
-			EventList ev = new EventList(getApplicationContext());
-			ev.downloadEventsList(null);
 		} else {
 			showDialog(URL_DIALOG);
 		}
