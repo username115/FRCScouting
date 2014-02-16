@@ -16,13 +16,13 @@
 
 package org.frc836.aerialassist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.MainMenuSelection;
-import org.growingstems.scouting.ParamList;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
@@ -64,8 +64,6 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 	private MatchStatsAA team1Data;
 	private MatchStatsAA team2Data;
 	private MatchStatsAA team3Data;
-
-	private ParamList notesOptions;
 
 	private EditText teamText1;
 	private EditText teamText2;
@@ -109,14 +107,10 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		lastB = (Button) findViewById(R.id.backB);
 		nextB = (Button) findViewById(R.id.nextB);
 
-		notesOptions = new ParamList(getApplicationContext(), "notes_options");
-
 		HELPMESSAGE = "Record the match data on these screens.\n"
 				+ "Record data for the 3 autonomous balls on the first screen, then separate data for each cycle of the match.\n\n"
 				+ "AH = Auto High\n" + "AL = Auto Low\n" + "H = High\n"
 				+ "L = Low\n" + "Yellow Text = Hot Goal\n";
-
-		notesOptions = new ParamList(getApplicationContext(), "notes_options");
 
 		teamText1 = (EditText) findViewById(R.id.team1T);
 		teamText2 = (EditText) findViewById(R.id.team2T);
@@ -213,7 +207,10 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 		updatePosition();
 
-		List<String> options = notesOptions.getParamList("option_text");
+		List<String> options = submitter.getNotesOptions();
+		
+		if (options == null)
+			options = new ArrayList<String>(1);
 
 		options.add(0, team1CommonNotes.getItemAtPosition(0).toString());
 

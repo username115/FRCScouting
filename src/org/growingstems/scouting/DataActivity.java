@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.frc836.database.DB;
 import org.growingstems.scouting.MainMenuSelection;
-import org.growingstems.scouting.ParamList.ParamCallback;
 import org.growingstems.scouting.R;
 
 import android.os.Bundle;
@@ -46,7 +45,7 @@ public class DataActivity extends TabActivity {
 	public static DB db;
 
 	public static List<String> teamList;
-	public static ParamList teamParams;
+	//public static ParamList teamParams;
 
 	private String HELPMESSAGE = "";
 
@@ -93,7 +92,7 @@ public class DataActivity extends TabActivity {
 				.setContent(new Intent(this, TeamStatsActivity.class)));
 		mTabHost.setCurrentTab(0);
 
-		teamParams = new ParamList(getApplicationContext(), "team_list");
+		//teamParams = new ParamList(getApplicationContext(), "team_list");
 		teamList = new ArrayList<String>();
 
 		getTeamList();
@@ -181,11 +180,11 @@ public class DataActivity extends TabActivity {
 	}
 
 	protected void getTeamList() {
-		teamParams.downloadParamListWithPass("team_id",
-				new TeamListCallback());
+		//teamParams.downloadParamListWithPass("team_id",
+		//		new TeamListCallback());
 	}
 
-	protected class TeamListCallback implements ParamCallback {
+	/*protected class TeamListCallback implements ParamCallback {
 
 		public void paramsUpdated(String name, String table, List<String> params) {
 			teamList = params;
@@ -198,6 +197,6 @@ public class DataActivity extends TabActivity {
 					Toast.LENGTH_SHORT).show();
 		}
 
-	}
+	}*/
 
 }

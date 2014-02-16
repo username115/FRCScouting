@@ -56,15 +56,12 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 	private static final int MATCH_ACTIVITY_REQUEST = 0;
 
-	private ParamList notesList;
 
 	private ProgressDialog pd;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.matchstart);
-
-		notesList = new ParamList(getApplicationContext(), "notes_options");
 
 		HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
 				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
@@ -84,8 +81,6 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 		matchNum.addTextChangedListener(new matchTextListener());
 		schedule = new MatchSchedule();
-
-		notesList.downloadParamList(null, null);
 
 	}
 
@@ -190,7 +185,6 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 			if (matchNum.getText().length() > 0)
 				setMatch(Integer.valueOf(matchNum.getText().toString()));
-			notesList.downloadParamList(null, null);
 		}
 		if (requestCode == MATCH_ACTIVITY_REQUEST && resultCode > 0) {
 			matchNum.setText(String.valueOf(resultCode));

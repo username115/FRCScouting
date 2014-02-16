@@ -30,6 +30,7 @@ import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
@@ -271,13 +272,33 @@ public class DB {
 		}
 	}
 
-	public void getParams(String tableName, HttpCallback callback) {
-		// TODO
-		/*
-		 * Map<String, String> args = new HashMap<String, String>();
-		 * args.put("type", "paramRequest"); args.put("req", tableName);
-		 * utils.doPost(Prefs.getScoutingURL(context), args, callback);
-		 */
+	public List<String> getNotesOptions() {
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = { NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT };
+
+				Cursor c = db.query(NOTES_OPTIONS_Entry.TABLE_NAME, projection,
+						null, null, null, null,
+						NOTES_OPTIONS_Entry.COLUMN_NAME_ID);
+
+				List<String> ret = new ArrayList<String>(c.getCount());
+
+				if (c.moveToFirst())
+					do {
+						ret.add(c.getString(c
+								.getColumnIndexOrThrow(NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT)));
+					} while (c.moveToNext());
+				else
+					return null;
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
 	}
 
 	public void getEventStats(String eventName,
