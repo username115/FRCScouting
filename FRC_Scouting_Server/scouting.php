@@ -207,6 +207,8 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
                     . ",high=" . $high
                     . ",low=" . $low
                     . ",auto_mobile=" . $auto_mobile
+                    . ",auto_goalie=" . $auto_goalie
+                    . ",num_cycles=" . $num_cycles
                     . ",foul=" . $foul
                     . ",tech_foul=" . $tech_foul
                     . ",tip_over=" . $tip_over
@@ -325,27 +327,27 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         $id = $row["id"];
         if (mysql_num_rows($result) == 0) {
             $success = false;
-            $query = "INSERT INTO scout_pt_data(team_id,configuration_id,wheel_type_id,wheel_base_id,autonomous_mode,scout_comments,"
-                    . "auto_high,auto_low,auto_hot,auto_mobile,auto_goalie,truss,catch,active_control,launch_ball,score_high,score_low,max_height) "
+            $query = "INSERT INTO scout_pit_data(team_id,configuration_id,wheel_type_id,wheel_base_id,autonomous_mode,scout_comments,"
+                    . "auto_high,auto_low,auto_hot,auto_mobile,auto_goalie,truss,catch,active_control,launch_ball,score_high,score_low,max_height,invalid) "
                     . "VALUES("
-                    . "team_id=" . $team_id
-                    . ",configuration_id=" . $configuration_id
-                    . ",wheel_type_id=" . $wheel_type_id
-                    . ",wheel_base_id=" . $wheel_base_id
-                    . ",autonomous_mode=" . $autonomous_mode
-                    . ",scout_comments='" . $scout_comments
-                    . "',auto_high=" . $auto_high
-                    . ",auto_low=" . $auto_low
-                    . ",auto_hot=" . $auto_hot
-                    . ",auto_mobile=" . $auto_mobile
-                    . ",auto_goalie=" . $auto_goalie
-                    . ",truss=" . $truss
-                    . ",catch=" . $catch
-                    . ",active_control=" . $active_control
-                    . ",launch_ball=" . $launch_ball
-                    . ",score_high=" . $score_high
-                    . ",score_low=" . $score_low
-                    . ",max_height=" . $max_height . ");";
+                    . $team_id
+                    . "," . $configuration_id
+                    . "," . $wheel_type_id
+                    . "," . $wheel_base_id
+                    . "," . $autonomous_mode
+                    . ",'" . $scout_comments
+                    . "'," . $auto_high
+                    . "," . $auto_low
+                    . "," . $auto_hot
+                    . "," . $auto_mobile
+                    . "," . $auto_goalie
+                    . "," . $truss
+                    . "," . $catch
+                    . "," . $active_control
+                    . "," . $launch_ball
+                    . "," . $score_high
+                    . "," . $score_low
+                    . "," . $max_height . ",0);";
           
 
             $success = mysql_query($query);
@@ -371,6 +373,7 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
                                                 score_high=" . $score_high . ",
                                                 score_low=" . $score_low . ",
                                                 max_height=" . $max_height . "
+                                                invalid=0" . " 
 						WHERE id=" . $id;
 
             $success = mysql_query($query);
@@ -381,7 +384,7 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
             $row = mysql_fetch_array($result);
             $resp = $row["id"] . "," . strtotime($row["timestamp"]);
         } else {
-            $resp = 'Database Query Failed';
+            $resp = 'Database Query Failed : \n' . $query;
         }
     } 
     else {
