@@ -159,6 +159,8 @@ CREATE TABLE IF NOT EXISTS `fact_match_data` (
   `high` unsigned int(1) NOT NULL,
   `low` unsigned int(1) NOT NULL,
   `auto_mobile` unsigned tinyint(1) NOT NULL,
+  `auto_goalie` unsigned tinyint(1) NOT NULL,
+  `num_cycles` unsigned int(3) NOT NULL,
   `foul` unsigned tinyint(1) NOT NULL,
   `tech_foul` unsigned tinyint(1) NOT NULL,
   `tip_over` unsigned tinyint(1) NOT NULL,

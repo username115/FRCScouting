@@ -154,6 +154,8 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         $high = mysql_real_escape_string(stripslashes(trim($_POST['high'])));
         $low = mysql_real_escape_string(stripslashes(trim($_POST['low'])));
         $auto_mobile = mysql_real_escape_string(stripslashes(trim($_POST['auto_mobile'])));
+        $auto_goalie = mysql_real_escape_string(stripslashes(trim($_POST['auto_goalie'])));
+        $num_cycles = mysql_real_escape_string(stripslashes(trim($_POST['num_cycles'])));
         $foul = mysql_real_escape_string(stripslashes(trim($_POST['foul'])));
         $tech_foul = mysql_real_escape_string(stripslashes(trim($_POST['tech_foul'])));
         $tip_over = mysql_real_escape_string(stripslashes(trim($_POST['tip_over'])));
@@ -170,7 +172,7 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         if (mysql_num_rows($result) == 0) {
         
             $query = "INSERT INTO fact_match_data(event_id,match_id,team_id,auto_high,auto_high_hot,auto_low,auto_low_hot,high,low,"
-                    . "auto_mobile,foul,tech_foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
+                    . "auto_mobile,auto_goalie,num_cycles,foul,tech_foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
                     . $match_id . ","
                     . $team_id . ","
@@ -181,6 +183,8 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
                     . $high . ","
                     . $low . ","
                     . $auto_mobile . ","
+                    . $auto_goalie . ","
+                    . $num_cycles . ","
                     . $foul . ","
                     . $tech_foul . ","
                     . $tip_over . ","
