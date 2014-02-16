@@ -250,6 +250,8 @@ public class DBSyncService extends Service {
 
 			int match = -1, event = -1, team = -1, cycle = -1;
 			Map<String, String> sent = params[0].getParams();
+			if (params[0].getResponseString().contains("Failed"))
+				return null;
 			synchronized (outgoing) {
 				for (int i = 0; i < outgoing.size(); i++) {
 					Map<String, String> args = outgoing.get(i);
