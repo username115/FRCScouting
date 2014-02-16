@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.http.params.HttpParams;
 import org.frc836.database.FRCScoutingContract.*;
 import org.growingstems.scouting.Prefs;
 import org.json.JSONArray;
@@ -118,8 +117,8 @@ public class DBSyncService extends Service {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		mTimerTask.removeCallbacks(dataTask);
+		super.onDestroy();
 	}
 
 	public class LocalBinder extends Binder {
@@ -201,8 +200,6 @@ public class DBSyncService extends Service {
 					sendPits(db);
 
 				} catch (Exception e) {
-					int i = 1;
-					// mTimerTask.postDelayed(dataTask, DELAY);
 				}
 				ScoutingDBHelper.helper.close();
 			}
@@ -800,64 +797,39 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	private void processRobots(JSONArray robots, SQLiteDatabase db) {
-		try {
-			for (int i = 0; i < robots.length(); i++) {
-				JSONObject row = robots.getJSONObject(i);
-				Actions action = Actions.UPDATE;
-				if (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
-				}
-				ContentValues vals = new ContentValues();
-				vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
-						row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
-				vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
-						row.getInt(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID));
-				vals.put(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO,
-						row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO));
-				vals.put(
-						ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
-								row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-
-				// check if this entry exists already
-				String[] projection = { ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO };
-				String[] where = { vals
-						.getAsString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID) };
-				Cursor c = db.query(ROBOT_LU_Entry.TABLE_NAME, projection, // select
-						ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where, null, // don't
-																				// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
-
-				switch (action) {
-				case UPDATE:
-					db.update(ROBOT_LU_Entry.TABLE_NAME, vals,
-							ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?", where);
-					break;
-				case INSERT:
-					db.insert(ROBOT_LU_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(ROBOT_LU_Entry.TABLE_NAME,
-							ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?", where);
-					break;
-				default:
-				}
-
-			}
-		} catch (JSONException e) {
-			// TODO handle error
-		}
-	}
-
+	/*
+	 * private void processRobots(JSONArray robots, SQLiteDatabase db) { try {
+	 * for (int i = 0; i < robots.length(); i++) { JSONObject row =
+	 * robots.getJSONObject(i); Actions action = Actions.UPDATE; if
+	 * (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) { action =
+	 * Actions.DELETE; } ContentValues vals = new ContentValues();
+	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
+	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
+	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
+	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID));
+	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO,
+	 * row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO)); vals.put(
+	 * ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP, dateParser.format(new Date(
+	 * row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+	 * 
+	 * // check if this entry exists already String[] projection = {
+	 * ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO }; String[] where = { vals
+	 * .getAsString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID) }; Cursor c =
+	 * db.query(ROBOT_LU_Entry.TABLE_NAME, projection, // select
+	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where, null, // don't // group
+	 * null, // don't filter null, // don't order "0,1"); // limit to 1 if
+	 * (!c.moveToFirst()) { if (action == Actions.UPDATE) action =
+	 * Actions.INSERT; else if (action == Actions.DELETE) action =
+	 * Actions.NOTHING; }
+	 * 
+	 * switch (action) { case UPDATE: db.update(ROBOT_LU_Entry.TABLE_NAME, vals,
+	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?", where); break; case INSERT:
+	 * db.insert(ROBOT_LU_Entry.TABLE_NAME, null, vals); break; case DELETE:
+	 * db.delete(ROBOT_LU_Entry.TABLE_NAME, ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID +
+	 * " = ?", where); break; default: }
+	 * 
+	 * } } catch (JSONException e) { // TODO handle error } }
+	 */
 	private void processPits(JSONArray pits, SQLiteDatabase db) {
 		try {
 			for (int i = 0; i < pits.length(); i++) {
