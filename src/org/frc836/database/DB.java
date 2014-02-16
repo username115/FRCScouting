@@ -96,38 +96,129 @@ public class DB {
 		}
 	}
 
+	private void insertOrUpdate(SQLiteDatabase db, String table,
+			String nullColumnHack, ContentValues values, String idColumnName,
+			String whereClause, String[] whereArgs) {
+
+		String[] projection = { idColumnName };
+
+		Cursor c = db.query(table, projection, whereClause, whereArgs, null,
+				null, null, "0,1");
+		if (c.moveToFirst()) {
+			String[] id = { c.getString(c.getColumnIndexOrThrow(idColumnName)) };
+			db.update(table, values, idColumnName + "=?", id);
+		} else {
+			db.insert(table, nullColumnHack, values);
+		}
+	}
+
 	public boolean submitMatch(MatchStatsStruct team1Data,
 			MatchStatsStruct team2Data, MatchStatsStruct team3Data) {
 		synchronized (ScoutingDBHelper.helper) {
 			try {
-				
-				//TODO check if entry already exists, update if so
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
-				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-						team1Data.getValues(this, db));
-				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-						team2Data.getValues(this, db));
-				db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
-						team3Data.getValues(this, db));
+
+				String where = FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID
+						+ "=? AND "
+						+ FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
+						+ "=? AND " + FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
+						+ "=?";
+
+				ContentValues values = team1Data.getValues(this, db);
+				String[] whereArgs = {
+						values.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID),
+						values.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID),
+						values.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID) };
+
+				insertOrUpdate(db, FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+						values, FACT_MATCH_DATA_Entry.COLUMN_NAME_ID, where,
+						whereArgs);
+
+				values = team2Data.getValues(this, db);
+				whereArgs[0] = values
+						.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID);
+				whereArgs[1] = values
+						.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID);
+				whereArgs[2] = values
+						.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID);
+
+				insertOrUpdate(db, FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+						values, FACT_MATCH_DATA_Entry.COLUMN_NAME_ID, where,
+						whereArgs);
+
+				values = team3Data.getValues(this, db);
+				whereArgs[0] = values
+						.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID);
+				whereArgs[1] = values
+						.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID);
+				whereArgs[2] = values
+						.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID);
+
+				insertOrUpdate(db, FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+						values, FACT_MATCH_DATA_Entry.COLUMN_NAME_ID, where,
+						whereArgs);
+
+				whereArgs = new String[4];
+				where = FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
+						+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+						+ "=? AND " + FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+						+ "=? AND "
+						+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM + "=?";
 
 				MatchStatsAA data;
 				if (team1Data instanceof MatchStatsAA) {
 					data = (MatchStatsAA) team1Data;
 					for (ContentValues cycle : data.getCycles(this, db)) {
-						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+						whereArgs[0] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID);
+						whereArgs[1] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID);
+						whereArgs[2] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID);
+						whereArgs[3] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
+
+						insertOrUpdate(db, FACT_CYCLE_DATA_Entry.TABLE_NAME,
+								null, cycle,
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, where,
+								whereArgs);
 					}
 				}
 				if (team2Data instanceof MatchStatsAA) {
 					data = (MatchStatsAA) team2Data;
 					for (ContentValues cycle : data.getCycles(this, db)) {
-						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+						whereArgs[0] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID);
+						whereArgs[1] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID);
+						whereArgs[2] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID);
+						whereArgs[3] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
+
+						insertOrUpdate(db, FACT_CYCLE_DATA_Entry.TABLE_NAME,
+								null, cycle,
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, where,
+								whereArgs);
 					}
 				}
 				if (team3Data instanceof MatchStatsAA) {
 					data = (MatchStatsAA) team3Data;
 					for (ContentValues cycle : data.getCycles(this, db)) {
-						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle);
+						whereArgs[0] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID);
+						whereArgs[1] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID);
+						whereArgs[2] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID);
+						whereArgs[3] = cycle
+								.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
+
+						insertOrUpdate(db, FACT_CYCLE_DATA_Entry.TABLE_NAME,
+								null, cycle,
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, where,
+								whereArgs);
 					}
 				}
 				ScoutingDBHelper.helper.close();
@@ -148,10 +239,15 @@ public class DB {
 
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
-				//TODO check if entry already exists, update if so.
+				ContentValues values = stats.getValues(this, db);
 
-				db.insert(FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
-						null, stats.getValues(this, db));
+				String[] where = { values
+						.getAsString(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID) };
+
+				insertOrUpdate(db, SCOUT_PIT_DATA_Entry.TABLE_NAME, null,
+						values, SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
+						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?", where);
+
 				ScoutingDBHelper.helper.close();
 
 				startSync();
