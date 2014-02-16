@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Daniel Logan
+ * Copyright 2014 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,10 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.ultimateascent.PitsActivity;
+import org.frc836.aerialassist.PitsActivity;
+import org.frc836.database.DB;
+import org.frc836.database.DBSyncService;
+import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
@@ -24,11 +27,15 @@ import org.sigmond.net.HttpRequestInfo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +44,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
 
@@ -45,6 +53,9 @@ public class DashboardActivity extends Activity {
 	private Button data;
 	private ImageView beeLogo;
 	private ImageView stemsLogo;
+
+	private LocalBinder binder;
+	private ServiceWatcher watcher = new ServiceWatcher();
 
 	private static final int VERSION_DIALOG = 7;
 	private static final int URL_DIALOG = 39382;
@@ -60,9 +71,8 @@ public class DashboardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
+		
 		versionCode = "";
-		
-		
 
 		HELPMESSAGE = "Version: " + getString(R.string.VersionID) + "\nDate: "
 				+ getString(R.string.VersionDate)
@@ -74,6 +84,11 @@ public class DashboardActivity extends Activity {
 		data = (Button) findViewById(R.id.dataB);
 		beeLogo = (ImageView) findViewById(R.id.beeLogo);
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
+		
+
+		Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
+		//intent.setPackage("org.frc836.database");
+		bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
 		match.setOnClickListener(new OnClickListener() {
 
@@ -122,13 +137,43 @@ public class DashboardActivity extends Activity {
 
 		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
 		if (url.length() > 0) {
-			DB db = new DB(getBaseContext());
+			DB db = new DB(getBaseContext(), binder);
 			db.checkVersion(new VersionCallback());
-
-			EventList ev = new EventList(getApplicationContext());
-			ev.downloadEventsList(null);
 		} else {
 			showDialog(URL_DIALOG);
+		}
+
+	}
+	
+	protected void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		if (binder == null) {
+
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbindService(watcher);
+	}
+
+	protected class ServiceWatcher implements ServiceConnection {
+
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			if (service instanceof LocalBinder) {
+				binder = (LocalBinder) service;
+				Toast.makeText(getApplicationContext(), "Service Bound", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName name) {
+			Toast.makeText(getApplicationContext(), "Service UnBound", Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -138,12 +183,16 @@ public class DashboardActivity extends Activity {
 		public void onResponse(HttpRequestInfo resp) {
 			try {
 				versionCode = resp.getResponseString().trim();
-				VERSION_MESSAGE = "The server you have linked to was made for a different version of this app.\nYour Version: " + 
-						getString(R.string.VersionID) + "\nServer Version: " + versionCode + 
-						"\nWould you like to download the correct version?";
-				String verCode = versionCode.substring(0, versionCode.lastIndexOf("."));
+				VERSION_MESSAGE = "The server you have linked to was made for a different version of this app.\nYour Version: "
+						+ getString(R.string.VersionID)
+						+ "\nServer Version: "
+						+ versionCode
+						+ "\nWould you like to download the correct version?";
+				String verCode = versionCode.substring(0,
+						versionCode.lastIndexOf("."));
 				String localVersion = getString(R.string.VersionID);
-				localVersion = localVersion.substring(0, localVersion.lastIndexOf("."));
+				localVersion = localVersion.substring(0,
+						localVersion.lastIndexOf("."));
 				if (!verCode.equals(localVersion)) {
 					showDialog(VERSION_DIALOG);
 				}
@@ -253,7 +302,7 @@ public class DashboardActivity extends Activity {
 		case PITS_ACTIVITY_CODE:
 		case MATCH_ACTIVITY_CODE:
 		case DATA_ACTIVITY_CODE:
-			DB db = new DB(getBaseContext());
+			DB db = new DB(getBaseContext(), binder);
 			db.checkVersion(new VersionCallback());
 			break;
 		default:

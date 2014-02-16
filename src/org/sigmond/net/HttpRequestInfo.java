@@ -18,6 +18,8 @@ package org.sigmond.net;
 
 
 
+import java.util.Map;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -31,6 +33,7 @@ public class HttpRequestInfo
 	private HttpResponse response_;
 	private CookieStore cookieStore;
 	private String response;
+	private Map<String, String> params;
 
 	public HttpRequestInfo(HttpUriRequest request, HttpCallback callback)
 	{
@@ -107,5 +110,13 @@ public class HttpRequestInfo
 	
 	public String getResponseString() {
 		return response;
+	}
+	
+	public void setParams(Map<String, String> param) {
+		params = param;
+	}
+	
+	public Map<String, String> getParams() {
+		return params;
 	}
 }

@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <ListPreference
-        android:defaultValue="red 1"
+        android:defaultValue="Red"
         android:dialogTitle="Position"
         android:entries="@array/positions"
         android:entryValues="@array/positions"
@@ -28,12 +28,12 @@
         android:summary="Enter the password for the server"
         android:title="Password" />
 
-    <CheckBoxPreference
+   <!-- <CheckBoxPreference
         android:defaultValue="true"
         android:enabled="true"
         android:key="robotPicPref"
         android:summary="Automatically download pictures of robots?"
-        android:title="Download Pictures" />
+        android:title="Download Pictures" /> -->
 
     <EditTextPreference
         android:inputType="number"

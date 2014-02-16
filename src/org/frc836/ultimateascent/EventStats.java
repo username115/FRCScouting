@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.frc836.database.XMLDBParser;
 import org.growingstems.scouting.ExpandableListItem;
-import org.growingstems.scouting.XMLDBParser;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.xmlpull.v1.XmlPullParserException;

@@ -71,6 +71,7 @@ public class HttpUtils
 			post.setEntity(entity);
 
 			HttpRequestInfo rinfo = new HttpRequestInfo(post, callback);
+			rinfo.setParams(params);
 			rinfo.setCookieStore(cookies);
 			AsyncHttpTask task = new AsyncHttpTask();
 			task.execute(rinfo);

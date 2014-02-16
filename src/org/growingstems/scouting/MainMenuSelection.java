@@ -23,6 +23,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.frc836.database.DB;
 import org.growingstems.scouting.R;
 
 public class MainMenuSelection {
@@ -39,6 +41,9 @@ public class MainMenuSelection {
 			return true;
 		case R.id.helpitem:
 			showHelp(context);
+			return true;
+		case R.id.exportItem:
+			exportDB(context);
 			return true;
 		default:
 			return false;
@@ -74,5 +79,9 @@ public class MainMenuSelection {
 	public static void setRefreshItem(Menu menu, int item) {
 		MenuItem i = menu.findItem(R.id.refreshMatchesItem);
 		i.setTitle(item);
+	}
+	
+	public static void exportDB(Activity context) {
+		DB.exportToCSV(context);
 	}
 }

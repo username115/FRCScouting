@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Daniel Logan
+ * Copyright 2014 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.growingstems.scouting;
+package org.frc836.database;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 public abstract class MatchStatsStruct {
 	
@@ -29,8 +31,8 @@ public abstract class MatchStatsStruct {
 	public boolean autonomous;
 	public String notes;
 	public boolean tipOver;
-	public boolean penalty;
-	public boolean mpenalty;
+	public boolean foul;
+	public boolean tech_foul;
 	public boolean yellowCard;
 	public boolean redCard;
 	
@@ -63,20 +65,27 @@ public abstract class MatchStatsStruct {
 		autonomous = true;
 		tipOver = false;
 		notes = "";
+		foul = false;
+		tech_foul = false;
+		yellowCard = false;
+		redCard = false;
 	}
 	
-	public Map<String, String> getPost()
+	public ContentValues getValues(DB db, SQLiteDatabase database)
 	{
-		HashMap<String, String> args = new HashMap<String, String>();
-		args.put("team_id", String.valueOf(team));
-		args.put("event_id", event);
-		args.put("match_id", String.valueOf(match));
-		args.put("notes", notes);
-		args.put("tip_over", String.valueOf(tipOver?1:0));
-		args.put("penalty", String.valueOf(penalty?1:0));
-		args.put("mpenalty", String.valueOf(mpenalty?1:0));
-		args.put("yellow_card", String.valueOf(yellowCard?1:0));
-		args.put("red_card", String.valueOf(redCard?1:0));
+		ContentValues args = new ContentValues();
+		long ev = db.getEventIDFromName(event, database);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID, ev*10000000 + match*10000 + team);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID, ev);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES, notes);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER, tipOver?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL, foul?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL, tech_foul?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD, yellowCard?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD, redCard?1:0);
+		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID, 1);
 		
 		return args;
 	}

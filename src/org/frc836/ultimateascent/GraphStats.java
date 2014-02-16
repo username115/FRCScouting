@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.achartengine.model.XYSeries;
-import org.growingstems.scouting.XMLDBParser;
+import org.frc836.database.XMLDBParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.graphics.Color;

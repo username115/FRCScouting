@@ -5,42 +5,70 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/matchStartHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/startMatchNum"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:hint="Match#"
-            android:inputType="number" >
+            android:orientation="horizontal" >
 
-            <requestFocus />
-        </EditText>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/startPos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="red 1"
-            android:textColor="#FF0000" />
+            <EditText
+                android:id="@+id/startMatchNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="@string/match_hint"
+                android:inputType="number" />
 
-        <EditText
-            android:id="@+id/startTeamNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:hint="Team#"
-            android:inputType="number" >
-        </EditText>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/startTeamNum1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/redborder"
+                android:gravity="center"
+                android:hint="@string/team_1_hint"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/startTeamNum2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/redborder"
+                android:gravity="center"
+                android:hint="@string/team_2_hint"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/startTeamNum3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/redborder"
+                android:gravity="center"
+                android:hint="@string/team_2_hint"
+                android:inputType="number" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -50,7 +78,7 @@
         android:layout_gravity="center_horizontal"
         android:text="Start Match" />
 
-    <ScrollView
+   <!-- <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
@@ -64,6 +92,6 @@
             android:clickable="true"
             android:contentDescription="Robot Picture"
             android:src="@drawable/robot" />
-    </ScrollView>
+    </ScrollView>  --> 
 
 </LinearLayout>

@@ -7,12 +7,8 @@
     <string name="pits_label">Pit Data Entry</string>
 
     <string-array name="positions">
-        <item name="red 1">red 1</item>
-        <item name="red 2">red 2</item>
-        <item name="red 3">red 3</item>
-        <item name="blue 1">blue 1</item>
-        <item name="blue 2">blue 2</item>
-        <item name="blue 3">blue 3</item>
+        <item name="red">Red</item>
+        <item name="blue">Blue</item>
     </string-array>
     <string-array name="numbers">
         <item>0</item>
@@ -99,38 +95,19 @@
         <item>Medium</item>
         <item>Low</item>
     </string-array>
-    <string-array name="pyramid_climb">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-    <string-array name="discs_carry">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
-    <string name="_discs_preloaded_text"># Discs Preloaded</string>
-    <string name="autonomous_mode_text">Autonomous Mode</string>
+    <string name="autonomous_mode_text">Autonomous Mode:</string>
+    <string name="does_bot_have_mobility_text">Mobility</string>
     <string name="shooting_location_text">Shooting Location:</string>
     <string name="where_can_they_score_text">Where can they score?</string>
-    <string name="center_of_gravity_text">Center of Gravity</string>
+
     <string name="comments__text">"Comments: "</string>
     <string name="configuration_text">Configuration</string>
-    <string name="disc_loading_text">Disc loading:</string>
+
     <string name="drive_train_text">Drive Train</string>
-    <string name="how_do_they_pick_up_discs_text">How do they pick up discs?</string>
-    <string name="floor_text">Floor</string>
-    <string name="human_player_text">Human Player</string>
-    <string name="how_high_can_they_climb_text">How high can they climb?</string>
-    <string name="pyramid_level_text">Pyramid Level:</string>
+
     <string name="mid_text">Mid</string>
     <string name="low_text">Low</string>
-    <string name="pyramid_text">Pyramid</string>
-    <string name="max_discs_carried_text">Max # Discs Carried</string>
+
     <string name="submit_text">Submit</string>
     <string name="team_text">"Team #: "</string>
     <string name="team_hint">Team #</string>
@@ -157,7 +134,19 @@
     <string name="eventstats">Event Stats</string>
     <string name="teamstats">Team Stats</string>
     <string name="refresh_data">Refresh Data</string>
-    <string name="max_height_text">Max Height:</string>
-    <string name="max_height_hint">inches</string>
+    <string name="goalie_height_text">Max Height:</string>
+    <string name="goalie_height_hint">inches</string>
+    <string name="match_hint">Match#</string>
+    <string name="team_1_hint">Team# 1</string>
+    <string name="team_2_hint">Team# 2</string>
+    <string name="team_3_hint">Team# 3</string>
+    <string name="auto_high_text">High</string>
+    <string name="auto_low_text">Low</string>
+    <string name="auto_hot_text">Hot</string>
+    <string name="gameplay_text">Gameplay:</string>
+    <string name="truss_text">Able to get ball over truss</string>
+    <string name="catch_text">Catch ball</string>
+    <string name="active_control_text">Active control of ball</string>
+    <string name="launch_text">Able to launch ball</string>
 
 </resources>

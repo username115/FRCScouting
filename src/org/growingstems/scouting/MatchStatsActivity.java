@@ -18,6 +18,7 @@ package org.growingstems.scouting;
 
 import java.util.List;
 
+import org.frc836.database.DB;
 import org.frc836.ultimateascent.MatchStats;
 import org.growingstems.scouting.R;
 
@@ -47,14 +48,23 @@ public class MatchStatsActivity extends Activity implements
 	private TextListAdapter adapter;
 
 	private ProgressDialog pd;
-	
+
 	private String HELPMESSAGE = "Displays recorded data about the selected match.";
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.matchstats);
 		db = new DB(getApplicationContext(),
-				Prefs.getSavedPassword(getApplicationContext()));
+				Prefs.getSavedPassword(getApplicationContext()), null); // temporary
+																		// change
+																		// to
+																		// fix
+																		// errors
+																		// until
+																		// this
+																		// class
+																		// is
+																		// re-written
 		matchStatsView = (ExpandableListView) findViewById(R.id.match_data_list);
 
 		Intent intent = getIntent();
@@ -65,7 +75,7 @@ public class MatchStatsActivity extends Activity implements
 		setTitle(eventName + ", Match " + matchNum);
 		refreshStats();
 	}
-	
+
 	protected void onResume() {
 		super.onResume();
 		db.setPass(Prefs.getSavedPassword(getApplicationContext()));

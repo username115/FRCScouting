@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Daniel Logan
+ * Copyright 2014 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package org.growingstems.scouting;
 
 import java.util.List;
 
+import org.frc836.database.DB;
 import org.growingstems.scouting.R;
-import org.growingstems.scouting.EventList.EventCallback;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 
@@ -31,9 +31,6 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 public class Prefs extends PreferenceActivity {
@@ -42,11 +39,11 @@ public class Prefs extends PreferenceActivity {
 
 	private EditTextPreference passP;
 
-	private EventList eventList;
-
 	private ListPreference eventP;
 
 	private static final String URL = "http://robobees.org/scouting.php";
+	
+	private DB db;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,14 +53,13 @@ public class Prefs extends PreferenceActivity {
 
 		passP.setOnPreferenceChangeListener(new onPassChangeListener());
 
-		eventList = new EventList(getApplicationContext());
-
 		eventP = (ListPreference) findPreference("eventPref");
-		List<String> events = eventList.getEventList();
-		updateEventPreference(events);
-		if (events.isEmpty())
-			refreshEvents();
-
+		
+		db = new DB(this, null);
+		
+		List<String> events = db.getEventList();
+		if (events != null)
+			updateEventPreference(events);
 	}
 
 	private void updateEventPreference(List<String> events) {
@@ -79,14 +75,14 @@ public class Prefs extends PreferenceActivity {
 
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-			DB db = new DB(getBaseContext());
+			DB db = new DB(getBaseContext(), null); //does not perform databse sync operations
 			db.checkPass(newValue.toString(), new PasswordCallback());
 			return true;
 		}
 
 	}
 
-	public boolean onCreateOptionsMenu(Menu menu) {
+	/*public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.prefsmenu, menu);
 		return true;
@@ -100,10 +96,6 @@ public class Prefs extends PreferenceActivity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	private void refreshEvents() {
-		eventList.downloadEventsList(new EventListCallback());
 	}
 
 	protected class EventListCallback implements EventCallback {
@@ -122,7 +114,7 @@ public class Prefs extends PreferenceActivity {
 			updateEventPreference(events);
 		}
 
-	}
+	}*/
 
 	protected class PasswordCallback implements HttpCallback {
 
@@ -177,10 +169,10 @@ public class Prefs extends PreferenceActivity {
 				.getString("eventPref", defaultValue);
 	}
 
-	public static boolean getRobotPicPref(Context context, boolean defaultValue) {
+	/*public static boolean getRobotPicPref(Context context, boolean defaultValue) {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean("robotPicPref", defaultValue);
-	}
+	}*/
 
 	public static String getDefaultTeamNumber(Context context,
 			String defaultValue) {

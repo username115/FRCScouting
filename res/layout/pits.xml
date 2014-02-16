@@ -27,7 +27,7 @@
                 android:hint="@string/team_hint"
                 android:inputType="number" >
 
-                <requestFocus />
+                <requestFocus/>
             </EditText>
         </LinearLayout>
 
@@ -100,33 +100,70 @@
                     android:layout_weight="1"
                     android:entries="@array/wheels" />
             </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/center_of_gravity_text"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/pits_cgS"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/cg" />
-            </TableRow>
         </TableLayout>
 
-        <CheckBox
-            android:id="@+id/pits_autoC"
+        <TextView
+            android:id="@+id/pits_autoT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/autonomous_mode_text" />
+            android:text="@string/autonomous_mode_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/pits_auto_highC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_high_text" />
+
+        <CheckBox
+            android:id="@+id/pits_auto_lowC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_low_text" />
+
+        <CheckBox
+            android:id="@+id/pits_auto_hotC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_hot_text" />
+
+        <CheckBox
+            android:id="@+id/pits_auto_mobileC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/does_bot_have_mobility_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gameplay_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/pits_trussC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/truss_text" />
+
+        <CheckBox
+            android:id="@+id/pits_launchC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/launch_text" />
+
+        <CheckBox
+            android:id="@+id/pits_active_controlC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/active_control_text" />
+
+        <CheckBox
+            android:id="@+id/pits_catchC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/catch_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -142,16 +179,10 @@
             android:textSize="12sp" />
 
         <CheckBox
-            android:id="@+id/pits_topC"
+            android:id="@+id/pits_highC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/high_text" />
-
-        <CheckBox
-            android:id="@+id/pits_midC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mid_text" />
 
         <CheckBox
             android:id="@+id/pits_lowC"
@@ -159,152 +190,32 @@
             android:layout_height="wrap_content"
             android:text="@string/low_text" />
 
-        <CheckBox
-            android:id="@+id/pits_pyramidC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pyramid_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/disc_loading_text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/how_do_they_pick_up_discs_text"
-            android:textSize="12sp" />
-
-        <CheckBox
-            android:id="@+id/pits_floorC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/floor_text" />
-
-        <CheckBox
-            android:id="@+id/pits_humanC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/human_player_text" />
-
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
 
-            <TableRow
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/goalie_height_text"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/_discs_preloaded_text"
-                    android:textStyle="bold" />
+            <View
+                android:layout_height="1dp"
+                android:layout_width="1dp"
+                android:layout_weight="1" >
+            </View>
 
-                <View
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </View>
-
-                <Spinner
-                    android:id="@+id/pits_preloadS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/pyramid_climb" />
-            </TableRow>
-
-            <TableRow
+            <EditText
+                android:id="@+id/pits_heightT"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/max_discs_carried_text"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </View>
-
-                <Spinner
-                    android:id="@+id/pits_carryS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/discs_carry" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/pyramid_level_text"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/how_high_can_they_climb_text"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </View>
-
-                <Spinner
-                    android:id="@+id/pits_pyramidClimbS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/pyramid_climb" />
-            </TableRow>
-            
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/max_height_text"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </View>
-
-                <EditText
-                    android:id="@+id/pits_heightT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/max_height_hint" />
-            </TableRow>
-        </TableLayout>
-
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/goalie_height_hint"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
