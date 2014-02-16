@@ -70,7 +70,7 @@ public class DashboardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
-		
+
 		versionCode = "";
 
 		HELPMESSAGE = "Version: " + getString(R.string.VersionID) + "\nDate: "
@@ -83,10 +83,9 @@ public class DashboardActivity extends Activity {
 		data = (Button) findViewById(R.id.dataB);
 		beeLogo = (ImageView) findViewById(R.id.beeLogo);
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
-		
 
 		Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
-		//intent.setPackage("org.frc836.database");
+		// intent.setPackage("org.frc836.database");
 		bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
 		match.setOnClickListener(new OnClickListener() {
@@ -143,7 +142,7 @@ public class DashboardActivity extends Activity {
 		}
 
 	}
-	
+
 	protected void onStart() {
 		super.onStart();
 	}
@@ -155,7 +154,7 @@ public class DashboardActivity extends Activity {
 
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

@@ -37,6 +37,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 	public int high;
 	public int low;
 	public boolean auto_mobile;
+	public boolean auto_goalie;
 
 	public SparseArray<CycleStatsStruct> cycles;
 
@@ -63,6 +64,7 @@ public class MatchStatsAA extends MatchStatsStruct {
 		high = 0;
 		low = 0;
 		auto_mobile = false;
+		auto_goalie = false;
 		cycles = new SparseArray<MatchStatsAA.CycleStatsStruct>();
 	}
 
@@ -77,6 +79,8 @@ public class MatchStatsAA extends MatchStatsStruct {
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW, low);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE, auto_mobile ? 1
 				: 0);
+		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE, auto_goalie ? 1 : 0);
+		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NUM_CYCLES, cycles.size());
 
 		return vals;
 	}

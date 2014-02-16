@@ -58,6 +58,8 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_HIGH = "high";
 		public static final String COLUMN_NAME_LOW = "low";
 		public static final String COLUMN_NAME_AUTO_MOBILE = "auto_mobile";
+		public static final String COLUMN_NAME_AUTO_GOALIE = "auto_goalie";
+		public static final String COLUMN_NAME_NUM_CYCLES = "num_cycles";
 		public static final String COLUMN_NAME_FOUL = "foul";
 		public static final String COLUMN_NAME_TECH_FOUL = "tech_foul";
 		public static final String COLUMN_NAME_TIP_OVER = "tip_over";
@@ -285,7 +287,9 @@ public final class FRCScoutingContract {
 		"  auto_low_hot unsigned int(1) NOT NULL,\n" + 
 		"  high unsigned int(1) NOT NULL,\n" + 
 		"  low unsigned int(1) NOT NULL,\n" + 
-		"  auto_mobile unsigned tinyint(1) NOT NULL,\n" + 
+		"  auto_mobile unsigned tinyint(1) NOT NULL,\n" +
+		"  auto_goalie unsigned tinyint(1) NOT NULL,\n" + 
+		"  num_cycles unsigned int(3) NOT NULL,\n" + 
 		"  foul unsigned tinyint(1) NOT NULL,\n" + 
 		"  tech_foul unsigned tinyint(1) NOT NULL,\n" + 
 		"  tip_over unsigned tinyint(1) NOT NULL,\n" + 
