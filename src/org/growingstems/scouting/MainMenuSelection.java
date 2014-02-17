@@ -45,6 +45,9 @@ public class MainMenuSelection {
 		case R.id.exportItem:
 			exportDB(context);
 			return true;
+		case R.id.exitItem:
+			exit(context);
+			return true;
 		default:
 			return false;
 		}
@@ -83,5 +86,17 @@ public class MainMenuSelection {
 	
 	public static void exportDB(Activity context) {
 		DB.exportToCSV(context);
+	}
+	
+	public static void exit(Activity context) {
+		if (context instanceof DashboardActivity)
+			context.finish();
+		else {
+			Intent intent = new Intent(context, DashboardActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra("ExitApp", true);
+			context.startActivity(intent);
+			context.finish();
+		}
 	}
 }

@@ -70,6 +70,10 @@ public class DashboardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
+		if (getIntent().getBooleanExtra("ExitApp", false)) {
+			finish();
+			return;
+		}
 
 		versionCode = "";
 
@@ -143,6 +147,15 @@ public class DashboardActivity extends Activity {
 
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		if (intent.getBooleanExtra("ExitApp", false)) {
+			finish();
+			return;
+		}
+	}
+
 	protected void onStart() {
 		super.onStart();
 	}
@@ -158,18 +171,23 @@ public class DashboardActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		unbindService(watcher);
+		if (watcher != null && watcher.serviceRegistered)
+			unbindService(watcher);
 	}
 
 	protected class ServiceWatcher implements ServiceConnection {
 
+		boolean serviceRegistered = false;
+
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LocalBinder) {
 				binder = (LocalBinder) service;
+				serviceRegistered = true;
 			}
 		}
 
 		public void onServiceDisconnected(ComponentName name) {
+			serviceRegistered = false;
 		}
 
 	}

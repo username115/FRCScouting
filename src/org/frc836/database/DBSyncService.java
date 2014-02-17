@@ -108,6 +108,12 @@ public class DBSyncService extends Service {
 	public IBinder onBind(Intent arg0) {
 		return mBinder;
 	}
+	
+	@Override
+	public boolean onUnbind(Intent intent) {
+		super.onUnbind(intent);
+		return false;
+	}
 
 	@Override
 	public void onDestroy() {
