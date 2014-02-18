@@ -25,11 +25,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.frc836.database.DB;
+import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
 
 public class MainMenuSelection {
 
 	public static final int HELPDIALOG = 74920442;
+	
+	private static LocalBinder mBinder;
 
 	public static boolean onOptionsItemSelected(MenuItem item, Activity context) {
 		switch (item.getItemId()) {
@@ -48,6 +51,8 @@ public class MainMenuSelection {
 		case R.id.exitItem:
 			exit(context);
 			return true;
+		case R.id.syncItem:
+			return forceSync(context);
 		default:
 			return false;
 		}
@@ -98,5 +103,17 @@ public class MainMenuSelection {
 			context.startActivity(intent);
 			context.finish();
 		}
+	}
+	
+	public static void setBinder(LocalBinder binder) {
+		mBinder = binder;
+	}
+	
+	public static boolean forceSync(Activity context) {
+		if (mBinder != null) {
+			mBinder.forceSync();
+			return true;
+		}
+		return false;
 	}
 }

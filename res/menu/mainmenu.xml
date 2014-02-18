@@ -23,6 +23,13 @@
         android:visible="true">
     </item>
     <item
+        android:id="@+id/syncItem"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:title="Force Sync"
+        android:visible="true">
+    </item>
+    <item
         android:id="@+id/exportItem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_save"

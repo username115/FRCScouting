@@ -20,6 +20,7 @@ import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
 
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.widget.Toast;
 
 public class DBSyncService extends Service {
 
@@ -47,6 +49,8 @@ public class DBSyncService extends Service {
 	private Timestamp lastSync;
 
 	private List<Map<String, String>> outgoing;
+
+	private boolean syncForced = false;
 
 	private static enum Actions {
 		NOTHING, INSERT, UPDATE, DELETE
@@ -108,7 +112,7 @@ public class DBSyncService extends Service {
 	public IBinder onBind(Intent arg0) {
 		return mBinder;
 	}
-	
+
 	@Override
 	public boolean onUnbind(Intent intent) {
 		super.onUnbind(intent);
@@ -132,6 +136,12 @@ public class DBSyncService extends Service {
 
 		public void startSync() {
 			mTimerTask.removeCallbacks(dataTask);
+			mTimerTask.post(dataTask);
+		}
+
+		public void forceSync() {
+			mTimerTask.removeCallbacks(dataTask);
+			syncForced = true;
 			mTimerTask.post(dataTask);
 		}
 	}
@@ -214,8 +224,14 @@ public class DBSyncService extends Service {
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
-				else
+				else {
+					if (syncForced) {
+						Toast.makeText(getApplicationContext(),
+								"Synced with Database", Toast.LENGTH_SHORT)
+								.show();
+					}
 					mTimerTask.postDelayed(dataTask, DELAY);
+				}
 			}
 
 		}
@@ -230,6 +246,11 @@ public class DBSyncService extends Service {
 		}
 
 		public void onError(Exception e) {
+			if (syncForced) {
+				Toast.makeText(getApplicationContext(),
+						"Error syncing with Database", Toast.LENGTH_SHORT)
+						.show();
+			}
 			mTimerTask.postDelayed(dataTask, DELAY);
 		}
 	}
@@ -401,8 +422,14 @@ public class DBSyncService extends Service {
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
-				else
+				else {
+					if (syncForced) {
+						Toast.makeText(getApplicationContext(),
+								"Synced with Database", Toast.LENGTH_SHORT)
+								.show();
+					}
 					mTimerTask.postDelayed(dataTask, DELAY);
+				}
 			}
 		}
 
@@ -412,6 +439,12 @@ public class DBSyncService extends Service {
 	private class SyncDataTask implements Runnable {
 
 		public void run() {
+
+			if (syncForced) {
+				initialSync();
+				return;
+			}
+
 			Map<String, String> args = new HashMap<String, String>();
 
 			args.put("password", password);

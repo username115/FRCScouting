@@ -183,6 +183,7 @@ public class DashboardActivity extends Activity {
 			if (service instanceof LocalBinder) {
 				binder = (LocalBinder) service;
 				serviceRegistered = true;
+				MainMenuSelection.setBinder(binder);
 			}
 		}
 
