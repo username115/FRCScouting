@@ -137,9 +137,9 @@ public class DashboardActivity extends Activity {
 			}
 		});
 
+		DB db = new DB(getBaseContext(), binder);
 		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
 		if (url.length() > 0) {
-			DB db = new DB(getBaseContext(), binder);
 			db.checkVersion(new VersionCallback());
 		} else {
 			showDialog(URL_DIALOG);
