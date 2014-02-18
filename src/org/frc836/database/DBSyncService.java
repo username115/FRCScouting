@@ -20,7 +20,6 @@ import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
 
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
@@ -51,6 +50,7 @@ public class DBSyncService extends Service {
 	private List<Map<String, String>> outgoing;
 
 	private boolean syncForced = false;
+	private boolean initSync = false;
 
 	private static enum Actions {
 		NOTHING, INSERT, UPDATE, DELETE
@@ -144,6 +144,12 @@ public class DBSyncService extends Service {
 			syncForced = true;
 			mTimerTask.post(dataTask);
 		}
+		
+		public void initSync() {
+			mTimerTask.removeCallbacks(dataTask);
+			initSync = true;
+			mTimerTask.post(dataTask);
+		}
 	}
 
 	// start an initial sync
@@ -226,6 +232,7 @@ public class DBSyncService extends Service {
 							outgoing.get(0), new ChangeResponseCallback());
 				else {
 					if (syncForced) {
+						syncForced = false;
 						Toast.makeText(getApplicationContext(),
 								"Synced with Database", Toast.LENGTH_SHORT)
 								.show();
@@ -247,6 +254,7 @@ public class DBSyncService extends Service {
 
 		public void onError(Exception e) {
 			if (syncForced) {
+				syncForced = false;
 				Toast.makeText(getApplicationContext(),
 						"Error syncing with Database", Toast.LENGTH_SHORT)
 						.show();
@@ -424,6 +432,7 @@ public class DBSyncService extends Service {
 							outgoing.get(0), new ChangeResponseCallback());
 				else {
 					if (syncForced) {
+						syncForced = false;
 						Toast.makeText(getApplicationContext(),
 								"Synced with Database", Toast.LENGTH_SHORT)
 								.show();
@@ -440,7 +449,8 @@ public class DBSyncService extends Service {
 
 		public void run() {
 
-			if (syncForced) {
+			if (syncForced || initSync) {
+				initSync = false;
 				initialSync();
 				return;
 			}

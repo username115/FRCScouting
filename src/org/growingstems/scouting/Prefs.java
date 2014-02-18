@@ -19,12 +19,18 @@ package org.growingstems.scouting;
 import java.util.List;
 
 import org.frc836.database.DB;
+import org.frc836.database.DBSyncService;
+import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -38,20 +44,27 @@ public class Prefs extends PreferenceActivity {
 	public static final int PREFS_ACTIVITY_CODE = 64738;
 
 	private EditTextPreference passP;
+	
+	private EditTextPreference urlP;
 
 	private ListPreference eventP;
 
 	private static final String URL = "http://robobees.org/scouting.php";
 	
 	private DB db;
+	
+	private LocalBinder binder;
+	private ServiceWatcher watcher = new ServiceWatcher();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.mainprefs);
 
 		passP = (EditTextPreference) findPreference("passPref");
+		urlP = (EditTextPreference) findPreference("databaseURLPref");
 
-		passP.setOnPreferenceChangeListener(new onPassChangeListener());
+		passP.setOnPreferenceChangeListener(new onPassChangeListener(true));
+		urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
 
 		eventP = (ListPreference) findPreference("eventPref");
 		
@@ -60,6 +73,24 @@ public class Prefs extends PreferenceActivity {
 		List<String> events = db.getEventList();
 		if (events != null)
 			updateEventPreference(events);
+		
+		Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
+		bindService(intent, watcher, Context.BIND_AUTO_CREATE);
+	}
+	
+	protected class ServiceWatcher implements ServiceConnection {
+
+		boolean serviceRegistered = false;
+
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			if (service instanceof LocalBinder) {
+				binder = (LocalBinder) service;
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName name) {
+		}
+
 	}
 
 	private void updateEventPreference(List<String> events) {
@@ -72,11 +103,17 @@ public class Prefs extends PreferenceActivity {
 	}
 
 	private class onPassChangeListener implements OnPreferenceChangeListener {
+		
+		private boolean isPass = true;
+		
+		public onPassChangeListener(boolean pass) {
+			isPass = pass;
+		}
 
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 
 			DB db = new DB(getBaseContext(), null); //does not perform databse sync operations
-			db.checkPass(newValue.toString(), new PasswordCallback());
+			db.checkPass(newValue.toString(), new PasswordCallback(isPass));
 			return true;
 		}
 
@@ -117,13 +154,22 @@ public class Prefs extends PreferenceActivity {
 	}*/
 
 	protected class PasswordCallback implements HttpCallback {
+		
+		private boolean isPass = true;
+		
+		public PasswordCallback(boolean pass) {
+			isPass = pass;
+		}
 
 		public void onResponse(HttpRequestInfo resp) {
 			Toast toast;
 			try {
-				if (resp.getResponseString().contains("success"))
+				if (resp.getResponseString().contains("success")) {
 					toast = Toast.makeText(getBaseContext(),
 							"Password confirmed", Toast.LENGTH_SHORT);
+					if (binder != null)
+						binder.initSync();
+				}
 				else
 					toast = Toast.makeText(getBaseContext(),
 							"Invalid password", Toast.LENGTH_SHORT);
@@ -131,7 +177,8 @@ public class Prefs extends PreferenceActivity {
 				toast = Toast.makeText(getBaseContext(), "Invalid password",
 						Toast.LENGTH_SHORT);
 			}
-			toast.show();
+			if (isPass)
+				toast.show();
 		}
 
 		public void onError(Exception e) {
