@@ -292,6 +292,39 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		}
 	}
 
+	public void autoMovedGoalie(View v) {
+		boolean checked = ((CheckBox) v).isChecked();
+		if (checked) {
+			switch (v.getId()) {
+			case R.id.team1AutoGoalie:
+				((CheckBox) findViewById(R.id.team1AutoMoved))
+						.setChecked(false);
+				break;
+			case R.id.team1AutoMoved:
+				((CheckBox) findViewById(R.id.team1AutoGoalie))
+						.setChecked(false);
+				break;
+			case R.id.team2AutoGoalie:
+				((CheckBox) findViewById(R.id.team2AutoMoved))
+						.setChecked(false);
+				break;
+			case R.id.team2AutoMoved:
+				((CheckBox) findViewById(R.id.team2AutoGoalie))
+						.setChecked(false);
+				break;
+			case R.id.team3AutoGoalie:
+				((CheckBox) findViewById(R.id.team3AutoMoved))
+						.setChecked(false);
+				break;
+			case R.id.team3AutoMoved:
+				((CheckBox) findViewById(R.id.team3AutoGoalie))
+						.setChecked(false);
+				break;
+			}
+		}
+
+	}
+
 	public void onAutoScoreClick(View v) {
 		int viewId = v.getId();
 
