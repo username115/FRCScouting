@@ -45,8 +45,10 @@ public class MatchSchedule implements HttpCallback {
 		toastComplete = toastWhenComplete;
 		
 		db = new DB(_parent, null);
-
-		utils.doGet(db.getURLFromEventName(event), this);
+		
+		String url = db.getURLFromEventName(event);
+		if (url != null)
+			utils.doGet(url, this);
 
 	}
 
