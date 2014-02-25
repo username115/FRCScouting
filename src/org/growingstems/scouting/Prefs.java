@@ -44,15 +44,15 @@ public class Prefs extends PreferenceActivity {
 	public static final int PREFS_ACTIVITY_CODE = 64738;
 
 	private EditTextPreference passP;
-	
+
 	private EditTextPreference urlP;
 
 	private ListPreference eventP;
 
 	private static final String URL = "http://robobees.org/scouting.php";
-	
+
 	private DB db;
-	
+
 	private LocalBinder binder;
 	private ServiceWatcher watcher = new ServiceWatcher();
 
@@ -67,17 +67,17 @@ public class Prefs extends PreferenceActivity {
 		urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
 
 		eventP = (ListPreference) findPreference("eventPref");
-		
+
 		db = new DB(this, null);
-		
+
 		List<String> events = db.getEventList();
 		if (events != null)
 			updateEventPreference(events);
-		
+
 		Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
 		bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 	}
-	
+
 	protected class ServiceWatcher implements ServiceConnection {
 
 		boolean serviceRegistered = false;
@@ -103,60 +103,50 @@ public class Prefs extends PreferenceActivity {
 	}
 
 	private class onPassChangeListener implements OnPreferenceChangeListener {
-		
+
 		private boolean isPass = true;
-		
+
 		public onPassChangeListener(boolean pass) {
 			isPass = pass;
 		}
 
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-			DB db = new DB(getBaseContext(), null); //does not perform databse sync operations
+			DB db = new DB(getBaseContext(), null); // does not perform databse
+													// sync operations
 			db.checkPass(newValue.toString(), new PasswordCallback(isPass));
 			return true;
 		}
 
 	}
 
-	/*public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.prefsmenu, menu);
-		return true;
-	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.refreshEventsItem:
-			refreshEvents();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	protected class EventListCallback implements EventCallback {
-
-		public void eventsUpdated(List<String> events) {
-
-			if (events == null) {
-				Toast.makeText(getBaseContext(), "Error Updating Event List.",
-						Toast.LENGTH_SHORT).show();
-				return;
-			}
-			Toast toast = Toast.makeText(getBaseContext(),
-					"Updated Event List", Toast.LENGTH_SHORT);
-			toast.show();
-
-			updateEventPreference(events);
-		}
-
-	}*/
+	/*
+	 * public boolean onCreateOptionsMenu(Menu menu) { MenuInflater inflater =
+	 * getMenuInflater(); inflater.inflate(R.menu.prefsmenu, menu); return true;
+	 * }
+	 * 
+	 * public boolean onOptionsItemSelected(MenuItem item) { switch
+	 * (item.getItemId()) { case R.id.refreshEventsItem: refreshEvents(); return
+	 * true; default: return super.onOptionsItemSelected(item); } }
+	 * 
+	 * protected class EventListCallback implements EventCallback {
+	 * 
+	 * public void eventsUpdated(List<String> events) {
+	 * 
+	 * if (events == null) { Toast.makeText(getBaseContext(),
+	 * "Error Updating Event List.", Toast.LENGTH_SHORT).show(); return; } Toast
+	 * toast = Toast.makeText(getBaseContext(), "Updated Event List",
+	 * Toast.LENGTH_SHORT); toast.show();
+	 * 
+	 * updateEventPreference(events); }
+	 * 
+	 * }
+	 */
 
 	protected class PasswordCallback implements HttpCallback {
-		
+
 		private boolean isPass = true;
-		
+
 		public PasswordCallback(boolean pass) {
 			isPass = pass;
 		}
@@ -169,8 +159,7 @@ public class Prefs extends PreferenceActivity {
 							"Password confirmed", Toast.LENGTH_SHORT);
 					if (binder != null)
 						binder.initSync();
-				}
-				else
+				} else
 					toast = Toast.makeText(getBaseContext(),
 							"Invalid password", Toast.LENGTH_SHORT);
 			} catch (Exception e) {
@@ -216,14 +205,21 @@ public class Prefs extends PreferenceActivity {
 				.getString("eventPref", defaultValue);
 	}
 
-	/*public static boolean getRobotPicPref(Context context, boolean defaultValue) {
-		return PreferenceManager.getDefaultSharedPreferences(context)
-				.getBoolean("robotPicPref", defaultValue);
-	}*/
+	/*
+	 * public static boolean getRobotPicPref(Context context, boolean
+	 * defaultValue) { return
+	 * PreferenceManager.getDefaultSharedPreferences(context)
+	 * .getBoolean("robotPicPref", defaultValue); }
+	 */
 
 	public static String getDefaultTeamNumber(Context context,
 			String defaultValue) {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getString("teamPref", defaultValue);
+	}
+
+	public static boolean getAutoSync(Context context, boolean defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean("enableSyncPref", defaultValue);
 	}
 }

@@ -51,8 +51,8 @@ public class DBSyncService extends Service {
 
 	private boolean syncForced = false;
 	private boolean initSync = false;
-	
-	private static boolean syncInProgress = false;
+
+	private static volatile boolean syncInProgress = false;
 
 	private static enum Actions {
 		NOTHING, INSERT, UPDATE, DELETE
@@ -147,7 +147,7 @@ public class DBSyncService extends Service {
 			syncForced = true;
 			mTimerTask.post(dataTask);
 		}
-		
+
 		public void initSync() {
 			mTimerTask.removeCallbacks(dataTask);
 			initSync = true;
@@ -264,7 +264,7 @@ public class DBSyncService extends Service {
 						.show();
 			}
 			syncInProgress = false;
-					mTimerTask.postDelayed(dataTask, DELAY);
+			mTimerTask.postDelayed(dataTask, DELAY);
 		}
 	}
 
@@ -454,9 +454,15 @@ public class DBSyncService extends Service {
 	private class SyncDataTask implements Runnable {
 
 		public void run() {
-			
+
 			if (syncInProgress)
 				return;
+
+			if (!syncForced && Prefs.getAutoSync(getApplicationContext(), true)) {
+				mTimerTask.postDelayed(dataTask, DELAY);
+				return;
+			}
+
 			syncInProgress = true;
 
 			if (syncForced || initSync) {

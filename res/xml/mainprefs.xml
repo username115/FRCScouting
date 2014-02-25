@@ -40,5 +40,12 @@
         android:key="teamPref"
         android:summary="Enter your team number"
         android:title="Team Number" />
+    
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:enabled="true"
+        android:key="enableSyncPref"
+        android:summary="Automatically sync with server?"
+        android:title="Auto Sync" />
 
 </PreferenceScreen>
