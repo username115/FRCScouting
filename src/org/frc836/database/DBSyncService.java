@@ -51,6 +51,8 @@ public class DBSyncService extends Service {
 
 	private boolean syncForced = false;
 	private boolean initSync = false;
+	
+	private static boolean syncInProgress = false;
 
 	private static enum Actions {
 		NOTHING, INSERT, UPDATE, DELETE
@@ -77,7 +79,8 @@ public class DBSyncService extends Service {
 
 		utils = new HttpUtils();
 
-		initialSync();
+		initSync = true;
+		mTimerTask.post(dataTask);
 	}
 
 	private void loadTimestamp() {
@@ -237,6 +240,7 @@ public class DBSyncService extends Service {
 								"Synced with Database", Toast.LENGTH_SHORT)
 								.show();
 					}
+					syncInProgress = false;
 					mTimerTask.postDelayed(dataTask, DELAY);
 				}
 			}
@@ -259,7 +263,8 @@ public class DBSyncService extends Service {
 						"Error syncing with Database", Toast.LENGTH_SHORT)
 						.show();
 			}
-			mTimerTask.postDelayed(dataTask, DELAY);
+			syncInProgress = false;
+					mTimerTask.postDelayed(dataTask, DELAY);
 		}
 	}
 
@@ -437,6 +442,7 @@ public class DBSyncService extends Service {
 								"Synced with Database", Toast.LENGTH_SHORT)
 								.show();
 					}
+					syncInProgress = false;
 					mTimerTask.postDelayed(dataTask, DELAY);
 				}
 			}
@@ -448,6 +454,10 @@ public class DBSyncService extends Service {
 	private class SyncDataTask implements Runnable {
 
 		public void run() {
+			
+			if (syncInProgress)
+				return;
+			syncInProgress = true;
 
 			if (syncForced || initSync) {
 				initSync = false;
