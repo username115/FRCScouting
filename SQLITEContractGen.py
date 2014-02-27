@@ -88,13 +88,6 @@ class SqlColumn:
 		self.notNull = not nullValid
 		self.autoInc = autoIncrement
 		self.data = list()
-	#def addRow(self, i_row, data):
-	#	print( str(len(self.data)) + " " +str(i_row))
-	#	if len(self.data) < i_row+1:
-	#		extendBy = (i_row) - len(self.data)
-	#		for i in range(0,extendBy):
-	#			self.data.append(None)
-	#	self.data.insert(i_row, data)
 	def addRow(self, data):
 		self.data.append( str(data) )
 	def getRow(self, i_row):
@@ -103,8 +96,11 @@ class SqlColumn:
 	def getColumns(self):
 		return len(self.data)
 	def toSqLiteType(self):
-		if re.search(r'int\(10\)', self.type):
+		#if re.search(r'int\(10\)', self.type):
+		if self.name == 'id':
 			self.type = "integer"
+		if re.search('varchar',self.type):
+			self.type = "text"
 	def toSqLite(self):
 		self.toSqLiteType()
 		if self.primary:
@@ -186,7 +182,7 @@ class SqlTable:
 			s += " TABLE_NAME = \""+ self.name +"\""
 		return s +";"
 	def createStr_Class(self, baseClass=None):
-		s = "public static final String "
+		s = "public static abstract class "
 		s += (self.name).upper() +"_Entry"
 		if baseClass:
 			s += " implements "+ baseClass
