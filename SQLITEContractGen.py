@@ -274,7 +274,7 @@ class SqlToJava():
 		ret = "/*\n"
 		ret += _autogenScriptInfo_Str() +"\n"
 		ret += "*/\n\n"
-		ret += "package "+ self.packageName +"\n"
+		ret += "package "+ self.packageName +";\n"
 		ret += "\n"
 		if self.baseClassHeader:
 			ret += "import "+ self.baseClassHeader +";\n"
