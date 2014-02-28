@@ -141,6 +141,29 @@ public class PitsActivity extends Activity {
 
 	public void onResume() {
 		super.onResume();
+
+		List<String> config = submitter.getConfigList();
+		if (config != null) {
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+					android.R.layout.simple_spinner_item, config);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			configS.setAdapter(adapter);
+		}
+		List<String> wheelBase = submitter.getWheelBaseList();
+		if (wheelBase != null) {
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+					android.R.layout.simple_spinner_item, wheelBase);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			drivetrainS.setAdapter(adapter);
+		}
+		List<String> wheelType = submitter.getWheelTypeList();
+		if (wheelType != null) {
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+					android.R.layout.simple_spinner_item, wheelType);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			wheeltypeS.setAdapter(adapter);
+		}
+
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 		String pass = prefs.getString("passPref", "");

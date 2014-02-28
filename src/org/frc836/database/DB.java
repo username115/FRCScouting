@@ -342,6 +342,93 @@ public class DB {
 			}
 		}
 	}
+	
+	public List<String> getConfigList() {
+
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
+
+				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+						null, null, null, null, CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
+
+				List<String> ret = new ArrayList<String>(c.getCount());
+
+				if (c.moveToFirst())
+					do {
+						ret.add(c.getString(c
+								.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC)));
+					} while (c.moveToNext());
+				else
+					return null;
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+	
+	public List<String> getWheelBaseList() {
+
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
+
+				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+						null, null, null, null, WHEEL_BASE_LU_Entry.COLUMN_NAME_ID);
+
+				List<String> ret = new ArrayList<String>(c.getCount());
+
+				if (c.moveToFirst())
+					do {
+						ret.add(c.getString(c
+								.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC)));
+					} while (c.moveToNext());
+				else
+					return null;
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+	
+	public List<String> getWheelTypeList() {
+
+		synchronized (ScoutingDBHelper.helper) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
+
+				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+						null, null, null, null, WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID);
+
+				List<String> ret = new ArrayList<String>(c.getCount());
+
+				if (c.moveToFirst())
+					do {
+						ret.add(c.getString(c
+								.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC)));
+					} while (c.moveToNext());
+				else
+					return null;
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
 
 	public String getURLFromEventName(String eventName) {
 		synchronized (ScoutingDBHelper.helper) {
