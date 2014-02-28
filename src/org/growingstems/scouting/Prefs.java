@@ -222,4 +222,9 @@ public class Prefs extends PreferenceActivity {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean("enableSyncPref", defaultValue);
 	}
+
+	public static String getPosition(Context context, String defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getString("positionPref", defaultValue);
+	}
 }

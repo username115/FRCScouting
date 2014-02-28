@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Daniel Logan
+ * Copyright 2014 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,6 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	private MatchSchedule schedule;
 
 	private static final int MATCH_ACTIVITY_REQUEST = 0;
-
 
 	private ProgressDialog pd;
 
@@ -192,6 +191,34 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void setMatch(int matchNum) {
+
+		String def1 = teamNum1.getText().toString().trim();
+		String def2 = teamNum2.getText().toString().trim();
+		String def3 = teamNum3.getText().toString().trim();
+
+		try {
+			if (def1.length() > 9 || Integer.valueOf(def1) <= 0)
+				def1 = "";
+		} catch (Exception e) {
+			def1 = "";
+		}
+		try {
+			if (def2.length() > 9 || Integer.valueOf(def2) <= 0)
+				def2 = "";
+		} catch (Exception e) {
+			def2 = "";
+		}
+		try {
+			if (def3.length() > 9 || Integer.valueOf(def3) <= 0)
+				def3 = "";
+		} catch (Exception e) {
+			def3 = "";
+		}
+		
+		teamNum1.setText(schedule.getTeam(matchNum, Prefs.getPosition(this, "red") + " 1", this, def1));
+		teamNum2.setText(schedule.getTeam(matchNum, Prefs.getPosition(this, "red") + " 2", this, def2));
+		teamNum3.setText(schedule.getTeam(matchNum, Prefs.getPosition(this, "red") + " 3", this, def3));
+
 		// TODO fixme
 		/*
 		 * String def = teamNum.getText().toString().trim(); try { if

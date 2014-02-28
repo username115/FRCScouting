@@ -54,6 +54,7 @@ public class MatchSchedule implements HttpCallback {
 
 	public void onResponse(HttpRequestInfo resp) {
 		try {
+			Toast.makeText(_parent, resp.getRequest().getURI().toString(), Toast.LENGTH_LONG).show();
 			String r = resp.getResponseString();
 			if (resp.getResponse().getStatusLine().toString().contains("200")) {
 				FileOutputStream fos = _parent.openFileOutput(FILENAME,
