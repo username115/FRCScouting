@@ -28,7 +28,6 @@ import org.growingstems.scouting.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -93,8 +92,6 @@ public class PitsActivity extends Activity {
 	private static final int CANCEL_DIALOG = 0;
 
 	private List<TeamNumTask> tasks = new ArrayList<TeamNumTask>(3);
-
-	private ProgressDialog pd;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -377,9 +374,6 @@ public class PitsActivity extends Activity {
 	}
 
 	private void getTeamStats(int teamNum) {
-		pd = ProgressDialog.show(this, "Busy", "Retrieving Team Pit Data",
-				false);
-		pd.setCancelable(false);
 		PitStats s = submitter.getTeamPitStats(teamNum);
 		if (s instanceof PitStatsAA)
 			stats = (PitStatsAA) s;
