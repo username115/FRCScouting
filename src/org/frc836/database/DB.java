@@ -16,6 +16,7 @@
 
 package org.frc836.database;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
+import org.frc836.samsung.fileselector.FileOperation;
+import org.frc836.samsung.fileselector.FileSelector;
+import org.frc836.samsung.fileselector.OnHandleFileListener;
 import org.frc836.ultimateascent.*;
 import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
@@ -43,7 +47,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.widget.Toast;
 
 public class DB {
@@ -342,7 +345,7 @@ public class DB {
 			}
 		}
 	}
-	
+
 	public List<String> getConfigList() {
 
 		synchronized (ScoutingDBHelper.helper) {
@@ -353,7 +356,8 @@ public class DB {
 				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
 
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
-						null, null, null, null, CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
+						null, null, null, null,
+						CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
 
 				List<String> ret = new ArrayList<String>(c.getCount());
 
@@ -371,7 +375,7 @@ public class DB {
 			}
 		}
 	}
-	
+
 	public List<String> getWheelBaseList() {
 
 		synchronized (ScoutingDBHelper.helper) {
@@ -382,7 +386,8 @@ public class DB {
 				String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
 
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
-						null, null, null, null, WHEEL_BASE_LU_Entry.COLUMN_NAME_ID);
+						null, null, null, null,
+						WHEEL_BASE_LU_Entry.COLUMN_NAME_ID);
 
 				List<String> ret = new ArrayList<String>(c.getCount());
 
@@ -400,7 +405,7 @@ public class DB {
 			}
 		}
 	}
-	
+
 	public List<String> getWheelTypeList() {
 
 		synchronized (ScoutingDBHelper.helper) {
@@ -411,7 +416,8 @@ public class DB {
 				String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
 
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
-						null, null, null, null, WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID);
+						null, null, null, null,
+						WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID);
 
 				List<String> ret = new ArrayList<String>(c.getCount());
 
@@ -698,15 +704,37 @@ public class DB {
 				.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
 	}
 
+	static OnHandleFileListener mDirSelectListener = new OnHandleFileListener() {
+		@Override
+		public void handleFile(String filePath) {
+			cb.filename = filePath;
+			CSVExporter export = new CSVExporter();
+			export.execute(cb);
+		}
+	};
+
+	static ExportCallback cb;
+
+	private static final String FILENAME = "ScoutingDefaultExportLocation";
+
 	public static void exportToCSV(Context context) {
 		try {
-
-			ExportCallback cb = new ExportCallback();
+			cb = new ExportCallback();
+			String filename;
+			try {
+				BufferedInputStream bis = new BufferedInputStream(
+						context.openFileInput(FILENAME));
+				byte[] buffer = new byte[bis.available()];
+				bis.read(buffer, 0, buffer.length);
+				filename = new String(buffer);
+			} catch (Exception e) {
+				filename = null;
+			}
 
 			cb.context = context;
 
-			CSVExporter export = new CSVExporter();
-			export.execute(cb);
+			new FileSelector(context, FileOperation.SELECTDIR,
+					mDirSelectListener, null, filename).show();
 
 		} catch (Exception e) {
 			Toast.makeText(context, "Error exporting Database",
@@ -716,6 +744,7 @@ public class DB {
 
 	private static class ExportCallback {
 		Context context;
+		String filename;
 
 		public void finish(String result) {
 			Toast.makeText(context, result, Toast.LENGTH_LONG).show();
@@ -802,8 +831,7 @@ public class DB {
 							pit_data += "\n";
 						} while (c.moveToNext());
 
-					File sd = Environment
-							.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+					File sd = new File(callback.filename);
 					File match = new File(sd, "matches.csv");
 					File cycle = new File(sd, "cycles.csv");
 					File pits = new File(sd, "pits.csv");
@@ -817,6 +845,14 @@ public class DB {
 					destination.write(pit_data.getBytes());
 					destination.close();
 					ScoutingDBHelper.helper.close();
+					try {
+						FileOutputStream fos = callback.context.openFileOutput(
+								FILENAME, Context.MODE_PRIVATE);
+						fos.write(callback.filename.getBytes());
+						fos.close();
+					} catch (Exception e) {
+
+					}
 					return "DB exported to " + sd.getAbsolutePath();
 				} catch (Exception e) {
 					ScoutingDBHelper.helper.close();
