@@ -20,6 +20,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +110,8 @@ public class DB {
 				null, null, "0,1");
 		if (c.moveToFirst()) {
 			String[] id = { c.getString(c.getColumnIndexOrThrow(idColumnName)) };
+			values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+					DBSyncService.dateParser.format(new Date()));
 			db.update(table, values, idColumnName + "=?", id);
 		} else {
 			db.insert(table, nullColumnHack, values);

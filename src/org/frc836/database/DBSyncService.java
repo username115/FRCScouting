@@ -60,7 +60,7 @@ public class DBSyncService extends Service {
 
 	private static final int DELAY = 60000;
 
-	private static final SimpleDateFormat dateParser = new SimpleDateFormat(
+	static final SimpleDateFormat dateParser = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.sss", Locale.US);
 
 	@Override
