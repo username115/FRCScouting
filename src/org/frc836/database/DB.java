@@ -52,6 +52,8 @@ import android.widget.Toast;
 
 public class DB {
 
+	public static final boolean debug = false;
+
 	private HttpUtils utils;
 	private String password;
 	private Context context;
@@ -789,7 +791,11 @@ public class DB {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
 									match_data += ",";
-								match_data += c.getString(j);
+								if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
+										.contains(c.getColumnName(j)) && !debug)
+									match_data += "0";
+								else
+									match_data += c.getString(j);
 							}
 							match_data += "\n";
 						} while (c.moveToNext());
@@ -809,7 +815,11 @@ public class DB {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
 									cycle_data += ",";
-								cycle_data += c.getString(j);
+								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
+										.contains(c.getColumnName(j)) && !debug)
+									cycle_data += "0";
+								else
+									cycle_data += c.getString(j);
 							}
 							cycle_data += "\n";
 						} while (c.moveToNext());
@@ -829,7 +839,11 @@ public class DB {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
 									pit_data += ",";
-								pit_data += c.getString(j);
+								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
+										.contains(c.getColumnName(j)) && !debug)
+									pit_data += "0";
+								else
+									pit_data += c.getString(j);
 							}
 							pit_data += "\n";
 						} while (c.moveToNext());
