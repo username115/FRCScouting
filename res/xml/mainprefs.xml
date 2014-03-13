@@ -47,5 +47,14 @@
         android:key="enableSyncPref"
         android:summary="Automatically sync with server?"
         android:title="Auto Sync" />
+    
+    <ListPreference
+        android:defaultValue="1 Minute"
+        android:dialogTitle="Auto Sync Frequency"
+        android:entries="@array/autoSync"
+        android:entryValues="@array/autoSync"
+        android:key="syncFreqPref"
+        android:summary="Select how often the app should sync"
+        android:title="Auto Sync Frequency" />
 
 </PreferenceScreen>

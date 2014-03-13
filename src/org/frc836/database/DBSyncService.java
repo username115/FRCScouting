@@ -241,7 +241,9 @@ public class DBSyncService extends Service {
 								.show();
 					}
 					syncInProgress = false;
-					mTimerTask.postDelayed(dataTask, DELAY);
+					mTimerTask.postDelayed(dataTask, Prefs
+							.getMilliSecondsBetweenSyncs(getApplicationContext(),
+									DELAY));
 				}
 			}
 
@@ -264,7 +266,8 @@ public class DBSyncService extends Service {
 						.show();
 			}
 			syncInProgress = false;
-			mTimerTask.postDelayed(dataTask, DELAY);
+			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
+					getApplicationContext(), DELAY));
 		}
 	}
 
@@ -443,7 +446,9 @@ public class DBSyncService extends Service {
 								.show();
 					}
 					syncInProgress = false;
-					mTimerTask.postDelayed(dataTask, DELAY);
+					mTimerTask.postDelayed(dataTask, Prefs
+							.getMilliSecondsBetweenSyncs(getApplicationContext(),
+									DELAY));
 				}
 			}
 		}
@@ -458,8 +463,10 @@ public class DBSyncService extends Service {
 			if (syncInProgress)
 				return;
 
-			if (!syncForced && !Prefs.getAutoSync(getApplicationContext(), true)) {
-				mTimerTask.postDelayed(dataTask, DELAY);
+			if (!syncForced
+					&& !Prefs.getAutoSync(getApplicationContext(), true)) {
+				mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
+						getApplicationContext(), DELAY));
 				return;
 			}
 

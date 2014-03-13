@@ -6,6 +6,15 @@
     <string name="app_name">FRC Scouting</string>
     <string name="pits_label">Pit Data Entry</string>
 
+    <string-array name="autoSync">
+        <item name="one">1 minute</item>
+        <item name="five">5 minutes</item>
+        <item name="ten">10 minutes</item>
+        <item name="fifteen">15 minutes</item>
+        <item name="thirty">30 minutes</item>
+        <item name="sixty">60 minutes</item>
+    </string-array>
+    
     <string-array name="positions">
         <item name="red">Red</item>
         <item name="blue">Blue</item>

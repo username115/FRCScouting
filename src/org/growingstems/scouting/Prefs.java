@@ -227,4 +227,20 @@ public class Prefs extends PreferenceActivity {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getString("positionPref", defaultValue);
 	}
+
+	public static int getMilliSecondsBetweenSyncs(Context context,
+			final int defaultValue) {
+		String val = PreferenceManager.getDefaultSharedPreferences(context)
+				.getString("syncFreqPref", "");
+
+		int secs = defaultValue;
+		if (val == null || val.length() == 0)
+			return defaultValue;
+		try {
+			secs = Integer.valueOf(val.split(" ")[0]) * 60 * 1000;
+		} catch (Exception e) {
+			return defaultValue;
+		}
+		return secs;
+	}
 }
