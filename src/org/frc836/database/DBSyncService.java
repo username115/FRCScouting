@@ -458,7 +458,7 @@ public class DBSyncService extends Service {
 			if (syncInProgress)
 				return;
 
-			if (!syncForced && Prefs.getAutoSync(getApplicationContext(), true)) {
+			if (!syncForced && !Prefs.getAutoSync(getApplicationContext(), true)) {
 				mTimerTask.postDelayed(dataTask, DELAY);
 				return;
 			}
