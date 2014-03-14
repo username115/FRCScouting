@@ -372,7 +372,7 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
                                                 launch_ball=" . $launch_ball . ",
                                                 score_high=" . $score_high . ",
                                                 score_low=" . $score_low . ",
-                                                max_height=" . $max_height . "
+                                                max_height=" . $max_height . ",
                                                 invalid=0" . " 
 						WHERE id=" . $id;
 
