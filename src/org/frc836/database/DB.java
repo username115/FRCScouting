@@ -794,6 +794,9 @@ public class DB {
 								if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
 										.contains(c.getColumnName(j)) && !debug)
 									match_data += "0";
+								else if (FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES
+										.contains(c.getColumnName(j)))
+									match_data += "\"" + c.getString(j) + "\"";
 								else
 									match_data += c.getString(j);
 							}
@@ -839,9 +842,12 @@ public class DB {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
 									pit_data += ",";
-								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
+								if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID
 										.contains(c.getColumnName(j)) && !debug)
 									pit_data += "0";
+								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS
+										.contains(c.getColumnName(j)))
+									pit_data += "\"" + c.getString(j) + "\"";
 								else
 									pit_data += c.getString(j);
 							}
