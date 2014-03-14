@@ -969,7 +969,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		else
 			poss.setText("X");
 
-		// TODO highlight assists
+		highlightAssists();
 	}
 
 	public void onTruss(View v) {
@@ -1234,7 +1234,10 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		cycle3.low = ((ToggleButton) findViewById(R.id.team3LowScore))
 				.isChecked();
 
-		// TODO save off assist count
+		int assists = highlightAssists();
+		cycle1.assists = assists;
+		cycle2.assists = assists;
+		cycle3.assists = assists;
 
 		team1Data.cycles.put(currentCycle, cycle1);
 		team2Data.cycles.put(currentCycle, cycle2);
@@ -1372,7 +1375,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		if (!truss)
 			onTruss(findViewById(R.id.team1Truss));
 
-		// TODO load assists if added?
+		highlightAssists();
 	}
 
 	public void onBack(View v) {
@@ -1714,6 +1717,89 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 	public void onNothingSelected(AdapterView<?> arg0) {
 		// do nothing
+	}
+
+	private int highlightAssists() {
+
+		Button[][] buttons = new Button[3][3];
+		buttons[0][0] = ((Button) findViewById(R.id.team1FarPoss));
+		buttons[0][1] = ((Button) findViewById(R.id.team1WhitePoss));
+		buttons[0][2] = ((Button) findViewById(R.id.team1NearPoss));
+		buttons[1][0] = ((Button) findViewById(R.id.team2FarPoss));
+		buttons[1][1] = ((Button) findViewById(R.id.team2WhitePoss));
+		buttons[1][2] = ((Button) findViewById(R.id.team2NearPoss));
+		buttons[2][0] = ((Button) findViewById(R.id.team3FarPoss));
+		buttons[2][1] = ((Button) findViewById(R.id.team3WhitePoss));
+		buttons[2][2] = ((Button) findViewById(R.id.team3NearPoss));
+		
+		Boolean[][] possessions = new Boolean[3][3];
+		
+		
+
+		for (int team = 0; team < 3; team++) {
+			for (int zone = 0; zone < 3; zone++) {
+				if (buttons[team][zone].getText().toString().length() > 0) {
+					possessions[team][zone] = true;
+				}
+				else
+					possessions[team][zone] = false;
+			}
+		}
+		int[] zonelocs = {-1,-1,-1};
+		
+		int count = 0;
+		
+		for (int zone = 0; zone<3; zone++)
+		{
+			for (int zone2 = 0; zone2<3; zone2++) {
+				if (zone2 != zone) {
+					for (int zone3 = 0; zone3<3; zone3++) {
+						if (zone3 != zone && zone3 != zone2) {
+							int tempcount = 0;
+							tempcount += possessions[0][zone] ? 1:0;
+							tempcount += possessions[1][zone2] ? 1:0;
+							tempcount += possessions[2][zone3] ? 1:0;
+							
+							if (tempcount > count) {
+								zonelocs[0] = possessions[0][zone] ? zone : -1;
+								zonelocs[1] = possessions[1][zone2] ? zone2 : -1;
+								zonelocs[2] = possessions[2][zone3] ? zone3 : -1;
+								count = tempcount;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		String pos = prefs.getString("positionPref", "Red");
+		if (pos.contains("Blue")) {
+			buttons[0][0].setBackgroundResource(zonelocs[0] == 0 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+			buttons[1][0].setBackgroundResource(zonelocs[1] == 0 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+			buttons[2][0].setBackgroundResource(zonelocs[2] == 0 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+			
+			buttons[0][2].setBackgroundResource(zonelocs[0] == 2 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
+			buttons[1][2].setBackgroundResource(zonelocs[1] == 2 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
+			buttons[2][2].setBackgroundResource(zonelocs[2] == 2 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
+			
+		} else {
+			buttons[0][0].setBackgroundResource(zonelocs[0] == 0 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
+			buttons[1][0].setBackgroundResource(zonelocs[1] == 0 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
+			buttons[2][0].setBackgroundResource(zonelocs[2] == 0 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
+			
+			buttons[0][2].setBackgroundResource(zonelocs[0] == 2 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+			buttons[1][2].setBackgroundResource(zonelocs[1] == 2 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+			buttons[2][2].setBackgroundResource(zonelocs[2] == 2 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+		}
+		
+		buttons[0][1].setBackgroundResource(zonelocs[0] == 1 ? R.drawable.whitebackyellowborder : R.drawable.whitebackground);
+		buttons[1][1].setBackgroundResource(zonelocs[1] == 1 ? R.drawable.whitebackyellowborder : R.drawable.whitebackground);
+		buttons[2][1].setBackgroundResource(zonelocs[2] == 1 ? R.drawable.whitebackyellowborder : R.drawable.whitebackground);
+		
+		return count;
+		
 	}
 
 }
