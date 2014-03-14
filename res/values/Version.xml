@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="VersionID">2.2014.1.4</string>
+    <string name="VersionID">2.2014.1.5</string>
     <string name="APKURL">http://robobees.org/android/FRCScouting_%s.apk</string>
-    <string name="VersionDate">2014-03-06</string>
+    <string name="VersionDate">2014-03-13</string>
     <string name="dev_email">username115@gmail.com</string>
     
 </resources>
