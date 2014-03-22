@@ -770,8 +770,9 @@ public class DB {
 							.getReadableDatabase();
 
 					callback = params[0];
+					
 
-					String match_data = "", cycle_data = "", pit_data = "";
+					//String match_data = "", cycle_data = "", pit_data = "";
 
 					Cursor c;
 
@@ -779,79 +780,84 @@ public class DB {
 							"SELECT * FROM "
 									+ FRCScoutingContract.FACT_MATCH_DATA_Entry.TABLE_NAME,
 							null);
+					//decent estimate for how big the output will be. will definitely be too small
+					//but will keep it from having to resize too many times
+					StringBuilder match_data = new StringBuilder(c.getCount()*c.getColumnCount()*2);
 
 					for (int i = 0; i < c.getColumnCount(); i++) {
 						if (i > 0)
-							match_data += ",";
-						match_data += c.getColumnName(i);
+							match_data.append(",");
+						match_data.append(c.getColumnName(i));
 					}
-					match_data += "\n";
+					match_data.append("\n");
 					if (c.moveToFirst())
 						do {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
-									match_data += ",";
+									match_data.append(",");
 								if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
 										.contains(c.getColumnName(j)) && !debug)
-									match_data += "0";
+									match_data.append("0");
 								else if (FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES
 										.contains(c.getColumnName(j)))
-									match_data += "\"" + c.getString(j) + "\"";
+									match_data.append("\"").append(c.getString(j)).append("\"");
 								else
-									match_data += c.getString(j);
+									match_data.append(c.getString(j));
 							}
-							match_data += "\n";
+							match_data.append("\n");
 						} while (c.moveToNext());
 
 					c = db.rawQuery(
 							"SELECT * FROM "
 									+ FRCScoutingContract.FACT_CYCLE_DATA_Entry.TABLE_NAME,
 							null);
+					StringBuilder cycle_data = new StringBuilder(c.getCount()*c.getColumnCount()*2);
 					for (int i = 0; i < c.getColumnCount(); i++) {
 						if (i > 0)
-							cycle_data += ",";
-						cycle_data += c.getColumnName(i);
+							cycle_data.append(",");
+						cycle_data.append(c.getColumnName(i));
 					}
-					cycle_data += "\n";
+					cycle_data.append("\n");
 					if (c.moveToFirst())
 						do {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
-									cycle_data += ",";
+									cycle_data.append(",");
 								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
 										.contains(c.getColumnName(j)) && !debug)
-									cycle_data += "0";
+									cycle_data.append("0");
 								else
-									cycle_data += c.getString(j);
+									cycle_data.append(c.getString(j));
 							}
-							cycle_data += "\n";
+							cycle_data.append("\n");
 						} while (c.moveToNext());
 
 					c = db.rawQuery(
 							"SELECT * FROM "
 									+ FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
 							null);
+					StringBuilder pit_data = new StringBuilder(c.getCount()*c.getColumnCount()*2);
 					for (int i = 0; i < c.getColumnCount(); i++) {
 						if (i > 0)
-							pit_data += ",";
-						pit_data += c.getColumnName(i);
+							pit_data.append(",");
+						pit_data.append(c.getColumnName(i));
 					}
-					pit_data += "\n";
+					pit_data.append("\n");
 					if (c.moveToFirst())
 						do {
 							for (int j = 0; j < c.getColumnCount(); j++) {
 								if (j > 0)
-									pit_data += ",";
+									pit_data.append(",");
 								if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID
 										.contains(c.getColumnName(j)) && !debug)
-									pit_data += "0";
+									pit_data.append("0");
 								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS
 										.contains(c.getColumnName(j)))
-									pit_data += "\"" + c.getString(j) + "\"";
+									pit_data.append("\"").append(c.getString(j)).append("\"");
 								else
-									pit_data += c.getString(j);
+									pit_data.append(c.getString(j));
 							}
-							pit_data += "\n";
+							pit_data.append("\n");
 						} while (c.moveToNext());
 
 					File sd = new File(callback.filename);
@@ -859,13 +865,13 @@ public class DB {
 					File cycle = new File(sd, "cycles.csv");
 					File pits = new File(sd, "pits.csv");
 					FileOutputStream destination = new FileOutputStream(match);
-					destination.write(match_data.getBytes());
+					destination.write(match_data.toString().getBytes());
 					destination.close();
 					destination = new FileOutputStream(cycle);
-					destination.write(cycle_data.getBytes());
+					destination.write(cycle_data.toString().getBytes());
 					destination.close();
 					destination = new FileOutputStream(pits);
-					destination.write(pit_data.getBytes());
+					destination.write(pit_data.toString().getBytes());
 					destination.close();
 					ScoutingDBHelper.helper.close();
 					try {
