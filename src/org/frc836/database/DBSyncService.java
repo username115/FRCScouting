@@ -66,7 +66,8 @@ public class DBSyncService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		loadTimestamp();
+		//loadTimestamp();
+		initSync = !loadTimestamp();
 		password = "";
 
 		mTimerTask = new Handler();
@@ -79,20 +80,21 @@ public class DBSyncService extends Service {
 
 		utils = new HttpUtils();
 
-		initSync = true;
 		mTimerTask.post(dataTask);
 	}
 
-	private void loadTimestamp() {
+	private boolean loadTimestamp() {
 		try {
 			BufferedInputStream bis = new BufferedInputStream(
 					openFileInput(FILENAME));
 			byte[] buffer = new byte[bis.available()];
 			bis.read(buffer, 0, buffer.length);
 			lastSync = new Timestamp(Long.valueOf(new String(buffer)));
+			return true;
 		} catch (Exception e) {
 			if (lastSync == null)
 				lastSync = new Timestamp(0);
+			return false;
 		}
 	}
 
