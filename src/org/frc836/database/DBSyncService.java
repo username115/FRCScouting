@@ -228,11 +228,22 @@ public class DBSyncService extends Service {
 		@Override
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
+			if (DB.debug) {
+				Toast.makeText(getApplicationContext(),
+						"Processed Response", Toast.LENGTH_SHORT)
+						.show();
+			}
 			synchronized (outgoing) {
-				if (!outgoing.isEmpty())
+				if (!outgoing.isEmpty()) {
+					if (DB.debug) {
+						Toast.makeText(getApplicationContext(),
+								"Sending " + outgoing.size() + " records", Toast.LENGTH_SHORT)
+								.show();
+					}
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
+				}
 				else {
 					if (syncForced) {
 						syncForced = false;
@@ -242,8 +253,8 @@ public class DBSyncService extends Service {
 					}
 					syncInProgress = false;
 					mTimerTask.postDelayed(dataTask, Prefs
-							.getMilliSecondsBetweenSyncs(getApplicationContext(),
-									DELAY));
+							.getMilliSecondsBetweenSyncs(
+									getApplicationContext(), DELAY));
 				}
 			}
 
@@ -280,6 +291,15 @@ public class DBSyncService extends Service {
 		}
 
 		public void onError(Exception e) {
+			if (syncForced) {
+				syncForced = false;
+				Toast.makeText(getApplicationContext(),
+						"Error syncing with Database", Toast.LENGTH_SHORT)
+						.show();
+			}
+			syncInProgress = false;
+			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
+					getApplicationContext(), DELAY));
 		}
 
 	}
@@ -447,8 +467,8 @@ public class DBSyncService extends Service {
 					}
 					syncInProgress = false;
 					mTimerTask.postDelayed(dataTask, Prefs
-							.getMilliSecondsBetweenSyncs(getApplicationContext(),
-									DELAY));
+							.getMilliSecondsBetweenSyncs(
+									getApplicationContext(), DELAY));
 				}
 			}
 		}
@@ -459,14 +479,25 @@ public class DBSyncService extends Service {
 	private class SyncDataTask implements Runnable {
 
 		public void run() {
+			if (DB.debug) {
+				Toast.makeText(getApplicationContext(), "Starting Sync",
+						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+						"Sync Forced: " + syncForced, Toast.LENGTH_SHORT)
+						.show();
+				Toast.makeText(getApplicationContext(),
+						"Sync in Progress: " + syncInProgress,
+						Toast.LENGTH_SHORT).show();
+			}
 
 			if (syncInProgress)
 				return;
 
 			if (!syncForced
 					&& !Prefs.getAutoSync(getApplicationContext(), true)) {
-				mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
-						getApplicationContext(), DELAY));
+				mTimerTask.postDelayed(dataTask, Prefs
+						.getMilliSecondsBetweenSyncs(getApplicationContext(),
+								DELAY));
 				return;
 			}
 
