@@ -796,10 +796,10 @@ public class DB {
 								if (j > 0)
 									match_data.append(",");
 								if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
-										.contains(c.getColumnName(j)) && !debug)
+										.equalsIgnoreCase(c.getColumnName(j)) && !debug)
 									match_data.append("0");
 								else if (FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES
-										.contains(c.getColumnName(j)))
+										.equalsIgnoreCase(c.getColumnName(j)))
 									match_data.append("\"").append(c.getString(j)).append("\"");
 								else
 									match_data.append(c.getString(j));
@@ -824,7 +824,7 @@ public class DB {
 								if (j > 0)
 									cycle_data.append(",");
 								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
-										.contains(c.getColumnName(j)) && !debug)
+										.equalsIgnoreCase(c.getColumnName(j)) && !debug)
 									cycle_data.append("0");
 								else
 									cycle_data.append(c.getString(j));
@@ -849,10 +849,10 @@ public class DB {
 								if (j > 0)
 									pit_data.append(",");
 								if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID
-										.contains(c.getColumnName(j)) && !debug)
+										.equalsIgnoreCase(c.getColumnName(j)) && !debug)
 									pit_data.append("0");
 								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS
-										.contains(c.getColumnName(j)))
+										.equalsIgnoreCase(c.getColumnName(j)))
 									pit_data.append("\"").append(c.getString(j)).append("\"");
 								else
 									pit_data.append(c.getString(j));
