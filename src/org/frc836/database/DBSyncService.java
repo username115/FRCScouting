@@ -51,6 +51,7 @@ public class DBSyncService extends Service {
 
 	private boolean syncForced = false;
 	private boolean initSync = false;
+	private boolean running = true;
 
 	private static volatile boolean syncInProgress = false;
 
@@ -127,6 +128,7 @@ public class DBSyncService extends Service {
 	@Override
 	public void onDestroy() {
 		mTimerTask.removeCallbacks(dataTask);
+		running = false;
 		super.onDestroy();
 	}
 
@@ -173,8 +175,9 @@ public class DBSyncService extends Service {
 
 		@Override
 		protected Integer doInBackground(String... params) {
+			if (!running)
+				return null;
 			synchronized (ScoutingDBHelper.helper) {
-
 				SQLiteDatabase db = ScoutingDBHelper.helper
 						.getWritableDatabase();
 				try {
@@ -188,10 +191,13 @@ public class DBSyncService extends Service {
 					processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME),
 							db);
 
+					if (!running)
+						return null;
 					processCycles(
 							json.getJSONArray(FACT_CYCLE_DATA_Entry.TABLE_NAME),
 							db);
-
+					if (!running)
+						return null;
 					processMatches(
 							json.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME),
 							db);
@@ -203,6 +209,8 @@ public class DBSyncService extends Service {
 					// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
 					// db);
 
+					if (!running)
+						return null;
 					processPits(
 							json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME),
 							db);
@@ -217,6 +225,8 @@ public class DBSyncService extends Service {
 
 					updateTimeStamp(json.getLong("timestamp"));
 
+					if (!running)
+						return null;
 					sendMatches(db);
 					sendPits(db);
 
@@ -230,6 +240,8 @@ public class DBSyncService extends Service {
 		@Override
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
+			if (!running)
+				return;
 			if (DB.debug) {
 				Toast.makeText(getApplicationContext(),
 						"Processed Response", Toast.LENGTH_SHORT)
@@ -272,6 +284,8 @@ public class DBSyncService extends Service {
 		}
 
 		public void onError(Exception e) {
+			if (!running)
+				return;
 			if (syncForced) {
 				syncForced = false;
 				Toast.makeText(getApplicationContext(),
@@ -293,6 +307,8 @@ public class DBSyncService extends Service {
 		}
 
 		public void onError(Exception e) {
+			if (!running)
+				return;
 			if (syncForced) {
 				syncForced = false;
 				Toast.makeText(getApplicationContext(),
@@ -312,7 +328,8 @@ public class DBSyncService extends Service {
 
 		@Override
 		protected Integer doInBackground(HttpRequestInfo... params) {
-
+			if (!running)
+				return null;
 			int match = -1, event = -1, team = -1, cycle = -1;
 			Map<String, String> sent = params[0].getParams();
 			if (params[0].getResponseString().contains("Failed"))
@@ -455,6 +472,8 @@ public class DBSyncService extends Service {
 
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
+			if (!running)
+				return;
 			synchronized (outgoing) {
 				if (!outgoing.isEmpty())
 					utils.doPost(Prefs
@@ -492,7 +511,7 @@ public class DBSyncService extends Service {
 						Toast.LENGTH_SHORT).show();
 			}
 
-			if (syncInProgress)
+			if (syncInProgress || !running)
 				return;
 
 			if (!syncForced
