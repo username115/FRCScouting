@@ -25,6 +25,7 @@ import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.SparseArray;
 
@@ -79,7 +80,8 @@ public class MatchStatsAA extends MatchStatsStruct {
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW, low);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE, auto_mobile ? 1
 				: 0);
-		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE, auto_goalie ? 1 : 0);
+		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE, auto_goalie ? 1
+				: 0);
 		vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NUM_CYCLES, cycles.size());
 
 		return vals;
@@ -109,7 +111,8 @@ public class MatchStatsAA extends MatchStatsStruct {
 		public ContentValues getValues(DB db, SQLiteDatabase database) {
 			ContentValues vals = new ContentValues();
 			long ev = db.getEventIDFromName(event, database);
-			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, ev*1000000000l + match*1000000 + cycle_number*10000 + team);
+			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, ev * 1000000000l
+					+ match * 1000000 + cycle_number * 10000 + team);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID, ev);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID, match);
 			vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
@@ -130,6 +133,73 @@ public class MatchStatsAA extends MatchStatsStruct {
 
 			return vals;
 		}
+	}
+
+	public void fromCursor(Cursor c, Cursor c2, DB db, SQLiteDatabase database) {
+		super.fromCursor(c, db, database);
+		c.moveToFirst();
+
+		auto_high = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH));
+		auto_high_hot = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT));
+		auto_low = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW));
+		auto_low_hot = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT));
+		high = c.getInt(c
+				.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH));
+		low = c.getInt(c
+				.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW));
+		auto_mobile = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE)) != 0;
+		auto_goalie = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE)) != 0;
+
+		c2.moveToFirst();
+
+		do {
+			int cyclenum = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM));
+			CycleStatsStruct cycle = new CycleStatsStruct();
+
+			cycle.cycle_number = cyclenum;
+			cycle.near_poss = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS)) != 0;
+			cycle.white_poss = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS)) != 0;
+			cycle.far_poss = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS)) != 0;
+			cycle.truss = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS)) != 0;
+			cycle.truss_catch = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH)) != 0;
+			cycle.high = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH)) != 0;
+			cycle.low = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW)) != 0;
+			cycle.assists = c2
+					.getInt(c2
+							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS));
+
+			cycles.put(cyclenum, cycle);
+
+		} while (c2.moveToNext());
+
 	}
 
 }

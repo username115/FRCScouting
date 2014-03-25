@@ -595,6 +595,81 @@ public class DB {
 		}
 	}
 
+	public MatchStatsStruct getMatchStats(String eventName, int match, int team) {
+		synchronized (ScoutingDBHelper.helper) {
+
+			try {
+				MatchStatsAA stats = new MatchStatsAA(team, eventName, match);
+				SQLiteDatabase db = ScoutingDBHelper.helper
+						.getReadableDatabase();
+
+				String[] projection = {
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_NUM_CYCLES,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD,
+						FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES };
+				String[] where = { String.valueOf(match),
+						String.valueOf(getEventIDFromName(eventName, db)),
+						String.valueOf(team) };
+
+				Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
+						projection, FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
+								+ "=? AND "
+								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID
+								+ "=? AND "
+								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
+								+ "=?", where, null, null, null, "0,1");
+
+				String[] projection2 = {
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
+
+				Cursor c2 = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME,
+						projection2, FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+								+ "=? AND "
+								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
+								+ "=? AND "
+								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+								+ "=?", where, null, null,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
+
+				stats.fromCursor(c, c2, this, db);
+				
+				ScoutingDBHelper.helper.close();
+				
+				return stats;
+
+			} catch (Exception e) {
+				return null;
+			}
+
+		}
+	}
+
 	public long getEventIDFromName(String eventName, SQLiteDatabase db) {
 
 		String[] projection = { EVENT_LU_Entry.COLUMN_NAME_ID };
@@ -770,9 +845,8 @@ public class DB {
 							.getReadableDatabase();
 
 					callback = params[0];
-					
 
-					//String match_data = "", cycle_data = "", pit_data = "";
+					// String match_data = "", cycle_data = "", pit_data = "";
 
 					Cursor c;
 
@@ -780,9 +854,11 @@ public class DB {
 							"SELECT * FROM "
 									+ FRCScoutingContract.FACT_MATCH_DATA_Entry.TABLE_NAME,
 							null);
-					//decent estimate for how big the output will be. will definitely be too small
-					//but will keep it from having to resize too many times
-					StringBuilder match_data = new StringBuilder(c.getCount()*c.getColumnCount()*2);
+					// decent estimate for how big the output will be. will
+					// definitely be too small
+					// but will keep it from having to resize too many times
+					StringBuilder match_data = new StringBuilder(c.getCount()
+							* c.getColumnCount() * 2);
 
 					for (int i = 0; i < c.getColumnCount(); i++) {
 						if (i > 0)
@@ -796,11 +872,14 @@ public class DB {
 								if (j > 0)
 									match_data.append(",");
 								if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
-										.equalsIgnoreCase(c.getColumnName(j)) && !debug)
+										.equalsIgnoreCase(c.getColumnName(j))
+										&& !debug)
 									match_data.append("0");
 								else if (FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES
 										.equalsIgnoreCase(c.getColumnName(j)))
-									match_data.append("\"").append(c.getString(j)).append("\"");
+									match_data.append("\"")
+											.append(c.getString(j))
+											.append("\"");
 								else
 									match_data.append(c.getString(j));
 							}
@@ -811,7 +890,8 @@ public class DB {
 							"SELECT * FROM "
 									+ FRCScoutingContract.FACT_CYCLE_DATA_Entry.TABLE_NAME,
 							null);
-					StringBuilder cycle_data = new StringBuilder(c.getCount()*c.getColumnCount()*2);
+					StringBuilder cycle_data = new StringBuilder(c.getCount()
+							* c.getColumnCount() * 2);
 					for (int i = 0; i < c.getColumnCount(); i++) {
 						if (i > 0)
 							cycle_data.append(",");
@@ -824,7 +904,8 @@ public class DB {
 								if (j > 0)
 									cycle_data.append(",");
 								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
-										.equalsIgnoreCase(c.getColumnName(j)) && !debug)
+										.equalsIgnoreCase(c.getColumnName(j))
+										&& !debug)
 									cycle_data.append("0");
 								else
 									cycle_data.append(c.getString(j));
@@ -836,7 +917,8 @@ public class DB {
 							"SELECT * FROM "
 									+ FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
 							null);
-					StringBuilder pit_data = new StringBuilder(c.getCount()*c.getColumnCount()*2);
+					StringBuilder pit_data = new StringBuilder(c.getCount()
+							* c.getColumnCount() * 2);
 					for (int i = 0; i < c.getColumnCount(); i++) {
 						if (i > 0)
 							pit_data.append(",");
@@ -849,11 +931,14 @@ public class DB {
 								if (j > 0)
 									pit_data.append(",");
 								if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID
-										.equalsIgnoreCase(c.getColumnName(j)) && !debug)
+										.equalsIgnoreCase(c.getColumnName(j))
+										&& !debug)
 									pit_data.append("0");
 								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS
 										.equalsIgnoreCase(c.getColumnName(j)))
-									pit_data.append("\"").append(c.getString(j)).append("\"");
+									pit_data.append("\"")
+											.append(c.getString(j))
+											.append("\"");
 								else
 									pit_data.append(c.getString(j));
 							}

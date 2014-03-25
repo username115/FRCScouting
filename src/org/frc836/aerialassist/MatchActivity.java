@@ -161,27 +161,39 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		teamText3.setText(team3);
 		matchT.setText(match);
 		if (team1 != null && team1.length() > 0 && match != null
-				&& match.length() > 0)
-			team1Data = new MatchStatsAA(Integer.valueOf(team1),
-					Prefs.getEvent(getApplicationContext(),
-							"Chesapeake Regional"), Integer.valueOf(match));
-		else
+				&& match.length() > 0) {
+			team1Data = (MatchStatsAA) submitter.getMatchStats(Prefs.getEvent(
+					getApplicationContext(), "Chesapeake Regional"), Integer
+					.valueOf(match), Integer.valueOf(team1));
+			if (team1Data == null)
+				team1Data = new MatchStatsAA(Integer.valueOf(team1),
+						Prefs.getEvent(getApplicationContext(),
+								"Chesapeake Regional"), Integer.valueOf(match));
+		} else
 			team1Data = new MatchStatsAA();
 
 		if (team2 != null && team2.length() > 0 && match != null
-				&& match.length() > 0)
-			team2Data = new MatchStatsAA(Integer.valueOf(team2),
-					Prefs.getEvent(getApplicationContext(),
-							"Chesapeake Regional"), Integer.valueOf(match));
-		else
+				&& match.length() > 0) {
+			team2Data = (MatchStatsAA) submitter.getMatchStats(Prefs.getEvent(
+					getApplicationContext(), "Chesapeake Regional"), Integer
+					.valueOf(match), Integer.valueOf(team2));
+			if (team2Data == null)
+				team2Data = new MatchStatsAA(Integer.valueOf(team2),
+						Prefs.getEvent(getApplicationContext(),
+								"Chesapeake Regional"), Integer.valueOf(match));
+		} else
 			team2Data = new MatchStatsAA();
 
 		if (team3 != null && team3.length() > 0 && match != null
-				&& match.length() > 0)
-			team3Data = new MatchStatsAA(Integer.valueOf(team3),
-					Prefs.getEvent(getApplicationContext(),
-							"Chesapeake Regional"), Integer.valueOf(match));
-		else
+				&& match.length() > 0) {
+			team3Data = (MatchStatsAA) submitter.getMatchStats(Prefs.getEvent(
+					getApplicationContext(), "Chesapeake Regional"), Integer
+					.valueOf(match), Integer.valueOf(team3));
+			if (team3Data == null)
+				team3Data = new MatchStatsAA(Integer.valueOf(team3),
+						Prefs.getEvent(getApplicationContext(),
+								"Chesapeake Regional"), Integer.valueOf(match));
+		} else
 			team3Data = new MatchStatsAA();
 
 		currentView = 0;
@@ -190,6 +202,10 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		cycleT = (TextView) findViewById(R.id.cycleText);
 
 		cycleT.setTextSize(new Button(this).getTextSize());
+
+		loadAuto();
+		loadCycle(currentCycle);
+		loadEndgame();
 
 		setAuto();
 
@@ -1244,6 +1260,407 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		team3Data.cycles.put(currentCycle, cycle3);
 	}
 
+	private void loadAuto() {
+		int currentrow;
+
+		((CheckBox) findViewById(R.id.team1AutoGoalie))
+				.setChecked(team1Data.auto_goalie);
+		((CheckBox) findViewById(R.id.team1AutoMoved))
+				.setChecked(team1Data.auto_mobile);
+		currentrow = 1;
+		if (team1Data.auto_high > 0) {
+			for (int i = 0; i < team1Data.auto_high; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team1AutoHigh1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team1AutoHigh2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team1AutoHigh3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team1Data.auto_high_hot > 0) {
+			for (int i = 0; i < team1Data.auto_high_hot; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team1AutoHighHot1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team1AutoHighHot2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team1AutoHighHot3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team1Data.auto_low > 0) {
+			for (int i = 0; i < team1Data.auto_low; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team1AutoLow1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team1AutoLow2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team1AutoLow3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team1Data.auto_low_hot > 0) {
+			for (int i = 0; i < team1Data.auto_low_hot; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team1AutoLowHot1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team1AutoLowHot2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team1AutoLowHot3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team1Data.high > 0) {
+			for (int i = 0; i < team1Data.high; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team1High1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team1High2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team1High3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team1Data.low > 0) {
+			for (int i = 0; i < team1Data.low; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team1Low1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team1Low2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team1Low3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+
+		// team2
+		((CheckBox) findViewById(R.id.team2AutoGoalie))
+				.setChecked(team2Data.auto_goalie);
+		((CheckBox) findViewById(R.id.team2AutoMoved))
+				.setChecked(team2Data.auto_mobile);
+		currentrow = 1;
+		if (team2Data.auto_high > 0) {
+			for (int i = 0; i < team2Data.auto_high; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team2AutoHigh1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team2AutoHigh2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team2AutoHigh3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team2Data.auto_high_hot > 0) {
+			for (int i = 0; i < team2Data.auto_high_hot; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team2AutoHighHot1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team2AutoHighHot2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team2AutoHighHot3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team2Data.auto_low > 0) {
+			for (int i = 0; i < team2Data.auto_low; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team2AutoLow1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team2AutoLow2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team2AutoLow3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team2Data.auto_low_hot > 0) {
+			for (int i = 0; i < team2Data.auto_low_hot; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team2AutoLowHot1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team2AutoLowHot2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team2AutoLowHot3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team2Data.high > 0) {
+			for (int i = 0; i < team2Data.high; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team2High1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team2High2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team2High3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team2Data.low > 0) {
+			for (int i = 0; i < team2Data.low; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team2Low1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team2Low2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team2Low3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+
+		// team3
+		((CheckBox) findViewById(R.id.team3AutoGoalie))
+				.setChecked(team3Data.auto_goalie);
+		((CheckBox) findViewById(R.id.team3AutoMoved))
+				.setChecked(team3Data.auto_mobile);
+		currentrow = 1;
+		if (team3Data.auto_high > 0) {
+			for (int i = 0; i < team3Data.auto_high; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team3AutoHigh1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team3AutoHigh2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team3AutoHigh3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team3Data.auto_high_hot > 0) {
+			for (int i = 0; i < team3Data.auto_high_hot; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team3AutoHighHot1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team3AutoHighHot2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team3AutoHighHot3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team3Data.auto_low > 0) {
+			for (int i = 0; i < team3Data.auto_low; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team3AutoLow1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team3AutoLow2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team3AutoLow3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team3Data.auto_low_hot > 0) {
+			for (int i = 0; i < team3Data.auto_low_hot; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team3AutoLowHot1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team3AutoLowHot2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team3AutoLowHot3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team3Data.high > 0) {
+			for (int i = 0; i < team3Data.high; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team3High1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team3High2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team3High3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+		if (team3Data.low > 0) {
+			for (int i = 0; i < team3Data.low; i++) {
+				switch (currentrow) {
+				case 1:
+					((ToggleButton) findViewById(R.id.team3Low1))
+							.setChecked(true);
+					break;
+				case 2:
+					((ToggleButton) findViewById(R.id.team3Low2))
+							.setChecked(true);
+					break;
+				case 3:
+					((ToggleButton) findViewById(R.id.team3Low3))
+							.setChecked(true);
+					break;
+				}
+				currentrow++;
+			}
+		}
+	}
+
+	private void loadEndgame() {
+		((EditText) findViewById(R.id.team1notes)).setText(team1Data.notes);
+		((CheckBox) findViewById(R.id.team1tipped))
+				.setChecked(team1Data.tipOver);
+		((CheckBox) findViewById(R.id.team1foul)).setChecked(team1Data.foul);
+		((CheckBox) findViewById(R.id.team1techfoul))
+				.setChecked(team1Data.tech_foul);
+		((CheckBox) findViewById(R.id.team1redcard))
+				.setChecked(team1Data.redCard);
+		((CheckBox) findViewById(R.id.team1yellowcard))
+				.setChecked(team1Data.yellowCard);
+
+		((EditText) findViewById(R.id.team2notes)).setText(team2Data.notes);
+		((CheckBox) findViewById(R.id.team2tipped))
+				.setChecked(team2Data.tipOver);
+		((CheckBox) findViewById(R.id.team2foul)).setChecked(team2Data.foul);
+		((CheckBox) findViewById(R.id.team2techfoul))
+				.setChecked(team2Data.tech_foul);
+		((CheckBox) findViewById(R.id.team2redcard))
+				.setChecked(team2Data.redCard);
+		((CheckBox) findViewById(R.id.team2yellowcard))
+				.setChecked(team2Data.yellowCard);
+
+		((EditText) findViewById(R.id.team3notes)).setText(team3Data.notes);
+		((CheckBox) findViewById(R.id.team3tipped))
+				.setChecked(team3Data.tipOver);
+		((CheckBox) findViewById(R.id.team3foul)).setChecked(team3Data.foul);
+		((CheckBox) findViewById(R.id.team3techfoul))
+				.setChecked(team3Data.tech_foul);
+		((CheckBox) findViewById(R.id.team3redcard))
+				.setChecked(team3Data.redCard);
+		((CheckBox) findViewById(R.id.team3yellowcard))
+				.setChecked(team3Data.yellowCard);
+	}
+
 	private void loadCycle(int cycle) {
 
 		MatchStatsAA.CycleStatsStruct cycle1 = team1Data.cycles.get(cycle);
@@ -1592,6 +2009,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		autoLayout.setVisibility(View.GONE);
 		cycleLayout.setVisibility(View.VISIBLE);
 		endGameLayout.setVisibility(View.GONE);
+		loadCycle(currentCycle);
 		lastB.setText("Auto");
 		nextB.setText("End Game");
 	}
@@ -1731,39 +2149,37 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		buttons[2][0] = ((Button) findViewById(R.id.team3FarPoss));
 		buttons[2][1] = ((Button) findViewById(R.id.team3WhitePoss));
 		buttons[2][2] = ((Button) findViewById(R.id.team3NearPoss));
-		
+
 		Boolean[][] possessions = new Boolean[3][3];
-		
-		
 
 		for (int team = 0; team < 3; team++) {
 			for (int zone = 0; zone < 3; zone++) {
 				if (buttons[team][zone].getText().toString().length() > 0) {
 					possessions[team][zone] = true;
-				}
-				else
+				} else
 					possessions[team][zone] = false;
 			}
 		}
-		int[] zonelocs = {-1,-1,-1};
-		
+		int[] zonelocs = { -1, -1, -1 };
+
 		int count = 0;
-		
-		for (int zone = 0; zone<3; zone++)
-		{
-			for (int zone2 = 0; zone2<3; zone2++) {
+
+		for (int zone = 0; zone < 3; zone++) {
+			for (int zone2 = 0; zone2 < 3; zone2++) {
 				if (zone2 != zone) {
-					for (int zone3 = 0; zone3<3; zone3++) {
+					for (int zone3 = 0; zone3 < 3; zone3++) {
 						if (zone3 != zone && zone3 != zone2) {
 							int tempcount = 0;
-							tempcount += possessions[0][zone] ? 1:0;
-							tempcount += possessions[1][zone2] ? 1:0;
-							tempcount += possessions[2][zone3] ? 1:0;
-							
+							tempcount += possessions[0][zone] ? 1 : 0;
+							tempcount += possessions[1][zone2] ? 1 : 0;
+							tempcount += possessions[2][zone3] ? 1 : 0;
+
 							if (tempcount > count) {
 								zonelocs[0] = possessions[0][zone] ? zone : -1;
-								zonelocs[1] = possessions[1][zone2] ? zone2 : -1;
-								zonelocs[2] = possessions[2][zone3] ? zone3 : -1;
+								zonelocs[1] = possessions[1][zone2] ? zone2
+										: -1;
+								zonelocs[2] = possessions[2][zone3] ? zone3
+										: -1;
 								count = tempcount;
 							}
 						}
@@ -1771,35 +2187,65 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 				}
 			}
 		}
-		
+
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 		String pos = prefs.getString("positionPref", "Red");
 		if (pos.contains("Blue")) {
-			buttons[0][0].setBackgroundResource(zonelocs[0] == 0 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
-			buttons[1][0].setBackgroundResource(zonelocs[1] == 0 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
-			buttons[2][0].setBackgroundResource(zonelocs[2] == 0 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
-			
-			buttons[0][2].setBackgroundResource(zonelocs[0] == 2 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
-			buttons[1][2].setBackgroundResource(zonelocs[1] == 2 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
-			buttons[2][2].setBackgroundResource(zonelocs[2] == 2 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
-			
+			buttons[0][0]
+					.setBackgroundResource(zonelocs[0] == 0 ? R.drawable.bluebackyellowborder
+							: R.drawable.bluebackground);
+			buttons[1][0]
+					.setBackgroundResource(zonelocs[1] == 0 ? R.drawable.bluebackyellowborder
+							: R.drawable.bluebackground);
+			buttons[2][0]
+					.setBackgroundResource(zonelocs[2] == 0 ? R.drawable.bluebackyellowborder
+							: R.drawable.bluebackground);
+
+			buttons[0][2]
+					.setBackgroundResource(zonelocs[0] == 2 ? R.drawable.redbackyellowborder
+							: R.drawable.redbackground);
+			buttons[1][2]
+					.setBackgroundResource(zonelocs[1] == 2 ? R.drawable.redbackyellowborder
+							: R.drawable.redbackground);
+			buttons[2][2]
+					.setBackgroundResource(zonelocs[2] == 2 ? R.drawable.redbackyellowborder
+							: R.drawable.redbackground);
+
 		} else {
-			buttons[0][0].setBackgroundResource(zonelocs[0] == 0 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
-			buttons[1][0].setBackgroundResource(zonelocs[1] == 0 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
-			buttons[2][0].setBackgroundResource(zonelocs[2] == 0 ? R.drawable.redbackyellowborder : R.drawable.redbackground);
-			
-			buttons[0][2].setBackgroundResource(zonelocs[0] == 2 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
-			buttons[1][2].setBackgroundResource(zonelocs[1] == 2 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
-			buttons[2][2].setBackgroundResource(zonelocs[2] == 2 ? R.drawable.bluebackyellowborder : R.drawable.bluebackground);
+			buttons[0][0]
+					.setBackgroundResource(zonelocs[0] == 0 ? R.drawable.redbackyellowborder
+							: R.drawable.redbackground);
+			buttons[1][0]
+					.setBackgroundResource(zonelocs[1] == 0 ? R.drawable.redbackyellowborder
+							: R.drawable.redbackground);
+			buttons[2][0]
+					.setBackgroundResource(zonelocs[2] == 0 ? R.drawable.redbackyellowborder
+							: R.drawable.redbackground);
+
+			buttons[0][2]
+					.setBackgroundResource(zonelocs[0] == 2 ? R.drawable.bluebackyellowborder
+							: R.drawable.bluebackground);
+			buttons[1][2]
+					.setBackgroundResource(zonelocs[1] == 2 ? R.drawable.bluebackyellowborder
+							: R.drawable.bluebackground);
+			buttons[2][2]
+					.setBackgroundResource(zonelocs[2] == 2 ? R.drawable.bluebackyellowborder
+							: R.drawable.bluebackground);
 		}
-		
-		buttons[0][1].setBackgroundResource(zonelocs[0] == 1 ? R.drawable.whitebackyellowborder : R.drawable.whitebackground);
-		buttons[1][1].setBackgroundResource(zonelocs[1] == 1 ? R.drawable.whitebackyellowborder : R.drawable.whitebackground);
-		buttons[2][1].setBackgroundResource(zonelocs[2] == 1 ? R.drawable.whitebackyellowborder : R.drawable.whitebackground);
-		
+
+		buttons[0][1]
+				.setBackgroundResource(zonelocs[0] == 1 ? R.drawable.whitebackyellowborder
+						: R.drawable.whitebackground);
+		buttons[1][1]
+				.setBackgroundResource(zonelocs[1] == 1 ? R.drawable.whitebackyellowborder
+						: R.drawable.whitebackground);
+		buttons[2][1]
+				.setBackgroundResource(zonelocs[2] == 1 ? R.drawable.whitebackyellowborder
+						: R.drawable.whitebackground);
+
 		return count;
-		
+
 	}
 
 }
