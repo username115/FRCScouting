@@ -48,6 +48,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 public class DB {
@@ -658,9 +659,9 @@ public class DB {
 						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
 
 				stats.fromCursor(c, c2, this, db);
-				
+
 				ScoutingDBHelper.helper.close();
-				
+
 				return stats;
 
 			} catch (Exception e) {
@@ -739,7 +740,7 @@ public class DB {
 				.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID));
 	}
 
-	public String getConfigNameFromID(int config, SQLiteDatabase db) {
+	public static String getConfigNameFromID(int config, SQLiteDatabase db) {
 
 		String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
 		String[] where = { String.valueOf(config) };
@@ -754,7 +755,7 @@ public class DB {
 				.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
 	}
 
-	public String getWheelBaseNameFromID(int base, SQLiteDatabase db) {
+	public static String getWheelBaseNameFromID(int base, SQLiteDatabase db) {
 
 		String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
 		String[] where = { String.valueOf(base) };
@@ -769,7 +770,7 @@ public class DB {
 				.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
 	}
 
-	public String getWheelTypeNameFromID(int type, SQLiteDatabase db) {
+	public static String getWheelTypeNameFromID(int type, SQLiteDatabase db) {
 
 		String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
 		String[] where = { String.valueOf(type) };
@@ -847,6 +848,10 @@ public class DB {
 					callback = params[0];
 
 					// String match_data = "", cycle_data = "", pit_data = "";
+
+					SparseArray<String> configs = new SparseArray<String>();
+					SparseArray<String> types = new SparseArray<String>();
+					SparseArray<String> bases = new SparseArray<String>();
 
 					Cursor c;
 
@@ -939,7 +944,32 @@ public class DB {
 									pit_data.append("\"")
 											.append(c.getString(j))
 											.append("\"");
-								else
+								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID
+										.equalsIgnoreCase(c.getColumnName(j))) {
+									String config = configs.get(c.getInt(j));
+									if (config == null) {
+										config = getConfigNameFromID(c.getInt(j), db);
+										configs.append(c.getInt(j), config);
+									}
+									pit_data.append(config);
+								} else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID
+										.equalsIgnoreCase(c.getColumnName(j))) {
+									String base = bases.get(c.getInt(j));
+									if (base == null) {
+										base = getWheelBaseNameFromID(c.getInt(j), db);
+										bases.append(c.getInt(j), base);
+									}
+									pit_data.append(base);
+								} 
+								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID
+										.equalsIgnoreCase(c.getColumnName(j))) {
+									String type = types.get(c.getInt(j));
+									if (type == null) {
+										type = getWheelTypeNameFromID(c.getInt(j), db);
+										types.append(c.getInt(j), type);
+									}
+									pit_data.append(type);
+								} else
 									pit_data.append(c.getString(j));
 							}
 							pit_data.append("\n");
