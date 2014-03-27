@@ -46,7 +46,7 @@ public abstract class PitStats {
 
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
 		ContentValues args = new ContentValues();
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID, team*team);
+		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID, team * team);
 		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
 		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
 				db.getConfigIDFromName(chassis_config, database));
@@ -67,17 +67,17 @@ public abstract class PitStats {
 
 		team = c.getInt(c
 				.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID));
-		chassis_config = db
+		chassis_config = DB
 				.getConfigNameFromID(
 						c.getInt(c
 								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID)),
 						database);
-		wheel_type = db
+		wheel_type = DB
 				.getWheelTypeNameFromID(
 						c.getInt(c
 								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID)),
 						database);
-		wheel_base = db
+		wheel_base = DB
 				.getWheelBaseNameFromID(
 						c.getInt(c
 								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID)),
