@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -47,6 +48,8 @@ public class Prefs extends PreferenceActivity {
 
 	private EditTextPreference urlP;
 
+	private CheckBoxPreference syncPreference;
+
 	private ListPreference eventP;
 
 	private static final String URL = "http://robobees.org/scouting.php";
@@ -62,9 +65,15 @@ public class Prefs extends PreferenceActivity {
 
 		passP = (EditTextPreference) findPreference("passPref");
 		urlP = (EditTextPreference) findPreference("databaseURLPref");
+		syncPreference = (CheckBoxPreference) findPreference("enableSyncPref");
 
 		passP.setOnPreferenceChangeListener(new onPassChangeListener(true));
 		urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
+		syncPreference
+				.setOnPreferenceChangeListener(new OnSyncChangeListener());
+
+		findPreference("syncFreqPref").setEnabled(
+				getAutoSync(getApplicationContext(), false));
 
 		eventP = (ListPreference) findPreference("eventPref");
 
@@ -115,6 +124,19 @@ public class Prefs extends PreferenceActivity {
 			DB db = new DB(getBaseContext(), null); // does not perform databse
 													// sync operations
 			db.checkPass(newValue.toString(), new PasswordCallback(isPass));
+			return true;
+		}
+
+	}
+
+	private class OnSyncChangeListener implements OnPreferenceChangeListener {
+
+		@Override
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			if (!(newValue instanceof Boolean))
+				return false;
+			Boolean checked = (Boolean) newValue;
+			findPreference("syncFreqPref").setEnabled(checked);
 			return true;
 		}
 
