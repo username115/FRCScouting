@@ -9,7 +9,8 @@ class ScoutingDBHelper extends SQLiteOpenHelper {
 	public static final int DATABASE_VERSION = 20147;
 	public static final String DATABASE_NAME = "FRCscouting.db";
 	
-	public static ScoutingDBHelper helper;
+	private static ScoutingDBHelper helper;
+	public static Object lock;
 	
 	public ScoutingDBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,6 +32,18 @@ class ScoutingDBHelper extends SQLiteOpenHelper {
 	
 	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		onUpgrade(db, oldVersion, newVersion);
+	}
+	
+	public static ScoutingDBHelper getInstance(Context context) {
+		if (helper == null) {
+			lock = new Object();
+			helper = new ScoutingDBHelper(context);
+		}
+		return helper;
+	}
+	
+	public static ScoutingDBHelper getInstance() {
+		return helper;
 	}
 
 }

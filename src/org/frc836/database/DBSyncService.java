@@ -67,7 +67,7 @@ public class DBSyncService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//loadTimestamp();
+		// loadTimestamp();
 		initSync = !loadTimestamp();
 		password = "";
 
@@ -177,62 +177,48 @@ public class DBSyncService extends Service {
 		protected Integer doInBackground(String... params) {
 			if (!running)
 				return null;
-			synchronized (ScoutingDBHelper.helper) {
-				SQLiteDatabase db = ScoutingDBHelper.helper
-						.getWritableDatabase();
-				try {
+			try {
 
-					JSONObject json = new JSONObject(params[0]);
+				JSONObject json = new JSONObject(params[0]);
 
-					processConfig(
-							json.getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME),
-							db);
+				processConfig(json
+						.getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME));
 
-					processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME),
-							db);
+				processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
-					if (!running)
-						return null;
-					processCycles(
-							json.getJSONArray(FACT_CYCLE_DATA_Entry.TABLE_NAME),
-							db);
-					if (!running)
-						return null;
-					processMatches(
-							json.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME),
-							db);
+				if (!running)
+					return null;
+				processCycles(json
+						.getJSONArray(FACT_CYCLE_DATA_Entry.TABLE_NAME));
+				if (!running)
+					return null;
+				processMatches(json
+						.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME));
 
-					processNotes(
-							json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME),
-							db);
+				processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME));
 
-					// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
-					// db);
+				// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
+				// db);
 
-					if (!running)
-						return null;
-					processPits(
-							json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME),
-							db);
+				if (!running)
+					return null;
+				processPits(json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME));
 
-					processWheelBase(
-							json.getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME),
-							db);
+				processWheelBase(json
+						.getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME));
 
-					processWheelType(
-							json.getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME),
-							db);
+				processWheelType(json
+						.getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME));
 
-					updateTimeStamp(json.getLong("timestamp"));
+				updateTimeStamp(json.getLong("timestamp"));
 
-					if (!running)
-						return null;
-					sendMatches(db);
-					sendPits(db);
+				if (!running)
+					return null;
+				sendMatches();
+				sendPits();
 
-				} catch (Exception e) {
-				}
-				ScoutingDBHelper.helper.close();
+			} catch (Exception e) {
+				int i = 1;
 			}
 			return null;
 		}
@@ -243,22 +229,20 @@ public class DBSyncService extends Service {
 			if (!running)
 				return;
 			if (DB.debug) {
-				Toast.makeText(getApplicationContext(),
-						"Processed Response", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(getApplicationContext(), "Processed Response",
+						Toast.LENGTH_SHORT).show();
 			}
 			synchronized (outgoing) {
 				if (!outgoing.isEmpty()) {
 					if (DB.debug) {
 						Toast.makeText(getApplicationContext(),
-								"Sending " + outgoing.size() + " records", Toast.LENGTH_SHORT)
-								.show();
+								"Sending " + outgoing.size() + " records",
+								Toast.LENGTH_SHORT).show();
 					}
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
-				}
-				else {
+				} else {
 					if (syncForced) {
 						syncForced = false;
 						Toast.makeText(getApplicationContext(),
@@ -303,6 +287,11 @@ public class DBSyncService extends Service {
 
 		public void onResponse(HttpRequestInfo resp) {
 			ChangeResponseProcess dataProc = new ChangeResponseProcess();
+			if (DB.debug) {
+				Toast.makeText(getApplicationContext(),
+						"Response to submission:" + resp.getResponseString(),
+						Toast.LENGTH_SHORT).show();
+			}
 			dataProc.execute(resp);
 		}
 
@@ -409,8 +398,8 @@ public class DBSyncService extends Service {
 			}
 
 			String[] r = params[0].getResponseString().split(",");
-			synchronized (ScoutingDBHelper.helper) {
-				SQLiteDatabase db = ScoutingDBHelper.helper
+			synchronized (ScoutingDBHelper.lock) {
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
 						.getWritableDatabase();
 				ContentValues values = new ContentValues();
 				if (cycle > 0) { // cycle was updated
@@ -419,6 +408,7 @@ public class DBSyncService extends Service {
 					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
 							dateParser.format(new Date(
 									Long.valueOf(r[1].trim()) * 1000)));
+					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(event),
 							String.valueOf(match), String.valueOf(team),
@@ -440,6 +430,7 @@ public class DBSyncService extends Service {
 					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
 							dateParser.format(new Date(
 									Long.valueOf(r[1].trim()) * 1000)));
+					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(event),
 							String.valueOf(match), String.valueOf(team) };
@@ -458,13 +449,14 @@ public class DBSyncService extends Service {
 					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
 							dateParser.format(new Date(
 									Long.valueOf(r[1].trim()) * 1000)));
+					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(team) };
 					db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, values,
 							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
 							selectionArgs);
 				}
-				ScoutingDBHelper.helper.close();
+				ScoutingDBHelper.getInstance().close();
 			}
 
 			return null;
@@ -542,7 +534,7 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	private void processConfig(JSONArray config, SQLiteDatabase db) {
+	private void processConfig(JSONArray config) {
 		try {
 			for (int i = 0; i < config.length(); i++) {
 				JSONObject row = config.getJSONObject(i);
@@ -565,46 +557,52 @@ public class DBSyncService extends Service {
 				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
 				String[] where = { vals
 						.getAsString(CONFIGURATION_LU_Entry.COLUMN_NAME_ID) };
-				Cursor c = db.query(
-						CONFIGURATION_LU_Entry.TABLE_NAME,
-						projection, // select
-						CONFIGURATION_LU_Entry.COLUMN_NAME_ID + "=?", where,
-						null, // don't
-						// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
+				synchronized (ScoutingDBHelper.lock) {
 
-				switch (action) {
-				case UPDATE:
-					db.update(CONFIGURATION_LU_Entry.TABLE_NAME, vals,
-							CONFIGURATION_LU_Entry.COLUMN_NAME_ID + " = ?",
-							where);
-					break;
-				case INSERT:
-					db.insert(CONFIGURATION_LU_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(CONFIGURATION_LU_Entry.TABLE_NAME,
-							CONFIGURATION_LU_Entry.COLUMN_NAME_ID + " = ?",
-							where);
-					break;
-				default:
-				}
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
 
+					Cursor c = db.query(
+							CONFIGURATION_LU_Entry.TABLE_NAME,
+							projection, // select
+							CONFIGURATION_LU_Entry.COLUMN_NAME_ID + "=?",
+							where, null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					}
+
+					switch (action) {
+					case UPDATE:
+						db.update(CONFIGURATION_LU_Entry.TABLE_NAME, vals,
+								CONFIGURATION_LU_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					case INSERT:
+						db.insert(CONFIGURATION_LU_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(CONFIGURATION_LU_Entry.TABLE_NAME,
+								CONFIGURATION_LU_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
+				}
 			}
 		} catch (JSONException e) {
 			// TODO handle error
 		}
 	}
 
-	private void processEvents(JSONArray events, SQLiteDatabase db) {
+	private void processEvents(JSONArray events) {
 		try {
 			for (int i = 0; i < events.length(); i++) {
 				JSONObject row = events.getJSONObject(i);
@@ -628,32 +626,39 @@ public class DBSyncService extends Service {
 				String[] projection = { EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME };
 				String[] where = { vals
 						.getAsString(EVENT_LU_Entry.COLUMN_NAME_ID) };
-				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection, // select
-						EVENT_LU_Entry.COLUMN_NAME_ID + "=?", where, null, // don't
-						// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
+				synchronized (ScoutingDBHelper.lock) {
 
-				switch (action) {
-				case UPDATE:
-					db.update(EVENT_LU_Entry.TABLE_NAME, vals,
-							EVENT_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				case INSERT:
-					db.insert(EVENT_LU_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(EVENT_LU_Entry.TABLE_NAME,
-							EVENT_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				default:
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection, // select
+							EVENT_LU_Entry.COLUMN_NAME_ID + "=?", where, null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					}
+
+					switch (action) {
+					case UPDATE:
+						db.update(EVENT_LU_Entry.TABLE_NAME, vals,
+								EVENT_LU_Entry.COLUMN_NAME_ID + " = ?", where);
+						break;
+					case INSERT:
+						db.insert(EVENT_LU_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(EVENT_LU_Entry.TABLE_NAME,
+								EVENT_LU_Entry.COLUMN_NAME_ID + " = ?", where);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
 				}
 
 			}
@@ -662,7 +667,7 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	private void processCycles(JSONArray cycles, SQLiteDatabase db) {
+	private void processCycles(JSONArray cycles) {
 		try {
 			for (int i = 0; i < cycles.length(); i++) {
 				JSONObject row = cycles.getJSONObject(i);
@@ -709,46 +714,54 @@ public class DBSyncService extends Service {
 						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID),
 						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID),
 						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM) };
-				Cursor c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME,
-						projection, // select
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
-								+ "=?", where, null, // don't
-						// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				int id = 0;
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				} else
-					id = c.getInt(c
-							.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
+				synchronized (ScoutingDBHelper.lock) {
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
 
-				String[] where2 = { String.valueOf(id) };
+					Cursor c = db
+							.query(FACT_CYCLE_DATA_Entry.TABLE_NAME,
+									projection, // select
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
+											+ "=? AND "
+											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+											+ "=? AND "
+											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+											+ "=? AND "
+											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
+											+ "=?", where, null, // don't
+									// group
+									null, // don't filter
+									null, // don't order
+									"0,1"); // limit to 1
+					int id = 0;
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					} else
+						id = c.getInt(c
+								.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
 
-				switch (action) {
-				case UPDATE:
-					db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, vals,
-							FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where2);
-					break;
-				case INSERT:
-					db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(FACT_CYCLE_DATA_Entry.TABLE_NAME,
-							FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where2);
-					break;
-				default:
+					String[] where2 = { String.valueOf(id) };
+
+					switch (action) {
+					case UPDATE:
+						db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, vals,
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
+								where2);
+						break;
+					case INSERT:
+						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(FACT_CYCLE_DATA_Entry.TABLE_NAME,
+								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
+								where2);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
 				}
 
 			}
@@ -757,7 +770,7 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	private void processMatches(JSONArray matches, SQLiteDatabase db) {
+	private void processMatches(JSONArray matches) {
 		try {
 			for (int i = 0; i < matches.length(); i++) {
 				JSONObject row = matches.getJSONObject(i);
@@ -816,53 +829,61 @@ public class DBSyncService extends Service {
 						vals.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID),
 						vals.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID),
 						vals.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID) };
-				Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
-						projection, // select
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID + "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-								+ "=?", where, null, // don't
-						// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				int id = 0;
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				} else
-					id = c.getInt(c
-							.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
 
-				String[] where2 = { String.valueOf(id) };
+				synchronized (ScoutingDBHelper.lock) {
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
 
-				switch (action) {
-				case UPDATE:
-					db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, vals,
-							FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where2);
-					break;
-				case INSERT:
-					db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(FACT_MATCH_DATA_Entry.TABLE_NAME,
-							FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
-							where2);
-					break;
-				default:
+					Cursor c = db
+							.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
+									projection, // select
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
+											+ "=? AND "
+											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+											+ "=? AND "
+											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+											+ "=?", where, null, // don't
+									// group
+									null, // don't filter
+									null, // don't order
+									"0,1"); // limit to 1
+					int id = 0;
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					} else
+						id = c.getInt(c
+								.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
+
+					String[] where2 = { String.valueOf(id) };
+
+					switch (action) {
+					case UPDATE:
+						db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, vals,
+								FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
+								where2);
+						break;
+					case INSERT:
+						db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(FACT_MATCH_DATA_Entry.TABLE_NAME,
+								FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
+								where2);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
 				}
-
 			}
 		} catch (JSONException e) {
 			// TODO handle error
 		}
 	}
 
-	private void processNotes(JSONArray notes, SQLiteDatabase db) {
+	private void processNotes(JSONArray notes) {
 		try {
 			for (int i = 0; i < notes.length(); i++) {
 				JSONObject row = notes.getJSONObject(i);
@@ -884,34 +905,46 @@ public class DBSyncService extends Service {
 				String[] projection = { NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT };
 				String[] where = { vals
 						.getAsString(NOTES_OPTIONS_Entry.COLUMN_NAME_ID) };
-				Cursor c = db.query(NOTES_OPTIONS_Entry.TABLE_NAME, projection, // select
-						NOTES_OPTIONS_Entry.COLUMN_NAME_ID + "=?", where, null, // don't
-																				// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
 
-				switch (action) {
-				case UPDATE:
-					db.update(NOTES_OPTIONS_Entry.TABLE_NAME, vals,
-							NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				case INSERT:
-					db.insert(NOTES_OPTIONS_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(NOTES_OPTIONS_Entry.TABLE_NAME,
-							NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				default:
-				}
+				synchronized (ScoutingDBHelper.lock) {
 
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(
+							NOTES_OPTIONS_Entry.TABLE_NAME,
+							projection, // select
+							NOTES_OPTIONS_Entry.COLUMN_NAME_ID + "=?", where,
+							null, // don't
+									// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					}
+
+					switch (action) {
+					case UPDATE:
+						db.update(NOTES_OPTIONS_Entry.TABLE_NAME, vals,
+								NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					case INSERT:
+						db.insert(NOTES_OPTIONS_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(NOTES_OPTIONS_Entry.TABLE_NAME,
+								NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
+				}
 			}
 		} catch (JSONException e) {
 			// TODO handle error
@@ -951,7 +984,7 @@ public class DBSyncService extends Service {
 	 * 
 	 * } } catch (JSONException e) { // TODO handle error } }
 	 */
-	private void processPits(JSONArray pits, SQLiteDatabase db) {
+	private void processPits(JSONArray pits) {
 		try {
 			for (int i = 0; i < pits.length(); i++) {
 				JSONObject row = pits.getJSONObject(i);
@@ -1011,45 +1044,52 @@ public class DBSyncService extends Service {
 				String[] projection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID };
 				String[] where = { vals
 						.getAsString(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID) };
-				Cursor c = db.query(
-						SCOUT_PIT_DATA_Entry.TABLE_NAME,
-						projection, // select
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?", where,
-						null, // don't group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
 
-				switch (action) {
-				case UPDATE:
-					db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, vals,
-							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + " = ?",
-							where);
-					break;
-				case INSERT:
-					db.insert(SCOUT_PIT_DATA_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(SCOUT_PIT_DATA_Entry.TABLE_NAME,
-							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + " = ?",
-							where);
-					break;
-				default:
-				}
+				synchronized (ScoutingDBHelper.lock) {
 
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(
+							SCOUT_PIT_DATA_Entry.TABLE_NAME,
+							projection, // select
+							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
+							where, null, // don't group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					}
+
+					switch (action) {
+					case UPDATE:
+						db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, vals,
+								SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
+										+ " = ?", where);
+						break;
+					case INSERT:
+						db.insert(SCOUT_PIT_DATA_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(SCOUT_PIT_DATA_Entry.TABLE_NAME,
+								SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
+										+ " = ?", where);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
+				}
 			}
 		} catch (JSONException e) {
 			// TODO handle error
 		}
 	}
 
-	private void processWheelBase(JSONArray wheelBase, SQLiteDatabase db) {
+	private void processWheelBase(JSONArray wheelBase) {
 		try {
 			for (int i = 0; i < wheelBase.length(); i++) {
 				JSONObject row = wheelBase.getJSONObject(i);
@@ -1072,41 +1112,53 @@ public class DBSyncService extends Service {
 				String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
 				String[] where = { vals
 						.getAsString(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID) };
-				Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME, projection, // select
-						WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + "=?", where, null, // don't
-						// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
 
-				switch (action) {
-				case UPDATE:
-					db.update(WHEEL_BASE_LU_Entry.TABLE_NAME, vals,
-							WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				case INSERT:
-					db.insert(WHEEL_BASE_LU_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(WHEEL_BASE_LU_Entry.TABLE_NAME,
-							WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				default:
-				}
+				synchronized (ScoutingDBHelper.lock) {
 
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(
+							WHEEL_BASE_LU_Entry.TABLE_NAME,
+							projection, // select
+							WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + "=?", where,
+							null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					}
+
+					switch (action) {
+					case UPDATE:
+						db.update(WHEEL_BASE_LU_Entry.TABLE_NAME, vals,
+								WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					case INSERT:
+						db.insert(WHEEL_BASE_LU_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(WHEEL_BASE_LU_Entry.TABLE_NAME,
+								WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
+				}
 			}
 		} catch (JSONException e) {
 			// TODO handle error
 		}
 	}
 
-	private void processWheelType(JSONArray wheelType, SQLiteDatabase db) {
+	private void processWheelType(JSONArray wheelType) {
 		try {
 			for (int i = 0; i < wheelType.length(); i++) {
 				JSONObject row = wheelType.getJSONObject(i);
@@ -1129,41 +1181,53 @@ public class DBSyncService extends Service {
 				String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
 				String[] where = { vals
 						.getAsString(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID) };
-				Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME, projection, // select
-						WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + "=?", where, null, // don't
-						// group
-						null, // don't filter
-						null, // don't order
-						"0,1"); // limit to 1
-				if (!c.moveToFirst()) {
-					if (action == Actions.UPDATE)
-						action = Actions.INSERT;
-					else if (action == Actions.DELETE)
-						action = Actions.NOTHING;
-				}
 
-				switch (action) {
-				case UPDATE:
-					db.update(WHEEL_TYPE_LU_Entry.TABLE_NAME, vals,
-							WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				case INSERT:
-					db.insert(WHEEL_TYPE_LU_Entry.TABLE_NAME, null, vals);
-					break;
-				case DELETE:
-					db.delete(WHEEL_TYPE_LU_Entry.TABLE_NAME,
-							WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-					break;
-				default:
-				}
+				synchronized (ScoutingDBHelper.lock) {
 
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(
+							WHEEL_TYPE_LU_Entry.TABLE_NAME,
+							projection, // select
+							WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + "=?", where,
+							null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					if (!c.moveToFirst()) {
+						if (action == Actions.UPDATE)
+							action = Actions.INSERT;
+						else if (action == Actions.DELETE)
+							action = Actions.NOTHING;
+					}
+
+					switch (action) {
+					case UPDATE:
+						db.update(WHEEL_TYPE_LU_Entry.TABLE_NAME, vals,
+								WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					case INSERT:
+						db.insert(WHEEL_TYPE_LU_Entry.TABLE_NAME, null, vals);
+						break;
+					case DELETE:
+						db.delete(WHEEL_TYPE_LU_Entry.TABLE_NAME,
+								WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
+								where);
+						break;
+					default:
+					}
+					ScoutingDBHelper.getInstance().close();
+				}
 			}
 		} catch (JSONException e) {
 			// TODO handle error
 		}
 	}
 
-	private void sendMatches(SQLiteDatabase db) {
+	private void sendMatches() {
 		// repurposed invalid flag for marking fields that need to be uploaded
 		String[] matchProjection = {
 				FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID,
@@ -1185,60 +1249,67 @@ public class DBSyncService extends Service {
 				FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD,
 				FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES };
 
-		Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME, matchProjection,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
-				null, null);
+		synchronized (ScoutingDBHelper.lock) {
 
-		synchronized (outgoing) {
+			SQLiteDatabase db = ScoutingDBHelper.getInstance()
+					.getReadableDatabase();
 
-			if (c.moveToFirst())
-				do {
-					Map<String, String> args = new HashMap<String, String>();
-					args.put("password", password);
-					args.put("type", "match");
-					for (int i = 0; i < matchProjection.length; i++) {
-						args.put(matchProjection[i], c.getString(c
-								.getColumnIndex(matchProjection[i])));
-					}
-					outgoing.add(args);
-				} while (c.moveToNext());
-		}
+			Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
+					matchProjection, FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
+							+ "<>0", null, null, null, null);
 
-		String[] cycleProjection = {
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
+			synchronized (outgoing) {
 
-		c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
-				FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
-				null, null);
+				if (c.moveToFirst())
+					do {
+						Map<String, String> args = new HashMap<String, String>();
+						args.put("password", password);
+						args.put("type", "match");
+						for (int i = 0; i < matchProjection.length; i++) {
+							args.put(matchProjection[i], c.getString(c
+									.getColumnIndex(matchProjection[i])));
+						}
+						outgoing.add(args);
+					} while (c.moveToNext());
+			}
 
-		synchronized (outgoing) {
+			String[] cycleProjection = {
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
 
-			if (c.moveToFirst())
-				do {
-					Map<String, String> args = new HashMap<String, String>();
-					args.put("password", password);
-					args.put("type", "cycle");
-					for (int i = 0; i < cycleProjection.length; i++) {
-						args.put(cycleProjection[i], c.getString(c
-								.getColumnIndex(cycleProjection[i])));
-					}
-					outgoing.add(args);
-				} while (c.moveToNext());
+			c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
+					FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null,
+					null, null, null);
+
+			synchronized (outgoing) {
+
+				if (c.moveToFirst())
+					do {
+						Map<String, String> args = new HashMap<String, String>();
+						args.put("password", password);
+						args.put("type", "cycle");
+						for (int i = 0; i < cycleProjection.length; i++) {
+							args.put(cycleProjection[i], c.getString(c
+									.getColumnIndex(cycleProjection[i])));
+						}
+						outgoing.add(args);
+					} while (c.moveToNext());
+			}
+			ScoutingDBHelper.getInstance().close();
 		}
 	}
 
-	private void sendPits(SQLiteDatabase db) {
+	private void sendPits() {
 		String[] pitProjection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID,
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
@@ -1257,24 +1328,30 @@ public class DBSyncService extends Service {
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW,
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_MAX_HEIGHT,
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS };
+		synchronized (ScoutingDBHelper.lock) {
 
-		Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, pitProjection,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
-				null, null);
+			SQLiteDatabase db = ScoutingDBHelper.getInstance()
+					.getReadableDatabase();
 
-		synchronized (outgoing) {
+			Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, pitProjection,
+					SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null,
+					null, null, null);
 
-			if (c.moveToFirst())
-				do {
-					Map<String, String> args = new HashMap<String, String>();
-					args.put("password", password);
-					args.put("type", "pits");
-					for (int i = 0; i < pitProjection.length; i++) {
-						args.put(pitProjection[i],
-								c.getString(c.getColumnIndex(pitProjection[i])));
-					}
-					outgoing.add(args);
-				} while (c.moveToNext());
+			synchronized (outgoing) {
+
+				if (c.moveToFirst())
+					do {
+						Map<String, String> args = new HashMap<String, String>();
+						args.put("password", password);
+						args.put("type", "pits");
+						for (int i = 0; i < pitProjection.length; i++) {
+							args.put(pitProjection[i], c.getString(c
+									.getColumnIndex(pitProjection[i])));
+						}
+						outgoing.add(args);
+					} while (c.moveToNext());
+			}
+			ScoutingDBHelper.getInstance().close();
 		}
 	}
 }
