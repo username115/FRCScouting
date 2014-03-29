@@ -110,16 +110,21 @@ public class DB {
 
 			Cursor c = db.query(table, projection, whereClause, whereArgs,
 					null, null, null, "0,1");
-			if (c.moveToFirst()) {
-				String[] id = { c.getString(c
-						.getColumnIndexOrThrow(idColumnName)) };
-				values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						DBSyncService.dateParser.format(new Date()));
-				db.update(table, values, idColumnName + "=?", id);
-			} else {
-				db.insert(table, nullColumnHack, values);
+			try {
+				if (c.moveToFirst()) {
+					String[] id = { c.getString(c
+							.getColumnIndexOrThrow(idColumnName)) };
+					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+							DBSyncService.dateParser.format(new Date()));
+					db.update(table, values, idColumnName + "=?", id);
+				} else {
+					db.insert(table, nullColumnHack, values);
+				}
+			} finally {
+				if (c != null)
+					c.close();
+				ScoutingDBHelper.getInstance().close();
 			}
-			ScoutingDBHelper.getInstance().close();
 		}
 	}
 
@@ -306,13 +311,17 @@ public class DB {
 						null, // don't filter
 						null, // don't order
 						"0,1"); // limit to 1
-				c.moveToFirst();
+				String date = "";
+				try {
+					c.moveToFirst();
 
-				String date = c
-						.getString(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP));
-
-				ScoutingDBHelper.getInstance().close();
+					date = c.getString(c
+							.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP));
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return date;
 
@@ -333,16 +342,23 @@ public class DB {
 
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null, EVENT_LU_Entry.COLUMN_NAME_ID);
+				List<String> ret;
+				try {
 
-				List<String> ret = new ArrayList<String>(c.getCount());
+					ret = new ArrayList<String>(c.getCount());
 
-				if (c.moveToFirst())
-					do {
-						ret.add(c.getString(c
-								.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME)));
-					} while (c.moveToNext());
-				else
-					return null;
+					if (c.moveToFirst())
+						do {
+							ret.add(c.getString(c
+									.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME)));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return ret;
 			} catch (Exception e) {
@@ -363,16 +379,23 @@ public class DB {
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
+				List<String> ret;
+				try {
 
-				List<String> ret = new ArrayList<String>(c.getCount());
+					ret = new ArrayList<String>(c.getCount());
 
-				if (c.moveToFirst())
-					do {
-						ret.add(c.getString(c
-								.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC)));
-					} while (c.moveToNext());
-				else
-					return null;
+					if (c.moveToFirst())
+						do {
+							ret.add(c.getString(c
+									.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC)));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return ret;
 			} catch (Exception e) {
@@ -393,16 +416,24 @@ public class DB {
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						WHEEL_BASE_LU_Entry.COLUMN_NAME_ID);
+				List<String> ret;
 
-				List<String> ret = new ArrayList<String>(c.getCount());
+				try {
 
-				if (c.moveToFirst())
-					do {
-						ret.add(c.getString(c
-								.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC)));
-					} while (c.moveToNext());
-				else
-					return null;
+					ret = new ArrayList<String>(c.getCount());
+
+					if (c.moveToFirst())
+						do {
+							ret.add(c.getString(c
+									.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC)));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return ret;
 			} catch (Exception e) {
@@ -423,16 +454,23 @@ public class DB {
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID);
+				List<String> ret;
+				try {
 
-				List<String> ret = new ArrayList<String>(c.getCount());
+					ret = new ArrayList<String>(c.getCount());
 
-				if (c.moveToFirst())
-					do {
-						ret.add(c.getString(c
-								.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC)));
-					} while (c.moveToNext());
-				else
-					return null;
+					if (c.moveToFirst())
+						do {
+							ret.add(c.getString(c
+									.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC)));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return ret;
 			} catch (Exception e) {
@@ -460,9 +498,17 @@ public class DB {
 						null, // don't filter
 						null, // don't order
 						"0,1"); // limit to 1
-				c.moveToFirst();
-				return c.getString(c
-						.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
+				String ret = "";
+				try {
+					c.moveToFirst();
+					ret = c.getString(c
+							.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+				return ret;
 			} catch (Exception e) {
 				return null;
 			}
@@ -480,16 +526,23 @@ public class DB {
 				Cursor c = db.query(NOTES_OPTIONS_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						NOTES_OPTIONS_Entry.COLUMN_NAME_ID);
+				List<String> ret;
+				try {
 
-				List<String> ret = new ArrayList<String>(c.getCount());
+					ret = new ArrayList<String>(c.getCount());
 
-				if (c.moveToFirst())
-					do {
-						ret.add(c.getString(c
-								.getColumnIndexOrThrow(NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT)));
-					} while (c.moveToNext());
-				else
-					return null;
+					if (c.moveToFirst())
+						do {
+							ret.add(c.getString(c
+									.getColumnIndexOrThrow(NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT)));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return ret;
 			} catch (Exception e) {
@@ -582,10 +635,15 @@ public class DB {
 						null, // don't filter
 						null, // don't order
 						"0,1"); // limit to 1
+				try {
 
-				stats.fromCursor(c, this, db);
+					stats.fromCursor(c, this, db);
 
-				ScoutingDBHelper.getInstance().close();
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return stats;
 			} catch (Exception e) {
@@ -633,33 +691,40 @@ public class DB {
 								+ "=? AND "
 								+ FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
 								+ "=?", where, null, null, null, "0,1");
+				Cursor c2;
+				try {
 
-				String[] projection2 = {
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
+					String[] projection2 = {
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
 
-				Cursor c2 = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME,
-						projection2, FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
-								+ "=? AND "
-								+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-								+ "=?", where, null, null,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
+					c2 = db.query(
+							FACT_CYCLE_DATA_Entry.TABLE_NAME,
+							projection2,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+									+ "=? AND "
+									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
+									+ "=? AND "
+									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+									+ "=?", where, null, null,
+							FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM);
 
-				stats.fromCursor(c, c2, this, db);
-
-				ScoutingDBHelper.getInstance().close();
+					stats.fromCursor(c, c2, this, db);
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
 
 				return stats;
 
@@ -685,8 +750,17 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getLong(c.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
+		long ret = -1;
+		try {
+			c.moveToFirst();
+			ret = c.getLong(c
+					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_ID));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+
+		return ret;
 	}
 
 	public long getConfigIDFromName(String config, SQLiteDatabase db) {
@@ -700,9 +774,16 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getLong(c
-				.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_ID));
+		long ret = -1;
+		try {
+			c.moveToFirst();
+			ret = c.getLong(c
+					.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_ID));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
 	}
 
 	public long getWheelBaseIDFromName(String base, SQLiteDatabase db) {
@@ -717,9 +798,16 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getLong(c
-				.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID));
+		long ret = -1;
+		try {
+			c.moveToFirst();
+			ret = c.getLong(c
+					.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
 	}
 
 	public long getWheelTypeIDFromName(String type, SQLiteDatabase db) {
@@ -734,9 +822,16 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getLong(c
-				.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID));
+		long ret = -1;
+		try {
+			c.moveToFirst();
+			ret = c.getLong(c
+					.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
 	}
 
 	public static String getConfigNameFromID(int config, SQLiteDatabase db) {
@@ -749,9 +844,16 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getString(c
-				.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
+		String ret = "";
+		try {
+			c.moveToFirst();
+			ret = c.getString(c
+					.getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
 	}
 
 	public static String getWheelBaseNameFromID(int base, SQLiteDatabase db) {
@@ -764,9 +866,16 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getString(c
-				.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
+		String ret = "";
+		try {
+			c.moveToFirst();
+			ret = c.getString(c
+					.getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
 	}
 
 	public static String getWheelTypeNameFromID(int type, SQLiteDatabase db) {
@@ -779,9 +888,16 @@ public class DB {
 				null, // don't filter
 				null, // don't order
 				"0,1"); // limit to 1
-		c.moveToFirst();
-		return c.getString(c
-				.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
+		String ret = "";
+		try {
+			c.moveToFirst();
+			ret = c.getString(c
+					.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
 	}
 
 	static OnHandleFileListener mDirSelectListener = new OnHandleFileListener() {
@@ -852,129 +968,158 @@ public class DB {
 					SparseArray<String> types = new SparseArray<String>();
 					SparseArray<String> bases = new SparseArray<String>();
 
-					Cursor c;
+					Cursor c = null;
+					StringBuilder match_data, pit_data, cycle_data;
+					try {
 
-					c = db.rawQuery(
-							"SELECT * FROM "
-									+ FRCScoutingContract.FACT_MATCH_DATA_Entry.TABLE_NAME,
-							null);
-					// decent estimate for how big the output will be. will
-					// definitely be too small
-					// but will keep it from having to resize too many times
-					StringBuilder match_data = new StringBuilder(c.getCount()
-							* c.getColumnCount() * 2);
+						c = db.rawQuery(
+								"SELECT * FROM "
+										+ FRCScoutingContract.FACT_MATCH_DATA_Entry.TABLE_NAME,
+								null);
+						// decent estimate for how big the output will be. will
+						// definitely be too small
+						// but will keep it from having to resize too many times
+						match_data = new StringBuilder(c.getCount()
+								* c.getColumnCount() * 2);
 
-					for (int i = 0; i < c.getColumnCount(); i++) {
-						if (i > 0)
-							match_data.append(",");
-						match_data.append(c.getColumnName(i));
+						for (int i = 0; i < c.getColumnCount(); i++) {
+							if (i > 0)
+								match_data.append(",");
+							match_data.append(c.getColumnName(i));
+						}
+						match_data.append("\n");
+						if (c.moveToFirst())
+							do {
+								for (int j = 0; j < c.getColumnCount(); j++) {
+									if (j > 0)
+										match_data.append(",");
+									if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
+											.equalsIgnoreCase(c
+													.getColumnName(j))
+											&& !debug)
+										match_data.append("0");
+									else if (FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES
+											.equalsIgnoreCase(c
+													.getColumnName(j)))
+										match_data.append("\"")
+												.append(c.getString(j))
+												.append("\"");
+									else
+										match_data.append(c.getString(j));
+								}
+								match_data.append("\n");
+							} while (c.moveToNext());
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					match_data.append("\n");
-					if (c.moveToFirst())
-						do {
-							for (int j = 0; j < c.getColumnCount(); j++) {
-								if (j > 0)
-									match_data.append(",");
-								if (FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
-										.equalsIgnoreCase(c.getColumnName(j))
-										&& !debug)
-									match_data.append("0");
-								else if (FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES
-										.equalsIgnoreCase(c.getColumnName(j)))
-									match_data.append("\"")
-											.append(c.getString(j))
-											.append("\"");
-								else
-									match_data.append(c.getString(j));
-							}
-							match_data.append("\n");
-						} while (c.moveToNext());
-
-					c = db.rawQuery(
-							"SELECT * FROM "
-									+ FRCScoutingContract.FACT_CYCLE_DATA_Entry.TABLE_NAME,
-							null);
-					StringBuilder cycle_data = new StringBuilder(c.getCount()
-							* c.getColumnCount() * 2);
-					for (int i = 0; i < c.getColumnCount(); i++) {
-						if (i > 0)
-							cycle_data.append(",");
-						cycle_data.append(c.getColumnName(i));
+					db = ScoutingDBHelper.getInstance().getReadableDatabase();
+					try {
+						c = db.rawQuery(
+								"SELECT * FROM "
+										+ FRCScoutingContract.FACT_CYCLE_DATA_Entry.TABLE_NAME,
+								null);
+						cycle_data = new StringBuilder(c.getCount()
+								* c.getColumnCount() * 2);
+						for (int i = 0; i < c.getColumnCount(); i++) {
+							if (i > 0)
+								cycle_data.append(",");
+							cycle_data.append(c.getColumnName(i));
+						}
+						cycle_data.append("\n");
+						if (c.moveToFirst())
+							do {
+								for (int j = 0; j < c.getColumnCount(); j++) {
+									if (j > 0)
+										cycle_data.append(",");
+									if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
+											.equalsIgnoreCase(c
+													.getColumnName(j))
+											&& !debug)
+										cycle_data.append("0");
+									else
+										cycle_data.append(c.getString(j));
+								}
+								cycle_data.append("\n");
+							} while (c.moveToNext());
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					cycle_data.append("\n");
-					if (c.moveToFirst())
-						do {
-							for (int j = 0; j < c.getColumnCount(); j++) {
-								if (j > 0)
-									cycle_data.append(",");
-								if (FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID
-										.equalsIgnoreCase(c.getColumnName(j))
-										&& !debug)
-									cycle_data.append("0");
-								else
-									cycle_data.append(c.getString(j));
-							}
-							cycle_data.append("\n");
-						} while (c.moveToNext());
-
-					c = db.rawQuery(
-							"SELECT * FROM "
-									+ FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
-							null);
-					StringBuilder pit_data = new StringBuilder(c.getCount()
-							* c.getColumnCount() * 2);
-					for (int i = 0; i < c.getColumnCount(); i++) {
-						if (i > 0)
-							pit_data.append(",");
-						pit_data.append(c.getColumnName(i));
+					db = ScoutingDBHelper.getInstance().getReadableDatabase();
+					try {
+						c = db.rawQuery(
+								"SELECT * FROM "
+										+ FRCScoutingContract.SCOUT_PIT_DATA_Entry.TABLE_NAME,
+								null);
+						pit_data = new StringBuilder(c.getCount()
+								* c.getColumnCount() * 2);
+						for (int i = 0; i < c.getColumnCount(); i++) {
+							if (i > 0)
+								pit_data.append(",");
+							pit_data.append(c.getColumnName(i));
+						}
+						pit_data.append("\n");
+						if (c.moveToFirst()) {
+							do {
+								for (int j = 0; j < c.getColumnCount(); j++) {
+									if (j > 0)
+										pit_data.append(",");
+									if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID
+											.equalsIgnoreCase(c
+													.getColumnName(j))
+											&& !debug)
+										pit_data.append("0");
+									else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS
+											.equalsIgnoreCase(c
+													.getColumnName(j)))
+										pit_data.append("\"")
+												.append(c.getString(j))
+												.append("\"");
+									else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID
+											.equalsIgnoreCase(c
+													.getColumnName(j))) {
+										String config = configs
+												.get(c.getInt(j));
+										if (config == null) {
+											config = getConfigNameFromID(
+													c.getInt(j), db);
+											configs.append(c.getInt(j), config);
+										}
+										pit_data.append(config);
+									} else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID
+											.equalsIgnoreCase(c
+													.getColumnName(j))) {
+										String base = bases.get(c.getInt(j));
+										if (base == null) {
+											base = getWheelBaseNameFromID(
+													c.getInt(j), db);
+											bases.append(c.getInt(j), base);
+										}
+										pit_data.append(base);
+									} else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID
+											.equalsIgnoreCase(c
+													.getColumnName(j))) {
+										String type = types.get(c.getInt(j));
+										if (type == null) {
+											type = getWheelTypeNameFromID(
+													c.getInt(j), db);
+											types.append(c.getInt(j), type);
+										}
+										pit_data.append(type);
+									} else
+										pit_data.append(c.getString(j));
+								}
+								pit_data.append("\n");
+							} while (c.moveToNext());
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					pit_data.append("\n");
-					if (c.moveToFirst())
-						do {
-							for (int j = 0; j < c.getColumnCount(); j++) {
-								if (j > 0)
-									pit_data.append(",");
-								if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID
-										.equalsIgnoreCase(c.getColumnName(j))
-										&& !debug)
-									pit_data.append("0");
-								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS
-										.equalsIgnoreCase(c.getColumnName(j)))
-									pit_data.append("\"")
-											.append(c.getString(j))
-											.append("\"");
-								else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID
-										.equalsIgnoreCase(c.getColumnName(j))) {
-									String config = configs.get(c.getInt(j));
-									if (config == null) {
-										config = getConfigNameFromID(
-												c.getInt(j), db);
-										configs.append(c.getInt(j), config);
-									}
-									pit_data.append(config);
-								} else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID
-										.equalsIgnoreCase(c.getColumnName(j))) {
-									String base = bases.get(c.getInt(j));
-									if (base == null) {
-										base = getWheelBaseNameFromID(
-												c.getInt(j), db);
-										bases.append(c.getInt(j), base);
-									}
-									pit_data.append(base);
-								} else if (SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID
-										.equalsIgnoreCase(c.getColumnName(j))) {
-									String type = types.get(c.getInt(j));
-									if (type == null) {
-										type = getWheelTypeNameFromID(
-												c.getInt(j), db);
-										types.append(c.getInt(j), type);
-									}
-									pit_data.append(type);
-								} else
-									pit_data.append(c.getString(j));
-							}
-							pit_data.append("\n");
-						} while (c.moveToNext());
 
 					File sd = new File(callback.filename);
 					File match = new File(sd, "matches.csv");
@@ -989,7 +1134,6 @@ public class DB {
 					destination = new FileOutputStream(pits);
 					destination.write(pit_data.toString().getBytes());
 					destination.close();
-					ScoutingDBHelper.getInstance().close();
 					try {
 						FileOutputStream fos = callback.context.openFileOutput(
 								FILENAME, Context.MODE_PRIVATE);

@@ -218,9 +218,9 @@ public class DBSyncService extends Service {
 				sendPits();
 
 			} catch (Exception e) {
-				int i = 1;
+				return -1;
 			}
-			return null;
+			return 0;
 		}
 
 		@Override
@@ -245,9 +245,14 @@ public class DBSyncService extends Service {
 				} else {
 					if (syncForced) {
 						syncForced = false;
-						Toast.makeText(getApplicationContext(),
-								"Synced with Database", Toast.LENGTH_SHORT)
-								.show();
+						if (result < 0)
+							Toast.makeText(getApplicationContext(),
+									"Error Syncing with Database",
+									Toast.LENGTH_SHORT).show();
+						else
+							Toast.makeText(getApplicationContext(),
+									"Synced with Database", Toast.LENGTH_SHORT)
+									.show();
 					}
 					syncInProgress = false;
 					mTimerTask.postDelayed(dataTask, Prefs
@@ -571,30 +576,36 @@ public class DBSyncService extends Service {
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					}
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						}
 
-					switch (action) {
-					case UPDATE:
-						db.update(CONFIGURATION_LU_Entry.TABLE_NAME, vals,
-								CONFIGURATION_LU_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					case INSERT:
-						db.insert(CONFIGURATION_LU_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(CONFIGURATION_LU_Entry.TABLE_NAME,
-								CONFIGURATION_LU_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(CONFIGURATION_LU_Entry.TABLE_NAME, vals,
+									CONFIGURATION_LU_Entry.COLUMN_NAME_ID
+											+ " = ?", where);
+							break;
+						case INSERT:
+							db.insert(CONFIGURATION_LU_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(CONFIGURATION_LU_Entry.TABLE_NAME,
+									CONFIGURATION_LU_Entry.COLUMN_NAME_ID
+											+ " = ?", where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 			}
 		} catch (JSONException e) {
@@ -637,28 +648,35 @@ public class DBSyncService extends Service {
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					}
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						}
 
-					switch (action) {
-					case UPDATE:
-						db.update(EVENT_LU_Entry.TABLE_NAME, vals,
-								EVENT_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-						break;
-					case INSERT:
-						db.insert(EVENT_LU_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(EVENT_LU_Entry.TABLE_NAME,
-								EVENT_LU_Entry.COLUMN_NAME_ID + " = ?", where);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(EVENT_LU_Entry.TABLE_NAME, vals,
+									EVENT_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(EVENT_LU_Entry.TABLE_NAME, null, vals);
+							break;
+						case DELETE:
+							db.delete(EVENT_LU_Entry.TABLE_NAME,
+									EVENT_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 
 			}
@@ -733,35 +751,41 @@ public class DBSyncService extends Service {
 									null, // don't filter
 									null, // don't order
 									"0,1"); // limit to 1
-					int id = 0;
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					} else
-						id = c.getInt(c
-								.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
+					try {
+						int id = 0;
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						} else
+							id = c.getInt(c
+									.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
 
-					String[] where2 = { String.valueOf(id) };
+						String[] where2 = { String.valueOf(id) };
 
-					switch (action) {
-					case UPDATE:
-						db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, vals,
-								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
-								where2);
-						break;
-					case INSERT:
-						db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(FACT_CYCLE_DATA_Entry.TABLE_NAME,
-								FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID + " = ?",
-								where2);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, vals,
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID
+											+ " = ?", where2);
+							break;
+						case INSERT:
+							db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(FACT_CYCLE_DATA_Entry.TABLE_NAME,
+									FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID
+											+ " = ?", where2);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 
 			}
@@ -847,35 +871,41 @@ public class DBSyncService extends Service {
 									null, // don't filter
 									null, // don't order
 									"0,1"); // limit to 1
-					int id = 0;
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					} else
-						id = c.getInt(c
-								.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
+					try {
+						int id = 0;
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						} else
+							id = c.getInt(c
+									.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
 
-					String[] where2 = { String.valueOf(id) };
+						String[] where2 = { String.valueOf(id) };
 
-					switch (action) {
-					case UPDATE:
-						db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, vals,
-								FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
-								where2);
-						break;
-					case INSERT:
-						db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(FACT_MATCH_DATA_Entry.TABLE_NAME,
-								FACT_MATCH_DATA_Entry.COLUMN_NAME_ID + " = ?",
-								where2);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, vals,
+									FACT_MATCH_DATA_Entry.COLUMN_NAME_ID
+											+ " = ?", where2);
+							break;
+						case INSERT:
+							db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(FACT_MATCH_DATA_Entry.TABLE_NAME,
+									FACT_MATCH_DATA_Entry.COLUMN_NAME_ID
+											+ " = ?", where2);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 			}
 		} catch (JSONException e) {
@@ -920,30 +950,39 @@ public class DBSyncService extends Service {
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					}
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						}
 
-					switch (action) {
-					case UPDATE:
-						db.update(NOTES_OPTIONS_Entry.TABLE_NAME, vals,
-								NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					case INSERT:
-						db.insert(NOTES_OPTIONS_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(NOTES_OPTIONS_Entry.TABLE_NAME,
-								NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(
+									NOTES_OPTIONS_Entry.TABLE_NAME,
+									vals,
+									NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(NOTES_OPTIONS_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(
+									NOTES_OPTIONS_Entry.TABLE_NAME,
+									NOTES_OPTIONS_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 			}
 		} catch (JSONException e) {
@@ -1058,30 +1097,36 @@ public class DBSyncService extends Service {
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					}
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						}
 
-					switch (action) {
-					case UPDATE:
-						db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, vals,
-								SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
-										+ " = ?", where);
-						break;
-					case INSERT:
-						db.insert(SCOUT_PIT_DATA_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(SCOUT_PIT_DATA_Entry.TABLE_NAME,
-								SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
-										+ " = ?", where);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, vals,
+									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
+											+ " = ?", where);
+							break;
+						case INSERT:
+							db.insert(SCOUT_PIT_DATA_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(SCOUT_PIT_DATA_Entry.TABLE_NAME,
+									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
+											+ " = ?", where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 			}
 		} catch (JSONException e) {
@@ -1127,30 +1172,39 @@ public class DBSyncService extends Service {
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					}
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						}
 
-					switch (action) {
-					case UPDATE:
-						db.update(WHEEL_BASE_LU_Entry.TABLE_NAME, vals,
-								WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					case INSERT:
-						db.insert(WHEEL_BASE_LU_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(WHEEL_BASE_LU_Entry.TABLE_NAME,
-								WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(
+									WHEEL_BASE_LU_Entry.TABLE_NAME,
+									vals,
+									WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(WHEEL_BASE_LU_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(
+									WHEEL_BASE_LU_Entry.TABLE_NAME,
+									WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 			}
 		} catch (JSONException e) {
@@ -1196,30 +1250,39 @@ public class DBSyncService extends Service {
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
-					if (!c.moveToFirst()) {
-						if (action == Actions.UPDATE)
-							action = Actions.INSERT;
-						else if (action == Actions.DELETE)
-							action = Actions.NOTHING;
-					}
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Actions.UPDATE)
+								action = Actions.INSERT;
+							else if (action == Actions.DELETE)
+								action = Actions.NOTHING;
+						}
 
-					switch (action) {
-					case UPDATE:
-						db.update(WHEEL_TYPE_LU_Entry.TABLE_NAME, vals,
-								WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					case INSERT:
-						db.insert(WHEEL_TYPE_LU_Entry.TABLE_NAME, null, vals);
-						break;
-					case DELETE:
-						db.delete(WHEEL_TYPE_LU_Entry.TABLE_NAME,
-								WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
-								where);
-						break;
-					default:
+						switch (action) {
+						case UPDATE:
+							db.update(
+									WHEEL_TYPE_LU_Entry.TABLE_NAME,
+									vals,
+									WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(WHEEL_TYPE_LU_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(
+									WHEEL_TYPE_LU_Entry.TABLE_NAME,
+									WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
 					}
-					ScoutingDBHelper.getInstance().close();
 				}
 			}
 		} catch (JSONException e) {
@@ -1257,55 +1320,65 @@ public class DBSyncService extends Service {
 			Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
 					matchProjection, FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
 							+ "<>0", null, null, null, null);
+			try {
 
-			synchronized (outgoing) {
+				synchronized (outgoing) {
 
-				if (c.moveToFirst())
-					do {
-						Map<String, String> args = new HashMap<String, String>();
-						args.put("password", password);
-						args.put("type", "match");
-						for (int i = 0; i < matchProjection.length; i++) {
-							args.put(matchProjection[i], c.getString(c
-									.getColumnIndex(matchProjection[i])));
-						}
-						outgoing.add(args);
-					} while (c.moveToNext());
+					if (c.moveToFirst())
+						do {
+							Map<String, String> args = new HashMap<String, String>();
+							args.put("password", password);
+							args.put("type", "match");
+							for (int i = 0; i < matchProjection.length; i++) {
+								args.put(matchProjection[i], c.getString(c
+										.getColumnIndex(matchProjection[i])));
+							}
+							outgoing.add(args);
+						} while (c.moveToNext());
+				}
+
+				String[] cycleProjection = {
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
+				if (c != null)
+					c.close();
+				ScoutingDBHelper.getInstance().close();
+				db = ScoutingDBHelper.getInstance().getReadableDatabase();
+
+				c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
+						FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID + "<>0",
+						null, null, null, null);
+
+				synchronized (outgoing) {
+
+					if (c.moveToFirst())
+						do {
+							Map<String, String> args = new HashMap<String, String>();
+							args.put("password", password);
+							args.put("type", "cycle");
+							for (int i = 0; i < cycleProjection.length; i++) {
+								args.put(cycleProjection[i], c.getString(c
+										.getColumnIndex(cycleProjection[i])));
+							}
+							outgoing.add(args);
+						} while (c.moveToNext());
+				}
+			} finally {
+				if (c != null)
+					c.close();
+				ScoutingDBHelper.getInstance().close();
 			}
 
-			String[] cycleProjection = {
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
-
-			c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
-					FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null,
-					null, null, null);
-
-			synchronized (outgoing) {
-
-				if (c.moveToFirst())
-					do {
-						Map<String, String> args = new HashMap<String, String>();
-						args.put("password", password);
-						args.put("type", "cycle");
-						for (int i = 0; i < cycleProjection.length; i++) {
-							args.put(cycleProjection[i], c.getString(c
-									.getColumnIndex(cycleProjection[i])));
-						}
-						outgoing.add(args);
-					} while (c.moveToNext());
-			}
-			ScoutingDBHelper.getInstance().close();
 		}
 	}
 
@@ -1336,22 +1409,27 @@ public class DBSyncService extends Service {
 			Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, pitProjection,
 					SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null,
 					null, null, null);
+			try {
 
-			synchronized (outgoing) {
+				synchronized (outgoing) {
 
-				if (c.moveToFirst())
-					do {
-						Map<String, String> args = new HashMap<String, String>();
-						args.put("password", password);
-						args.put("type", "pits");
-						for (int i = 0; i < pitProjection.length; i++) {
-							args.put(pitProjection[i], c.getString(c
-									.getColumnIndex(pitProjection[i])));
-						}
-						outgoing.add(args);
-					} while (c.moveToNext());
+					if (c.moveToFirst())
+						do {
+							Map<String, String> args = new HashMap<String, String>();
+							args.put("password", password);
+							args.put("type", "pits");
+							for (int i = 0; i < pitProjection.length; i++) {
+								args.put(pitProjection[i], c.getString(c
+										.getColumnIndex(pitProjection[i])));
+							}
+							outgoing.add(args);
+						} while (c.moveToNext());
+				}
+			} finally {
+				if (c != null)
+					c.close();
+				ScoutingDBHelper.getInstance().close();
 			}
-			ScoutingDBHelper.getInstance().close();
 		}
 	}
 }
