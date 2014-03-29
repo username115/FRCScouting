@@ -229,8 +229,9 @@ public class DBSyncService extends Service {
 			if (!running)
 				return;
 			if (DB.debug) {
-				Toast.makeText(getApplicationContext(), "Processed Response",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+						"Processed Response: " + result, Toast.LENGTH_SHORT)
+						.show();
 			}
 			synchronized (outgoing) {
 				if (!outgoing.isEmpty()) {
