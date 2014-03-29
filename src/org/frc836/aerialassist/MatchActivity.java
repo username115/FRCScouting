@@ -56,6 +56,7 @@ import android.widget.ToggleButton;
 public class MatchActivity extends Activity implements OnItemSelectedListener {
 
 	private static final int CANCEL_DIALOG = 0;
+	private static final int LOAD_DIALOG = 353563;
 
 	private String HELPMESSAGE;
 
@@ -160,6 +161,7 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 		teamText2.setText(team2);
 		teamText3.setText(team3);
 		matchT.setText(match);
+		boolean loadData = false;
 		if (team1 != null && team1.length() > 0 && match != null
 				&& match.length() > 0) {
 			team1Data = (MatchStatsAA) submitter.getMatchStats(Prefs.getEvent(
@@ -169,6 +171,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 				team1Data = new MatchStatsAA(Integer.valueOf(team1),
 						Prefs.getEvent(getApplicationContext(),
 								"Chesapeake Regional"), Integer.valueOf(match));
+			else
+				loadData = true;
 		} else
 			team1Data = new MatchStatsAA();
 
@@ -181,6 +185,8 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 				team2Data = new MatchStatsAA(Integer.valueOf(team2),
 						Prefs.getEvent(getApplicationContext(),
 								"Chesapeake Regional"), Integer.valueOf(match));
+			else
+				loadData = true;
 		} else
 			team2Data = new MatchStatsAA();
 
@@ -193,8 +199,14 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 				team3Data = new MatchStatsAA(Integer.valueOf(team3),
 						Prefs.getEvent(getApplicationContext(),
 								"Chesapeake Regional"), Integer.valueOf(match));
+			else
+				loadData = true;
 		} else
 			team3Data = new MatchStatsAA();
+
+		if (loadData) {
+			showDialog(LOAD_DIALOG);
+		}
 
 		currentView = 0;
 		currentCycle = 1;
@@ -2060,6 +2072,71 @@ public class MatchActivity extends Activity implements OnItemSelectedListener {
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
+		case LOAD_DIALOG:
+			builder.setMessage("Data for this match Exists.\nLoad old match?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									if (teamText1.getText().toString().length() > 0
+											&& matchT.getText().toString()
+													.length() > 0) {
+										team1Data = new MatchStatsAA(
+												Integer.valueOf(teamText1
+														.getText().toString()),
+												Prefs.getEvent(
+														getApplicationContext(),
+														"Chesapeake Regional"),
+												Integer.valueOf(matchT
+														.getText().toString()
+														.length()));
+									} else
+										team1Data = new MatchStatsAA();
+
+									if (teamText2.getText().toString().length() > 0
+											&& matchT.getText().toString()
+													.length() > 0) {
+										team2Data = new MatchStatsAA(
+												Integer.valueOf(teamText2
+														.getText().toString()),
+												Prefs.getEvent(
+														getApplicationContext(),
+														"Chesapeake Regional"),
+												Integer.valueOf(matchT
+														.getText().toString()
+														.length()));
+									} else
+										team2Data = new MatchStatsAA();
+
+									if (teamText3.getText().toString().length() > 0
+											&& matchT.getText().toString()
+													.length() > 0) {
+										team3Data = new MatchStatsAA(
+												Integer.valueOf(teamText3
+														.getText().toString()),
+												Prefs.getEvent(
+														getApplicationContext(),
+														"Chesapeake Regional"),
+												Integer.valueOf(matchT
+														.getText().toString()
+														.length()));
+									} else
+										team3Data = new MatchStatsAA();
+									loadAuto();
+									loadCycle(currentCycle);
+									loadEndgame();
 								}
 							});
 			dialog = builder.create();
