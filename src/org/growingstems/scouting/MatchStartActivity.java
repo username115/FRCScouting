@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Daniel Logan
+ * Copyright 2015 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,14 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.aerialassist.MatchActivity;
+import org.frc836.aerialassist.MatchActivity; //TODO change to new MatchActivity
 import org.growingstems.scouting.R;
-
+import org.sigmond.net.AsyncPictureRequest;
+import org.sigmond.net.HttpCallback;
+import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.PicCallback;
+import org.sigmond.net.PicRequestInfo;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,6 +31,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,16 +44,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MatchStartActivity extends Activity implements PicCallback {
 
-	private EditText teamNum1;
-	private EditText teamNum2;
-	private EditText teamNum3;
-	// private TextView position;
+	private EditText teamNum;
+	private TextView position;
 	private EditText matchNum;
 	private Button startB;
-	// private ImageView robotPic;
+	private ImageView robotPic;
 
 	private String HELPMESSAGE;
 
@@ -66,17 +71,15 @@ public class MatchStartActivity extends Activity implements PicCallback {
 				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
 				+ "Match number and team number will automatically update upon successful submission of match data.";
 
-		teamNum1 = (EditText) findViewById(R.id.startTeamNum1);
-		teamNum2 = (EditText) findViewById(R.id.startTeamNum2);
-		teamNum3 = (EditText) findViewById(R.id.startTeamNum3);
-		// position = (TextView) findViewById(R.id.startPos);
+		teamNum = (EditText) findViewById(R.id.startTeamNum);
+		position = (TextView) findViewById(R.id.startPos);
 		matchNum = (EditText) findViewById(R.id.startMatchNum);
 		startB = (Button) findViewById(R.id.startMatchB);
-		// robotPic = (ImageView) findViewById(R.id.robotPic);
+		robotPic = (ImageView) findViewById(R.id.robotPic);
 
-		// position.setOnClickListener(new positionClickListener());
+		position.setOnClickListener(new positionClickListener());
 		startB.setOnClickListener(new StartClickListener());
-		// robotPic.setOnClickListener(new PictureClickListener());
+		robotPic.setOnClickListener(new PictureClickListener());
 
 		matchNum.addTextChangedListener(new matchTextListener());
 		schedule = new MatchSchedule();
@@ -97,14 +100,13 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 	}
 
-	/*
-	 * private class positionClickListener implements OnClickListener {
-	 * 
-	 * public void onClick(View v) {
-	 * MainMenuSelection.openSettings(MatchStartActivity.this); }
-	 * 
-	 * }
-	 */
+	private class positionClickListener implements OnClickListener {
+
+		public void onClick(View v) {
+			MainMenuSelection.openSettings(MatchStartActivity.this);
+		}
+
+	}
 
 	private class matchTextListener implements TextWatcher {
 
@@ -144,9 +146,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		public void onClick(View v) {
 			Intent intent = new Intent(MatchStartActivity.this,
 					MatchActivity.class);
-			intent.putExtra("team1", teamNum1.getText().toString());
-			intent.putExtra("team2", teamNum2.getText().toString());
-			intent.putExtra("team3", teamNum3.getText().toString());
+			intent.putExtra("team", teamNum.getText().toString());
 			intent.putExtra("match", matchNum.getText().toString());
 			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
 
@@ -157,17 +157,13 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	private void updatePosition() {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
-		String pos = prefs.getString("positionPref", "Red");
-		if (pos.contains("Blue")) {
-			teamNum1.setBackgroundResource(R.drawable.blueborder);
-			teamNum2.setBackgroundResource(R.drawable.blueborder);
-			teamNum3.setBackgroundResource(R.drawable.blueborder);
-		} else {
-			teamNum1.setBackgroundResource(R.drawable.redborder);
-			teamNum2.setBackgroundResource(R.drawable.redborder);
-			teamNum3.setBackgroundResource(R.drawable.redborder);
-		}
+		String pos = prefs.getString("positionPref", "Red 1");
 
+		position.setText(pos);
+		if (pos.contains("Blue"))
+			position.setTextColor(Color.BLUE);
+		else
+			position.setTextColor(Color.RED);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -191,83 +187,62 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void setMatch(int matchNum) {
-
-		String def1 = teamNum1.getText().toString().trim();
-		String def2 = teamNum2.getText().toString().trim();
-		String def3 = teamNum3.getText().toString().trim();
-
+		
+		String def = teamNum.getText().toString().trim();
 		try {
-			if (def1.length() > 9 || Integer.valueOf(def1) <= 0)
-				def1 = "";
+			if (def.length() > 9 || Integer.valueOf(def) <= 0)
+				def = "";
 		} catch (Exception e) {
-			def1 = "";
-		}
-		try {
-			if (def2.length() > 9 || Integer.valueOf(def2) <= 0)
-				def2 = "";
-		} catch (Exception e) {
-			def2 = "";
-		}
-		try {
-			if (def3.length() > 9 || Integer.valueOf(def3) <= 0)
-				def3 = "";
-		} catch (Exception e) {
-			def3 = "";
+			def = "";
 		}
 		
-		teamNum1.setText(schedule.getTeam(matchNum, Prefs.getPosition(this, "red") + " 1", this, def1));
-		teamNum2.setText(schedule.getTeam(matchNum, Prefs.getPosition(this, "red") + " 2", this, def2));
-		teamNum3.setText(schedule.getTeam(matchNum, Prefs.getPosition(this, "red") + " 3", this, def3));
-
-		// TODO fixme
-		/*
-		 * String def = teamNum.getText().toString().trim(); try { if
-		 * (def.length() > 9 || Integer.valueOf(def) <= 0) def = ""; } catch
-		 * (Exception e) { def = ""; }
-		 * 
-		 * teamNum.setText(schedule.getTeam(matchNum, position.getText()
-		 * .toString(), this, def)); if
-		 * (Prefs.getRobotPicPref(getApplicationContext(), false)) {
-		 * loadPicture(); }
-		 */
+		teamNum.setText(schedule.getTeam(matchNum, position.getText()
+				.toString(), this, def));
+		if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
+			loadPicture();
+		}
 	}
 
-	/*
-	 * private class PictureClickListener implements OnClickListener {
-	 * 
-	 * public void onClick(View v) { pd =
-	 * ProgressDialog.show(MatchStartActivity.this, "Busy",
-	 * "Retrieving Team Robot Photo", false); pd.setCancelable(true);
-	 * loadPicture(); }
-	 * 
-	 * }
-	 * 
-	 * private void loadPicture() {
-	 * 
-	 * DB db = new DB(getApplicationContext());
-	 * db.getPictureURL(teamNum.getText().toString(), new PictureURLCallback());
-	 * 
-	 * }
-	 * 
-	 * 
-	 * private class PictureURLCallback implements HttpCallback {
-	 * 
-	 * public void onResponse(HttpRequestInfo resp) { PicRequestInfo info = new
-	 * PicRequestInfo(resp.getResponseString(), MatchStartActivity.this);
-	 * AsyncPictureRequest req = new AsyncPictureRequest(); req.execute(info); }
-	 * 
-	 * public void onError(Exception e) { if (pd != null) pd.dismiss(); }
-	 * 
-	 * }
-	 */
+	private class PictureClickListener implements OnClickListener {
+
+		public void onClick(View v) {
+			pd = ProgressDialog.show(MatchStartActivity.this, "Busy",
+					"Retrieving Team Robot Photo", false);
+			pd.setCancelable(true);
+			loadPicture();
+		}
+
+	}
+
+	private void loadPicture() {
+		DB db = new DB(getApplicationContext());
+		db.getPictureURL(teamNum.getText().toString(), new PictureURLCallback());
+	}
+
+	private class PictureURLCallback implements HttpCallback {
+
+		public void onResponse(HttpRequestInfo resp) {
+			PicRequestInfo info = new PicRequestInfo(resp.getResponseString(),
+					MatchStartActivity.this);
+			AsyncPictureRequest req = new AsyncPictureRequest();
+			req.execute(info);
+		}
+
+		public void onError(Exception e) {
+			if (pd != null)
+				pd.dismiss();
+		}
+
+	}
 
 	public void onFinished(Drawable drawable) {
 		if (pd != null)
 			pd.dismiss();
-		/*
-		 * if (drawable == null) { robotPic.setImageResource(R.drawable.robot);
-		 * } else { robotPic.setImageDrawable(drawable); }
-		 */
+		if (drawable == null) {
+			robotPic.setImageResource(R.drawable.robot);
+		} else {
+			robotPic.setImageDrawable(drawable);
+		}
 	}
 
 	protected Dialog onCreateDialog(int id) {
