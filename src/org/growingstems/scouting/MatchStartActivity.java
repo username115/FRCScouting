@@ -17,10 +17,11 @@
 package org.growingstems.scouting;
 
 import org.frc836.aerialassist.MatchActivity; //TODO change to new MatchActivity
+import org.frc836.database.DB;
+import org.frc836.database.DBSyncService;
+import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
 import org.sigmond.net.AsyncPictureRequest;
-import org.sigmond.net.HttpCallback;
-import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;
 
@@ -28,12 +29,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -62,10 +67,18 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	private static final int MATCH_ACTIVITY_REQUEST = 0;
 
 	private ProgressDialog pd;
+	
+	private DB db;
+	private LocalBinder binder;
+	private ServiceWatcher watcher = new ServiceWatcher();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.matchstart);
+		
+		Intent sync = new Intent(this, DBSyncService.class);
+		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
+		db = new DB(this, binder);
 
 		HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
 				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
@@ -128,6 +141,12 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 		}
 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbindService(watcher);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -215,24 +234,17 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void loadPicture() {
-		DB db = new DB(getApplicationContext());
-		db.getPictureURL(teamNum.getText().toString(), new PictureURLCallback());
-	}
-
-	private class PictureURLCallback implements HttpCallback {
-
-		public void onResponse(HttpRequestInfo resp) {
-			PicRequestInfo info = new PicRequestInfo(resp.getResponseString(),
-					MatchStartActivity.this);
-			AsyncPictureRequest req = new AsyncPictureRequest();
-			req.execute(info);
-		}
-
-		public void onError(Exception e) {
+		String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText().toString()));
+		if (pictureURL.length() < 5) {
 			if (pd != null)
 				pd.dismiss();
+			robotPic.setImageResource(R.drawable.robot);
+			return;
 		}
-
+		PicRequestInfo info = new PicRequestInfo(pictureURL,
+				MatchStartActivity.this);
+		AsyncPictureRequest req = new AsyncPictureRequest();
+		req.execute(info);
 	}
 
 	public void onFinished(Drawable drawable) {
@@ -267,6 +279,20 @@ public class MatchStartActivity extends Activity implements PicCallback {
 			dialog = null;
 		}
 		return dialog;
+	}
+	
+	protected class ServiceWatcher implements ServiceConnection {
+
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			if (service instanceof LocalBinder) {
+				binder = (LocalBinder) service;
+				db.setBinder(binder);
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName name) {
+		}
+
 	}
 
 }

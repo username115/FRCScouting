@@ -28,26 +28,26 @@
         android:summary="Enter the password for the server"
         android:title="Password" />
 
-   <!-- <CheckBoxPreference
+    <CheckBoxPreference
         android:defaultValue="true"
         android:enabled="true"
         android:key="robotPicPref"
         android:summary="Automatically download pictures of robots?"
-        android:title="Download Pictures" /> -->
+        android:title="Download Pictures" />
 
     <EditTextPreference
         android:inputType="number"
         android:key="teamPref"
         android:summary="Enter your team number"
         android:title="Team Number" />
-    
+
     <CheckBoxPreference
         android:defaultValue="true"
         android:enabled="true"
         android:key="enableSyncPref"
         android:summary="Automatically sync with server?"
         android:title="Auto Sync" />
-    
+
     <ListPreference
         android:defaultValue="1 Minute"
         android:dialogTitle="Auto Sync Frequency"

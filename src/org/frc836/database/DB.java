@@ -586,12 +586,10 @@ public class DB {
 		 */
 	}
 
-	/*
-	 * public void getPictureURL(String teamID, HttpCallback callback) {
-	 * Map<String, String> args = new HashMap<String, String>();
-	 * args.put("type", "robotPic"); args.put("team_id", teamID);
-	 * utils.doPost(Prefs.getScoutingURL(context), args, callback); }
-	 */
+	public String getPictureURL(int teamNum) {
+		// TODO grab team picture URL from database
+		return "";
+	}
 
 	public PitStats getTeamPitStats(int teamNum) {
 

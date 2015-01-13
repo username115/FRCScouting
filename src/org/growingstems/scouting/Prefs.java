@@ -52,7 +52,7 @@ public class Prefs extends PreferenceActivity {
 
 	private ListPreference eventP;
 
-	private static final String URL = "http://robobees.org/scouting.php";
+	private static final String URL = "https://robobees.org/scouting.php";
 
 	private DB db;
 
@@ -227,12 +227,10 @@ public class Prefs extends PreferenceActivity {
 				.getString("eventPref", defaultValue);
 	}
 
-	/*
-	 * public static boolean getRobotPicPref(Context context, boolean
-	 * defaultValue) { return
-	 * PreferenceManager.getDefaultSharedPreferences(context)
-	 * .getBoolean("robotPicPref", defaultValue); }
-	 */
+	public static boolean getRobotPicPref(Context context, boolean defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean("robotPicPref", defaultValue);
+	}
 
 	public static String getDefaultTeamNumber(Context context,
 			String defaultValue) {
