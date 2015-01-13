@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Daniel Logan
+ * Copyright 2015 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,44 +27,47 @@ public abstract class MatchStatsStruct {
 	public int team;
 	public String event;
 	public int match;
-	public boolean autonomous;
+	public boolean autonomous; //not used in 2015 //TODO remove when MatchActivity updated
 	public String notes;
 	public boolean tipOver;
 	public boolean foul;
-	public boolean tech_foul;
+	public boolean tech_foul; //not used in 2015 //TODO remove when MatchActivity updated
 	public boolean yellowCard;
 	public boolean redCard;
+	public boolean practice_match; //new in 2015
 
 	public MatchStatsStruct() {
 		init();
 	}
 
 	public MatchStatsStruct(int team, String event, int match) {
+		init();
 		this.team = team;
 		this.event = event;
 		this.match = match;
-		init();
 	}
 
-	public MatchStatsStruct(int team, String event, int match, boolean auto) {
-
+	public MatchStatsStruct(int team, String event, int match, boolean practice) {
 		init();
 		this.team = team;
 		this.event = event;
 		this.match = match;
-		autonomous = auto;
+		this.practice_match = practice;
+		//autonomous = auto;
 	}
 
 	public void init() {
-		autonomous = true;
+		//autonomous = true;
 		tipOver = false;
 		notes = "";
 		foul = false;
-		tech_foul = false;
+		//tech_foul = false;
 		yellowCard = false;
 		redCard = false;
+		practice_match = false;
 	}
 
+	//TODO update for new database, add practice match
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
 		ContentValues args = new ContentValues();
 		long ev = db.getEventIDFromName(event, database);
@@ -76,7 +79,7 @@ public abstract class MatchStatsStruct {
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES, notes);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER, tipOver ? 1 : 0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL, foul ? 1 : 0);
-		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL, tech_foul ? 1 : 0);
+		//args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL, tech_foul ? 1 : 0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD, yellowCard ? 1
 				: 0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD, redCard ? 1 : 0);
@@ -85,6 +88,7 @@ public abstract class MatchStatsStruct {
 		return args;
 	}
 
+	//TODO fix references for updated database, add practice match
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
 		c.moveToFirst();
 		notes = c
@@ -95,9 +99,9 @@ public abstract class MatchStatsStruct {
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER)) != 0;
 		foul = c.getInt(c
 				.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL)) != 0;
-		tech_foul = c
+		/*tech_foul = c
 				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL)) != 0;
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL)) != 0;*/
 		yellowCard = c
 				.getInt(c
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD)) != 0;
