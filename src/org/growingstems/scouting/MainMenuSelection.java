@@ -64,20 +64,22 @@ public class MainMenuSelection {
 	}
 
 	public static void refresh(Activity context) {
-		if (context instanceof DataActivity) {
+		//TODO fix for refreshing in context
+		// can do this by having all activities implement an interface with a refresh method, and handle in activity
+		/*if (context instanceof DataActivity) {
 			DataActivity act = (DataActivity) context;
 			act.refreshCurrentTab();
 		} else if (context instanceof MatchStatsActivity) {
 			MatchStatsActivity act = (MatchStatsActivity) context;
 			act.refreshStats();
-		} else {
+		} else {*/
 			MatchSchedule schedule = new MatchSchedule();
 			SharedPreferences prefs = PreferenceManager
 					.getDefaultSharedPreferences(context.getBaseContext());
 			schedule.updateSchedule(
 					prefs.getString("eventPref", "Chesapeake Regional"),
 					context, true);
-		}
+		//}
 	}
 
 	public static void showHelp(Activity context) {

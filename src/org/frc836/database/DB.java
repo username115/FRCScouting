@@ -25,21 +25,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.frc836.aerialassist.MatchStatsAA;
-import org.frc836.aerialassist.PitStatsAA;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
-import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
-import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2015_Entry;
 import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
-import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2015_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
 import org.frc836.samsung.fileselector.FileOperation;
 import org.frc836.samsung.fileselector.FileSelector;
 import org.frc836.samsung.fileselector.OnHandleFileListener;
-import org.frc836.ultimateascent.*;
 import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
 
@@ -114,7 +110,7 @@ public class DB {
 				if (c.moveToFirst()) {
 					String[] id = { c.getString(c
 							.getColumnIndexOrThrow(idColumnName)) };
-					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+					values.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP,
 							DBSyncService.dateParser.format(new Date()));
 					db.update(table, values, idColumnName + "=?", id);
 				} else {
