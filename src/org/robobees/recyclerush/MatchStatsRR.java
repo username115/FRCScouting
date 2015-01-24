@@ -16,6 +16,10 @@
 
 package org.robobees.recyclerush;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.frc836.database.DB;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2015_Entry;
 import org.frc836.database.MatchStatsStruct;
@@ -88,24 +92,24 @@ public class MatchStatsRR extends MatchStatsStruct {
 		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN,
 				auto_step_bin);
 
-		for (int i = 0; i < TOTES_IN_STACK; i++)
+		for (int i = 1; i <= TOTES_IN_STACK; i++)
 			vals.put(
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.substring(0,
 							FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
 									.length() - 1)
-							+ i, totes[i]);
-		for (int i = 0; i < COOP_TOTES_STACK; i++)
+							+ i, totes[i - 1]);
+		for (int i = 1; i <= COOP_TOTES_STACK; i++)
 			vals.put(
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.substring(0,
 							FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
 									.length() - 1)
-							+ i, coops[i]);
-		for (int i = 0; i < TOTES_IN_STACK; i++)
+							+ i, coops[i - 1]);
+		for (int i = 1; i <= TOTES_IN_STACK; i++)
 			vals.put(
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.substring(0,
 							FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1
 									.length() - 1)
-							+ i, bins[i]);
+							+ i, bins[i - 1]);
 
 		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER, bin_litter);
 		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER,
@@ -136,24 +140,24 @@ public class MatchStatsRR extends MatchStatsStruct {
 				.getShort(c
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN));
 
-		for (int i = 0; i < TOTES_IN_STACK; i++)
-			totes[i] = c
+		for (int i = 1; i <= TOTES_IN_STACK; i++)
+			totes[i - 1] = c
 					.getShort(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
 							.substring(
 									0,
 									FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
 											.length() - 1)
 							+ i));
-		for (int i = 0; i < COOP_TOTES_STACK; i++)
-			coops[i] = c
+		for (int i = 1; i <= COOP_TOTES_STACK; i++)
+			coops[i - 1] = c
 					.getShort(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
 							.substring(
 									0,
 									FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
 											.length() - 1)
 							+ i));
-		for (int i = 0; i < TOTES_IN_STACK; i++)
-			bins[i] = c
+		for (int i = 1; i <= TOTES_IN_STACK; i++)
+			bins[i - 1] = c
 					.getShort(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1
 							.substring(
 									0,
@@ -161,9 +165,51 @@ public class MatchStatsRR extends MatchStatsStruct {
 											.length() - 1)
 							+ i));
 
-		bin_litter = 0;
-		landfill_litter = 0;
+		bin_litter = c
+				.getShort(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER));
+		landfill_litter = c
+				.getShort(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER));
 
 	}
+
+	@Override
+	public String[] getProjection() {
+		String[] projection = super.getProjection();
+		List<String> temp = new ArrayList<String>(Arrays.asList(projection));
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_MOVE);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTES);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_2);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_3);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN);
+		for (int i = 1; i < TOTES_IN_STACK; i++)
+			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.substring(
+					0,
+					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.length() - 1)
+					+ i);
+		for (int i = 1; i < COOP_TOTES_STACK; i++)
+			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.substring(
+					0,
+					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.length() - 1)
+					+ i);
+		for (int i = 1; i < TOTES_IN_STACK; i++)
+			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.substring(
+					0,
+					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.length() - 1)
+					+ i);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER);
+
+		projection = new String[temp.size()];
+		return temp.toArray(projection);
+	}
+	
+	//no text fields in 2015 specific stats
+//	@Override
+//	public boolean isTextField(String column_name) {
+//		return super.isTextField(column_name);
+//	}
 
 }
