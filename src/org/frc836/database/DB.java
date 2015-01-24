@@ -555,7 +555,7 @@ public class DB {
 
 	/*public void getEventStats(String eventName,
 			EventStats.EventCallback callback) {
-		// TODO
+		// TODO data lookup
 		/*
 		 * Map<String, String> args = new HashMap<String, String>();
 		 * args.put("type", "eventStats"); args.put("password", password);
@@ -566,7 +566,7 @@ public class DB {
 	}*/
 
 	/*public void getTeamStats(int teamId, TeamStats.TeamCallback callback) {
-		// TODO
+		// TODO data lookup
 		/*
 		 * Map<String, String> args = new HashMap<String, String>();
 		 * args.put("type", "teamStats"); args.put("password", password);
@@ -578,7 +578,7 @@ public class DB {
 
 	/*public void getMatchStats(String event, String match,
 			MatchStats.MatchCallback callback) {
-		// TODO
+		// TODO data lookup
 		/*
 		 * Map<String, String> args = new HashMap<String, String>();
 		 * args.put("event_name", event); args.put("match_id", match);
