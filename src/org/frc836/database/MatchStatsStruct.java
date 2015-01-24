@@ -92,7 +92,6 @@ public abstract class MatchStatsStruct {
 		return args;
 	}
 
-	// TODO fix references for updated database, add practice match
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
 		c.moveToFirst();
 
