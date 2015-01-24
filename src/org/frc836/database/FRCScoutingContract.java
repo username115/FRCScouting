@@ -102,7 +102,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_MOVE_AUTO = "move_auto";
 		public static final String COLUMN_NAME_AUTO_BIN_SCORE = "auto_bin_score";
 		public static final String COLUMN_NAME_AUTO_TOTE_SCORE = "auto_tote_score";
-		public static final String COLUMN_NAME_AUTO_TOTE_STACK = "auto_tote_stack";
+		public static final String COLUMN_NAME_AUTO_TOTE_STACK_HEIGHT = "auto_tote_stack_height";
 		public static final String COLUMN_NAME_AUTO_STEP_BINS = "auto_step_bins";
 		public static final String COLUMN_NAME_CONFIG_ID = "config_id";
 		public static final String COLUMN_NAME_WHEEL_BASE_ID = "wheel_base_id";
@@ -226,7 +226,7 @@ public final class FRCScoutingContract {
 		"	move_auto tinyint(1) NOT NULL,\n" +
 		"	auto_bin_score unsigned int(2) NOT NULL,\n" +
 		"	auto_tote_score unsigned int(2) NOT NULL,\n" +
-		"	auto_tote_stack unsigned int(2) NOT NULL,\n" +
+		"	auto_tote_stack_height unsigned int(2) NOT NULL,\n" +
 		"	auto_step_bins unsigned int(2) NOT NULL,\n" +
 		"	config_id unsigned int(3) NOT NULL,\n" +
 		"	wheel_base_id unsigned int(3) NOT NULL,\n" +

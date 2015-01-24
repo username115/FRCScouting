@@ -46,52 +46,49 @@ public abstract class PitStats {
 
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
 		ContentValues args = new ContentValues();
-		//TODO fix for new Database
-		/*
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID, team * team);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
+
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_ID, team * team);
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TEAM_ID, team);
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID,
 				db.getConfigIDFromName(chassis_config, database));
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
 				db.getWheelTypeIDFromName(wheel_type, database));
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID,
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID,
 				db.getWheelBaseIDFromName(wheel_base, database));
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
-				auto_mode ? 1 : 0);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS, comments);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID, 1);
-		*/
+		// args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
+		// auto_mode ? 1 : 0);
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES, comments);
+		args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_INVALID, 1);
+
 		return args;
 	}
 
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
 		c.moveToFirst();
 
-		//TODO fix for new Database
-		/*
 		team = c.getInt(c
-				.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID));
+				.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TEAM_ID));
 		chassis_config = DB
 				.getConfigNameFromID(
 						c.getInt(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID)),
+								.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID)),
 						database);
 		wheel_type = DB
 				.getWheelTypeNameFromID(
 						c.getInt(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID)),
+								.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID)),
 						database);
 		wheel_base = DB
 				.getWheelBaseNameFromID(
 						c.getInt(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID)),
+								.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID)),
 						database);
-		auto_mode = c
-				.getInt(c
-						.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE)) != 0;
+		// auto_mode = c
+		// .getInt(c
+		// .getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTONOMOUS_MODE))
+		// != 0;
 		comments = c
 				.getString(c
-						.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS));
-		*/
+						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES));
 	}
 }
