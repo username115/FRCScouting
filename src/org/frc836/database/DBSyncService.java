@@ -55,7 +55,7 @@ public class DBSyncService extends Service {
 
 	private static volatile boolean syncInProgress = false;
 
-	private static enum Actions {
+	private static enum Action {
 		NOTHING, INSERT, UPDATE, DELETE
 	};
 
@@ -186,23 +186,24 @@ public class DBSyncService extends Service {
 
 				processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
-				if (!running)
-					return null;
-				processCycles(json
-						.getJSONArray(FACT_CYCLE_DATA_Entry.TABLE_NAME));
+				//TODO update for new database (encapsulate?)
+				/*
 				if (!running)
 					return null;
 				processMatches(json
 						.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME));
-
+				*/
 				processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME));
 
 				// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
 				// db);
-
+				
+				//TODO update for new database (encapsulate?)
+				/*
 				if (!running)
 					return null;
 				processPits(json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME));
+				*/
 
 				processWheelBase(json
 						.getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME));
@@ -325,14 +326,16 @@ public class DBSyncService extends Service {
 		protected Integer doInBackground(HttpRequestInfo... params) {
 			if (!running)
 				return null;
-			int match = -1, event = -1, team = -1, cycle = -1;
+			int match = -1, event = -1, team = -1;
 			Map<String, String> sent = params[0].getParams();
 			if (params[0].getResponseString().contains("Failed"))
 				return null;
 			synchronized (outgoing) {
 				for (int i = 0; i < outgoing.size(); i++) {
 					Map<String, String> args = outgoing.get(i);
-
+					
+					//TODO update for new database (encapsulate?)
+					/*
 					if (sent.get("type").equalsIgnoreCase("match")
 							&& sent.get(
 									FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID)
@@ -358,37 +361,6 @@ public class DBSyncService extends Service {
 										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID));
 						outgoing.remove(i);
 						break;
-					} else if (sent.get("type").equalsIgnoreCase("cycle")
-							&& sent.get(
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID)
-									.equalsIgnoreCase(
-											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID))
-							&& sent.get(
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID)
-									.equalsIgnoreCase(
-											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID))
-							&& sent.get(
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID)
-									.equalsIgnoreCase(
-											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID))
-							&& sent.get(
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM)
-									.equalsIgnoreCase(
-											args.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM))) {
-						match = Integer
-								.valueOf(sent
-										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID));
-						event = Integer
-								.valueOf(sent
-										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID));
-						team = Integer
-								.valueOf(sent
-										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID));
-						cycle = Integer
-								.valueOf(sent
-										.get(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM));
-						outgoing.remove(i);
-						break;
 					} else if (sent.get("type").equalsIgnoreCase("pits")
 							&& sent.get(
 									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID)
@@ -400,6 +372,7 @@ public class DBSyncService extends Service {
 						outgoing.remove(i);
 						break;
 					}
+					*/
 				}
 			}
 
@@ -408,29 +381,10 @@ public class DBSyncService extends Service {
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
 						.getWritableDatabase();
 				ContentValues values = new ContentValues();
-				if (cycle > 0) { // cycle was updated
-					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID,
-							Integer.valueOf(r[0].trim()));
-					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-							dateParser.format(new Date(
-									Long.valueOf(r[1].trim()) * 1000)));
-					values.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID, 0);
-
-					String[] selectionArgs = { String.valueOf(event),
-							String.valueOf(match), String.valueOf(team),
-							String.valueOf(cycle) };
-					db.update(
-							FACT_CYCLE_DATA_Entry.TABLE_NAME,
-							values,
-							FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
-									+ "=? AND "
-									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-									+ "=? AND "
-									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-									+ "=? AND "
-									+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
-									+ "=?", selectionArgs);
-				} else if (match > 0) { // match was updated
+				
+				//TODO update for new database (encapsulate?)
+				/*				
+				if (match > 0) { // match was updated
 					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
 							Integer.valueOf(r[0].trim()));
 					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
@@ -462,6 +416,7 @@ public class DBSyncService extends Service {
 							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
 							selectionArgs);
 				}
+				*/
 				ScoutingDBHelper.getInstance().close();
 			}
 
@@ -544,9 +499,9 @@ public class DBSyncService extends Service {
 		try {
 			for (int i = 0; i < config.length(); i++) {
 				JSONObject row = config.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(CONFIGURATION_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(CONFIGURATION_LU_Entry.COLUMN_NAME_ID,
@@ -579,10 +534,10 @@ public class DBSyncService extends Service {
 							"0,1"); // limit to 1
 					try {
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						}
 
 						switch (action) {
@@ -618,9 +573,9 @@ public class DBSyncService extends Service {
 		try {
 			for (int i = 0; i < events.length(); i++) {
 				JSONObject row = events.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(EVENT_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(EVENT_LU_Entry.COLUMN_NAME_ID,
@@ -651,10 +606,10 @@ public class DBSyncService extends Service {
 							"0,1"); // limit to 1
 					try {
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						}
 
 						switch (action) {
@@ -686,122 +641,15 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	private void processCycles(JSONArray cycles) {
-		try {
-			for (int i = 0; i < cycles.length(); i++) {
-				JSONObject row = cycles.getJSONObject(i);
-				Actions action = Actions.UPDATE;
-				if (row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
-				}
-				ContentValues vals = new ContentValues();
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS, row
-						.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW));
-				vals.put(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS,
-						row.getInt(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS));
-				vals.put(
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
-								row.getLong(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-
-				// check if this entry exists already
-				String[] projection = { FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID };
-				String[] where = {
-						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID),
-						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID),
-						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID),
-						vals.getAsString(FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM) };
-				synchronized (ScoutingDBHelper.lock) {
-					SQLiteDatabase db = ScoutingDBHelper.getInstance()
-							.getWritableDatabase();
-
-					Cursor c = db
-							.query(FACT_CYCLE_DATA_Entry.TABLE_NAME,
-									projection, // select
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
-											+ "=? AND "
-											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
-											+ "=? AND "
-											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
-											+ "=? AND "
-											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM
-											+ "=?", where, null, // don't
-									// group
-									null, // don't filter
-									null, // don't order
-									"0,1"); // limit to 1
-					try {
-						int id = 0;
-						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
-						} else
-							id = c.getInt(c
-									.getColumnIndexOrThrow(FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID));
-
-						String[] where2 = { String.valueOf(id) };
-
-						switch (action) {
-						case UPDATE:
-							db.update(FACT_CYCLE_DATA_Entry.TABLE_NAME, vals,
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID
-											+ " = ?", where2);
-							break;
-						case INSERT:
-							db.insert(FACT_CYCLE_DATA_Entry.TABLE_NAME, null,
-									vals);
-							break;
-						case DELETE:
-							db.delete(FACT_CYCLE_DATA_Entry.TABLE_NAME,
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID
-											+ " = ?", where2);
-							break;
-						default:
-						}
-					} finally {
-						if (c != null)
-							c.close();
-						ScoutingDBHelper.getInstance().close();
-					}
-				}
-
-			}
-		} catch (JSONException e) {
-			// TODO handle error
-		}
-	}
-
 	private void processMatches(JSONArray matches) {
+		//TODO update for new database (encapsulate?)
+		/*
 		try {
 			for (int i = 0; i < matches.length(); i++) {
 				JSONObject row = matches.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
@@ -875,10 +723,10 @@ public class DBSyncService extends Service {
 					try {
 						int id = 0;
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						} else
 							id = c.getInt(c
 									.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
@@ -912,15 +760,16 @@ public class DBSyncService extends Service {
 		} catch (JSONException e) {
 			// TODO handle error
 		}
+		*/
 	}
 
 	private void processNotes(JSONArray notes) {
 		try {
 			for (int i = 0; i < notes.length(); i++) {
 				JSONObject row = notes.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(NOTES_OPTIONS_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(NOTES_OPTIONS_Entry.COLUMN_NAME_ID,
@@ -953,10 +802,10 @@ public class DBSyncService extends Service {
 							"0,1"); // limit to 1
 					try {
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						}
 
 						switch (action) {
@@ -994,9 +843,9 @@ public class DBSyncService extends Service {
 	/*
 	 * private void processRobots(JSONArray robots, SQLiteDatabase db) { try {
 	 * for (int i = 0; i < robots.length(); i++) { JSONObject row =
-	 * robots.getJSONObject(i); Actions action = Actions.UPDATE; if
+	 * robots.getJSONObject(i); Action action = Action.UPDATE; if
 	 * (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) { action =
-	 * Actions.DELETE; } ContentValues vals = new ContentValues();
+	 * Action.DELETE; } ContentValues vals = new ContentValues();
 	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
 	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
 	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
@@ -1012,9 +861,9 @@ public class DBSyncService extends Service {
 	 * db.query(ROBOT_LU_Entry.TABLE_NAME, projection, // select
 	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where, null, // don't // group
 	 * null, // don't filter null, // don't order "0,1"); // limit to 1 if
-	 * (!c.moveToFirst()) { if (action == Actions.UPDATE) action =
-	 * Actions.INSERT; else if (action == Actions.DELETE) action =
-	 * Actions.NOTHING; }
+	 * (!c.moveToFirst()) { if (action == Action.UPDATE) action =
+	 * Action.INSERT; else if (action == Action.DELETE) action =
+	 * Action.NOTHING; }
 	 * 
 	 * switch (action) { case UPDATE: db.update(ROBOT_LU_Entry.TABLE_NAME, vals,
 	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?", where); break; case INSERT:
@@ -1025,12 +874,14 @@ public class DBSyncService extends Service {
 	 * } } catch (JSONException e) { // TODO handle error } }
 	 */
 	private void processPits(JSONArray pits) {
+		//TODO update for new database (encapsulate?)
+		/*
 		try {
 			for (int i = 0; i < pits.length(); i++) {
 				JSONObject row = pits.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
@@ -1100,10 +951,10 @@ public class DBSyncService extends Service {
 							"0,1"); // limit to 1
 					try {
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						}
 
 						switch (action) {
@@ -1133,15 +984,16 @@ public class DBSyncService extends Service {
 		} catch (JSONException e) {
 			// TODO handle error
 		}
+		*/
 	}
 
 	private void processWheelBase(JSONArray wheelBase) {
 		try {
 			for (int i = 0; i < wheelBase.length(); i++) {
 				JSONObject row = wheelBase.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(WHEEL_BASE_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID,
@@ -1175,10 +1027,10 @@ public class DBSyncService extends Service {
 							"0,1"); // limit to 1
 					try {
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						}
 
 						switch (action) {
@@ -1217,9 +1069,9 @@ public class DBSyncService extends Service {
 		try {
 			for (int i = 0; i < wheelType.length(); i++) {
 				JSONObject row = wheelType.getJSONObject(i);
-				Actions action = Actions.UPDATE;
+				Action action = Action.UPDATE;
 				if (row.getInt(WHEEL_TYPE_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-					action = Actions.DELETE;
+					action = Action.DELETE;
 				}
 				ContentValues vals = new ContentValues();
 				vals.put(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID,
@@ -1253,10 +1105,10 @@ public class DBSyncService extends Service {
 							"0,1"); // limit to 1
 					try {
 						if (!c.moveToFirst()) {
-							if (action == Actions.UPDATE)
-								action = Actions.INSERT;
-							else if (action == Actions.DELETE)
-								action = Actions.NOTHING;
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
 						}
 
 						switch (action) {
@@ -1292,6 +1144,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void sendMatches() {
+		//TODO update for new database (encapsulate?)
+		/*
 		// repurposed invalid flag for marking fields that need to be uploaded
 		String[] matchProjection = {
 				FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID,
@@ -1381,9 +1235,12 @@ public class DBSyncService extends Service {
 			}
 
 		}
+		*/
 	}
 
 	private void sendPits() {
+		//TODO update for new database (encapsulate?)
+		/*
 		String[] pitProjection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID,
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
 				SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
@@ -1432,5 +1289,6 @@ public class DBSyncService extends Service {
 				ScoutingDBHelper.getInstance().close();
 			}
 		}
+		*/
 	}
 }
