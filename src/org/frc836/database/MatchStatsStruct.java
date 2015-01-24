@@ -17,6 +17,7 @@
 package org.frc836.database;
 
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2015_Entry;
+import org.robobees.recyclerush.MatchStatsRR;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -35,6 +36,18 @@ public abstract class MatchStatsStruct {
 	public boolean yellowCard;
 	public boolean redCard;
 	public boolean practice_match; // new in 2015
+
+	public static final String TABLE_NAME = FACT_MATCH_DATA_2015_Entry.TABLE_NAME;
+	public static final String COLUMN_NAME_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_ID;
+	public static final String COLUMN_NAME_EVENT_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_EVENT_ID;
+	public static final String COLUMN_NAME_MATCH_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_MATCH_ID;
+	public static final String COLUMN_NAME_TEAM_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TEAM_ID;
+	public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH;
+	public static final String COLUMN_NAME_INVALID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_INVALID;
+
+	public static MatchStatsStruct getNewMatchStats() {
+		return new MatchStatsRR();
+	}
 
 	public MatchStatsStruct() {
 		init();
@@ -126,5 +139,22 @@ public abstract class MatchStatsStruct {
 		practice_match = c
 				.getInt(c
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH)) != 0;
+	}
+
+	public String[] getProjection() {
+		String[] projection = { FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TEAM_ID,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_EVENT_ID,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_MATCH_ID,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIP_OVER,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_FOUL,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_YELLOW_CARD,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_RED_CARD,
+				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH };
+		return projection;
+	}
+	
+	public boolean isTextField(String column_name) {
+		return FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES.equalsIgnoreCase(column_name);
 	}
 }

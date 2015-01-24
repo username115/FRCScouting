@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Daniel Logan
+ * Copyright 2015 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.frc836.database;
 
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2015_Entry;
+import org.robobees.recyclerush.PitStatsRR;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -30,6 +31,19 @@ public abstract class PitStats {
 	public String wheel_base;
 	public boolean auto_mode;
 	public String comments;
+
+	public static final String COLUMN_NAME_TEAM_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TEAM_ID;
+	public static final String TABLE_NAME = SCOUT_PIT_DATA_2015_Entry.TABLE_NAME;
+	public static final String COLUMN_NAME_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_ID;
+	public static final String COLUMN_NAME_TIMESTAMP = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP;
+	public static final String COLUMN_NAME_INVALID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_INVALID;
+	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID;
+	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID;
+	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
+
+	public static PitStats getNewPitStats() {
+		return new PitStatsRR();
+	}
 
 	public PitStats() {
 		init();
@@ -90,5 +104,24 @@ public abstract class PitStats {
 		comments = c
 				.getString(c
 						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES));
+	}
+
+	public String[] getProjection() {
+		String[] projection = { SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TEAM_ID,
+				SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID,
+				SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
+				SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID,
+				SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES };
+		return projection;
+	}
+	
+	public boolean isTextField(String column_name) {
+		return SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES.equalsIgnoreCase(column_name);
+	}
+	
+	public boolean needsConvertedToText(String column_name) {
+		return SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID.equalsIgnoreCase(column_name) ||
+				SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID.equalsIgnoreCase(column_name) ||
+				SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID.equalsIgnoreCase(column_name);
 	}
 }

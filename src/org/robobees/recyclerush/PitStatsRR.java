@@ -1,4 +1,23 @@
+/*
+ * Copyright 2015 Daniel Logan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.robobees.recyclerush;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.frc836.database.DB;
 import org.frc836.database.PitStats;
@@ -170,5 +189,41 @@ public class PitStatsRR extends PitStats {
 		can_upright_bin = c
 				.getInt(c
 						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CAN_UPRIGHT_BIN)) != 0;
+	}
+
+	@Override
+	public String[] getProjection() {
+		String[] projection = super.getProjection();
+		List<String> temp = new ArrayList<String>(Arrays.asList(projection));
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_PUSH_TOTE);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_PUSH_BIN);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_LIFT_TOTE);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_LIFT_BIN);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_PUSH_LITTER);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_LOAD_LITTER);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_STACK_TOTE_HEIGHT);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_STACK_BIN_HEIGHT);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_TOTES);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_STACK_HEIGHT);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_MOVE_AUTO);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN_SCORE);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTE_SCORE);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTE_STACK_HEIGHT);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BINS);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_MANIP_STYLE);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NEED_UPRIGHT_BIN);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NEED_UPRIGHT_TOTE);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CAN_UPRIGHT_BIN);
+		temp.add(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CAN_UPRIGHT_TOTE);
+		
+		projection = new String[temp.size()];
+		return temp.toArray(projection);
+	}
+	
+	@Override
+	public boolean isTextField(String column_name) {
+		return SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_MANIP_STYLE
+				.equalsIgnoreCase(column_name)
+				|| super.isTextField(column_name);
 	}
 }
