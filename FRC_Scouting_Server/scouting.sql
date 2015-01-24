@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2015` (
   `move_auto` tinyint(1) NOT NULL,
   `auto_bin_score` int(2) unsigned NOT NULL,
   `auto_tote_score` int(2) unsigned NOT NULL,
-  `auto_tote_stack` int(2) unsigned NOT NULL,
+  `auto_tote_stack_height` int(2) unsigned NOT NULL,
   `auto_step_bins` int(2) unsigned NOT NULL,
   `config_id` int(3) unsigned NOT NULL,
   `wheel_base_id` int(3) unsigned NOT NULL,
