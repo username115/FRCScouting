@@ -656,7 +656,7 @@ public class DB {
 		}
 	}
 
-	public MatchStatsStruct getMatchStats(String eventName, int match, int team) {
+	public MatchStatsStruct getMatchStats(String eventName, int match, int team, boolean practice) {
 		synchronized (ScoutingDBHelper.lock) {
 
 			try {
@@ -899,6 +899,28 @@ public class DB {
 			c.moveToFirst();
 			ret = c.getString(c
 					.getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
+	}
+	
+	public static String getEventNameFromID(int eventId, SQLiteDatabase db) {
+
+		String[] projection = { EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME };
+		String[] where = { String.valueOf(eventId) };
+		Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection, // select
+				EVENT_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		String ret = "";
+		try {
+			c.moveToFirst();
+			ret = c.getString(c
+					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME));
 		} finally {
 			if (c != null)
 				c.close();
