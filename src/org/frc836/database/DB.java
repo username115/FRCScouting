@@ -25,21 +25,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.frc836.aerialassist.MatchStatsAA;
-import org.frc836.aerialassist.PitStatsAA;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
-import org.frc836.database.FRCScoutingContract.FACT_CYCLE_DATA_Entry;
-import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2015_Entry;
 import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
-import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2015_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
 import org.frc836.samsung.fileselector.FileOperation;
 import org.frc836.samsung.fileselector.FileSelector;
 import org.frc836.samsung.fileselector.OnHandleFileListener;
-import org.frc836.ultimateascent.*;
 import org.growingstems.scouting.Prefs;
 import org.sigmond.net.*;
 
@@ -54,6 +50,7 @@ import android.widget.Toast;
 public class DB {
 
 	public static final boolean debug = false;
+	public static final String COLUMN_NAME_TIMESTAMP = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP;
 
 	private HttpUtils utils;
 	private String password;
@@ -114,7 +111,7 @@ public class DB {
 				if (c.moveToFirst()) {
 					String[] id = { c.getString(c
 							.getColumnIndexOrThrow(idColumnName)) };
-					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
+					values.put(COLUMN_NAME_TIMESTAMP,
 							DBSyncService.dateParser.format(new Date()));
 					db.update(table, values, idColumnName + "=?", id);
 				} else {
@@ -131,7 +128,8 @@ public class DB {
 	public boolean submitMatch(MatchStatsStruct team1Data,
 			MatchStatsStruct team2Data, MatchStatsStruct team3Data) {
 		try {
-
+			//TODO update for new database (move to other class?)
+			/*
 			String where = FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID
 					+ "=? AND " + FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
 					+ "=? AND " + FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
@@ -237,7 +235,7 @@ public class DB {
 				insertOrUpdate(FACT_CYCLE_DATA_Entry.TABLE_NAME, null, cycle,
 						FACT_CYCLE_DATA_Entry.COLUMN_NAME_ID, where, whereArgs);
 			}
-
+			*/
 			startSync();
 
 			return true;
@@ -245,6 +243,7 @@ public class DB {
 		} catch (Exception e) {
 			return false;
 		}
+		
 	}
 
 	public boolean submitPits(PitStats stats) {
@@ -256,14 +255,15 @@ public class DB {
 				values = stats.getValues(this, db);
 				ScoutingDBHelper.getInstance().close();
 			}
-
+			// TODO update for new database (encapsulate?)
+			/*
 			String[] where = { values
 					.getAsString(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID) };
 
 			insertOrUpdate(SCOUT_PIT_DATA_Entry.TABLE_NAME, null, values,
 					SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
 					SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?", where);
-
+			*/
 			startSync();
 			return true;
 		} catch (Exception e) {
@@ -296,7 +296,9 @@ public class DB {
 
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
 						.getReadableDatabase();
-
+				String date = "";
+				//TODO update for new database (encapsulate?)
+				/*
 				String[] projection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP };
 				String[] where = { teamNum };
 				Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, // from the
@@ -311,7 +313,7 @@ public class DB {
 						null, // don't filter
 						null, // don't order
 						"0,1"); // limit to 1
-				String date = "";
+				
 				try {
 					c.moveToFirst();
 
@@ -322,7 +324,7 @@ public class DB {
 						c.close();
 					ScoutingDBHelper.getInstance().close();
 				}
-
+				*/
 				return date;
 
 			} catch (Exception e) {
@@ -551,7 +553,7 @@ public class DB {
 		}
 	}
 
-	public void getEventStats(String eventName,
+	/*public void getEventStats(String eventName,
 			EventStats.EventCallback callback) {
 		// TODO
 		/*
@@ -560,10 +562,10 @@ public class DB {
 		 * args.put("event_name", eventName);
 		 * utils.doPost(Prefs.getScoutingURL(context), args, new EventStats(
 		 * callback));
-		 */
-	}
+		 
+	}*/
 
-	public void getTeamStats(int teamId, TeamStats.TeamCallback callback) {
+	/*public void getTeamStats(int teamId, TeamStats.TeamCallback callback) {
 		// TODO
 		/*
 		 * Map<String, String> args = new HashMap<String, String>();
@@ -571,10 +573,10 @@ public class DB {
 		 * args.put("team_id", String.valueOf(teamId)); utils.doPost(
 		 * Prefs.getScoutingURL(context), args, new TeamStats(callback, teamId,
 		 * Prefs.getEvent(context, "Chesapeake Regional")));
-		 */
-	}
+		 
+	}*/
 
-	public void getMatchStats(String event, String match,
+	/*public void getMatchStats(String event, String match,
 			MatchStats.MatchCallback callback) {
 		// TODO
 		/*
@@ -583,8 +585,8 @@ public class DB {
 		 * args.put("password", password); args.put("type", "matchStats");
 		 * utils.doPost(Prefs.getScoutingURL(context), args, new MatchStats(
 		 * callback));
-		 */
-	}
+		 
+	}*/
 
 	public String getPictureURL(int teamNum) {
 		// TODO grab team picture URL from database
@@ -596,6 +598,9 @@ public class DB {
 		synchronized (ScoutingDBHelper.lock) {
 
 			try {
+				//TODO update for new game (encapsulate?)
+				PitStats stats = null;
+				/*
 				PitStatsAA stats = new PitStatsAA();
 
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
@@ -642,7 +647,7 @@ public class DB {
 						c.close();
 					ScoutingDBHelper.getInstance().close();
 				}
-
+				*/
 				return stats;
 			} catch (Exception e) {
 				return null;
@@ -655,6 +660,9 @@ public class DB {
 		synchronized (ScoutingDBHelper.lock) {
 
 			try {
+				//TODO update for new game (encapsulate?)
+				MatchStatsStruct stats = null;
+				/*
 				MatchStatsAA stats = new MatchStatsAA(team, eventName, match);
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
 						.getReadableDatabase();
@@ -723,7 +731,7 @@ public class DB {
 						c.close();
 					ScoutingDBHelper.getInstance().close();
 				}
-
+				*/
 				return stats;
 
 			} catch (Exception e) {
@@ -960,16 +968,16 @@ public class DB {
 
 					callback = params[0];
 
-					// String match_data = "", cycle_data = "", pit_data = "";
 
 					SparseArray<String> configs = new SparseArray<String>();
 					SparseArray<String> types = new SparseArray<String>();
 					SparseArray<String> bases = new SparseArray<String>();
 
 					Cursor c = null;
-					StringBuilder match_data, pit_data, cycle_data;
+					StringBuilder match_data = null, pit_data = null;
+					//TODO update for new game, separate into parts, encapsulate?
+					/*
 					try {
-
 						c = db.rawQuery(
 								"SELECT * FROM "
 										+ FRCScoutingContract.FACT_MATCH_DATA_Entry.TABLE_NAME,
@@ -1118,20 +1126,22 @@ public class DB {
 							c.close();
 						ScoutingDBHelper.getInstance().close();
 					}
+					*/
 
 					File sd = new File(callback.filename);
 					File match = new File(sd, "matches.csv");
-					File cycle = new File(sd, "cycles.csv");
 					File pits = new File(sd, "pits.csv");
-					FileOutputStream destination = new FileOutputStream(match);
-					destination.write(match_data.toString().getBytes());
-					destination.close();
-					destination = new FileOutputStream(cycle);
-					destination.write(cycle_data.toString().getBytes());
-					destination.close();
-					destination = new FileOutputStream(pits);
-					destination.write(pit_data.toString().getBytes());
-					destination.close();
+					FileOutputStream destination;
+					if (match_data != null) {
+						destination = new FileOutputStream(match);
+						destination.write(match_data.toString().getBytes());
+						destination.close();
+					}
+					if (pit_data != null) {
+						destination = new FileOutputStream(pits);
+						destination.write(pit_data.toString().getBytes());
+						destination.close();
+					}
 					try {
 						FileOutputStream fos = callback.context.openFileOutput(
 								FILENAME, Context.MODE_PRIVATE);

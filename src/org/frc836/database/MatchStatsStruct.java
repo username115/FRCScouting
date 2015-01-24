@@ -16,7 +16,7 @@
 
 package org.frc836.database;
 
-import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_Entry;
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2015_Entry;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -70,7 +70,7 @@ public abstract class MatchStatsStruct {
 	//TODO update for new database, add practice match
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
 		ContentValues args = new ContentValues();
-		long ev = db.getEventIDFromName(event, database);
+		/*long ev = db.getEventIDFromName(event, database);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID, ev * 10000000 + match
 				* 10000 + team);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
@@ -84,14 +84,14 @@ public abstract class MatchStatsStruct {
 				: 0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD, redCard ? 1 : 0);
 		args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID, 1);
-
+		*/
 		return args;
 	}
 
 	//TODO fix references for updated database, add practice match
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
 		c.moveToFirst();
-		notes = c
+		/*notes = c
 				.getString(c
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES));
 		tipOver = c
@@ -99,14 +99,14 @@ public abstract class MatchStatsStruct {
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER)) != 0;
 		foul = c.getInt(c
 				.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL)) != 0;
-		/*tech_foul = c
-				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL)) != 0;*/
+		//tech_foul = c
+		//		.getInt(c
+		//				.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL)) != 0;
 		yellowCard = c
 				.getInt(c
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD)) != 0;
 		redCard = c
 				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD)) != 0;
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD)) != 0;*/
 	}
 }

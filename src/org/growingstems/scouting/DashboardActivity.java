@@ -16,7 +16,6 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.aerialassist.PitsActivity;
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
@@ -104,8 +103,9 @@ public class DashboardActivity extends Activity {
 		pits.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), PitsActivity.class);
-				startActivityForResult(intent, PITS_ACTIVITY_CODE);
+				//TODO update for new Pits Activity
+				//Intent intent = new Intent(getBaseContext(), PitsActivity.class);
+				//startActivityForResult(intent, PITS_ACTIVITY_CODE);
 
 			}
 		});
@@ -113,8 +113,9 @@ public class DashboardActivity extends Activity {
 		data.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), DataActivity.class);
-				startActivityForResult(intent, DATA_ACTIVITY_CODE);
+				//TODO add data activity
+				//Intent intent = new Intent(getBaseContext(), DataActivity.class);
+				//startActivityForResult(intent, DATA_ACTIVITY_CODE);
 
 			}
 		});
