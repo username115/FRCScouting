@@ -16,7 +16,11 @@
 
 package org.frc836.database;
 
+import java.util.Date;
+
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2015_Entry;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.robobees.recyclerush.MatchStatsRR;
 
 import android.content.ContentValues;
@@ -42,8 +46,14 @@ public abstract class MatchStatsStruct {
 	public static final String COLUMN_NAME_EVENT_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_EVENT_ID;
 	public static final String COLUMN_NAME_MATCH_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_MATCH_ID;
 	public static final String COLUMN_NAME_TEAM_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TEAM_ID;
+	public static final String COLUMN_NAME_NOTES = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES;
+	public static final String COLUMN_NAME_TIP_OVER = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIP_OVER;
+	public static final String COLUMN_NAME_FOUL = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_FOUL;
+	public static final String COLUMN_NAME_YELLOW_CARD = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_YELLOW_CARD;
+	public static final String COLUMN_NAME_RED_CARD = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_RED_CARD;
 	public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH;
 	public static final String COLUMN_NAME_INVALID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_INVALID;
+	public static final String COLUMN_NAME_TIMESTAMP = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP;
 
 	public static MatchStatsStruct getNewMatchStats() {
 		return new MatchStatsRR();
@@ -83,24 +93,19 @@ public abstract class MatchStatsStruct {
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
 		ContentValues args = new ContentValues();
 		long ev = db.getEventIDFromName(event, database);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_ID, ev * 10000000
-				+ match * 10000 + team);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TEAM_ID, team);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_EVENT_ID, ev);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_MATCH_ID, match);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES, notes);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIP_OVER, tipOver ? 1
-				: 0);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_FOUL, foul ? 1 : 0);
+		args.put(COLUMN_NAME_ID, ev * 10000000 + match * 10000 + team);
+		args.put(COLUMN_NAME_TEAM_ID, team);
+		args.put(COLUMN_NAME_EVENT_ID, ev);
+		args.put(COLUMN_NAME_MATCH_ID, match);
+		args.put(COLUMN_NAME_NOTES, notes);
+		args.put(COLUMN_NAME_TIP_OVER, tipOver ? 1 : 0);
+		args.put(COLUMN_NAME_FOUL, foul ? 1 : 0);
 		// args.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL, tech_foul ? 1 :
 		// 0);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_YELLOW_CARD,
-				yellowCard ? 1 : 0);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_RED_CARD, redCard ? 1
-				: 0);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH,
-				practice_match ? 1 : 0);
-		args.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_INVALID, 1);
+		args.put(COLUMN_NAME_YELLOW_CARD, yellowCard ? 1 : 0);
+		args.put(COLUMN_NAME_RED_CARD, redCard ? 1 : 0);
+		args.put(COLUMN_NAME_PRACTICE_MATCH, practice_match ? 1 : 0);
+		args.put(COLUMN_NAME_INVALID, 1);
 
 		return args;
 	}
@@ -108,53 +113,54 @@ public abstract class MatchStatsStruct {
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
 		c.moveToFirst();
 
-		team = c.getInt(c
-				.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TEAM_ID));
-		event = DB
-				.getEventNameFromID(
-						c.getInt(c
-								.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_EVENT_ID)),
-						database);
-		match = c
-				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_MATCH_ID));
-		notes = c
-				.getString(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES));
-		tipOver = c
-				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIP_OVER)) != 0;
-		foul = c.getInt(c
-				.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_FOUL)) != 0;
+		team = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
+		event = DB.getEventNameFromID(
+				c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_EVENT_ID)),
+				database);
+		match = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
+		notes = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_NOTES));
+		tipOver = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TIP_OVER)) != 0;
+		foul = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FOUL)) != 0;
 		// tech_foul = c
 		// .getInt(c
 		// .getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL))
 		// != 0;
-		yellowCard = c
-				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_YELLOW_CARD)) != 0;
-		redCard = c
-				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_RED_CARD)) != 0;
-		practice_match = c
-				.getInt(c
-						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH)) != 0;
+		yellowCard = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_YELLOW_CARD)) != 0;
+		redCard = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_RED_CARD)) != 0;
+		practice_match = c.getInt(c
+				.getColumnIndexOrThrow(COLUMN_NAME_PRACTICE_MATCH)) != 0;
 	}
 
 	public String[] getProjection() {
-		String[] projection = { FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TEAM_ID,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_EVENT_ID,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_MATCH_ID,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIP_OVER,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_FOUL,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_YELLOW_CARD,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_RED_CARD,
-				FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH };
+		String[] projection = { COLUMN_NAME_TEAM_ID, COLUMN_NAME_EVENT_ID,
+				COLUMN_NAME_MATCH_ID, COLUMN_NAME_NOTES, COLUMN_NAME_TIP_OVER,
+				COLUMN_NAME_FOUL, COLUMN_NAME_YELLOW_CARD,
+				COLUMN_NAME_RED_CARD, COLUMN_NAME_PRACTICE_MATCH };
 		return projection;
 	}
-	
+
 	public boolean isTextField(String column_name) {
-		return FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES.equalsIgnoreCase(column_name);
+		return FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_NOTES
+				.equalsIgnoreCase(column_name);
+	}
+
+	public ContentValues jsonToCV(JSONObject json) throws JSONException {
+		ContentValues vals = new ContentValues();
+
+		vals.put(COLUMN_NAME_ID, json.getInt(COLUMN_NAME_ID));
+		vals.put(COLUMN_NAME_TEAM_ID, json.getInt(COLUMN_NAME_TEAM_ID));
+		vals.put(COLUMN_NAME_EVENT_ID, json.getInt(COLUMN_NAME_EVENT_ID));
+		vals.put(COLUMN_NAME_MATCH_ID, json.getInt(COLUMN_NAME_MATCH_ID));
+		vals.put(COLUMN_NAME_NOTES, json.getString(COLUMN_NAME_NOTES));
+		vals.put(COLUMN_NAME_TIP_OVER, json.getInt(COLUMN_NAME_TIP_OVER));
+		vals.put(COLUMN_NAME_FOUL, json.getInt(COLUMN_NAME_FOUL));
+		vals.put(COLUMN_NAME_YELLOW_CARD, json.getInt(COLUMN_NAME_YELLOW_CARD));
+		vals.put(COLUMN_NAME_RED_CARD, json.getInt(COLUMN_NAME_RED_CARD));
+		vals.put(COLUMN_NAME_PRACTICE_MATCH,
+				json.getInt(COLUMN_NAME_PRACTICE_MATCH));
+
+		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json
+				.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
+		return vals;
 	}
 }
