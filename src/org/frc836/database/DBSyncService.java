@@ -18,12 +18,10 @@ package org.frc836.database;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.frc836.database.FRCScoutingContract.*;
@@ -75,9 +73,6 @@ public class DBSyncService extends Service {
 	};
 
 	private static final int DELAY = 60000;
-
-	static final SimpleDateFormat dateParser = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss.sss", Locale.US);
 
 	@Override
 	public void onCreate() {
@@ -201,24 +196,20 @@ public class DBSyncService extends Service {
 
 				processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
-				//TODO update for new database (encapsulate?)
-				/*
+				
 				if (!running)
 					return null;
-				processMatches(json
-						.getJSONArray(FACT_MATCH_DATA_Entry.TABLE_NAME));
-				*/
+				processMatches(json.getJSONArray(MatchStatsStruct.TABLE_NAME));
+				
 				processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME));
 
 				// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
-				// db);
+				// db); //TODO update when robotpics available
 				
-				//TODO update for new database (encapsulate?)
-				/*
+				
 				if (!running)
 					return null;
-				processPits(json.getJSONArray(SCOUT_PIT_DATA_Entry.TABLE_NAME));
-				*/
+				processPits(json.getJSONArray(PitStats.TABLE_NAME));
 
 				processWheelBase(json
 						.getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME));
@@ -341,7 +332,7 @@ public class DBSyncService extends Service {
 		protected Integer doInBackground(HttpRequestInfo... params) {
 			if (!running)
 				return null;
-			int match = -1, event = -1, team = -1;
+			int match = -1, event = -1, team = -1, practice = -1;
 			Map<String, String> sent = params[0].getParams();
 			if (params[0].getResponseString().contains("Failed"))
 				return null;
@@ -349,45 +340,50 @@ public class DBSyncService extends Service {
 				for (int i = 0; i < outgoing.size(); i++) {
 					Map<String, String> args = outgoing.get(i);
 					
-					//TODO update for new database (encapsulate?)
-					/*
+					//TODO could probably be abstracted further
 					if (sent.get("type").equalsIgnoreCase("match")
 							&& sent.get(
-									FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID)
+									MatchStatsStruct.COLUMN_NAME_EVENT_ID)
 									.equalsIgnoreCase(
-											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID))
+											args.get(MatchStatsStruct.COLUMN_NAME_EVENT_ID))
 							&& sent.get(
-									FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID)
+									MatchStatsStruct.COLUMN_NAME_MATCH_ID)
 									.equalsIgnoreCase(
-											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID))
+											args.get(MatchStatsStruct.COLUMN_NAME_MATCH_ID))
 							&& sent.get(
-									FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID)
+									MatchStatsStruct.COLUMN_NAME_TEAM_ID)
 									.equalsIgnoreCase(
-											args.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID))) {
+											args.get(MatchStatsStruct.COLUMN_NAME_TEAM_ID))
+							&& sent.get(
+									MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH)
+									.equalsIgnoreCase(
+											args.get(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH))) {
 
 						match = Integer
 								.valueOf(sent
-										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID));
+										.get(MatchStatsStruct.COLUMN_NAME_MATCH_ID));
 						event = Integer
 								.valueOf(sent
-										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID));
+										.get(MatchStatsStruct.COLUMN_NAME_EVENT_ID));
 						team = Integer
 								.valueOf(sent
-										.get(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID));
+										.get(MatchStatsStruct.COLUMN_NAME_TEAM_ID));
+						practice = Integer
+								.valueOf(sent
+										.get(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH));
 						outgoing.remove(i);
 						break;
 					} else if (sent.get("type").equalsIgnoreCase("pits")
 							&& sent.get(
-									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID)
+									PitStats.COLUMN_NAME_TEAM_ID)
 
 									.equalsIgnoreCase(
-											args.get(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID))) {
+											args.get(PitStats.COLUMN_NAME_TEAM_ID))) {
 						team = Integer.valueOf(sent
-								.get(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID));
+								.get(PitStats.COLUMN_NAME_TEAM_ID));
 						outgoing.remove(i);
 						break;
 					}
-					*/
 				}
 			}
 
@@ -397,41 +393,42 @@ public class DBSyncService extends Service {
 						.getWritableDatabase();
 				ContentValues values = new ContentValues();
 				
-				//TODO update for new database (encapsulate?)
-				/*				
+				//TODO could probably be abstracted further				
 				if (match > 0) { // match was updated
-					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
+					values.put(MatchStatsStruct.COLUMN_NAME_ID,
 							Integer.valueOf(r[0].trim()));
-					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-							dateParser.format(new Date(
+					values.put(MatchStatsStruct.COLUMN_NAME_TIMESTAMP,
+							DB.dateParser.format(new Date(
 									Long.valueOf(r[1].trim()) * 1000)));
-					values.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID, 0);
+					values.put(MatchStatsStruct.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(event),
-							String.valueOf(match), String.valueOf(team) };
+							String.valueOf(match), String.valueOf(team), 
+							String.valueOf(practice) };
 					db.update(
-							FACT_MATCH_DATA_Entry.TABLE_NAME,
+							MatchStatsStruct.TABLE_NAME,
 							values,
-							FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID
+							MatchStatsStruct.COLUMN_NAME_EVENT_ID
 									+ "=? AND "
-									+ FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID
+									+ MatchStatsStruct.COLUMN_NAME_MATCH_ID
 									+ "=? AND "
-									+ FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID
+									+ MatchStatsStruct.COLUMN_NAME_TEAM_ID
+									+ "=? AND "
+									+ MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
 									+ "=?", selectionArgs);
 				} else if (team > 0) { // pits were updated
-					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
+					values.put(PitStats.COLUMN_NAME_ID,
 							Integer.valueOf(r[0].trim()));
-					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-							dateParser.format(new Date(
+					values.put(PitStats.COLUMN_NAME_TIMESTAMP,
+							DB.dateParser.format(new Date(
 									Long.valueOf(r[1].trim()) * 1000)));
-					values.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID, 0);
+					values.put(PitStats.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(team) };
-					db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, values,
-							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
+					db.update(PitStats.TABLE_NAME, values,
+							PitStats.COLUMN_NAME_TEAM_ID + "=?",
 							selectionArgs);
 				}
-				*/
 				ScoutingDBHelper.getInstance().close();
 			}
 
@@ -526,7 +523,7 @@ public class DBSyncService extends Service {
 						row.getString(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
 				vals.put(
 						CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
+						DB.dateParser.format(new Date(
 								row.getLong(CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
@@ -601,7 +598,7 @@ public class DBSyncService extends Service {
 						row.getString(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
 				vals.put(
 						EVENT_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
+						DB.dateParser.format(new Date(
 								row.getLong(EVENT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
@@ -657,79 +654,38 @@ public class DBSyncService extends Service {
 	}
 
 	private void processMatches(JSONArray matches) {
-		//TODO update for new database (encapsulate?)
-		/*
+		//TODO could be abstracted further
 		try {
 			for (int i = 0; i < matches.length(); i++) {
 				JSONObject row = matches.getJSONObject(i);
 				Action action = Action.UPDATE;
-				if (row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID) != 0) {
+				if (row.getInt(MatchStatsStruct.COLUMN_NAME_INVALID) != 0) {
 					action = Action.DELETE;
 				}
-				ContentValues vals = new ContentValues();
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH));
-				vals.put(
-						FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT, row
-						.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE, row
-						.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE, row
-						.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NUM_CYCLES, row
-						.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_NUM_CYCLES));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD, row
-						.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD,
-						row.getInt(FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD));
-				vals.put(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES,
-						row.getString(FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES));
-				vals.put(
-						FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
-								row.getLong(FACT_MATCH_DATA_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+				ContentValues vals = MatchStatsStruct.getNewMatchStats().jsonToCV(row);
 
 				// check if this entry exists already
-				String[] projection = { FACT_MATCH_DATA_Entry.COLUMN_NAME_ID };
+				String[] projection = { MatchStatsStruct.COLUMN_NAME_ID };
 				String[] where = {
-						vals.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID),
-						vals.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID),
-						vals.getAsString(FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID) };
+						vals.getAsString(MatchStatsStruct.COLUMN_NAME_EVENT_ID),
+						vals.getAsString(MatchStatsStruct.COLUMN_NAME_MATCH_ID),
+						vals.getAsString(MatchStatsStruct.COLUMN_NAME_TEAM_ID),
+						vals.getAsString(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH)};
 
 				synchronized (ScoutingDBHelper.lock) {
 					SQLiteDatabase db = ScoutingDBHelper.getInstance()
 							.getWritableDatabase();
 
 					Cursor c = db
-							.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
+							.query(MatchStatsStruct.TABLE_NAME,
 									projection, // select
-									FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID
+									MatchStatsStruct.COLUMN_NAME_EVENT_ID
 											+ "=? AND "
-											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID
+											+ MatchStatsStruct.COLUMN_NAME_MATCH_ID
 											+ "=? AND "
-											+ FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID
+											+ MatchStatsStruct.COLUMN_NAME_TEAM_ID
+											+ "=? AND"
+											+ MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
 											+ "=?", where, null, // don't
 									// group
 									null, // don't filter
@@ -744,23 +700,23 @@ public class DBSyncService extends Service {
 								action = Action.NOTHING;
 						} else
 							id = c.getInt(c
-									.getColumnIndexOrThrow(FACT_MATCH_DATA_Entry.COLUMN_NAME_ID));
+									.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_ID));
 
 						String[] where2 = { String.valueOf(id) };
 
 						switch (action) {
 						case UPDATE:
-							db.update(FACT_MATCH_DATA_Entry.TABLE_NAME, vals,
-									FACT_MATCH_DATA_Entry.COLUMN_NAME_ID
+							db.update(MatchStatsStruct.TABLE_NAME, vals,
+									MatchStatsStruct.COLUMN_NAME_ID
 											+ " = ?", where2);
 							break;
 						case INSERT:
-							db.insert(FACT_MATCH_DATA_Entry.TABLE_NAME, null,
+							db.insert(MatchStatsStruct.TABLE_NAME, null,
 									vals);
 							break;
 						case DELETE:
-							db.delete(FACT_MATCH_DATA_Entry.TABLE_NAME,
-									FACT_MATCH_DATA_Entry.COLUMN_NAME_ID
+							db.delete(MatchStatsStruct.TABLE_NAME,
+									MatchStatsStruct.COLUMN_NAME_ID
 											+ " = ?", where2);
 							break;
 						default:
@@ -775,7 +731,6 @@ public class DBSyncService extends Service {
 		} catch (JSONException e) {
 			// TODO handle error
 		}
-		*/
 	}
 
 	private void processNotes(JSONArray notes) {
@@ -793,7 +748,7 @@ public class DBSyncService extends Service {
 						.getString(NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT));
 				vals.put(
 						NOTES_OPTIONS_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
+						DB.dateParser.format(new Date(
 								row.getLong(NOTES_OPTIONS_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
@@ -889,67 +844,20 @@ public class DBSyncService extends Service {
 	 * } } catch (JSONException e) { // TODO handle error } }
 	 */
 	private void processPits(JSONArray pits) {
-		//TODO update for new database (encapsulate?)
-		/*
+		//TODO could be abstracted further
 		try {
 			for (int i = 0; i < pits.length(); i++) {
 				JSONObject row = pits.getJSONObject(i);
 				Action action = Action.UPDATE;
-				if (row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID) != 0) {
+				if (row.getInt(PitStats.COLUMN_NAME_INVALID) != 0) {
 					action = Action.DELETE;
 				}
-				ContentValues vals = new ContentValues();
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID));
-				vals.put(
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID, row
-						.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID, row
-						.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID));
-				vals.put(
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE, row
-						.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE, row
-						.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH));
-				vals.put(
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL, row
-						.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW));
-				vals.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_MAX_HEIGHT,
-						row.getInt(SCOUT_PIT_DATA_Entry.COLUMN_NAME_MAX_HEIGHT));
-				vals.put(
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS,
-						row.getString(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS));
-				vals.put(
-						SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
-								row.getLong(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+				ContentValues vals = PitStats.getNewPitStats().jsonToCV(row);
 
 				// check if this entry exists already
-				String[] projection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID };
+				String[] projection = { PitStats.COLUMN_NAME_ID };
 				String[] where = { vals
-						.getAsString(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID) };
+						.getAsString(PitStats.COLUMN_NAME_TEAM_ID) };
 
 				synchronized (ScoutingDBHelper.lock) {
 
@@ -957,9 +865,9 @@ public class DBSyncService extends Service {
 							.getWritableDatabase();
 
 					Cursor c = db.query(
-							SCOUT_PIT_DATA_Entry.TABLE_NAME,
+							PitStats.TABLE_NAME,
 							projection, // select
-							SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID + "=?",
+							PitStats.COLUMN_NAME_TEAM_ID + "=?",
 							where, null, // don't group
 							null, // don't filter
 							null, // don't order
@@ -974,17 +882,17 @@ public class DBSyncService extends Service {
 
 						switch (action) {
 						case UPDATE:
-							db.update(SCOUT_PIT_DATA_Entry.TABLE_NAME, vals,
-									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
+							db.update(PitStats.TABLE_NAME, vals,
+									PitStats.COLUMN_NAME_TEAM_ID
 											+ " = ?", where);
 							break;
 						case INSERT:
-							db.insert(SCOUT_PIT_DATA_Entry.TABLE_NAME, null,
+							db.insert(PitStats.TABLE_NAME, null,
 									vals);
 							break;
 						case DELETE:
-							db.delete(SCOUT_PIT_DATA_Entry.TABLE_NAME,
-									SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID
+							db.delete(PitStats.TABLE_NAME,
+									PitStats.COLUMN_NAME_TEAM_ID
 											+ " = ?", where);
 							break;
 						default:
@@ -999,7 +907,6 @@ public class DBSyncService extends Service {
 		} catch (JSONException e) {
 			// TODO handle error
 		}
-		*/
 	}
 
 	private void processWheelBase(JSONArray wheelBase) {
@@ -1018,7 +925,7 @@ public class DBSyncService extends Service {
 						row.getString(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
 				vals.put(
 						WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
+						DB.dateParser.format(new Date(
 								row.getLong(WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
@@ -1096,7 +1003,7 @@ public class DBSyncService extends Service {
 						row.getString(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
 				vals.put(
 						WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP,
-						dateParser.format(new Date(
+						DB.dateParser.format(new Date(
 								row.getLong(WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
 				// check if this entry exists already
@@ -1159,36 +1066,18 @@ public class DBSyncService extends Service {
 	}
 
 	private void sendMatches() {
-		//TODO update for new database (encapsulate?)
-		/*
+		//TODO could be abstracted further?
+		
 		// repurposed invalid flag for marking fields that need to be uploaded
-		String[] matchProjection = {
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_EVENT_ID,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_MATCH_ID,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_TEAM_ID,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_HIGH_HOT,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_LOW_HOT,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_HIGH,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_LOW,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_AUTO_GOALIE,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_NUM_CYCLES,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_FOUL,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_TECH_FOUL,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_TIP_OVER,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_YELLOW_CARD,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_RED_CARD,
-				FACT_MATCH_DATA_Entry.COLUMN_NAME_NOTES };
+		String[] matchProjection = MatchStatsStruct.getNewMatchStats().getProjection();
 
 		synchronized (ScoutingDBHelper.lock) {
 
 			SQLiteDatabase db = ScoutingDBHelper.getInstance()
 					.getReadableDatabase();
 
-			Cursor c = db.query(FACT_MATCH_DATA_Entry.TABLE_NAME,
-					matchProjection, FACT_MATCH_DATA_Entry.COLUMN_NAME_INVALID
+			Cursor c = db.query(MatchStatsStruct.TABLE_NAME,
+					matchProjection, MatchStatsStruct.COLUMN_NAME_INVALID
 							+ "<>0", null, null, null, null);
 			try {
 
@@ -1206,43 +1095,6 @@ public class DBSyncService extends Service {
 							outgoing.add(args);
 						} while (c.moveToNext());
 				}
-
-				String[] cycleProjection = {
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_EVENT_ID,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_MATCH_ID,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TEAM_ID,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CYCLE_NUM,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_NEAR_POSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_WHITE_POSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_FAR_POSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_TRUSS,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_CATCH,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_HIGH,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_LOW,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_ASSISTS };
-				if (c != null)
-					c.close();
-				ScoutingDBHelper.getInstance().close();
-				db = ScoutingDBHelper.getInstance().getReadableDatabase();
-
-				c = db.query(FACT_CYCLE_DATA_Entry.TABLE_NAME, cycleProjection,
-						FACT_CYCLE_DATA_Entry.COLUMN_NAME_INVALID + "<>0",
-						null, null, null, null);
-
-				synchronized (outgoing) {
-
-					if (c.moveToFirst())
-						do {
-							Map<String, String> args = new HashMap<String, String>();
-							args.put("password", password);
-							args.put("type", "cycle");
-							for (int i = 0; i < cycleProjection.length; i++) {
-								args.put(cycleProjection[i], c.getString(c
-										.getColumnIndex(cycleProjection[i])));
-							}
-							outgoing.add(args);
-						} while (c.moveToNext());
-				}
 			} finally {
 				if (c != null)
 					c.close();
@@ -1250,37 +1102,18 @@ public class DBSyncService extends Service {
 			}
 
 		}
-		*/
 	}
 
 	private void sendPits() {
-		//TODO update for new database (encapsulate?)
-		/*
-		String[] pitProjection = { SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HIGH,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_LOW,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_HOT,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_MOBILE,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTO_GOALIE,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_TRUSS,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_CATCH,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_ACTIVE_CONTROL,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_LAUNCH_BALL,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_HIGH,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCORE_LOW,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_MAX_HEIGHT,
-				SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS };
+		//TODO could be abstracted further
+		String[] pitProjection = PitStats.getNewPitStats().getProjection();
 		synchronized (ScoutingDBHelper.lock) {
 
 			SQLiteDatabase db = ScoutingDBHelper.getInstance()
 					.getReadableDatabase();
 
-			Cursor c = db.query(SCOUT_PIT_DATA_Entry.TABLE_NAME, pitProjection,
-					SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID + "<>0", null,
+			Cursor c = db.query(PitStats.TABLE_NAME, pitProjection,
+					PitStats.COLUMN_NAME_INVALID + "<>0", null,
 					null, null, null);
 			try {
 
@@ -1304,6 +1137,5 @@ public class DBSyncService extends Service {
 				ScoutingDBHelper.getInstance().close();
 			}
 		}
-		*/
 	}
 }

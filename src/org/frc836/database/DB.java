@@ -19,10 +19,12 @@ package org.frc836.database;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.frc836.database.DBSyncService.LocalBinder;
@@ -56,6 +58,9 @@ public class DB {
 	private String password;
 	private Context context;
 	private LocalBinder binder;
+	
+	public static final SimpleDateFormat dateParser = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss.sss", Locale.US);
 
 	@SuppressWarnings("unused")
 	private DB() {
@@ -112,7 +117,7 @@ public class DB {
 					String[] id = { c.getString(c
 							.getColumnIndexOrThrow(idColumnName)) };
 					values.put(COLUMN_NAME_TIMESTAMP,
-							DBSyncService.dateParser.format(new Date()));
+							dateParser.format(new Date()));
 					db.update(table, values, idColumnName + "=?", id);
 				} else {
 					db.insert(table, nullColumnHack, values);
