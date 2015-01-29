@@ -312,5 +312,4 @@ if __name__ == "__main__":
     Version.UpdateServerHeader(args.serverFilename, verbose=True)
     Version.UpdateDBVersion(args.dbHelperFileName, verbose=True)
     
-    print "Finished (debug)"
 
