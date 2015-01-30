@@ -67,10 +67,12 @@ function genJSON($sql_result, $tablename) {
 if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     echo 'success';
-} elseif ($_POST['type'] == 'versioncheck') {
+} 
+elseif ($_POST['type'] == 'versioncheck') {
     header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     echo $ver;
-} elseif ($_POST['password'] == $pass) {
+} 
+elseif ($_POST['password'] == $pass) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     
     if ($_POST['type'] == 'fullsync' || $_POST['type'] == 'sync') {
@@ -83,59 +85,46 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         
         $json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
         
+        //configuration_lu
         $query = "SELECT * FROM configuration_lu" . $suffix;
         $result = mysql_query($query);
-        
         $json .= genJSON($result, "configuration_lu") . ",";
         mysql_free_result($result);
         
-        
+        //event_lu
         $query = "SELECT * FROM event_lu" . $suffix;
         $result = mysql_query($query);
-        
         $json .= genJSON($result, "event_lu") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM fact_cycle_data" . $suffix;
+        
+        $query = "SELECT * FROM fact_match_data_2015" . $suffix;
         $result = mysql_query($query);
-        
-        $json .= genJSON($result, "fact_cycle_data") . ",";
-        mysql_free_result($result);
-        
-        
-        
-        $query = "SELECT * FROM fact_match_data" . $suffix;
-        $result = mysql_query($query);
-        
-        $json .= genJSON($result, "fact_match_data") . ",";
+        $json .= genJSON($result, "fact_match_data_2015") . ",";
         mysql_free_result($result);
         
         
         $query = "SELECT * FROM notes_options" . $suffix;
         $result = mysql_query($query);
-        
         $json .= genJSON($result, "notes_options") . ",";
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM scout_pit_data" . $suffix;
+        $query = "SELECT * FROM scout_pit_data_2015" . $suffix;
         $result = mysql_query($query);
-        
-        $json .= genJSON($result, "scout_pit_data") . ",";
+        $json .= genJSON($result, "scout_pit_data_2015") . ",";
         mysql_free_result($result);
         
         
         $query = "SELECT * FROM wheel_base_lu" . $suffix;
         $result = mysql_query($query);
-        
         $json .= genJSON($result, "wheel_base_lu") . ",";
         mysql_free_result($result);
         
         
         $query = "SELECT * FROM wheel_type_lu" . $suffix;
         $result = mysql_query($query);
-        
         $json .= genJSON($result, "wheel_type_lu") . "}";
         mysql_free_result($result);
         
@@ -147,44 +136,75 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
         $match_id = mysql_real_escape_string(stripslashes(trim($_POST['match_id'])));
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
-        $auto_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_high'])));
-        $auto_high_hot = mysql_real_escape_string(stripslashes(trim($_POST['auto_high_hot'])));
-        $auto_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_low'])));
-        $auto_low_hot = mysql_real_escape_string(stripslashes(trim($_POST['auto_low_hot'])));
-        $high = mysql_real_escape_string(stripslashes(trim($_POST['high'])));
-        $low = mysql_real_escape_string(stripslashes(trim($_POST['low'])));
-        $auto_mobile = mysql_real_escape_string(stripslashes(trim($_POST['auto_mobile'])));
-        $auto_goalie = mysql_real_escape_string(stripslashes(trim($_POST['auto_goalie'])));
-        $num_cycles = mysql_real_escape_string(stripslashes(trim($_POST['num_cycles'])));
+        $practice_match = mysql_real_escape_string(stripslashes(trim($_POST['practice_match'])));
+        $auto_move = mysql_real_escape_string(stripslashes(trim($_POST['auto_move'])));
+        $auto_totes = mysql_real_escape_string(stripslashes(trim($_POST['auto_totes'])));
+        $auto_stack_2 = mysql_real_escape_string(stripslashes(trim($_POST['auto_stack_2'])));
+        $auto_stack_3 = mysql_real_escape_string(stripslashes(trim($_POST['auto_stack_3'])));
+        $auto_bin = mysql_real_escape_string(stripslashes(trim($_POST['auto_bin'])));
+        $auto_step_bin = mysql_real_escape_string(stripslashes(trim($_POST['auto_step_bin'])));
+        $totes_1 = mysql_real_escape_string(stripslashes(trim($_POST['totes_1'])));
+        $totes_2 = mysql_real_escape_string(stripslashes(trim($_POST['totes_2'])));
+        $totes_3 = mysql_real_escape_string(stripslashes(trim($_POST['totes_3'])));
+        $totes_4 = mysql_real_escape_string(stripslashes(trim($_POST['totes_4'])));
+        $totes_5 = mysql_real_escape_string(stripslashes(trim($_POST['totes_5'])));
+        $totes_6 = mysql_real_escape_string(stripslashes(trim($_POST['totes_6'])));
+        $coop_1 = mysql_real_escape_string(stripslashes(trim($_POST['coop_1'])));
+        $coop_2 = mysql_real_escape_string(stripslashes(trim($_POST['coop_2'])));
+        $coop_3 = mysql_real_escape_string(stripslashes(trim($_POST['coop_3'])));
+        $coop_4 = mysql_real_escape_string(stripslashes(trim($_POST['coop_4'])));
+        $bin_1 = mysql_real_escape_string(stripslashes(trim($_POST['bin_1'])));
+        $bin_2 = mysql_real_escape_string(stripslashes(trim($_POST['bin_2'])));
+        $bin_3 = mysql_real_escape_string(stripslashes(trim($_POST['bin_3'])));
+        $bin_4 = mysql_real_escape_string(stripslashes(trim($_POST['bin_4'])));
+        $bin_5 = mysql_real_escape_string(stripslashes(trim($_POST['bin_5'])));
+        $bin_6 = mysql_real_escape_string(stripslashes(trim($_POST['bin_6'])));
+        $bin_litter = mysql_real_escape_string(stripslashes(trim($_POST['bin_litter'])));
+        $landfill_litter = mysql_real_escape_string(stripslashes(trim($_POST['landfill_litter'])));
         $foul = mysql_real_escape_string(stripslashes(trim($_POST['foul'])));
-        $tech_foul = mysql_real_escape_string(stripslashes(trim($_POST['tech_foul'])));
         $tip_over = mysql_real_escape_string(stripslashes(trim($_POST['tip_over'])));
         $yellow_card = mysql_real_escape_string(stripslashes(trim($_POST['yellow_card'])));
         $red_card = mysql_real_escape_string(stripslashes(trim($_POST['red_card'])));
-        $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
-        
+        $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));        
         
         $result = mysql_query("SELECT id FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
-                . $match_id . " AND team_id=" . $team_id );
+                . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match );
         $row = mysql_fetch_array($result);
         $match_row_id = $row["id"];
         
         if (mysql_num_rows($result) == 0) {
         
-            $query = "INSERT INTO fact_match_data(event_id,match_id,team_id,auto_high,auto_high_hot,auto_low,auto_low_hot,high,low,"
-                    . "auto_mobile,auto_goalie,num_cycles,foul,tech_foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
+            $query = "INSERT INTO fact_match_data(event_id,match_id,team_id,practice_match,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
+                    . "auto_step_bin,totes_1,totes_2,totes_3,totes_4,totes_5,totes_6,coop_1,coop_2,coop_3,coop_4,bin_1,bin_2,bin_3,bin_4,bin_5,bin_6,"
+                    . "bin_litter,landfill_litter,foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
                     . $match_id . ","
                     . $team_id . ","
-                    . $auto_high . ","
-                    . $auto_high_hot . ","
-                    . $auto_low . ","
-                    . $auto_low_hot . ","
-                    . $high . ","
-                    . $low . ","
-                    . $auto_mobile . ","
-                    . $auto_goalie . ","
-                    . $num_cycles . ","
+                    . $practice_match . ","
+                    . $auto_move . ","
+                    . $auto_totes . ","
+                    . $auto_stack_2 . ","
+                    . $auto_stack_3 . ","
+                    . $auto_bin . ","
+                    . $auto_step_bin . ","
+                    . $totes_1 . ","
+                    . $totes_2 . ","
+                    . $totes_3 . ","
+                    . $totes_4 . ","
+                    . $totes_5 . ","
+                    . $totes_6 . ","
+                    . $coop_1 . ","
+                    . $coop_2 . ","
+                    . $coop_3 . ","
+                    . $coop_4 . ","
+                    . $bin_1 . ","
+                    . $bin_2 . ","
+                    . $bin_3 . ","
+                    . $bin_4 . ","
+                    . $bin_5 . ","
+                    . $bin_6 . ","
+                    . $bin_litter . ","
+                    . $landfill_litter . ","
                     . $foul . ","
                     . $tech_foul . ","
                     . $tip_over . ","
@@ -200,17 +220,32 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
                     . "event_id=" . $event_id
                     . ",match_id=" . $match_id
                     . ",team_id=" . $team_id
-                    . ",auto_high=" . $auto_high
-                    . ",auto_high_hot=" . $auto_high_hot
-                    . ",auto_low=" . $auto_low
-                    . ",auto_low_hot=" . $auto_low_hot
-                    . ",high=" . $high
-                    . ",low=" . $low
-                    . ",auto_mobile=" . $auto_mobile
-                    . ",auto_goalie=" . $auto_goalie
-                    . ",num_cycles=" . $num_cycles
+                    . ",practice_match=" . $practice_match
+                    . ",auto_move=" . $auto_move
+                    . ",auto_totes=" . $auto_totes
+                    . ",auto_stack_2=" . $auto_stack_2
+                    . ",auto_stack_3=" . $auto_stack_3
+                    . ",auto_bin=" . $auto_bin
+                    . ",auto_step_bin=" . $auto_step_bin
+                    . ",totes_1=" . $totes_1
+                    . ",totes_2=" . $totes_2
+                    . ",totes_3=" . $totes_3
+                    . ",totes_4=" . $totes_4
+                    . ",totes_5=" . $totes_5
+                    . ",totes_6=" . $totes_6
+                    . ",coop_1=" . $coop_1
+                    . ",coop_2=" . $coop_2
+                    . ",coop_3=" . $coop_3
+                    . ",coop_4=" . $coop_4
+                    . ",bin_1=" . $bin_1
+                    . ",bin_2=" . $bin_2
+                    . ",bin_3=" . $bin_3
+                    . ",bin_4=" . $bin_4
+                    . ",bin_5=" . $bin_5
+                    . ",bin_6=" . $bin_6
+                    . ",bin_litter=" . $bin_litter
+                    . ",landfill_litter=" . $landfill_litter
                     . ",foul=" . $foul
-                    . ",tech_foul=" . $tech_foul
                     . ",tip_over=" . $tip_over
                     . ",yellow_card=" . $yellow_card
                     . ",red_card=" . $red_card
@@ -224,7 +259,7 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         
         if ($success) {
             $result = mysql_query("SELECT id, timestamp FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
-                    . $match_id . " AND team_id=" . $team_id);
+                    . $match_id . " AND team_id=" . $team_id . "AND practice_match=" . $practice_match);
             $row = mysql_fetch_array($result);
             $resp = $row["id"] . "," . strtotime($row["timestamp"]);
         } else {
@@ -233,93 +268,33 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
 
         //$resp = $query;
     } 
-    else if ($_POST['type'] == 'cycle') {
-        $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
-        $match_id = mysql_real_escape_string(stripslashes(trim($_POST['match_id'])));
-        $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
-        $cycle_num = mysql_real_escape_string(stripslashes(trim($_POST['cycle_num'])));
-        $near_poss = mysql_real_escape_string(stripslashes(trim($_POST['near_poss'])));
-        $white_poss = mysql_real_escape_string(stripslashes(trim($_POST['white_poss'])));
-        $far_poss = mysql_real_escape_string(stripslashes(trim($_POST['far_poss'])));
-        $truss = mysql_real_escape_string(stripslashes(trim($_POST['truss'])));
-        $catch = mysql_real_escape_string(stripslashes(trim($_POST['catch'])));
-        $high = mysql_real_escape_string(stripslashes(trim($_POST['high'])));
-        $low = mysql_real_escape_string(stripslashes(trim($_POST['low'])));
-        $assists = mysql_real_escape_string(stripslashes(trim($_POST['assists'])));
-        
-        $result = mysql_query("SELECT id FROM fact_cycle_data WHERE event_id=" . $event_id . " AND match_id="
-                . $match_id . " AND team_id=" . $team_id . " AND cycle_num=" . $cycle_num);
-        $row = mysql_fetch_array($result);
-        $match_row_id = $row["id"];
-        
-        if (mysql_num_rows($result) == 0) {
-            $query = "INSERT INTO fact_cycle_data(event_id,match_id,team_id,cycle_num,near_poss,white_poss,far_poss,"
-                    . "truss,catch,high,low,assists,invalid) VALUES("
-                    . $event_id . ","
-                    . $match_id . ","
-                    . $team_id . ","
-                    . $cycle_num . ","
-                    . $near_poss . ","
-                    . $white_poss . ","
-                    . $far_poss . ","
-                    . $truss . ","
-                    . $catch . ","
-                    . $high . ","
-                    . $low . ","
-                    . $assists . ",0);";
-
-            $success = mysql_query($query);
-        }
-        else {
-            $query = "UPDATE fact_cycle_data SET "
-                    . "event_id=" . $event_id
-                    . ",match_id=" . $match_id
-                    . ",team_id=" . $team_id
-                    . ",cycle_num=" . $cycle_num
-                    . ",near_poss=" . $near_poss
-                    . ",white_poss=" . $white_poss
-                    . ",far_poss=" . $far_poss
-                    . ",truss=" . $truss
-                    . ",catch=" . $catch
-                    . ",high=" . $high
-                    . ",low=" . $low
-                    . ",assists=" . $assists
-                    . ",invalid=0"
-                    . " WHERE id=" . $match_row_id;
-
-            $success = mysql_query($query);
-        }
-        if ($success) {
-            $result = mysql_query("SELECT id, timestamp FROM fact_cycle_data WHERE event_id=" . $event_id . " AND match_id="
-                    . $match_id . " AND team_id=" . $team_id . " AND cycle_num=" . $cycle_num);
-            $row = mysql_fetch_array($result);
-            $resp = $row["id"] . "," . strtotime($row["timestamp"]);
-        } else {
-            $resp = 'Database Query Failed';
-        }
-    }
     else if ($_POST['type'] == 'pits') {
         
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
-        $configuration_id = mysql_real_escape_string(stripslashes(trim($_POST['configuration_id'])));
+        $config = mysql_real_escape_string(stripslashes(trim($_POST['config_id'])));
         $wheel_type_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_type_id'])));
         $wheel_base_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_base_id'])));
-        $autonomous_mode = mysql_real_escape_string(stripslashes(trim($_POST['autonomous_mode'])));
-        $scout_comments = mysql_real_escape_string(stripslashes(trim($_POST['scout_comments'])));
-        $auto_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_high'])));
-        $auto_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_low'])));
-        $auto_hot = mysql_real_escape_string(stripslashes(trim($_POST['auto_hot'])));
-        $auto_mobile = mysql_real_escape_string(stripslashes(trim($_POST['auto_mobile'])));
-        $auto_goalie = mysql_real_escape_string(stripslashes(trim($_POST['auto_goalie'])));
-        $truss = mysql_real_escape_string(stripslashes(trim($_POST['truss'])));
-        $catch = mysql_real_escape_string(stripslashes(trim($_POST['catch'])));
-        $active_control = mysql_real_escape_string(stripslashes(trim($_POST['active_control'])));
-        $launch_ball = mysql_real_escape_string(stripslashes(trim($_POST['launch_ball'])));
-        $score_high = mysql_real_escape_string(stripslashes(trim($_POST['score_high'])));
-        $score_low = mysql_real_escape_string(stripslashes(trim($_POST['score_low'])));
-        $max_height = mysql_real_escape_string(stripslashes(trim($_POST['max_height'])));
-        
-        
+        $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
+        $push_tote = mysql_real_escape_string(stripslashes(trim($_POST['push_tote'])));
+        $push_bin = mysql_real_escape_string(stripslashes(trim($_POST['push_bin'])));
+        $lift_tote = mysql_real_escape_string(stripslashes(trim($_POST['lift_tote'])));
+        $lift_bin = mysql_real_escape_string(stripslashes(trim($_POST['lift_bin'])));
+        $push_litter = mysql_real_escape_string(stripslashes(trim($_POST['push_litter'])));
+        $load_litter = mysql_real_escape_string(stripslashes(trim($_POST['load_litter'])));
+        $stack_tote_height = mysql_real_escape_string(stripslashes(trim($_POST['stack_tote_height'])));
+        $stack_bin_height = mysql_real_escape_string(stripslashes(trim($_POST['stack_bin_height'])));
+        $coop_totes = mysql_real_escape_string(stripslashes(trim($_POST['coop_totes'])));
+        $coop_stack_height = mysql_real_escape_string(stripslashes(trim($_POST['coop_stack_height'])));
+        $move_auto = mysql_real_escape_string(stripslashes(trim($_POST['move_auto'])));
+        $auto_bin_score = mysql_real_escape_string(stripslashes(trim($_POST['auto_bin_score'])));
+        $auto_tote_score = mysql_real_escape_string(stripslashes(trim($_POST['auto_tote_score'])));
+        $auto_tote_stack_height = mysql_real_escape_string(stripslashes(trim($_POST['auto_tote_stack_height'])));
+        $auto_step_bins = mysql_real_escape_string(stripslashes(trim($_POST['auto_step_bins'])));
+        $manip_style = mysql_real_escape_string(stripslashes(trim($_POST['manip_style'])));
+        $need_upright_tote = mysql_real_escape_string(stripslashes(trim($_POST['need_upright_tote'])));
+        $need_upright_bin = mysql_real_escape_string(stripslashes(trim($_POST['need_upright_bin'])));
+        $can_upright_tote = mysql_real_escape_string(stripslashes(trim($_POST['can_upright_tote'])));
+        $can_upright_bin = mysql_real_escape_string(stripslashes(trim($_POST['can_upright_bin'])));
 
         $query = " SELECT id FROM scout_pit_data WHERE team_id=" . $team_id;
         $result = mysql_query($query);
@@ -327,27 +302,35 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
         $id = $row["id"];
         if (mysql_num_rows($result) == 0) {
             $success = false;
-            $query = "INSERT INTO scout_pit_data(team_id,configuration_id,wheel_type_id,wheel_base_id,autonomous_mode,scout_comments,"
-                    . "auto_high,auto_low,auto_hot,auto_mobile,auto_goalie,truss,catch,active_control,launch_ball,score_high,score_low,max_height,invalid) "
+            $query = "INSERT INTO scout_pit_data(team_id,config_id,wheel_type_id,wheel_base_id,notes,push_tote,push_bin,lift_tote,lift_bin,push_litter,"
+                    . "load_litter,stack_tote_height,stack_bin_height,coop_totes,coop_stack_height,move_auto,auto_bin_score,auto_tote_score,"
+                    . "auto_tote_stack_height,auto_step_bins,manip_style,need_upright_tote,need_upright_bin,can_upright_tote,can_upright_bin,invalid) "
                     . "VALUES("
                     . $team_id
-                    . "," . $configuration_id
+                    . "," . $config_id
                     . "," . $wheel_type_id
                     . "," . $wheel_base_id
-                    . "," . $autonomous_mode
-                    . ",'" . $scout_comments
-                    . "'," . $auto_high
-                    . "," . $auto_low
-                    . "," . $auto_hot
-                    . "," . $auto_mobile
-                    . "," . $auto_goalie
-                    . "," . $truss
-                    . "," . $catch
-                    . "," . $active_control
-                    . "," . $launch_ball
-                    . "," . $score_high
-                    . "," . $score_low
-                    . "," . $max_height . ",0);";
+                    . ",'" . $notes
+                    . "'," . $push_tote
+                    . "," . $push_bin
+                    . "," . $lift_tote
+                    . "," . $lift_bin
+                    . "," . $push_litter
+                    . "," . $load_litter
+                    . "," . $stack_tote_height
+                    . "," . $stack_bin_height
+                    . "," . $coop_totes
+                    . "," . $coop_stack_height
+                    . "," . $move_auto
+                    . "," . $auto_bin_score
+                    . "," . $auto_tote_score
+                    . "," . $auto_tote_stack_height
+                    . "," . $auto_step_bins
+                    . ",'" . $manip_style
+                    . "'," . $need_upright_tote
+                    . "," . $need_upright_bin
+                    . "," . $can_upright_tote
+                    . "," . $can_upright_bin . ",0);";
           
 
             $success = mysql_query($query);
@@ -356,23 +339,30 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
             $success = false;
             $query = " UPDATE scout_pit_data ";
             $query .= "SET team_id=" . $team_id . ",
-						configuration_id=" . $configuration_id . ",
+						config_id=" . $config_id . ",
 						wheel_type_id=" . $wheel_type_id . ",
 						wheel_base_id=" . $wheel_base_id . ",
-						autonomous_mode=" . $autonomous_mode . ",
-						scout_comments='" . $scout_comments . "',
-						auto_high=" . $auto_high . ",
-						auto_low=" . $auto_low . ",
-						auto_hot=" . $auto_hot . ",
-						auto_mobile=" . $auto_mobile . ",
-                                                auto_goalie=" . $auto_goalie . ",
-						truss=" . $truss . ",
-						catch=" . $catch . ",
-						active_control=" . $active_control . ",
-                                                launch_ball=" . $launch_ball . ",
-                                                score_high=" . $score_high . ",
-                                                score_low=" . $score_low . ",
-                                                max_height=" . $max_height . ",
+						notes='" . $notes . "',
+						push_tote=" . $push_tote . ",
+						push_bin=" . $push_bin . ",
+						lift_tote=" . $lift_tote . ",
+						lift_bin=" . $lift_bin . ",
+						push_litter=" . $push_litter . ",
+                                                load_litter=" . $load_litter . ",
+						stack_tote_height=" . $stack_tote_height . ",
+						stack_bin_height=" . $stack_bin_height . ",
+						coop_totes=" . $coop_totes . ",
+                                                coop_stack_height=" . $coop_stack_height . ",
+                                                move_auto=" . $move_auto . ",
+                                                auto_bin_score=" . $auto_bin_score . ",
+                                                auto_tote_score=" . $auto_tote_score . ",
+                                                auto_tote_stack_height=" . $auto_tote_stack_height . ",
+                                                auto_step_bins=" . $auto_step_bins . ",
+                                                manip_style='" . $manip_style . "',
+                                                need_upright_tote=" . $need_upright_tote . ",
+                                                need_upright_bin=" . $need_upright_bin . ",
+                                                can_upright_tote=" . $can_upright_tote . ",
+                                                can_upright_bin=" . $can_upright_bin . ",
                                                 invalid=0" . " 
 						WHERE id=" . $id;
 
@@ -396,3 +386,4 @@ if ($_POST['type'] == 'passConfirm' && $_POST['password'] == $pass) {
 
     echo $resp;
 }
+
