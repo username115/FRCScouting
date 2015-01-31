@@ -32,7 +32,8 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "event_lu";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_EVENT_NAME = "event_name";
-		public static final String COLUMN_NAME_MATCH_URL = "match_url";
+		public static final String COLUMN_NAME_EVENT_CODE = "event_code";
+		public static final String COLUMN_NAME_DATE_START = "date_start";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
@@ -153,7 +154,8 @@ public final class FRCScoutingContract {
 		"CREATE TABLE IF NOT EXISTS event_lu (\n" +
 		"	id integer primary key autoincrement,\n" +
 		"	event_name text NOT NULL,\n" +
-		"	match_url text NOT NULL,\n" +
+		"	event_code text NOT NULL,\n" +
+		"	date_start datetime NOT NULL,\n" +
 		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
 		"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
 		");",
