@@ -6,7 +6,8 @@ if(!defined('INCLUDE_CHECK')) {die('You are not allowed to execute this file dir
 $db_host		= 'localhost';
 $db_user		= ''; //set to your database username
 $db_pass		= ''; //set to your database bassword
-$db_database		= ''; //set to whatever you name your scouting database
+$db_database	= ''; //set to whatever you name your scouting database
+$php_home       = ''; //set to your php (where the PEAR HTTP directory lies, only required for update_event_list.php)
 
 /* End config */
 
