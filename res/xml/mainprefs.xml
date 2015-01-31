@@ -34,6 +34,13 @@
         android:key="robotPicPref"
         android:summary="Automatically download pictures of robots?"
         android:title="Download Pictures" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:enabled="true"
+        android:key="practiceMatchPref"
+        android:summary="Currently recording practice matches?"
+        android:title="Practice Match" />
 
     <EditTextPreference
         android:inputType="number"
