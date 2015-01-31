@@ -1,11 +1,30 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10.7
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jan 31, 2015 at 11:46 AM
+-- Server version: 5.6.22-log
+-- PHP Version: 5.4.23
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Database: `rbees_scouting`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `configuration_lu`
+--
 
 CREATE TABLE IF NOT EXISTS `configuration_lu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -16,6 +35,10 @@ CREATE TABLE IF NOT EXISTS `configuration_lu` (
   KEY `timestamp` (`timestamp`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=8 ;
 
+--
+-- Dumping data for table `configuration_lu`
+--
+
 INSERT INTO `configuration_lu` (`id`, `configuration_desc`, `timestamp`, `invalid`) VALUES
 (1, 'Wide', '2014-01-25 15:18:38', 0),
 (2, 'Long', '2014-01-25 15:18:38', 0),
@@ -25,17 +48,33 @@ INSERT INTO `configuration_lu` (`id`, `configuration_desc`, `timestamp`, `invali
 (6, 'Triangle', '2014-01-25 15:18:38', 0),
 (7, 'Other', '2014-01-25 15:18:38', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_lu`
+--
+
 CREATE TABLE IF NOT EXISTS `event_lu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `event_name` varchar(70) COLLATE latin1_general_cs NOT NULL,
-  `match_url` text COLLATE latin1_general_cs NOT NULL,
+  `event_code` varchar(10) COLLATE latin1_general_cs NOT NULL,
+  `date_start` datetime NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `event_name` (`event_name`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=103 ;
+  UNIQUE KEY `event_code_2` (`event_code`),
+  KEY `timestamp` (`timestamp`),
+  KEY `event_code` (`event_code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=2 ;
 
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fact_match_data_2015`
+--
 
 CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -67,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
   `bin_6` int(3) unsigned NOT NULL,
   `bin_litter` int(3) unsigned NOT NULL,
   `landfill_litter` int(3) unsigned NOT NULL,
+  `tipped_stack` tinyint(1) NOT NULL,
   `foul` tinyint(1) NOT NULL,
   `yellow_card` tinyint(1) NOT NULL,
   `red_card` tinyint(1) NOT NULL,
@@ -78,6 +118,12 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
   KEY `event_id` (`event_id`,`team_id`,`match_id`,`invalid`,`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notes_options`
+--
+
 CREATE TABLE IF NOT EXISTS `notes_options` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `option_text` text COLLATE latin1_general_cs NOT NULL,
@@ -87,11 +133,38 @@ CREATE TABLE IF NOT EXISTS `notes_options` (
   KEY `timestamp` (`timestamp`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=8 ;
 
+--
+-- Dumping data for table `notes_options`
+--
+
 INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 (1, 'No Show', '2014-01-25 15:21:36', 0),
 (2, 'Non-functional', '2014-01-25 15:21:36', 0),
 (4, 'Turned Bin upright', '2015-01-23 00:43:18', 0),
 (3, 'Turned Tote upright', '2015-01-23 00:43:18', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `robot_lu`
+--
+
+CREATE TABLE IF NOT EXISTS `robot_lu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `team_id` int(5) unsigned NOT NULL,
+  `robot_photo` text COLLATE latin1_general_cs NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `team_id` (`team_id`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scout_pit_data_2015`
+--
 
 CREATE TABLE IF NOT EXISTS `scout_pit_data_2015` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -127,6 +200,12 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2015` (
   KEY `invalid` (`invalid`,`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wheel_base_lu`
+--
+
 CREATE TABLE IF NOT EXISTS `wheel_base_lu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `wheel_base_desc` text COLLATE latin1_general_cs NOT NULL,
@@ -135,6 +214,10 @@ CREATE TABLE IF NOT EXISTS `wheel_base_lu` (
   PRIMARY KEY (`id`),
   KEY `timestamp` (`timestamp`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `wheel_base_lu`
+--
 
 INSERT INTO `wheel_base_lu` (`id`, `wheel_base_desc`, `timestamp`, `invalid`) VALUES
 (1, '2 Wheel Drive', '2014-01-25 15:23:47', 0),
@@ -146,6 +229,12 @@ INSERT INTO `wheel_base_lu` (`id`, `wheel_base_desc`, `timestamp`, `invalid`) VA
 (8, 'Other', '2014-01-25 15:23:47', 0),
 (4, '8 Wheel Drive (or more)', '2014-01-25 15:23:47', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wheel_type_lu`
+--
+
 CREATE TABLE IF NOT EXISTS `wheel_type_lu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `wheel_type_desc` text COLLATE latin1_general_cs NOT NULL,
@@ -154,6 +243,10 @@ CREATE TABLE IF NOT EXISTS `wheel_type_lu` (
   PRIMARY KEY (`id`),
   KEY `timestamp` (`timestamp`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `wheel_type_lu`
+--
 
 INSERT INTO `wheel_type_lu` (`id`, `wheel_type_desc`, `timestamp`, `invalid`) VALUES
 (1, 'Kit Wheels', '2014-01-25 15:25:39', 0),

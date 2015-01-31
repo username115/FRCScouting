@@ -594,8 +594,10 @@ public class DBSyncService extends Service {
 						row.getInt(EVENT_LU_Entry.COLUMN_NAME_ID));
 				vals.put(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME,
 						row.getString(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME));
-				vals.put(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL,
-						row.getString(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
+				vals.put(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE,
+						row.getString(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE));
+				vals.put(EVENT_LU_Entry.COLUMN_NAME_DATE_START,
+						row.getString(EVENT_LU_Entry.COLUMN_NAME_DATE_START));
 				vals.put(
 						EVENT_LU_Entry.COLUMN_NAME_TIMESTAMP,
 						DB.dateParser.format(new Date(

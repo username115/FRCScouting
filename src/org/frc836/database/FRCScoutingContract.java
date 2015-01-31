@@ -32,7 +32,8 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "event_lu";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_EVENT_NAME = "event_name";
-		public static final String COLUMN_NAME_MATCH_URL = "match_url";
+		public static final String COLUMN_NAME_EVENT_CODE = "event_code";
+		public static final String COLUMN_NAME_DATE_START = "date_start";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
@@ -68,6 +69,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_BIN_6 = "bin_6";
 		public static final String COLUMN_NAME_BIN_LITTER = "bin_litter";
 		public static final String COLUMN_NAME_LANDFILL_LITTER = "landfill_litter";
+		public static final String COLUMN_NAME_TIPPED_STACK = "tipped_stack";
 		public static final String COLUMN_NAME_FOUL = "foul";
 		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
 		public static final String COLUMN_NAME_RED_CARD = "red_card";
@@ -81,6 +83,15 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "notes_options";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_OPTION_TEXT = "option_text";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+		public static final String COLUMN_NAME_INVALID = "invalid";
+	}
+	
+	public static abstract class ROBOT_LU_Entry implements BaseColumns {
+		public static final String TABLE_NAME = "robot_lu";
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_TEAM_ID = "team_id";
+		public static final String COLUMN_NAME_ROBOT_PHOTO = "robot_photo";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
@@ -153,7 +164,8 @@ public final class FRCScoutingContract {
 		"CREATE TABLE IF NOT EXISTS event_lu (\n" +
 		"	id integer primary key autoincrement,\n" +
 		"	event_name text NOT NULL,\n" +
-		"	match_url text NOT NULL,\n" +
+		"	event_code text NOT NULL,\n" +
+		"	date_start datetime NOT NULL,\n" +
 		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
 		"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
 		");",
@@ -188,6 +200,7 @@ public final class FRCScoutingContract {
 		"	bin_6 unsigned int(3) NOT NULL,\n" +
 		"	bin_litter unsigned int(3) NOT NULL,\n" +
 		"	landfill_litter unsigned int(3) NOT NULL,\n" +
+		"	tipped_stack tinyint(1) NOT NULL,\n" +
 		"	foul tinyint(1) NOT NULL,\n" +
 		"	yellow_card tinyint(1) NOT NULL,\n" +
 		"	red_card tinyint(1) NOT NULL,\n" +
@@ -209,6 +222,14 @@ public final class FRCScoutingContract {
 		"UNION SELECT 2, 'Non-functional', '2014-01-25 15:21:36', 0\n" +
 		"UNION SELECT 4, 'Turned Bin upright', '2015-01-23 00:43:18', 0\n" +
 		"UNION SELECT 3, 'Turned Tote upright', '2015-01-23 00:43:18', 0;",
+	
+		"CREATE TABLE IF NOT EXISTS robot_lu (\n" +
+		"	id integer primary key autoincrement,\n" +
+		"	team_id unsigned int(5) NOT NULL,\n" +
+		"	robot_photo text NOT NULL,\n" +
+		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+		"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
+		");",
 	
 		"CREATE TABLE IF NOT EXISTS scout_pit_data_2015 (\n" +
 		"	id integer primary key autoincrement,\n" +
@@ -283,6 +304,7 @@ public final class FRCScoutingContract {
 		"DROP TABLE IF EXISTS event_lu;",
 		"DROP TABLE IF EXISTS fact_match_data_2015;",
 		"DROP TABLE IF EXISTS notes_options;",
+		"DROP TABLE IF EXISTS robot_lu;",
 		"DROP TABLE IF EXISTS scout_pit_data_2015;",
 		"DROP TABLE IF EXISTS wheel_base_lu;",
 		"DROP TABLE IF EXISTS wheel_type_lu;"
