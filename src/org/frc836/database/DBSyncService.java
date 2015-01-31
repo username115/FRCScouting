@@ -221,8 +221,7 @@ public class DBSyncService extends Service {
 
 				processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME));
 
-				// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
-				// db); //TODO update when robotpics available
+				processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME));
 
 				if (!running)
 					return null;
@@ -826,38 +825,82 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	/*
-	 * private void processRobots(JSONArray robots, SQLiteDatabase db) { try {
-	 * for (int i = 0; i < robots.length(); i++) { JSONObject row =
-	 * robots.getJSONObject(i); Action action = Action.UPDATE; if
-	 * (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) { action =
-	 * Action.DELETE; } ContentValues vals = new ContentValues();
-	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
-	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
-	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
-	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID));
-	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO,
-	 * row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO)); vals.put(
-	 * ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP, dateParser.format(new Date(
-	 * row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-	 * 
-	 * // check if this entry exists already String[] projection = {
-	 * ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO }; String[] where = { vals
-	 * .getAsString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID) }; Cursor c =
-	 * db.query(ROBOT_LU_Entry.TABLE_NAME, projection, // select
-	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where, null, // don't // group
-	 * null, // don't filter null, // don't order "0,1"); // limit to 1 if
-	 * (!c.moveToFirst()) { if (action == Action.UPDATE) action = Action.INSERT;
-	 * else if (action == Action.DELETE) action = Action.NOTHING; }
-	 * 
-	 * switch (action) { case UPDATE: db.update(ROBOT_LU_Entry.TABLE_NAME, vals,
-	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?", where); break; case INSERT:
-	 * db.insert(ROBOT_LU_Entry.TABLE_NAME, null, vals); break; case DELETE:
-	 * db.delete(ROBOT_LU_Entry.TABLE_NAME, ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID +
-	 * " = ?", where); break; default: }
-	 * 
-	 * } } catch (JSONException e) { // TODO handle error } }
-	 */
+	private void processRobots(JSONArray robots) {
+		try {
+			for (int i = 0; i < robots.length(); i++) {
+				JSONObject row = robots.getJSONObject(i);
+				Action action = Action.UPDATE;
+				if (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+					action = Action.DELETE;
+				}
+				ContentValues vals = new ContentValues();
+				vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
+						row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
+				vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
+						row.getString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID));
+				vals.put(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO,
+						row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO));
+				vals.put(
+						ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP,
+						DB.dateParser.format(new Date(
+								row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+
+				// check if this entry exists already
+				String[] projection = { ROBOT_LU_Entry.COLUMN_NAME_ID };
+				String[] where = { vals
+						.getAsString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID) };
+				synchronized (ScoutingDBHelper.lock) {
+
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(ROBOT_LU_Entry.TABLE_NAME,
+							projection, // select
+							ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where,
+							null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
+						}
+
+						switch (action) {
+						case UPDATE:
+							db.update(
+									ROBOT_LU_Entry.TABLE_NAME,
+									vals,
+									ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(ROBOT_LU_Entry.TABLE_NAME, null, vals);
+							break;
+						case DELETE:
+							db.delete(
+									ROBOT_LU_Entry.TABLE_NAME,
+									ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
+					}
+				}
+			}
+		} catch (JSONException e) {
+			// TODO handle error
+		}
+	}
+
 	private void processPits(JSONArray pits) {
 		// TODO could be abstracted further
 		try {

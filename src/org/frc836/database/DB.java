@@ -31,6 +31,7 @@ import org.frc836.database.DBSyncService.LocalBinder;
 import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
+import org.frc836.database.FRCScoutingContract.ROBOT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
 import org.frc836.samsung.fileselector.FileOperation;
@@ -58,7 +59,7 @@ public class DB {
 	private String password;
 	private Context context;
 	private LocalBinder binder;
-	
+
 	public static final SimpleDateFormat dateParser = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.sss", Locale.US);
 
@@ -502,8 +503,46 @@ public class DB {
 	 */
 
 	public String getPictureURL(int teamNum) {
-		// TODO grab team picture URL from database
-		return "";
+		synchronized (ScoutingDBHelper.lock) {
+			String ret = "";
+			try {
+
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
+						.getReadableDatabase();
+
+				String[] projection = { ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO };
+				String[] where = { String.valueOf(teamNum) };
+				Cursor c = db.query(ROBOT_LU_Entry.TABLE_NAME, // from the
+																// robot_lu
+																// table
+						projection, // select
+						ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", // where
+																	// team_id
+																	// ==
+						where, // teamNum
+						null, // don't group
+						null, // don't filter
+						null, // don't order
+						"0,1"); // limit to 1
+				try {
+
+					if (c.moveToFirst()) {
+						ret = c.getString(c
+								.getColumnIndexOrThrow(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO));
+					}
+
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+
+		}
 	}
 
 	public PitStats getTeamPitStats(int teamNum) {
@@ -911,7 +950,8 @@ public class DB {
 										pit_data.append("\"")
 												.append(c.getString(j))
 												.append("\"");
-									//wanted to encapsulate the following, but doing so would slow down the export.
+									// wanted to encapsulate the following, but
+									// doing so would slow down the export.
 									else if (PitStats.COLUMN_NAME_CONFIG_ID
 											.equalsIgnoreCase(c
 													.getColumnName(j))) {
