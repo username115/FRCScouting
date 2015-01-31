@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 31, 2015 at 11:23 AM
+-- Generation Time: Jan 31, 2015 at 11:46 AM
 -- Server version: 5.6.22-log
 -- PHP Version: 5.4.23
 
@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `event_lu` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=2 ;
 
 
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
   `bin_6` int(3) unsigned NOT NULL,
   `bin_litter` int(3) unsigned NOT NULL,
   `landfill_litter` int(3) unsigned NOT NULL,
+  `tipped_stack` tinyint(1) NOT NULL,
   `foul` tinyint(1) NOT NULL,
   `yellow_card` tinyint(1) NOT NULL,
   `red_card` tinyint(1) NOT NULL,
@@ -140,6 +142,23 @@ INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 (2, 'Non-functional', '2014-01-25 15:21:36', 0),
 (4, 'Turned Bin upright', '2015-01-23 00:43:18', 0),
 (3, 'Turned Tote upright', '2015-01-23 00:43:18', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `robot_lu`
+--
+
+CREATE TABLE IF NOT EXISTS `robot_lu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `team_id` int(5) unsigned NOT NULL,
+  `robot_photo` text COLLATE latin1_general_cs NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `team_id` (`team_id`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

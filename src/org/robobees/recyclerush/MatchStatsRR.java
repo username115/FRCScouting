@@ -46,6 +46,7 @@ public class MatchStatsRR extends MatchStatsStruct {
 	public short bins[] = new short[TOTES_IN_STACK];
 	public short bin_litter;
 	public short landfill_litter;
+	public boolean tipped_stack;
 
 	public MatchStatsRR() {
 		super.init();
@@ -116,7 +117,8 @@ public class MatchStatsRR extends MatchStatsStruct {
 		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER, bin_litter);
 		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER,
 				landfill_litter);
-
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIPPED_STACK,
+				tipped_stack ? 1 : 0);
 		return vals;
 	}
 
@@ -173,6 +175,9 @@ public class MatchStatsRR extends MatchStatsStruct {
 		landfill_litter = c
 				.getShort(c
 						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER));
+		tipped_stack = c
+				.getInt(c
+						.getColumnIndexOrThrow(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIPPED_STACK)) != 0;
 
 	}
 
@@ -192,53 +197,73 @@ public class MatchStatsRR extends MatchStatsStruct {
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.length() - 1)
 					+ i);
 		for (int i = 1; i < COOP_TOTES_STACK; i++)
-			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.substring(
-					0,
+			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.substring(0,
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.length() - 1)
 					+ i);
 		for (int i = 1; i < TOTES_IN_STACK; i++)
-			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.substring(
-					0,
+			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.substring(0,
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.length() - 1)
 					+ i);
 		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER);
 		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER);
+		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIPPED_STACK);
 
 		projection = new String[temp.size()];
 		return temp.toArray(projection);
 	}
-	
-	//no text fields in 2015 specific stats
-//	@Override
-//	public boolean isTextField(String column_name) {
-//		return super.isTextField(column_name);
-//	}
-	
+
+	// no text fields in 2015 specific stats
+	// @Override
+	// public boolean isTextField(String column_name) {
+	// return super.isTextField(column_name);
+	// }
+
 	@Override
 	public ContentValues jsonToCV(JSONObject json) throws JSONException {
 		ContentValues vals = super.jsonToCV(json);
-		
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_MOVE, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_MOVE));
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTES, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTES));
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_2, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_2));
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_3, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_3));
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN));
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN));
+
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_MOVE,
+				json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_MOVE));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTES,
+				json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_TOTES));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_2, json
+				.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_2));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_3, json
+				.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_3));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN,
+				json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN, json
+				.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN));
 		for (int i = 1; i < TOTES_IN_STACK; i++) {
-			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.length() - 1) + i;
+			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
+					.substring(0,
+							FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
+									.length() - 1)
+					+ i;
 			vals.put(col, json.getInt(col));
 		}
 		for (int i = 1; i < COOP_TOTES_STACK; i++) {
-			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.length() - 1) + i;
+			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
+					.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
+							.length() - 1)
+					+ i;
 			vals.put(col, json.getInt(col));
 		}
 		for (int i = 1; i < TOTES_IN_STACK; i++) {
-			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.length() - 1) + i;
+			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1
+					.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1
+							.length() - 1)
+					+ i;
 			vals.put(col, json.getInt(col));
 		}
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER));
-		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER, json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER,
+				json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_LITTER));
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER, json
+				.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_LANDFILL_LITTER));
 		
+		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIPPED_STACK,
+				json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIPPED_STACK));
+
 		return vals;
 	}
 
