@@ -395,12 +395,12 @@ public class DB {
 		}
 	}
 
-	public String getURLFromEventName(String eventName) {
+	public String getCodeFromEventName(String eventName) {
 		synchronized (ScoutingDBHelper.lock) {
 			try {
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
 						.getReadableDatabase();
-				String[] projection = { EVENT_LU_Entry.COLUMN_NAME_MATCH_URL };
+				String[] projection = { EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE };
 				String[] where = { eventName };
 				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, // from the
 																// event_lu
@@ -418,7 +418,7 @@ public class DB {
 				try {
 					c.moveToFirst();
 					ret = c.getString(c
-							.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_MATCH_URL));
+							.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE));
 				} finally {
 					if (c != null)
 						c.close();
