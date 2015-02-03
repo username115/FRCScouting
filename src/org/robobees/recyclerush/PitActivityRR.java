@@ -54,33 +54,32 @@ public class PitActivityRR extends Activity {
 	private TextView teamInfoT;
 	private EditText heightT;
 
-
 	// Litter Stats
-	private CheckBox pushLitterC;
-	private CheckBox loadLitterC;
+	private CheckBox push_litterC;
+	private CheckBox load_litterC;
 	// Tote Stats
-	private CheckBox pushToteC;
-	private CheckBox liftToteC;
-	private CheckBox needUprightToteC;
-	private CheckBox canUprightToteC;
-	private EditText stackToteHeightT;
+	private CheckBox push_toteC;
+	private CheckBox lift_toteC;
+	private CheckBox need_upright_toteC;
+	private CheckBox can_upright_toteC;
+	private EditText stack_tote_heightT;
 	// Bin Stats
-	private CheckBox pushBinC;
-	private CheckBox liftBinC;
-	private CheckBox needUprightBinC;
-	private CheckBox canUprightBinC;
-	private EditText stackBinHeightT;
+	private CheckBox push_binC;
+	private CheckBox lift_binC;
+	private CheckBox need_upright_binC;
+	private CheckBox can_upright_binC;
+	private EditText stack_bin_heightT;
 	// Coop Stats
-	private EditText coopTotesT; // TODO check: should this be a bool?
-	private EditText coopStackHeightT;
+	private CheckBox coop_totesT;
+	private EditText coop_stack_heightT;
 	// Auto Stats
-	private CheckBox moveAutoC;
-	private EditText autoBinScoreT;
-	private EditText autoToteScoreT;
-	private EditText autoToteStackHeightT;
-	private EditText autoStepBinsT;
+	private CheckBox move_autoC;
+	private EditText auto_bin_scoreT;
+	private EditText auto_tote_scoreT;
+	private EditText auto_tote_stack_heightT;
+	private EditText auto_step_binsT;
 
-	private EditText manipulationDescriptionT;
+	private EditText manipulation_descriptionT;
 
 
 	private LocalBinder binder;
@@ -115,28 +114,29 @@ public class PitActivityRR extends Activity {
 		wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
 
 		// TODO put correct id's in findView after changing in pits.xml
-		pushLitterC = (CheckBox) findViewById(0);
-		loadLitterC = (CheckBox) findViewById(0);
+		push_litterC = (CheckBox) findViewById(R.id.pits_push_litterC);
+		load_litterC = (CheckBox) findViewById(R.id.pits_load_litterC);
 
-		pushToteC = (CheckBox) findViewById(0);
-		liftToteC = (CheckBox) findViewById(0);
-		needUprightToteC = (CheckBox) findViewById(0);
-		canUprightToteC = (CheckBox) findViewById(0);
-		stackToteHeightT = (EditText) findViewById(0);
+		push_toteC = (CheckBox) findViewById(0);
+		lift_toteC = (CheckBox) findViewById(0);
+		need_upright_toteC = (CheckBox) findViewById(0);
+		can_upright_toteC = (CheckBox) findViewById(0);
+		stack_tote_heightT = (EditText) findViewById(0);
 
-		pushBinC = (CheckBox) findViewById(0);
-		liftBinC = (CheckBox) findViewById(0);
-		needUprightBinC = (CheckBox) findViewById(0);
-		canUprightBinC = (CheckBox) findViewById(0);
-		stackBinHeightT = (EditText) findViewById(0);
+		push_binC = (CheckBox) findViewById(0);
+		lift_binC = (CheckBox) findViewById(0);
+		need_upright_binC = (CheckBox) findViewById(0);
+		can_upright_binC = (CheckBox) findViewById(0);
+		stack_bin_heightT = (EditText) findViewById(0);
 
-		coopStackHeightT = (EditText) findViewById(0);
+		coop_totesT = (CheckBox) findViewById(0);
+		coop_stack_heightT = (EditText) findViewById(0);
 
-		moveAutoC = (CheckBox) findViewById(0);
-		autoBinScoreT = (EditText) findViewById(0);
-		autoToteScoreT = (EditText) findViewById(0);
-		autoToteStackHeightT = (EditText) findViewById(0);
-		autoStepBinsT = (EditText) findViewById(0);
+		move_autoC = (CheckBox) findViewById(0);
+		auto_bin_scoreT = (EditText) findViewById(0);
+		auto_tote_scoreT = (EditText) findViewById(0);
+		auto_tote_stack_heightT = (EditText) findViewById(0);
+		auto_step_binsT = (EditText) findViewById(0);
 
 
 		commentsT = (EditText) findViewById(R.id.pits_commentsT);
@@ -280,53 +280,53 @@ public class PitActivityRR extends Activity {
 		// TODO finish adding submit actions as new scoring matrixs are added
 		stats.wheel_type = wheeltypeS.getSelectedItem().toString();
 
-		stats.push_litter = pushLitterC.isChecked();
-		stats.load_litter = loadLitterC.isChecked();
+		stats.push_litter = push_litterC.isChecked();
+		stats.load_litter = load_litterC.isChecked();
 
-		stats.push_tote = pushToteC.isChecked();
-		stats.lift_tote = liftToteC.isChecked();
-		stats.need_upright_tote = needUprightToteC.isChecked();
-		stats.can_upright_tote = canUprightToteC.isChecked();
-		tstr = stackToteHeightT.getText().toString().trim(); // avoid re-calc
+		stats.push_tote = push_toteC.isChecked();
+		stats.lift_tote = lift_toteC.isChecked();
+		stats.need_upright_tote = need_upright_toteC.isChecked();
+		stats.can_upright_tote = can_upright_toteC.isChecked();
+		tstr = stack_tote_heightT.getText().toString().trim(); // avoid re-calc
 		if (tstr.length() > 0)
 			stats.stack_tote_height = Short.valueOf(tstr);
 		else
 			stats.stack_tote_height = 0;
 
-		stats.push_bin = pushBinC.isChecked();
-		stats.lift_bin = liftBinC.isChecked();
-		stats.need_upright_bin = needUprightBinC.isChecked();
-		stats.can_upright_bin = canUprightBinC.isChecked();
-		tstr = stackBinHeightT.getText().toString().trim();
+		stats.push_bin = push_binC.isChecked();
+		stats.lift_bin = lift_binC.isChecked();
+		stats.need_upright_bin = need_upright_binC.isChecked();
+		stats.can_upright_bin = can_upright_binC.isChecked();
+		tstr = stack_bin_heightT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.stack_bin_height = Short.valueOf(tstr);
 		else
 			stats.stack_bin_height = 0;
 
-		tstr = coopStackHeightT.getText().toString().trim();
+		tstr = coop_stack_heightT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.coop_stack_height = Short.valueOf(tstr);
 		else
 			stats.coop_stack_height = 0;
 
-		stats.move_auto = moveAutoC.isChecked();
-		tstr = autoBinScoreT.getText().toString().trim();
+		stats.move_auto = move_autoC.isChecked();
+		tstr = auto_bin_scoreT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.auto_bin_score = Short.valueOf(tstr);
 		else
 			stats.auto_bin_score = 0;
 
-		tstr = autoToteScoreT.getText().toString().trim();
+		tstr = auto_tote_scoreT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.auto_tote_score = Short.valueOf(tstr);
 		else
 			stats.auto_tote_score = 0;
-		tstr = autoToteStackHeightT.getText().toString().trim();
+		tstr = auto_tote_stack_heightT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.auto_tote_stack_height = Short.valueOf(tstr);
 		else
 			stats.auto_tote_stack_height = 0;
-		tstr = autoStepBinsT.getText().toString().trim();
+		tstr = auto_step_binsT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.auto_step_bins = Short.valueOf(tstr);
 		else
@@ -342,28 +342,28 @@ public class PitActivityRR extends Activity {
 		// TODO add things to clear the data fields as submit is filled in
 		wheeltypeS.setSelection(0);
 
-		pushLitterC.setChecked(false);
-		loadLitterC.setChecked(false);
+		push_litterC.setChecked(false);
+		load_litterC.setChecked(false);
 
-		pushToteC.setChecked(false);
-		liftToteC.setChecked(false);
-		needUprightToteC.setChecked(false);
-		canUprightToteC.setChecked(false);
-		stackToteHeightT.setText("");
+		push_toteC.setChecked(false);
+		lift_toteC.setChecked(false);
+		need_upright_toteC.setChecked(false);
+		can_upright_toteC.setChecked(false);
+		stack_tote_heightT.setText("");
 
-		pushBinC.setChecked(false);
-		liftBinC.setChecked(false);
-		needUprightBinC.setChecked(false);
-		canUprightBinC.setChecked(false);
-		stackBinHeightT.setText("");
+		push_binC.setChecked(false);
+		lift_binC.setChecked(false);
+		need_upright_binC.setChecked(false);
+		can_upright_binC.setChecked(false);
+		stack_bin_heightT.setText("");
 
-		coopStackHeightT.setText("");
+		coop_stack_heightT.setText("");
 
-		moveAutoC.setChecked(false);
-		autoBinScoreT.setText("");
-		autoToteScoreT.setText("");
-		autoToteStackHeightT.setText("");
-		autoStepBinsT.setText("");
+		move_autoC.setChecked(false);
+		auto_bin_scoreT.setText("");
+		auto_tote_scoreT.setText("");
+		auto_tote_stack_heightT.setText("");
+		auto_step_binsT.setText("");
 	}
 
 
@@ -431,30 +431,30 @@ public class PitActivityRR extends Activity {
 		//auto_lowC.setChecked(stats.auto_score_high);
 		commentsT.setText(stats.comments);
 
-		pushLitterC.setChecked(stats.push_litter);
-		loadLitterC.setChecked(stats.load_litter);
+		push_litterC.setChecked(stats.push_litter);
+		load_litterC.setChecked(stats.load_litter);
 
-		pushToteC.setChecked(stats.push_tote);
-		liftToteC.setChecked(stats.lift_tote);
-		needUprightToteC.setChecked(stats.need_upright_tote);
-		canUprightToteC.setChecked(stats.can_upright_tote);
-		stackToteHeightT.setText(String.valueOf(stats.stack_tote_height));
+		push_toteC.setChecked(stats.push_tote);
+		lift_toteC.setChecked(stats.lift_tote);
+		need_upright_toteC.setChecked(stats.need_upright_tote);
+		can_upright_toteC.setChecked(stats.can_upright_tote);
+		stack_tote_heightT.setText(String.valueOf(stats.stack_tote_height));
 
-		pushBinC.setChecked(stats.push_bin);
-		liftBinC.setChecked(stats.lift_bin);
-		needUprightBinC.setChecked(stats.need_upright_bin);
-		canUprightBinC.setChecked(stats.need_upright_bin);
-		stackBinHeightT.setText(String.valueOf(stats.stack_bin_height));
+		push_binC.setChecked(stats.push_bin);
+		lift_binC.setChecked(stats.lift_bin);
+		need_upright_binC.setChecked(stats.need_upright_bin);
+		can_upright_binC.setChecked(stats.can_upright_bin);
+		stack_bin_heightT.setText(String.valueOf(stats.stack_bin_height));
 
-		coopStackHeightT.setText(String.valueOf(stats.coop_stack_height));
+		coop_stack_heightT.setText(String.valueOf(stats.coop_stack_height));
 
-		moveAutoC.setChecked(stats.move_auto);
-		autoBinScoreT.setText(String.valueOf(stats.auto_bin_score));
-		autoToteScoreT.setText(String.valueOf(stats.auto_tote_score));
-		autoToteStackHeightT.setText(String.valueOf(stats.auto_tote_stack_height));
-		autoStepBinsT.setText(String.valueOf(stats.auto_step_bins));
+		move_autoC.setChecked(stats.move_auto);
+		auto_bin_scoreT.setText(String.valueOf(stats.auto_bin_score));
+		auto_tote_scoreT.setText(String.valueOf(stats.auto_tote_score));
+		auto_tote_stack_heightT.setText(String.valueOf(stats.auto_tote_stack_height));
+		auto_step_binsT.setText(String.valueOf(stats.auto_step_bins));
 
-		manipulationDescriptionT.setText(stats.manipulation_description);
+		manipulation_descriptionT.setText(stats.manipulation_description);
 	}
 
 }

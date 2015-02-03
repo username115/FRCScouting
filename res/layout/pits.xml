@@ -110,35 +110,36 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="164dp"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="1dp"
+                android:layout_weight="1" >
+            </View>
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+        </LinearLayout>
+
         <CheckBox
             android:id="@+id/pits_auto_highC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/auto_high_text" />
-
-        <CheckBox
-            android:id="@+id/pits_auto_lowC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/auto_low_text" />
-
-        <CheckBox
-            android:id="@+id/pits_auto_hotC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/auto_hot_text" />
-
-        <CheckBox
-            android:id="@+id/pits_auto_mobileC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/does_bot_have_mobility_text" />
-        
-        <CheckBox
-            android:id="@+id/pits_auto_goalieC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/goalie_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -147,30 +148,20 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        
         <CheckBox
-            android:id="@+id/pits_trussC"
+            android:id="@+id/pits_push_litterC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/truss_text" />
-
+            android:text="@string/push_litter_text" />
+        
         <CheckBox
-            android:id="@+id/pits_launchC"
+            android:id="@+id/pits_load_litterC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/launch_text" />
+            android:text="@string/load_litter_text" />
 
-        <CheckBox
-            android:id="@+id/pits_active_controlC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/active_control_text" />
-
-        <CheckBox
-            android:id="@+id/pits_catchC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/catch_text" />
-
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
