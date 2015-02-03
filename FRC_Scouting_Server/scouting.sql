@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 31, 2015 at 11:46 AM
+-- Generation Time: Feb 02, 2015 at 07:12 PM
 -- Server version: 5.6.22-log
 -- PHP Version: 5.4.23
 
@@ -68,7 +68,12 @@ CREATE TABLE IF NOT EXISTS `event_lu` (
   KEY `event_code` (`event_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=2 ;
 
+--
+-- Dumping data for table `event_lu`
+--
 
+INSERT INTO `event_lu` (`id`, `event_name`, `event_code`, `date_start`, `timestamp`, `invalid`) VALUES
+(1, 'FIRST Championship', 'CMP', '2015-04-22 00:00:00', '2015-01-31 16:09:31', 0);
 
 -- --------------------------------------------------------
 
@@ -177,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2015` (
   `load_litter` tinyint(1) NOT NULL,
   `stack_tote_height` int(2) unsigned NOT NULL,
   `stack_bin_height` int(2) unsigned NOT NULL,
-  `coop_totes` int(2) unsigned NOT NULL,
+  `coop_totes` tinyint(1) unsigned NOT NULL,
   `coop_stack_height` int(2) unsigned NOT NULL,
   `move_auto` tinyint(1) NOT NULL,
   `auto_bin_score` int(2) unsigned NOT NULL,
