@@ -170,6 +170,9 @@ public final class FRCScoutingContract {
 		"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
 		");",
 	
+		"INSERT INTO event_lu\n" +
+		"SELECT 1 AS id, 'FIRST Championship' AS event_name, 'CMP' AS event_code, '2015-04-22 00:00:00' AS date_start, '2015-01-31 16:09:31' AS timestamp, 0 AS invalid;",
+	
 		"CREATE TABLE IF NOT EXISTS fact_match_data_2015 (\n" +
 		"	id integer primary key autoincrement,\n" +
 		"	event_id unsigned int(4) NOT NULL,\n" +
@@ -242,7 +245,7 @@ public final class FRCScoutingContract {
 		"	load_litter tinyint(1) NOT NULL,\n" +
 		"	stack_tote_height unsigned int(2) NOT NULL,\n" +
 		"	stack_bin_height unsigned int(2) NOT NULL,\n" +
-		"	coop_totes unsigned int(2) NOT NULL,\n" +
+		"	coop_totes unsigned tinyint(1) NOT NULL,\n" +
 		"	coop_stack_height unsigned int(2) NOT NULL,\n" +
 		"	move_auto tinyint(1) NOT NULL,\n" +
 		"	auto_bin_score unsigned int(2) NOT NULL,\n" +
