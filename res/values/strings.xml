@@ -106,21 +106,15 @@
 	</string-array>
 	<string name="autonomous_mode_text">Autonomous Mode:</string>
 	<string name="does_bot_have_mobility_text">Mobility</string>
-	<string name="shooting_location_text">Shooting Location:</string>
-	<string name="where_can_they_score_text">Where can they score?</string>
 
 	<string name="comments__text">"Comments: "</string>
 	<string name="configuration_text">Configuration</string>
 
 	<string name="drive_train_text">Drive Train</string>
 
-	<string name="mid_text">Mid</string>
-	<string name="low_text">Low</string>
-
 	<string name="submit_text">Submit</string>
 	<string name="team_text">"Team #: "</string>
 	<string name="team_hint">Team #</string>
-	<string name="high_text">High</string>
 	<string name="weight_text">"Weight: "</string>
 	<string name="weight_hint">Weight</string>
 	<string name="wheel_type_text">Wheel Type</string>
@@ -149,45 +143,5 @@
 	<string name="team_1_hint">Team# 1</string>
 	<string name="team_2_hint">Team# 2</string>
 	<string name="team_3_hint">Team# 3</string>
-	<string name="auto_high_text">High</string>
-	<string name="auto_low_text">Low</string>
-	<string name="auto_hot_text">Hot</string>
-	<string name="gameplay_text">Gameplay:</string>
-	<string name="truss_text">Able to get ball over truss</string>
-	<string name="catch_text">Catch ball</string>
-	<string name="active_control_text">Active control of ball</string>
-	<string name="launch_text">Able to launch ball</string>
-	<string name="goalie_text">Goalie</string>
-
-
-	<string name="push_litter_text">Can Push Litter</string>
-	<string name="load_litter_text">Can Load Litter</string>
-
-	<string name="push_tote_text">Can Push Totes</string>
-	<string name="lift_tote_test">Can Lift Totes</string>
-	<string name="need_upright_tote_text">Needs Upright Totes</string>
-	<string name="can_upright_tote_text">Can Upright Totes</string>
-	<string name="stack_tote_height_text">Stack Height</string>
-
-	<string name="push_bin_text">Can Push Bins</string>
-	<string name="lift_bin_text">Can Lift Bins</string>
-	<string name="need_upright_bin_text">Needs Upright Bins</string>
-	<string name="can_upright_bin_text">Can Upright Bins</string>
-	<string name="stack_bin_height_text">Stack Height</string>
-
-	<string name="coop_totes_text">Can Coop</string>
-	<string name="coop_stack_height_text">Stack Height</string>
-
-	<string name="move_auto_text">Can Move</string>
-	<string name="auto_bin_score_text">Bin Score</string>
-	<string name="auto_bin_score_hint">hint</string>
-	<string name="auto_tote_score_text">Tote Score</string>
-	<string name="auto_tote_score_hint"></string>
-	<string name="auto_tote_stack_height_text">Tote StackHeight</string>
-	<string name="auto_tote_stack_height_hint"></string>
-	<string name="auto_step_bins_text">StepBins</string>
-	<string name="auto_step_bins_hint"></string>
-
-	<string name="manipulation_description_text">Manipulation</string>
 
 </resources>

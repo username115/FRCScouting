@@ -175,20 +175,6 @@
 		</TableLayout>
 
 		<CheckBox
-			android:id="@+id/pits_auto_highC"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/auto_high_text"/>
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/gameplay_text"
-			android:textSize="20sp"
-			android:textStyle="bold"/>
-
-
-		<CheckBox
 			android:id="@+id/pits_push_litterC"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -199,32 +185,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/load_litter_text"/>
-
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/shooting_location_text"
-			android:textSize="20sp"
-			android:textStyle="bold"/>
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/where_can_they_score_text"
-			android:textSize="12sp"/>
-
-		<CheckBox
-			android:id="@+id/pits_highC"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/high_text"/>
-
-		<CheckBox
-			android:id="@+id/pits_lowC"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/low_text"/>
 
 		<LinearLayout
 			android:layout_width="match_parent"
