@@ -133,7 +133,7 @@ public class PitActivityRR extends Activity {
 		coop_stack_heightT = (EditText) findViewById(0);
 
 		move_autoC = (CheckBox) findViewById(0);
-		auto_bin_scoreT = (EditText) findViewById(0);
+		auto_bin_scoreT = (EditText) findViewById(R.id.auto_bin_score);
 		auto_tote_scoreT = (EditText) findViewById(0);
 		auto_tote_stack_heightT = (EditText) findViewById(0);
 		auto_step_binsT = (EditText) findViewById(0);
