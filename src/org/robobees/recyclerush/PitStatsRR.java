@@ -38,7 +38,7 @@ public class PitStatsRR extends PitStats {
 	public boolean load_litter;
 	public short stack_tote_height;
 	public short stack_bin_height;
-	public short coop_totes;
+	public boolean coop_totes;
 	public short coop_stack_height;
 	public boolean move_auto;
 	public short auto_bin_score;
@@ -66,7 +66,7 @@ public class PitStatsRR extends PitStats {
 		load_litter = false;
 		stack_tote_height = 0;
 		stack_bin_height = 0;
-		coop_totes = 0;
+		coop_totes = false;
 		coop_stack_height = 0;
 		move_auto = false;
 		auto_bin_score = 0;
@@ -156,8 +156,8 @@ public class PitStatsRR extends PitStats {
 				.getShort(c
 						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_STACK_BIN_HEIGHT));
 		coop_totes = c
-				.getShort(c
-						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_TOTES));
+				.getInt(c
+						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_TOTES)) != 0;
 		coop_stack_height = c
 				.getShort(c
 						.getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_STACK_HEIGHT));

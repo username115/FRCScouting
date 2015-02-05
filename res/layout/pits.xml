@@ -174,17 +174,36 @@
 
 		</TableLayout>
 
-		<CheckBox
-			android:id="@+id/pits_push_litterC"
+		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/push_litter_text"/>
+			android:text="@string/operator_mode_text"
+			android:textSize="20sp"
+			android:textStyle="bold"/>
 
-		<CheckBox
-			android:id="@+id/pits_load_litterC"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/load_litter_text"/>
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+			<TableRow
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+				<TextView
+					android:id="@+id/textView"
+					android:layout_width="164dp"
+					android:layout_height="wrap_content"
+					android:text="TextView"/>
+
+				<EditText
+					android:id="@+id/editText"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:ems="10"
+					android:inputType="number"/>
+			</TableRow>
+		</TableLayout>
 
 		<LinearLayout
 			android:layout_width="match_parent"

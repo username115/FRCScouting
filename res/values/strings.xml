@@ -104,7 +104,10 @@
 		<item>Medium</item>
 		<item>Low</item>
 	</string-array>
+
 	<string name="autonomous_mode_text">Autonomous Mode:</string>
+	<string name="operator_mode_text">Operator Mode:</string>
+
 	<string name="does_bot_have_mobility_text">Mobility</string>
 
 	<string name="comments__text">"Comments: "</string>

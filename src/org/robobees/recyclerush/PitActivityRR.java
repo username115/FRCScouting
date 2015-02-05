@@ -70,7 +70,7 @@ public class PitActivityRR extends Activity {
 	private CheckBox can_upright_binC;
 	private EditText stack_bin_heightT;
 	// Coop Stats
-	private CheckBox coop_totesT;
+	private CheckBox coop_totesC;
 	private EditText coop_stack_heightT;
 	// Auto Stats
 	private CheckBox move_autoC;
@@ -114,8 +114,8 @@ public class PitActivityRR extends Activity {
 		wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
 
 		// TODO put correct id's in findView after changing in pits.xml
-		push_litterC = (CheckBox) findViewById(R.id.pits_push_litterC);
-		load_litterC = (CheckBox) findViewById(R.id.pits_load_litterC);
+		push_litterC = (CheckBox) findViewById(0);
+		load_litterC = (CheckBox) findViewById(0);
 
 		push_toteC = (CheckBox) findViewById(0);
 		lift_toteC = (CheckBox) findViewById(0);
@@ -129,7 +129,7 @@ public class PitActivityRR extends Activity {
 		can_upright_binC = (CheckBox) findViewById(0);
 		stack_bin_heightT = (EditText) findViewById(0);
 
-		coop_totesT = (CheckBox) findViewById(0);
+		coop_totesC = (CheckBox) findViewById(0);
 		coop_stack_heightT = (EditText) findViewById(0);
 
 		move_autoC = (CheckBox) findViewById(0);
@@ -303,6 +303,7 @@ public class PitActivityRR extends Activity {
 		else
 			stats.stack_bin_height = 0;
 
+		stats.coop_totes = coop_totesC.isChecked();
 		tstr = coop_stack_heightT.getText().toString().trim();
 		if (tstr.length() > 0)
 			stats.coop_stack_height = Short.valueOf(tstr);
@@ -357,6 +358,7 @@ public class PitActivityRR extends Activity {
 		can_upright_binC.setChecked(false);
 		stack_bin_heightT.setText("");
 
+		coop_totesC.setChecked(false);
 		coop_stack_heightT.setText("");
 
 		move_autoC.setChecked(false);
@@ -446,6 +448,7 @@ public class PitActivityRR extends Activity {
 		can_upright_binC.setChecked(stats.can_upright_bin);
 		stack_bin_heightT.setText(String.valueOf(stats.stack_bin_height));
 
+		coop_totesC.setChecked(stats.coop_totes);
 		coop_stack_heightT.setText(String.valueOf(stats.coop_stack_height));
 
 		move_autoC.setChecked(stats.move_auto);
