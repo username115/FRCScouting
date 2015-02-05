@@ -100,7 +100,7 @@ public class PitStatsRR extends PitStats {
 				stack_tote_height);
 		vals.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_STACK_BIN_HEIGHT,
 				stack_bin_height);
-		vals.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_TOTES, coop_totes);
+		vals.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_TOTES, coop_totes ? 1 : 0);
 		vals.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_COOP_STACK_HEIGHT,
 				coop_stack_height);
 		vals.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_MOVE_AUTO, move_auto ? 1

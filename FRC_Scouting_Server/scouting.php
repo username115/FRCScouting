@@ -1,4 +1,19 @@
 <?php
+/* 
+ * Copyright 2015 Daniel Logan.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
 
@@ -58,6 +73,12 @@ function genJSON($sql_result, $tablename) {
     return $json;
 }
 
+function checkVersion($client_version, $server_version) {
+    $cver = substr(trim($client_version), 0, strrchr(trim($client_version), '.'));
+    $sver = substr(trim($server_version), 0, strrchr(trim($server_version), '.'));
+    return strcasecmp($cver, $sver) == 0;
+}
+
 /*if ($_GET['test'] == 'test') {
     
 }*/
@@ -75,6 +96,9 @@ elseif ($_POST['type'] == 'versioncheck') {
 elseif ($_POST['password'] == $pass) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     
+    $client_version = $_POST['version'];
+    $verMatch = checkVersion($client_version, $ver);
+    
     if ($_POST['type'] == 'fullsync' || $_POST['type'] == 'sync') {
         //syncronization request. if it's a fullsync, then send all data, otherwise use the timestamp (in unix time)
         if ($_POST['type'] == 'fullsync') {
@@ -84,6 +108,7 @@ elseif ($_POST['password'] == $pass) {
         }
         
         $json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
+        $json = '"version" : ' . $ver . ',';
         
         //configuration_lu
         $query = "SELECT * FROM configuration_lu" . $suffix;
@@ -131,6 +156,9 @@ elseif ($_POST['password'] == $pass) {
         $resp = $json;
         
     }
+    else if ($verMatch == false) {
+        $resp = 'Version Mismatch, server using version ' . $ver;
+    }
     else if ($_POST['type'] == 'match') {
         
         $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
@@ -165,7 +193,8 @@ elseif ($_POST['password'] == $pass) {
         $tip_over = mysql_real_escape_string(stripslashes(trim($_POST['tip_over'])));
         $yellow_card = mysql_real_escape_string(stripslashes(trim($_POST['yellow_card'])));
         $red_card = mysql_real_escape_string(stripslashes(trim($_POST['red_card'])));
-        $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));        
+        $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
+
         
         $result = mysql_query("SELECT id FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
                 . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match );
@@ -386,4 +415,3 @@ elseif ($_POST['password'] == $pass) {
 
     echo $resp;
 }
-

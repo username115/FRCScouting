@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
+import org.growingstems.scouting.R;
 
 import android.app.Service;
 import android.content.ContentValues;
@@ -66,6 +67,10 @@ public class DBSyncService extends Service {
 	private boolean initSync = false;
 	private boolean running = true;
 
+	private static String version;
+
+	private String dbVersion;
+
 	private static volatile boolean syncInProgress = false;
 
 	private static enum Action {
@@ -90,6 +95,8 @@ public class DBSyncService extends Service {
 		outgoing = new ArrayList<Map<String, String>>();
 
 		utils = new HttpUtils();
+
+		DBSyncService.version = getString(R.string.VersionID);
 
 		mTimerTask.post(dataTask);
 	}
@@ -122,6 +129,14 @@ public class DBSyncService extends Service {
 			fos.close();
 		} catch (Exception e) {
 		}
+	}
+
+	private boolean checkVersion(String version) {
+		String verCode = version.substring(0, version.lastIndexOf("."));
+		String localVersion = DBSyncService.version;
+		localVersion = localVersion.substring(0, localVersion.lastIndexOf("."));
+		dbVersion = version;
+		return verCode.trim().compareToIgnoreCase(localVersion.trim()) == 0;
 	}
 
 	@Override
@@ -175,7 +190,7 @@ public class DBSyncService extends Service {
 
 		args.put("password", password);
 		args.put("type", "fullsync");
-
+		args.put("version", version);
 		utils.doPost(Prefs.getScoutingURLNoDefault(getApplicationContext()),
 				args, new SyncCallback());
 	}
@@ -191,22 +206,23 @@ public class DBSyncService extends Service {
 
 				JSONObject json = new JSONObject(params[0]);
 
+				if (!checkVersion(json.getString("version"))) {
+					return -2;
+				}
+
 				processConfig(json
 						.getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME));
 
 				processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
-				
 				if (!running)
 					return null;
 				processMatches(json.getJSONArray(MatchStatsStruct.TABLE_NAME));
-				
+
 				processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME));
 
-				// processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME),
-				// db); //TODO update when robotpics available
-				
-				
+				processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME));
+
 				if (!running)
 					return null;
 				processPits(json.getJSONArray(PitStats.TABLE_NAME));
@@ -253,7 +269,13 @@ public class DBSyncService extends Service {
 				} else {
 					if (syncForced) {
 						syncForced = false;
-						if (result < 0)
+						if (result == -2)
+							Toast.makeText(
+									getApplicationContext(),
+									"Vesion does not match with Database. Database using version: "
+											+ dbVersion, Toast.LENGTH_LONG)
+									.show();
+						else if (result < 0)
 							Toast.makeText(getApplicationContext(),
 									"Error Syncing with Database",
 									Toast.LENGTH_SHORT).show();
@@ -339,19 +361,16 @@ public class DBSyncService extends Service {
 			synchronized (outgoing) {
 				for (int i = 0; i < outgoing.size(); i++) {
 					Map<String, String> args = outgoing.get(i);
-					
-					//TODO could probably be abstracted further
+
+					// TODO could probably be abstracted further
 					if (sent.get("type").equalsIgnoreCase("match")
-							&& sent.get(
-									MatchStatsStruct.COLUMN_NAME_EVENT_ID)
+							&& sent.get(MatchStatsStruct.COLUMN_NAME_EVENT_ID)
 									.equalsIgnoreCase(
 											args.get(MatchStatsStruct.COLUMN_NAME_EVENT_ID))
-							&& sent.get(
-									MatchStatsStruct.COLUMN_NAME_MATCH_ID)
+							&& sent.get(MatchStatsStruct.COLUMN_NAME_MATCH_ID)
 									.equalsIgnoreCase(
 											args.get(MatchStatsStruct.COLUMN_NAME_MATCH_ID))
-							&& sent.get(
-									MatchStatsStruct.COLUMN_NAME_TEAM_ID)
+							&& sent.get(MatchStatsStruct.COLUMN_NAME_TEAM_ID)
 									.equalsIgnoreCase(
 											args.get(MatchStatsStruct.COLUMN_NAME_TEAM_ID))
 							&& sent.get(
@@ -359,26 +378,22 @@ public class DBSyncService extends Service {
 									.equalsIgnoreCase(
 											args.get(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH))) {
 
-						match = Integer
-								.valueOf(sent
-										.get(MatchStatsStruct.COLUMN_NAME_MATCH_ID));
-						event = Integer
-								.valueOf(sent
-										.get(MatchStatsStruct.COLUMN_NAME_EVENT_ID));
-						team = Integer
-								.valueOf(sent
-										.get(MatchStatsStruct.COLUMN_NAME_TEAM_ID));
+						match = Integer.valueOf(sent
+								.get(MatchStatsStruct.COLUMN_NAME_MATCH_ID));
+						event = Integer.valueOf(sent
+								.get(MatchStatsStruct.COLUMN_NAME_EVENT_ID));
+						team = Integer.valueOf(sent
+								.get(MatchStatsStruct.COLUMN_NAME_TEAM_ID));
 						practice = Integer
 								.valueOf(sent
 										.get(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH));
 						outgoing.remove(i);
 						break;
 					} else if (sent.get("type").equalsIgnoreCase("pits")
-							&& sent.get(
-									PitStats.COLUMN_NAME_TEAM_ID)
+							&& sent.get(PitStats.COLUMN_NAME_TEAM_ID)
 
-									.equalsIgnoreCase(
-											args.get(PitStats.COLUMN_NAME_TEAM_ID))) {
+							.equalsIgnoreCase(
+									args.get(PitStats.COLUMN_NAME_TEAM_ID))) {
 						team = Integer.valueOf(sent
 								.get(PitStats.COLUMN_NAME_TEAM_ID));
 						outgoing.remove(i);
@@ -392,18 +407,18 @@ public class DBSyncService extends Service {
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
 						.getWritableDatabase();
 				ContentValues values = new ContentValues();
-				
-				//TODO could probably be abstracted further				
+
+				// TODO could probably be abstracted further
 				if (match > 0) { // match was updated
 					values.put(MatchStatsStruct.COLUMN_NAME_ID,
 							Integer.valueOf(r[0].trim()));
 					values.put(MatchStatsStruct.COLUMN_NAME_TIMESTAMP,
-							DB.dateParser.format(new Date(
-									Long.valueOf(r[1].trim()) * 1000)));
+							DB.dateParser.format(new Date(Long.valueOf(r[1]
+									.trim()) * 1000)));
 					values.put(MatchStatsStruct.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(event),
-							String.valueOf(match), String.valueOf(team), 
+							String.valueOf(match), String.valueOf(team),
 							String.valueOf(practice) };
 					db.update(
 							MatchStatsStruct.TABLE_NAME,
@@ -419,15 +434,13 @@ public class DBSyncService extends Service {
 				} else if (team > 0) { // pits were updated
 					values.put(PitStats.COLUMN_NAME_ID,
 							Integer.valueOf(r[0].trim()));
-					values.put(PitStats.COLUMN_NAME_TIMESTAMP,
-							DB.dateParser.format(new Date(
-									Long.valueOf(r[1].trim()) * 1000)));
+					values.put(PitStats.COLUMN_NAME_TIMESTAMP, DB.dateParser
+							.format(new Date(Long.valueOf(r[1].trim()) * 1000)));
 					values.put(PitStats.COLUMN_NAME_INVALID, 0);
 
 					String[] selectionArgs = { String.valueOf(team) };
 					db.update(PitStats.TABLE_NAME, values,
-							PitStats.COLUMN_NAME_TEAM_ID + "=?",
-							selectionArgs);
+							PitStats.COLUMN_NAME_TEAM_ID + "=?", selectionArgs);
 				}
 				ScoutingDBHelper.getInstance().close();
 			}
@@ -500,7 +513,7 @@ public class DBSyncService extends Service {
 			args.put("password", password);
 			args.put("type", "sync");
 			args.put("timestamp", String.valueOf(lastSync.getTime()));
-
+			args.put("version", version);
 			utils.doPost(
 					Prefs.getScoutingURLNoDefault(getApplicationContext()),
 					args, new SyncCallback());
@@ -656,7 +669,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processMatches(JSONArray matches) {
-		//TODO could be abstracted further
+		// TODO could be abstracted further
 		try {
 			for (int i = 0; i < matches.length(); i++) {
 				JSONObject row = matches.getJSONObject(i);
@@ -664,7 +677,8 @@ public class DBSyncService extends Service {
 				if (row.getInt(MatchStatsStruct.COLUMN_NAME_INVALID) != 0) {
 					action = Action.DELETE;
 				}
-				ContentValues vals = MatchStatsStruct.getNewMatchStats().jsonToCV(row);
+				ContentValues vals = MatchStatsStruct.getNewMatchStats()
+						.jsonToCV(row);
 
 				// check if this entry exists already
 				String[] projection = { MatchStatsStruct.COLUMN_NAME_ID };
@@ -672,7 +686,7 @@ public class DBSyncService extends Service {
 						vals.getAsString(MatchStatsStruct.COLUMN_NAME_EVENT_ID),
 						vals.getAsString(MatchStatsStruct.COLUMN_NAME_MATCH_ID),
 						vals.getAsString(MatchStatsStruct.COLUMN_NAME_TEAM_ID),
-						vals.getAsString(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH)};
+						vals.getAsString(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH) };
 
 				synchronized (ScoutingDBHelper.lock) {
 					SQLiteDatabase db = ScoutingDBHelper.getInstance()
@@ -709,17 +723,16 @@ public class DBSyncService extends Service {
 						switch (action) {
 						case UPDATE:
 							db.update(MatchStatsStruct.TABLE_NAME, vals,
-									MatchStatsStruct.COLUMN_NAME_ID
-											+ " = ?", where2);
+									MatchStatsStruct.COLUMN_NAME_ID + " = ?",
+									where2);
 							break;
 						case INSERT:
-							db.insert(MatchStatsStruct.TABLE_NAME, null,
-									vals);
+							db.insert(MatchStatsStruct.TABLE_NAME, null, vals);
 							break;
 						case DELETE:
 							db.delete(MatchStatsStruct.TABLE_NAME,
-									MatchStatsStruct.COLUMN_NAME_ID
-											+ " = ?", where2);
+									MatchStatsStruct.COLUMN_NAME_ID + " = ?",
+									where2);
 							break;
 						default:
 						}
@@ -812,41 +825,84 @@ public class DBSyncService extends Service {
 		}
 	}
 
-	/*
-	 * private void processRobots(JSONArray robots, SQLiteDatabase db) { try {
-	 * for (int i = 0; i < robots.length(); i++) { JSONObject row =
-	 * robots.getJSONObject(i); Action action = Action.UPDATE; if
-	 * (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) { action =
-	 * Action.DELETE; } ContentValues vals = new ContentValues();
-	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
-	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
-	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
-	 * row.getInt(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID));
-	 * vals.put(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO,
-	 * row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO)); vals.put(
-	 * ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP, dateParser.format(new Date(
-	 * row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-	 * 
-	 * // check if this entry exists already String[] projection = {
-	 * ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO }; String[] where = { vals
-	 * .getAsString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID) }; Cursor c =
-	 * db.query(ROBOT_LU_Entry.TABLE_NAME, projection, // select
-	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where, null, // don't // group
-	 * null, // don't filter null, // don't order "0,1"); // limit to 1 if
-	 * (!c.moveToFirst()) { if (action == Action.UPDATE) action =
-	 * Action.INSERT; else if (action == Action.DELETE) action =
-	 * Action.NOTHING; }
-	 * 
-	 * switch (action) { case UPDATE: db.update(ROBOT_LU_Entry.TABLE_NAME, vals,
-	 * ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?", where); break; case INSERT:
-	 * db.insert(ROBOT_LU_Entry.TABLE_NAME, null, vals); break; case DELETE:
-	 * db.delete(ROBOT_LU_Entry.TABLE_NAME, ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID +
-	 * " = ?", where); break; default: }
-	 * 
-	 * } } catch (JSONException e) { // TODO handle error } }
-	 */
+	private void processRobots(JSONArray robots) {
+		try {
+			for (int i = 0; i < robots.length(); i++) {
+				JSONObject row = robots.getJSONObject(i);
+				Action action = Action.UPDATE;
+				if (row.getInt(ROBOT_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+					action = Action.DELETE;
+				}
+				ContentValues vals = new ContentValues();
+				vals.put(ROBOT_LU_Entry.COLUMN_NAME_ID,
+						row.getInt(ROBOT_LU_Entry.COLUMN_NAME_ID));
+				vals.put(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID,
+						row.getString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID));
+				vals.put(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO,
+						row.getString(ROBOT_LU_Entry.COLUMN_NAME_ROBOT_PHOTO));
+				vals.put(
+						ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP,
+						DB.dateParser.format(new Date(
+								row.getLong(ROBOT_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+
+				// check if this entry exists already
+				String[] projection = { ROBOT_LU_Entry.COLUMN_NAME_ID };
+				String[] where = { vals
+						.getAsString(ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID) };
+				synchronized (ScoutingDBHelper.lock) {
+
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(ROBOT_LU_Entry.TABLE_NAME,
+							projection, // select
+							ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + "=?", where,
+							null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
+						}
+
+						switch (action) {
+						case UPDATE:
+							db.update(
+									ROBOT_LU_Entry.TABLE_NAME,
+									vals,
+									ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(ROBOT_LU_Entry.TABLE_NAME, null, vals);
+							break;
+						case DELETE:
+							db.delete(
+									ROBOT_LU_Entry.TABLE_NAME,
+									ROBOT_LU_Entry.COLUMN_NAME_TEAM_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
+					}
+				}
+			}
+		} catch (JSONException e) {
+			// TODO handle error
+		}
+	}
+
 	private void processPits(JSONArray pits) {
-		//TODO could be abstracted further
+		// TODO could be abstracted further
 		try {
 			for (int i = 0; i < pits.length(); i++) {
 				JSONObject row = pits.getJSONObject(i);
@@ -866,11 +922,9 @@ public class DBSyncService extends Service {
 					SQLiteDatabase db = ScoutingDBHelper.getInstance()
 							.getWritableDatabase();
 
-					Cursor c = db.query(
-							PitStats.TABLE_NAME,
-							projection, // select
-							PitStats.COLUMN_NAME_TEAM_ID + "=?",
-							where, null, // don't group
+					Cursor c = db.query(PitStats.TABLE_NAME, projection, // select
+							PitStats.COLUMN_NAME_TEAM_ID + "=?", where, null, // don't
+																				// group
 							null, // don't filter
 							null, // don't order
 							"0,1"); // limit to 1
@@ -885,17 +939,16 @@ public class DBSyncService extends Service {
 						switch (action) {
 						case UPDATE:
 							db.update(PitStats.TABLE_NAME, vals,
-									PitStats.COLUMN_NAME_TEAM_ID
-											+ " = ?", where);
+									PitStats.COLUMN_NAME_TEAM_ID + " = ?",
+									where);
 							break;
 						case INSERT:
-							db.insert(PitStats.TABLE_NAME, null,
-									vals);
+							db.insert(PitStats.TABLE_NAME, null, vals);
 							break;
 						case DELETE:
 							db.delete(PitStats.TABLE_NAME,
-									PitStats.COLUMN_NAME_TEAM_ID
-											+ " = ?", where);
+									PitStats.COLUMN_NAME_TEAM_ID + " = ?",
+									where);
 							break;
 						default:
 						}
@@ -1068,19 +1121,20 @@ public class DBSyncService extends Service {
 	}
 
 	private void sendMatches() {
-		//TODO could be abstracted further?
-		
+		// TODO could be abstracted further?
+
 		// repurposed invalid flag for marking fields that need to be uploaded
-		String[] matchProjection = MatchStatsStruct.getNewMatchStats().getProjection();
+		String[] matchProjection = MatchStatsStruct.getNewMatchStats()
+				.getProjection();
 
 		synchronized (ScoutingDBHelper.lock) {
 
 			SQLiteDatabase db = ScoutingDBHelper.getInstance()
 					.getReadableDatabase();
 
-			Cursor c = db.query(MatchStatsStruct.TABLE_NAME,
-					matchProjection, MatchStatsStruct.COLUMN_NAME_INVALID
-							+ "<>0", null, null, null, null);
+			Cursor c = db.query(MatchStatsStruct.TABLE_NAME, matchProjection,
+					MatchStatsStruct.COLUMN_NAME_INVALID + "<>0", null, null,
+					null, null);
 			try {
 
 				synchronized (outgoing) {
@@ -1090,6 +1144,7 @@ public class DBSyncService extends Service {
 							Map<String, String> args = new HashMap<String, String>();
 							args.put("password", password);
 							args.put("type", "match");
+							args.put("version", version);
 							for (int i = 0; i < matchProjection.length; i++) {
 								args.put(matchProjection[i], c.getString(c
 										.getColumnIndex(matchProjection[i])));
@@ -1107,7 +1162,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void sendPits() {
-		//TODO could be abstracted further
+		// TODO could be abstracted further
 		String[] pitProjection = PitStats.getNewPitStats().getProjection();
 		synchronized (ScoutingDBHelper.lock) {
 
@@ -1115,8 +1170,8 @@ public class DBSyncService extends Service {
 					.getReadableDatabase();
 
 			Cursor c = db.query(PitStats.TABLE_NAME, pitProjection,
-					PitStats.COLUMN_NAME_INVALID + "<>0", null,
-					null, null, null);
+					PitStats.COLUMN_NAME_INVALID + "<>0", null, null, null,
+					null);
 			try {
 
 				synchronized (outgoing) {
@@ -1126,6 +1181,7 @@ public class DBSyncService extends Service {
 							Map<String, String> args = new HashMap<String, String>();
 							args.put("password", password);
 							args.put("type", "pits");
+							args.put("version", version);
 							for (int i = 0; i < pitProjection.length; i++) {
 								args.put(pitProjection[i], c.getString(c
 										.getColumnIndex(pitProjection[i])));
