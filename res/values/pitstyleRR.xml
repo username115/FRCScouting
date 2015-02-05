@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="push_litter_text">Can Push Litter</string>
+	<string name="load_litter_text">Can Load Litter</string>
+
+	<string name="push_tote_text">Can Push Totes</string>
+	<string name="lift_tote_test">Can Lift Totes</string>
+	<string name="need_upright_tote_text">Needs Upright Totes</string>
+	<string name="can_upright_tote_text">Can Upright Totes</string>
+	<string name="stack_tote_height_text">Stack Height</string>
+
+	<string name="push_bin_text">Can Push Bins</string>
+	<string name="lift_bin_text">Can Lift Bins</string>
+	<string name="need_upright_bin_text">Needs Upright Bins</string>
+	<string name="can_upright_bin_text">Can Upright Bins</string>
+	<string name="stack_bin_height_text">Stack Height</string>
+
+	<string name="coop_totes_text">Can Coop</string>
+	<string name="coop_stack_height_text">Stack Height</string>
+
+	<string name="move_auto_text">Can Move</string>
+	<string name="auto_bin_score_text">Bin Score</string>
+	<string name="auto_bin_score_hint">hint</string>
+	<string name="auto_tote_score_text">Tote Score</string>
+	<string name="auto_tote_score_hint"></string>
+	<string name="auto_tote_stack_height_text">Tote StackHeight</string>
+	<string name="auto_tote_stack_height_hint"></string>
+	<string name="auto_step_bins_text">StepBins</string>
+	<string name="auto_step_bins_hint"></string>
+
+	<string name="manipulation_description_text">Manipulation</string>
+
+</resources>
