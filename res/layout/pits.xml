@@ -103,6 +103,11 @@
 			</TableRow>
 		</TableLayout>
 
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="2dip"
+			android:background="#FF00FF00"/>
+
 		<TextView
 			android:id="@+id/pits_autoT"
 			android:layout_width="wrap_content"
@@ -113,7 +118,14 @@
 
 		<TableLayout
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
+			android:layout_height="fill_parent"
+			android:paddingLeft="25dp">
+
+			<CheckBox
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:text="@string/move_auto_text"
+				android:id="@+id/move_auto"/>
 
 			<TableRow
 				android:layout_width="fill_parent"
@@ -158,13 +170,32 @@
 				android:layout_height="fill_parent">
 
 				<TextView
-					android:id="@+id/textView2"
 					android:layout_width="164dp"
 					android:layout_height="wrap_content"
-					android:text="TextView"/>
+					android:text="@string/auto_tote_stack_height_text"/>
 
 				<EditText
-					android:id="@+id/editText2"
+					android:id="@+id/auto_tote_stack_height"
+					android:hint="@string/auto_tote_stack_height_hint"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:ems="10"
+					android:inputType="number"/>
+			</TableRow>
+
+			<TableRow
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+				<TextView
+					android:layout_width="164dp"
+					android:layout_height="wrap_content"
+					android:text="@string/auto_step_bins_text"/>
+
+				<EditText
+					android:id="@+id/auto_step_bins"
+					android:hint="@string/auto_step_bins_hint"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
@@ -173,6 +204,11 @@
 			</TableRow>
 
 		</TableLayout>
+
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="2dip"
+			android:background="#FF00FF00"/>
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -181,22 +217,81 @@
 			android:textSize="20sp"
 			android:textStyle="bold"/>
 
+		<TextView
+			android:paddingTop="9dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/litter_attributes_text"
+			android:textSize="18sp"
+			android:textStyle="bold"/>
+
 		<TableLayout
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
+			android:layout_height="fill_parent"
+			android:paddingLeft="20dp">
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/push_litter_text"
+				android:id="@+id/push_litter"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/load_litter_text"
+				android:id="@+id/load_litter"/>
+		</TableLayout>
+
+		<TextView
+			android:paddingTop="9dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/tote_attributes_text"
+			android:textSize="18sp"
+			android:textStyle="bold"/>
+
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:paddingLeft="20dp">
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/push_tote_text"
+				android:id="@+id/push_tote"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/lift_tote_text"
+				android:id="@+id/lift_tote"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/need_upright_tote_text"
+				android:id="@+id/need_upright_tote"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/can_upright_tote_text"
+				android:id="@+id/can_upright_tote"/>
 
 			<TableRow
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent">
 
 				<TextView
-					android:id="@+id/textView"
 					android:layout_width="164dp"
 					android:layout_height="wrap_content"
-					android:text="TextView"/>
+					android:text="@string/stack_tote_height_text"/>
 
 				<EditText
-					android:id="@+id/editText"
+					android:id="@+id/stack_tote_height"
+					android:hint="@string/stack_tote_height_hint"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
@@ -204,6 +299,107 @@
 					android:inputType="number"/>
 			</TableRow>
 		</TableLayout>
+
+		<TextView
+			android:paddingTop="9dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/bin_attributes_text"
+			android:textSize="18sp"
+			android:textStyle="bold"/>
+
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:paddingLeft="20dp">
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/push_bin_text"
+				android:id="@+id/push_bin"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/lift_bin_text"
+				android:id="@+id/lift_bin"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/need_upright_bin_text"
+				android:id="@+id/need_upright_bin"/>
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/can_upright_bin_text"
+				android:id="@+id/can_upright_bin"/>
+
+			<TableRow
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+				<TextView
+					android:layout_width="164dp"
+					android:layout_height="wrap_content"
+					android:text="@string/stack_bin_height_text"/>
+
+				<EditText
+					android:id="@+id/stack_bin_height"
+					android:hint="@string/stack_bin_height_hint"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:ems="10"
+					android:inputType="number"/>
+			</TableRow>
+		</TableLayout>
+
+		<TextView
+			android:paddingTop="9dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/coop_attributes_text"
+			android:textSize="18sp"
+			android:textStyle="bold"/>
+
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:paddingLeft="20dp">
+
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/coop_totes_text"
+				android:id="@+id/coop_totes"/>
+
+			<TableRow
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+				<TextView
+					android:layout_width="164dp"
+					android:layout_height="wrap_content"
+					android:text="@string/coop_stack_height_text"/>
+
+				<EditText
+					android:id="@+id/coop_stack_height"
+					android:hint="@string/coop_stack_height_hint"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:ems="10"
+					android:inputType="number"/>
+			</TableRow>
+		</TableLayout>
+
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="2dip"
+			android:background="#FF00FF00"/>
 
 		<LinearLayout
 			android:layout_width="match_parent"
