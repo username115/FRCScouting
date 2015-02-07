@@ -16,11 +16,11 @@
 
 package org.growingstems.scouting;
 
-
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
+import org.robobees.recyclerush.MatchActivity;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;
@@ -67,7 +67,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	private static final int MATCH_ACTIVITY_REQUEST = 0;
 
 	private ProgressDialog pd;
-	
+
 	private DB db;
 	private LocalBinder binder;
 	private ServiceWatcher watcher = new ServiceWatcher();
@@ -75,7 +75,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.matchstart);
-		
+
 		Intent sync = new Intent(this, DBSyncService.class);
 		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
 		db = new DB(this, binder);
@@ -112,6 +112,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		}
 
 	}
+	
 
 	private class positionClickListener implements OnClickListener {
 
@@ -142,7 +143,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		}
 
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -163,12 +164,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	private class StartClickListener implements OnClickListener {
 
 		public void onClick(View v) {
-			//TODO change to new MatchActivity
-			//Intent intent = new Intent(MatchStartActivity.this,
-			//		MatchActivity.class);
-			//intent.putExtra("team", teamNum.getText().toString());
-			//intent.putExtra("match", matchNum.getText().toString());
-			//startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
+			Intent intent = new Intent(MatchStartActivity.this,
+					MatchActivity.class);
+			intent.putExtra("team", teamNum.getText().toString());
+			intent.putExtra("match", matchNum.getText().toString());
+			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
 
 		}
 
@@ -207,7 +207,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void setMatch(int matchNum) {
-		
+
 		String def = teamNum.getText().toString().trim();
 		try {
 			if (def.length() > 9 || Integer.valueOf(def) <= 0)
@@ -215,7 +215,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		} catch (Exception e) {
 			def = "";
 		}
-		
+
 		teamNum.setText(schedule.getTeam(matchNum, position.getText()
 				.toString(), this, def));
 		if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
@@ -235,7 +235,10 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void loadPicture() {
-		String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText().toString()));
+		if (teamNum.getText().length() < 1)
+			return;
+		String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText()
+				.toString()));
 		if (pictureURL.length() < 5) {
 			if (pd != null)
 				pd.dismiss();
@@ -281,7 +284,7 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		}
 		return dialog;
 	}
-	
+
 	protected class ServiceWatcher implements ServiceConnection {
 
 		public void onServiceConnected(ComponentName name, IBinder service) {

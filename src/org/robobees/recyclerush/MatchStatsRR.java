@@ -41,9 +41,9 @@ public class MatchStatsRR extends MatchStatsStruct {
 	public boolean auto_stack_3;
 	public short auto_bin;
 	public short auto_step_bin;
-	public short totes[] = new short[TOTES_IN_STACK];
-	public short coops[] = new short[COOP_TOTES_STACK];
-	public short bins[] = new short[TOTES_IN_STACK];
+	public short totes[];
+	public short coops[];
+	public short bins[];
 	public short bin_litter;
 	public short landfill_litter;
 	public boolean tipped_stack;
@@ -70,6 +70,10 @@ public class MatchStatsRR extends MatchStatsStruct {
 		auto_stack_3 = false;
 		auto_bin = 0;
 		auto_step_bin = 0;
+		
+		totes = new short[TOTES_IN_STACK];
+		coops = new short[COOP_TOTES_STACK];
+		bins = new short[TOTES_IN_STACK];
 
 		for (int i = 0; i < TOTES_IN_STACK; i++)
 			totes[i] = 0;

@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <ListPreference
-        android:defaultValue="Red"
+        android:defaultValue="Red 1"
         android:dialogTitle="Position"
         android:entries="@array/positions"
         android:entryValues="@array/positions"

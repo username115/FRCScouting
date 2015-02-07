@@ -16,8 +16,12 @@
 	</string-array>
 
 	<string-array name="positions">
-		<item name="red">Red</item>
-		<item name="blue">Blue</item>
+		<item name="red1">Red 1</item>
+		<item name="red2">Red 2</item>
+		<item name="red3">Red 3</item>
+		<item name="blue1">Blue 1</item>
+		<item name="blue2">Blue 2</item>
+		<item name="blue3">Blue 3</item>
 	</string-array>
 	<string-array name="numbers">
 		<item>0</item>
@@ -72,11 +76,37 @@
 		<item>49</item>
 		<item>50</item>
 	</string-array>
+	
+	<string-array name="numbins">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+	</string-array>
+	
+	<string-array name="numautototes">
+	    <item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+	
+	<string-array name="numbinsfromstep">
+	    <item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+	</string-array>
 
-	<string name="score_plus">s</string>
-	<string name="miss">m</string>
-	<string name="penalty">P</string>
-	<string name="major_penalty">MP</string>
+	<string name="score_plus">+</string>
 
 	<string-array name="configuration">
 		<item>Long</item>
