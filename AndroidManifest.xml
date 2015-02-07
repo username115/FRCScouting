@@ -32,6 +32,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="org.robobees.recyclerush.PitActivityRR"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
 
         <service
             android:name="org.frc836.database.DBSyncService"

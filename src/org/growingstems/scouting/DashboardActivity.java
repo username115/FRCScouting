@@ -22,6 +22,7 @@ import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
+import org.robobees.recyclerush.PitActivityRR;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -104,9 +105,8 @@ public class DashboardActivity extends Activity {
 
 			public void onClick(View v) {
 				//TODO update for new Pits Activity
-				//Intent intent = new Intent(getBaseContext(), PitsActivity.class);
-				//startActivityForResult(intent, PITS_ACTIVITY_CODE);
-
+				Intent intent = new Intent(getBaseContext(), PitActivityRR.class);
+				startActivityForResult(intent, PITS_ACTIVITY_CODE);
 			}
 		});
 
