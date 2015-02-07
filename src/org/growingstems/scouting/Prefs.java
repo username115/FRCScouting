@@ -232,7 +232,7 @@ public class Prefs extends PreferenceActivity {
 				.getBoolean("robotPicPref", defaultValue);
 	}
 
-	public static boolean getPracticMatch(Context context, boolean defaultValue) {
+	public static boolean getPracticeMatch(Context context, boolean defaultValue) {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean("practiceMatchPref", defaultValue);
 	}

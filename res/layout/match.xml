@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="red 1"
+            android:text="Red 1"
             android:textColor="#FF0000" />
 
         <EditText
@@ -37,485 +37,537 @@
             android:hint="Team#"
             android:inputType="number" >
         </EditText>
-    </LinearLayout> <!-- header layout -->
-
-<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/matchHeaderLayout"
-            android:layout_above="@+id/matchFootr"
-            android:orientation="vertical" >
+    </LinearLayout>
+    <!-- header layout -->
 
     <LinearLayout
-           android:id="@+id/autoLayout"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content" 
-           android:orientation="vertical"
-           android:visibility="visible" >
-           
-	    <LinearLayout
-	           android:layout_width="fill_parent"
-	           android:layout_height="wrap_content"
-	           android:gravity="center"
-	           android:orientation="horizontal" >
-	                           
-	                <CheckBox
-	                        android:id="@+id/aMoved"
-	                        android:layout_width="wrap_content"
-	                        android:layout_height="wrap_content"
-	                        android:onClick="autoMovedGoalie"
-	                        android:text="Moved to Auto-zone" />
-	     </LinearLayout> <!-- Autonomous move box -->
-    
-	    <LinearLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:baselineAligned="false"
-	        android:gravity="center"
-	        android:orientation="horizontal" >
-        		<LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical" >
-                
-        				<LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal" >
-
-                            <Button
-                                android:id="@+id/bins_scored"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/numBins_scored"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:entries="@array/numbers" />                          
-                        </LinearLayout>
-                        <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/textBins_scored"
-        						android:text="Bins from step"
-        						android:textSize="15sp"
-        						android:textColor="#FFFFFF" />
-        		</LinearLayout>
-        
-        <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/atote"
+        android:layout_above="@+id/matchFootr"
+        android:layout_below="@+id/matchHeaderLayout"
         android:orientation="vertical" >
-		            <LinearLayout
-		        	android:layout_width="fill_parent"
-		        	android:layout_height="wrap_content"
-		        	android:layout_weight="1"
-		        	android:gravity="center"
-		        	android:orientation="horizontal">
-	        			<CheckBox
-                        android:id="@+id/aT3"
-                        android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/autoLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <CheckBox
+                    android:id="@+id/aMoved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Moved to Auto-zone" />
+            </LinearLayout>
+            <!-- Autonomous move box -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:background="@color/white" />
-       	 			</LinearLayout>      
-		       	 	<LinearLayout
-		        	android:layout_width="fill_parent"
-		        	android:layout_height="wrap_content"
-		        	android:layout_weight="1"
-		        	android:gravity="center"
-		        	android:orientation="horizontal">
-	        			<CheckBox
-                        android:id="@+id/aT2"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/bins_scored"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/numBins_scored"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textBins_scored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Bins from step"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/atote"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:background="@color/white" />
-       	 			</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/aAdd1"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/aCount1"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout>
-        </LinearLayout> <!-- Autonomous totes -->
-        
-        	<LinearLayout
-                            android:layout_width="fill_parent"
+                        android:orientation="horizontal" >
+
+                        <CheckBox
+                            android:id="@+id/aT3"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical" >
-        				<LinearLayout
-                            android:layout_width="fill_parent"
+                            android:background="@color/white"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <CheckBox
+                            android:id="@+id/aT2"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal" >
-                            
-                            <Button
-                                android:id="@+id/bins_step"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@android:drawable/btn_default"
-                                android:text="+"
-                                android:textColor="@android:color/primary_text_light" />
-                            <Spinner
-                                android:id="@+id/numBins_step"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:entries="@array/numbers" />
-                        </LinearLayout>
-                        
-                        <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/textBins_step"
-        						android:text="Bins scored"
-        						android:textSize="15sp"
-        						android:textColor="#FFFFFF" />
-        	</LinearLayout> <!-- Bins from step -->            
-    	</LinearLayout> <!-- Auto bins and totes -->
-    
-    </LinearLayout> <!-- Autonomous mode -->
-    
-	<LinearLayout
+                            android:background="@color/white"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/aAdd1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/aCount1"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- Autonomous totes -->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/bins_step"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:drawable/btn_default"
+                            android:text="@string/score_plus"
+                            android:textColor="@android:color/primary_text_light" />
+
+                        <Spinner
+                            android:id="@+id/numBins_step"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textBins_step"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bins scored"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <!-- Bins from step -->
+            </LinearLayout>
+            <!-- Auto bins and totes -->
+
+        </LinearLayout>
+        <!-- Autonomous mode -->
+
+        <LinearLayout
             android:id="@+id/teleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone" >
-	    
-	 <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal" >
-						<LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:orientation="horizontal" >
+            android:visibility="visible" >
 
-						    <TextView
-						        android:id="@+id/landfill"
-						        android:layout_width="67dp"
-						        android:layout_height="wrap_content"
-						        android:text="Litter in landfill"
-						        android:textColor="#FFFFFF"
-						        android:textSize="15sp" />
-						    
-                            <Button
-                                android:id="@+id/addLf"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:text="+" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal" >
 
-                            <Spinner
-                                android:id="@+id/lfCount"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:entries="@array/numbers" />
-                            
-                            <View
-                        		android:layout_width="10dp"
-                       			android:layout_height="0dp"/>
-                        </LinearLayout>
-						
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/landfill"
+                        android:layout_width="67dp"
+                        android:layout_height="wrap_content"
+                        android:text="Litter in landfill"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/addLf"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/score_plus" />
+
+                    <Spinner
+                        android:id="@+id/lfCount"
+                        style="@style/SpinnerAsEditText"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:entries="@array/numbers" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:orientation="horizontal" >
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="0dp" />
+
+                    <Button
+                        android:id="@+id/addLBin"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/score_plus" />
+
+                    <Spinner
+                        android:id="@+id/lBinCount"
+                        style="@style/SpinnerAsEditText"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:entries="@array/numbers" />
+
+                    <TextView
+                        android:id="@+id/litterInBins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Litter in bins"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <!-- Litter layout -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/NumIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/text6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="6"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/text5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
+                </LinearLayout>
+                <!-- Num Indicator layout -->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/gtotes"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/gAdd6"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/gCount6"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/gAdd5"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/gCount5"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/gAdd4"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/gCount4"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/gAdd3"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/gCount3"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/gAdd2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/gCount2"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/gAdd1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="@string/score_plus" />
+
+                        <Spinner
+                            android:id="@+id/gCount1"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:entries="@array/numbers" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- Gray totes -->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="4" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/ytotes"
+                        android:orientation="vertical" >
+
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left"
+                            android:gravity="center"
                             android:orientation="horizontal" >
 
-                            <View
-                        		android:layout_width="10dp"
-                        		android:layout_height="0dp" />
-                            
                             <Button
-                                android:id="@+id/addLBin"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:text="+" />
-
-                            <Spinner
-                                android:id="@+id/lBinCount"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:entries="@array/numbers" />
-                            
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/litterInBins"
-        						android:text="Litter in bins"
-        						android:textSize="15sp"
-        						android:textColor="#FFFFFF" />
-                        </LinearLayout>
-    </LinearLayout> <!-- Litter layout -->
-
-	<LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:baselineAligned="false"
-        android:orientation="horizontal" >
-                        
-	    <LinearLayout
-    		android:id="@+id/NumIndicator"
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:orientation="vertical" >
-                        	<View
-                        		android:layout_width="0dp"
-                        		android:layout_height="20dp"/>
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/text6"
-        						android:text="6"
-        						android:textSize="20sp"
-        						android:textColor="#FFFFFF" />
-                            <View
-                        		android:layout_width="0dp"
-                        		android:layout_height="35dp"/>
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/text5"
-        						android:text="5"
-        						android:textSize="20sp"
-        						android:textColor="#FFFFFF" />
-                            <View
-                        		android:layout_width="0dp"
-                        		android:layout_height="35dp"/>
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/text4"
-        						android:text="4"
-        						android:textSize="20sp"
-        						android:textColor="#FFFFFF" />
-                            <View
-                        		android:layout_width="0dp"
-                        		android:layout_height="35dp"/>
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/text3"
-        						android:text="3"
-        						android:textSize="20sp"
-        						android:textColor="#FFFFFF" />
-                            <View
-                        		android:layout_width="0dp"
-                        		android:layout_height="30dp"/>
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/text2"
-        						android:text="2"
-        						android:textSize="20sp"
-        						android:textColor="#FFFFFF" />
-                            <View
-                        		android:layout_width="0dp"
-                        		android:layout_height="30dp"/>
-                            <TextView
-        						android:layout_width="wrap_content"
-        						android:layout_height="wrap_content"
-        						android:id="@+id/text1"
-        						android:text="1"
-        						android:textSize="20sp"
-        						android:textColor="#FFFFFF" />	        
-        </LinearLayout> <!-- Num Indicator layout -->
-        
-	    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/gtotes"
-        android:orientation="vertical" >
-            <LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/gAdd6"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/gCount6"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout>      
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/gAdd5"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/gCount5"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/gAdd4"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/gCount4"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/gAdd3"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/gCount3"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/gAdd2"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/gCount2"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
-                                android:id="@+id/gAdd1"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:text="+" />
-                            <Spinner
-                                android:id="@+id/gCount1"
-                                style="@style/SpinnerAsEditText"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-        </LinearLayout> <!-- Gray totes -->
-                            
-	    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >            
-	        		<View
-                        android:layout_width="0dp"
-                        android:layout_height="142dp"
-                        android:layout_weight=".2" />
-	    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/ytotes"
-        android:orientation="vertical" >
-            <LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
                                 android:id="@+id/yAdd4"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/yCount4"
                                 style="@style/SpinnerAsEditText"
@@ -523,19 +575,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/yAdd3"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/yCount3"
                                 style="@style/SpinnerAsEditText"
@@ -543,19 +598,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/yAdd2"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/yCount2"
                                 style="@style/SpinnerAsEditText"
@@ -563,19 +621,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/yAdd1"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/yCount1"
                                 style="@style/SpinnerAsEditText"
@@ -583,34 +644,39 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout>
-          </LinearLayout> <!-- Coopertition totes -->
-        </LinearLayout> <!-- Coopertition layout -->
-        
-	    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- Coopertition totes -->
+                </LinearLayout>
+                <!-- Coopertition layout -->
 
-	    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/bin"
-        android:orientation="vertical" >
-            <LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bin"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/binAdd6"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/binCount6"
                                 style="@style/SpinnerAsEditText"
@@ -618,19 +684,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout>      
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/binAdd5"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/binCount5"
                                 style="@style/SpinnerAsEditText"
@@ -638,19 +707,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/binAdd4"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/binCount4"
                                 style="@style/SpinnerAsEditText"
@@ -658,27 +730,31 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout>
-        </LinearLayout> <!-- Top Trashcan -->
-                            
-	    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/bin"
-        android:orientation="vertical" >
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- Top Trashcan -->
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bin"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/binAdd3"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/binCount3"
                                 style="@style/SpinnerAsEditText"
@@ -686,19 +762,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_weight="1"
-        	android:gravity="center"
-        	android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/binAdd2"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/binCount2"
                                 style="@style/SpinnerAsEditText"
@@ -706,19 +785,22 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-       	 	<LinearLayout
-        		android:layout_width="fill_parent"
-        		android:layout_height="wrap_content"
-        		android:layout_weight="1"
-        		android:gravity="center"
-        		android:orientation="horizontal">
-	        				<Button
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
                                 android:id="@+id/binAdd1"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
-                                android:text="+" />
+                                android:text="@string/score_plus" />
+
                             <Spinner
                                 android:id="@+id/binCount1"
                                 style="@style/SpinnerAsEditText"
@@ -726,96 +808,108 @@
                                 android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:entries="@array/numbers" />
-       	 	</LinearLayout> 
-        </LinearLayout> <!-- Bottom trashcan -->
-	    </LinearLayout> <!-- Trashcan -->
-	    </LinearLayout> <!-- Totes and trashcan -->
-	    </LinearLayout> <!-- Tele-op Layout -->
-	    
-	    <LinearLayout
-          android:id="@+id/endGameLayout"
-          android:layout_width="fill_parent"
-          android:layout_height="0dp"
-          android:layout_weight="1"
-          android:orientation="vertical"
-          android:visibility="gone" >
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- Bottom trashcan -->
+                </LinearLayout>
+                <!-- Trashcan -->
+            </LinearLayout>
+            <!-- Totes and trashcan -->
+        </LinearLayout>
+        <!-- Tele-op Layout -->
 
-                    <EditText
-                        android:id="@+id/notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Notes"
-                        android:inputType="textMultiLine" />
-                    <Spinner
-                        android:id="@+id/commonNotes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:entries="@array/match_notes_options" />
-		  <LinearLayout
-                  android:layout_width="fill_parent"
-                  android:layout_height="0dp"
-                  android:baselineAligned="false"
-                  android:layout_weight="1"
-                  android:orientation="horizontal" >
-                  
-              <LinearLayout
+        <LinearLayout
+            android:id="@+id/endGameLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Notes"
+                android:inputType="textMultiLine" />
+
+            <Spinner
+                android:id="@+id/commonNotes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/match_notes_options"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:orientation="horizontal" >
+
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical" >
-                    
+
                     <CheckBox
                         android:id="@+id/botTip"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Bot tipped over" />
+
                     <CheckBox
                         android:id="@+id/yellowcard"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Yellow Card" />
+
                     <CheckBox
                         android:id="@+id/foul"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Foul" />
-              </LinearLayout>
-              <LinearLayout
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical" >
-                    
+
                     <CheckBox
                         android:id="@+id/stackTip"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Tipped stack(s) over" />
+
                     <CheckBox
                         android:id="@+id/redcard"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Red Card" />
-              </LinearLayout>
-          </LinearLayout>
-    </LinearLayout> <!-- End game layout -->
-    
-	</LinearLayout> <!-- Match Layout -->
-	 
-	<LinearLayout
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- End game layout -->
+
+    </LinearLayout>
+    <!-- Match Layout -->
+
+    <LinearLayout
         android:id="@+id/matchFootr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:orientation="horizontal" >
-	    
+
         <Button
             android:id="@+id/backB"
             android:layout_width="wrap_content"
@@ -823,10 +917,12 @@
             android:layout_weight="1"
             android:onClick="onBack"
             android:text="Back" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
         <Button
             android:id="@+id/nextB"
             android:layout_width="wrap_content"
@@ -834,5 +930,7 @@
             android:layout_weight="1"
             android:onClick="onNext"
             android:text="Next" />
-    </LinearLayout> <!-- footer layout -->
+    </LinearLayout>
+    <!-- footer layout -->
+
 </RelativeLayout> <!-- activity layout -->
