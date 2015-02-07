@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gAdd1"/>
+    <string name="gAdd2"/>
+    <string name="gAdd3"/>
+    <string name="gAdd4"/>
+    <string name="gAdd5"/>
+    <string name="gAdd6"/>
+    <string name="gCount1" /><string name="gCount2" /><string name="gCount3" /><string name="gCount4" /><string name="gCount5" /><string name="gCount6" /><string name="yAdd1"/>
+    <string name="yAdd2"/>
+    <string name="yAdd3"/>
+    <string name="yAdd4"/>
+    
+    
+    
+    
+    
+    
+    <string name="yCount1"/>
+    <string name="yCount2"/>
+    <string name="yCount3"/>
+    <string name="yCount4"/>
+    <string name="binAdd1"/>
+    <string name="binAdd2"/>
+    <string name="binAdd3"/>
+    <string name="binAdd4"/>
+    <string name="binAdd5"/>
+    <string name="binAdd6"/>
+    <string name="binCount1"/>
+    <string name="binCount2"/>
+    <string name="binCount3"/>
+    <string name="binCount4"/>
+    <string name="binCount5"/>
+    <string name="binCount6"/>
+    <string name="addLf"/>
+    <string name="LfCount"/>
+    <string name="addLBin"/>
+    <string name="LBinCount"/>
+    
+</resources>
