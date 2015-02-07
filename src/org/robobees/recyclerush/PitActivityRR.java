@@ -339,6 +339,13 @@ public class PitActivityRR extends Activity {
 		tstr = auto_step_binsT.getText().toString().trim();
 		if (tstr.length() > 0) stats.auto_step_bins = Short.valueOf(tstr);
 		else stats.auto_step_bins = 0;
+		
+		
+		if (submitter.submitPits(stats))
+			clear();
+		else
+			Toast.makeText(getApplicationContext(), "Error in local database",
+					Toast.LENGTH_LONG).show();
 	}
 
 	protected void clear() {
