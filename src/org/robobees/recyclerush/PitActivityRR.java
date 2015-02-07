@@ -136,8 +136,9 @@ public class PitActivityRR extends Activity {
 		auto_tote_scoreT = (EditText) findViewById(R.id.auto_tote_score);
 		auto_tote_stack_heightT = (EditText) findViewById(R.id.auto_tote_stack_height);
 		auto_step_binsT = (EditText) findViewById(R.id.auto_step_bins);
-
-
+		
+		manipulation_descriptionT = (EditText) findViewById(R.id.manipulation_description);
+		
 		commentsT = (EditText) findViewById(R.id.pits_commentsT);
 		submitB = (Button) findViewById(R.id.pits_submitB);
 		teamInfoT = (TextView) findViewById(R.id.pits_teamInfo);
