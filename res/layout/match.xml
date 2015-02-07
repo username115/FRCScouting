@@ -52,7 +52,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -101,14 +101,14 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:entries="@array/numbers" />
+                            android:entries="@array/numbins" />
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/textBins_scored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bins from step"
+                        android:text="Bins scored"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -170,7 +170,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:entries="@array/numbers" />
+                            android:entries="@array/numautototes" />
                     </LinearLayout>
                 </LinearLayout>
                 <!-- Autonomous totes -->
@@ -193,9 +193,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:background="@android:drawable/btn_default"
-                            android:text="@string/score_plus"
-                            android:textColor="@android:color/primary_text_light" />
+                            android:text="@string/score_plus" />
 
                         <Spinner
                             android:id="@+id/numBins_step"
@@ -203,14 +201,14 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:entries="@array/numbers" />
+                            android:entries="@array/numbinsfromstep" />
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/textBins_step"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bins scored"
+                        android:text="Bins from step"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -226,7 +224,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible" >
+            android:visibility="gone" >
 
             <LinearLayout
                 android:layout_width="match_parent"
