@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aAdd1"/>
+    <string name="aAdd2"/>
+    <string name="aAdd3"/>
+    <string name="aCount1"/>
+    <string name="aCount2"/>
+    <string name="aCount3"/>
+    <string name="aMoved"/>
+    <string name="bins_scored"/>
+    <string name="numBins_scored"/>
+    <string name="bins_step"/>
+    <string name="numBins_step"/>
+    
+</resources>

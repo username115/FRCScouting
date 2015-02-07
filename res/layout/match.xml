@@ -5,1339 +5,817 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/matchHeader"
+        android:id="@+id/matchHeaderLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/matchNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:hint="Match#"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="red 1"
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/teamNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:hint="Team#"
+            android:inputType="number" >
+        </EditText>
+    </LinearLayout> <!-- header layout -->
+
+<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-            <EditText
-                android:id="@+id/matchT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:hint="@string/match_hint"
-                android:inputType="number" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <EditText
-                android:id="@+id/team1T"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/redborder"
-                android:gravity="center"
-                android:hint="@string/team_1_hint"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/team2T"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/redborder"
-                android:gravity="center"
-                android:hint="@string/team_2_hint"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/team3T"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/redborder"
-                android:gravity="center"
-                android:hint="@string/team_3_hint"
-                android:inputType="number" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="3dp" />
-    </LinearLayout> <!-- /matchHeader -->
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/matchFooter"
-        android:layout_below="@+id/matchHeader" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:id="@+id/autoLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:visibility="gone" >
-
-                <LinearLayout
-                    android:id="@+id/team1AutoColumn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <CheckBox
-                        android:id="@+id/team1AutoMoved"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="autoMovedGoalie"
-                        android:text="Moved" />
-
-                    <CheckBox
-                        android:id="@+id/team1AutoGoalie"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="autoMovedGoalie"
-                        android:text="Goalie" />
-
-                    <LinearLayout
-                        android:id="@+id/team1Ball1Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoHigh1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoHighHot1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoLow1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoLowHot1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1High1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team1Low1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/team1Ball2Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoHigh2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoHighHot2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoLow2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoLowHot2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1High2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team1Low2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/team1Ball3Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoHigh3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoHighHot3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoLow3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team1AutoLowHot3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team1High3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team1Low3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout> <!-- /team1AutoColumn -->
-
-                <LinearLayout
-                    android:id="@+id/team2AutoColumn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <CheckBox
-                        android:id="@+id/team2AutoMoved"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="autoMovedGoalie"
-                        android:text="Moved" />
-
-                    <CheckBox
-                        android:id="@+id/team2AutoGoalie"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="autoMovedGoalie"
-                        android:text="Goalie" />
-
-                    <LinearLayout
-                        android:id="@+id/team2Ball1Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoHigh1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoHighHot1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoLow1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoLowHot1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2High1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team2Low1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/team2Ball2Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoHigh2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoHighHot2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoLow2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoLowHot2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2High2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team2Low2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/team2Ball3Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoHigh3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoHighHot3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoLow3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team2AutoLowHot3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team2High3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team2Low3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout> <!-- /team2AutoColumn -->
-
-                <LinearLayout
-                    android:id="@+id/team3AutoColumn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <CheckBox
-                        android:id="@+id/team3AutoMoved"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="autoMovedGoalie"
-                        android:text="Moved" />
-
-                    <CheckBox
-                        android:id="@+id/team3AutoGoalie"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="autoMovedGoalie"
-                        android:text="Goalie" />
-
-                    <LinearLayout
-                        android:id="@+id/team3Ball1Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoHigh1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoHighHot1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoLow1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoLowHot1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3High1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team3Low1"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/team3Ball2Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoHigh2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoHighHot2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoLow2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoLowHot2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3High2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team3Low2"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/team3Ball3Box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redborder"
-                        android:orientation="vertical" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoHigh3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoHighHot3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AH"
-                                android:textOn="AH" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoLow3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-
-                            <ToggleButton
-                                android:id="@+id/team3AutoLowHot3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textColor="#ff0"
-                                android:textOff="AL"
-                                android:textOn="AL" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal" >
-
-                            <ToggleButton
-                                android:id="@+id/team3High3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="H"
-                                android:textOn="H" />
-
-                            <ToggleButton
-                                android:id="@+id/team3Low3"
-                                android:layout_width="45dp"
-                                android:layout_height="50dp"
-                                android:onClick="onAutoScoreClick"
-                                android:textOff="L"
-                                android:textOn="L" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout> <!-- /team3AutoColumn -->
-            </LinearLayout> <!-- /autoLayout -->
-
-            <LinearLayout
-                android:id="@+id/cycleLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone" >
-
-                <LinearLayout
-                    android:id="@+id/team1Cycle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team1FarPoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redbackground"
-                        android:onClick="onPoss" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team1WhitePoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/whitebackground"
-                        android:onClick="onPoss"
-                        android:textColor="@color/black" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team1NearPoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bluebackground"
-                        android:onClick="onPoss" />
-
-                    <ToggleButton
-                        android:id="@+id/team1Truss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onTruss"
-                        android:textOff="Truss"
-                        android:textOn="Truss" />
-
-                    <ToggleButton
-                        android:id="@+id/team1Catch"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:enabled="false"
-                        android:onClick="onCatch"
-                        android:textOff="Catch"
-                        android:textOn="Catch" />
-
-                    <ToggleButton
-                        android:id="@+id/team1HighScore"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onHigh"
-                        android:textOff="High"
-                        android:textOn="High" />
-
-                    <ToggleButton
-                        android:id="@+id/team1LowScore"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onLow"
-                        android:textOff="Low"
-                        android:textOn="Low" />
-
-                    <Button
-                        android:id="@+id/lastCycleB"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:gravity="center"
-                        android:onClick="lastCycle"
-                        android:text="Last" />
-                </LinearLayout> <!-- /team1Cycle -->
-
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="0dp" />
-
-                <LinearLayout
-                    android:id="@+id/team2Cycle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team2FarPoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redbackground"
-                        android:onClick="onPoss" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team2WhitePoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/whitebackground"
-                        android:onClick="onPoss"
-                        android:textColor="@color/black" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team2NearPoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bluebackground"
-                        android:onClick="onPoss" />
-
-                    <ToggleButton
-                        android:id="@+id/team2Truss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onTruss"
-                        android:textOff="Truss"
-                        android:textOn="Truss" />
-
-                    <ToggleButton
-                        android:id="@+id/team2Catch"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:enabled="false"
-                        android:onClick="onCatch"
-                        android:textOff="Catch"
-                        android:textOn="Catch" />
-
-                    <ToggleButton
-                        android:id="@+id/team2HighScore"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onHigh"
-                        android:textOff="High"
-                        android:textOn="High" />
-
-                    <ToggleButton
-                        android:id="@+id/team2LowScore"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onLow"
-                        android:textOff="Low"
-                        android:textOn="Low" />
-
-                    <TextView
-                        android:id="@+id/cycleText"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="1" />
-                </LinearLayout> <!-- /team2Cycle -->
-
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="0dp" />
-
-                <LinearLayout
-                    android:id="@+id/team3Cycle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team3FarPoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/redbackground"
-                        android:onClick="onPoss" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team3WhitePoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/whitebackground"
-                        android:onClick="onPoss"
-                        android:textColor="@color/black" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp" />
-
-                    <Button
-                        android:id="@+id/team3NearPoss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bluebackground"
-                        android:onClick="onPoss" />
-
-                    <ToggleButton
-                        android:id="@+id/team3Truss"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onTruss"
-                        android:textOff="Truss"
-                        android:textOn="Truss" />
-
-                    <ToggleButton
-                        android:id="@+id/team3Catch"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:enabled="false"
-                        android:onClick="onCatch"
-                        android:textOff="Catch"
-                        android:textOn="Catch" />
-
-                    <ToggleButton
-                        android:id="@+id/team3HighScore"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onHigh"
-                        android:textOff="High"
-                        android:textOn="High" />
-
-                    <ToggleButton
-                        android:id="@+id/team3LowScore"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:onClick="onLow"
-                        android:textOff="Low"
-                        android:textOn="Low" />
-
-                    <Button
-                        android:id="@+id/nextCycleB"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:onClick="nextCycle"
-                        android:text="Next" />
-                </LinearLayout> <!-- /team3Cycle -->
-
-            </LinearLayout> <!-- /cycleLayout -->
-
-            <LinearLayout
-                android:id="@+id/endGameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <EditText
-                        android:id="@+id/team1notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Notes"
-                        android:inputType="textMultiLine" />
-
-                    <Spinner
-                        android:id="@+id/team1common_notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/match_notes_options" />
-
-                    <CheckBox
-                        android:id="@+id/team1tipped"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="Tipped" />
-
-                    <CheckBox
-                        android:id="@+id/team1foul"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="Foul" />
-
-                    <CheckBox
-                        android:id="@+id/team1techfoul"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="TFoul" />
-
-                    <CheckBox
-                        android:id="@+id/team1yellowcard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="YCard" />
-
-                    <CheckBox
-                        android:id="@+id/team1redcard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="RCard" />
-                </LinearLayout> <!-- team1endgame -->
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <EditText
-                        android:id="@+id/team2notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Notes"
-                        android:inputType="textMultiLine" />
-
-                    <Spinner
-                        android:id="@+id/team2common_notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/match_notes_options" />
-
-                    <CheckBox
-                        android:id="@+id/team2tipped"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="Tipped" />
-
-                    <CheckBox
-                        android:id="@+id/team2foul"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="Foul" />
-
-                    <CheckBox
-                        android:id="@+id/team2techfoul"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="TFoul" />
-
-                    <CheckBox
-                        android:id="@+id/team2yellowcard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="YCard" />
-
-                    <CheckBox
-                        android:id="@+id/team2redcard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="RCard" />
-                </LinearLayout> <!-- team2endgame -->
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <EditText
-                        android:id="@+id/team3notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Notes"
-                        android:inputType="textMultiLine" />
-
-                    <Spinner
-                        android:id="@+id/team3common_notes"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/match_notes_options" />
-
-                    <CheckBox
-                        android:id="@+id/team3tipped"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="Tipped" />
-
-                    <CheckBox
-                        android:id="@+id/team3foul"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="Foul" />
-
-                    <CheckBox
-                        android:id="@+id/team3techfoul"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="TFoul" />
-
-                    <CheckBox
-                        android:id="@+id/team3yellowcard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="YCard" />
-
-                    <CheckBox
-                        android:id="@+id/team3redcard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="RCard" />
-                </LinearLayout> <!-- team3endgame -->
-            </LinearLayout> <!-- endGameLayout -->
-        </LinearLayout>
-    </ScrollView>
+            android:layout_below="@+id/matchHeaderLayout"
+            android:layout_above="@+id/matchFootr"
+            android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/matchFooter"
+           android:id="@+id/autoLayout"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content" 
+           android:orientation="vertical"
+           android:visibility="visible" >
+           
+	    <LinearLayout
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:gravity="center"
+	           android:orientation="horizontal" >
+	                           
+	                <CheckBox
+	                        android:id="@+id/aMoved"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:onClick="autoMovedGoalie"
+	                        android:text="Moved to Auto-zone" />
+	     </LinearLayout> <!-- Autonomous move box -->
+    
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:baselineAligned="false"
+	        android:gravity="center"
+	        android:orientation="horizontal" >
+        		<LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical" >
+                
+        				<LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
+                                android:id="@+id/bins_scored"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/numBins_scored"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:entries="@array/numbers" />                          
+                        </LinearLayout>
+                        <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/textBins_scored"
+        						android:text="Bins from step"
+        						android:textSize="15sp"
+        						android:textColor="#FFFFFF" />
+        		</LinearLayout>
+        
+        <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/atote"
+        android:orientation="vertical" >
+		            <LinearLayout
+		        	android:layout_width="fill_parent"
+		        	android:layout_height="wrap_content"
+		        	android:layout_weight="1"
+		        	android:gravity="center"
+		        	android:orientation="horizontal">
+	        			<CheckBox
+                        android:id="@+id/aT3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/white" />
+       	 			</LinearLayout>      
+		       	 	<LinearLayout
+		        	android:layout_width="fill_parent"
+		        	android:layout_height="wrap_content"
+		        	android:layout_weight="1"
+		        	android:gravity="center"
+		        	android:orientation="horizontal">
+	        			<CheckBox
+                        android:id="@+id/aT2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/white" />
+       	 			</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/aAdd1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/aCount1"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout>
+        </LinearLayout> <!-- Autonomous totes -->
+        
+        	<LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical" >
+        				<LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+                            
+                            <Button
+                                android:id="@+id/bins_step"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@android:drawable/btn_default"
+                                android:text="+"
+                                android:textColor="@android:color/primary_text_light" />
+                            <Spinner
+                                android:id="@+id/numBins_step"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:entries="@array/numbers" />
+                        </LinearLayout>
+                        
+                        <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/textBins_step"
+        						android:text="Bins scored"
+        						android:textSize="15sp"
+        						android:textColor="#FFFFFF" />
+        	</LinearLayout> <!-- Bins from step -->            
+    	</LinearLayout> <!-- Auto bins and totes -->
+    
+    </LinearLayout> <!-- Autonomous mode -->
+    
+	<LinearLayout
+            android:id="@+id/teleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+	    
+	 <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+						<LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:orientation="horizontal" >
+
+						    <TextView
+						        android:id="@+id/landfill"
+						        android:layout_width="67dp"
+						        android:layout_height="wrap_content"
+						        android:text="Litter in landfill"
+						        android:textColor="#FFFFFF"
+						        android:textSize="15sp" />
+						    
+                            <Button
+                                android:id="@+id/addLf"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="+" />
+
+                            <Spinner
+                                android:id="@+id/lfCount"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:entries="@array/numbers" />
+                            
+                            <View
+                        		android:layout_width="10dp"
+                       			android:layout_height="0dp"/>
+                        </LinearLayout>
+						
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:orientation="horizontal" >
+
+                            <View
+                        		android:layout_width="10dp"
+                        		android:layout_height="0dp" />
+                            
+                            <Button
+                                android:id="@+id/addLBin"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="+" />
+
+                            <Spinner
+                                android:id="@+id/lBinCount"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:entries="@array/numbers" />
+                            
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/litterInBins"
+        						android:text="Litter in bins"
+        						android:textSize="15sp"
+        						android:textColor="#FFFFFF" />
+                        </LinearLayout>
+    </LinearLayout> <!-- Litter layout -->
+
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+                        
+	    <LinearLayout
+    		android:id="@+id/NumIndicator"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:orientation="vertical" >
+                        	<View
+                        		android:layout_width="0dp"
+                        		android:layout_height="20dp"/>
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/text6"
+        						android:text="6"
+        						android:textSize="20sp"
+        						android:textColor="#FFFFFF" />
+                            <View
+                        		android:layout_width="0dp"
+                        		android:layout_height="35dp"/>
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/text5"
+        						android:text="5"
+        						android:textSize="20sp"
+        						android:textColor="#FFFFFF" />
+                            <View
+                        		android:layout_width="0dp"
+                        		android:layout_height="35dp"/>
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/text4"
+        						android:text="4"
+        						android:textSize="20sp"
+        						android:textColor="#FFFFFF" />
+                            <View
+                        		android:layout_width="0dp"
+                        		android:layout_height="35dp"/>
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/text3"
+        						android:text="3"
+        						android:textSize="20sp"
+        						android:textColor="#FFFFFF" />
+                            <View
+                        		android:layout_width="0dp"
+                        		android:layout_height="30dp"/>
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/text2"
+        						android:text="2"
+        						android:textSize="20sp"
+        						android:textColor="#FFFFFF" />
+                            <View
+                        		android:layout_width="0dp"
+                        		android:layout_height="30dp"/>
+                            <TextView
+        						android:layout_width="wrap_content"
+        						android:layout_height="wrap_content"
+        						android:id="@+id/text1"
+        						android:text="1"
+        						android:textSize="20sp"
+        						android:textColor="#FFFFFF" />	        
+        </LinearLayout> <!-- Num Indicator layout -->
+        
+	    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/gtotes"
+        android:orientation="vertical" >
+            <LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/gAdd6"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/gCount6"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout>      
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/gAdd5"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/gCount5"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/gAdd4"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/gCount4"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/gAdd3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/gCount3"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/gAdd2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/gCount2"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/gAdd1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/gCount1"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+        </LinearLayout> <!-- Gray totes -->
+                            
+	    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >            
+	        		<View
+                        android:layout_width="0dp"
+                        android:layout_height="142dp"
+                        android:layout_weight=".2" />
+	    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/ytotes"
+        android:orientation="vertical" >
+            <LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/yAdd4"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/yCount4"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/yAdd3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/yCount3"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/yAdd2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/yCount2"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/yAdd1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/yCount1"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout>
+          </LinearLayout> <!-- Coopertition totes -->
+        </LinearLayout> <!-- Coopertition layout -->
+        
+	    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+	    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bin"
+        android:orientation="vertical" >
+            <LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/binAdd6"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/binCount6"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout>      
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/binAdd5"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/binCount5"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/binAdd4"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/binCount4"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout>
+        </LinearLayout> <!-- Top Trashcan -->
+                            
+	    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bin"
+        android:orientation="vertical" >
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/binAdd3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/binCount3"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:gravity="center"
+        	android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/binAdd2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/binCount2"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+       	 	<LinearLayout
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+        		android:layout_weight="1"
+        		android:gravity="center"
+        		android:orientation="horizontal">
+	        				<Button
+                                android:id="@+id/binAdd1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:text="+" />
+                            <Spinner
+                                android:id="@+id/binCount1"
+                                style="@style/SpinnerAsEditText"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:entries="@array/numbers" />
+       	 	</LinearLayout> 
+        </LinearLayout> <!-- Bottom trashcan -->
+	    </LinearLayout> <!-- Trashcan -->
+	    </LinearLayout> <!-- Totes and trashcan -->
+	    </LinearLayout> <!-- Tele-op Layout -->
+	    
+	    <LinearLayout
+          android:id="@+id/endGameLayout"
+          android:layout_width="fill_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:orientation="vertical"
+          android:visibility="gone" >
+
+                    <EditText
+                        android:id="@+id/notes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Notes"
+                        android:inputType="textMultiLine" />
+                    <Spinner
+                        android:id="@+id/commonNotes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:entries="@array/match_notes_options" />
+		  <LinearLayout
+                  android:layout_width="fill_parent"
+                  android:layout_height="0dp"
+                  android:baselineAligned="false"
+                  android:layout_weight="1"
+                  android:orientation="horizontal" >
+                  
+              <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+                    
+                    <CheckBox
+                        android:id="@+id/botTip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Bot tipped over" />
+                    <CheckBox
+                        android:id="@+id/yellowcard"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Yellow Card" />
+                    <CheckBox
+                        android:id="@+id/foul"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Foul" />
+              </LinearLayout>
+              <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+                    
+                    <CheckBox
+                        android:id="@+id/stackTip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Tipped stack(s) over" />
+                    <CheckBox
+                        android:id="@+id/redcard"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Red Card" />
+              </LinearLayout>
+          </LinearLayout>
+    </LinearLayout> <!-- End game layout -->
+    
+	</LinearLayout> <!-- Match Layout -->
+	 
+	<LinearLayout
+        android:id="@+id/matchFootr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:orientation="horizontal" >
-
+	    
         <Button
             android:id="@+id/backB"
             android:layout_width="wrap_content"
@@ -1345,12 +823,10 @@
             android:layout_weight="1"
             android:onClick="onBack"
             android:text="Back" />
-
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
-
         <Button
             android:id="@+id/nextB"
             android:layout_width="wrap_content"
@@ -1358,6 +834,5 @@
             android:layout_weight="1"
             android:onClick="onNext"
             android:text="Next" />
-    </LinearLayout>
-
-</RelativeLayout>
+    </LinearLayout> <!-- footer layout -->
+</RelativeLayout> <!-- activity layout -->
