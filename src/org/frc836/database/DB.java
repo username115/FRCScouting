@@ -50,7 +50,7 @@ import android.widget.Toast;
 
 public class DB {
 
-	public static final boolean debug = false;
+	public static final boolean debug = true;
 	// kinda dangerous, but we are assuming that the timestamp field will always
 	// have the same name for all tables
 	public static final String COLUMN_NAME_TIMESTAMP = PitStats.COLUMN_NAME_TIMESTAMP;

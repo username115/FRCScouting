@@ -179,8 +179,10 @@ public class Prefs extends PreferenceActivity {
 				if (resp.getResponseString().contains("success")) {
 					toast = Toast.makeText(getBaseContext(),
 							"Password confirmed", Toast.LENGTH_SHORT);
-					if (binder != null)
+					if (binder != null) {
+						binder.setPassword(getSavedPassword(getApplicationContext()));
 						binder.initSync();
+					}
 				} else
 					toast = Toast.makeText(getBaseContext(),
 							"Invalid password", Toast.LENGTH_SHORT);

@@ -195,16 +195,16 @@ public class MatchStatsRR extends MatchStatsStruct {
 		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STACK_3);
 		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN);
 		temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN);
-		for (int i = 1; i < TOTES_IN_STACK; i++)
+		for (int i = 1; i <= TOTES_IN_STACK; i++)
 			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.substring(
 					0,
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1.length() - 1)
 					+ i);
-		for (int i = 1; i < COOP_TOTES_STACK; i++)
+		for (int i = 1; i <= COOP_TOTES_STACK; i++)
 			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.substring(0,
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1.length() - 1)
 					+ i);
-		for (int i = 1; i < TOTES_IN_STACK; i++)
+		for (int i = 1; i <= TOTES_IN_STACK; i++)
 			temp.add(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.substring(0,
 					FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1.length() - 1)
 					+ i);
@@ -238,7 +238,7 @@ public class MatchStatsRR extends MatchStatsStruct {
 				json.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_BIN));
 		vals.put(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN, json
 				.getInt(FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_AUTO_STEP_BIN));
-		for (int i = 1; i < TOTES_IN_STACK; i++) {
+		for (int i = 1; i <= TOTES_IN_STACK; i++) {
 			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
 					.substring(0,
 							FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TOTES_1
@@ -246,14 +246,14 @@ public class MatchStatsRR extends MatchStatsStruct {
 					+ i;
 			vals.put(col, json.getInt(col));
 		}
-		for (int i = 1; i < COOP_TOTES_STACK; i++) {
+		for (int i = 1; i <= COOP_TOTES_STACK; i++) {
 			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
 					.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_COOP_1
 							.length() - 1)
 					+ i;
 			vals.put(col, json.getInt(col));
 		}
-		for (int i = 1; i < TOTES_IN_STACK; i++) {
+		for (int i = 1; i <= TOTES_IN_STACK; i++) {
 			String col = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1
 					.substring(0, FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_BIN_1
 							.length() - 1)
