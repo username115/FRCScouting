@@ -1,55 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.growingstems.scouting"
-    android:versionCode="25"
-    android:versionName="2.2014.1.9" >
+<manifest xmlns:ns0="http://schemas.android.com/apk/res/android" package="org.growingstems.scouting" ns0:versionCode="26" ns0:versionName="2.2015.1.1">
 
-    <uses-sdk
-        android:minSdkVersion="13"
-        android:targetSdkVersion="14" />
+    <uses-sdk ns0:minSdkVersion="13" ns0:targetSdkVersion="14" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission ns0:name="android.permission.INTERNET" />
+    <uses-permission ns0:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
-        <activity
-            android:name="org.growingstems.scouting.MatchStartActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/waiting" >
+    <application ns0:allowBackup="true" ns0:icon="@drawable/ic_launcher" ns0:label="@string/app_name">
+        <activity ns0:configChanges="keyboardHidden|orientation" ns0:label="@string/waiting" ns0:name="org.growingstems.scouting.MatchStartActivity">
         </activity>
-        <activity android:name="org.growingstems.scouting.Prefs" >
+        <activity ns0:name="org.growingstems.scouting.Prefs">
         </activity>
-        <activity
-            android:name="org.growingstems.scouting.DashboardActivity"
-            android:configChanges="orientation"
-            android:label="@string/app_name" >
+        <activity ns0:configChanges="orientation" ns0:label="@string/app_name" ns0:name="org.growingstems.scouting.DashboardActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action ns0:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category ns0:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service
-            android:name="org.frc836.database.DBSyncService"
-            android:enabled="true"
-            android:exported="false"
-            android:stopWithTask="true" >
+        <service ns0:enabled="true" ns0:exported="false" ns0:name="org.frc836.database.DBSyncService" ns0:stopWithTask="true">
         </service>
 
-        <activity
-            android:name="org.robobees.recyclerush.MatchActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden" >
+        <activity ns0:configChanges="keyboardHidden|orientation|screenSize" ns0:label="@string/match_label" ns0:name="org.robobees.recyclerush.MatchActivity" ns0:windowSoftInputMode="stateHidden">
         </activity>
-        <activity
-            android:name="org.robobees.recyclerush.PitActivityRR"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/pits_label" >
+        <activity ns0:configChanges="keyboardHidden|orientation|screenSize" ns0:label="@string/pits_label" ns0:name="org.robobees.recyclerush.PitActivityRR">
         </activity>
     </application>
 

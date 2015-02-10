@@ -188,6 +188,7 @@ public class DBSyncService extends Service {
 	private void initialSync() {
 		Map<String, String> args = new HashMap<String, String>();
 
+		password = Prefs.getSavedPassword(getApplicationContext());
 		args.put("password", password);
 		args.put("type", "fullsync");
 		args.put("version", version);
@@ -700,7 +701,7 @@ public class DBSyncService extends Service {
 											+ MatchStatsStruct.COLUMN_NAME_MATCH_ID
 											+ "=? AND "
 											+ MatchStatsStruct.COLUMN_NAME_TEAM_ID
-											+ "=? AND"
+											+ "=? AND "
 											+ MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
 											+ "=?", where, null, // don't
 									// group

@@ -142,6 +142,7 @@ public abstract class PitStats {
 		
 		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json
 				.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
+		vals.put(COLUMN_NAME_INVALID, 0);
 		
 		return vals;
 	}

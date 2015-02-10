@@ -108,7 +108,7 @@ elseif ($_POST['password'] == $pass) {
         }
         
         $json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
-        $json = '"version" : ' . $ver . ',';
+        $json .= '"version" : "' . $ver . '",';
         
         //configuration_lu
         $query = "SELECT * FROM configuration_lu" . $suffix;
@@ -122,6 +122,11 @@ elseif ($_POST['password'] == $pass) {
         $json .= genJSON($result, "event_lu") . ",";
         mysql_free_result($result);
         
+        //robot_lu
+        $query = "SELECT * FROM robot_lu" . $suffix;
+        $result = mysql_query($query);
+        $json .= genJSON($result, "robot_lu") . ",";
+        mysql_free_result($result);
         
         
         $query = "SELECT * FROM fact_match_data_2015" . $suffix;
@@ -196,14 +201,14 @@ elseif ($_POST['password'] == $pass) {
         $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
 
         
-        $result = mysql_query("SELECT id FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
+        $result = mysql_query("SELECT id FROM fact_match_data_2015 WHERE event_id=" . $event_id . " AND match_id="
                 . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match );
         $row = mysql_fetch_array($result);
         $match_row_id = $row["id"];
         
         if (mysql_num_rows($result) == 0) {
         
-            $query = "INSERT INTO fact_match_data(event_id,match_id,team_id,practice_match,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
+            $query = "INSERT INTO fact_match_data_2015(event_id,match_id,team_id,practice_match,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
                     . "auto_step_bin,totes_1,totes_2,totes_3,totes_4,totes_5,totes_6,coop_1,coop_2,coop_3,coop_4,bin_1,bin_2,bin_3,bin_4,bin_5,bin_6,"
                     . "bin_litter,landfill_litter,foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
@@ -235,7 +240,6 @@ elseif ($_POST['password'] == $pass) {
                     . $bin_litter . ","
                     . $landfill_litter . ","
                     . $foul . ","
-                    . $tech_foul . ","
                     . $tip_over . ","
                     . $yellow_card . ","
                     . $red_card . ",'"
@@ -245,7 +249,7 @@ elseif ($_POST['password'] == $pass) {
             
         } 
         else {
-            $query = "UPDATE fact_match_data SET "
+            $query = "UPDATE fact_match_data_2015 SET "
                     . "event_id=" . $event_id
                     . ",match_id=" . $match_id
                     . ",team_id=" . $team_id
@@ -287,10 +291,16 @@ elseif ($_POST['password'] == $pass) {
         
         
         if ($success) {
-            $result = mysql_query("SELECT id, timestamp FROM fact_match_data WHERE event_id=" . $event_id . " AND match_id="
-                    . $match_id . " AND team_id=" . $team_id . "AND practice_match=" . $practice_match);
-            $row = mysql_fetch_array($result);
-            $resp = $row["id"] . "," . strtotime($row["timestamp"]);
+            $query = "SELECT id, timestamp FROM fact_match_data_2015 WHERE event_id=" . $event_id . " AND match_id="
+                    . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match;
+            $result = mysql_query($query);
+            if ($result) {
+                $row = mysql_fetch_array($result);
+                $resp = $row["id"] . "," . strtotime($row["timestamp"]);
+            }
+            else {
+                $resp = 'Failed to retrieve timestamp';
+            }
         } else {
             $resp = 'Database Query Failed';
         }
@@ -325,13 +335,13 @@ elseif ($_POST['password'] == $pass) {
         $can_upright_tote = mysql_real_escape_string(stripslashes(trim($_POST['can_upright_tote'])));
         $can_upright_bin = mysql_real_escape_string(stripslashes(trim($_POST['can_upright_bin'])));
 
-        $query = " SELECT id FROM scout_pit_data WHERE team_id=" . $team_id;
+        $query = " SELECT id FROM scout_pit_data_2015 WHERE team_id=" . $team_id;
         $result = mysql_query($query);
         $row = mysql_fetch_array($result);
         $id = $row["id"];
         if (mysql_num_rows($result) == 0) {
             $success = false;
-            $query = "INSERT INTO scout_pit_data(team_id,config_id,wheel_type_id,wheel_base_id,notes,push_tote,push_bin,lift_tote,lift_bin,push_litter,"
+            $query = "INSERT INTO scout_pit_data_2015(team_id,config_id,wheel_type_id,wheel_base_id,notes,push_tote,push_bin,lift_tote,lift_bin,push_litter,"
                     . "load_litter,stack_tote_height,stack_bin_height,coop_totes,coop_stack_height,move_auto,auto_bin_score,auto_tote_score,"
                     . "auto_tote_stack_height,auto_step_bins,manip_style,need_upright_tote,need_upright_bin,can_upright_tote,can_upright_bin,invalid) "
                     . "VALUES("
@@ -366,7 +376,7 @@ elseif ($_POST['password'] == $pass) {
         } else {
             
             $success = false;
-            $query = " UPDATE scout_pit_data ";
+            $query = " UPDATE scout_pit_data_2015 ";
             $query .= "SET team_id=" . $team_id . ",
 						config_id=" . $config_id . ",
 						wheel_type_id=" . $wheel_type_id . ",
@@ -399,7 +409,7 @@ elseif ($_POST['password'] == $pass) {
         }
         
         if ($success) {
-            $result = mysql_query("SELECT id, timestamp FROM scout_pit_data WHERE team_id=" . $team_id);
+            $result = mysql_query("SELECT id, timestamp FROM scout_pit_data_2015 WHERE team_id=" . $team_id);
             $row = mysql_fetch_array($result);
             $resp = $row["id"] . "," . strtotime($row["timestamp"]);
         } else {
@@ -415,3 +425,4 @@ elseif ($_POST['password'] == $pass) {
 
     echo $resp;
 }
+
