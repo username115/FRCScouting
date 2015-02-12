@@ -304,6 +304,7 @@ public class MatchActivity extends Activity implements OnClickListener {
 		if (match != null && match.length() > 0) {
 			teamData.match = Integer.valueOf(match);
 		}
+		teamData.position = posT.getText().toString();
 	}
 
 	private void saveAuto() {

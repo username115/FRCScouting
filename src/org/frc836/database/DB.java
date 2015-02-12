@@ -31,6 +31,7 @@ import org.frc836.database.DBSyncService.LocalBinder;
 import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
+import org.frc836.database.FRCScoutingContract.POSITION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.ROBOT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
@@ -650,6 +651,34 @@ public class DB {
 
 		return ret;
 	}
+	
+	public long getPosIDFromName(String position, SQLiteDatabase db) {
+
+		String[] projection = { POSITION_LU_Entry.COLUMN_NAME_ID };
+		String[] where = { position };
+		Cursor c = db.query(POSITION_LU_Entry.TABLE_NAME, // from the event_lu
+														// table
+				projection, // select
+				POSITION_LU_Entry.COLUMN_NAME_POSITION + " LIKE ?", // where
+																	// event_name
+																	// ==
+				where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		long ret = -1;
+		try {
+			c.moveToFirst();
+			ret = c.getLong(c
+					.getColumnIndexOrThrow(POSITION_LU_Entry.COLUMN_NAME_ID));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+
+		return ret;
+	}
 
 	public long getConfigIDFromName(String config, SQLiteDatabase db) {
 
@@ -803,6 +832,28 @@ public class DB {
 			c.moveToFirst();
 			ret = c.getString(c
 					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_NAME));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
+	}
+	
+	public static String getPosNameFromID(int posId, SQLiteDatabase db) {
+
+		String[] projection = { POSITION_LU_Entry.COLUMN_NAME_POSITION };
+		String[] where = { String.valueOf(posId) };
+		Cursor c = db.query(POSITION_LU_Entry.TABLE_NAME, projection, // select
+				POSITION_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		String ret = "";
+		try {
+			c.moveToFirst();
+			ret = c.getString(c
+					.getColumnIndexOrThrow(POSITION_LU_Entry.COLUMN_NAME_POSITION));
 		} finally {
 			if (c != null)
 				c.close();
