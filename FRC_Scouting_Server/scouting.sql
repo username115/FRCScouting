@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 02, 2015 at 07:12 PM
+-- Generation Time: Feb 11, 2015 at 07:47 PM
 -- Server version: 5.6.22-log
 -- PHP Version: 5.4.23
 
@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
   `team_id` int(5) unsigned NOT NULL,
   `match_id` int(4) unsigned NOT NULL,
   `practice_match` tinyint(1) NOT NULL DEFAULT '0',
+  `position_id` int(3) unsigned NOT NULL,
   `auto_move` tinyint(1) NOT NULL,
   `auto_totes` int(2) unsigned NOT NULL,
   `auto_stack_2` tinyint(1) NOT NULL,
@@ -120,8 +121,11 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
   `invalid` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `event_id` (`event_id`,`team_id`,`match_id`,`invalid`,`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
+  KEY `event_id` (`event_id`,`team_id`,`match_id`,`invalid`,`timestamp`),
+  KEY `position_id` (`position_id`),
+  KEY `invalid` (`invalid`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -147,6 +151,33 @@ INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 (2, 'Non-functional', '2014-01-25 15:21:36', 0),
 (4, 'Turned Bin upright', '2015-01-23 00:43:18', 0),
 (3, 'Turned Tote upright', '2015-01-23 00:43:18', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `position_lu`
+--
+
+CREATE TABLE IF NOT EXISTS `position_lu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `position` text COLLATE latin1_general_cs NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `timestamp` (`timestamp`,`invalid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `position_lu`
+--
+
+INSERT INTO `position_lu` (`id`, `position`, `timestamp`, `invalid`) VALUES
+(1, 'Red 1', '2015-02-12 00:30:10', 0),
+(2, 'Red 2', '2015-02-12 00:30:10', 0),
+(3, 'Red 3', '2015-02-12 00:30:36', 0),
+(4, 'Blue 1', '2015-02-12 00:30:36', 0),
+(5, 'Blue 2', '2015-02-12 00:30:50', 0),
+(6, 'Blue 3', '2015-02-12 00:30:50', 0);
 
 -- --------------------------------------------------------
 
@@ -202,8 +233,10 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2015` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `team_id` (`team_id`),
-  KEY `invalid` (`invalid`,`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
+  KEY `invalid` (`invalid`,`timestamp`),
+  KEY `invalid_2` (`invalid`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 

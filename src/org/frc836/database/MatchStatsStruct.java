@@ -40,6 +40,7 @@ public abstract class MatchStatsStruct {
 	public boolean yellowCard;
 	public boolean redCard;
 	public boolean practice_match; // new in 2015
+	public String position; // new in 2015
 
 	public static final String TABLE_NAME = FACT_MATCH_DATA_2015_Entry.TABLE_NAME;
 	public static final String COLUMN_NAME_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_ID;
@@ -52,6 +53,7 @@ public abstract class MatchStatsStruct {
 	public static final String COLUMN_NAME_YELLOW_CARD = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_YELLOW_CARD;
 	public static final String COLUMN_NAME_RED_CARD = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_RED_CARD;
 	public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_PRACTICE_MATCH;
+	public static final String COLUMN_NAME_POSITION_ID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_POSITION_ID;
 	public static final String COLUMN_NAME_INVALID = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_INVALID;
 	public static final String COLUMN_NAME_TIMESTAMP = FACT_MATCH_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP;
 
@@ -88,6 +90,7 @@ public abstract class MatchStatsStruct {
 		yellowCard = false;
 		redCard = false;
 		practice_match = false;
+		position = "Red 1";
 	}
 
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
@@ -105,6 +108,8 @@ public abstract class MatchStatsStruct {
 		args.put(COLUMN_NAME_YELLOW_CARD, yellowCard ? 1 : 0);
 		args.put(COLUMN_NAME_RED_CARD, redCard ? 1 : 0);
 		args.put(COLUMN_NAME_PRACTICE_MATCH, practice_match ? 1 : 0);
+		args.put(COLUMN_NAME_POSITION_ID,
+				db.getPosIDFromName(position, database));
 		args.put(COLUMN_NAME_INVALID, 1);
 
 		return args;
@@ -129,13 +134,17 @@ public abstract class MatchStatsStruct {
 		redCard = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_RED_CARD)) != 0;
 		practice_match = c.getInt(c
 				.getColumnIndexOrThrow(COLUMN_NAME_PRACTICE_MATCH)) != 0;
+		position = DB.getPosNameFromID(
+				c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_ID)),
+				database);
 	}
 
 	public String[] getProjection() {
 		String[] projection = { COLUMN_NAME_TEAM_ID, COLUMN_NAME_EVENT_ID,
 				COLUMN_NAME_MATCH_ID, COLUMN_NAME_NOTES, COLUMN_NAME_TIP_OVER,
 				COLUMN_NAME_FOUL, COLUMN_NAME_YELLOW_CARD,
-				COLUMN_NAME_RED_CARD, COLUMN_NAME_PRACTICE_MATCH };
+				COLUMN_NAME_RED_CARD, COLUMN_NAME_PRACTICE_MATCH,
+				COLUMN_NAME_POSITION_ID };
 		return projection;
 	}
 
@@ -161,6 +170,7 @@ public abstract class MatchStatsStruct {
 
 		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json
 				.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
+		vals.put(COLUMN_NAME_POSITION_ID, json.getInt(COLUMN_NAME_POSITION_ID));
 		vals.put(COLUMN_NAME_INVALID, 0);
 		return vals;
 	}

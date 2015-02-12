@@ -45,6 +45,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_TEAM_ID = "team_id";
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
+		public static final String COLUMN_NAME_POSITION_ID = "position_id";
 		public static final String COLUMN_NAME_AUTO_MOVE = "auto_move";
 		public static final String COLUMN_NAME_AUTO_TOTES = "auto_totes";
 		public static final String COLUMN_NAME_AUTO_STACK_2 = "auto_stack_2";
@@ -83,6 +84,14 @@ public final class FRCScoutingContract {
 		public static final String TABLE_NAME = "notes_options";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_OPTION_TEXT = "option_text";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+		public static final String COLUMN_NAME_INVALID = "invalid";
+	}
+	
+	public static abstract class POSITION_LU_Entry implements BaseColumns {
+		public static final String TABLE_NAME = "position_lu";
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_POSITION = "position";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
@@ -179,6 +188,7 @@ public final class FRCScoutingContract {
 		"	team_id unsigned int(5) NOT NULL,\n" +
 		"	match_id unsigned int(4) NOT NULL,\n" +
 		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
+		"	position_id unsigned int(3) NOT NULL,\n" +
 		"	auto_move tinyint(1) NOT NULL,\n" +
 		"	auto_totes unsigned int(2) NOT NULL,\n" +
 		"	auto_stack_2 tinyint(1) NOT NULL,\n" +
@@ -225,6 +235,21 @@ public final class FRCScoutingContract {
 		"UNION SELECT 2, 'Non-functional', '2014-01-25 15:21:36', 0\n" +
 		"UNION SELECT 4, 'Turned Bin upright', '2015-01-23 00:43:18', 0\n" +
 		"UNION SELECT 3, 'Turned Tote upright', '2015-01-23 00:43:18', 0;",
+	
+		"CREATE TABLE IF NOT EXISTS position_lu (\n" +
+		"	id integer primary key autoincrement,\n" +
+		"	position text NOT NULL,\n" +
+		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+		");",
+	
+		"INSERT INTO position_lu\n" +
+		"SELECT 1 AS id, 'Red 1' AS position, '2015-02-12 00:30:10' AS timestamp, 0 AS invalid\n" +
+		"UNION SELECT 2, 'Red 2', '2015-02-12 00:30:10', 0\n" +
+		"UNION SELECT 3, 'Red 3', '2015-02-12 00:30:36', 0\n" +
+		"UNION SELECT 4, 'Blue 1', '2015-02-12 00:30:36', 0\n" +
+		"UNION SELECT 5, 'Blue 2', '2015-02-12 00:30:50', 0\n" +
+		"UNION SELECT 6, 'Blue 3', '2015-02-12 00:30:50', 0;",
 	
 		"CREATE TABLE IF NOT EXISTS robot_lu (\n" +
 		"	id integer primary key autoincrement,\n" +
@@ -307,6 +332,7 @@ public final class FRCScoutingContract {
 		"DROP TABLE IF EXISTS event_lu;",
 		"DROP TABLE IF EXISTS fact_match_data_2015;",
 		"DROP TABLE IF EXISTS notes_options;",
+		"DROP TABLE IF EXISTS position_lu;",
 		"DROP TABLE IF EXISTS robot_lu;",
 		"DROP TABLE IF EXISTS scout_pit_data_2015;",
 		"DROP TABLE IF EXISTS wheel_base_lu;",

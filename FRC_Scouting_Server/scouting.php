@@ -128,6 +128,12 @@ elseif ($_POST['password'] == $pass) {
         $json .= genJSON($result, "robot_lu") . ",";
         mysql_free_result($result);
         
+        //position_lu
+        $query = "SELECT * FROM position_lu" . $suffix;
+        $result = mysql_query($query);
+        $json .= genJSON($result, "position_lu") . ",";
+        mysql_free_result($result);
+        
         
         $query = "SELECT * FROM fact_match_data_2015" . $suffix;
         $result = mysql_query($query);
@@ -170,6 +176,7 @@ elseif ($_POST['password'] == $pass) {
         $match_id = mysql_real_escape_string(stripslashes(trim($_POST['match_id'])));
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
         $practice_match = mysql_real_escape_string(stripslashes(trim($_POST['practice_match'])));
+        $position_id = mysql_real_escape_string(stripslashes(trim($_POST['position_id'])));
         $auto_move = mysql_real_escape_string(stripslashes(trim($_POST['auto_move'])));
         $auto_totes = mysql_real_escape_string(stripslashes(trim($_POST['auto_totes'])));
         $auto_stack_2 = mysql_real_escape_string(stripslashes(trim($_POST['auto_stack_2'])));
@@ -208,13 +215,14 @@ elseif ($_POST['password'] == $pass) {
         
         if (mysql_num_rows($result) == 0) {
         
-            $query = "INSERT INTO fact_match_data_2015(event_id,match_id,team_id,practice_match,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
+            $query = "INSERT INTO fact_match_data_2015(event_id,match_id,team_id,practice_match,position_id,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
                     . "auto_step_bin,totes_1,totes_2,totes_3,totes_4,totes_5,totes_6,coop_1,coop_2,coop_3,coop_4,bin_1,bin_2,bin_3,bin_4,bin_5,bin_6,"
                     . "bin_litter,landfill_litter,foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
                     . $match_id . ","
                     . $team_id . ","
                     . $practice_match . ","
+                    . $position_id . ","
                     . $auto_move . ","
                     . $auto_totes . ","
                     . $auto_stack_2 . ","
@@ -254,6 +262,7 @@ elseif ($_POST['password'] == $pass) {
                     . ",match_id=" . $match_id
                     . ",team_id=" . $team_id
                     . ",practice_match=" . $practice_match
+                    . ",position_id=" . $position_id
                     . ",auto_move=" . $auto_move
                     . ",auto_totes=" . $auto_totes
                     . ",auto_stack_2=" . $auto_stack_2

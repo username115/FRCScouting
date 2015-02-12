@@ -233,6 +233,8 @@ public class DBSyncService extends Service {
 
 				processWheelType(json
 						.getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME));
+				
+				processPositions(json.getJSONArray(POSITION_LU_Entry.TABLE_NAME));
 
 				updateTimeStamp(json.getLong("timestamp"));
 
@@ -1105,6 +1107,84 @@ public class DBSyncService extends Service {
 							db.delete(
 									WHEEL_TYPE_LU_Entry.TABLE_NAME,
 									WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
+					}
+				}
+			}
+		} catch (JSONException e) {
+			// TODO handle error
+		}
+	}
+	
+	private void processPositions(JSONArray positions) {
+		try {
+			for (int i = 0; i < positions.length(); i++) {
+				JSONObject row = positions.getJSONObject(i);
+				Action action = Action.UPDATE;
+				if (row.getInt(POSITION_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+					action = Action.DELETE;
+				}
+				ContentValues vals = new ContentValues();
+				vals.put(POSITION_LU_Entry.COLUMN_NAME_ID,
+						row.getInt(POSITION_LU_Entry.COLUMN_NAME_ID));
+				vals.put(
+						POSITION_LU_Entry.COLUMN_NAME_POSITION,
+						row.getString(POSITION_LU_Entry.COLUMN_NAME_POSITION));
+				vals.put(
+						POSITION_LU_Entry.COLUMN_NAME_TIMESTAMP,
+						DB.dateParser.format(new Date(
+								row.getLong(POSITION_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+
+				// check if this entry exists already
+				String[] projection = { POSITION_LU_Entry.COLUMN_NAME_POSITION };
+				String[] where = { vals
+						.getAsString(POSITION_LU_Entry.COLUMN_NAME_ID) };
+
+				synchronized (ScoutingDBHelper.lock) {
+
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(
+							POSITION_LU_Entry.TABLE_NAME,
+							projection, // select
+							POSITION_LU_Entry.COLUMN_NAME_ID + "=?", where,
+							null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
+						}
+
+						switch (action) {
+						case UPDATE:
+							db.update(
+									POSITION_LU_Entry.TABLE_NAME,
+									vals,
+									POSITION_LU_Entry.COLUMN_NAME_ID + " = ?",
+									where);
+							break;
+						case INSERT:
+							db.insert(POSITION_LU_Entry.TABLE_NAME, null,
+									vals);
+							break;
+						case DELETE:
+							db.delete(
+									POSITION_LU_Entry.TABLE_NAME,
+									POSITION_LU_Entry.COLUMN_NAME_ID + " = ?",
 									where);
 							break;
 						default:
