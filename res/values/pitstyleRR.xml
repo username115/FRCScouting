@@ -22,16 +22,16 @@
 	<string name="need_upright_bin_text">Requires Bins to be Upright</string>
 	<string name="can_upright_bin_text">Can Flip Bins Upright</string>
 	<string name="stack_bin_height_text">Bin Stack Height:</string>
-	<string name="stack_bin_height_hint"># of bins</string>
+	<string name="stack_bin_height_hint"># of totes high</string>
 
 	<string name="coop_attributes_text">Coopertition:</string>
 	<string name="coop_totes_text">Can Participate in Coopertition</string>
 	<string name="coop_stack_height_text">Stack Height</string>
 	<string name="coop_stack_height_hint"># of totes</string>
 
-	<string name="move_auto_text">Can Move in Auto</string>
+	<string name="move_auto_text">Can Move to Auto-Zone</string>
 	<string name="auto_bin_score_text">Bin Score</string>
-	<string name="auto_bin_score_hint"># of bins high</string>
+	<string name="auto_bin_score_hint"># of totes high</string>
 	<string name="auto_tote_score_text">Tote Score</string>
 	<string name="auto_tote_score_hint"># of totes</string>
 	<string name="auto_tote_stack_height_text">Tote Stack Height</string>
