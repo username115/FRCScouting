@@ -651,13 +651,13 @@ public class DB {
 
 		return ret;
 	}
-	
+
 	public long getPosIDFromName(String position, SQLiteDatabase db) {
 
 		String[] projection = { POSITION_LU_Entry.COLUMN_NAME_ID };
 		String[] where = { position };
 		Cursor c = db.query(POSITION_LU_Entry.TABLE_NAME, // from the event_lu
-														// table
+															// table
 				projection, // select
 				POSITION_LU_Entry.COLUMN_NAME_POSITION + " LIKE ?", // where
 																	// event_name
@@ -838,7 +838,29 @@ public class DB {
 		}
 		return ret;
 	}
-	
+
+	public static String getEventCodeFromID(int eventId, SQLiteDatabase db) {
+
+		String[] projection = { EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE };
+		String[] where = { String.valueOf(eventId) };
+		Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection, // select
+				EVENT_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
+				null, // don't group
+				null, // don't filter
+				null, // don't order
+				"0,1"); // limit to 1
+		String ret = "";
+		try {
+			c.moveToFirst();
+			ret = c.getString(c
+					.getColumnIndexOrThrow(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE));
+		} finally {
+			if (c != null)
+				c.close();
+		}
+		return ret;
+	}
+
 	public static String getPosNameFromID(int posId, SQLiteDatabase db) {
 
 		String[] projection = { POSITION_LU_Entry.COLUMN_NAME_POSITION };
@@ -926,6 +948,8 @@ public class DB {
 					SparseArray<String> configs = new SparseArray<String>();
 					SparseArray<String> types = new SparseArray<String>();
 					SparseArray<String> bases = new SparseArray<String>();
+					SparseArray<String> events = new SparseArray<String>();
+					SparseArray<String> positions = new SparseArray<String>();
 
 					Cursor c = null;
 					StringBuilder match_data = null, pit_data = null;
@@ -943,7 +967,20 @@ public class DB {
 						for (int i = 0; i < c.getColumnCount(); i++) {
 							if (i > 0)
 								match_data.append(",");
-							match_data.append(c.getColumnName(i));
+							if (MatchStatsStruct.COLUMN_NAME_INVALID
+									.equalsIgnoreCase(c.getColumnName(i))
+									&& !debug)
+								i++;
+							if (MatchStatsStruct.COLUMN_NAME_EVENT_ID
+									.equalsIgnoreCase(c.getColumnName(i)))
+								match_data
+										.append(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE);
+							else if (MatchStatsStruct.COLUMN_NAME_POSITION_ID
+									.equalsIgnoreCase(c.getColumnName(i)))
+								match_data
+										.append(POSITION_LU_Entry.COLUMN_NAME_POSITION);
+							else
+								match_data.append(c.getColumnName(i));
 						}
 						match_data.append("\n");
 						if (c.moveToFirst())
@@ -955,14 +992,35 @@ public class DB {
 											.equalsIgnoreCase(c
 													.getColumnName(j))
 											&& !debug)
-										match_data.append("0");
-									else if (MatchStatsStruct
-											.getNewMatchStats().isTextField(
-													c.getColumnName(j)))
+										j++;
+									if (MatchStatsStruct.getNewMatchStats()
+											.isTextField(c.getColumnName(j)))
 										match_data.append("\"")
 												.append(c.getString(j))
 												.append("\"");
-									else
+									else if (MatchStatsStruct.COLUMN_NAME_EVENT_ID
+											.equalsIgnoreCase(c
+													.getColumnName(j))) {
+										String event = events.get(c.getInt(j));
+										if (event == null) {
+											event = getEventCodeFromID(
+													c.getInt(j), db);
+											events.append(c.getInt(j), event);
+										}
+										match_data.append(event);
+									} else if (MatchStatsStruct.COLUMN_NAME_POSITION_ID
+											.equalsIgnoreCase(c
+													.getColumnName(j))) {
+										String position = positions.get(c
+												.getInt(j));
+										if (position == null) {
+											position = getPosNameFromID(
+													c.getInt(j), db);
+											positions.append(c.getInt(j),
+													position);
+										}
+										match_data.append(position);
+									} else
 										match_data.append(c.getString(j));
 								}
 								match_data.append("\n");
@@ -983,7 +1041,20 @@ public class DB {
 						for (int i = 0; i < c.getColumnCount(); i++) {
 							if (i > 0)
 								pit_data.append(",");
-							pit_data.append(c.getColumnName(i));
+							if (PitStats.COLUMN_NAME_INVALID.equalsIgnoreCase(c
+									.getColumnName(i)) && !debug)
+								i++;
+							if (PitStats.COLUMN_NAME_CONFIG_ID
+									.equalsIgnoreCase(c.getColumnName(i)))
+								pit_data.append("configuration");
+							else if (PitStats.COLUMN_NAME_WHEEL_BASE_ID
+									.equalsIgnoreCase(c.getColumnName(i)))
+								pit_data.append("wheel_base");
+							else if (PitStats.COLUMN_NAME_WHEEL_TYPE_ID
+									.equalsIgnoreCase(c.getColumnName(i)))
+								pit_data.append("wheel_type");
+							else
+								pit_data.append(c.getColumnName(i));
 						}
 						pit_data.append("\n");
 						if (c.moveToFirst()) {
@@ -995,8 +1066,8 @@ public class DB {
 											.equalsIgnoreCase(c
 													.getColumnName(j))
 											&& !debug)
-										pit_data.append("0");
-									else if (PitStats.getNewPitStats()
+										j++;
+									if (PitStats.getNewPitStats()
 											.isTextField(c.getColumnName(j)))
 										pit_data.append("\"")
 												.append(c.getString(j))
