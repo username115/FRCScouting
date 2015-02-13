@@ -319,7 +319,7 @@ elseif ($_POST['password'] == $pass) {
     else if ($_POST['type'] == 'pits') {
         
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
-        $config = mysql_real_escape_string(stripslashes(trim($_POST['config_id'])));
+        $config_id = mysql_real_escape_string(stripslashes(trim($_POST['config_id'])));
         $wheel_type_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_type_id'])));
         $wheel_base_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_base_id'])));
         $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
