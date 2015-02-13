@@ -55,15 +55,22 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
 
-        <ImageView
-            android:id="@+id/robotPic"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_gravity="top"
-            android:adjustViewBounds="true"
-            android:clickable="true"
-            android:contentDescription="Robot Picture"
-            android:src="@drawable/robot" />
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/robotPic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_margin="0dp"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:contentDescription="Robot Picture"
+                android:scaleType="fitCenter"
+                android:src="@drawable/robot" />
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

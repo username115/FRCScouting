@@ -35,7 +35,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -50,6 +53,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MatchStartActivity extends Activity implements PicCallback {
@@ -257,8 +262,42 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		if (drawable == null) {
 			robotPic.setImageResource(R.drawable.robot);
 		} else {
-			robotPic.setImageDrawable(drawable);
+			scaleImage(robotPic, robotPic.getWidth(), drawable);
+			//robotPic.setImageDrawable(drawable);
+			//robotPic.setScaleType(ScaleType.FIT_XY);
+			//robotPic.setAdjustViewBounds(true);
 		}
+	}
+	
+	private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
+		
+		Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+
+	    // Get current dimensions
+	    int width = bitmap.getWidth();
+	    int height = bitmap.getHeight();
+
+	    
+	    float scale = ((float) widthInDp) / width;
+
+	    // Create a matrix for the scaling and add the scaling data
+	    Matrix matrix = new Matrix();
+	    matrix.postScale(scale, scale);
+
+	    // Create a new bitmap and convert it to a format understood by the ImageView
+	    Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+	    BitmapDrawable result = new BitmapDrawable(scaledBitmap);
+	    width = scaledBitmap.getWidth();
+	    height = scaledBitmap.getHeight();
+
+	    // Apply the scaled bitmap
+	    view.setImageDrawable(result);
+
+	    // Now change ImageView's dimensions to match the scaled image
+	    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
+	    params.width = width;
+	    params.height = height;
+	    view.setLayoutParams(params);
 	}
 
 	protected Dialog onCreateDialog(int id) {
