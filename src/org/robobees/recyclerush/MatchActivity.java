@@ -150,10 +150,11 @@ public class MatchActivity extends Activity implements OnClickListener {
 		Intent sync = new Intent(this, DBSyncService.class);
 		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
 
-		HELPMESSAGE = "Record the match data on these screens.\n"
-				+ "Y0 dawg, just record data for any totes or garbage cans moved on the first screen, then .\n\n"
-				+ "AH = Auto High\n" + "AL = Auto Low\n" + "H = High\n"
-				+ "L = Low\n" + "Yellow Text = Hot Goal\n";
+		HELPMESSAGE = "Interface used for match recording.\n" +
+				"Important note: records are to be based on end result of a scoring action, not current state of all stacks at all times.\n\n" +
+				"When a robot adds a tote to a stack, increment the counter for the number of totes in that stack when that robot is finished with that scoring action.\n\n" +
+				"If there is a bin on the stack, or a bin is being added to it, mark what level the bin is at when that scoring action is finished.\n\n" +
+				"bin=shorthand for Recycle Container";
 
 		getGUIRefs();
 		setListeners();
