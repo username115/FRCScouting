@@ -443,7 +443,7 @@ public class PitActivityRR extends Activity {
 		populateData(stats);
 	}
 
-	@SuppressWarnings({"rawytypes", "unchecked"})
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void populateData(PitStatsRR stats) {
 		int index = ((ArrayAdapter) configS.getAdapter())
 				.getPosition(stats.chassis_config);
