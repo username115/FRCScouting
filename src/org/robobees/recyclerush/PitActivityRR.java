@@ -52,7 +52,6 @@ public class PitActivityRR extends Activity {
 	private EditText commentsT;
 	private Button submitB;
 	private TextView teamInfoT;
-	private EditText heightT;
 
 	// Litter Stats
 	private CheckBox push_litterC;
