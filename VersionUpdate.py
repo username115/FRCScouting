@@ -9,7 +9,7 @@ This script updates the FRCScouting source code with a new version number.
 
 _defaultRun = '''
     python VersionUpdate.py
-        --versionstring=2.2015.1
+        --versionstring=2.2015.1.1
         --versionnum=19
         --dbversion=20151
 '''
@@ -38,6 +38,8 @@ class VersionUpdater:
     
     re_server = re.compile('\\$ver\\s*=\\s*\\\'(.*?)\\\'\\s*;', re.IGNORECASE)
     re_db = re.compile('(\\s*public\\s+static\\s+final\\s+int\\s+DATABASE_VERSION\\s*=\\s*)(\\d+)(\\s*;.*?)')
+    re_manifest_name = re.compile('(\\s*android:versionName\\s*=\\s*")(.*?)(".*?\\n)')
+    re_manifest_code = re.compile('(\\s*android:versionCode\\s*=\\s*")(\\d+)(".*?\\n)')
     
     def __init__(self, versionString=None, versionNum=None, dbVersion=None, devEmail=None, versionDate=None, noPrompt=False):
         self.ver = versionString
@@ -124,32 +126,44 @@ class VersionUpdater:
     
     def UpdateManifest(self, manifestFileName, verbose=False):
         try:
+            tempfilename = "temp.versionupdatemanifest"
             if not os.path.isfile(manifestFileName):
                 if verbose:
                     print "Manifest " + manifestFileName + " does not exist!"
                 return
-            manifest = parse(manifestFileName)
-            rootelem = manifest.getroot()
-            for key in rootelem.attrib.keys():
-                if "versionName" in key:
-                    temp = self.getVersionString(rootelem.attrib[key])
-                    if temp != rootelem.attrib[key]:
-                        rootelem.attrib[key] = temp
-                        self.manifestChanged = True
-                        if verbose:
-                            print "Updating manifest version string to " + temp
-                if "versionCode" in key:
-                    temp = self.getVersionCode(rootelem.attrib[key])
-                    if temp != rootelem.attrib[key]:
-                        rootelem.attrib[key] = temp
-                        self.manifestChanged = True
-                        if verbose:
-                            print "Updating manifest version code to " + temp
+            with open(manifestFileName, 'r') as manifest, open(tempfilename, 'w') as tempfile:
+                for line in manifest:
+                    match = self.re_manifest_name.search(line)
+                    match2 = self.re_manifest_code.search(line)
+                    if match:
+                        ver = match.group(2)
+                        temp = self.getVersionString(ver)
+                        if ver != temp:
+                            tempfile.write(match.group(1) + temp + match.group(3))
+                            self.manifestChanged = True
+                            if verbose:
+                                print "Updating manifest version string to " + temp
+                        else:
+                            tempfile.write(line)
+                    elif match2:
+                        ver = match2.group(2)
+                        temp = self.getVersionCode(ver)
+                        if ver != temp:
+                            tempfile.write(match2.group(1) + temp + match2.group(3))
+                            self.manifestChanged = True
+                            if verbose:
+                                print "Updating manifest version code to " + temp
+                        else:
+                            tempfile.write(line)
+                    else:
+                        tempfile.write(line)
             if self.manifestChanged:
-                manifest.write(manifestFileName)
+                os.remove(manifestFileName)
+                os.rename(tempfilename, manifestFileName)
                 print "Saving new " + manifestFileName
             else:
-                print "No changes made to " + manifestFileName
+                os.remove(tempfilename)
+                print "No changes made to " + manifestFileName  
         except:
             if verbose:
                 print "Error updating manifest: " + manifestFileName
