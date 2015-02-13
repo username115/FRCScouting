@@ -106,7 +106,7 @@
 		<View
 			android:layout_width="fill_parent"
 			android:layout_height="2dip"
-			android:background="#FF00FF00"/>
+			android:background="@color/pits_seperator_color"/>
 
 		<TextView
 			android:id="@+id/pits_autoT"
@@ -132,16 +132,17 @@
 				android:layout_height="fill_parent">
 
 				<TextView
-					android:layout_width="164dp"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_weight=".3"
 					android:text="@string/auto_bin_score_text"/>
 
 				<EditText
 					android:id="@+id/auto_bin_score"
 					android:hint="@string/auto_bin_score_hint"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_weight="1"
+					android:layout_weight=".7"
 					android:ems="10"
 					android:inputType="number"/>
 			</TableRow>
@@ -151,16 +152,17 @@
 				android:layout_height="fill_parent">
 
 				<TextView
-					android:layout_width="164dp"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_weight="0.3"
 					android:text="@string/auto_tote_score_text"/>
 
 				<EditText
 					android:id="@+id/auto_tote_score"
 					android:hint="@string/auto_tote_score_hint"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_weight="1"
+					android:layout_weight=".7"
 					android:ems="10"
 					android:inputType="number"/>
 			</TableRow>
@@ -170,16 +172,17 @@
 				android:layout_height="fill_parent">
 
 				<TextView
-					android:layout_width="164dp"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_weight="0.3"
 					android:text="@string/auto_tote_stack_height_text"/>
 
 				<EditText
 					android:id="@+id/auto_tote_stack_height"
 					android:hint="@string/auto_tote_stack_height_hint"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_weight="1"
+					android:layout_weight=".7"
 					android:ems="10"
 					android:inputType="number"/>
 			</TableRow>
@@ -189,16 +192,17 @@
 				android:layout_height="fill_parent">
 
 				<TextView
-					android:layout_width="164dp"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_wieight="0.3"
 					android:text="@string/auto_step_bins_text"/>
 
 				<EditText
 					android:id="@+id/auto_step_bins"
 					android:hint="@string/auto_step_bins_hint"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_weight="1"
+					android:layout_weight="0.7"
 					android:ems="10"
 					android:inputType="number"/>
 			</TableRow>
@@ -208,7 +212,7 @@
 		<View
 			android:layout_width="fill_parent"
 			android:layout_height="2dip"
-			android:background="#FF00FF00"/>
+			android:background="@color/pits_seperator_color"/>
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -399,37 +403,28 @@
 		<View
 			android:layout_width="fill_parent"
 			android:layout_height="2dip"
-			android:background="#FF00FF00"/>
+			android:background="@color/pits_seperator_color"/>
 
-		<LinearLayout
+		<TableLayout
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
-
+			android:layout_height="fill_parent">
+			
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/manipulation_description_text"
 				android:textSize="20sp"
 				android:textStyle="bold"/>
-
+	
 			<EditText
 				android:id="@+id/manipulation_description"
+				android:hint="@string/manipulation_description_hint"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:inputType="textMultiLine"/>
-		</LinearLayout>
-		
-		<View
-			android:layout_width="fill_parent"
-			android:layout_height="2dip"
-			android:background="#FF00FF00"/>
-		
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+				android:inputType="textMultiLine"
+				android:paddingLeft="20dp"/>
+
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -440,11 +435,11 @@
 
 			<EditText
 				android:id="@+id/pits_commentsT"
-				android:layout_width="0dp"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:inputType="textMultiLine"/>
-		</LinearLayout>
+		</TableLayout>
 
 		<Button
 			android:id="@+id/pits_submitB"
