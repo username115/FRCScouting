@@ -53,7 +53,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -240,8 +239,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 	}
 
 	private void loadPicture() {
-		if (teamNum.getText().length() < 1)
+		if (teamNum.getText().length() < 1) {
+			if (pd != null)
+				pd.dismiss();
 			return;
+		}
 		String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText()
 				.toString()));
 		if (pictureURL.length() < 5) {
