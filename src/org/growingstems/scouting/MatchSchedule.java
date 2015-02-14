@@ -30,7 +30,7 @@ import android.widget.Toast;
 public class MatchSchedule implements HttpCallback {
 
 	private static final String FILENAME = "FRCscoutingschedule";
-	private static final String FRC_API_URL = "http://private-anon-4aa1e3079-frcevents.apiary-mock.com"; //using mock server for now
+	private static final String FRC_API_URL = "";//"http://private-anon-4aa1e3079-frcevents.apiary-mock.com"; //using mock server for now
 	private static final String API_CALL = "/schedule/2015/";
 
 	private boolean offseason = false;
