@@ -177,5 +177,7 @@
 	<string name="team_2_hint">Team# 2</string>
 	<string name="team_3_hint">Team# 3</string>
 	<string name="donotask">Do not ask again</string>
+	<string name="service_notify_title">FRC Scouting Sync</string>
+	<string name="service_notify_text">Synchronization service is running</string>
 
 </resources>
