@@ -75,7 +75,7 @@ public class DBSyncService extends Service {
 
 	private String dbVersion;
 
-	private int notifyID = 74392;
+	private static final int notifyID = 74392;
 
 	private static volatile boolean syncInProgress = false;
 
