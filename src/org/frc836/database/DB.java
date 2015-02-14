@@ -39,13 +39,16 @@ import org.frc836.samsung.fileselector.FileOperation;
 import org.frc836.samsung.fileselector.FileSelector;
 import org.frc836.samsung.fileselector.OnHandleFileListener;
 import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
 import org.sigmond.net.*;
 
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
 import android.widget.Toast;
 
@@ -934,16 +937,28 @@ public class DB {
 			AsyncTask<ExportCallback, Integer, String> {
 
 		ExportCallback callback;
+		private static final int notifyId = 87492;
 
 		@Override
 		protected String doInBackground(ExportCallback... params) {
 			synchronized (ScoutingDBHelper.lock) {
 				try {
+					callback = params[0];
+					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+							callback.context)
+							.setSmallIcon(R.drawable.ic_launcher)
+							.setContentTitle("Exporting Scouting Data")
+							.setContentText("to " + callback.filename)
+							.setProgress(100, 0, false);
+
+					NotificationManager notManager = ((NotificationManager) callback.context
+							.getSystemService(Context.NOTIFICATION_SERVICE));
+					notManager.notify(notifyId, mBuilder.build());
 
 					SQLiteDatabase db = ScoutingDBHelper.getInstance()
 							.getReadableDatabase();
 
-					callback = params[0];
+					
 
 					SparseArray<String> configs = new SparseArray<String>();
 					SparseArray<String> types = new SparseArray<String>();
@@ -983,6 +998,8 @@ public class DB {
 								match_data.append(c.getColumnName(i));
 						}
 						match_data.append("\n");
+						int rowCount = c.getCount();
+						int progress = 0;
 						if (c.moveToFirst())
 							do {
 								for (int j = 0; j < c.getColumnCount(); j++) {
@@ -1024,6 +1041,13 @@ public class DB {
 										match_data.append(c.getString(j));
 								}
 								match_data.append("\n");
+								progress++;
+								mBuilder.setProgress(100,
+										(int) (((double) progress)
+												/ ((double) rowCount) * 50),
+										false);
+								notManager.notify(notifyId, mBuilder.build());
+
 							} while (c.moveToNext());
 					} finally {
 						if (c != null)
@@ -1057,6 +1081,8 @@ public class DB {
 								pit_data.append(c.getColumnName(i));
 						}
 						pit_data.append("\n");
+						int rowCount = c.getCount();
+						int progress = 0;
 						if (c.moveToFirst()) {
 							do {
 								for (int j = 0; j < c.getColumnCount(); j++) {
@@ -1067,8 +1093,8 @@ public class DB {
 													.getColumnName(j))
 											&& !debug)
 										j++;
-									if (PitStats.getNewPitStats()
-											.isTextField(c.getColumnName(j)))
+									if (PitStats.getNewPitStats().isTextField(
+											c.getColumnName(j)))
 										pit_data.append("\"")
 												.append(c.getString(j))
 												.append("\"");
@@ -1109,6 +1135,13 @@ public class DB {
 										pit_data.append(c.getString(j));
 								}
 								pit_data.append("\n");
+								progress++;
+								mBuilder.setProgress(
+										100,
+										(int) (((double) progress)
+												/ ((double) rowCount) * 50) + 50,
+										false);
+								notManager.notify(notifyId, mBuilder.build());
 							} while (c.moveToNext());
 						}
 					} finally {
@@ -1139,6 +1172,10 @@ public class DB {
 					} catch (Exception e) {
 
 					}
+					mBuilder.setProgress(0, 0, false)
+							.setContentTitle("Export Complete")
+							.setContentText(callback.filename);
+					notManager.notify(notifyId, mBuilder.build());
 					return "DB exported to " + sd.getAbsolutePath();
 				} catch (Exception e) {
 					ScoutingDBHelper.getInstance().close();
