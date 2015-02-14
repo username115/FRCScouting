@@ -211,7 +211,7 @@ public class Prefs extends PreferenceActivity {
 		String ret = PreferenceManager.getDefaultSharedPreferences(context)
 				.getString("databaseURLPref", URL);
 		if (ret.length() > 0 && !ret.contains("://")) {
-			ret = "http://" + ret;
+			ret = "https://" + ret;
 		}
 		return ret;
 	}
