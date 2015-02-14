@@ -18,8 +18,12 @@ package org.growingstems.scouting;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.frc836.database.DB;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
@@ -30,12 +34,16 @@ import android.widget.Toast;
 public class MatchSchedule implements HttpCallback {
 
 	private static final String FILENAME = "FRCscoutingschedule";
-	private static final String FRC_API_URL = "";//"http://private-anon-4aa1e3079-frcevents.apiary-mock.com"; //using mock server for now
+	private static final String FRC_API_URL = "http://private-anon-4aa1e3079-frcevents.apiary-mock.com"; // using
+																											// mock
+																											// server
+																											// for
+																											// now
 	private static final String API_CALL = "/schedule/2015/";
 
 	private boolean offseason = false;
 	private boolean toastComplete;
-	
+
 	private DB db;
 
 	private Context _parent;
@@ -45,12 +53,15 @@ public class MatchSchedule implements HttpCallback {
 		HttpUtils utils = new HttpUtils();
 		_parent = parent;
 		toastComplete = toastWhenComplete;
-		
+
 		db = new DB(_parent, null);
-		
-		String url = FRC_API_URL + API_CALL + db.getCodeFromEventName(event) + "/";
+
+		String url = FRC_API_URL + API_CALL + db.getCodeFromEventName(event)
+				+ "/?tournamentLevel=qual";
+		Map<String, String> headers = new HashMap<String, String>(1);
+		headers.put("Accept", "application/json");
 		if (url != null)
-			utils.doGet(url, this);
+			utils.doGet(url, this, headers);
 
 	}
 
@@ -107,35 +118,23 @@ public class MatchSchedule implements HttpCallback {
 			if (schedule.compareTo("No Schedule") == 0)
 				return defaultVal;
 
-			String m = "M</TD>\n<TD align=center style=\"font-family:arial;font-weight:normal;font-size:9.0pt\">"
-					+ String.valueOf(match) + "</TD>";
-			int i = schedule.indexOf(m);
-			int j = 0;
-			if (pos.equalsIgnoreCase("red 1"))
-				j = 1;
-			else if (pos.equalsIgnoreCase("red 2"))
-				j = 2;
-			else if (pos.equalsIgnoreCase("red 3"))
-				j = 3;
-			else if (pos.equalsIgnoreCase("blue 1"))
-				j = 4;
-			else if (pos.equalsIgnoreCase("blue 2"))
-				j = 5;
-			else if (pos.equalsIgnoreCase("blue 3"))
-				j = 6;
-			else
-				return defaultVal;
-			i = i + 85;
+			String position = pos.replaceAll("\\s+", "");
 
-			while (j > 0) {
-				i = schedule.indexOf(">", i + 1);
-				i = schedule.indexOf(">", i + 1);
-				j--;
+			String ret = "";
+			JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
+
+			for (int i = 0; i < sched.length(); i++) {
+				if (sched.getJSONObject(i).getInt("matchNumber") == match) {
+					JSONArray teams = sched.getJSONObject(i).getJSONArray(
+							"Teams");
+					for (int j = 0; j < teams.length(); j++) {
+						if (teams.getJSONObject(j).getString("station")
+								.compareToIgnoreCase(position) == 0)
+							ret = String.valueOf(teams.getJSONObject(j).getInt(
+									"number"));
+					}
+				}
 			}
-
-			int k = schedule.indexOf("<", i);
-
-			String ret = schedule.substring(i + 1, k).trim();
 			if (ret.length() < 10 && Integer.valueOf(ret) > 0)
 				return ret;
 			else
@@ -160,7 +159,7 @@ public class MatchSchedule implements HttpCallback {
 
 	public boolean isValid(Context parent) {
 		String schedule = getSchedule(parent);
-		if (schedule.contains(">1</TD>"))
+		if (schedule.contains("\"Schedule\""))
 			return true;
 		else
 			return false;

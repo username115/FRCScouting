@@ -33,19 +33,28 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.message.BasicNameValuePair;
 
-public class HttpUtils
-{
+public class HttpUtils {
 
 	CookieStore cookies;
-	
-	public HttpUtils()
-	{
+
+	public HttpUtils() {
 		cookies = new BasicCookieStore();
 	}
-	
-	public void doGet(String url, HttpCallback callback)
-	{
+
+	public void doGet(String url, HttpCallback callback) {
+		doGet(url, callback, null);
+	}
+
+	public void doGet(String url, HttpCallback callback,
+			Map<String, String> headers) {
 		HttpGet get = new HttpGet(url);
+		
+		if (headers != null) {
+			for (Map.Entry<String, String> entry : headers.entrySet()) {
+				get.addHeader(entry.getKey(), entry.getValue());
+			}
+		}
+		
 		HttpRequestInfo rinfo = new HttpRequestInfo(get, callback);
 		rinfo.setCookieStore(cookies);
 		AsyncHttpTask task = new AsyncHttpTask();
@@ -53,21 +62,21 @@ public class HttpUtils
 	}
 
 	public void doPost(String url, Map<String, String> params,
-			HttpCallback callback)
-	{
-		try
-		{
+			HttpCallback callback) {
+		try {
 
 			HttpPost post = new HttpPost(url);
 
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(params.size());
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+					params.size());
 
-			for (String key : params.keySet())
-			{
-				nameValuePairs.add(new BasicNameValuePair(key, params.get(key)));
+			for (String key : params.keySet()) {
+				nameValuePairs
+						.add(new BasicNameValuePair(key, params.get(key)));
 			}
 
-			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nameValuePairs);
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(
+					nameValuePairs);
 			post.setEntity(entity);
 
 			HttpRequestInfo rinfo = new HttpRequestInfo(post, callback);
@@ -75,30 +84,26 @@ public class HttpUtils
 			rinfo.setCookieStore(cookies);
 			AsyncHttpTask task = new AsyncHttpTask();
 			task.execute(rinfo);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static String responseToString(HttpResponse response) throws IOException
-	{
+	public static String responseToString(HttpResponse response)
+			throws IOException {
 		InputStream in = response.getEntity().getContent();
 		InputStreamReader ir = new InputStreamReader(in);
 		BufferedReader bin = new BufferedReader(ir);
 		String line = null;
 		StringBuffer buff = new StringBuffer();
-		while ((line = bin.readLine()) != null)
-		{
+		while ((line = bin.readLine()) != null) {
 			buff.append(line + "\n");
 		}
 		bin.close();
 		return buff.toString();
 	}
-	
-	public void setCookieStore(CookieStore store)
-	{
+
+	public void setCookieStore(CookieStore store) {
 		cookies = store;
 	}
 }
