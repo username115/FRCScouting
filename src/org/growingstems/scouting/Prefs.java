@@ -29,6 +29,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.CheckBoxPreference;
@@ -269,5 +270,17 @@ public class Prefs extends PreferenceActivity {
 			return defaultValue;
 		}
 		return secs;
+	}
+
+	public static boolean getDontPrompt(Context context, boolean defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean("doNotAskURL", defaultValue);
+	}
+	
+	public static void setDontPrompt(Context context, boolean dontPrompt) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("doNotAskURL", dontPrompt);
+		editor.apply();
 	}
 }

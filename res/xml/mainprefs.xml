@@ -63,5 +63,12 @@
         android:key="syncFreqPref"
         android:summary="Select how often the app should sync"
         android:title="Auto Sync Frequency" />
+    
+    <CheckBoxPreference android:defaultValue="false"
+        android:enabled="true"
+        android:key="doNotAskURL"
+        android:summary="Don't prompt to associate with a server."
+        android:title="Don't Prompt for URL" />
+    
 
 </PreferenceScreen>
