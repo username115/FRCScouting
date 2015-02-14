@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.frc836.database.FRCScoutingContract.*;
+import org.growingstems.scouting.DashboardActivity;
 import org.growingstems.scouting.Prefs;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,8 @@ import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
 import org.growingstems.scouting.R;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
@@ -44,6 +47,7 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 public class DBSyncService extends Service {
@@ -70,6 +74,8 @@ public class DBSyncService extends Service {
 	private static String version;
 
 	private String dbVersion;
+
+	private int notifyID = 74392;
 
 	private static volatile boolean syncInProgress = false;
 
@@ -99,6 +105,24 @@ public class DBSyncService extends Service {
 		DBSyncService.version = getString(R.string.VersionID);
 
 		mTimerTask.post(dataTask);
+		
+		
+
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				this).setSmallIcon(R.drawable.ic_launcher)
+				.setContentTitle(getString(R.string.service_notify_title))
+				.setContentText(getString(R.string.service_notify_text))
+				.setOngoing(true).setWhen(0);
+		Intent notifyIntent = new Intent(this, DashboardActivity.class);
+		notifyIntent.setAction(Intent.ACTION_MAIN);
+		notifyIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		PendingIntent intent = PendingIntent.getActivity(this, 0, notifyIntent,
+				0);
+
+		mBuilder.setContentIntent(intent);
+
+		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(
+				notifyID, mBuilder.build());
 	}
 
 	private boolean loadTimestamp() {
@@ -154,6 +178,8 @@ public class DBSyncService extends Service {
 	public void onDestroy() {
 		mTimerTask.removeCallbacks(dataTask);
 		running = false;
+		((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+				.cancel(notifyID);
 		super.onDestroy();
 	}
 
@@ -233,8 +259,9 @@ public class DBSyncService extends Service {
 
 				processWheelType(json
 						.getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME));
-				
-				processPositions(json.getJSONArray(POSITION_LU_Entry.TABLE_NAME));
+
+				processPositions(json
+						.getJSONArray(POSITION_LU_Entry.TABLE_NAME));
 
 				updateTimeStamp(json.getLong("timestamp"));
 
@@ -1122,7 +1149,7 @@ public class DBSyncService extends Service {
 			// TODO handle error
 		}
 	}
-	
+
 	private void processPositions(JSONArray positions) {
 		try {
 			for (int i = 0; i < positions.length(); i++) {
@@ -1134,8 +1161,7 @@ public class DBSyncService extends Service {
 				ContentValues vals = new ContentValues();
 				vals.put(POSITION_LU_Entry.COLUMN_NAME_ID,
 						row.getInt(POSITION_LU_Entry.COLUMN_NAME_ID));
-				vals.put(
-						POSITION_LU_Entry.COLUMN_NAME_POSITION,
+				vals.put(POSITION_LU_Entry.COLUMN_NAME_POSITION,
 						row.getString(POSITION_LU_Entry.COLUMN_NAME_POSITION));
 				vals.put(
 						POSITION_LU_Entry.COLUMN_NAME_TIMESTAMP,
@@ -1171,19 +1197,15 @@ public class DBSyncService extends Service {
 
 						switch (action) {
 						case UPDATE:
-							db.update(
-									POSITION_LU_Entry.TABLE_NAME,
-									vals,
+							db.update(POSITION_LU_Entry.TABLE_NAME, vals,
 									POSITION_LU_Entry.COLUMN_NAME_ID + " = ?",
 									where);
 							break;
 						case INSERT:
-							db.insert(POSITION_LU_Entry.TABLE_NAME, null,
-									vals);
+							db.insert(POSITION_LU_Entry.TABLE_NAME, null, vals);
 							break;
 						case DELETE:
-							db.delete(
-									POSITION_LU_Entry.TABLE_NAME,
+							db.delete(POSITION_LU_Entry.TABLE_NAME,
 									POSITION_LU_Entry.COLUMN_NAME_ID + " = ?",
 									where);
 							break;
