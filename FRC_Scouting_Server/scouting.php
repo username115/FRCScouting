@@ -201,6 +201,7 @@ elseif ($_POST['password'] == $pass) {
         $bin_6 = mysql_real_escape_string(stripslashes(trim($_POST['bin_6'])));
         $bin_litter = mysql_real_escape_string(stripslashes(trim($_POST['bin_litter'])));
         $landfill_litter = mysql_real_escape_string(stripslashes(trim($_POST['landfill_litter'])));
+        $tipped_stack = mysql_real_escape_string(stripslashes(trim($_POST['tipped_stack'])));
         $foul = mysql_real_escape_string(stripslashes(trim($_POST['foul'])));
         $tip_over = mysql_real_escape_string(stripslashes(trim($_POST['tip_over'])));
         $yellow_card = mysql_real_escape_string(stripslashes(trim($_POST['yellow_card'])));
@@ -217,7 +218,7 @@ elseif ($_POST['password'] == $pass) {
         
             $query = "INSERT INTO fact_match_data_2015(event_id,match_id,team_id,practice_match,position_id,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
                     . "auto_step_bin,totes_1,totes_2,totes_3,totes_4,totes_5,totes_6,coop_1,coop_2,coop_3,coop_4,bin_1,bin_2,bin_3,bin_4,bin_5,bin_6,"
-                    . "bin_litter,landfill_litter,foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
+                    . "bin_litter,landfill_litter,tipped_stack,foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
                     . $match_id . ","
                     . $team_id . ","
@@ -247,6 +248,7 @@ elseif ($_POST['password'] == $pass) {
                     . $bin_6 . ","
                     . $bin_litter . ","
                     . $landfill_litter . ","
+                    . $tipped_stack . ","
                     . $foul . ","
                     . $tip_over . ","
                     . $yellow_card . ","
@@ -287,6 +289,7 @@ elseif ($_POST['password'] == $pass) {
                     . ",bin_6=" . $bin_6
                     . ",bin_litter=" . $bin_litter
                     . ",landfill_litter=" . $landfill_litter
+                    . ",tipped_stack=" . $tipped_stack
                     . ",foul=" . $foul
                     . ",tip_over=" . $tip_over
                     . ",yellow_card=" . $yellow_card
