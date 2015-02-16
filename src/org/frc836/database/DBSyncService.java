@@ -105,8 +105,6 @@ public class DBSyncService extends Service {
 		DBSyncService.version = getString(R.string.VersionID);
 
 		mTimerTask.post(dataTask);
-		
-		
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				this).setSmallIcon(R.drawable.ic_launcher)
@@ -711,7 +709,8 @@ public class DBSyncService extends Service {
 						.jsonToCV(row);
 
 				// check if this entry exists already
-				String[] projection = { MatchStatsStruct.COLUMN_NAME_ID };
+				String[] projection = { MatchStatsStruct.COLUMN_NAME_ID,
+						MatchStatsStruct.COLUMN_NAME_INVALID };
 				String[] where = {
 						vals.getAsString(MatchStatsStruct.COLUMN_NAME_EVENT_ID),
 						vals.getAsString(MatchStatsStruct.COLUMN_NAME_MATCH_ID),
@@ -738,15 +737,22 @@ public class DBSyncService extends Service {
 									null, // don't order
 									"0,1"); // limit to 1
 					try {
-						int id = 0;
+						int id = 0, invalid = 0;
 						if (!c.moveToFirst()) {
 							if (action == Action.UPDATE)
 								action = Action.INSERT;
 							else if (action == Action.DELETE)
 								action = Action.NOTHING;
-						} else
+						} else {
 							id = c.getInt(c
 									.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_ID));
+							invalid = c
+									.getInt(c
+											.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_INVALID));
+							if (invalid > 0) // this field has not been sent to
+												// server yet.
+								action = Action.NOTHING;
+						}
 
 						String[] where2 = { String.valueOf(id) };
 
@@ -943,7 +949,8 @@ public class DBSyncService extends Service {
 				ContentValues vals = PitStats.getNewPitStats().jsonToCV(row);
 
 				// check if this entry exists already
-				String[] projection = { PitStats.COLUMN_NAME_ID };
+				String[] projection = { PitStats.COLUMN_NAME_ID,
+						PitStats.COLUMN_NAME_INVALID };
 				String[] where = { vals
 						.getAsString(PitStats.COLUMN_NAME_TEAM_ID) };
 
@@ -963,6 +970,10 @@ public class DBSyncService extends Service {
 							if (action == Action.UPDATE)
 								action = Action.INSERT;
 							else if (action == Action.DELETE)
+								action = Action.NOTHING;
+						} else {
+							int invalid = c.getInt(c.getColumnIndexOrThrow(PitStats.COLUMN_NAME_INVALID));
+							if (invalid > 0) //Current entry has not been sent to server, don't overwrite
 								action = Action.NOTHING;
 						}
 
