@@ -180,7 +180,128 @@ public final class FRCScoutingContract {
 		");",
 	
 		"INSERT INTO event_lu\n" +
-		"SELECT 1 AS id, 'FIRST Championship' AS event_name, 'CMP' AS event_code, '2015-04-22 00:00:00' AS date_start, '2015-01-31 16:09:31' AS timestamp, 0 AS invalid;",
+		"SELECT 1 AS id, 'Western Canada Regional' AS event_name, 'ABCA' AS event_code, '2015-04-01 00:00:00' AS date_start, '2015-02-21 17:18:53' AS timestamp, 0 AS invalid\n" +
+		"UNION SELECT 2, 'Arkansas Rock City Regional', 'ARFA', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 3, 'Australia Regional', 'AUSY', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 4, 'Arizona East Regional', 'AZCH', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 5, 'Arizona West Regional', 'AZPX', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 6, 'Los Angeles Regional sponsored by The Roddenberry Foundation', 'CALB', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 7, 'Central Valley Regional', 'CAMA', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 8, 'Inland Empire Regional', 'CARM', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 9, 'Sacramento Regional', 'CASA', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 10, 'San Diego Regional', 'CASD', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 11, 'Silicon Valley Regional', 'CASJ', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 12, 'Ventura Regional', 'CAVE', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 13, 'FIRST Championship', 'CMP', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 14, 'FIRST Championship - Archimedes Subdivision', 'CMP-ARCHIMEDES', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 15, 'FIRST Championship - ARTE Division', 'CMP-ARTE', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 16, 'FIRST Championship - Carson Subdivision', 'CMP-CARSON', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 17, 'FIRST Championship - Carver Subdivision', 'CMP-CARVER', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 18, 'FIRST Championship - CUCA Division', 'CMP-CUCA', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 19, 'FIRST Championship - Curie Subdivision', 'CMP-CURIE', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 20, 'FIRST Championship - GACA Division', 'CMP-GACA', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 21, 'FIRST Championship - Galileo Subdivision', 'CMP-GALILEO', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 22, 'FIRST Championship - Hopper Subdivision', 'CMP-HOPPER', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 23, 'FIRST Championship - NEHO Division', 'CMP-NEHO', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 24, 'FIRST Championship - Newton Subdivision', 'CMP-NEWTON', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 25, 'FIRST Championship - Tesla Subdivision', 'CMP-TESLA', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 26, 'Colorado Regional', 'CODE', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 27, 'NE District - Hartford Event', 'CTHAR', '2015-03-27 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 28, 'NE District - Waterbury Event', 'CTWAT', '2015-02-27 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 29, 'Greater DC Regional', 'DCWA', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 30, 'South Florida Regional', 'FLFO', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 31, 'Orlando Regional', 'FLOR', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 32, 'Peachtree Regional', 'GADU', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 33, 'Georgia Southern Classic Regional', 'GAPE', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 34, 'Hawaii Regional', 'HIHO', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 35, 'Midwest Regional', 'ILCH', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 36, 'Central Illinois Regional', 'ILIL', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 37, 'Indiana FIRST District Championship', 'INCMP', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 38, 'IN District - Indianapolis Event', 'ININD', '2015-02-27 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 39, 'IN District - Kokomo City of Firsts Event sponsored by AndyMark', 'INKOK', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 40, 'IN District - Purdue Event', 'INWLA', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 41, 'Israel Regional', 'ISTA', '2015-03-09 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 42, 'Bayou Regional', 'LAKE', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 43, 'NE District - Northeastern University Event', 'MABOS', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 44, 'NE District - UMass - Dartmouth Event', 'MANDA', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 45, 'NE District - Reading Event', 'MAREA', '2015-03-06 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 46, 'NE District - Pioneer Valley Event', 'MASPR', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 47, 'Chesapeake Regional', 'MDCP', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 48, 'NE District - Pine Tree Event', 'MELEW', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 49, 'FIM District - Bedford Event', 'MIBED', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 50, 'FIM District - Center Line Event', 'MICEN', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 51, 'FIRST in Michigan District Championship', 'MICMP', '2015-04-08 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 52, 'FIM District - Escanaba Event', 'MIESC', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 53, 'FIM District - Woodhaven Event', 'MIFLA', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 54, 'FIM District - Gull Lake Event', 'MIGUL', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 55, 'FIM District - Howell Event', 'MIHOW', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 56, 'FIM District - Kentwood Event', 'MIKEN', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 57, 'FIM District - Kettering University Event', 'MIKET', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 58, 'FIM District - Lansing Event', 'MILAN', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 59, 'FIM District - Livonia Event', 'MILIV', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 60, 'FIM District - Great Lakes Bay Region Event', 'MIMID', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 61, 'FIM District - St. Joseph Event', 'MISJO', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 62, 'FIM District - Southfield Event', 'MISOU', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 63, 'FIM District - Standish Event', 'MISTA', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 64, 'FIM District - Troy Event', 'MITRY', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 65, 'FIM District - Traverse City Event', 'MITVC', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 66, 'FIM District - Waterford Event', 'MIWAT', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 67, 'FIM District - West Michigan Event', 'MIWMI', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 68, 'Lake Superior Regional', 'MNDU', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 69, 'Northern Lights Regional', 'MNDU2', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 70, 'Minnesota 10000 Lakes Regional', 'MNMI', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 71, 'Minnesota North Star Regional', 'MNMI2', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 72, 'Greater Kansas City Regional', 'MOKC', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 73, 'St. Louis Regional', 'MOSL', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 74, 'Mid-Atlantic Robotics District Championship', 'MRCMP', '2015-04-08 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 75, 'Mexico City Regional', 'MXMC', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 76, 'North Carolina Regional', 'NCRE', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 77, 'NE FIRST District Championship presented by United Technologies', 'NECMP', '2015-04-08 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 78, 'NE District - UNH Event', 'NHDUR', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 79, 'NE District - Granite State Event', 'NHNAS', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 80, 'MAR District - Bridgewater-Raritan Event', 'NJBRI', '2015-03-27 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 81, 'MAR District - Mt. Olive Event', 'NJFLA', '2015-03-06 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 82, 'MAR District - North Brunswick Event', 'NJNBR', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 83, 'MAR District - Seneca Event', 'NJTAB', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 84, 'Las Vegas Regional', 'NVLV', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 85, 'SBPLI Long Island Regional', 'NYLI', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 86, 'New York City Regional', 'NYNY', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 87, 'Finger Lakes Regional', 'NYRO', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 88, 'New York Tech Valley Regional', 'NYTR', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 89, 'Queen City Regional', 'OHCI', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 90, 'Buckeye Regional', 'OHCL', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 91, 'Oklahoma Regional', 'OKOK', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 92, 'North Bay Regional', 'ONNB', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 93, 'Greater Toronto East Regional', 'ONTO', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 94, 'Greater Toronto Central Regional', 'ONTO2', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 95, 'Waterloo Regional', 'ONWA', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 96, 'Windsor Essex Great Lakes Regional', 'ONWI', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 97, 'PNW District - Oregon City Event', 'ORORE', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 98, 'PNW District - Philomath Event', 'ORPHI', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 99, 'PNW District - Wilsonville Event', 'ORWIL', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 100, 'MAR District - Upper Darby Event', 'PADRE', '2015-03-27 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 101, 'MAR District - Hatboro-Horsham Event', 'PAHAT', '2015-02-27 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 102, 'MAR District - Springside Chestnut Hill Event', 'PAPHI', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 103, 'Greater Pittsburgh Regional', 'PAPI', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 104, 'Pacific Northwest District Championship', 'PNCMP', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 105, 'FRC Festival de Robotique - Montreal Regional', 'QCMO', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 106, 'NE District - Rhode Island Event', 'RISMI', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 107, 'Palmetto Regional', 'SCMB', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 108, 'Smoky Mountains Regional', 'TNKN', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 109, 'Dallas Regional', 'TXDA', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 110, 'Lone Star Regional', 'TXHO', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 111, 'Hub City Regional', 'TXLU', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 112, 'Alamo Regional sponsored by Rackspace Hosting', 'TXSA', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 113, 'Utah Regional', 'UTWV', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 114, 'Virginia Regional', 'VARI', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 115, 'PNW District - Auburn Event', 'WAAHS', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 116, 'PNW District - Auburn Mountainview Event', 'WAAMV', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 117, 'PNW District - Central Washington University Event', 'WAELL', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 118, 'PNW District - Mount Vernon Event', 'WAMOU', '2015-03-13 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 119, 'PNW District - Shorewood Event', 'WASHO', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 120, 'PNW District - Glacier Peak Event', 'WASNO', '2015-03-06 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 121, 'PNW District - West Valley Event', 'WASPO', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0\n" +
+		"UNION SELECT 122, 'Wisconsin Regional', 'WIMI', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0;",
 	
 		"CREATE TABLE IF NOT EXISTS fact_match_data_2015 (\n" +
 		"	id integer primary key autoincrement,\n" +
