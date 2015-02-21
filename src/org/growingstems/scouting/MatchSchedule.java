@@ -161,7 +161,9 @@ public class MatchSchedule implements HttpCallback {
 
 	public boolean isValid(Context parent) {
 		String schedule = getSchedule(parent);
-		if (schedule.contains("\"Schedule\""))
+		// if there is no schedule released yet, will still have valid json, but
+		// not any entries
+		if (schedule.contains("\"level\""))
 			return true;
 		else
 			return false;
