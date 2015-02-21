@@ -20,10 +20,13 @@ require_once 'HTTP/Request2.php'; //Requires the Request2 PEAR library
  * limitations under the License.
  */
 
+$token_string = ""; //token string
+$ca_path = ""; //path to server ca file
 
 
+$frc_api_url = "https://frc.staging.api.usfirst.org";
 
-$frc_api_url = "http://private-anon-4aa1e3079-frcevents.apiary-mock.com";
+$token = base64_encode($token_string);
 $season = $_GET['season'];
 $truncate = $_GET['truncate'];
 //$season = NULL;
@@ -31,11 +34,18 @@ if (strlen($season) === 0) {
     $season = date("Y"); //use current year if none specified
 }
 try {
-    $headers = array("Content-type"=>"application/x-www-form-urlencoded", "Accept"=>"application/json");
+    $headers = array("Content-type"=>"application/x-www-form-urlencoded", "Accept"=>"application/json", "Authorization"=>"Basic " . $token);
 
 
-    $request = new HTTP_Request2($frc_api_url . '/events/' . $season, HTTP_Request2::METHOD_GET);
+    $request = new HTTP_Request2($frc_api_url . '/api/v1.0/events/' . $season, HTTP_Request2::METHOD_GET);
     $request->setHeader($headers);
+    
+    $request->setAdapter('curl');
+    $request->setConfig(array(
+        'ssl_verify_peer'   => TRUE,
+        'ssl_verify_host'   => FALSE,
+        'ssl_cafile'        => $ca_path
+    ));
 
     $response = $request->send();
 
@@ -77,6 +87,7 @@ try {
             }
             if ($success != true) {
                 $return = false;
+                //echo $query;
             }
         }
         if ($return) {
@@ -91,6 +102,7 @@ try {
              $response->getReasonPhrase();
     }
 } catch (HTTP_Request2_Exception $e) {
-    echo 'Error';//': ' . $e->getMessage();
+    echo 'Error';//.': ' . $e->getMessage();
 }
+
 
