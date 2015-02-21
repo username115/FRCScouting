@@ -8,3 +8,4 @@ gen/
 # ignore all files ending with ~
 *~ 
 /.pydevproject
+FMSToken.java
