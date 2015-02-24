@@ -185,7 +185,7 @@ public class PitActivityRR extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		//unbindService(watcher);
+		unbindService(watcher);
 	}
 
 
