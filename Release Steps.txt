@@ -1,9 +1,10 @@
 (Assumes code is fully tested, in a release branch, and ready to be released as-is)
-1- Run VersionUpdate.py, enter new version numbers and current date.
-2- Update the Class Diagram
-3- Commit and push changes in steps 1 and 2
-4- Merge into master branch
-5- Export signed apk
-6- Create server zip
-7- Publish release on github
-8- push to Google Play store
+- Insert token into FMSToken.java, remove FMSToken.java from git index
+- Run VersionUpdate.py, enter new version numbers and current date.
+- Update the Class Diagram
+- Commit and push changes in steps 1 and 2
+- Merge into master branch
+- Export signed apk
+- Create server zip
+- Publish release on github
+- push to Google Play store
