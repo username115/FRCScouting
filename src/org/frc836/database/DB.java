@@ -297,7 +297,7 @@ public class DB {
 
 				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
 
-				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+				Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
 				List<String> ret;
@@ -334,7 +334,7 @@ public class DB {
 
 				String[] projection = { WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC };
 
-				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+				Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						WHEEL_BASE_LU_Entry.COLUMN_NAME_ID);
 				List<String> ret;
@@ -372,7 +372,7 @@ public class DB {
 
 				String[] projection = { WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC };
 
-				Cursor c = db.query(EVENT_LU_Entry.TABLE_NAME, projection,
+				Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME, projection,
 						null, null, null, null,
 						WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID);
 				List<String> ret;
