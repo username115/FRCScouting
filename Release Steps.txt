@@ -1,9 +1,9 @@
 (Assumes code is fully tested, in a release branch, and ready to be released as-is)
-- Insert token into FMSToken.java, remove FMSToken.java from git index
 - Run VersionUpdate.py, enter new version numbers and current date.
 - Update the Class Diagram
 - Commit and push changes in steps 1 and 2
 - Merge into master branch
+- Insert token into FMSToken.java, remove FMSToken.java from git index
 - Export signed apk
 - Create server zip
 - Publish release on github
