@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Daniel Logan
+ * Copyright 2015 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,12 @@
 
 package org.frc836.database;
 
-import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_Entry;
+import java.util.Date;
+
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2015_Entry;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.robobees.recyclerush.PitStatsRR;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -30,6 +35,20 @@ public abstract class PitStats {
 	public String wheel_base;
 	public boolean auto_mode;
 	public String comments;
+
+	public static final String COLUMN_NAME_TEAM_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TEAM_ID;
+	public static final String TABLE_NAME = SCOUT_PIT_DATA_2015_Entry.TABLE_NAME;
+	public static final String COLUMN_NAME_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_ID;
+	public static final String COLUMN_NAME_TIMESTAMP = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP;
+	public static final String COLUMN_NAME_INVALID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_INVALID;
+	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID;
+	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID;
+	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
+	public static final String COLUMN_NAME_NOTES = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES;
+
+	public static PitStats getNewPitStats() {
+		return new PitStatsRR();
+	}
 
 	public PitStats() {
 		init();
@@ -46,18 +65,19 @@ public abstract class PitStats {
 
 	public ContentValues getValues(DB db, SQLiteDatabase database) {
 		ContentValues args = new ContentValues();
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_ID, team * team);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID, team);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID,
+
+		args.put(COLUMN_NAME_ID, team * team);
+		args.put(COLUMN_NAME_TEAM_ID, team);
+		args.put(COLUMN_NAME_CONFIG_ID,
 				db.getConfigIDFromName(chassis_config, database));
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID,
+		args.put(COLUMN_NAME_WHEEL_TYPE_ID,
 				db.getWheelTypeIDFromName(wheel_type, database));
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID,
+		args.put(COLUMN_NAME_WHEEL_BASE_ID,
 				db.getWheelBaseIDFromName(wheel_base, database));
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
-				auto_mode ? 1 : 0);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS, comments);
-		args.put(SCOUT_PIT_DATA_Entry.COLUMN_NAME_INVALID, 1);
+		// args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
+		// auto_mode ? 1 : 0);
+		args.put(COLUMN_NAME_NOTES, comments);
+		args.put(COLUMN_NAME_INVALID, 1);
 
 		return args;
 	}
@@ -66,28 +86,64 @@ public abstract class PitStats {
 		c.moveToFirst();
 
 		team = c.getInt(c
-				.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_TEAM_ID));
+				.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		chassis_config = DB
 				.getConfigNameFromID(
 						c.getInt(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_CONFIGURATION_ID)),
+								.getColumnIndexOrThrow(COLUMN_NAME_CONFIG_ID)),
 						database);
 		wheel_type = DB
 				.getWheelTypeNameFromID(
 						c.getInt(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_TYPE_ID)),
+								.getColumnIndexOrThrow(COLUMN_NAME_WHEEL_TYPE_ID)),
 						database);
 		wheel_base = DB
 				.getWheelBaseNameFromID(
 						c.getInt(c
-								.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_WHEEL_BASE_ID)),
+								.getColumnIndexOrThrow(COLUMN_NAME_WHEEL_BASE_ID)),
 						database);
-		auto_mode = c
-				.getInt(c
-						.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_AUTONOMOUS_MODE)) != 0;
+		// auto_mode = c
+		// .getInt(c
+		// .getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTONOMOUS_MODE))
+		// != 0;
 		comments = c
 				.getString(c
-						.getColumnIndexOrThrow(SCOUT_PIT_DATA_Entry.COLUMN_NAME_SCOUT_COMMENTS));
+						.getColumnIndexOrThrow(COLUMN_NAME_NOTES));
+	}
 
+	public String[] getProjection() {
+		String[] projection = { COLUMN_NAME_TEAM_ID,
+				COLUMN_NAME_CONFIG_ID,
+				COLUMN_NAME_WHEEL_TYPE_ID,
+				COLUMN_NAME_WHEEL_BASE_ID,
+				COLUMN_NAME_NOTES };
+		return projection;
+	}
+	
+	public boolean isTextField(String column_name) {
+		return COLUMN_NAME_NOTES.equalsIgnoreCase(column_name);
+	}
+	
+	public boolean needsConvertedToText(String column_name) {
+		return COLUMN_NAME_CONFIG_ID.equalsIgnoreCase(column_name) ||
+				COLUMN_NAME_WHEEL_BASE_ID.equalsIgnoreCase(column_name) ||
+				COLUMN_NAME_WHEEL_TYPE_ID.equalsIgnoreCase(column_name);
+	}
+	
+	public ContentValues jsonToCV(JSONObject json) throws JSONException {
+		ContentValues vals = new ContentValues();
+		
+		vals.put(COLUMN_NAME_ID, json.getInt(COLUMN_NAME_ID));
+		vals.put(COLUMN_NAME_TEAM_ID, json.getInt(COLUMN_NAME_TEAM_ID));
+		vals.put(COLUMN_NAME_CONFIG_ID, json.getInt(COLUMN_NAME_CONFIG_ID));
+		vals.put(COLUMN_NAME_WHEEL_TYPE_ID, json.getInt(COLUMN_NAME_WHEEL_TYPE_ID));
+		vals.put(COLUMN_NAME_WHEEL_BASE_ID, json.getInt(COLUMN_NAME_WHEEL_BASE_ID));
+		vals.put(COLUMN_NAME_NOTES, json.getString(COLUMN_NAME_NOTES));
+		
+		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json
+				.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
+		vals.put(COLUMN_NAME_INVALID, 0);
+		
+		return vals;
 	}
 }

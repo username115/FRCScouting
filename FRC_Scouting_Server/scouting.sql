@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.8
+-- version 4.0.10.7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 16, 2014 at 04:37 PM
--- Server version: 5.1.72-cll
--- PHP Version: 5.3.17
+-- Generation Time: Feb 21, 2015 at 12:28 PM
+-- Server version: 5.6.22-log
+-- PHP Version: 5.4.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -57,181 +57,197 @@ INSERT INTO `configuration_lu` (`id`, `configuration_desc`, `timestamp`, `invali
 CREATE TABLE IF NOT EXISTS `event_lu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `event_name` varchar(70) COLLATE latin1_general_cs NOT NULL,
-  `match_url` text COLLATE latin1_general_cs NOT NULL,
+  `event_code` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `date_start` datetime NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `event_name` (`event_name`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=103 ;
+  UNIQUE KEY `event_code_2` (`event_code`),
+  KEY `timestamp` (`timestamp`),
+  KEY `event_code` (`event_code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=123 ;
 
 --
 -- Dumping data for table `event_lu`
 --
 
-INSERT INTO `event_lu` (`id`, `event_name`, `match_url`, `timestamp`, `invalid`) VALUES
-(1, 'Central Illinois Regional', 'http://www2.usfirst.org/2014comp/Events/ILIL/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(2, 'Palmetto Regional', 'http://www2.usfirst.org/2014comp/Events/SCMB/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(3, 'Alamo Regional', 'http://www2.usfirst.org/2014comp/Events/TXSA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(4, 'Greater Toronto West Regional', 'http://www2.usfirst.org/2014comp/Events/ONTO2/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(5, 'Inland Empire Regional', 'http://www2.usfirst.org/2014comp/Events/CASB/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(6, 'Israel Regional', 'http://www2.usfirst.org/2014comp/Events/ISTA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(7, 'Greater Toronto East Regional', 'http://www2.usfirst.org/2014comp/Events/ONTO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(8, 'Arkansas Regional', 'http://www2.usfirst.org/2014comp/Events/ARFA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(9, 'San Diego Regional', 'http://www2.usfirst.org/2014comp/Events/CASD/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(10, 'Crossroads Regional', 'http://www2.usfirst.org/2014comp/Events/INTH/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(11, 'Lake Superior Regional', 'http://www2.usfirst.org/2014comp/Events/MNDU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(12, 'Northern Lights Regional', 'http://www2.usfirst.org/2014comp/Events/MNDU2/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(13, 'Hub City Regional', 'http://www2.usfirst.org/2014comp/Events/TXLU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(14, 'Central Valley Regional', 'http://www2.usfirst.org/2014comp/Events/CAMA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(15, 'Mexico City Regional', 'http://www2.usfirst.org/2014comp/Events/MXMC/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(16, 'Sacramento Regional', 'http://www2.usfirst.org/2014comp/Events/CASA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(17, 'Orlando Regional', 'http://www2.usfirst.org/2014comp/Events/FLOR/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(18, 'Greater Kansas City Regional', 'http://www2.usfirst.org/2014comp/Events/MOKC/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(19, 'St. Louis Regional', 'http://www2.usfirst.org/2014comp/Events/MOSL/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(20, 'North Carolina Regional', 'http://www2.usfirst.org/2014comp/Events/NCRE/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(21, 'New York Tech Valley Regional', 'http://www2.usfirst.org/2014comp/Events/NYTR/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(22, 'Dallas Regional', 'http://www2.usfirst.org/2014comp/Events/TXDA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(23, 'Utah Regional', 'http://www2.usfirst.org/2014comp/Events/UTWV/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(24, 'Waterloo Regional', 'http://www2.usfirst.org/2014comp/Events/ONWA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(25, 'Festival de Robotique FRC a Montreal Regional', 'http://www2.usfirst.org/2014comp/Events/QCMO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(26, 'Arizona Regional', 'http://www2.usfirst.org/2014comp/Events/AZCH/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(27, 'Los Angeles Regional', 'http://www2.usfirst.org/2014comp/Events/CALB/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(28, 'Boilermaker Regional', 'http://www2.usfirst.org/2014comp/Events/INWL/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(29, 'Buckeye Regional', 'http://www2.usfirst.org/2014comp/Events/OHCL/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(30, 'Virginia Regional', 'http://www2.usfirst.org/2014comp/Events/VARI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(31, 'Wisconsin Regional', 'http://www2.usfirst.org/2014comp/Events/WIMI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(32, 'North Bay Regional', 'http://www2.usfirst.org/2014comp/Events/ONNB/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(33, 'Peachtree Regional', 'http://www2.usfirst.org/2014comp/Events/GADU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(34, 'Hawaii Regional', 'http://www2.usfirst.org/2014comp/Events/HIHO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(35, 'Minnesota North Star Regional', 'http://www2.usfirst.org/2014comp/Events/MNMI2/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(36, 'Minnesota 1000 Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/MNMI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(37, 'SBPLI Long Island Regional', 'http://www2.usfirst.org/2014comp/Events/NYLI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(38, 'Finger Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/NYRO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(39, 'Queen City Regional', 'http://www2.usfirst.org/2014comp/Events/OHCI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(40, 'Oklahoma Regional', 'http://www2.usfirst.org/2014comp/Events/OKOK/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(41, 'Greater Pittsburgh Regional', 'http://www2.usfirst.org/2014comp/Events/PAPI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(42, 'Smoky Mountains Regional', 'http://www2.usfirst.org/2014comp/Events/TNKN/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(43, 'Greater DC Regional', 'http://www2.usfirst.org/2014comp/Events/DCWA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(44, 'Western Canada Regional', 'http://www2.usfirst.org/2014comp/Events/ABCA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(45, 'Windsor Essex Great Lakes Regional', 'http://www2.usfirst.org/2014comp/Events/ONWI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(46, 'Silicon Valley Regional', 'http://www2.usfirst.org/2014comp/Events/CASJ/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(47, 'Colorado Regional', 'http://www2.usfirst.org/2014comp/Events/CODE/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(48, 'South Florida Regional', 'http://www2.usfirst.org/2014comp/Events/FLFO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(49, 'Midwest Regional', 'http://www2.usfirst.org/2014comp/Events/ILCH/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(50, 'Bayou Regional', 'http://www2.usfirst.org/2014comp/Events/LAKE/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(51, 'Chesapeake Regional', 'http://www2.usfirst.org/2014comp/Events/MDBA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(52, 'Las Vegas Regional', 'http://www2.usfirst.org/2014comp/Events/NVLV/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(53, 'New York City Regional', 'http://www2.usfirst.org/2014comp/Events/NYNY/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(54, 'Lone Star Regional', 'http://www2.usfirst.org/2014comp/Events/TXHO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(55, 'Michigan FRC State Championship', 'http://www2.usfirst.org/2014comp/Events/MICMP/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(56, 'Mid-Atlantic Robotics FRC Region Championship', 'http://www2.usfirst.org/2014comp/Events/MRCMP/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(57, 'New England FRC Region Championship', 'http://www2.usfirst.org/2014comp/Events/NECMP/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(58, 'Autodesk PNW FRC Championship', 'http://www2.usfirst.org/2014comp/Events/PNCMP/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(59, 'Center Line FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MICEN/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(60, 'Southfield FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MISOU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(61, 'Kettering University FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIKET/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(62, 'Gull Lake FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIGUL/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(63, 'Escanaba FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIESC/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(64, 'Howell FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIHOW/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(65, 'West Michigan FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIWMI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(66, 'Great Lakes Bay Region FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIMID/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(67, 'Traverse City FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MITVC/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(68, 'Livonia FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MILIV/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(69, 'St. Joseph FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MISJO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(70, 'Waterford FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIWAT/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(71, 'Lansing FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MILAN/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(72, 'Bedford FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MIBED/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(73, 'Troy FIRST Robotics District Competition', 'http://www2.usfirst.org/2014comp/Events/MITRY/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(74, 'MAR FIRST Robotics Mt. Olive District Competition', 'http://www2.usfirst.org/2014comp/Events/NJFLA/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(75, 'MAR FIRST Robotics Hatboro-Horsham District Competition', 'http://www2.usfirst.org/2014comp/Events/PAHAT/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(76, 'MAR FIRST Robotics Springside Chestnut Hill District Competition', 'http://www2.usfirst.org/2014comp/Events/PAPHI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(77, 'MAR FIRST Robotics Cliffton District Competition', 'http://www2.usfirst.org/2014comp/Events/NJCLI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(78, 'MAR FIRST Robotics Lenape-Seneca District Competition', 'http://www2.usfirst.org/2014comp/Events/NJTAB/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(79, 'MAR FIRST Robotics Bridgewater-Raritan District Competition', 'http://www2.usfirst.org/2014comp/Events/NJBRI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(80, 'Granite State District Event', 'http://www2.usfirst.org/2014comp/Events/NHNAS/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(81, 'UNH District Event', 'http://www2.usfirst.org/2014comp/Events/NHDUR/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(82, 'Groton District Event', 'http://www2.usfirst.org/2014comp/Events/CTGRO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(83, 'WPI District Event', 'http://www2.usfirst.org/2014comp/Events/NAWOR/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(84, 'Rhode Island District Event', 'http://www2.usfirst.org/2014comp/Events/RISMI/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(85, 'Southington District Event', 'http://www2.usfirst.org/2014comp/Events/CTSOU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(86, 'Northeastern University District Event', 'http://www2.usfirst.org/2014comp/Events/MABOS/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(87, 'Hartford District Event', 'http://www2.usfirst.org/2014comp/Events/CTHAR/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(88, 'Pinetree District Event', 'http://www2.usfirst.org/2014comp/Events/MELEW/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(89, 'PNW FIRST Robotics Auburn Mountainview District Event', 'http://www2.usfirst.org/2014comp/Events/WAAMV/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(90, 'PNW FIRST Robotics Oregon City District Event', 'http://www2.usfirst.org/2014comp/Events/ORORE/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(91, 'PNW FIRST Robotics Glacier Peak District Event', 'http://www2.usfirst.org/2014comp/Events/WASNO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(92, 'PNW FIRST Robotics Eastern Washington University District Event', 'http://www2.usfirst.org/2014comp/Events/WACHE/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(93, 'PNW FIRST Robotics Mt. Vernon District Event', 'http://www2.usfirst.org/2014comp/Events/WAMOU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(94, 'PNW FIRST Robotics Wilsonville District Event', 'http://www2.usfirst.org/2014comp/Events/ORWIL/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(95, 'PNW FIRST Robotics Shorewood District Event', 'http://www2.usfirst.org/2014comp/Events/WASHO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(96, 'PNW FIRST Robotics Auburn District Event', 'http://www2.usfirst.org/2014comp/Events/WAAHS/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(97, 'PNW FIRST Robotics Central Washington University District Event', 'http://www2.usfirst.org/2014comp/Events/WAELO/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(98, 'PNW FIRST Robotics Oregon State University District Event', 'http://www2.usfirst.org/2014comp/Events/OROSU/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(99, 'Championship - Archimedes', 'http://www2.usfirst.org/2014comp/Events/Archimedes/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(100, 'Championship - Curie', 'http://www2.usfirst.org/2014comp/Events/Curie/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(101, 'Championship - Galileo', 'http://www2.usfirst.org/2014comp/Events/Galileo/ScheduleQual.html', '2014-01-25 15:19:51', 0),
-(102, 'Championship - Newton', 'http://www2.usfirst.org/2014comp/Events/Newton/ScheduleQual.html', '2014-01-25 15:19:51', 0);
+INSERT INTO `event_lu` (`id`, `event_name`, `event_code`, `date_start`, `timestamp`, `invalid`) VALUES
+(1, 'Western Canada Regional', 'ABCA', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(2, 'Arkansas Rock City Regional', 'ARFA', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0),
+(3, 'Australia Regional', 'AUSY', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(4, 'Arizona East Regional', 'AZCH', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(5, 'Arizona West Regional', 'AZPX', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(6, 'Los Angeles Regional sponsored by The Roddenberry Foundation', 'CALB', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(7, 'Central Valley Regional', 'CAMA', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0),
+(8, 'Inland Empire Regional', 'CARM', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(9, 'Sacramento Regional', 'CASA', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(10, 'San Diego Regional', 'CASD', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(11, 'Silicon Valley Regional', 'CASJ', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(12, 'Ventura Regional', 'CAVE', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(13, 'FIRST Championship', 'CMP', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(14, 'FIRST Championship - Archimedes Subdivision', 'CMP-ARCHIMEDES', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(15, 'FIRST Championship - ARTE Division', 'CMP-ARTE', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(16, 'FIRST Championship - Carson Subdivision', 'CMP-CARSON', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(17, 'FIRST Championship - Carver Subdivision', 'CMP-CARVER', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(18, 'FIRST Championship - CUCA Division', 'CMP-CUCA', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(19, 'FIRST Championship - Curie Subdivision', 'CMP-CURIE', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(20, 'FIRST Championship - GACA Division', 'CMP-GACA', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(21, 'FIRST Championship - Galileo Subdivision', 'CMP-GALILEO', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(22, 'FIRST Championship - Hopper Subdivision', 'CMP-HOPPER', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(23, 'FIRST Championship - NEHO Division', 'CMP-NEHO', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(24, 'FIRST Championship - Newton Subdivision', 'CMP-NEWTON', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(25, 'FIRST Championship - Tesla Subdivision', 'CMP-TESLA', '2015-04-22 00:00:00', '2015-02-21 17:18:53', 0),
+(26, 'Colorado Regional', 'CODE', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(27, 'NE District - Hartford Event', 'CTHAR', '2015-03-27 00:00:00', '2015-02-21 17:18:53', 0),
+(28, 'NE District - Waterbury Event', 'CTWAT', '2015-02-27 00:00:00', '2015-02-21 17:18:53', 0),
+(29, 'Greater DC Regional', 'DCWA', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(30, 'South Florida Regional', 'FLFO', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0),
+(31, 'Orlando Regional', 'FLOR', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(32, 'Peachtree Regional', 'GADU', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(33, 'Georgia Southern Classic Regional', 'GAPE', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(34, 'Hawaii Regional', 'HIHO', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(35, 'Midwest Regional', 'ILCH', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(36, 'Central Illinois Regional', 'ILIL', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(37, 'Indiana FIRST District Championship', 'INCMP', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0),
+(38, 'IN District - Indianapolis Event', 'ININD', '2015-02-27 00:00:00', '2015-02-21 17:18:53', 0),
+(39, 'IN District - Kokomo City of Firsts Event sponsored by AndyMark', 'INKOK', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(40, 'IN District - Purdue Event', 'INWLA', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0),
+(41, 'Israel Regional', 'ISTA', '2015-03-09 00:00:00', '2015-02-21 17:18:53', 0),
+(42, 'Bayou Regional', 'LAKE', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(43, 'NE District - Northeastern University Event', 'MABOS', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(44, 'NE District - UMass - Dartmouth Event', 'MANDA', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(45, 'NE District - Reading Event', 'MAREA', '2015-03-06 00:00:00', '2015-02-21 17:18:53', 0),
+(46, 'NE District - Pioneer Valley Event', 'MASPR', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0),
+(47, 'Chesapeake Regional', 'MDCP', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(48, 'NE District - Pine Tree Event', 'MELEW', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(49, 'FIM District - Bedford Event', 'MIBED', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0),
+(50, 'FIM District - Center Line Event', 'MICEN', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(51, 'FIRST in Michigan District Championship', 'MICMP', '2015-04-08 00:00:00', '2015-02-21 17:18:53', 0),
+(52, 'FIM District - Escanaba Event', 'MIESC', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(53, 'FIM District - Woodhaven Event', 'MIFLA', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(54, 'FIM District - Gull Lake Event', 'MIGUL', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(55, 'FIM District - Howell Event', 'MIHOW', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(56, 'FIM District - Kentwood Event', 'MIKEN', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0),
+(57, 'FIM District - Kettering University Event', 'MIKET', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0),
+(58, 'FIM District - Lansing Event', 'MILAN', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0),
+(59, 'FIM District - Livonia Event', 'MILIV', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(60, 'FIM District - Great Lakes Bay Region Event', 'MIMID', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0),
+(61, 'FIM District - St. Joseph Event', 'MISJO', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0),
+(62, 'FIM District - Southfield Event', 'MISOU', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(63, 'FIM District - Standish Event', 'MISTA', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(64, 'FIM District - Troy Event', 'MITRY', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0),
+(65, 'FIM District - Traverse City Event', 'MITVC', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(66, 'FIM District - Waterford Event', 'MIWAT', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0),
+(67, 'FIM District - West Michigan Event', 'MIWMI', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0),
+(68, 'Lake Superior Regional', 'MNDU', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0),
+(69, 'Northern Lights Regional', 'MNDU2', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0),
+(70, 'Minnesota 10000 Lakes Regional', 'MNMI', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(71, 'Minnesota North Star Regional', 'MNMI2', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(72, 'Greater Kansas City Regional', 'MOKC', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(73, 'St. Louis Regional', 'MOSL', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(74, 'Mid-Atlantic Robotics District Championship', 'MRCMP', '2015-04-08 00:00:00', '2015-02-21 17:18:53', 0),
+(75, 'Mexico City Regional', 'MXMC', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0),
+(76, 'North Carolina Regional', 'NCRE', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(77, 'NE FIRST District Championship presented by United Technologies', 'NECMP', '2015-04-08 00:00:00', '2015-02-21 17:18:53', 0),
+(78, 'NE District - UNH Event', 'NHDUR', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0),
+(79, 'NE District - Granite State Event', 'NHNAS', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(80, 'MAR District - Bridgewater-Raritan Event', 'NJBRI', '2015-03-27 00:00:00', '2015-02-21 17:18:53', 0),
+(81, 'MAR District - Mt. Olive Event', 'NJFLA', '2015-03-06 00:00:00', '2015-02-21 17:18:53', 0),
+(82, 'MAR District - North Brunswick Event', 'NJNBR', '2015-04-02 00:00:00', '2015-02-21 17:18:53', 0),
+(83, 'MAR District - Seneca Event', 'NJTAB', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0),
+(84, 'Las Vegas Regional', 'NVLV', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(85, 'SBPLI Long Island Regional', 'NYLI', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(86, 'New York City Regional', 'NYNY', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(87, 'Finger Lakes Regional', 'NYRO', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(88, 'New York Tech Valley Regional', 'NYTR', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(89, 'Queen City Regional', 'OHCI', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(90, 'Buckeye Regional', 'OHCL', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(91, 'Oklahoma Regional', 'OKOK', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(92, 'North Bay Regional', 'ONNB', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(93, 'Greater Toronto East Regional', 'ONTO', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(94, 'Greater Toronto Central Regional', 'ONTO2', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0),
+(95, 'Waterloo Regional', 'ONWA', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(96, 'Windsor Essex Great Lakes Regional', 'ONWI', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(97, 'PNW District - Oregon City Event', 'ORORE', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(98, 'PNW District - Philomath Event', 'ORPHI', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(99, 'PNW District - Wilsonville Event', 'ORWIL', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(100, 'MAR District - Upper Darby Event', 'PADRE', '2015-03-27 00:00:00', '2015-02-21 17:18:53', 0),
+(101, 'MAR District - Hatboro-Horsham Event', 'PAHAT', '2015-02-27 00:00:00', '2015-02-21 17:18:53', 0),
+(102, 'MAR District - Springside Chestnut Hill Event', 'PAPHI', '2015-03-12 00:00:00', '2015-02-21 17:18:53', 0),
+(103, 'Greater Pittsburgh Regional', 'PAPI', '2015-03-04 00:00:00', '2015-02-21 17:18:53', 0),
+(104, 'Pacific Northwest District Championship', 'PNCMP', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(105, 'FRC Festival de Robotique - Montreal Regional', 'QCMO', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(106, 'NE District - Rhode Island Event', 'RISMI', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0),
+(107, 'Palmetto Regional', 'SCMB', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0),
+(108, 'Smoky Mountains Regional', 'TNKN', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(109, 'Dallas Regional', 'TXDA', '2015-02-25 00:00:00', '2015-02-21 17:18:53', 0),
+(110, 'Lone Star Regional', 'TXHO', '2015-04-01 00:00:00', '2015-02-21 17:18:53', 0),
+(111, 'Hub City Regional', 'TXLU', '2015-03-25 00:00:00', '2015-02-21 17:18:53', 0),
+(112, 'Alamo Regional sponsored by Rackspace Hosting', 'TXSA', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(113, 'Utah Regional', 'UTWV', '2015-03-11 00:00:00', '2015-02-21 17:18:53', 0),
+(114, 'Virginia Regional', 'VARI', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0),
+(115, 'PNW District - Auburn Event', 'WAAHS', '2015-03-26 00:00:00', '2015-02-21 17:18:53', 0),
+(116, 'PNW District - Auburn Mountainview Event', 'WAAMV', '2015-02-26 00:00:00', '2015-02-21 17:18:53', 0),
+(117, 'PNW District - Central Washington University Event', 'WAELL', '2015-03-19 00:00:00', '2015-02-21 17:18:53', 0),
+(118, 'PNW District - Mount Vernon Event', 'WAMOU', '2015-03-13 00:00:00', '2015-02-21 17:18:53', 0),
+(119, 'PNW District - Shorewood Event', 'WASHO', '2015-03-20 00:00:00', '2015-02-21 17:18:53', 0),
+(120, 'PNW District - Glacier Peak Event', 'WASNO', '2015-03-06 00:00:00', '2015-02-21 17:18:53', 0),
+(121, 'PNW District - West Valley Event', 'WASPO', '2015-03-05 00:00:00', '2015-02-21 17:18:53', 0),
+(122, 'Wisconsin Regional', 'WIMI', '2015-03-18 00:00:00', '2015-02-21 17:18:53', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fact_cycle_data`
+-- Table structure for table `fact_match_data_2015`
 --
 
-CREATE TABLE IF NOT EXISTS `fact_cycle_data` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `event_id` int(5) unsigned NOT NULL,
-  `match_id` int(3) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `fact_match_data_2015` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `event_id` int(4) unsigned NOT NULL,
   `team_id` int(5) unsigned NOT NULL,
-  `cycle_num` int(3) unsigned NOT NULL,
-  `near_poss` tinyint(1) unsigned NOT NULL,
-  `white_poss` tinyint(1) unsigned NOT NULL,
-  `far_poss` tinyint(1) unsigned NOT NULL,
-  `truss` tinyint(1) unsigned NOT NULL,
-  `catch` tinyint(1) unsigned NOT NULL,
-  `high` tinyint(1) unsigned NOT NULL,
-  `low` tinyint(1) unsigned NOT NULL,
-  `assists` int(3) unsigned NOT NULL,
+  `match_id` int(4) unsigned NOT NULL,
+  `practice_match` tinyint(1) NOT NULL DEFAULT '0',
+  `position_id` int(3) unsigned NOT NULL,
+  `auto_move` tinyint(1) NOT NULL,
+  `auto_totes` int(2) unsigned NOT NULL,
+  `auto_stack_2` tinyint(1) NOT NULL,
+  `auto_stack_3` tinyint(1) NOT NULL,
+  `auto_bin` int(2) unsigned NOT NULL,
+  `auto_step_bin` int(2) unsigned NOT NULL,
+  `totes_1` int(3) unsigned NOT NULL,
+  `totes_2` int(3) unsigned NOT NULL,
+  `totes_3` int(3) unsigned NOT NULL,
+  `totes_4` int(3) unsigned NOT NULL,
+  `totes_5` int(3) unsigned NOT NULL,
+  `totes_6` int(3) unsigned NOT NULL,
+  `coop_1` int(2) unsigned NOT NULL,
+  `coop_2` int(2) unsigned NOT NULL,
+  `coop_3` int(2) unsigned NOT NULL,
+  `coop_4` int(2) unsigned NOT NULL,
+  `bin_1` int(3) unsigned NOT NULL,
+  `bin_2` int(3) unsigned NOT NULL,
+  `bin_3` int(3) unsigned NOT NULL,
+  `bin_4` int(3) unsigned NOT NULL,
+  `bin_5` int(3) unsigned NOT NULL,
+  `bin_6` int(3) unsigned NOT NULL,
+  `bin_litter` int(3) unsigned NOT NULL,
+  `landfill_litter` int(3) unsigned NOT NULL,
+  `tipped_stack` tinyint(1) NOT NULL,
+  `foul` tinyint(1) NOT NULL,
+  `yellow_card` tinyint(1) NOT NULL,
+  `red_card` tinyint(1) NOT NULL,
+  `tip_over` tinyint(1) NOT NULL,
+  `notes` text COLLATE latin1_general_cs NOT NULL,
+  `invalid` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `event_id` (`event_id`,`match_id`,`team_id`,`cycle_num`),
+  KEY `event_id` (`event_id`,`team_id`,`match_id`,`invalid`,`timestamp`),
+  KEY `position_id` (`position_id`),
+  KEY `invalid` (`invalid`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=25 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `fact_match_data`
---
-
-CREATE TABLE IF NOT EXISTS `fact_match_data` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `event_id` int(5) unsigned NOT NULL,
-  `match_id` int(3) unsigned NOT NULL,
-  `team_id` int(5) unsigned NOT NULL,
-  `auto_high` int(1) unsigned NOT NULL,
-  `auto_high_hot` int(1) unsigned NOT NULL,
-  `auto_low` int(1) unsigned NOT NULL,
-  `auto_low_hot` int(1) unsigned NOT NULL,
-  `high` int(1) unsigned NOT NULL,
-  `low` int(1) unsigned NOT NULL,
-  `auto_mobile` tinyint(1) unsigned NOT NULL,
-  `auto_goalie` tinyint(1) unsigned NOT NULL,
-  `num_cycles` int(3) unsigned NOT NULL,
-  `foul` tinyint(1) unsigned NOT NULL,
-  `tech_foul` tinyint(1) unsigned NOT NULL,
-  `tip_over` tinyint(1) unsigned NOT NULL,
-  `yellow_card` tinyint(1) unsigned NOT NULL,
-  `red_card` tinyint(1) unsigned NOT NULL,
-  `notes` varchar(1024) COLLATE latin1_general_cs NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `event_id` (`event_id`,`match_id`,`team_id`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -246,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `notes_options` (
   `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `notes_options`
@@ -255,8 +271,35 @@ CREATE TABLE IF NOT EXISTS `notes_options` (
 INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 (1, 'No Show', '2014-01-25 15:21:36', 0),
 (2, 'Non-functional', '2014-01-25 15:21:36', 0),
-(3, 'Defender', '2014-01-25 15:21:36', 0),
-(4, 'Catcher', '2014-01-25 15:21:36', 0);
+(4, 'Turned Bin upright', '2015-01-23 00:43:18', 0),
+(3, 'Turned Tote upright', '2015-01-23 00:43:18', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `position_lu`
+--
+
+CREATE TABLE IF NOT EXISTS `position_lu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `position` text COLLATE latin1_general_cs NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `timestamp` (`timestamp`,`invalid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `position_lu`
+--
+
+INSERT INTO `position_lu` (`id`, `position`, `timestamp`, `invalid`) VALUES
+(1, 'Red 1', '2015-02-12 00:30:10', 0),
+(2, 'Red 2', '2015-02-12 00:30:10', 0),
+(3, 'Red 3', '2015-02-12 00:30:36', 0),
+(4, 'Blue 1', '2015-02-12 00:30:36', 0),
+(5, 'Blue 2', '2015-02-12 00:30:50', 0),
+(6, 'Blue 3', '2015-02-12 00:30:50', 0);
 
 -- --------------------------------------------------------
 
@@ -278,34 +321,45 @@ CREATE TABLE IF NOT EXISTS `robot_lu` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `scout_pit_data`
+-- Table structure for table `scout_pit_data_2015`
 --
 
-CREATE TABLE IF NOT EXISTS `scout_pit_data` (
+CREATE TABLE IF NOT EXISTS `scout_pit_data_2015` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `team_id` int(10) unsigned NOT NULL,
-  `configuration_id` int(10) unsigned NOT NULL,
-  `wheel_type_id` int(10) unsigned NOT NULL,
-  `wheel_base_id` int(10) unsigned NOT NULL,
-  `autonomous_mode` tinyint(1) NOT NULL,
-  `auto_high` tinyint(1) unsigned NOT NULL,
-  `auto_low` tinyint(1) unsigned NOT NULL,
-  `auto_hot` tinyint(1) unsigned NOT NULL,
-  `auto_mobile` tinyint(1) unsigned NOT NULL,
-  `auto_goalie` tinyint(1) unsigned NOT NULL,
-  `truss` tinyint(1) unsigned NOT NULL,
-  `catch` tinyint(1) unsigned NOT NULL,
-  `active_control` tinyint(1) unsigned NOT NULL,
-  `launch_ball` tinyint(1) unsigned NOT NULL,
-  `score_high` tinyint(1) NOT NULL,
-  `score_low` tinyint(1) NOT NULL,
-  `max_height` int(10) unsigned NOT NULL,
-  `scout_comments` text COLLATE latin1_general_cs NOT NULL,
+  `team_id` int(5) unsigned NOT NULL,
+  `push_tote` tinyint(1) NOT NULL,
+  `push_bin` tinyint(1) NOT NULL,
+  `lift_tote` tinyint(1) NOT NULL,
+  `lift_bin` tinyint(1) NOT NULL,
+  `push_litter` tinyint(1) NOT NULL,
+  `load_litter` tinyint(1) NOT NULL,
+  `stack_tote_height` int(2) unsigned NOT NULL,
+  `stack_bin_height` int(2) unsigned NOT NULL,
+  `coop_totes` tinyint(1) unsigned NOT NULL,
+  `coop_stack_height` int(2) unsigned NOT NULL,
+  `move_auto` tinyint(1) NOT NULL,
+  `auto_bin_score` int(2) unsigned NOT NULL,
+  `auto_tote_score` int(2) unsigned NOT NULL,
+  `auto_tote_stack_height` int(2) unsigned NOT NULL,
+  `auto_step_bins` int(2) unsigned NOT NULL,
+  `config_id` int(3) unsigned NOT NULL,
+  `wheel_base_id` int(3) unsigned NOT NULL,
+  `wheel_type_id` int(3) unsigned NOT NULL,
+  `manip_style` text COLLATE latin1_general_cs NOT NULL,
+  `need_upright_tote` tinyint(1) NOT NULL,
+  `need_upright_bin` tinyint(1) NOT NULL,
+  `can_upright_tote` tinyint(1) NOT NULL,
+  `can_upright_bin` tinyint(1) NOT NULL,
+  `notes` text COLLATE latin1_general_cs NOT NULL,
+  `invalid` tinyint(1) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `team_id` (`team_id`),
+  KEY `invalid` (`invalid`,`timestamp`),
+  KEY `invalid_2` (`invalid`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=8 ;
+
 
 -- --------------------------------------------------------
 

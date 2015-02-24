@@ -29,6 +29,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.CheckBoxPreference;
@@ -52,7 +53,7 @@ public class Prefs extends PreferenceActivity {
 
 	private ListPreference eventP;
 
-	private static final String URL = "http://robobees.org/scouting.php";
+	private static final String URL = "https://robobees.org/scouting.php";
 
 	private DB db;
 
@@ -179,8 +180,10 @@ public class Prefs extends PreferenceActivity {
 				if (resp.getResponseString().contains("success")) {
 					toast = Toast.makeText(getBaseContext(),
 							"Password confirmed", Toast.LENGTH_SHORT);
-					if (binder != null)
+					if (binder != null) {
+						binder.setPassword(getSavedPassword(getApplicationContext()));
 						binder.initSync();
+					}
 				} else
 					toast = Toast.makeText(getBaseContext(),
 							"Invalid password", Toast.LENGTH_SHORT);
@@ -208,7 +211,7 @@ public class Prefs extends PreferenceActivity {
 		String ret = PreferenceManager.getDefaultSharedPreferences(context)
 				.getString("databaseURLPref", URL);
 		if (ret.length() > 0 && !ret.contains("://")) {
-			ret = "http://" + ret;
+			ret = "https://" + ret;
 		}
 		return ret;
 	}
@@ -227,12 +230,15 @@ public class Prefs extends PreferenceActivity {
 				.getString("eventPref", defaultValue);
 	}
 
-	/*
-	 * public static boolean getRobotPicPref(Context context, boolean
-	 * defaultValue) { return
-	 * PreferenceManager.getDefaultSharedPreferences(context)
-	 * .getBoolean("robotPicPref", defaultValue); }
-	 */
+	public static boolean getRobotPicPref(Context context, boolean defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean("robotPicPref", defaultValue);
+	}
+
+	public static boolean getPracticeMatch(Context context, boolean defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean("practiceMatchPref", defaultValue);
+	}
 
 	public static String getDefaultTeamNumber(Context context,
 			String defaultValue) {
@@ -264,5 +270,17 @@ public class Prefs extends PreferenceActivity {
 			return defaultValue;
 		}
 		return secs;
+	}
+
+	public static boolean getDontPrompt(Context context, boolean defaultValue) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean("doNotAskURL", defaultValue);
+	}
+	
+	public static void setDontPrompt(Context context, boolean dontPrompt) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("doNotAskURL", dontPrompt);
+		editor.apply();
 	}
 }

@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.growingstems.scouting"
-    android:versionCode="25"
-    android:versionName="2.2014.1.9" >
+    android:versionCode="26"
+    android:versionName="2.2015.1.1" >
 
     <uses-sdk
         android:minSdkVersion="13"
         android:targetSdkVersion="14" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <activity
-            android:name="org.frc836.aerialassist.MatchActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
         <activity
             android:name="org.growingstems.scouting.MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -38,35 +32,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.frc836.aerialassist.PitsActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/pits_label" >
-        </activity>
-        <activity
-            android:name="org.growingstems.scouting.DataActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_data" >
-        </activity>
-        <activity android:name="org.growingstems.scouting.EventStatsActivity" >
-        </activity>
-        <activity android:name="org.growingstems.scouting.TeamStatsActivity" >
-        </activity>
-        <activity
-            android:name="org.growingstems.scouting.MatchStatsActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_data" >
-        </activity>
-        <activity android:name="org.growingstems.scouting.GraphActivity" >
-        </activity>
 
         <service
             android:name="org.frc836.database.DBSyncService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="true" >
-
         </service>
+
+        <activity
+            android:name="org.robobees.recyclerush.MatchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/match_label"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="org.robobees.recyclerush.PitActivityRR"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/pits_label" >
+        </activity>
     </application>
 
 </manifest>

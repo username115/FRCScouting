@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<color name="pits_seperator_color">#ff777777</color>
+
+
+	<string name="litter_attributes_text">Litter:</string>
+	<string name="push_litter_text">Can Push Litter</string>
+	<string name="load_litter_text">Can Load Litter</string>
+
+	<string name="tote_attributes_text">Totes:</string>
+	<string name="push_tote_text">Can Push Totes</string>
+	<string name="lift_tote_text">Can Lift Totes</string>
+	<string name="need_upright_tote_text">Requires Totes to be Upright</string>
+	<string name="can_upright_tote_text">Can Flip Totes Upright</string>
+	<string name="stack_tote_height_text">Tote Stack Height:</string>
+	<string name="stack_tote_height_hint"># of totes</string>
+
+	<string name="bin_attributes_text">Bins:</string>
+	<string name="push_bin_text">Can Push Bins</string>
+	<string name="lift_bin_text">Can Lift Bins</string>
+	<string name="need_upright_bin_text">Requires Bins to be Upright</string>
+	<string name="can_upright_bin_text">Can Flip Bins Upright</string>
+	<string name="stack_bin_height_text">Bin Stack Height:</string>
+	<string name="stack_bin_height_hint"># of totes high</string>
+
+	<string name="coop_attributes_text">Coopertition:</string>
+	<string name="coop_totes_text">Can Participate in Coopertition</string>
+	<string name="coop_stack_height_text">Stack Height</string>
+	<string name="coop_stack_height_hint"># of totes</string>
+
+	<string name="move_auto_text">Can Move to Auto-Zone</string>
+	<string name="auto_bin_score_text">Bin Score</string>
+	<string name="auto_bin_score_hint"># of totes high</string>
+	<string name="auto_tote_score_text">Tote Score</string>
+	<string name="auto_tote_score_hint"># of totes</string>
+	<string name="auto_tote_stack_height_text">Tote Stack Height</string>
+	<string name="auto_tote_stack_height_hint"># of totes</string>
+	<string name="auto_step_bins_text">Step Bins</string>
+	<string name="auto_step_bins_hint"></string>
+
+	<string name="manipulation_description_text">Manipulator:</string>
+	<string name="manipulation_description_hint">Give a short description of the manipulator used.</string>
+
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/string1" name="notes"/>
+    <string name="common_notes"/>
+    <string name="tipped"/>
+    <string name="foul"/>
+    <string name="yellowcard"/>
+    <string name="redcard"/>
+    
+</resources>

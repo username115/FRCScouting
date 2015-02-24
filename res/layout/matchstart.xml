@@ -5,70 +5,42 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/matchStartHeader"
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/startMatchNum"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:hint="Match#"
+            android:inputType="number" >
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+            <requestFocus />
+        </EditText>
 
-            <EditText
-                android:id="@+id/startMatchNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:hint="@string/match_hint"
-                android:inputType="number" />
+        <TextView
+            android:id="@+id/startPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="Red 1"
+            android:textColor="#FF0000" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <EditText
-                android:id="@+id/startTeamNum1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/redborder"
-                android:gravity="center"
-                android:hint="@string/team_1_hint"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/startTeamNum2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/redborder"
-                android:gravity="center"
-                android:hint="@string/team_2_hint"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/startTeamNum3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/redborder"
-                android:gravity="center"
-                android:hint="@string/team_3_hint"
-                android:inputType="number" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/startTeamNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:hint="Team#"
+            android:inputType="number" >
+        </EditText>
     </LinearLayout>
 
     <Button
@@ -78,20 +50,27 @@
         android:layout_gravity="center_horizontal"
         android:text="Start Match" />
 
-   <!-- <ScrollView
+    <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
 
-        <ImageView
-            android:id="@+id/robotPic"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_gravity="top"
-            android:adjustViewBounds="true"
-            android:clickable="true"
-            android:contentDescription="Robot Picture"
-            android:src="@drawable/robot" />
-    </ScrollView>  --> 
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/robotPic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_margin="0dp"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:contentDescription="Robot Picture"
+                android:scaleType="fitCenter"
+                android:src="@drawable/robot" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

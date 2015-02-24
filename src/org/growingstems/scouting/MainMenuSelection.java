@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
+import org.growingstems.scouting.MenuSelections.Refreshable;
 
 public class MainMenuSelection {
 
@@ -64,12 +65,16 @@ public class MainMenuSelection {
 	}
 
 	public static void refresh(Activity context) {
-		if (context instanceof DataActivity) {
+		
+		/*if (context instanceof DataActivity) {
 			DataActivity act = (DataActivity) context;
 			act.refreshCurrentTab();
 		} else if (context instanceof MatchStatsActivity) {
 			MatchStatsActivity act = (MatchStatsActivity) context;
 			act.refreshStats();
+		} else {*/
+		if (context instanceof Refreshable) {
+			((Refreshable) context).refresh();
 		} else {
 			MatchSchedule schedule = new MatchSchedule();
 			SharedPreferences prefs = PreferenceManager

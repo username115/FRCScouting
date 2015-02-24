@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Daniel Logan
+ * Copyright 2015 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.aerialassist.PitsActivity;
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.R;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
-
+import org.robobees.recyclerush.PitActivityRR;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,12 +37,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 public class DashboardActivity extends Activity {
@@ -66,6 +68,8 @@ public class DashboardActivity extends Activity {
 	private static final String URL_MESSAGE = "You have not set a web site for this app to interface with.\nWould you like to do so now?";
 	private static String VERSION_MESSAGE;
 	private String versionCode;
+
+	private CheckBox doNotAskAgainC;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,17 +108,20 @@ public class DashboardActivity extends Activity {
 		pits.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), PitsActivity.class);
+				// TODO update for new Pits Activity
+				Intent intent = new Intent(getBaseContext(),
+						PitActivityRR.class);
 				startActivityForResult(intent, PITS_ACTIVITY_CODE);
-
 			}
 		});
 
 		data.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), DataActivity.class);
-				startActivityForResult(intent, DATA_ACTIVITY_CODE);
+				// TODO add data activity
+				// Intent intent = new Intent(getBaseContext(),
+				// DataActivity.class);
+				// startActivityForResult(intent, DATA_ACTIVITY_CODE);
 
 			}
 		});
@@ -141,7 +148,7 @@ public class DashboardActivity extends Activity {
 		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
 		if (url.length() > 0) {
 			db.checkVersion(new VersionCallback());
-		} else {
+		} else if (!Prefs.getDontPrompt(getApplicationContext(), false)) {
 			showDialog(URL_DIALOG);
 		}
 
@@ -221,6 +228,7 @@ public class DashboardActivity extends Activity {
 
 	}
 
+	@SuppressLint("InflateParams")
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -264,13 +272,19 @@ public class DashboardActivity extends Activity {
 			dialog = builder.create();
 			break;
 		case URL_DIALOG:
+			View doNotAskView = LayoutInflater.from(this).inflate(
+					R.layout.donotaskagaincheckbox, null);
+			doNotAskAgainC = (CheckBox) doNotAskView
+					.findViewById(R.id.donotaskagainC);
 			builder.setMessage(URL_MESSAGE)
 					.setCancelable(true)
+					.setView(doNotAskView)
 					.setPositiveButton("Yes",
 							new DialogInterface.OnClickListener() {
 
 								public void onClick(DialogInterface dialog,
 										int which) {
+									Prefs.setDontPrompt(getApplicationContext(), doNotAskAgainC.isChecked());
 									MainMenuSelection
 											.openSettings(DashboardActivity.this);
 									dialog.cancel();
@@ -281,6 +295,7 @@ public class DashboardActivity extends Activity {
 
 								public void onClick(DialogInterface dialog,
 										int which) {
+									Prefs.setDontPrompt(getApplicationContext(), doNotAskAgainC.isChecked());
 									dialog.cancel();
 								}
 							});
