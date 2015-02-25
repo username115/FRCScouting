@@ -21,10 +21,9 @@ require_once 'HTTP/Request2.php'; //Requires the Request2 PEAR library
  */
 
 $token_string = ""; //token string
-$ca_path = ""; //path to server ca file
 
 
-$frc_api_url = "https://frc.staging.api.usfirst.org";
+$frc_api_url = "https://frc-api.usfirst.org";
 
 $token = base64_encode($token_string);
 $season = $_GET['season'];
@@ -41,11 +40,6 @@ try {
     $request->setHeader($headers);
     
     $request->setAdapter('curl');
-    $request->setConfig(array(
-        'ssl_verify_peer'   => TRUE,
-        'ssl_verify_host'   => FALSE,
-        'ssl_cafile'        => $ca_path
-    ));
 
     $response = $request->send();
 
