@@ -35,7 +35,7 @@ import android.widget.Toast;
 public class MatchSchedule implements HttpCallback {
 
 	private static final String FILENAME = "FRCscoutingschedule";
-	private static final String FRC_API_URL = "https://frc.staging.api.usfirst.org";
+	private static final String FRC_API_URL = "https://frc-api.usfirst.org";
 	private static final String API_CALL = "/api/v1.0/schedule/2015/";
 
 	private boolean offseason = false;
@@ -61,7 +61,7 @@ public class MatchSchedule implements HttpCallback {
 				"Authorization",
 				"Basic "
 						+ Base64.encodeToString(FMSToken.token.getBytes(),
-								Base64.DEFAULT));
+								Base64.NO_WRAP));
 		if (url != null)
 			utils.doGet(url, this, headers);
 
