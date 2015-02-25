@@ -100,7 +100,7 @@ public class PitActivityRR extends Activity {
 		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
 
 		HELPMESSAGE = "Enter the requested information about each team. \n\n"
-				+ "When a team number is entered, the last time that data was" +
+				+ "When a team number is entered, the last time that data was " +
 				"collected about this team will be shown.\n"
 				+ "If the date shown is during the current event, data does " +
 				"not need to be collected.";
