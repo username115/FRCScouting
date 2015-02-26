@@ -118,10 +118,10 @@ public class DashboardActivity extends Activity {
 		data.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO add data activity
-				// Intent intent = new Intent(getBaseContext(),
-				// DataActivity.class);
-				// startActivityForResult(intent, DATA_ACTIVITY_CODE);
+				
+				Intent intent = new Intent(getBaseContext(),
+				DataActivity.class);
+				startActivityForResult(intent, DATA_ACTIVITY_CODE);
 
 			}
 		});

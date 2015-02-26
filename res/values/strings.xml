@@ -157,7 +157,7 @@
     </string-array>
 
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_data">Data lookup</string>
+    <string name="title_activity_data">Data Lookup</string>
     <string name="team_lookup">Search</string>
     <string name="eventstats">Event Stats</string>
     <string name="teamstats">Team Stats</string>
