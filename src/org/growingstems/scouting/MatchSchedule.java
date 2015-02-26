@@ -53,8 +53,11 @@ public class MatchSchedule implements HttpCallback {
 
 		db = new DB(_parent, null);
 
-		String url = FRC_API_URL + API_CALL + db.getCodeFromEventName(event)
-				+ "/?tournamentLevel=qual";
+		String url = FRC_API_URL
+				+ API_CALL
+				+ db.getCodeFromEventName(event)
+				+ (Prefs.getPracticeMatch(parent, false) ? "/?tournamentLevel=practice"
+						: "/?tournamentLevel=qual");
 		Map<String, String> headers = new HashMap<String, String>(1);
 		headers.put("Accept", "application/json");
 		headers.put(
@@ -133,7 +136,7 @@ public class MatchSchedule implements HttpCallback {
 						if (teams.getJSONObject(j).getString("station")
 								.compareToIgnoreCase(position) == 0)
 							ret = String.valueOf(teams.getJSONObject(j).getInt(
-									"number"));
+									"teamNumber"));
 					}
 				}
 			}
