@@ -84,9 +84,13 @@ public class MatchSchedule implements HttpCallback {
 				fos.write("No Schedule".getBytes());
 				fos.close();
 			}
-			if (toastComplete)
-				Toast.makeText(_parent, "Schedule Successfully Updated",
-						Toast.LENGTH_SHORT).show();
+			if (toastComplete) {
+				Toast.makeText(
+						_parent,
+						r.contains("\"level\"") ? "Schedule Successfully Updated"
+								: "No Schedule Available", Toast.LENGTH_SHORT)
+						.show();
+			}
 		} catch (Exception e) {
 			if (toastComplete)
 				Toast.makeText(_parent,
