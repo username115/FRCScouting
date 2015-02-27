@@ -87,6 +87,8 @@ public class PitActivityRR extends Activity {
 
 	private static final int CANCEL_DIALOG = 0;
 	private static final int NOTEAM_DIALOG = 24243;
+	private static final int CLEAR_DATA_DIALOG = 23930;
+	private static final int OVERWRITE_DATA_DIALOG = 59603;
 
 	private List<TeamNumTask> tasks = new ArrayList<TeamNumTask>(3);
 
@@ -267,6 +269,48 @@ public class PitActivityRR extends Activity {
 							});
 			dialog = builder.create();
 			break;
+		case OVERWRITE_DATA_DIALOG:
+			builder.setMessage(
+					"Data for this team exists. Overwrite current form?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									teamInfoT.setText("Last Updated: "
+											+ dateLoad.trim());
+									getTeamStats(teamLoad);
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
+		case CLEAR_DATA_DIALOG:
+			builder.setMessage("You had already entered data. Clear form?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									teamInfoT.setText("");
+									clearData();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
 		default:
 			dialog = null;
 		}
@@ -374,8 +418,8 @@ public class PitActivityRR extends Activity {
 	}
 
 	protected void clear() {
-		teamT.setText("");
 		clearData();
+		teamT.setText("");
 	}
 
 	protected void clearData() {
@@ -423,7 +467,10 @@ public class PitActivityRR extends Activity {
 				task.teamNum = Integer.valueOf(s.toString());
 				timer.postDelayed(task, DELAY);
 			} else {
-				clearData();
+				if (!dataClear())
+					showDialog(CLEAR_DATA_DIALOG);
+				else
+					clearData();
 			}
 		}
 
@@ -437,14 +484,26 @@ public class PitActivityRR extends Activity {
 
 	}
 
+	private int teamLoad = 0;
+	private String dateLoad = "";
+
 	private void setTeam(int teamNum) {
 		String date = submitter.getTeamPitInfo(String.valueOf(teamNum));
 		if (date.length() > 0) {
-			teamInfoT.setText("Last Updated: " + date.trim());
-			getTeamStats(teamNum);
+			if (dataClear()) {
+				teamInfoT.setText("Last Updated: " + date.trim());
+				getTeamStats(teamNum);
+			} else {
+				teamLoad = teamNum;
+				dateLoad = date;
+				showDialog(OVERWRITE_DATA_DIALOG);
+			}
 		} else {
-			teamInfoT.setText("");
-			clearData();
+			if (dataClear()) {
+				teamInfoT.setText("");
+				clearData();
+			} else
+				showDialog(CLEAR_DATA_DIALOG);
 		}
 	}
 
@@ -511,6 +570,32 @@ public class PitActivityRR extends Activity {
 		auto_step_binsT.setText(String.valueOf(stats.auto_step_bins));
 
 		manipulation_descriptionT.setText(stats.manipulation_description);
+	}
+
+	private boolean dataClear() {
+		if (commentsT.getText().toString().length() > 0
+				|| configS.getSelectedItemPosition() != 0
+				|| drivetrainS.getSelectedItemPosition() != 0
+				|| wheeltypeS.getSelectedItemPosition() != 0
+				|| push_litterC.isChecked() || load_litterC.isChecked()
+				|| push_toteC.isChecked() || lift_toteC.isChecked()
+				|| need_upright_toteC.isChecked()
+				|| can_upright_toteC.isChecked()
+				|| stack_tote_heightT.getText().toString().length() > 0
+				|| push_binC.isChecked() || lift_binC.isChecked()
+				|| need_upright_binC.isChecked()
+				|| can_upright_binC.isChecked()
+				|| stack_bin_heightT.getText().toString().length() > 0
+				|| coop_totesC.isChecked()
+				|| coop_stack_heightT.getText().toString().length() > 0
+				|| move_autoC.isChecked()
+				|| auto_bin_scoreT.getText().toString().length() > 0
+				|| auto_tote_scoreT.getText().toString().length() > 0
+				|| auto_tote_stack_heightT.getText().toString().length() > 0
+				|| auto_step_binsT.getText().toString().length() > 0
+				|| manipulation_descriptionT.getText().toString().length() > 0)
+			return false;
+		return true;
 	}
 
 }
