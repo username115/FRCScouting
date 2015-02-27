@@ -114,8 +114,9 @@ public class DBSyncService extends Service {
 		Intent notifyIntent = new Intent(this, DashboardActivity.class);
 		notifyIntent.setAction(Intent.ACTION_MAIN);
 		notifyIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent intent = PendingIntent.getActivity(this, 0, notifyIntent,
-				0);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		mBuilder.setContentIntent(intent);
 
@@ -972,8 +973,11 @@ public class DBSyncService extends Service {
 							else if (action == Action.DELETE)
 								action = Action.NOTHING;
 						} else {
-							int invalid = c.getInt(c.getColumnIndexOrThrow(PitStats.COLUMN_NAME_INVALID));
-							if (invalid > 0) //Current entry has not been sent to server, don't overwrite
+							int invalid = c
+									.getInt(c
+											.getColumnIndexOrThrow(PitStats.COLUMN_NAME_INVALID));
+							if (invalid > 0) // Current entry has not been sent
+												// to server, don't overwrite
 								action = Action.NOTHING;
 						}
 
