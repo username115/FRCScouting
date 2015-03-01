@@ -328,7 +328,6 @@ public class PitActivityRR extends Activity {
 
 	protected void submit() {
 		String tstr; // to avoid re-calc for string -> int check operations
-		// TODO finish adding submit actions as new scoring matrixs are added
 
 		tstr = teamT.getText().toString().trim();
 		if (tstr.length() > 0)
@@ -423,7 +422,6 @@ public class PitActivityRR extends Activity {
 	}
 
 	protected void clearData() {
-		// TODO add things to clear the data fields as submit is filled in
 		teamInfoT.setText("");
 		commentsT.setText("");
 
