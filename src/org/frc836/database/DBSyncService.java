@@ -48,6 +48,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 public class DBSyncService extends Service {
@@ -85,6 +86,8 @@ public class DBSyncService extends Service {
 
 	private static final int DELAY = 60000;
 
+	private NotificationCompat.Builder mBuilder;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -106,8 +109,8 @@ public class DBSyncService extends Service {
 
 		mTimerTask.post(dataTask);
 
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				this).setSmallIcon(R.drawable.ic_launcher)
+		mBuilder = new NotificationCompat.Builder(this)
+				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(getString(R.string.service_notify_title))
 				.setContentText(getString(R.string.service_notify_text))
 				.setOngoing(true).setWhen(0);
@@ -120,8 +123,11 @@ public class DBSyncService extends Service {
 
 		mBuilder.setContentIntent(intent);
 
-		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(
-				notifyID, mBuilder.build());
+		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+
+		if (url.length() > 1 && URLUtil.isValidUrl(url))
+			((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+					.notify(notifyID, mBuilder.build());
 	}
 
 	private boolean loadTimestamp() {
@@ -206,6 +212,26 @@ public class DBSyncService extends Service {
 			mTimerTask.removeCallbacks(dataTask);
 			initSync = true;
 			mTimerTask.post(dataTask);
+		}
+
+		public void refreshNotification() {
+			String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+			refreshNotification(url);
+		}
+		
+		public void refreshNotification(String url) {
+			if (url.length() > 1 && URLUtil.isValidUrl(url)) {
+				((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+						.notify(notifyID, DBSyncService.this.mBuilder.build());
+				if (!syncInProgress) {
+					mTimerTask.removeCallbacks(dataTask);
+					mTimerTask.postDelayed(dataTask, Prefs
+							.getMilliSecondsBetweenSyncs(
+									getApplicationContext(), DELAY));
+				}
+			} else
+				((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+						.cancel(notifyID);
 		}
 	}
 
@@ -521,6 +547,15 @@ public class DBSyncService extends Service {
 			if (syncInProgress || !running)
 				return;
 
+			String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+
+			if (url.length() <= 1 || !URLUtil.isValidUrl(url)) {
+				if (DB.debug)
+					Toast.makeText(getApplicationContext(), "No valid url",
+							Toast.LENGTH_SHORT).show();
+				return;
+			}
+
 			if (!syncForced
 					&& !Prefs.getAutoSync(getApplicationContext(), true)) {
 				mTimerTask.postDelayed(dataTask, Prefs
@@ -543,9 +578,7 @@ public class DBSyncService extends Service {
 			args.put("type", "sync");
 			args.put("timestamp", String.valueOf(lastSync.getTime()));
 			args.put("version", version);
-			utils.doPost(
-					Prefs.getScoutingURLNoDefault(getApplicationContext()),
-					args, new SyncCallback());
+			utils.doPost(url, args, new SyncCallback());
 		}
 	}
 
