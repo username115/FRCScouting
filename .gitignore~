@@ -1,0 +1,10 @@
+# ignore all bin directories
+# matches "bin" in any subfolder
+bin/
+
+# ignore all generated directories
+gen/
+
+# ignore all files ending with ~
+*~ 
+/.pydevproject
