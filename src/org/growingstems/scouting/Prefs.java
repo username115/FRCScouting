@@ -121,11 +121,21 @@ public class Prefs extends PreferenceActivity {
 		}
 
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-			DB db = new DB(getBaseContext(), null); // does not perform databse
-													// sync operations
-			db.checkPass(newValue.toString(), new PasswordCallback(isPass));
-			return true;
+			if (isPass) {
+				DB db = new DB(getBaseContext(), null); // does not perform
+														// database
+														// sync operations
+				db.checkPass(newValue.toString(), new PasswordCallback(isPass));
+				return true;
+			}
+			else {
+				String ret = newValue.toString();
+				if (ret.length() > 0 && !ret.contains("://")) {
+					ret = "https://" + ret;
+				}
+				binder.refreshNotification(ret);
+				return true;
+			}
 		}
 
 	}
@@ -220,7 +230,7 @@ public class Prefs extends PreferenceActivity {
 		String ret = PreferenceManager.getDefaultSharedPreferences(context)
 				.getString("databaseURLPref", "");
 		if (ret.length() > 0 && !ret.contains("://")) {
-			ret = "http://" + ret;
+			ret = "https://" + ret;
 		}
 		return ret;
 	}
@@ -276,9 +286,10 @@ public class Prefs extends PreferenceActivity {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean("doNotAskURL", defaultValue);
 	}
-	
+
 	public static void setDontPrompt(Context context, boolean dontPrompt) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean("doNotAskURL", dontPrompt);
 		editor.apply();
