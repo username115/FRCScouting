@@ -29,7 +29,6 @@ import org.sigmond.net.HttpRequestInfo;
 import org.sigmond.net.HttpUtils;
 
 import android.content.Context;
-import android.util.Base64;
 import android.widget.Toast;
 
 public class MatchSchedule implements HttpCallback {
