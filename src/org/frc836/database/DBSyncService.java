@@ -48,6 +48,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 public class DBSyncService extends Service {
@@ -78,12 +79,15 @@ public class DBSyncService extends Service {
 	private static final int notifyID = 74392;
 
 	private static volatile boolean syncInProgress = false;
+	private static volatile boolean notify = true;
 
 	private static enum Action {
 		NOTHING, INSERT, UPDATE, DELETE
 	};
 
 	private static final int DELAY = 60000;
+
+	private NotificationCompat.Builder mBuilder;
 
 	@Override
 	public void onCreate() {
@@ -106,21 +110,28 @@ public class DBSyncService extends Service {
 
 		mTimerTask.post(dataTask);
 
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				this).setSmallIcon(R.drawable.ic_launcher)
+		mBuilder = new NotificationCompat.Builder(this)
+				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(getString(R.string.service_notify_title))
 				.setContentText(getString(R.string.service_notify_text))
 				.setOngoing(true).setWhen(0);
 		Intent notifyIntent = new Intent(this, DashboardActivity.class);
 		notifyIntent.setAction(Intent.ACTION_MAIN);
 		notifyIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent intent = PendingIntent.getActivity(this, 0, notifyIntent,
-				0);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		mBuilder.setContentIntent(intent);
 
-		((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(
-				notifyID, mBuilder.build());
+		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+
+		if (url.length() > 1 && URLUtil.isValidUrl(url)) {
+			notify = true;
+			((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+					.notify(notifyID, mBuilder.build());
+		} else
+			notify = false;
 	}
 
 	private boolean loadTimestamp() {
@@ -161,6 +172,13 @@ public class DBSyncService extends Service {
 		return verCode.trim().compareToIgnoreCase(localVersion.trim()) == 0;
 	}
 
+	private void updateNotificationText(String text) {
+		mBuilder.setContentText(text);
+		if (notify)
+			((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+					.notify(notifyID, mBuilder.build());
+	}
+
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return mBinder;
@@ -176,6 +194,7 @@ public class DBSyncService extends Service {
 	public void onDestroy() {
 		mTimerTask.removeCallbacks(dataTask);
 		running = false;
+		notify = false;
 		((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
 				.cancel(notifyID);
 		super.onDestroy();
@@ -205,6 +224,29 @@ public class DBSyncService extends Service {
 			mTimerTask.removeCallbacks(dataTask);
 			initSync = true;
 			mTimerTask.post(dataTask);
+		}
+
+		public void refreshNotification() {
+			String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+			refreshNotification(url);
+		}
+
+		public void refreshNotification(String url) {
+			if (url.length() > 1 && URLUtil.isValidUrl(url)) {
+				((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+						.notify(notifyID, DBSyncService.this.mBuilder.build());
+				notify = true;
+				if (!syncInProgress) {
+					mTimerTask.removeCallbacks(dataTask);
+					mTimerTask.postDelayed(dataTask, Prefs
+							.getMilliSecondsBetweenSyncs(
+									getApplicationContext(), DELAY));
+				}
+			} else {
+				notify = false;
+				((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
+						.cancel(notifyID);
+			}
 		}
 	}
 
@@ -294,6 +336,7 @@ public class DBSyncService extends Service {
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
+					updateNotificationText("Uploading " + outgoing.size() + " records");
 				} else {
 					if (syncForced) {
 						syncForced = false;
@@ -313,6 +356,8 @@ public class DBSyncService extends Service {
 									.show();
 					}
 					syncInProgress = false;
+					updateNotificationText(getString(R.string.service_notify_text));
+
 					mTimerTask.postDelayed(dataTask, Prefs
 							.getMilliSecondsBetweenSyncs(
 									getApplicationContext(), DELAY));
@@ -340,6 +385,8 @@ public class DBSyncService extends Service {
 						.show();
 			}
 			syncInProgress = false;
+			updateNotificationText(getString(R.string.service_notify_text));
+
 			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
 					getApplicationContext(), DELAY));
 		}
@@ -368,6 +415,8 @@ public class DBSyncService extends Service {
 						.show();
 			}
 			syncInProgress = false;
+			updateNotificationText(getString(R.string.service_notify_text));
+
 			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
 					getApplicationContext(), DELAY));
 		}
@@ -493,6 +542,8 @@ public class DBSyncService extends Service {
 								.show();
 					}
 					syncInProgress = false;
+					updateNotificationText(getString(R.string.service_notify_text));
+
 					mTimerTask.postDelayed(dataTask, Prefs
 							.getMilliSecondsBetweenSyncs(
 									getApplicationContext(), DELAY));
@@ -520,6 +571,15 @@ public class DBSyncService extends Service {
 			if (syncInProgress || !running)
 				return;
 
+			String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+
+			if (url.length() <= 1 || !URLUtil.isValidUrl(url)) {
+				if (DB.debug)
+					Toast.makeText(getApplicationContext(), "No valid url",
+							Toast.LENGTH_SHORT).show();
+				return;
+			}
+
 			if (!syncForced
 					&& !Prefs.getAutoSync(getApplicationContext(), true)) {
 				mTimerTask.postDelayed(dataTask, Prefs
@@ -529,6 +589,7 @@ public class DBSyncService extends Service {
 			}
 
 			syncInProgress = true;
+			updateNotificationText(getString(R.string.notify_sync_starting));
 
 			if (syncForced || initSync) {
 				initSync = false;
@@ -542,14 +603,14 @@ public class DBSyncService extends Service {
 			args.put("type", "sync");
 			args.put("timestamp", String.valueOf(lastSync.getTime()));
 			args.put("version", version);
-			utils.doPost(
-					Prefs.getScoutingURLNoDefault(getApplicationContext()),
-					args, new SyncCallback());
+			utils.doPost(url, args, new SyncCallback());
 		}
 	}
 
 	private void processConfig(JSONArray config) {
 		try {
+			updateNotificationText(getString(R.string.notify_table) + " "
+					+ CONFIGURATION_LU_Entry.TABLE_NAME);
 			for (int i = 0; i < config.length(); i++) {
 				JSONObject row = config.getJSONObject(i);
 				Action action = Action.UPDATE;
@@ -624,6 +685,7 @@ public class DBSyncService extends Service {
 
 	private void processEvents(JSONArray events) {
 		try {
+			updateNotificationText(getString(R.string.notify_table) + " " + EVENT_LU_Entry.TABLE_NAME);
 			for (int i = 0; i < events.length(); i++) {
 				JSONObject row = events.getJSONObject(i);
 				Action action = Action.UPDATE;
@@ -697,6 +759,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processMatches(JSONArray matches) {
+		updateNotificationText(getString(R.string.notify_table) + " " + MatchStatsStruct.TABLE_NAME);
 		// TODO could be abstracted further
 		try {
 			for (int i = 0; i < matches.length(); i++) {
@@ -785,6 +848,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processNotes(JSONArray notes) {
+		updateNotificationText(getString(R.string.notify_table) + " " + NOTES_OPTIONS_Entry.TABLE_NAME);
+		
 		try {
 			for (int i = 0; i < notes.length(); i++) {
 				JSONObject row = notes.getJSONObject(i);
@@ -862,6 +927,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processRobots(JSONArray robots) {
+		updateNotificationText(getString(R.string.notify_table) + " " + ROBOT_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < robots.length(); i++) {
 				JSONObject row = robots.getJSONObject(i);
@@ -938,6 +1004,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processPits(JSONArray pits) {
+		updateNotificationText(getString(R.string.notify_table) + " " + PitStats.TABLE_NAME);
 		// TODO could be abstracted further
 		try {
 			for (int i = 0; i < pits.length(); i++) {
@@ -972,8 +1039,11 @@ public class DBSyncService extends Service {
 							else if (action == Action.DELETE)
 								action = Action.NOTHING;
 						} else {
-							int invalid = c.getInt(c.getColumnIndexOrThrow(PitStats.COLUMN_NAME_INVALID));
-							if (invalid > 0) //Current entry has not been sent to server, don't overwrite
+							int invalid = c
+									.getInt(c
+											.getColumnIndexOrThrow(PitStats.COLUMN_NAME_INVALID));
+							if (invalid > 0) // Current entry has not been sent
+												// to server, don't overwrite
 								action = Action.NOTHING;
 						}
 
@@ -1006,6 +1076,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processWheelBase(JSONArray wheelBase) {
+		updateNotificationText(getString(R.string.notify_table) + " " + WHEEL_BASE_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < wheelBase.length(); i++) {
 				JSONObject row = wheelBase.getJSONObject(i);
@@ -1084,6 +1155,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processWheelType(JSONArray wheelType) {
+		updateNotificationText(getString(R.string.notify_table) + " " + WHEEL_TYPE_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < wheelType.length(); i++) {
 				JSONObject row = wheelType.getJSONObject(i);
@@ -1162,6 +1234,7 @@ public class DBSyncService extends Service {
 	}
 
 	private void processPositions(JSONArray positions) {
+		updateNotificationText(getString(R.string.notify_table) + " " + POSITION_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < positions.length(); i++) {
 				JSONObject row = positions.getJSONObject(i);

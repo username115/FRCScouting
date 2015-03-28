@@ -37,7 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class PitActivityRR extends Activity {
 	private String HELPMESSAGE;
 
@@ -80,7 +79,6 @@ public class PitActivityRR extends Activity {
 
 	private EditText manipulation_descriptionT;
 
-
 	private LocalBinder binder;
 	private ServiceWatcher watcher = new ServiceWatcher();
 
@@ -88,9 +86,11 @@ public class PitActivityRR extends Activity {
 	private static final int DELAY = 500;
 
 	private static final int CANCEL_DIALOG = 0;
+	private static final int NOTEAM_DIALOG = 24243;
+	private static final int CLEAR_DATA_DIALOG = 23930;
+	private static final int OVERWRITE_DATA_DIALOG = 59603;
 
 	private List<TeamNumTask> tasks = new ArrayList<TeamNumTask>(3);
-
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,10 +100,10 @@ public class PitActivityRR extends Activity {
 		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
 
 		HELPMESSAGE = "Enter the requested information about each team. \n\n"
-				+ "When a team number is entered, the last time that data was " +
-				"collected about this team will be shown.\n"
-				+ "If the date shown is during the current event, data does " +
-				"not need to be collected.";
+				+ "When a team number is entered, the last time that data was "
+				+ "collected about this team will be shown.\n"
+				+ "If the date shown is during the current event, data does "
+				+ "not need to be collected.";
 
 		submitter = new DB(getBaseContext(), binder);
 		stats = new PitStatsRR();
@@ -135,9 +135,9 @@ public class PitActivityRR extends Activity {
 		auto_tote_scoreT = (EditText) findViewById(R.id.auto_tote_score);
 		auto_tote_stack_heightT = (EditText) findViewById(R.id.auto_tote_stack_height);
 		auto_step_binsT = (EditText) findViewById(R.id.auto_step_bins);
-		
+
 		manipulation_descriptionT = (EditText) findViewById(R.id.manipulation_description);
-		
+
 		commentsT = (EditText) findViewById(R.id.pits_commentsT);
 		submitB = (Button) findViewById(R.id.pits_submitB);
 		teamInfoT = (TextView) findViewById(R.id.pits_teamInfo);
@@ -173,7 +173,8 @@ public class PitActivityRR extends Activity {
 			configS.setAdapter(adapter);
 		}
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
 		String pass = prefs.getString("passPref", "");
 		submitter.setPass(pass);
 		for (TeamNumTask task : tasks) {
@@ -188,7 +189,6 @@ public class PitActivityRR extends Activity {
 		unbindService(watcher);
 	}
 
-
 	protected class ServiceWatcher implements ServiceConnection {
 
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -202,7 +202,6 @@ public class PitActivityRR extends Activity {
 		}
 	}
 
-
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.mainmenu, menu);
@@ -210,8 +209,8 @@ public class PitActivityRR extends Activity {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return MainMenuSelection.onOptionsItemSelected(item, this) ?
-				true : super.onOptionsItemSelected(item);
+		return MainMenuSelection.onOptionsItemSelected(item, this) ? true
+				: super.onOptionsItemSelected(item);
 	}
 
 	public void onBackPressed() {
@@ -224,46 +223,100 @@ public class PitActivityRR extends Activity {
 
 		switch (id) {
 
-			case CANCEL_DIALOG:
-				builder.setMessage("Cancel Data Entry?\nChanges will not be saved.")
-						.setCancelable(false)
-						.setPositiveButton("Yes",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-									                    int id) {
-										PitActivityRR.this.finish();
-									}
-								})
-						.setNegativeButton("No",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-									                    int id) {
-										dialog.cancel();
-									}
-								});
-				dialog = builder.create();
-				break;
+		case CANCEL_DIALOG:
+			builder.setMessage("Cancel Data Entry?\nChanges will not be saved.")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									PitActivityRR.this.finish();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
 
-			case MainMenuSelection.HELPDIALOG:
-				builder.setMessage(HELPMESSAGE)
-						.setCancelable(true)
-						.setPositiveButton("OK",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-									                    int which) {
-										dialog.cancel();
-									}
-								});
-				dialog = builder.create();
-				break;
-
-			default:
-				dialog = null;
+		case MainMenuSelection.HELPDIALOG:
+			builder.setMessage(HELPMESSAGE)
+					.setCancelable(true)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
+		case NOTEAM_DIALOG:
+			builder.setMessage(
+					"No team number entered, please enter a team number")
+					.setCancelable(true)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.cancel();
+									teamT.requestFocus();
+								}
+							});
+			dialog = builder.create();
+			break;
+		case OVERWRITE_DATA_DIALOG:
+			builder.setMessage(
+					"Data for this team exists. Overwrite current form?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									teamInfoT.setText("Last Updated: "
+											+ dateLoad.trim());
+									getTeamStats(teamLoad);
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
+		case CLEAR_DATA_DIALOG:
+			builder.setMessage("You had already entered data. Clear form?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									teamInfoT.setText("");
+									clearData();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			dialog = builder.create();
+			break;
+		default:
+			dialog = null;
 		}
 
 		return dialog;
 	}
-
 
 	private class SubmitListener implements OnClickListener {
 
@@ -273,14 +326,16 @@ public class PitActivityRR extends Activity {
 
 	}
 
-
 	protected void submit() {
 		String tstr; // to avoid re-calc for string -> int check operations
-		// TODO finish adding submit actions as new scoring matrixs are added
 
 		tstr = teamT.getText().toString().trim();
-		if (tstr.length() > 0) stats.team = Integer.valueOf(tstr);
-		else stats.team = 0;
+		if (tstr.length() > 0)
+			stats.team = Integer.valueOf(tstr);
+		else {
+			showDialog(NOTEAM_DIALOG);
+			return;
+		}
 
 		stats.wheel_type = wheeltypeS.getSelectedItem().toString();
 		stats.chassis_config = configS.getSelectedItem().toString();
@@ -288,58 +343,72 @@ public class PitActivityRR extends Activity {
 
 		stats.comments = commentsT.getText().toString();
 
-		stats.manipulation_description = manipulation_descriptionT.getText().toString();
+		stats.manipulation_description = manipulation_descriptionT.getText()
+				.toString();
 
-	// LITTER
+		// LITTER
 		stats.push_litter = push_litterC.isChecked();
 		stats.load_litter = load_litterC.isChecked();
-	// TOTES
+		// TOTES
 		stats.push_tote = push_toteC.isChecked();
 		stats.lift_tote = lift_toteC.isChecked();
 		stats.need_upright_tote = need_upright_toteC.isChecked();
 		stats.can_upright_tote = can_upright_toteC.isChecked();
 
 		tstr = stack_tote_heightT.getText().toString().trim(); // avoid re-calc
-		if (tstr.length() > 0) stats.stack_tote_height = Short.valueOf(tstr);
-		else stats.stack_tote_height = 0;
+		if (tstr.length() > 0)
+			stats.stack_tote_height = Short.valueOf(tstr);
+		else
+			stats.stack_tote_height = 0;
 
-	// BINS
+		// BINS
 		stats.push_bin = push_binC.isChecked();
 		stats.lift_bin = lift_binC.isChecked();
 		stats.need_upright_bin = need_upright_binC.isChecked();
 		stats.can_upright_bin = can_upright_binC.isChecked();
 
 		tstr = stack_bin_heightT.getText().toString().trim();
-		if (tstr.length() > 0) stats.stack_bin_height = Short.valueOf(tstr);
-		else stats.stack_bin_height = 0;
+		if (tstr.length() > 0)
+			stats.stack_bin_height = Short.valueOf(tstr);
+		else
+			stats.stack_bin_height = 0;
 
-	// COOP
+		// COOP
 		stats.coop_totes = coop_totesC.isChecked();
 
 		tstr = coop_stack_heightT.getText().toString().trim();
-		if (tstr.length() > 0) stats.coop_stack_height = Short.valueOf(tstr);
-		else stats.coop_stack_height = 0;
+		if (tstr.length() > 0)
+			stats.coop_stack_height = Short.valueOf(tstr);
+		else
+			stats.coop_stack_height = 0;
 
-	// AUTO
+		// AUTO
 		stats.move_auto = move_autoC.isChecked();
 
 		tstr = auto_bin_scoreT.getText().toString().trim();
-		if (tstr.length() > 0) stats.auto_bin_score = Short.valueOf(tstr);
-		else stats.auto_bin_score = 0;
+		if (tstr.length() > 0)
+			stats.auto_bin_score = Short.valueOf(tstr);
+		else
+			stats.auto_bin_score = 0;
 
 		tstr = auto_tote_scoreT.getText().toString().trim();
-		if (tstr.length() > 0) stats.auto_tote_score = Short.valueOf(tstr);
-		else stats.auto_tote_score = 0;
+		if (tstr.length() > 0)
+			stats.auto_tote_score = Short.valueOf(tstr);
+		else
+			stats.auto_tote_score = 0;
 
 		tstr = auto_tote_stack_heightT.getText().toString().trim();
-		if (tstr.length() > 0) stats.auto_tote_stack_height = Short.valueOf(tstr);
-		else stats.auto_tote_stack_height = 0;
+		if (tstr.length() > 0)
+			stats.auto_tote_stack_height = Short.valueOf(tstr);
+		else
+			stats.auto_tote_stack_height = 0;
 
 		tstr = auto_step_binsT.getText().toString().trim();
-		if (tstr.length() > 0) stats.auto_step_bins = Short.valueOf(tstr);
-		else stats.auto_step_bins = 0;
-		
-		
+		if (tstr.length() > 0)
+			stats.auto_step_bins = Short.valueOf(tstr);
+		else
+			stats.auto_step_bins = 0;
+
 		if (submitter.submitPits(stats))
 			clear();
 		else
@@ -348,12 +417,11 @@ public class PitActivityRR extends Activity {
 	}
 
 	protected void clear() {
-		teamT.setText("");
 		clearData();
+		teamT.setText("");
 	}
 
 	protected void clearData() {
-		// TODO add things to clear the data fields as submit is filled in
 		teamInfoT.setText("");
 		commentsT.setText("");
 
@@ -388,7 +456,6 @@ public class PitActivityRR extends Activity {
 		manipulation_descriptionT.setText("");
 	}
 
-
 	private class teamTextListener implements TextWatcher {
 
 		public void afterTextChanged(Editable s) {
@@ -398,28 +465,45 @@ public class PitActivityRR extends Activity {
 				task.teamNum = Integer.valueOf(s.toString());
 				timer.postDelayed(task, DELAY);
 			} else {
-				clearData();
+				if (!dataClear())
+					showDialog(CLEAR_DATA_DIALOG);
+				else
+					clearData();
 			}
 		}
 
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
 
-		public void onTextChanged(CharSequence s, int start, int before, int count) {}
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+		}
 
 	}
 
+	private int teamLoad = 0;
+	private String dateLoad = "";
 
 	private void setTeam(int teamNum) {
 		String date = submitter.getTeamPitInfo(String.valueOf(teamNum));
 		if (date.length() > 0) {
-			teamInfoT.setText("Last Updated: " + date.trim());
-			getTeamStats(teamNum);
+			if (dataClear()) {
+				teamInfoT.setText("Last Updated: " + date.trim());
+				getTeamStats(teamNum);
+			} else {
+				teamLoad = teamNum;
+				dateLoad = date;
+				showDialog(OVERWRITE_DATA_DIALOG);
+			}
 		} else {
-			teamInfoT.setText("");
-			clearData();
+			if (dataClear()) {
+				teamInfoT.setText("");
+				clearData();
+			} else
+				showDialog(CLEAR_DATA_DIALOG);
 		}
 	}
-
 
 	private class TeamNumTask implements Runnable {
 		int teamNum;
@@ -432,7 +516,6 @@ public class PitActivityRR extends Activity {
 		}
 	}
 
-
 	private void getTeamStats(int teamNum) {
 		PitStats s = submitter.getTeamPitStats(teamNum);
 		if (s instanceof PitStatsRR)
@@ -443,7 +526,7 @@ public class PitActivityRR extends Activity {
 		populateData(stats);
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void populateData(PitStatsRR stats) {
 		int index = ((ArrayAdapter) configS.getAdapter())
 				.getPosition(stats.chassis_config);
@@ -480,10 +563,37 @@ public class PitActivityRR extends Activity {
 		move_autoC.setChecked(stats.move_auto);
 		auto_bin_scoreT.setText(String.valueOf(stats.auto_bin_score));
 		auto_tote_scoreT.setText(String.valueOf(stats.auto_tote_score));
-		auto_tote_stack_heightT.setText(String.valueOf(stats.auto_tote_stack_height));
+		auto_tote_stack_heightT.setText(String
+				.valueOf(stats.auto_tote_stack_height));
 		auto_step_binsT.setText(String.valueOf(stats.auto_step_bins));
 
 		manipulation_descriptionT.setText(stats.manipulation_description);
+	}
+
+	private boolean dataClear() {
+		if (commentsT.getText().toString().length() > 0
+				|| configS.getSelectedItemPosition() != 0
+				|| drivetrainS.getSelectedItemPosition() != 0
+				|| wheeltypeS.getSelectedItemPosition() != 0
+				|| push_litterC.isChecked() || load_litterC.isChecked()
+				|| push_toteC.isChecked() || lift_toteC.isChecked()
+				|| need_upright_toteC.isChecked()
+				|| can_upright_toteC.isChecked()
+				|| stack_tote_heightT.getText().toString().length() > 0
+				|| push_binC.isChecked() || lift_binC.isChecked()
+				|| need_upright_binC.isChecked()
+				|| can_upright_binC.isChecked()
+				|| stack_bin_heightT.getText().toString().length() > 0
+				|| coop_totesC.isChecked()
+				|| coop_stack_heightT.getText().toString().length() > 0
+				|| move_autoC.isChecked()
+				|| auto_bin_scoreT.getText().toString().length() > 0
+				|| auto_tote_scoreT.getText().toString().length() > 0
+				|| auto_tote_stack_heightT.getText().toString().length() > 0
+				|| auto_step_binsT.getText().toString().length() > 0
+				|| manipulation_descriptionT.getText().toString().length() > 0)
+			return false;
+		return true;
 	}
 
 }
