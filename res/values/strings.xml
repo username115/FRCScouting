@@ -182,10 +182,7 @@
 	<string name="notify_sync_starting">Starting Sync</string>
 	<string name="notify_table">Processing table:</string>
 	
-	<string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+	<string name="title_event_section">Events</string>
+    <string name="title_team_section">Teams</string>
 
 </resources>
