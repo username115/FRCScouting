@@ -297,8 +297,8 @@ public class DB {
 
 				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
 
-				Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection,
-						null, null, null, null,
+				Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME,
+						projection, null, null, null, null,
 						CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
 				List<String> ret;
 				try {
@@ -456,6 +456,47 @@ public class DB {
 						do {
 							ret.add(c.getString(c
 									.getColumnIndexOrThrow(NOTES_OPTIONS_Entry.COLUMN_NAME_OPTION_TEXT)));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	public List<String> getEventsWithData() {
+		synchronized (ScoutingDBHelper.lock) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
+						.getReadableDatabase();
+
+				String[] projection = {
+						MatchStatsStruct.COLUMN_NAME_EVENT_ID,
+						"MAX(" + MatchStatsStruct.COLUMN_NAME_TIMESTAMP
+								+ ") AS time" };
+
+				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+						null, null, MatchStatsStruct.COLUMN_NAME_EVENT_ID,
+						null, "time");
+				List<String> ret;
+				try {
+
+					ret = new ArrayList<String>(c.getCount());
+
+					if (c.moveToFirst())
+						do {
+							ret.add(getEventNameFromID(
+									c.getInt(c
+											.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_EVENT_ID)),
+									db));
 						} while (c.moveToNext());
 					else
 						ret = null;
@@ -957,8 +998,6 @@ public class DB {
 
 					SQLiteDatabase db = ScoutingDBHelper.getInstance()
 							.getReadableDatabase();
-
-					
 
 					SparseArray<String> configs = new SparseArray<String>();
 					SparseArray<String> types = new SparseArray<String>();
