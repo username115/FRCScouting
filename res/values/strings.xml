@@ -166,7 +166,7 @@
 
 	<string name="menu_settings">Settings</string>
 	<string name="title_activity_data">Data Lookup</string>
-	<string name="team_lookup">Search</string>
+	<string name="team_lookup">Load</string>
 	<string name="eventstats">Event Stats</string>
 	<string name="teamstats">Team Stats</string>
 	<string name="refresh_data">Refresh Data</string>

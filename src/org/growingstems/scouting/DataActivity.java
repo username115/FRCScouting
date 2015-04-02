@@ -20,18 +20,21 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class DataActivity extends Activity implements ActionBar.TabListener {
+
+	private static final int defaultListResource = android.R.layout.simple_list_item_1;
 
 	private static final int PT_EVENTS = 0;
 	private static final int PT_TEAMS = 1;
@@ -167,6 +170,10 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 
 		private static final String ARG_SECTION_TITLE = "section_title";
 
+		private ListView dataList;
+
+		private View rootView;
+
 		private int mSectionType;
 
 		public static DataFragment newInstance(int section_title) {
@@ -185,27 +192,53 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
-			View rootView = inflater.inflate(R.layout.fragment_data, container,
+			rootView = inflater.inflate(R.layout.fragment_data, container,
 					false);
 			mSectionType = getArguments().getInt(ARG_SECTION_TITLE, PT_EVENTS);
+			dataList = (ListView) rootView.findViewById(R.id.dataList);
 			if (mSectionType == PT_TEAMS) { // team tab
 				rootView.findViewById(R.id.data_team_input_layout)
 						.setVisibility(View.VISIBLE);
 			} else { // Event tab
 				rootView.findViewById(R.id.data_team_input_layout)
 						.setVisibility(View.GONE);
-				List<String> events = db.getEventsWithData();
-				if (events.isEmpty()) {
-					events.add("No Data for any Event");
-				}
-				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-						getActivity(), android.R.layout.simple_list_item_1,
-						events);
-				((ListView) rootView.findViewById(R.id.dataList))
-						.setAdapter(adapter);
 			}
+			refreshData();
 
 			return rootView;
+		}
+
+		private void refreshData() {
+			if (mSectionType == PT_TEAMS) { // team tab
+				List<String> teams = db.getTeamsWithData();
+				String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "")
+						.trim();
+				if (teams.isEmpty()) {
+					teams.add("No Data for any Team");
+				} else if (ourTeam.length() > 0
+						&& TextUtils.isDigitsOnly(ourTeam)
+						&& teams.contains(ourTeam)) {
+					teams.remove(ourTeam);
+					teams.add(0, ourTeam);
+				}
+				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						getActivity(), defaultListResource, teams);
+				dataList.setAdapter(adapter);
+				dataList.setOnItemClickListener(new TeamClick());
+			} else { // Event tab
+				List<String> events = db.getEventsWithData();
+				String curEvent = Prefs.getEvent(getActivity(), "");
+				if (events.isEmpty()) {
+					events.add("No Data for any Event");
+				} else if (curEvent.length() > 0 && events.contains(curEvent)) {
+					events.remove(curEvent);
+					events.add(0, curEvent);
+				}
+				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						getActivity(), defaultListResource, events);
+				dataList.setAdapter(adapter);
+				dataList.setOnItemClickListener(new EventClick());
+			}
 		}
 
 		private class EventClick implements AdapterView.OnItemClickListener {
@@ -213,8 +246,22 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				String event = (String) parent.getItemAtPosition(position);
+
+				// TODO open event activity for current event
+				Toast.makeText(getActivity(), "Open event " + event,
+						Toast.LENGTH_SHORT).show();
+
+			}
+
+		}
+
+		private class TeamClick implements AdapterView.OnItemClickListener {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
 
 			}
 

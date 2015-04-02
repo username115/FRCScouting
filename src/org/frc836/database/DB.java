@@ -513,6 +513,42 @@ public class DB {
 		}
 	}
 
+	public List<String> getTeamsWithData() {
+		synchronized (ScoutingDBHelper.lock) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
+						.getReadableDatabase();
+
+				String[] projection = { MatchStatsStruct.COLUMN_NAME_TEAM_ID };
+
+				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+						null, null, MatchStatsStruct.COLUMN_NAME_TEAM_ID, null,
+						MatchStatsStruct.COLUMN_NAME_TEAM_ID);
+				List<String> ret;
+				try {
+
+					ret = new ArrayList<String>(c.getCount());
+
+					if (c.moveToFirst())
+						do {
+							ret.add(String.valueOf(c.getInt(c
+									.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_TEAM_ID))));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
 	/*
 	 * public void getEventStats(String eventName, EventStats.EventCallback
 	 * callback) { // TODO data lookup /* Map<String, String> args = new
