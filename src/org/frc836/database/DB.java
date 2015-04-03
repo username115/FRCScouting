@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -524,25 +525,53 @@ public class DB {
 				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
 						null, null, MatchStatsStruct.COLUMN_NAME_TEAM_ID, null,
 						MatchStatsStruct.COLUMN_NAME_TEAM_ID);
-				List<String> ret;
+				List<Integer> teams;
 				try {
 
-					ret = new ArrayList<String>(c.getCount());
+					teams = new ArrayList<Integer>(c.getCount());
 
 					if (c.moveToFirst())
 						do {
-							ret.add(String.valueOf(c.getInt(c
-									.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_TEAM_ID))));
+							teams.add(c.getInt(c
+									.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_TEAM_ID)));
 						} while (c.moveToNext());
-					else
-						ret = null;
+
+					projection[0] = PitStats.COLUMN_NAME_TEAM_ID;
+
+					if (c != null)
+						c.close();
+
+					c = db.query(PitStats.TABLE_NAME, projection, null, null,
+							null, null, PitStats.COLUMN_NAME_TEAM_ID);
+					if (c.moveToFirst()) {
+						do {
+							int team = c
+									.getInt(c
+											.getColumnIndexOrThrow(PitStats.COLUMN_NAME_TEAM_ID));
+							if (!teams.contains(team)) {
+								teams.add(team);
+							}
+						} while (c.moveToNext());
+					}
+
+					if (teams.isEmpty())
+						teams = null;
+
 				} finally {
 					if (c != null)
 						c.close();
 					ScoutingDBHelper.getInstance().close();
 				}
 
-				return ret;
+				if (teams != null) {
+					Collections.sort(teams);
+					List<String> ret = new ArrayList<String>(teams.size());
+					for (Integer team : teams) {
+						ret.add(team.toString());
+					}
+					return ret;
+				} else
+					return null;
 			} catch (Exception e) {
 				return null;
 			}

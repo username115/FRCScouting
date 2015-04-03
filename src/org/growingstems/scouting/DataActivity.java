@@ -1,5 +1,6 @@
 package org.growingstems.scouting;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,7 +30,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DataActivity extends Activity implements ActionBar.TabListener {
@@ -104,6 +108,7 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.mainmenu, menu);
+		MainMenuSelection.setRefreshItem(menu, R.string.refresh_data);
 		return true;
 	}
 
@@ -171,6 +176,8 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 		private static final String ARG_SECTION_TITLE = "section_title";
 
 		private ListView dataList;
+		private AutoCompleteTextView teamT;
+		private Button loadB;
 
 		private View rootView;
 
@@ -196,9 +203,18 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 					false);
 			mSectionType = getArguments().getInt(ARG_SECTION_TITLE, PT_EVENTS);
 			dataList = (ListView) rootView.findViewById(R.id.dataList);
+
 			if (mSectionType == PT_TEAMS) { // team tab
 				rootView.findViewById(R.id.data_team_input_layout)
 						.setVisibility(View.VISIBLE);
+
+				teamT = (AutoCompleteTextView) rootView
+						.findViewById(R.id.data_team_id);
+				loadB = (Button) rootView.findViewById(R.id.data_teamB);
+				loadB.setOnClickListener(new LoadClick());
+				teamT.setOnItemClickListener(new TeamClick());
+				teamT.setThreshold(1);
+
 			} else { // Event tab
 				rootView.findViewById(R.id.data_team_input_layout)
 						.setVisibility(View.GONE);
@@ -213,13 +229,18 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 				List<String> teams = db.getTeamsWithData();
 				String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "")
 						.trim();
+				if (teams == null) {
+					teams = new ArrayList<String>(1);
+				}
 				if (teams.isEmpty()) {
 					teams.add("No Data for any Team");
-				} else if (ourTeam.length() > 0
-						&& TextUtils.isDigitsOnly(ourTeam)
-						&& teams.contains(ourTeam)) {
-					teams.remove(ourTeam);
-					teams.add(0, ourTeam);
+				} else {
+					if (ourTeam.length() > 0 && TextUtils.isDigitsOnly(ourTeam)
+							&& teams.contains(ourTeam)) {
+						teams.remove(ourTeam);
+						teams.add(0, ourTeam);
+					}
+					setTeamList(teams);
 				}
 				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						getActivity(), defaultListResource, teams);
@@ -228,6 +249,9 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 			} else { // Event tab
 				List<String> events = db.getEventsWithData();
 				String curEvent = Prefs.getEvent(getActivity(), "");
+				if (events == null) {
+					events = new ArrayList<String>(1);
+				}
 				if (events.isEmpty()) {
 					events.add("No Data for any Event");
 				} else if (curEvent.length() > 0 && events.contains(curEvent)) {
@@ -239,6 +263,16 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 				dataList.setAdapter(adapter);
 				dataList.setOnItemClickListener(new EventClick());
 			}
+		}
+
+		private void setTeamList(List<String> teams) {
+			if (teams.isEmpty())
+				return;
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+					getActivity(), android.R.layout.simple_dropdown_item_1line,
+					teams);
+
+			teamT.setAdapter(adapter);
 		}
 
 		private class EventClick implements AdapterView.OnItemClickListener {
@@ -261,10 +295,28 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
-
+				if (view instanceof TextView) {
+					String team = ((TextView) view).getText().toString();
+					loadTeam(Integer.valueOf(team));
+				}
 			}
 
+		}
+
+		private class LoadClick implements View.OnClickListener {
+
+			@Override
+			public void onClick(View v) {
+				if (teamT.getText().toString().length() > 0)
+					loadTeam(Integer.valueOf(teamT.getText().toString()));
+			}
+
+		}
+
+		private void loadTeam(int team) {
+			// TODO load the team data activity
+			Toast.makeText(getActivity(), "Open team " + team,
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
