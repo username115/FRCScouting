@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,9 +99,14 @@ public class DB {
 		}
 		return data;
 	}
-
+	
 	public void startSync() {
+		startSync(null);
+	}
+
+	public void startSync(SyncCallback callback) {
 		if (binder != null) {
+			binder.setCallback(callback);
 			binder.setPassword(password);
 			binder.startSync();
 		}
@@ -297,8 +303,8 @@ public class DB {
 
 				String[] projection = { CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC };
 
-				Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection,
-						null, null, null, null,
+				Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME,
+						projection, null, null, null, null,
 						CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
 				List<String> ret;
 				try {
@@ -466,6 +472,111 @@ public class DB {
 				}
 
 				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	public List<String> getEventsWithData() {
+		synchronized (ScoutingDBHelper.lock) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
+						.getReadableDatabase();
+
+				String[] projection = {
+						MatchStatsStruct.COLUMN_NAME_EVENT_ID,
+						"MAX(" + MatchStatsStruct.COLUMN_NAME_TIMESTAMP
+								+ ") AS time" };
+
+				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+						null, null, MatchStatsStruct.COLUMN_NAME_EVENT_ID,
+						null, "time");
+				List<String> ret;
+				try {
+
+					ret = new ArrayList<String>(c.getCount());
+
+					if (c.moveToFirst())
+						do {
+							ret.add(getEventNameFromID(
+									c.getInt(c
+											.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_EVENT_ID)),
+									db));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+
+				return ret;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	public List<String> getTeamsWithData() {
+		synchronized (ScoutingDBHelper.lock) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
+						.getReadableDatabase();
+
+				String[] projection = { MatchStatsStruct.COLUMN_NAME_TEAM_ID };
+
+				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+						null, null, MatchStatsStruct.COLUMN_NAME_TEAM_ID, null,
+						MatchStatsStruct.COLUMN_NAME_TEAM_ID);
+				List<Integer> teams;
+				try {
+
+					teams = new ArrayList<Integer>(c.getCount());
+
+					if (c.moveToFirst())
+						do {
+							teams.add(c.getInt(c
+									.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_TEAM_ID)));
+						} while (c.moveToNext());
+
+					projection[0] = PitStats.COLUMN_NAME_TEAM_ID;
+
+					if (c != null)
+						c.close();
+
+					c = db.query(PitStats.TABLE_NAME, projection, null, null,
+							null, null, PitStats.COLUMN_NAME_TEAM_ID);
+					if (c.moveToFirst()) {
+						do {
+							int team = c
+									.getInt(c
+											.getColumnIndexOrThrow(PitStats.COLUMN_NAME_TEAM_ID));
+							if (!teams.contains(team)) {
+								teams.add(team);
+							}
+						} while (c.moveToNext());
+					}
+
+					if (teams.isEmpty())
+						teams = null;
+
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+
+				if (teams != null) {
+					Collections.sort(teams);
+					List<String> ret = new ArrayList<String>(teams.size());
+					for (Integer team : teams) {
+						ret.add(team.toString());
+					}
+					return ret;
+				} else
+					return null;
 			} catch (Exception e) {
 				return null;
 			}
@@ -958,8 +1069,6 @@ public class DB {
 					SQLiteDatabase db = ScoutingDBHelper.getInstance()
 							.getReadableDatabase();
 
-					
-
 					SparseArray<String> configs = new SparseArray<String>();
 					SparseArray<String> types = new SparseArray<String>();
 					SparseArray<String> bases = new SparseArray<String>();
@@ -1188,6 +1297,10 @@ public class DB {
 			callback.finish(result);
 		}
 
+	}
+	
+	public interface SyncCallback {
+		public void onFinish();
 	}
 
 }
