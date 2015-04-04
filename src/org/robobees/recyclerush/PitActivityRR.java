@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.frc836.database.DB;
+import org.frc836.database.DBActivity;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.PitStats;
 import org.frc836.database.DBSyncService.LocalBinder;
@@ -37,10 +38,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PitActivityRR extends Activity {
+public class PitActivityRR extends DBActivity {
 	private String HELPMESSAGE;
 
-	private DB submitter;
 	private PitStatsRR stats;
 
 	private EditText teamT;
@@ -79,9 +79,6 @@ public class PitActivityRR extends Activity {
 
 	private EditText manipulation_descriptionT;
 
-	private LocalBinder binder;
-	private ServiceWatcher watcher = new ServiceWatcher();
-
 	private Handler timer = new Handler();
 	private static final int DELAY = 500;
 
@@ -96,16 +93,12 @@ public class PitActivityRR extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pits);
 
-		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
-
 		HELPMESSAGE = "Enter the requested information about each team. \n\n"
 				+ "When a team number is entered, the last time that data was "
 				+ "collected about this team will be shown.\n"
 				+ "If the date shown is during the current event, data does "
 				+ "not need to be collected.";
 
-		submitter = new DB(getBaseContext(), binder);
 		stats = new PitStatsRR();
 		teamT = (EditText) findViewById(R.id.pits_teamT);
 		configS = (Spinner) findViewById(R.id.pits_configS);
@@ -149,7 +142,7 @@ public class PitActivityRR extends Activity {
 	public void onResume() {
 		super.onResume();
 
-		List<String> config = submitter.getConfigList();
+		List<String> config = db.getConfigList();
 		if (config != null) {
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 					android.R.layout.simple_spinner_item, config);
@@ -157,7 +150,7 @@ public class PitActivityRR extends Activity {
 			configS.setAdapter(adapter);
 		}
 
-		List<String> wheelBase = submitter.getConfigList();
+		List<String> wheelBase = db.getConfigList();
 		if (wheelBase != null) {
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 					android.R.layout.simple_spinner_item, config);
@@ -165,7 +158,7 @@ public class PitActivityRR extends Activity {
 			configS.setAdapter(adapter);
 		}
 
-		List<String> wheelType = submitter.getConfigList();
+		List<String> wheelType = db.getConfigList();
 		if (wheelType != null) {
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 					android.R.layout.simple_spinner_item, config);
@@ -176,30 +169,11 @@ public class PitActivityRR extends Activity {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 		String pass = prefs.getString("passPref", "");
-		submitter.setPass(pass);
+		db.setPass(pass);
 		for (TeamNumTask task : tasks) {
 			timer.removeCallbacks(task);
 		}
 		tasks.clear();
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		unbindService(watcher);
-	}
-
-	protected class ServiceWatcher implements ServiceConnection {
-
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			if (service instanceof LocalBinder) {
-				binder = (LocalBinder) service;
-				submitter.setBinder(binder);
-			}
-		}
-
-		public void onServiceDisconnected(ComponentName name) {
-		}
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -409,7 +383,7 @@ public class PitActivityRR extends Activity {
 		else
 			stats.auto_step_bins = 0;
 
-		if (submitter.submitPits(stats))
+		if (db.submitPits(stats))
 			clear();
 		else
 			Toast.makeText(getApplicationContext(), "Error in local database",
@@ -486,7 +460,7 @@ public class PitActivityRR extends Activity {
 	private String dateLoad = "";
 
 	private void setTeam(int teamNum) {
-		String date = submitter.getTeamPitInfo(String.valueOf(teamNum));
+		String date = db.getTeamPitInfo(String.valueOf(teamNum));
 		if (date.length() > 0) {
 			if (dataClear()) {
 				teamInfoT.setText("Last Updated: " + date.trim());
@@ -517,7 +491,7 @@ public class PitActivityRR extends Activity {
 	}
 
 	private void getTeamStats(int teamNum) {
-		PitStats s = submitter.getTeamPitStats(teamNum);
+		PitStats s = db.getTeamPitStats(teamNum);
 		if (s instanceof PitStatsRR)
 			stats = (PitStatsRR) s;
 		else

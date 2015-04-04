@@ -4,21 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.frc836.database.DB;
 import org.frc836.database.DB.SyncCallback;
-import org.frc836.database.DBSyncService;
+import org.frc836.database.DBActivity;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.MenuSelections.Refreshable;
 
-import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -41,17 +37,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DataActivity extends Activity implements ActionBar.TabListener,
+public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		Refreshable {
 
 	private static final int defaultListResource = android.R.layout.simple_list_item_1;
 
 	private static final int PT_EVENTS = 0;
 	private static final int PT_TEAMS = 1;
-
-	private static DB db;
-	private LocalBinder binder;
-	private ServiceWatcher watcher = new ServiceWatcher();
 
 	private ProgressDialog pd;
 
@@ -72,10 +64,8 @@ public class DataActivity extends Activity implements ActionBar.TabListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		m_callback = new ServiceWatcher();
 		setContentView(R.layout.activity_data);
-		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
-		db = new DB(this, binder);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -161,7 +151,7 @@ public class DataActivity extends Activity implements ActionBar.TabListener,
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
 			if (tabs.get(position) == null)
-				tabs.put(position, DataFragment.newInstance(position));
+				tabs.put(position, DataFragment.newInstance(position, DataActivity.this));
 
 			return tabs.get(position);
 		}
@@ -197,9 +187,12 @@ public class DataActivity extends Activity implements ActionBar.TabListener,
 		private View rootView;
 
 		private int mSectionType;
+		
+		private DataActivity mParent;
 
-		public static DataFragment newInstance(int section_title) {
+		public static DataFragment newInstance(int section_title, DataActivity parent) {
 			DataFragment fragment = new DataFragment();
+			fragment.mParent = parent;
 			Bundle args = new Bundle();
 			args.putInt(ARG_SECTION_TITLE, section_title);
 			fragment.setArguments(args);
@@ -244,7 +237,7 @@ public class DataActivity extends Activity implements ActionBar.TabListener,
 			if (!displayed)
 				return;
 			if (mSectionType == PT_TEAMS) { // team tab
-				List<String> teams = db.getTeamsWithData();
+				List<String> teams = mParent.db.getTeamsWithData();
 				String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "")
 						.trim();
 				if (teams == null) {
@@ -265,7 +258,7 @@ public class DataActivity extends Activity implements ActionBar.TabListener,
 				dataList.setAdapter(adapter);
 				dataList.setOnItemClickListener(new TeamClick());
 			} else { // Event tab
-				List<String> events = db.getEventsWithData();
+				List<String> events = mParent.db.getEventsWithData();
 				String curEvent = Prefs.getEvent(getActivity(), "");
 				if (events == null) {
 					events = new ArrayList<String>(1);
@@ -345,9 +338,6 @@ public class DataActivity extends Activity implements ActionBar.TabListener,
 
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			if (service instanceof LocalBinder) {
-				binder = (LocalBinder) service;
-				db.setBinder(binder);
-
 				db.startSync(new RefreshCallback(DataActivity.this));
 			}
 		}

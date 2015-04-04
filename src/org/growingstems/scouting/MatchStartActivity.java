@@ -16,24 +16,18 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.database.DB;
-import org.frc836.database.DBSyncService;
-import org.frc836.database.DBSyncService.LocalBinder;
+import org.frc836.database.DBActivity;
 import org.growingstems.scouting.R;
 import org.robobees.recyclerush.MatchActivity;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -41,7 +35,6 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -56,7 +49,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MatchStartActivity extends Activity implements PicCallback {
+public class MatchStartActivity extends DBActivity implements PicCallback {
 
 	private EditText teamNum;
 	private TextView position;
@@ -72,17 +65,11 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 	private ProgressDialog pd;
 
-	private DB db;
-	private LocalBinder binder;
-	private ServiceWatcher watcher = new ServiceWatcher();
+	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.matchstart);
-
-		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
-		db = new DB(this, binder);
 
 		HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
 				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
@@ -146,12 +133,6 @@ public class MatchStartActivity extends Activity implements PicCallback {
 
 		}
 
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		unbindService(watcher);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -326,18 +307,6 @@ public class MatchStartActivity extends Activity implements PicCallback {
 		return dialog;
 	}
 
-	protected class ServiceWatcher implements ServiceConnection {
-
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			if (service instanceof LocalBinder) {
-				binder = (LocalBinder) service;
-				db.setBinder(binder);
-			}
-		}
-
-		public void onServiceDisconnected(ComponentName name) {
-		}
-
-	}
+	
 
 }
