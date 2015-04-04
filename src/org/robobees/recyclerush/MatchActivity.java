@@ -19,26 +19,19 @@ package org.robobees.recyclerush;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.frc836.database.DB;
-import org.frc836.database.DBSyncService;
-import org.frc836.database.DBSyncService.LocalBinder;
+import org.frc836.database.DBActivity;
 import org.robobees.recyclerush.MatchActivity;
 import org.robobees.recyclerush.MatchStatsRR;
 import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,14 +49,12 @@ import android.widget.TextView;
 
 //TODO add timer for auto
 
-public class MatchActivity extends Activity implements OnClickListener {
+public class MatchActivity extends DBActivity implements OnClickListener {
 
 	private static final int CANCEL_DIALOG = 0;
 	private static final int LOAD_DIALOG = 353563;
 
 	private String HELPMESSAGE;
-
-	private DB submitter;
 
 	private MatchStatsRR teamData;
 
@@ -139,22 +130,15 @@ public class MatchActivity extends Activity implements OnClickListener {
 	private CheckBox redcard;
 	private CheckBox foul;
 
-	private LocalBinder binder;
-
-	private ServiceWatcher watcher = new ServiceWatcher();
-
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.match);
 
-		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
-
-		HELPMESSAGE = "Interface used for match recording.\n" +
-				"Important note: records are to be based on end result of a scoring action, not current state of all stacks at all times.\n\n" +
-				"When a robot adds a tote to a stack, increment the counter for the number of totes in that stack when that robot is finished with that scoring action.\n\n" +
-				"If there is a bin on the stack, or a bin is being added to it, mark what level the bin is at when that scoring action is finished.\n\n" +
-				"bin=shorthand for Recycle Container";
+		HELPMESSAGE = "Interface used for match recording.\n"
+				+ "Important note: records are to be based on end result of a scoring action, not current state of all stacks at all times.\n\n"
+				+ "When a robot adds a tote to a stack, increment the counter for the number of totes in that stack when that robot is finished with that scoring action.\n\n"
+				+ "If there is a bin on the stack, or a bin is being added to it, mark what level the bin is at when that scoring action is finished.\n\n"
+				+ "bin=shorthand for Recycle Container";
 
 		getGUIRefs();
 		setListeners();
@@ -164,8 +148,6 @@ public class MatchActivity extends Activity implements OnClickListener {
 		String team = intent.getStringExtra("team");
 
 		String match = intent.getStringExtra("match");
-
-		submitter = new DB(this, binder);
 
 		teamText.setText(team);
 		matchT.setText(match);
@@ -187,7 +169,7 @@ public class MatchActivity extends Activity implements OnClickListener {
 
 		updatePosition();
 
-		List<String> options = submitter.getNotesOptions();
+		List<String> options = db.getNotesOptions();
 
 		if (options == null)
 			options = new ArrayList<String>(1);
@@ -200,26 +182,6 @@ public class MatchActivity extends Activity implements OnClickListener {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		commonNotes.setAdapter(adapter);
-
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		unbindService(watcher);
-	}
-
-	protected class ServiceWatcher implements ServiceConnection {
-
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			if (service instanceof LocalBinder) {
-				binder = (LocalBinder) service;
-				submitter.setBinder(binder);
-			}
-		}
-
-		public void onServiceDisconnected(ComponentName name) {
-		}
 
 	}
 
@@ -382,7 +344,7 @@ public class MatchActivity extends Activity implements OnClickListener {
 	}
 
 	public void submit() {
-		submitter.submitMatch(teamData);
+		db.submitMatch(teamData);
 		nextB.setEnabled(false);
 		if (matchT.getText().length() > 0)
 			setResult(Integer.valueOf(matchT.getText().toString()) + 1);
@@ -520,7 +482,7 @@ public class MatchActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Spinner spin;
-		
+
 		switch (v.getId()) {
 		case R.id.bins_scored:
 			spin = numBins_scored;
@@ -588,7 +550,7 @@ public class MatchActivity extends Activity implements OnClickListener {
 		default:
 			return;
 		}
-		
+
 		if (spin.getSelectedItemPosition() < (spin.getCount() - 1))
 			spin.setSelection(spin.getSelectedItemPosition() + 1);
 
@@ -709,7 +671,7 @@ public class MatchActivity extends Activity implements OnClickListener {
 		boolean loadData = false;
 		if (team != null && team.length() > 0 && match != null
 				&& match.length() > 0) {
-			teamData = (MatchStatsRR) submitter.getMatchStats(Prefs.getEvent(
+			teamData = (MatchStatsRR) db.getMatchStats(Prefs.getEvent(
 					getApplicationContext(), "Chesapeake Regional"), Integer
 					.valueOf(match), Integer.valueOf(team), Prefs
 					.getPracticeMatch(getApplicationContext(), false));
