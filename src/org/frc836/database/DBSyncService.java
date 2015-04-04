@@ -97,6 +97,7 @@ public class DBSyncService extends Service {
 		// loadTimestamp();
 		initSync = !loadTimestamp();
 		password = "";
+		callback = null;
 
 		mTimerTask = new Handler();
 
@@ -212,7 +213,8 @@ public class DBSyncService extends Service {
 		}
 
 		public void setCallback(DB.SyncCallback call) {
-			callback = call;
+			if (call != null)
+				callback = call;
 		}
 
 		public void startSync() {
@@ -370,6 +372,7 @@ public class DBSyncService extends Service {
 									getApplicationContext(), DELAY));
 					if (callback != null)
 						callback.onFinish();
+					callback = null;
 				}
 			}
 
@@ -400,6 +403,7 @@ public class DBSyncService extends Service {
 					getApplicationContext(), DELAY));
 			if (callback != null)
 				callback.onFinish();
+			callback = null;
 		}
 	}
 
@@ -432,6 +436,7 @@ public class DBSyncService extends Service {
 					getApplicationContext(), DELAY));
 			if (callback != null)
 				callback.onFinish();
+			callback = null;
 		}
 
 	}
@@ -562,6 +567,7 @@ public class DBSyncService extends Service {
 									getApplicationContext(), DELAY));
 					if (callback != null)
 						callback.onFinish();
+					callback = null;
 				}
 			}
 		}

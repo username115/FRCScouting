@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.frc836.database.DB;
+import org.frc836.database.DB.SyncCallback;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.MenuSelections.Refreshable;
@@ -14,6 +15,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -23,12 +25,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -37,7 +41,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DataActivity extends Activity implements ActionBar.TabListener, Refreshable {
+public class DataActivity extends Activity implements ActionBar.TabListener,
+		Refreshable {
 
 	private static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -47,6 +52,8 @@ public class DataActivity extends Activity implements ActionBar.TabListener, Ref
 	private static DB db;
 	private LocalBinder binder;
 	private ServiceWatcher watcher = new ServiceWatcher();
+
+	private ProgressDialog pd;
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -143,14 +150,20 @@ public class DataActivity extends Activity implements ActionBar.TabListener, Ref
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+		SparseArray<Fragment> tabs;
+
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
+			tabs = new SparseArray<Fragment>(getCount());
 		}
 
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			return DataFragment.newInstance(position);
+			if (tabs.get(position) == null)
+				tabs.put(position, DataFragment.newInstance(position));
+
+			return tabs.get(position);
 		}
 
 		@Override
@@ -179,6 +192,7 @@ public class DataActivity extends Activity implements ActionBar.TabListener, Ref
 		private ListView dataList;
 		private AutoCompleteTextView teamT;
 		private Button loadB;
+		private boolean displayed = false;
 
 		private View rootView;
 
@@ -220,12 +234,15 @@ public class DataActivity extends Activity implements ActionBar.TabListener, Ref
 				rootView.findViewById(R.id.data_team_input_layout)
 						.setVisibility(View.GONE);
 			}
+			displayed = true;
 			refreshData();
 
 			return rootView;
 		}
 
 		private void refreshData() {
+			if (!displayed)
+				return;
 			if (mSectionType == PT_TEAMS) { // team tab
 				List<String> teams = db.getTeamsWithData();
 				String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "")
@@ -330,6 +347,8 @@ public class DataActivity extends Activity implements ActionBar.TabListener, Ref
 			if (service instanceof LocalBinder) {
 				binder = (LocalBinder) service;
 				db.setBinder(binder);
+
+				db.startSync(new RefreshCallback(DataActivity.this));
 			}
 		}
 
@@ -340,8 +359,40 @@ public class DataActivity extends Activity implements ActionBar.TabListener, Ref
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-		db.startSync();
+		pd = ProgressDialog.show(this, "Busy", "Refreshing Data", false);
+		pd.setCancelable(true);
+		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
+
+		if (url.length() > 1 && URLUtil.isValidUrl(url)
+				&& Prefs.getAutoSync(getApplicationContext(), false))
+			db.startSync(new RefreshCallback(this));
+		else
+			reloadData();
+	}
+
+	private class RefreshCallback implements SyncCallback {
+
+		private DataActivity parent;
+
+		public RefreshCallback(DataActivity parent) {
+			this.parent = parent;
+		}
+
+		@Override
+		public void onFinish() {
+			parent.reloadData();
+		}
+	}
+
+	private void reloadData() {
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			Fragment f = mSectionsPagerAdapter.getItem(i);
+			if (f instanceof DataFragment) {
+				((DataFragment) f).refreshData();
+			}
+		}
+		if (pd != null)
+			pd.dismiss();
 	}
 
 }
