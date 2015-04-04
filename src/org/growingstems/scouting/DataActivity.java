@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
+import org.growingstems.scouting.MenuSelections.Refreshable;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -36,7 +37,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DataActivity extends Activity implements ActionBar.TabListener {
+public class DataActivity extends Activity implements ActionBar.TabListener, Refreshable {
 
 	private static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -282,10 +283,7 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 					int position, long id) {
 				String event = (String) parent.getItemAtPosition(position);
 
-				// TODO open event activity for current event
-				Toast.makeText(getActivity(), "Open event " + event,
-						Toast.LENGTH_SHORT).show();
-
+				loadEvent(event);
 			}
 
 		}
@@ -318,6 +316,12 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 			Toast.makeText(getActivity(), "Open team " + team,
 					Toast.LENGTH_SHORT).show();
 		}
+
+		private void loadEvent(String event) {
+			// TODO load the event data activity
+			Toast.makeText(getActivity(), "Open event " + event,
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	protected class ServiceWatcher implements ServiceConnection {
@@ -332,6 +336,12 @@ public class DataActivity extends Activity implements ActionBar.TabListener {
 		public void onServiceDisconnected(ComponentName name) {
 		}
 
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		db.startSync();
 	}
 
 }
