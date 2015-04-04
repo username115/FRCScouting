@@ -60,6 +60,8 @@ public class DBSyncService extends Service {
 	private HttpUtils utils;
 
 	private String password;
+	
+	private DB.SyncCallback callback;
 
 	private Handler mTimerTask;
 	private SyncDataTask dataTask;
@@ -207,6 +209,10 @@ public class DBSyncService extends Service {
 
 		public void setPassword(String pass) {
 			password = pass;
+		}
+		
+		public void setCallback(DB.SyncCallback call) {
+			callback = call; 
 		}
 
 		public void startSync() {
@@ -361,6 +367,7 @@ public class DBSyncService extends Service {
 					mTimerTask.postDelayed(dataTask, Prefs
 							.getMilliSecondsBetweenSyncs(
 									getApplicationContext(), DELAY));
+					callback.onFinish();
 				}
 			}
 
@@ -389,6 +396,7 @@ public class DBSyncService extends Service {
 
 			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
 					getApplicationContext(), DELAY));
+			callback.onFinish();
 		}
 	}
 
@@ -419,6 +427,7 @@ public class DBSyncService extends Service {
 
 			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
 					getApplicationContext(), DELAY));
+			callback.onFinish();
 		}
 
 	}
@@ -547,6 +556,7 @@ public class DBSyncService extends Service {
 					mTimerTask.postDelayed(dataTask, Prefs
 							.getMilliSecondsBetweenSyncs(
 									getApplicationContext(), DELAY));
+					callback.onFinish();
 				}
 			}
 		}

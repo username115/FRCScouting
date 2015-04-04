@@ -99,9 +99,14 @@ public class DB {
 		}
 		return data;
 	}
-
+	
 	public void startSync() {
+		startSync(null);
+	}
+
+	public void startSync(SyncCallback callback) {
 		if (binder != null) {
+			binder.setCallback(callback);
 			binder.setPassword(password);
 			binder.startSync();
 		}
@@ -1292,6 +1297,10 @@ public class DB {
 			callback.finish(result);
 		}
 
+	}
+	
+	public interface SyncCallback {
+		public void onFinish();
 	}
 
 }
