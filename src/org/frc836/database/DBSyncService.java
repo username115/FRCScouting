@@ -60,7 +60,7 @@ public class DBSyncService extends Service {
 	private HttpUtils utils;
 
 	private String password;
-	
+
 	private DB.SyncCallback callback;
 
 	private Handler mTimerTask;
@@ -210,9 +210,9 @@ public class DBSyncService extends Service {
 		public void setPassword(String pass) {
 			password = pass;
 		}
-		
+
 		public void setCallback(DB.SyncCallback call) {
-			callback = call; 
+			callback = call;
 		}
 
 		public void startSync() {
@@ -342,7 +342,8 @@ public class DBSyncService extends Service {
 					utils.doPost(Prefs
 							.getScoutingURLNoDefault(getApplicationContext()),
 							outgoing.get(0), new ChangeResponseCallback());
-					updateNotificationText("Uploading " + outgoing.size() + " records");
+					updateNotificationText("Uploading " + outgoing.size()
+							+ " records");
 				} else {
 					if (syncForced) {
 						syncForced = false;
@@ -367,7 +368,8 @@ public class DBSyncService extends Service {
 					mTimerTask.postDelayed(dataTask, Prefs
 							.getMilliSecondsBetweenSyncs(
 									getApplicationContext(), DELAY));
-					callback.onFinish();
+					if (callback != null)
+						callback.onFinish();
 				}
 			}
 
@@ -396,7 +398,8 @@ public class DBSyncService extends Service {
 
 			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
 					getApplicationContext(), DELAY));
-			callback.onFinish();
+			if (callback != null)
+				callback.onFinish();
 		}
 	}
 
@@ -427,7 +430,8 @@ public class DBSyncService extends Service {
 
 			mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
 					getApplicationContext(), DELAY));
-			callback.onFinish();
+			if (callback != null)
+				callback.onFinish();
 		}
 
 	}
@@ -556,7 +560,8 @@ public class DBSyncService extends Service {
 					mTimerTask.postDelayed(dataTask, Prefs
 							.getMilliSecondsBetweenSyncs(
 									getApplicationContext(), DELAY));
-					callback.onFinish();
+					if (callback != null)
+						callback.onFinish();
 				}
 			}
 		}
@@ -695,7 +700,8 @@ public class DBSyncService extends Service {
 
 	private void processEvents(JSONArray events) {
 		try {
-			updateNotificationText(getString(R.string.notify_table) + " " + EVENT_LU_Entry.TABLE_NAME);
+			updateNotificationText(getString(R.string.notify_table) + " "
+					+ EVENT_LU_Entry.TABLE_NAME);
 			for (int i = 0; i < events.length(); i++) {
 				JSONObject row = events.getJSONObject(i);
 				Action action = Action.UPDATE;
@@ -769,7 +775,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processMatches(JSONArray matches) {
-		updateNotificationText(getString(R.string.notify_table) + " " + MatchStatsStruct.TABLE_NAME);
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ MatchStatsStruct.TABLE_NAME);
 		// TODO could be abstracted further
 		try {
 			for (int i = 0; i < matches.length(); i++) {
@@ -858,8 +865,9 @@ public class DBSyncService extends Service {
 	}
 
 	private void processNotes(JSONArray notes) {
-		updateNotificationText(getString(R.string.notify_table) + " " + NOTES_OPTIONS_Entry.TABLE_NAME);
-		
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ NOTES_OPTIONS_Entry.TABLE_NAME);
+
 		try {
 			for (int i = 0; i < notes.length(); i++) {
 				JSONObject row = notes.getJSONObject(i);
@@ -937,7 +945,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processRobots(JSONArray robots) {
-		updateNotificationText(getString(R.string.notify_table) + " " + ROBOT_LU_Entry.TABLE_NAME);
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ ROBOT_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < robots.length(); i++) {
 				JSONObject row = robots.getJSONObject(i);
@@ -1014,7 +1023,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processPits(JSONArray pits) {
-		updateNotificationText(getString(R.string.notify_table) + " " + PitStats.TABLE_NAME);
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ PitStats.TABLE_NAME);
 		// TODO could be abstracted further
 		try {
 			for (int i = 0; i < pits.length(); i++) {
@@ -1086,7 +1096,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processWheelBase(JSONArray wheelBase) {
-		updateNotificationText(getString(R.string.notify_table) + " " + WHEEL_BASE_LU_Entry.TABLE_NAME);
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ WHEEL_BASE_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < wheelBase.length(); i++) {
 				JSONObject row = wheelBase.getJSONObject(i);
@@ -1165,7 +1176,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processWheelType(JSONArray wheelType) {
-		updateNotificationText(getString(R.string.notify_table) + " " + WHEEL_TYPE_LU_Entry.TABLE_NAME);
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ WHEEL_TYPE_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < wheelType.length(); i++) {
 				JSONObject row = wheelType.getJSONObject(i);
@@ -1244,7 +1256,8 @@ public class DBSyncService extends Service {
 	}
 
 	private void processPositions(JSONArray positions) {
-		updateNotificationText(getString(R.string.notify_table) + " " + POSITION_LU_Entry.TABLE_NAME);
+		updateNotificationText(getString(R.string.notify_table) + " "
+				+ POSITION_LU_Entry.TABLE_NAME);
 		try {
 			for (int i = 0; i < positions.length(); i++) {
 				JSONObject row = positions.getJSONObject(i);
