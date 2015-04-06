@@ -24,8 +24,6 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
@@ -41,6 +39,10 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		Refreshable {
 
 	private static final int defaultListResource = android.R.layout.simple_list_item_1;
+
+	public enum TYPE {
+		HOME, EVENT, TEAM
+	};
 
 	private static final int PT_EVENTS = 0;
 	private static final int PT_TEAMS = 1;
@@ -104,16 +106,9 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
+		super.onCreateOptionsMenu(menu);
 		MainMenuSelection.setRefreshItem(menu, R.string.refresh_data);
 		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return MainMenuSelection.onOptionsItemSelected(item, this) ? true
-				: super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -151,7 +146,8 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
 			if (tabs.get(position) == null)
-				tabs.put(position, DataFragment.newInstance(position, DataActivity.this));
+				tabs.put(position,
+						DataFragment.newInstance(position, DataActivity.this));
 
 			return tabs.get(position);
 		}
@@ -187,10 +183,11 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		private View rootView;
 
 		private int mSectionType;
-		
+
 		private DataActivity mParent;
 
-		public static DataFragment newInstance(int section_title, DataActivity parent) {
+		public static DataFragment newInstance(int section_title,
+				DataActivity parent) {
 			DataFragment fragment = new DataFragment();
 			fragment.mParent = parent;
 			Bundle args = new Bundle();

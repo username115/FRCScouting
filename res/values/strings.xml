@@ -184,5 +184,8 @@
 	
 	<string name="title_event_section">Events</string>
     <string name="title_team_section">Teams</string>
+    <string name="title_match_section">Matches</string>
+    
+    <string name="title_activity_event_data">Event Name Here</string>
 
 </resources>

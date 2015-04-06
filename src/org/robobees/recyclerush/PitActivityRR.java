@@ -3,31 +3,19 @@ package org.robobees.recyclerush;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.frc836.database.DB;
 import org.frc836.database.DBActivity;
-import org.frc836.database.DBSyncService;
 import org.frc836.database.PitStats;
-import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.*;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -174,17 +162,6 @@ public class PitActivityRR extends DBActivity {
 			timer.removeCallbacks(task);
 		}
 		tasks.clear();
-	}
-
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
-		return true;
-	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return MainMenuSelection.onOptionsItemSelected(item, this) ? true
-				: super.onOptionsItemSelected(item);
 	}
 
 	public void onBackPressed() {

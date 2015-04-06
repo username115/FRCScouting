@@ -24,7 +24,6 @@ import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 import org.robobees.recyclerush.PitActivityRR;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
@@ -38,16 +37,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
-public class DashboardActivity extends Activity {
+public class DashboardActivity extends ScoutingMenuActivity {
 
 	private Button match;
 	private Button pits;
@@ -118,9 +114,8 @@ public class DashboardActivity extends Activity {
 		data.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				
-				Intent intent = new Intent(getBaseContext(),
-				DataActivity.class);
+
+				Intent intent = new Intent(getBaseContext(), DataActivity.class);
 				startActivityForResult(intent, DATA_ACTIVITY_CODE);
 
 			}
@@ -284,7 +279,9 @@ public class DashboardActivity extends Activity {
 
 								public void onClick(DialogInterface dialog,
 										int which) {
-									Prefs.setDontPrompt(getApplicationContext(), doNotAskAgainC.isChecked());
+									Prefs.setDontPrompt(
+											getApplicationContext(),
+											doNotAskAgainC.isChecked());
 									MainMenuSelection
 											.openSettings(DashboardActivity.this);
 									dialog.cancel();
@@ -295,7 +292,9 @@ public class DashboardActivity extends Activity {
 
 								public void onClick(DialogInterface dialog,
 										int which) {
-									Prefs.setDontPrompt(getApplicationContext(), doNotAskAgainC.isChecked());
+									Prefs.setDontPrompt(
+											getApplicationContext(),
+											doNotAskAgainC.isChecked());
 									dialog.cancel();
 								}
 							});
@@ -305,17 +304,6 @@ public class DashboardActivity extends Activity {
 			dialog = null;
 		}
 		return dialog;
-	}
-
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
-		return true;
-	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return MainMenuSelection.onOptionsItemSelected(item, this) ? true
-				: super.onOptionsItemSelected(item);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

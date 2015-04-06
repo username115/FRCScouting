@@ -38,9 +38,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -64,8 +61,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 	private static final int MATCH_ACTIVITY_REQUEST = 0;
 
 	private ProgressDialog pd;
-
-	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,7 +98,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 		}
 
 	}
-	
 
 	private class positionClickListener implements OnClickListener {
 
@@ -133,17 +127,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
 		}
 
-	}
-
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
-		return true;
-	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return MainMenuSelection.onOptionsItemSelected(item, this) ? true
-				: super.onOptionsItemSelected(item);
 	}
 
 	private class StartClickListener implements OnClickListener {
@@ -246,41 +229,43 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 			robotPic.setImageResource(R.drawable.robot);
 		} else {
 			scaleImage(robotPic, robotPic.getWidth(), drawable);
-			//robotPic.setImageDrawable(drawable);
-			//robotPic.setScaleType(ScaleType.FIT_XY);
-			//robotPic.setAdjustViewBounds(true);
+			// robotPic.setImageDrawable(drawable);
+			// robotPic.setScaleType(ScaleType.FIT_XY);
+			// robotPic.setAdjustViewBounds(true);
 		}
 	}
-	
+
 	private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
-		
-		Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
 
-	    // Get current dimensions
-	    int width = bitmap.getWidth();
-	    int height = bitmap.getHeight();
+		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-	    
-	    float scale = ((float) widthInDp) / width;
+		// Get current dimensions
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
 
-	    // Create a matrix for the scaling and add the scaling data
-	    Matrix matrix = new Matrix();
-	    matrix.postScale(scale, scale);
+		float scale = ((float) widthInDp) / width;
 
-	    // Create a new bitmap and convert it to a format understood by the ImageView
-	    Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-	    BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-	    width = scaledBitmap.getWidth();
-	    height = scaledBitmap.getHeight();
+		// Create a matrix for the scaling and add the scaling data
+		Matrix matrix = new Matrix();
+		matrix.postScale(scale, scale);
 
-	    // Apply the scaled bitmap
-	    view.setImageDrawable(result);
+		// Create a new bitmap and convert it to a format understood by the
+		// ImageView
+		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+				matrix, true);
+		BitmapDrawable result = new BitmapDrawable(scaledBitmap);
+		width = scaledBitmap.getWidth();
+		height = scaledBitmap.getHeight();
 
-	    // Now change ImageView's dimensions to match the scaled image
-	    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
-	    params.width = width;
-	    params.height = height;
-	    view.setLayoutParams(params);
+		// Apply the scaled bitmap
+		view.setImageDrawable(result);
+
+		// Now change ImageView's dimensions to match the scaled image
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view
+				.getLayoutParams();
+		params.width = width;
+		params.height = height;
+		view.setLayoutParams(params);
 	}
 
 	protected Dialog onCreateDialog(int id) {
@@ -306,7 +291,5 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 		}
 		return dialog;
 	}
-
-	
 
 }

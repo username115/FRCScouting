@@ -1,8 +1,8 @@
 package org.frc836.database;
 
 import org.frc836.database.DBSyncService.LocalBinder;
+import org.growingstems.scouting.ScoutingMenuActivity;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 
-public abstract class DBActivity extends Activity {
+public abstract class DBActivity extends ScoutingMenuActivity {
 	protected DB db;
 	protected LocalBinder binder;
 	protected ServiceWatcher watcher = new ServiceWatcher();
@@ -47,5 +47,5 @@ public abstract class DBActivity extends Activity {
 		}
 
 	}
-	
+
 }
