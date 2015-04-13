@@ -30,6 +30,13 @@ public abstract class DBActivity extends ScoutingMenuActivity {
 		unbindService(watcher);
 	}
 
+	/**
+	 * @return the db
+	 */
+	public DB getDB() {
+		return db;
+	}
+
 	protected class ServiceWatcher implements ServiceConnection {
 
 		public void onServiceConnected(ComponentName name, IBinder service) {

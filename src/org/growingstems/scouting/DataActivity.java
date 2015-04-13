@@ -1,8 +1,5 @@
 package org.growingstems.scouting;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import org.frc836.database.DB.SyncCallback;
 import org.frc836.database.DBActivity;
@@ -20,32 +17,12 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.URLUtil;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		Refreshable {
-
-	private static final int defaultListResource = android.R.layout.simple_list_item_1;
-
-	public enum TYPE {
-		HOME, EVENT, TEAM
-	};
-
-	private static final int PT_EVENTS = 0;
-	private static final int PT_TEAMS = 1;
 
 	private ProgressDialog pd;
 
@@ -160,174 +137,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-			case PT_EVENTS:
-				return getString(R.string.title_event_section).toUpperCase(l);
-			case PT_TEAMS:
-				return getString(R.string.title_team_section).toUpperCase(l);
-			}
-			return null;
-		}
-	}
-
-	public static class DataFragment extends Fragment {
-
-		private static final String ARG_SECTION_TITLE = "section_title";
-
-		private ListView dataList;
-		private AutoCompleteTextView teamT;
-		private Button loadB;
-		private boolean displayed = false;
-
-		private View rootView;
-
-		private int mSectionType;
-
-		private DataActivity mParent;
-
-		public static DataFragment newInstance(int section_title,
-				DataActivity parent) {
-			DataFragment fragment = new DataFragment();
-			fragment.mParent = parent;
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_TITLE, section_title);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public DataFragment() {
-
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			super.onCreateView(inflater, container, savedInstanceState);
-			rootView = inflater.inflate(R.layout.fragment_data, container,
-					false);
-			mSectionType = getArguments().getInt(ARG_SECTION_TITLE, PT_EVENTS);
-			dataList = (ListView) rootView.findViewById(R.id.dataList);
-
-			if (mSectionType == PT_TEAMS) { // team tab
-				rootView.findViewById(R.id.data_team_input_layout)
-						.setVisibility(View.VISIBLE);
-
-				teamT = (AutoCompleteTextView) rootView
-						.findViewById(R.id.data_team_id);
-				loadB = (Button) rootView.findViewById(R.id.data_teamB);
-				loadB.setOnClickListener(new LoadClick());
-				teamT.setOnItemClickListener(new TeamClick());
-				teamT.setThreshold(1);
-
-			} else { // Event tab
-				rootView.findViewById(R.id.data_team_input_layout)
-						.setVisibility(View.GONE);
-			}
-			displayed = true;
-			refreshData();
-
-			return rootView;
-		}
-
-		private void refreshData() {
-			if (!displayed)
-				return;
-			if (mSectionType == PT_TEAMS) { // team tab
-				List<String> teams = mParent.db.getTeamsWithData();
-				String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "")
-						.trim();
-				if (teams == null) {
-					teams = new ArrayList<String>(1);
-				}
-				if (teams.isEmpty()) {
-					teams.add("No Data for any Team");
-				} else {
-					if (ourTeam.length() > 0 && TextUtils.isDigitsOnly(ourTeam)
-							&& teams.contains(ourTeam)) {
-						teams.remove(ourTeam);
-						teams.add(0, ourTeam);
-					}
-					setTeamList(teams);
-				}
-				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-						getActivity(), defaultListResource, teams);
-				dataList.setAdapter(adapter);
-				dataList.setOnItemClickListener(new TeamClick());
-			} else { // Event tab
-				List<String> events = mParent.db.getEventsWithData();
-				String curEvent = Prefs.getEvent(getActivity(), "");
-				if (events == null) {
-					events = new ArrayList<String>(1);
-				}
-				if (events.isEmpty()) {
-					events.add("No Data for any Event");
-				} else if (curEvent.length() > 0 && events.contains(curEvent)) {
-					events.remove(curEvent);
-					events.add(0, curEvent);
-				}
-				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-						getActivity(), defaultListResource, events);
-				dataList.setAdapter(adapter);
-				dataList.setOnItemClickListener(new EventClick());
-			}
-		}
-
-		private void setTeamList(List<String> teams) {
-			if (teams.isEmpty())
-				return;
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-					getActivity(), android.R.layout.simple_dropdown_item_1line,
-					teams);
-
-			teamT.setAdapter(adapter);
-		}
-
-		private class EventClick implements AdapterView.OnItemClickListener {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				String event = (String) parent.getItemAtPosition(position);
-
-				loadEvent(event);
-			}
-
-		}
-
-		private class TeamClick implements AdapterView.OnItemClickListener {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				if (view instanceof TextView) {
-					String team = ((TextView) view).getText().toString();
-					loadTeam(Integer.valueOf(team));
-				}
-			}
-
-		}
-
-		private class LoadClick implements View.OnClickListener {
-
-			@Override
-			public void onClick(View v) {
-				if (teamT.getText().toString().length() > 0)
-					loadTeam(Integer.valueOf(teamT.getText().toString()));
-			}
-
-		}
-
-		private void loadTeam(int team) {
-			// TODO load the team data activity
-			Toast.makeText(getActivity(), "Open team " + team,
-					Toast.LENGTH_SHORT).show();
-		}
-
-		private void loadEvent(String event) {
-			// TODO load the event data activity
-			Toast.makeText(getActivity(), "Open event " + event,
-					Toast.LENGTH_SHORT).show();
+			return DataFragment.getPageTitle(position, DataActivity.this);
 		}
 	}
 
