@@ -3,7 +3,6 @@ package org.growingstems.scouting;
 import java.util.Locale;
 
 import org.frc836.database.DBActivity;
-import org.robobees.recyclerush.EventTeamFragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -59,7 +58,7 @@ public abstract class DataFragment extends Fragment {
 			fragment = new TeamListFragment();
 			break;
 		case PT_EVENT_TEAMS:
-			fragment = new EventTeamFragment(event_name);
+			fragment = new TeamListFragment(event_name);
 			break;
 		case PT_EVENT_MATCHES:
 			fragment = new MatchListFragment(event_name);

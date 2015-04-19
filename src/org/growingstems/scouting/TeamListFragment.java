@@ -15,6 +15,16 @@ import android.widget.Toast;
 
 public class TeamListFragment extends DataFragment {
 
+	private String eventName = null;
+
+	public TeamListFragment(String event_name) {
+		eventName = event_name;
+	}
+
+	public TeamListFragment() {
+		eventName = null;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -33,7 +43,7 @@ public class TeamListFragment extends DataFragment {
 	protected void refreshData() {
 		if (!displayed)
 			return;
-		List<String> teams = mParent.getDB().getTeamsWithData();
+		List<String> teams = mParent.getDB().getTeamsWithData(); //TODO change to teams from this event
 		String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "").trim();
 		if (teams == null) {
 			teams = new ArrayList<String>(1);
