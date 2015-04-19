@@ -35,10 +35,10 @@ public abstract class DataFragment extends Fragment {
 		DataFragment fragment;
 		switch (section_title) {
 		case PT_EVENTS:
-			fragment = new EventDataFragment();
+			fragment = new EventListFragment();
 			break;
 		case PT_TEAMS:
-			fragment = new TeamDataFragment();
+			fragment = new TeamListFragment();
 			break;
 		default:
 			return null;

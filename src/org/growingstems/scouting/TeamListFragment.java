@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TeamDataFragment extends DataFragment {
+public class TeamListFragment extends DataFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
