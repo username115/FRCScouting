@@ -3,13 +3,13 @@ package org.growingstems.scouting;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 public class EventListFragment extends DataFragment {
 
@@ -56,9 +56,10 @@ public class EventListFragment extends DataFragment {
 		}
 
 		private void loadEvent(String event) {
-			// TODO load the event data activity
-			Toast.makeText(getActivity(), "Open event " + event,
-					Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(mParent, DataActivity.class);
+			intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING, DataActivity.ACTIVITY_TYPE_EVENT);
+			intent.putExtra(DataActivity.EVENT_ARG, event);
+			mParent.startActivity(intent);
 		}
 
 	}

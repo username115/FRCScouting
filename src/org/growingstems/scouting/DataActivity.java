@@ -1,6 +1,5 @@
 package org.growingstems.scouting;
 
-
 import org.frc836.database.DB.SyncCallback;
 import org.frc836.database.DBActivity;
 import org.frc836.database.DBSyncService.LocalBinder;
@@ -12,6 +11,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -25,6 +25,26 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		Refreshable {
 
 	private ProgressDialog pd;
+
+	public static final String ACTIVITY_TYPE_STRING = "ACTIVITY_TYPE";
+	public static final String EVENT_ARG = "EVENT_NAME";
+	public static final String TEAM_ARG = "TEAM_NUM";
+	public static final int ACTIVITY_TYPE_DEFAULT = 0;
+	public static final int ACTIVITY_TYPE_EVENT = 1;
+	public static final int ACTIVITY_TYPE_TEAM = 2;
+
+	protected enum DataType {
+		dt_Default, dt_Event, dt_Team
+	};
+
+	protected DataType dataType = DataType.dt_Default;
+	protected String eventName = null;
+	protected int teamNum = -1;
+
+	protected static final int[] DEFAULT_TABS = { DataFragment.PT_EVENTS,
+			DataFragment.PT_TEAMS };
+	protected static final int[] EVENT_TABS = { DataFragment.PT_EVENT_TEAMS,
+			DataFragment.PT_EVENT_MATCHES };
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,6 +65,25 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		super.onCreate(savedInstanceState);
 		m_callback = new ServiceWatcher();
 		setContentView(R.layout.activity_data);
+		Intent intent = getIntent();
+		int temp = intent.getIntExtra(ACTIVITY_TYPE_STRING,
+				ACTIVITY_TYPE_DEFAULT);
+		switch (temp) {
+		case ACTIVITY_TYPE_EVENT:
+			dataType = DataType.dt_Event;
+			eventName = intent.getStringExtra(EVENT_ARG);
+			if (eventName != null)
+				setTitle(eventName);
+			break;
+		case ACTIVITY_TYPE_TEAM:
+			dataType = DataType.dt_Team;
+			teamNum = intent.getIntExtra(TEAM_ARG, -1);
+			break;
+		case ACTIVITY_TYPE_DEFAULT:
+		default:
+			dataType = DataType.dt_Default;
+			break;
+		}
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -122,22 +161,51 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			if (tabs.get(position) == null)
-				tabs.put(position,
-						DataFragment.newInstance(position, DataActivity.this));
+			if (tabs.get(position) == null) {
+				int tab;
+				switch (dataType) {
+				case dt_Event:
+					tab = EVENT_TABS[position];
+					tabs.put(position, DataFragment.newInstance(tab,
+							DataActivity.this, eventName));
+					break;
+				case dt_Default:
+				default:
+					tab = DEFAULT_TABS[position];
+					tabs.put(position,
+							DataFragment.newInstance(tab, DataActivity.this));
+					break;
+				}
+
+			}
 
 			return tabs.get(position);
 		}
 
 		@Override
 		public int getCount() {
-			// Show 2 total pages.
-			return 2;
+			switch (dataType) {
+			case dt_Event:
+			case dt_Default:
+			default:
+				return 2;
+			}
+
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return DataFragment.getPageTitle(position, DataActivity.this);
+			int tab;
+			switch (dataType) {
+			case dt_Event:
+				tab = EVENT_TABS[position];
+				break;
+			case dt_Default:
+			default:
+				tab = DEFAULT_TABS[position];
+				break;
+			}
+			return DataFragment.getPageTitle(tab, DataActivity.this);
 		}
 	}
 

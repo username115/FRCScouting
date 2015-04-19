@@ -3,6 +3,7 @@ package org.growingstems.scouting;
 import java.util.Locale;
 
 import org.frc836.database.DBActivity;
+import org.robobees.recyclerush.EventTeamFragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -17,6 +18,8 @@ import android.widget.ListView;
 public abstract class DataFragment extends Fragment {
 	public static final int PT_EVENTS = 0;
 	public static final int PT_TEAMS = 1;
+	public static final int PT_EVENT_TEAMS = 2;
+	public static final int PT_EVENT_MATCHES = 3;
 
 	protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -32,6 +35,21 @@ public abstract class DataFragment extends Fragment {
 	protected DBActivity mParent;
 
 	public static DataFragment newInstance(int section_title, DBActivity parent) {
+		return newInstance(section_title, parent, -1, null);
+	}
+
+	public static DataFragment newInstance(int section_title,
+			DBActivity parent, int teamNumber) {
+		return newInstance(section_title, parent, teamNumber, null);
+	}
+
+	public static DataFragment newInstance(int section_title,
+			DBActivity parent, String event_name) {
+		return newInstance(section_title, parent, -1, event_name);
+	}
+
+	public static DataFragment newInstance(int section_title,
+			DBActivity parent, int teamNumber, String event_name) {
 		DataFragment fragment;
 		switch (section_title) {
 		case PT_EVENTS:
@@ -39,6 +57,12 @@ public abstract class DataFragment extends Fragment {
 			break;
 		case PT_TEAMS:
 			fragment = new TeamListFragment();
+			break;
+		case PT_EVENT_TEAMS:
+			fragment = new EventTeamFragment(event_name);
+			break;
+		case PT_EVENT_MATCHES:
+			fragment = new MatchListFragment(event_name);
 			break;
 		default:
 			return null;
@@ -55,8 +79,12 @@ public abstract class DataFragment extends Fragment {
 			return context.getString(R.string.title_event_section).toUpperCase(
 					l);
 		case PT_TEAMS:
+		case PT_EVENT_TEAMS:
 			return context.getString(R.string.title_team_section)
 					.toUpperCase(l);
+		case PT_EVENT_MATCHES:
+			return context.getString(R.string.title_match_section).toUpperCase(
+					l);
 		}
 		return null;
 	}
