@@ -44,7 +44,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-//TODO add timer for auto
 
 public class MatchActivity extends DBActivity implements OnClickListener {
 

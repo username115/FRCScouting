@@ -153,29 +153,6 @@ public class Prefs extends PreferenceActivity {
 
 	}
 
-	/*
-	 * public boolean onCreateOptionsMenu(Menu menu) { MenuInflater inflater =
-	 * getMenuInflater(); inflater.inflate(R.menu.prefsmenu, menu); return true;
-	 * }
-	 * 
-	 * public boolean onOptionsItemSelected(MenuItem item) { switch
-	 * (item.getItemId()) { case R.id.refreshEventsItem: refreshEvents(); return
-	 * true; default: return super.onOptionsItemSelected(item); } }
-	 * 
-	 * protected class EventListCallback implements EventCallback {
-	 * 
-	 * public void eventsUpdated(List<String> events) {
-	 * 
-	 * if (events == null) { Toast.makeText(getBaseContext(),
-	 * "Error Updating Event List.", Toast.LENGTH_SHORT).show(); return; } Toast
-	 * toast = Toast.makeText(getBaseContext(), "Updated Event List",
-	 * Toast.LENGTH_SHORT); toast.show();
-	 * 
-	 * updateEventPreference(events); }
-	 * 
-	 * }
-	 */
-
 	protected class PasswordCallback implements HttpCallback {
 
 		private boolean isPass = true;

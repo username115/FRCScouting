@@ -104,7 +104,6 @@ public class DashboardActivity extends ScoutingMenuActivity {
 		pits.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO update for new Pits Activity
 				Intent intent = new Intent(getBaseContext(),
 						PitActivityRR.class);
 				startActivityForResult(intent, PITS_ACTIVITY_CODE);

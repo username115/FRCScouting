@@ -583,40 +583,6 @@ public class DB {
 		}
 	}
 
-	/*
-	 * public void getEventStats(String eventName, EventStats.EventCallback
-	 * callback) { // TODO data lookup /* Map<String, String> args = new
-	 * HashMap<String, String>(); args.put("type", "eventStats");
-	 * args.put("password", password); args.put("event_name", eventName);
-	 * utils.doPost(Prefs.getScoutingURL(context), args, new EventStats(
-	 * callback));
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public void getTeamStats(int teamId, TeamStats.TeamCallback callback) {
-	 * // TODO data lookup /* Map<String, String> args = new HashMap<String,
-	 * String>(); args.put("type", "teamStats"); args.put("password", password);
-	 * args.put("team_id", String.valueOf(teamId)); utils.doPost(
-	 * Prefs.getScoutingURL(context), args, new TeamStats(callback, teamId,
-	 * Prefs.getEvent(context, "Chesapeake Regional")));
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public void getMatchStats(String event, String match,
-	 * MatchStats.MatchCallback callback) { // TODO data lookup /* Map<String,
-	 * String> args = new HashMap<String, String>(); args.put("event_name",
-	 * event); args.put("match_id", match); args.put("password", password);
-	 * args.put("type", "matchStats");
-	 * utils.doPost(Prefs.getScoutingURL(context), args, new MatchStats(
-	 * callback));
-	 * 
-	 * }
-	 */
-
 	public String getPictureURL(int teamNum) {
 		synchronized (ScoutingDBHelper.lock) {
 			String ret = "";

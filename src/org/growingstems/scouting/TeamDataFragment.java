@@ -31,7 +31,6 @@ public class TeamDataFragment extends DataFragment {
 
 	@Override
 	protected void refreshData() {
-		// TODO Auto-generated method stub
 		if (!displayed)
 			return;
 		List<String> teams = mParent.getDB().getTeamsWithData();
