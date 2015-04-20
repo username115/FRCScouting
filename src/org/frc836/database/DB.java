@@ -597,7 +597,51 @@ public class DB {
 		}
 	}
 
-	public List<String> getMatchesWithData(String eventName, boolean practice) {
+	public List<String> getEventsForTeam(int teamNum) {
+		synchronized (ScoutingDBHelper.lock) {
+			try {
+				SQLiteDatabase db = ScoutingDBHelper.getInstance()
+						.getReadableDatabase();
+				String[] projection = {
+						MatchStatsStruct.COLUMN_NAME_EVENT_ID,
+						"MAX(" + MatchStatsStruct.COLUMN_NAME_TIMESTAMP
+								+ ") AS time" };
+
+				String selection = MatchStatsStruct.COLUMN_NAME_TEAM_ID + "=?";
+				String[] selectionArgs = { String.valueOf(teamNum) };
+
+				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+						selection, selectionArgs,
+						MatchStatsStruct.COLUMN_NAME_EVENT_ID, null, "time");
+
+				List<String> ret;
+				try {
+					ret = new ArrayList<String>(c.getCount());
+
+					if (c.moveToFirst())
+						do {
+							ret.add(getEventNameFromID(
+									c.getInt(c
+											.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_EVENT_ID)),
+									db));
+						} while (c.moveToNext());
+					else
+						ret = null;
+				} finally {
+					if (c != null)
+						c.close();
+					ScoutingDBHelper.getInstance().close();
+				}
+				return ret;
+
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	public List<String> getMatchesWithData(String eventName, boolean practice,
+			int teamNum) {
 		synchronized (ScoutingDBHelper.lock) {
 			try {
 				SQLiteDatabase db = ScoutingDBHelper.getInstance()
@@ -605,21 +649,25 @@ public class DB {
 
 				String[] projection = { MatchStatsStruct.COLUMN_NAME_MATCH_ID };
 
+				List<String> args = new ArrayList<String>(3);
+
 				String selection = "";
 				String[] selectionArgs = new String[1];
-				int i = 0;
 
 				if (eventName != null) {
-					selection = MatchStatsStruct.COLUMN_NAME_EVENT_ID
+					selection += MatchStatsStruct.COLUMN_NAME_EVENT_ID
 							+ "=? AND ";
-					selectionArgs = new String[2];
-					selectionArgs[0] = String.valueOf(getEventIDFromName(
-							eventName, db));
-					i = 1;
+					args.add(String.valueOf(getEventIDFromName(eventName, db)));
+				}
+				if (teamNum > 0) {
+					selection += MatchStatsStruct.COLUMN_NAME_TEAM_ID
+							+ "=? AND ";
+					args.add(String.valueOf(teamNum));
 				}
 
 				selection += MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH + "=?";
-				selectionArgs[i] = practice ? "1" : "0";
+				args.add(practice ? "1" : "0");
+				selectionArgs = args.toArray(selectionArgs);
 
 				Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
 						selection, selectionArgs,

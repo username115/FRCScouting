@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,33 +64,14 @@ public class MatchListFragment extends DataFragment {
 		if (!displayed)
 			return;
 
-		// TODO team match fetching
-
-		boolean prac = Prefs.getPracticeMatch(mParent, false);
-
-		List<String> matches = getMatchesForEvent(eventName, prac);
-		List<String> matches2 = getMatchesForEvent(eventName, !prac);
-		if (matches.size() > 1 && matches2.size() > 1) {
-			matches.addAll(matches2);
-		} else if (matches.size() <= 1 && matches2.size() > 1) {
-			matches = matches2;
+		List<String> matches = null;
+		if (eventName != null)
+			matches = getMatchesForEvent(eventName, teamNum);
+		else {
+			matches = getMatchesForTeam(teamNum);
 		}
 
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getActivity(), defaultListResource, matches);
-		dataList.setAdapter(adapter);
-		dataList.setOnItemClickListener(new MatchClick());
-
-	}
-
-	private List<String> getMatchesForEvent(String eventName, boolean prac) {
-		List<String> matches = null;
-		if (eventName != null && teamNum <= 0)
-			matches = mParent.getDB().getMatchesWithData(eventName, prac);
-
-		if (matches == null)
-			matches = new ArrayList<String>(1);
-		if (matches.isEmpty()) {
+		if (matches == null || matches.isEmpty()) {
 			StringBuilder message = new StringBuilder(
 					"No Matches for selected ");
 			if (teamNum > 0 && eventName != null) {
@@ -102,7 +84,57 @@ public class MatchListFragment extends DataFragment {
 				message = new StringBuilder("Invalid Event or Team Selected");
 			}
 			matches.add(message.toString());
-		} else {
+		}
+
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				getActivity(), defaultListResource, matches);
+		dataList.setAdapter(adapter);
+		dataList.setOnItemClickListener(new MatchClick());
+	}
+
+	private List<String> getMatchesForTeam(int teamNum) {
+		List<String> events = mParent.getDB().getEventsForTeam(teamNum);
+		String curEvent = Prefs.getEvent(getActivity(), "");
+		List<String> matches = new ArrayList<String>(events.size() * 12);
+		if (events != null) {
+			if (curEvent.length() > 0 && events.contains(curEvent)) {
+				events.remove(curEvent);
+				events.add(0, curEvent);
+			}
+			for (String event : events) {
+				List<String> t = getMatchesForEvent(event, teamNum);
+				if (t != null) {
+					t.add(0, event);
+					matches.addAll(t);
+				}
+			}
+		}
+		return matches;
+	}
+
+	private List<String> getMatchesForEvent(String eventName, int teamNum) {
+		boolean prac = Prefs.getPracticeMatch(mParent, false);
+
+		List<String> matches = getMatchesForEvent(eventName, prac, teamNum);
+		List<String> matches2 = getMatchesForEvent(eventName, !prac, teamNum);
+		if (matches.size() > 1 && matches2.size() > 1) {
+			matches.addAll(matches2);
+		} else if (matches.size() <= 1 && matches2.size() > 1) {
+			matches = matches2;
+		}
+		return matches;
+	}
+
+	private List<String> getMatchesForEvent(String eventName, boolean prac,
+			int teamNum) {
+		List<String> matches = null;
+		if (eventName != null)
+			matches = mParent.getDB().getMatchesWithData(eventName, prac,
+					teamNum);
+
+		if (matches == null)
+			matches = new ArrayList<String>(1);
+		if (!matches.isEmpty()) {
 			matches.add(0, prac ? "Practice Matches" : "Qualification Matches");
 		}
 
@@ -116,7 +148,8 @@ public class MatchListFragment extends DataFragment {
 				long id) {
 			if (view instanceof TextView) {
 				String match = ((TextView) view).getText().toString();
-				loadMatch(Integer.valueOf(match));
+				if (TextUtils.isDigitsOnly(match))
+					loadMatch(Integer.valueOf(match));
 			}
 		}
 
@@ -125,7 +158,7 @@ public class MatchListFragment extends DataFragment {
 	private void loadMatch(int match) {
 		Toast.makeText(getActivity(), "Open match " + match, Toast.LENGTH_SHORT)
 				.show();
-		//TODO load match
+		// TODO load match
 	}
 
 }
