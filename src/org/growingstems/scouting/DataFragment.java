@@ -17,8 +17,7 @@ import android.widget.ListView;
 public abstract class DataFragment extends Fragment {
 	public static final int PT_EVENTS = 0;
 	public static final int PT_TEAMS = 1;
-	public static final int PT_EVENT_TEAMS = 2;
-	public static final int PT_EVENT_MATCHES = 3;
+	public static final int PT_MATCHES = 2;
 
 	protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -55,13 +54,10 @@ public abstract class DataFragment extends Fragment {
 			fragment = new EventListFragment();
 			break;
 		case PT_TEAMS:
-			fragment = new TeamListFragment();
-			break;
-		case PT_EVENT_TEAMS:
 			fragment = new TeamListFragment(event_name);
 			break;
-		case PT_EVENT_MATCHES:
-			fragment = new MatchListFragment(event_name);
+		case PT_MATCHES:
+			fragment = new MatchListFragment(event_name, teamNumber);
 			break;
 		default:
 			return null;
@@ -78,10 +74,9 @@ public abstract class DataFragment extends Fragment {
 			return context.getString(R.string.title_event_section).toUpperCase(
 					l);
 		case PT_TEAMS:
-		case PT_EVENT_TEAMS:
 			return context.getString(R.string.title_team_section)
 					.toUpperCase(l);
-		case PT_EVENT_MATCHES:
+		case PT_MATCHES:
 			return context.getString(R.string.title_match_section).toUpperCase(
 					l);
 		}

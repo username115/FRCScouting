@@ -27,6 +27,11 @@ public class MatchListFragment extends DataFragment {
 		eventName = event_name;
 	}
 
+	public MatchListFragment(String event_name, int team_num) {
+		teamNum = team_num;
+		eventName = event_name;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -42,16 +47,29 @@ public class MatchListFragment extends DataFragment {
 		if (!displayed)
 			return;
 
+		// TODO team match fetching
+
 		boolean prac = Prefs.getPracticeMatch(mParent, false);
-		if (prac) {
-			Toast.makeText(mParent,
-					"Warning, currently viewing practice match data",
-					Toast.LENGTH_SHORT).show();
+
+		List<String> matches = getMatchesForEvent(eventName, prac);
+		List<String> matches2 = getMatchesForEvent(eventName, !prac);
+		if (matches.size() > 1 && matches2.size() > 1) {
+			matches.addAll(matches2);
+		} else if (matches.size() <= 1 && matches2.size() > 1) {
+			matches = matches2;
 		}
+
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				getActivity(), defaultListResource, matches);
+		dataList.setAdapter(adapter);
+		dataList.setOnItemClickListener(new MatchClick());
+
+	}
+
+	private List<String> getMatchesForEvent(String eventName, boolean prac) {
 		List<String> matches = null;
 		if (eventName != null && teamNum <= 0)
 			matches = mParent.getDB().getMatchesWithData(eventName, prac);
-		// TODO team match fetching
 
 		if (matches == null)
 			matches = new ArrayList<String>(1);
@@ -68,13 +86,11 @@ public class MatchListFragment extends DataFragment {
 				message = new StringBuilder("Invalid Event or Team Selected");
 			}
 			matches.add(message.toString());
+		} else {
+			matches.add(0, prac ? "Practice Matches" : "Qualification Matches");
 		}
 
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getActivity(), defaultListResource, matches);
-		dataList.setAdapter(adapter);
-		dataList.setOnItemClickListener(new MatchClick());
-
+		return matches;
 	}
 
 	private class MatchClick implements AdapterView.OnItemClickListener {
@@ -93,6 +109,7 @@ public class MatchListFragment extends DataFragment {
 	private void loadMatch(int match) {
 		Toast.makeText(getActivity(), "Open match " + match, Toast.LENGTH_SHORT)
 				.show();
+		//TODO load match
 	}
 
 }

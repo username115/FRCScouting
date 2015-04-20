@@ -43,8 +43,9 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 
 	protected static final int[] DEFAULT_TABS = { DataFragment.PT_EVENTS,
 			DataFragment.PT_TEAMS };
-	protected static final int[] EVENT_TABS = { DataFragment.PT_EVENT_TEAMS,
-			DataFragment.PT_EVENT_MATCHES };
+	protected static final int[] EVENT_TABS = { DataFragment.PT_TEAMS,
+			DataFragment.PT_MATCHES };
+	protected static final int[] TEAM_TABS = { DataFragment.PT_MATCHES }; // TODO
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -78,6 +79,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		case ACTIVITY_TYPE_TEAM:
 			dataType = DataType.dt_Team;
 			teamNum = intent.getIntExtra(TEAM_ARG, -1);
+			eventName = intent.getStringExtra(EVENT_ARG);
+			if (teamNum > 0 && eventName != null) {
+				setTitle(String.valueOf(teamNum) + " at " + eventName);
+			} else if (teamNum > 0) {
+				setTitle("Team " + String.valueOf(teamNum));
+			}
 			break;
 		case ACTIVITY_TYPE_DEFAULT:
 		default:
@@ -119,7 +126,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 					.setTabListener(this));
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
