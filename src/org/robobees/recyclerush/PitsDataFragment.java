@@ -19,7 +19,8 @@ package org.robobees.recyclerush;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.growingstems.scouting.DataFragment;
+import org.frc836.database.PitStats;
+import org.growingstems.scouting.data.DataFragment;
 
 import android.widget.ArrayAdapter;
 
@@ -36,10 +37,17 @@ public class PitsDataFragment extends DataFragment {
 		if (!displayed)
 			return;
 
-		List<String> data = new ArrayList<String>(1);
-		data.add("no data here boss");
+		List<String> data = null;
 
-		// TODO populate pit data from database
+		PitStats stat = mParent.getDB().getTeamPitStats(teamNum);
+
+		if (stat instanceof PitStatsRR) {
+			
+			// TODO populate pit data from database
+		} else {
+			data = new ArrayList<String>(1);
+			data.add("Data gathered from wrong year.");
+		}
 
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getActivity(), defaultListResource, data);

@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package org.growingstems.scouting;
+package org.growingstems.scouting.data;
 
 import org.frc836.database.DB.SyncCallback;
 import org.frc836.database.DBActivity;
 import org.frc836.database.DBSyncService.LocalBinder;
+import org.growingstems.scouting.MainMenuSelection;
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
 import org.growingstems.scouting.MenuSelections.Refreshable;
 
 import android.app.ActionBar;
@@ -61,7 +64,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 			DataFragment.PT_TEAMS };
 	protected static final int[] EVENT_TABS = { DataFragment.PT_TEAMS,
 			DataFragment.PT_MATCHES };
-	protected static final int[] TEAM_TABS = { DataFragment.PT_PITS,
+	protected static final int[] TEAM_TABS = { //DataFragment.PT_PITS,
 			DataFragment.PT_MATCHES }; // TODO
 
 	/**

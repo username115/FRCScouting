@@ -52,7 +52,7 @@
             android:label="@string/pits_label" >
         </activity>
         <activity
-            android:name=".DataActivity"
+            android:name="org.growingstems.scouting.data.DataActivity"
             android:label="@string/title_activity_data" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

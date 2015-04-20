@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package org.growingstems.scouting;
+package org.growingstems.scouting.data;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
 
 import android.content.Intent;
 import android.os.Bundle;

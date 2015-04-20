@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.growingstems.scouting;
+package org.growingstems.scouting.data;
 
 import java.util.Locale;
 
 import org.frc836.database.DBActivity;
+import org.growingstems.scouting.R;
 import org.robobees.recyclerush.PitsDataFragment;
 
 import android.app.Fragment;
