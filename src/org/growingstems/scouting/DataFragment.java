@@ -19,6 +19,7 @@ package org.growingstems.scouting;
 import java.util.Locale;
 
 import org.frc836.database.DBActivity;
+import org.robobees.recyclerush.PitsDataFragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -34,6 +35,7 @@ public abstract class DataFragment extends Fragment {
 	public static final int PT_EVENTS = 0;
 	public static final int PT_TEAMS = 1;
 	public static final int PT_MATCHES = 2;
+	public static final int PT_PITS = 3;
 
 	protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -75,6 +77,9 @@ public abstract class DataFragment extends Fragment {
 		case PT_MATCHES:
 			fragment = new MatchListFragment(event_name, teamNumber);
 			break;
+		case PT_PITS:
+			fragment = new PitsDataFragment(teamNumber);
+			break;
 		default:
 			return null;
 		}
@@ -95,6 +100,9 @@ public abstract class DataFragment extends Fragment {
 		case PT_MATCHES:
 			return context.getString(R.string.title_match_section).toUpperCase(
 					l);
+		case PT_PITS:
+			return context.getString(R.string.title_pits_section)
+					.toUpperCase(l);
 		}
 		return null;
 	}
