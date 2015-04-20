@@ -119,6 +119,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 					.setTabListener(this));
 		}
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		reloadData();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

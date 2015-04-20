@@ -55,13 +55,14 @@ public class EventListFragment extends DataFragment {
 			loadEvent(event);
 		}
 
-		private void loadEvent(String event) {
-			Intent intent = new Intent(mParent, DataActivity.class);
-			intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING, DataActivity.ACTIVITY_TYPE_EVENT);
-			intent.putExtra(DataActivity.EVENT_ARG, event);
-			mParent.startActivity(intent);
-		}
+	}
 
+	private void loadEvent(String event) {
+		Intent intent = new Intent(mParent, DataActivity.class);
+		intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
+				DataActivity.ACTIVITY_TYPE_EVENT);
+		intent.putExtra(DataActivity.EVENT_ARG, event);
+		mParent.startActivity(intent);
 	}
 
 }

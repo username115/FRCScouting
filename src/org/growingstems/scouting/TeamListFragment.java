@@ -43,7 +43,7 @@ public class TeamListFragment extends DataFragment {
 	protected void refreshData() {
 		if (!displayed)
 			return;
-		List<String> teams = mParent.getDB().getTeamsWithData(); //TODO change to teams from this event
+		List<String> teams = mParent.getDB().getTeamsWithData(eventName);
 		String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "").trim();
 		if (teams == null) {
 			teams = new ArrayList<String>(1);
