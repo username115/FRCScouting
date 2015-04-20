@@ -192,9 +192,10 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 		public int getCount() {
 			switch (dataType) {
 			case dt_Event:
+				return EVENT_TABS.length;
 			case dt_Default:
 			default:
-				return 2;
+				return DEFAULT_TABS.length;
 			}
 
 		}
