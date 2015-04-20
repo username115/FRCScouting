@@ -19,6 +19,7 @@ package org.growingstems.scouting;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TeamListFragment extends DataFragment {
 
@@ -113,9 +113,12 @@ public class TeamListFragment extends DataFragment {
 	}
 
 	private void loadTeam(int team) {
-		// TODO load the team data activity
-		Toast.makeText(getActivity(), "Open team " + team, Toast.LENGTH_SHORT)
-				.show();
+		Intent intent = new Intent(mParent, DataActivity.class);
+		intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
+				DataActivity.ACTIVITY_TYPE_TEAM);
+		intent.putExtra(DataActivity.EVENT_ARG, eventName);
+		intent.putExtra(DataActivity.TEAM_ARG, team);
+		mParent.startActivity(intent);
 	}
 
 }

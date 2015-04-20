@@ -198,6 +198,11 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 					tabs.put(position, DataFragment.newInstance(tab,
 							DataActivity.this, eventName));
 					break;
+				case dt_Team:
+					tab = TEAM_TABS[position];
+					tabs.put(position, DataFragment.newInstance(tab,
+							DataActivity.this, teamNum, eventName));
+					break;
 				case dt_Default:
 				default:
 					tab = DEFAULT_TABS[position];
@@ -216,6 +221,8 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 			switch (dataType) {
 			case dt_Event:
 				return EVENT_TABS.length;
+			case dt_Team:
+				return TEAM_TABS.length;
 			case dt_Default:
 			default:
 				return DEFAULT_TABS.length;
@@ -229,6 +236,9 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 			switch (dataType) {
 			case dt_Event:
 				tab = EVENT_TABS[position];
+				break;
+			case dt_Team:
+				tab = TEAM_TABS[position];
 				break;
 			case dt_Default:
 			default:
