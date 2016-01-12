@@ -1,0 +1,56 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .gitignore
+* Class Diagram.png
+* Class Diagram.ucls
+* FRC_Scouting_Server/
+* FRC_Scouting_Server/README.txt
+* FRC_Scouting_Server/populate_event_list.php
+* FRC_Scouting_Server/populate_robot_pics.php
+* FRC_Scouting_Server/scouting-header.php
+* FRC_Scouting_Server/scouting.php
+* FRC_Scouting_Server/scouting.sql
+* GenerateContract.sh
+* LICENSE
+* README.md
+* Release Steps.txt
+* SQLITEContractGen.py
+* VersionUpdate.py
+* proguard.cfg
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* libs/achartengine-1.0.0.jar => app/libs/achartengine-1.0.0.jar
+* libs/android-support-v13.jar => app/libs/android-support-v13.jar
+* lint.xml => app/lint.xml
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+* atote.PNG => atote.png
+* bin.PNG => bin.png
+* ytotes.PNG => ytotes.png
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
