@@ -18,7 +18,7 @@ package org.frc836.database;
 
 import java.util.Date;
 
-import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2015_Entry;
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2016_Entry;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.robobees.recyclerush.PitStatsRR;
@@ -36,15 +36,15 @@ public abstract class PitStats {
 	public boolean auto_mode;
 	public String comments;
 
-	public static final String COLUMN_NAME_TEAM_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TEAM_ID;
-	public static final String TABLE_NAME = SCOUT_PIT_DATA_2015_Entry.TABLE_NAME;
-	public static final String COLUMN_NAME_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_ID;
-	public static final String COLUMN_NAME_TIMESTAMP = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_TIMESTAMP;
-	public static final String COLUMN_NAME_INVALID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_INVALID;
-	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_CONFIG_ID;
-	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_BASE_ID;
-	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
-	public static final String COLUMN_NAME_NOTES = SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_NOTES;
+	public static final String COLUMN_NAME_TEAM_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_TEAM_ID;
+	public static final String TABLE_NAME = SCOUT_PIT_DATA_2016_Entry.TABLE_NAME;
+	public static final String COLUMN_NAME_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_ID;
+	public static final String COLUMN_NAME_TIMESTAMP = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_TIMESTAMP;
+	public static final String COLUMN_NAME_INVALID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_INVALID;
+	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CONFIG_ID;
+	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_WHEEL_BASE_ID;
+	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
+	public static final String COLUMN_NAME_NOTES = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_NOTES;
 
 	public static PitStats getNewPitStats() {
 		return new PitStatsRR();
@@ -74,7 +74,7 @@ public abstract class PitStats {
 				db.getWheelTypeIDFromName(wheel_type, database));
 		args.put(COLUMN_NAME_WHEEL_BASE_ID,
 				db.getWheelBaseIDFromName(wheel_base, database));
-		// args.put(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
+		// args.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
 		// auto_mode ? 1 : 0);
 		args.put(COLUMN_NAME_NOTES, comments);
 		args.put(COLUMN_NAME_INVALID, 1);
@@ -104,7 +104,7 @@ public abstract class PitStats {
 						database);
 		// auto_mode = c
 		// .getInt(c
-		// .getColumnIndexOrThrow(SCOUT_PIT_DATA_2015_Entry.COLUMN_NAME_AUTONOMOUS_MODE))
+		// .getColumnIndexOrThrow(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTONOMOUS_MODE))
 		// != 0;
 		comments = c
 				.getString(c
