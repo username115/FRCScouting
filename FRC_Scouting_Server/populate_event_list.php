@@ -23,7 +23,7 @@ require_once 'HTTP/Request2.php'; //Requires the Request2 PEAR library
 $token_string = ""; //token string
 
 
-$frc_api_url = "https://frc-api.usfirst.org";
+$frc_api_url = "https://frc-api.firstinspires.org";
 
 $token = base64_encode($token_string);
 $season = $_GET['season'];
@@ -36,10 +36,15 @@ try {
     $headers = array("Content-type"=>"application/x-www-form-urlencoded", "Accept"=>"application/json", "Authorization"=>"Basic " . $token);
 
 
-    $request = new HTTP_Request2($frc_api_url . '/api/v1.0/events/' . $season, HTTP_Request2::METHOD_GET);
+    $request = new HTTP_Request2($frc_api_url . '/v2.0/2016/events', HTTP_Request2::METHOD_GET);
     $request->setHeader($headers);
     
     $request->setAdapter('curl');
+    $request->setConfig(array(
+        'ssl_verify_peer'   => FALSE,
+        'ssl_verify_host'   => FALSE,
+    //    'ssl_cafile'        => $ca_path
+    ));
 
     $response = $request->send();
 
@@ -98,5 +103,4 @@ try {
 } catch (HTTP_Request2_Exception $e) {
     echo 'Error';//.': ' . $e->getMessage();
 }
-
 
