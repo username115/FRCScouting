@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Jan 16, 2016 at 09:49 AM
+-- Generation Time: Jan 16, 2016 at 01:49 PM
 -- Server version: 5.6.28-log
 -- PHP Version: 5.4.31
 
@@ -47,6 +47,36 @@ INSERT INTO `configuration_lu` (`id`, `configuration_desc`, `timestamp`, `invali
 (5, 'Hex', '2014-01-25 15:18:38', 0),
 (6, 'Triangle', '2014-01-25 15:18:38', 0),
 (7, 'Other', '2014-01-25 15:18:38', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `defense_lu`
+--
+
+CREATE TABLE IF NOT EXISTS `defense_lu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `defense_desc` text COLLATE utf8_unicode_ci NOT NULL,
+  `invalid` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `invalid` (`invalid`,`timestamp`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `defense_lu`
+--
+
+INSERT INTO `defense_lu` (`id`, `defense_desc`, `invalid`, `timestamp`) VALUES
+(1, 'Portcullis', 0, '2016-01-16 18:48:49'),
+(2, 'Cheval de frise', 0, '2016-01-16 18:48:49'),
+(3, 'Moat', 0, '2016-01-16 18:48:49'),
+(4, 'Ramparts', 0, '2016-01-16 18:48:49'),
+(5, 'Drawbridge', 0, '2016-01-16 18:48:49'),
+(6, 'Sally port', 0, '2016-01-16 18:48:49'),
+(7, 'Rock wall', 0, '2016-01-16 18:48:49'),
+(8, 'Rough Terrain', 0, '2016-01-16 18:48:49'),
+(9, 'Low bar', 0, '2016-01-16 18:48:49');
 
 -- --------------------------------------------------------
 
