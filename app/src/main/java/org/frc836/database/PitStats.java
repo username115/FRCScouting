@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan
+ * Copyright 2016 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,8 @@ import java.util.Date;
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2016_Entry;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.robobees.recyclerush.PitStatsRR;
+import org.robobees.stronghold.PitStatsSH;
+
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -47,7 +48,7 @@ public abstract class PitStats {
 	public static final String COLUMN_NAME_NOTES = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_NOTES;
 
 	public static PitStats getNewPitStats() {
-		return new PitStatsRR();
+		return new PitStatsSH();
 	}
 
 	public PitStats() {
@@ -74,8 +75,6 @@ public abstract class PitStats {
 				db.getWheelTypeIDFromName(wheel_type, database));
 		args.put(COLUMN_NAME_WHEEL_BASE_ID,
 				db.getWheelBaseIDFromName(wheel_base, database));
-		// args.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTONOMOUS_MODE,
-		// auto_mode ? 1 : 0);
 		args.put(COLUMN_NAME_NOTES, comments);
 		args.put(COLUMN_NAME_INVALID, 1);
 
@@ -102,10 +101,6 @@ public abstract class PitStats {
 						c.getInt(c
 								.getColumnIndexOrThrow(COLUMN_NAME_WHEEL_BASE_ID)),
 						database);
-		// auto_mode = c
-		// .getInt(c
-		// .getColumnIndexOrThrow(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTONOMOUS_MODE))
-		// != 0;
 		comments = c
 				.getString(c
 						.getColumnIndexOrThrow(COLUMN_NAME_NOTES));

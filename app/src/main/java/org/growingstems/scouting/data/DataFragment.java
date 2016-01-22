@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan
+ * Copyright 2016 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.util.Locale;
 
 import org.frc836.database.DBActivity;
 import org.growingstems.scouting.R;
-import org.robobees.recyclerush.PitsDataFragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -79,8 +78,8 @@ public abstract class DataFragment extends Fragment {
 			fragment = new MatchListFragment(event_name, teamNumber);
 			break;
 		case PT_PITS:
-			fragment = new PitsDataFragment(teamNumber);
-			break;
+			//fragment = new PitsDataFragment(teamNumber); //TODO
+			//break;
 		default:
 			return null;
 		}

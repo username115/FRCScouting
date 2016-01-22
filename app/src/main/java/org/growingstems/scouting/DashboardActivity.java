@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan
+ * Copyright 2016 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,9 @@ package org.growingstems.scouting;
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
-import org.growingstems.scouting.R;
 import org.growingstems.scouting.data.DataActivity;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
-import org.robobees.recyclerush.PitActivityRR;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -106,9 +104,10 @@ public class DashboardActivity extends ScoutingMenuActivity {
 		pits.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(),
+				// TODO
+				/*Intent intent = new Intent(getBaseContext(),
 						PitActivityRR.class);
-				startActivityForResult(intent, PITS_ACTIVITY_CODE);
+				startActivityForResult(intent, PITS_ACTIVITY_CODE);*/
 			}
 		});
 

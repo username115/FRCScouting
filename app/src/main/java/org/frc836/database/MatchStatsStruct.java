@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan
+ * Copyright 2016 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import java.util.Date;
 import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2016_Entry;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.robobees.recyclerush.MatchStatsRR;
+import org.robobees.stronghold.MatchStatsSH;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -56,7 +56,7 @@ public abstract class MatchStatsStruct {
 	public static final String COLUMN_NAME_TIMESTAMP = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_TIMESTAMP;
 
 	public static MatchStatsStruct getNewMatchStats() {
-		return new MatchStatsRR();
+		return new MatchStatsSH();
 	}
 
 	public MatchStatsStruct() {
