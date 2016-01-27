@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.growingstems.scouting"
     android:versionCode="30"
-    android:versionName="2.2015.1.5" >
+    android:versionName="2.2015.1.5">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -11,21 +11,22 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <activity
             android:name=".MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:label="@string/waiting" >
-        </activity>
-        <activity android:name=".Prefs" >
-        </activity>
+            android:label="@string/waiting"></activity>
+        <activity android:name=".Prefs"></activity>
         <activity
             android:name=".DashboardActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,27 +38,25 @@
             android:name="org.frc836.database.DBSyncService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="true" >
-        </service>
+            android:stopWithTask="true"></service>
 
         <activity
             android:name="org.robobees.recyclerush.MatchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="org.robobees.recyclerush.PitActivityRR"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/pits_label" >
-        </activity>
+            android:label="@string/pits_label"></activity>
         <activity
-            android:name="org.growingstems.scouting.data.DataActivity"
-            android:label="@string/title_activity_data" >
+            android:name=".data.DataActivity"
+            android:label="@string/title_activity_data">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.growingstems.scouting.DashboardActivity" />
         </activity>
+        <activity android:name="org.robobees.stronghold.PitsActivitySH"></activity>
     </application>
 
 </manifest>
