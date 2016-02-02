@@ -306,10 +306,10 @@ def init_args():
                          dbVersion=None,
                          devEmail=None,
                          versionDate=None,
-                         valFileName='res/values/Version.xml',
-                         manifestFileName='AndroidManifest.xml',
+                         valFileName='app/src/main/res/values/Version.xml',
+                         manifestFileName='app/src/main/AndroidManifest.xml',
                          serverFilename='FRC_Scouting_Server/scouting-header.php',
-                         dbHelperFileName='src/org/frc836/database/ScoutingDBHelper.java',
+                         dbHelperFileName='app/src/main/java/org/frc836/database/ScoutingDBHelper.java',
                          noPrompt=False
                         )
 
