@@ -87,7 +87,7 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
         mViewPager = (ViewPager) findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
 
-        //loadData(); //TODO
+        loadData();
         //setAuto(); //TODO
     }
 
@@ -213,20 +213,49 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
         // TODO
     }
 
+    private void loadData() {
+        String team = teamText.getText().toString();
+        String match = matchT.getText().toString();
+
+        boolean loadData = false;
+        if (team != null && team.length() > 0 && match != null
+                && match.length() > 0) {
+            teamData = (MatchStatsSH) db.getMatchStats(Prefs.getEvent(
+                    getApplicationContext(), "CHS District - Greater DC Event"), Integer
+                    .valueOf(match), Integer.valueOf(team), Prefs
+                    .getPracticeMatch(getApplicationContext(), false));
+            if (teamData == null)
+                teamData = new MatchStatsSH(Integer.valueOf(team),
+                        Prefs.getEvent(getApplicationContext(),
+                                "CHS District - Greater DC Event"), Integer.valueOf(match),
+                        Prefs.getPracticeMatch(getApplicationContext(), false));
+            else
+                loadData = true;
+        } else
+            teamData = new MatchStatsSH();
+
+        if (loadData) {
+            showDialog(LOAD_DIALOG);
+        }
+
+        currentView = 0;
+
+        //TODO fill ui elements
+        //loadAuto();
+        //loadTele();
+        //loadEndgame();
+    }
+
 
     private static class MatchViewAdapter extends FragmentPagerAdapter {
 
-        SparseArray<MatchFragment> fragments;
-
         public MatchViewAdapter(FragmentManager fm) {
             super(fm);
-            fragments = new SparseArray<MatchFragment>(NUM_SCREENS);
         }
 
         @Override
         public Fragment getItem(int i) {
             // TODO
-            //if (fragments.get(i) == null)
 
             MatchFragment fragment;
             Bundle args;
@@ -236,16 +265,14 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
                     args = new Bundle();
                     args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
                     fragment.setArguments(args);
-                    fragments.setValueAt(i, fragment);
-                    break;
+                    return fragment;
                 default:
                     fragment = new TestFragment();
                     args = new Bundle();
                     args.putInt(TestFragment.ARG_SECTION_NUMBER, i);
                     fragment.setArguments(args);
-                    fragments.setValueAt(i, fragment);
+                    return fragment;
             }
-            return fragments.get(i);
         }
 
         @Override
