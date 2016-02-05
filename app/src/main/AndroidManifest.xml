@@ -11,13 +11,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault">
         <activity
             android:name=".MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -41,14 +42,10 @@
             android:stopWithTask="true"></service>
 
         <activity
-            android:name="org.robobees.recyclerush.MatchActivity"
+            android:name="org.robobees.stronghold.MatchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
             android:windowSoftInputMode="stateHidden"></activity>
-        <activity
-            android:name="org.robobees.recyclerush.PitActivityRR"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/pits_label"></activity>
         <activity
             android:name=".data.DataActivity"
             android:label="@string/title_activity_data">
@@ -56,7 +53,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.growingstems.scouting.DashboardActivity" />
         </activity>
-        <activity android:name="org.robobees.stronghold.PitsActivitySH"></activity>
+        <activity
+            android:name="org.robobees.stronghold.PitsActivitySH"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/pits_label"></activity>
     </application>
 
 </manifest>

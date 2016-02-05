@@ -17,6 +17,7 @@
 package org.growingstems.scouting;
 
 import org.frc836.database.DBActivity;
+import org.robobees.stronghold.MatchActivity;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;
@@ -130,11 +131,11 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 	private class StartClickListener implements OnClickListener {
 
 		public void onClick(View v) {
-			/*Intent intent = new Intent(MatchStartActivity.this,
+			Intent intent = new Intent(MatchStartActivity.this,
 					MatchActivity.class);
 			intent.putExtra("team", teamNum.getText().toString());
 			intent.putExtra("match", matchNum.getText().toString());
-			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);*/
+			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
 			// TODO
 
 		}

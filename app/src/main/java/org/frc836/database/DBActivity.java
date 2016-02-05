@@ -27,48 +27,55 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 public abstract class DBActivity extends ScoutingMenuActivity {
-	protected DB db;
-	protected LocalBinder binder;
-	protected ServiceWatcher watcher = new ServiceWatcher();
-	protected ServiceConnection m_callback = null;
+    protected DB db;
+    protected LocalBinder binder;
+    protected ServiceWatcher watcher = new ServiceWatcher();
+    protected ServiceConnection m_callback = null;
 
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initDB();
+    }
 
-		Intent sync = new Intent(this, DBSyncService.class);
-		bindService(sync, watcher, Context.BIND_AUTO_CREATE);
-		db = new DB(this, binder);
-	}
+    public void initDB() {
+        Intent sync = new Intent(this, DBSyncService.class);
+        bindService(sync, watcher, Context.BIND_AUTO_CREATE);
+        db = new DB(this, binder);
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		unbindService(watcher);
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindDB();
+    }
 
-	/**
-	 * @return the db
-	 */
-	public DB getDB() {
-		return db;
-	}
+    public void unbindDB() {
+        unbindService(watcher);
+    }
 
-	protected class ServiceWatcher implements ServiceConnection {
+    /**
+     * @return the db
+     */
+    public DB getDB() {
+        return db;
+    }
 
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			if (service instanceof LocalBinder) {
-				binder = (LocalBinder) service;
-				db.setBinder(binder);
-				if (m_callback != null)
-					m_callback.onServiceConnected(name, service);
-			}
-		}
+    protected class ServiceWatcher implements ServiceConnection {
 
-		public void onServiceDisconnected(ComponentName name) {
-			if (m_callback != null)
-				m_callback.onServiceDisconnected(name);
-		}
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            if (service instanceof LocalBinder) {
+                binder = (LocalBinder) service;
+                db.setBinder(binder);
+                if (m_callback != null)
+                    m_callback.onServiceConnected(name, service);
+            }
+        }
 
-	}
+        public void onServiceDisconnected(ComponentName name) {
+            if (m_callback != null)
+                m_callback.onServiceDisconnected(name);
+        }
+
+    }
 
 }
