@@ -5,33 +5,13 @@
     tools:context="org.robobees.stronghold.AutoMatchFragment">
 
     <TextView
-        android:id="@+id/autoTextView"
+        android:id="@+id/teleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/auto_input_text"
+        android:text="@string/tele_input_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <CheckBox
-        android:id="@+id/startSpyC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/autoTextView"
-        android:gravity="center"
-        android:text="@string/start_spy_text_match" />
-
-    <CheckBox
-        android:id="@+id/reachOuterWorksC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/scrollView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:text="@string/auto_reach_text_match" />
 
 
     <ScrollView
@@ -39,7 +19,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:layout_below="@+id/startSpyC">
+        android:layout_below="@+id/teleTextView">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +27,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/rightAutoMatch"
+                android:id="@+id/rightTeleMatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
@@ -503,7 +483,7 @@
 
 
             </LinearLayout>
-            <!-- rightAutoMatch layout -->
+            <!-- rightTeleMatch layout -->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -651,7 +631,7 @@
             <!-- tower layout -->
 
             <LinearLayout
-                android:id="@+id/leftAutoMatch"
+                android:id="@+id/leftTeleMatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -1102,7 +1082,7 @@
 
 
             </LinearLayout>
-            <!-- leftAutoMatch layout -->
+            <!-- leftTeleMatch layout -->
 
         </LinearLayout>
 

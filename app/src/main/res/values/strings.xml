@@ -106,7 +106,7 @@
 		<item>4</item>
 	</string-array>
 
-	<string name="score_plus">+</string>
+	<string name="score_plus">s</string>
 	<string name="score_miss">m</string>
 
 	<string-array name="configuration">

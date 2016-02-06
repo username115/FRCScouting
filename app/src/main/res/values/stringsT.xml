@@ -36,5 +36,6 @@
     <string name="LfCount"/>
     <string name="addLBin"/>
     <string name="LBinCount"/>
-    
+    <string name="tele_input_text">Tele-op Mode</string>
+
 </resources>
