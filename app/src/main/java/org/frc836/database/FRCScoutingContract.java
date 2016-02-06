@@ -63,6 +63,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_BLUE_DEF_4 = "blue_def_4";
 		public static final String COLUMN_NAME_BLUE_DEF_5 = "blue_def_5";
 		public static final String COLUMN_NAME_AUTO_REACH = "auto_reach";
+		public static final String COLUMN_NAME_START_SPY = "start_spy";
 		public static final String COLUMN_NAME_AUTO_CROSS_PORTCULLIS_FOR = "auto_cross_portcullis_for";
 		public static final String COLUMN_NAME_AUTO_CROSS_PORTCULLIS_REV = "auto_cross_portcullis_rev";
 		public static final String COLUMN_NAME_AUTO_CROSS_CHEVAL_FOR = "auto_cross_cheval_for";
@@ -85,6 +86,8 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_AUTO_CROSS_LOW_BAR_REV = "auto_cross_low_bar_rev";
 		public static final String COLUMN_NAME_AUTO_SCORE_LOW = "auto_score_low";
 		public static final String COLUMN_NAME_AUTO_SCORE_HIGH = "auto_score_high";
+		public static final String COLUMN_NAME_AUTO_MISS_LOW = "auto_miss_low";
+		public static final String COLUMN_NAME_AUTO_MISS_HIGH = "auto_miss_high";
 		public static final String COLUMN_NAME_CROSS_PORTCULLIS_FOR = "cross_portcullis_for";
 		public static final String COLUMN_NAME_CROSS_PORTCULLIS_REV = "cross_portcullis_rev";
 		public static final String COLUMN_NAME_CROSS_CHEVAL_FOR = "cross_cheval_for";
@@ -107,6 +110,8 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_CROSS_LOW_BAR_REV = "cross_low_bar_rev";
 		public static final String COLUMN_NAME_SCORE_LOW = "score_low";
 		public static final String COLUMN_NAME_SCORE_HIGH = "score_high";
+		public static final String COLUMN_NAME_MISS_LOW = "miss_low";
+		public static final String COLUMN_NAME_MISS_HIGH = "miss_high";
 		public static final String COLUMN_NAME_CHALLENGE = "challenge";
 		public static final String COLUMN_NAME_SCALE = "scale";
 		public static final String COLUMN_NAME_FOUL = "foul";
@@ -394,6 +399,7 @@ public final class FRCScoutingContract {
 		"	blue_def_4 unsigned int(2) NOT NULL,\n" +
 		"	blue_def_5 unsigned int(2) NOT NULL,\n" +
 		"	auto_reach tinyint(1) NOT NULL,\n" +
+		"	start_spy tinyint(1) NOT NULL,\n" +
 		"	auto_cross_portcullis_for unsigned int(3) NOT NULL,\n" +
 		"	auto_cross_portcullis_rev unsigned int(3) NOT NULL,\n" +
 		"	auto_cross_cheval_for unsigned int(3) NOT NULL,\n" +
@@ -416,6 +422,8 @@ public final class FRCScoutingContract {
 		"	auto_cross_low_bar_rev unsigned int(3) NOT NULL,\n" +
 		"	auto_score_low unsigned int(3) NOT NULL,\n" +
 		"	auto_score_high unsigned int(3) NOT NULL,\n" +
+		"	auto_miss_low unsigned int(3) NOT NULL,\n" +
+		"	auto_miss_high unsigned int(3) NOT NULL,\n" +
 		"	cross_portcullis_for unsigned int(3) NOT NULL,\n" +
 		"	cross_portcullis_rev unsigned int(3) NOT NULL,\n" +
 		"	cross_cheval_for unsigned int(3) NOT NULL,\n" +
@@ -438,6 +446,8 @@ public final class FRCScoutingContract {
 		"	cross_low_bar_rev unsigned int(3) NOT NULL,\n" +
 		"	score_low unsigned int(3) NOT NULL,\n" +
 		"	score_high unsigned int(3) NOT NULL,\n" +
+		"	miss_low unsigned int(3) NOT NULL,\n" +
+		"	miss_high unsigned int(3) NOT NULL,\n" +
 		"	challenge tinyint(1) NOT NULL,\n" +
 		"	scale tinyint(1) NOT NULL,\n" +
 		"	foul tinyint(1) NOT NULL,\n" +

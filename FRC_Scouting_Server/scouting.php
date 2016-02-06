@@ -186,6 +186,7 @@ elseif ($_POST['password'] == $pass) {
         $blue_def_4 = mysql_real_escape_string(stripslashes(trim($_POST['blue_def_4'])));
         $blue_def_5 = mysql_real_escape_string(stripslashes(trim($_POST['blue_def_5'])));
         $auto_reach = mysql_real_escape_string(stripslashes(trim($_POST['auto_reach'])));
+        $start_spy = mysql_real_escape_string(stripslashes(trim($_POST['start_spy'])));
         $auto_cross_portcullis_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_portcullis_for'])));
         $auto_cross_portcullis_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_portcullis_rev'])));
         $auto_cross_cheval_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_cheval_for'])));
@@ -208,6 +209,8 @@ elseif ($_POST['password'] == $pass) {
         $auto_cross_low_bar_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_low_bar_rev'])));
         $auto_score_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_low'])));
         $auto_score_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_high'])));
+        $auto_miss_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_miss_low'])));
+        $auto_miss_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_miss_high'])));
         $cross_portcullis_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_portcullis_for'])));
         $cross_portcullis_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_portcullis_rev'])));
         $cross_cheval_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_cheval_for'])));
@@ -230,6 +233,8 @@ elseif ($_POST['password'] == $pass) {
         $cross_low_bar_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_low_bar_rev'])));
         $score_low = mysql_real_escape_string(stripslashes(trim($_POST['score_low'])));
         $score_high = mysql_real_escape_string(stripslashes(trim($_POST['score_high'])));
+        $miss_low = mysql_real_escape_string(stripslashes(trim($_POST['miss_low'])));
+        $miss_high = mysql_real_escape_string(stripslashes(trim($_POST['miss_high'])));
         $challenge = mysql_real_escape_string(stripslashes(trim($_POST['challenge'])));
         $scale = mysql_real_escape_string(stripslashes(trim($_POST['scale'])));
         $foul = mysql_real_escape_string(stripslashes(trim($_POST['foul'])));
@@ -248,19 +253,20 @@ elseif ($_POST['password'] == $pass) {
         
             $query = "INSERT INTO fact_match_data_2016(event_id,match_id,team_id,practice_match,position_id,"
                     . "red_def_2,red_def_3,red_def_4,red_def_5,blue_def_2,blue_def_3,blue_def_4,blue_def_5,"
-                    . "auto_reach,auto_cross_portcullis_for,auto_cross_portcullis_rev,auto_cross_cheval_for,"
+                    . "auto_reach,start_spy,auto_cross_portcullis_for,auto_cross_portcullis_rev,auto_cross_cheval_for,"
                     . "auto_cross_cheval_rev,auto_cross_moat_for,auto_cross_moat_rev,auto_cross_ramparts_for,"
                     . "auto_cross_ramparts_rev,auto_cross_drawbridge_for,auto_cross_drawbridge_for_with_help,"
                     . "auto_cross_drawbridge_rev,auto_cross_sally_for,auto_cross_sally_for_with_help,"
                     . "auto_cross_sally_rev,auto_cross_rock_wall_for,auto_cross_rock_wall_rev,"
                     . "auto_cross_rough_terrain_for,auto_cross_rough_terrain_rev,auto_cross_low_bar_for,"
-                    . "auto_cross_low_bar_rev,auto_score_low,auto_score_high,cross_portcullis_for,cross_portcullis_rev,cross_cheval_for,"
+                    . "auto_cross_low_bar_rev,auto_score_low,auto_score_high,auto_miss_low,auto_miss_high,"
+                    . "cross_portcullis_for,cross_portcullis_rev,cross_cheval_for,"
                     . "cross_cheval_rev,cross_moat_for,cross_moat_rev,cross_ramparts_for,"
                     . "cross_ramparts_rev,cross_drawbridge_for,cross_drawbridge_for_with_help,"
                     . "cross_drawbridge_rev,cross_sally_for,cross_sally_for_with_help,"
                     . "cross_sally_rev,cross_rock_wall_for,cross_rock_wall_rev,"
                     . "cross_rough_terrain_for,cross_rough_terrain_rev,cross_low_bar_for,"
-                    . "cross_low_bar_rev,score_low,score_high,challenge,scale,"
+                    . "cross_low_bar_rev,score_low,score_high,miss_low,miss_high,challenge,scale,"
                     . "foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
                     . $match_id . ","
@@ -276,6 +282,7 @@ elseif ($_POST['password'] == $pass) {
                     . $blue_def_4 . ","
                     . $blue_def_5 . ","
                     . $auto_reach . ","
+                    . $start_spy . ","
                     . $auto_cross_portcullis_for . ","
                     . $auto_cross_portcullis_rev . ","
                     . $auto_cross_cheval_for . ","
@@ -298,6 +305,8 @@ elseif ($_POST['password'] == $pass) {
                     . $auto_cross_low_bar_rev . ","
                     . $auto_score_low . ","
                     . $auto_score_high . ","
+                    . $auto_miss_low . ","
+                    . $auto_miss_high . ","
                     . $cross_portcullis_for . ","
                     . $cross_portcullis_rev . ","
                     . $cross_cheval_for . ","
@@ -320,6 +329,8 @@ elseif ($_POST['password'] == $pass) {
                     . $cross_low_bar_rev . ","
                     . $score_low . ","
                     . $score_high . ","
+                    . $miss_low . ","
+                    . $miss_high . ","
                     . $challenge . ","
                     . $scale . ","
                     . $foul . ","
@@ -347,6 +358,7 @@ elseif ($_POST['password'] == $pass) {
                     . ",blue_def_4=" . $blue_def_4
                     . ",blue_def_5=" . $blue_def_5
                     . ",auto_reach=" . $auto_reach
+                    . ",start_spy=" . $start_spy
                     . ",auto_cross_portcullis_for=" . $auto_cross_portcullis_for
                     . ",auto_cross_portcullis_rev=" . $auto_cross_portcullis_rev
                     . ",auto_cross_cheval_for=" . $auto_cross_cheval_for
@@ -369,6 +381,8 @@ elseif ($_POST['password'] == $pass) {
                     . ",auto_cross_low_bar_rev=" . $auto_cross_low_bar_rev
                     . ",auto_score_low=" . $auto_score_low
                     . ",auto_score_high=" . $auto_score_high
+                    . ",auto_miss_low=" . $auto_miss_low
+                    . ",auto_miss_high=" . $auto_miss_high
                     . ",cross_portcullis_for=" . $cross_portcullis_for
                     . ",cross_portcullis_rev=" . $cross_portcullis_rev
                     . ",cross_cheval_for=" . $cross_cheval_for
@@ -390,7 +404,9 @@ elseif ($_POST['password'] == $pass) {
                     . ",cross_low_bar_for=" . $cross_low_bar_for
                     . ",cross_low_bar_rev=" . $cross_low_bar_rev
                     . ",score_low=" . $score_low
-                    . ",score_high=" . $score_high                    
+                    . ",score_high=" . $score_high
+                    . ",miss_low=" . $miss_low
+                    . ",miss_high=" . $miss_high
                     . ",challenge=" . $challenge
                     . ",scale=" . $scale
                     . ",foul=" . $foul
