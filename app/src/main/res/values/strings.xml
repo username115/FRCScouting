@@ -107,6 +107,7 @@
 	</string-array>
 
 	<string name="score_plus">+</string>
+	<string name="score_miss">m</string>
 
 	<string-array name="configuration">
 		<item>Long</item>
@@ -188,5 +189,8 @@
     <string name="title_pits_section">Pits</string>
     
     <string name="title_activity_event_data">Event Name Here</string>
+	<string name="score_for">F</string>
+	<string name="score_help">H</string>
+	<string name="score_rev">R</string>
 
 </resources>

@@ -14,24 +14,23 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/prematchtextView">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/LeftPreMatch"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
+                android:layout_weight="1"
                 android:background="@color/red"
                 android:orientation="vertical">
 
@@ -39,6 +38,7 @@
                     android:id="@+id/leftDefense5P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -46,6 +46,7 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown"
                     android:gravity="center" />
 
@@ -53,6 +54,7 @@
                     android:id="@+id/leftDefense4P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -60,12 +62,14 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
 
                 <ImageView
                     android:id="@+id/leftDefense3P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -73,12 +77,14 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
 
                 <ImageView
                     android:id="@+id/leftDefense2P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -86,30 +92,39 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
 
                 <ImageView
                     android:id="@+id/leftLowBarP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/low_bar" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/low_bar_text"
                     android:textAlignment="center" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/swapSidesPreB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight=".75"
+                android:text="Swap Sides" />
+
             <LinearLayout
                 android:id="@+id/RightPreMatch"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
+                android:layout_weight="1"
                 android:background="@color/blue"
                 android:orientation="vertical">
 
@@ -117,11 +132,13 @@
                     android:id="@+id/rightLowBarP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/low_bar" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/low_bar_text"
                     android:textAlignment="center" />
@@ -130,6 +147,7 @@
                     android:id="@+id/rightDefense2P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -137,12 +155,14 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
 
                 <ImageView
                     android:id="@+id/rightDefense3P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -150,12 +170,14 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
 
                 <ImageView
                     android:id="@+id/rightDefense4P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -163,12 +185,14 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
 
                 <ImageView
                     android:id="@+id/rightDefense5P"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/blank" />
 
                 <Spinner
@@ -176,18 +200,12 @@
                     style="@style/SpinnerAsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:entries="@array/defenses_dropdown" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/swapSidesPreB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/LeftPreMatch"
-                android:layout_centerHorizontal="true"
-                android:text="Swap Sides" />
 
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

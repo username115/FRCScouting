@@ -11,5 +11,6 @@
     <string name="numBins_scored"/>
     <string name="bins_step"/>
     <string name="numBins_step"/>
-    
+    <string name="auto_input_text">Autonomous Mode</string>
+
 </resources>

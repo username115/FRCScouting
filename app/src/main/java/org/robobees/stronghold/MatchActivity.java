@@ -266,6 +266,12 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
                     args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
                     fragment.setArguments(args);
                     return fragment;
+                case AUTO_SCREEN:
+                    fragment = AutoMatchFragment.newInstance();
+                    args = new Bundle();
+                    args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
+                    fragment.setArguments(args);
+                    return fragment;
                 default:
                     fragment = new TestFragment();
                     args = new Bundle();
