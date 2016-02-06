@@ -288,6 +288,8 @@ public class DBSyncService extends Service {
 				processConfig(json
 						.getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME));
 
+				processDefense(json.getJSONArray(DEFENSE_LU_Entry.TABLE_NAME));
+
 				processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
 				if (!running)
@@ -691,6 +693,82 @@ public class DBSyncService extends Service {
 											+ " = ?", where);
 							break;
 						default:
+						}
+					} finally {
+						if (c != null)
+							c.close();
+						ScoutingDBHelper.getInstance().close();
+					}
+				}
+			}
+		} catch (JSONException e) {
+			// TODO handle error
+		}
+	}
+
+	private void processDefense(JSONArray defense) {
+		try {
+			updateNotificationText(getString(R.string.notify_table) + " "
+					+ DEFENSE_LU_Entry.TABLE_NAME);
+			for (int i = 0; i < defense.length(); i++) {
+				JSONObject row = defense.getJSONObject(i);
+				Action action = Action.UPDATE;
+				if (row.getInt(DEFENSE_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+					action = Action.DELETE;
+				}
+				ContentValues vals = new ContentValues();
+				vals.put(DEFENSE_LU_Entry.COLUMN_NAME_ID,
+						row.getInt(DEFENSE_LU_Entry.COLUMN_NAME_ID));
+				vals.put(
+						DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC,
+						row.getString(DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC));
+				vals.put(
+						DEFENSE_LU_Entry.COLUMN_NAME_TIMESTAMP,
+						DB.dateParser.format(new Date(
+								row.getLong(DEFENSE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+
+				// check if this entry exists already
+				String[] projection = { DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC };
+				String[] where = { vals
+						.getAsString(DEFENSE_LU_Entry.COLUMN_NAME_ID) };
+				synchronized (ScoutingDBHelper.lock) {
+
+					SQLiteDatabase db = ScoutingDBHelper.getInstance()
+							.getWritableDatabase();
+
+					Cursor c = db.query(
+							DEFENSE_LU_Entry.TABLE_NAME,
+							projection, // select
+							DEFENSE_LU_Entry.COLUMN_NAME_ID + "=?",
+							where, null, // don't
+							// group
+							null, // don't filter
+							null, // don't order
+							"0,1"); // limit to 1
+					try {
+						if (!c.moveToFirst()) {
+							if (action == Action.UPDATE)
+								action = Action.INSERT;
+							else if (action == Action.DELETE)
+								action = Action.NOTHING;
+						}
+
+						switch (action) {
+							case UPDATE:
+								db.update(DEFENSE_LU_Entry.TABLE_NAME, vals,
+										DEFENSE_LU_Entry.COLUMN_NAME_ID
+												+ " = ?", where);
+								break;
+							case INSERT:
+								db.insert(DEFENSE_LU_Entry.TABLE_NAME, null,
+										vals);
+								break;
+							case DELETE:
+								db.delete(DEFENSE_LU_Entry.TABLE_NAME,
+										DEFENSE_LU_Entry.COLUMN_NAME_ID
+												+ " = ?", where);
+								break;
+							default:
 						}
 					} finally {
 						if (c != null)
