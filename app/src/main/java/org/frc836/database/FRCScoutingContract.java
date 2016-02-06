@@ -18,7 +18,7 @@ package org.frc836.database;
 import android.provider.BaseColumns;
 
 public final class FRCScoutingContract {
-	public FRCScoutingContract() {};
+	public FRCScoutingContract() {}
 
 	public static abstract class CONFIGURATION_LU_Entry implements BaseColumns {
 		public static final String TABLE_NAME = "configuration_lu";
