@@ -41,6 +41,7 @@ public class MatchStatsSH extends MatchStatsStruct {
     public short blue_def_4;
     public short blue_def_5;
     public boolean auto_reach;
+    public boolean start_spy;
     public int auto_cross_portcullis_for;
     public int auto_cross_portcullis_rev;
     public int auto_cross_cheval_for;
@@ -63,6 +64,8 @@ public class MatchStatsSH extends MatchStatsStruct {
     public int auto_cross_low_bar_rev;
     public int auto_score_low;
     public int auto_score_high;
+    public int auto_miss_low;
+    public int auto_miss_high;
     public int cross_portcullis_for;
     public int cross_portcullis_rev;
     public int cross_cheval_for;
@@ -85,6 +88,8 @@ public class MatchStatsSH extends MatchStatsStruct {
     public int cross_low_bar_rev;
     public int score_low;
     public int score_high;
+    public int miss_low;
+    public int miss_high;
     public boolean challenge;
     public boolean scale;
 
@@ -114,6 +119,7 @@ public class MatchStatsSH extends MatchStatsStruct {
         blue_def_4 = 0;
         blue_def_5 = 0;
         auto_reach = false;
+        start_spy = false;
         auto_cross_portcullis_for = 0;
         auto_cross_portcullis_rev = 0;
         auto_cross_cheval_for = 0;
@@ -136,6 +142,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         auto_cross_low_bar_rev = 0;
         auto_score_low = 0;
         auto_score_high = 0;
+        auto_miss_low = 0;
+        auto_miss_high = 0;
         cross_portcullis_for = 0;
         cross_portcullis_rev = 0;
         cross_cheval_for = 0;
@@ -158,6 +166,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         cross_low_bar_rev = 0;
         score_low = 0;
         score_high = 0;
+        miss_low = 0;
+        miss_high = 0;
         challenge = false;
         scale = false;
     }
@@ -178,6 +188,7 @@ public class MatchStatsSH extends MatchStatsStruct {
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_3, red_def_3);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_4, red_def_4);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_REACH, auto_reach ? 1 : 0);
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_START_SPY, start_spy ? 1 : 0);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_FOR, auto_cross_portcullis_for);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_REV, auto_cross_portcullis_rev);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_CHEVAL_FOR, auto_cross_cheval_for);
@@ -200,6 +211,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_LOW_BAR_REV, auto_cross_low_bar_rev);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_LOW, auto_score_low);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_HIGH, auto_score_high);
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_LOW, auto_miss_low);
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_HIGH, auto_miss_high);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_FOR, cross_portcullis_for);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_REV, cross_portcullis_rev);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_CHEVAL_FOR, cross_cheval_for);
@@ -222,6 +235,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_LOW_BAR_REV, cross_low_bar_rev);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW, score_low);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_HIGH, score_high);
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_LOW, miss_low);
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_HIGH, miss_high);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CHALLENGE, challenge);
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCALE, scale);
 
@@ -241,6 +256,7 @@ public class MatchStatsSH extends MatchStatsStruct {
         blue_def_4 = c.getShort(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_4));
         blue_def_5 = c.getShort(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_5));
         auto_reach = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_REACH)) != 0;
+        start_spy = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_START_SPY)) != 0;
         auto_cross_portcullis_for = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_FOR));
         auto_cross_portcullis_rev = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_REV));
         auto_cross_cheval_for = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_CHEVAL_FOR));
@@ -263,6 +279,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         auto_cross_low_bar_rev = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_LOW_BAR_REV));
         auto_score_low = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_LOW));
         auto_score_high = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_HIGH));
+        auto_miss_low = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_LOW));
+        auto_miss_high = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_HIGH));
         cross_portcullis_for = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_FOR));
         cross_portcullis_rev = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_REV));
         cross_cheval_for = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_CHEVAL_FOR));
@@ -285,6 +303,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         cross_low_bar_rev = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_LOW_BAR_REV));
         score_low = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW));
         score_high = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_HIGH));
+        miss_low = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_LOW));
+        miss_high = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_HIGH));
         challenge = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CHALLENGE)) != 0;
         scale = c.getInt(c.getColumnIndexOrThrow(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCALE)) != 0;
     }
@@ -305,6 +325,7 @@ public class MatchStatsSH extends MatchStatsStruct {
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_3);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_4);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_REACH);
+        temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_START_SPY);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_FOR);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_REV);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_CHEVAL_FOR);
@@ -327,6 +348,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_LOW_BAR_REV);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_LOW);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_HIGH);
+        temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_LOW);
+        temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_HIGH);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_FOR);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_REV);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_CHEVAL_FOR);
@@ -349,6 +372,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_LOW_BAR_REV);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_HIGH);
+        temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_LOW);
+        temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_HIGH);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CHALLENGE);
         temp.add(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCALE);
 
@@ -372,6 +397,7 @@ public class MatchStatsSH extends MatchStatsStruct {
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_3, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_3));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_4, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_4));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_REACH, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_REACH));
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_START_SPY, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_START_SPY));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_FOR, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_FOR));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_REV, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_PORTCULLIS_REV));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_CHEVAL_FOR, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_CHEVAL_FOR));
@@ -394,6 +420,8 @@ public class MatchStatsSH extends MatchStatsStruct {
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_LOW_BAR_REV, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS_LOW_BAR_REV));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_LOW, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_LOW));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_HIGH, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_HIGH));
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_LOW, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_LOW));
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_HIGH, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_AUTO_MISS_HIGH));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_FOR, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_FOR));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_REV, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS_REV));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_CHEVAL_FOR, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_CHEVAL_FOR));
@@ -416,10 +444,11 @@ public class MatchStatsSH extends MatchStatsStruct {
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_LOW_BAR_REV, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CROSS_LOW_BAR_REV));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_HIGH, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCORE_HIGH));
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_LOW, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_LOW));
+        vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_HIGH, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MISS_HIGH));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CHALLENGE, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_CHALLENGE));
         vals.put(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCALE, json.getInt(FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_SCALE));
 
         return vals;
     }
-    // TODO
 }

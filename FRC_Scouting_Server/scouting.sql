@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Jan 16, 2016 at 01:49 PM
+-- Generation Time: Feb 06, 2016 at 10:23 AM
 -- Server version: 5.6.28-log
 -- PHP Version: 5.4.31
 
@@ -265,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2016` (
   `blue_def_4` int(2) unsigned NOT NULL,
   `blue_def_5` int(2) unsigned NOT NULL,
   `auto_reach` tinyint(1) NOT NULL,
+  `start_spy` tinyint(1) NOT NULL,
   `auto_cross_portcullis_for` int(3) unsigned NOT NULL,
   `auto_cross_portcullis_rev` int(3) unsigned NOT NULL,
   `auto_cross_cheval_for` int(3) unsigned NOT NULL,
@@ -287,6 +288,8 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2016` (
   `auto_cross_low_bar_rev` int(3) unsigned NOT NULL,
   `auto_score_low` int(3) unsigned NOT NULL,
   `auto_score_high` int(3) unsigned NOT NULL,
+  `auto_miss_low` int(3) unsigned NOT NULL,
+  `auto_miss_high` int(3) unsigned NOT NULL,
   `cross_portcullis_for` int(3) unsigned NOT NULL,
   `cross_portcullis_rev` int(3) unsigned NOT NULL,
   `cross_cheval_for` int(3) unsigned NOT NULL,
@@ -309,6 +312,8 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2016` (
   `cross_low_bar_rev` int(3) unsigned NOT NULL,
   `score_low` int(3) unsigned NOT NULL,
   `score_high` int(3) unsigned NOT NULL,
+  `miss_low` int(3) unsigned NOT NULL,
+  `miss_high` int(3) unsigned NOT NULL,
   `challenge` tinyint(1) NOT NULL,
   `scale` tinyint(1) NOT NULL,
   `foul` tinyint(1) NOT NULL,
