@@ -280,7 +280,7 @@ class SqlToJava():
 			ret += "import "+ self.baseClassHeader +";\n"
 		ret += "\n"
 		ret += "public final class "+ self.className +" {\n"
-		ret += "\tpublic "+ self.className +"() {};"
+		ret += "\tpublic "+ self.className +"() {}"
 		return ret
 	def createStr_Footer(self):
 		ret = "}"
