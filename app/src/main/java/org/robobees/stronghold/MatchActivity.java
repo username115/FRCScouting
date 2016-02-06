@@ -255,7 +255,6 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
 
         @Override
         public Fragment getItem(int i) {
-            // TODO
 
             MatchFragment fragment;
             Bundle args;
@@ -278,13 +277,14 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
                     args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
                     fragment.setArguments(args);
                     return fragment;
-                default:
-                    fragment = new TestFragment();
+                case END_SCREEN:
+                    fragment = EndMatchFragment.newInstance();
                     args = new Bundle();
-                    args.putInt(TestFragment.ARG_SECTION_NUMBER, i);
+                    args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
                     fragment.setArguments(args);
                     return fragment;
             }
+            return null; //should never happen
         }
 
         @Override
@@ -301,22 +301,6 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
 
         lastB = (Button) findViewById(R.id.backB);
         nextB = (Button) findViewById(R.id.nextB);
-
-    }
-
-    public static class TestFragment extends MatchFragment {
-        // TODO remove test fragment
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-            Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    "section: " + args.getInt(ARG_SECTION_NUMBER));
-            return rootView;
-        }
 
     }
 }
