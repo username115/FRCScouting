@@ -48,7 +48,6 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
     public static final int AUTO_SCREEN = 1;
     public static final int TELE_SCREEN = 2;
     public static final int END_SCREEN = 3;
-    private int currentView;
 
     private MatchViewAdapter mMatchViewAdapter;
 
@@ -86,6 +85,8 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
 
         mViewPager = (ViewPager) findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
+
+        posT.setOnClickListener(new positionClickListener());
 
         loadData();
         //setAuto(); //TODO
@@ -127,6 +128,16 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
             posT.setTextColor(Color.RED);
         }
     }
+
+    private class positionClickListener implements View.OnClickListener {
+
+        public void onClick(View v) {
+            MainMenuSelection.openSettings(MatchActivity.this);
+        }
+
+    }
+
+    ;
 
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
@@ -238,12 +249,19 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
             showDialog(LOAD_DIALOG);
         }
 
-        currentView = 0;
-
         //TODO fill ui elements
         //loadAuto();
         //loadTele();
         //loadEndgame();
+        //setAuto();
+    }
+
+    public void onBack(View v) { //TODO
+        showDialog(CANCEL_DIALOG);
+    }
+
+    public void onNext(View v) { //TODO
+
     }
 
 
