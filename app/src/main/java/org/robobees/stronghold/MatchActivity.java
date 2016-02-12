@@ -28,9 +28,7 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,7 +39,7 @@ import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 
-public class MatchActivity extends DBActivity implements MatchFragment.OnFragmentInteractionListener {
+public class MatchActivity extends DBActivity {
 
     public static final int NUM_SCREENS = 4;
     public static final int PRE_MATCH_SCREEN = 0;
@@ -67,6 +65,8 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
     private Button lastB;
     private Button nextB;
 
+    private int mCurrentPage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,21 +75,26 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
         HELPMESSAGE = "interface used for recording match data."; //TODO finish match help message
 
         getGUIRefs();
-        //setListeners(); //TODO
 
         Intent intent = getIntent();
         teamText.setText(intent.getStringExtra("team"));
         matchT.setText(intent.getStringExtra("match"));
 
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
+        mCurrentPage = PRE_MATCH_SCREEN;
 
         mViewPager = (ViewPager) findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                pageSelected(position);
+            }
+        });
 
         posT.setOnClickListener(new positionClickListener());
 
         loadData();
-        //setAuto(); //TODO
     }
 
     protected void onResume() {
@@ -130,14 +135,11 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
     }
 
     private class positionClickListener implements View.OnClickListener {
-
         public void onClick(View v) {
             MainMenuSelection.openSettings(MatchActivity.this);
         }
-
     }
 
-    ;
 
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
@@ -192,9 +194,10 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
                                         } else
                                             teamData = new MatchStatsSH();
 
-                                        //loadAuto(); //TODO
-                                        //loadTele();
-                                        //loadEndgame();
+                                        loadPreMatch();
+                                        loadAuto();
+                                        loadTele();
+                                        loadEnd();
                                     }
                                 });
                 dialog = builder.create();
@@ -217,11 +220,6 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
                 dialog = null;
         }
         return dialog;
-    }
-
-    @Override
-    public void saveData(MatchStatsSH matchData, String source) {
-        // TODO
     }
 
     private void loadData() {
@@ -248,61 +246,114 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
         if (loadData) {
             showDialog(LOAD_DIALOG);
         }
-
-        //TODO fill ui elements
-        //loadAuto();
-        //loadTele();
-        //loadEndgame();
-        //setAuto();
+        loadAll();
+        mViewPager.setCurrentItem(0, true);
+        lastB.setText("Cancel");
+        nextB.setText("Auto");
     }
 
-    public void onBack(View v) { //TODO
-        showDialog(CANCEL_DIALOG);
+    public void pageSelected(int page) {
+        switch (mCurrentPage) {
+            case PRE_MATCH_SCREEN:
+                savePreMatch();
+                break;
+            case AUTO_SCREEN:
+                saveAuto();
+                break;
+            case TELE_SCREEN:
+                saveTele();
+                break;
+            case END_SCREEN:
+                saveEnd();
+                break;
+            default:
+                saveAll();
+        }
+        mCurrentPage = page;
+        switch (page) {
+            case PRE_MATCH_SCREEN:
+                loadPreMatch();
+                lastB.setText("Cancel");
+                nextB.setText("Auto");
+                break;
+            case AUTO_SCREEN:
+                loadAuto();
+                lastB.setText("Pre-match");
+                nextB.setText("Tele op");
+                break;
+            case TELE_SCREEN:
+                loadTele();
+                lastB.setText("Auto");
+                nextB.setText("End Game");
+                break;
+            case END_SCREEN:
+                loadEnd();
+                lastB.setText("Tele op");
+                nextB.setText("submit");
+                break;
+            default:
+                loadAll();
+                lastB.setText("Cancel");
+                nextB.setText("Auto");
+        }
     }
 
-    public void onNext(View v) { //TODO
+    public void onBack(View v) {
+        if (mCurrentPage == 0 || mCurrentPage >= NUM_SCREENS) {
+            showDialog(CANCEL_DIALOG);
+        }
+        mViewPager.setCurrentItem(mCurrentPage - 1, true);
+    }
 
+    public void onNext(View v) {
+        if (mCurrentPage < 0 || mCurrentPage >= (NUM_SCREENS - 1)) {
+            saveAll();
+            submit();
+        }
+        mViewPager.setCurrentItem(mCurrentPage + 1, true);
     }
 
 
     private static class MatchViewAdapter extends FragmentPagerAdapter {
 
+        SparseArray<MatchFragment> fragments;
+
         public MatchViewAdapter(FragmentManager fm) {
             super(fm);
+            fragments = new SparseArray<MatchFragment>(NUM_SCREENS);
         }
 
         @Override
         public Fragment getItem(int i) {
+            return getMatchFragment(i);
 
+        }
+
+        public MatchFragment getMatchFragment(int i) {
             MatchFragment fragment;
-            Bundle args;
+
+            if (fragments.get(i) != null) {
+                return fragments.get(i);
+            }
             switch (i) {
                 case PRE_MATCH_SCREEN:
                     fragment = PreMatch.newInstance();
-                    args = new Bundle();
-                    args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
-                    fragment.setArguments(args);
+                    fragments.put(i, fragment);
                     return fragment;
                 case AUTO_SCREEN:
                     fragment = AutoMatchFragment.newInstance();
-                    args = new Bundle();
-                    args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
-                    fragment.setArguments(args);
+                    fragments.put(i, fragment);
                     return fragment;
                 case TELE_SCREEN:
                     fragment = TeleMatchFragment.newInstance();
-                    args = new Bundle();
-                    args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
-                    fragment.setArguments(args);
+                    fragments.put(i, fragment);
                     return fragment;
                 case END_SCREEN:
+                default:
                     fragment = EndMatchFragment.newInstance();
-                    args = new Bundle();
-                    args.putInt(MatchFragment.ARG_SECTION_NUMBER, i);
-                    fragment.setArguments(args);
+                    fragments.put(i, fragment);
                     return fragment;
             }
-            return null; //should never happen
         }
 
         @Override
@@ -321,4 +372,71 @@ public class MatchActivity extends DBActivity implements MatchFragment.OnFragmen
         nextB = (Button) findViewById(R.id.nextB);
 
     }
+
+    private void loadPreMatch() {
+        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).loadData(teamData);
+    }
+
+    private void savePreMatch() {
+        saveTeamInfo();
+        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).saveData(teamData);
+    }
+
+    private void loadAuto() {
+        mMatchViewAdapter.getMatchFragment(AUTO_SCREEN).loadData(teamData);
+    }
+
+    private void saveAuto() {
+        saveTeamInfo();
+        mMatchViewAdapter.getMatchFragment(AUTO_SCREEN).saveData(teamData);
+    }
+
+    private void loadTele() {
+        mMatchViewAdapter.getMatchFragment(TELE_SCREEN).loadData(teamData);
+    }
+
+    private void saveTele() {
+        saveTeamInfo();
+        mMatchViewAdapter.getMatchFragment(TELE_SCREEN).saveData(teamData);
+    }
+
+    private void loadEnd() {
+        mMatchViewAdapter.getMatchFragment(END_SCREEN).loadData(teamData);
+    }
+
+    private void saveEnd() {
+        saveTeamInfo();
+        mMatchViewAdapter.getMatchFragment(END_SCREEN).saveData(teamData);
+    }
+
+    private void loadAll() {
+        loadPreMatch();
+        loadAuto();
+        loadTele();
+        loadEnd();
+    }
+
+    private void saveAll() {
+        savePreMatch();
+        saveAuto();
+        saveTele();
+        saveEnd();
+    }
+
+    private void saveTeamInfo() {
+        String team = teamText.getText().toString();
+        if (team != null && team.length() > 0)
+            teamData.team = Integer.valueOf(team);
+        String match = matchT.getText().toString();
+        if (match != null && match.length() > 0) {
+            teamData.match = Integer.valueOf(match);
+        }
+        teamData.position = posT.getText().toString();
+    }
+
+    private void submit() {
+        // TODO
+    }
+
+
 }

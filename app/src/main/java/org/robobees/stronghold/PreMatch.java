@@ -21,22 +21,41 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import org.growingstems.scouting.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MatchFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PreMatch#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class PreMatch extends MatchFragment {
+
+    private Spinner leftDef5S;
+    private Spinner leftDef4S;
+    private Spinner leftDef3S;
+    private Spinner leftDef2S;
+
+    private Spinner rightDef2S;
+    private Spinner rightDef3S;
+    private Spinner rightDef4S;
+    private Spinner rightDef5S;
+
+    private ImageView leftDef5I;
+    private ImageView leftDef4I;
+    private ImageView leftDef3I;
+    private ImageView leftDef2I;
+
+    private ImageView rightDef2I;
+    private ImageView rightDef3I;
+    private ImageView rightDef4I;
+    private ImageView rightDef5I;
+
+    private LinearLayout leftL;
+    private LinearLayout rightL;
 
 
     public PreMatch() {
-        // Required empty public constructor
     }
 
     /**
@@ -63,19 +82,24 @@ public class PreMatch extends MatchFragment {
     }
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        if (context instanceof MatchFragment.OnFragmentInteractionListener) {
-            mListener = (MatchFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        leftL = (LinearLayout) view.findViewById(R.id.LeftPreMatch);
+        rightL = (LinearLayout) view.findViewById(R.id.RightPreMatch);
+    }
+
+    public void onSwap(View v) {
+        leftL.setBackgroundResource(R.color.blue);
+        rightL.setBackgroundResource(R.color.red);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void saveData(MatchStatsSH data) {
+        // TODO
+    }
+
+    @Override
+    public void loadData(MatchStatsSH data) {
+        // TODO
     }
 }

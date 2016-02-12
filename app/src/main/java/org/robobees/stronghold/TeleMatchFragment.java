@@ -24,14 +24,7 @@ import android.view.ViewGroup;
 
 import org.growingstems.scouting.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PreMatch#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class TeleMatchFragment extends MatchFragment {
 
 
@@ -63,19 +56,12 @@ public class TeleMatchFragment extends MatchFragment {
     }
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void saveData(MatchStatsSH data) {
+        // TODO
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void loadData(MatchStatsSH data) {
+        // TODO
     }
 }

@@ -7,5 +7,7 @@
     <string name="yellowcard">Yellow Card</string>
     <string name="redcard">Red Card</string>
     <string name="end_input_text">End Game</string>
+    <string name="challenged">Challenge</string>
+    <string name="scaled">Scale</string>
 
 </resources>
