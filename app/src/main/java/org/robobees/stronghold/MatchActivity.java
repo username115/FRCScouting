@@ -298,6 +298,11 @@ public class MatchActivity extends DBActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        onBack(null);
+    }
+
     public void onBack(View v) {
         if (mCurrentPage == 0 || mCurrentPage >= NUM_SCREENS) {
             showDialog(CANCEL_DIALOG);

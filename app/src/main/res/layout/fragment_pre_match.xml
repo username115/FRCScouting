@@ -117,8 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight=".75"
-                android:text="Swap Sides"
-                android:onClick="onSwap" />
+                android:text="Swap Sides" />
 
             <LinearLayout
                 android:id="@+id/RightPreMatch"
