@@ -91,6 +91,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/rightHelpLowBarL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -180,6 +181,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/rightHelp2L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -269,6 +271,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/rightHelp3L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -358,6 +361,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/rightHelp4L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -447,6 +451,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/rightHelp5L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -695,6 +700,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/leftHelp5L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -783,6 +789,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/leftHelp4L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -871,6 +878,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/leftHelp3L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -959,6 +967,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/leftHelp2L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -1047,6 +1056,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/leftHelpLowBarL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
