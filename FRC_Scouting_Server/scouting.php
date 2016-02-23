@@ -116,6 +116,12 @@ elseif ($_POST['password'] == $pass) {
         $json .= genJSON($result, "configuration_lu") . ",";
         mysql_free_result($result);
         
+        //defense_lu
+        $query = "SELECT * FROM defense_lu" . $suffix;
+        $result = mysql_query($query);
+        $json .= genJSON($result, "defense_lu") . ",";
+        mysql_free_result($result);
+        
         //event_lu
         $query = "SELECT * FROM event_lu" . $suffix;
         $result = mysql_query($query);
