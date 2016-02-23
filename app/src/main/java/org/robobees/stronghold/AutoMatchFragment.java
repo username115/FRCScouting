@@ -72,6 +72,8 @@ public class AutoMatchFragment extends MatchFragment {
 
     private MatchStatsSH tempData = new MatchStatsSH();
 
+    private boolean displayed = false;
+
 
     public AutoMatchFragment() {
         // Required empty public constructor
@@ -122,12 +124,13 @@ public class AutoMatchFragment extends MatchFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         getGUIRefs(view);
         setListeners();
+        displayed = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-            loadData(tempData);
+        loadData(tempData);
     }
 
     public void onPause() {
@@ -137,7 +140,7 @@ public class AutoMatchFragment extends MatchFragment {
 
     @Override
     public void saveData(MatchStatsSH data) {
-        if (getView() == null)
+        if (getView() == null || data == null || !displayed)
             return;
         // which side are we using
         int defDisp[] = new int[5];
@@ -225,7 +228,7 @@ public class AutoMatchFragment extends MatchFragment {
 
     @Override
     public void loadData(MatchStatsSH data) {
-        if (getView() == null)
+        if (getView() == null || data == null || !displayed)
             return;
         tempData = data;
         // which side are we using
