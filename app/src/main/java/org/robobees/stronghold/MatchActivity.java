@@ -246,8 +246,8 @@ public class MatchActivity extends DBActivity {
         if (loadData) {
             showDialog(LOAD_DIALOG);
         }
-        loadAll();
         mViewPager.setCurrentItem(0, true);
+        loadAll();
         lastB.setText("Cancel");
         nextB.setText("Auto");
     }
@@ -266,8 +266,6 @@ public class MatchActivity extends DBActivity {
             case END_SCREEN:
                 saveEnd();
                 break;
-            default:
-                saveAll();
         }
         mCurrentPage = page;
         switch (page) {
@@ -440,7 +438,12 @@ public class MatchActivity extends DBActivity {
     }
 
     private void submit() {
-        // TODO
+        saveEnd();
+        db.submitMatch(teamData);
+        nextB.setEnabled(false);
+        if (matchT.getText().length() > 0)
+            setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+        finish();
     }
 
 

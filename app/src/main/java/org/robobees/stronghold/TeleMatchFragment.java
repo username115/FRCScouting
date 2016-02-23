@@ -222,9 +222,9 @@ public class TeleMatchFragment extends MatchFragment {
 
     @Override
     public void loadData(MatchStatsSH data) {
+        tempData = data;
         if (getView() == null || data == null || !displayed)
             return;
-        tempData = data;
         // which side are we using
         int defDisp[] = new int[5];
         int defSaved[] = new int[5];

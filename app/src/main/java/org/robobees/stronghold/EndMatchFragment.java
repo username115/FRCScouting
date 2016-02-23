@@ -21,12 +21,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import org.growingstems.scouting.R;
 
 
 public class EndMatchFragment extends MatchFragment {
 
+    private boolean displayed = false;
 
     public EndMatchFragment() {
         // Required empty public constructor
@@ -56,13 +59,42 @@ public class EndMatchFragment extends MatchFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        displayed = true;
+    }
+
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void saveData(MatchStatsSH data) {
-        // TODO
+        if (getView() == null || data == null || !displayed)
+            return;
+        data.challenge = ((CheckBox)getView().findViewById(R.id.challenge_end)).isChecked();
+        data.scale = ((CheckBox)getView().findViewById(R.id.scale_end)).isChecked();
+        data.notes = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
+        data.tipOver = ((CheckBox)getView().findViewById(R.id.botTip)).isChecked();
+        data.foul = ((CheckBox)getView().findViewById(R.id.foul)).isChecked();
+        data.yellowCard = ((CheckBox)getView().findViewById(R.id.yellow_card)).isChecked();
+        data.redCard = ((CheckBox)getView().findViewById(R.id.red_card)).isChecked();
     }
 
     @Override
     public void loadData(MatchStatsSH data) {
-        // TODO
+        if (getView() == null || data == null || !displayed)
+            return;
+        ((CheckBox)getView().findViewById(R.id.challenge_end)).setChecked(data.challenge);
+        ((CheckBox)getView().findViewById(R.id.scale_end)).setChecked(data.scale);
+        ((EditText)getView().findViewById(R.id.notes)).setText(data.notes);
+        ((CheckBox)getView().findViewById(R.id.botTip)).setChecked(data.tipOver);
+        ((CheckBox)getView().findViewById(R.id.foul)).setChecked(data.foul);
+        ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.redCard);
+        ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellowCard);
     }
 
 }

@@ -52,6 +52,8 @@ public class PreMatch extends MatchFragment {
 
     private MatchStatsSH tempData = new MatchStatsSH();
 
+    private boolean displayed = false;
+
     public PreMatch() {
     }
 
@@ -62,8 +64,7 @@ public class PreMatch extends MatchFragment {
      * @return A new instance of fragment PreMatch.
      */
     public static PreMatch newInstance() {
-        PreMatch fragment = new PreMatch();
-        return fragment;
+        return new PreMatch();
     }
 
     @Override
@@ -95,6 +96,7 @@ public class PreMatch extends MatchFragment {
         super.onViewCreated(view, savedInstanceState);
         getGUIRefs(view);
         setListeners();
+        displayed = true;
     }
 
     public void onResume() {
@@ -116,7 +118,7 @@ public class PreMatch extends MatchFragment {
 
     @Override
     public void saveData(MatchStatsSH data) {
-        if (getView() == null)
+        if (getView() == null || data == null || !displayed)
             return;
         if (Prefs.getRedLeft(getActivity(), true)) {
             data.red_def_5 = (short)spinners.get(LEFT_5).getSelectedItemPosition();
@@ -145,7 +147,8 @@ public class PreMatch extends MatchFragment {
 
     @Override
     public void loadData(MatchStatsSH data) {
-        if (getView() == null)
+        tempData = data;
+        if (getView() == null || data == null || !displayed)
             return;
         if (Prefs.getRedLeft(getActivity(), true)) {
             spinners.get(LEFT_5).setSelection(data.red_def_5);
