@@ -118,6 +118,13 @@ public class MatchStatsSH extends MatchStatsStruct {
         blue_def_3 = 0;
         blue_def_4 = 0;
         blue_def_5 = 0;
+        clearAuto();
+        clearTele();
+        challenge = false;
+        scale = false;
+    }
+
+    public void clearAuto() {
         auto_reach = false;
         start_spy = false;
         auto_cross_portcullis_for = 0;
@@ -144,6 +151,9 @@ public class MatchStatsSH extends MatchStatsStruct {
         auto_score_high = 0;
         auto_miss_low = 0;
         auto_miss_high = 0;
+    }
+
+    public void clearTele() {
         cross_portcullis_for = 0;
         cross_portcullis_rev = 0;
         cross_cheval_for = 0;
@@ -168,8 +178,6 @@ public class MatchStatsSH extends MatchStatsStruct {
         score_high = 0;
         miss_low = 0;
         miss_high = 0;
-        challenge = false;
-        scale = false;
     }
 
     @Override
