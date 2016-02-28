@@ -1202,6 +1202,7 @@ public class DB {
                     SparseArray<String> bases = new SparseArray<String>();
                     SparseArray<String> events = new SparseArray<String>();
                     SparseArray<String> positions = new SparseArray<String>();
+                    SparseArray<String> defenses = new SparseArray<String>();
 
                     Cursor c = null;
                     StringBuilder match_data = null, pit_data = null;
@@ -1274,6 +1275,39 @@ public class DB {
                                                     position);
                                         }
                                         match_data.append(position);
+                                    } else if (FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_2
+                                            .equalsIgnoreCase(c
+                                                    .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_3
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_4
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_5
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_2
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_3
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_4
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j)) ||
+                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_5
+                                                    .equalsIgnoreCase(c
+                                                            .getColumnName(j))) {
+                                        String defense = defenses.get(c
+                                                .getInt(j));
+                                        if (defense == null) {
+                                            defense = getDefenseNameFromID(
+                                                    c.getInt(j), db);
+                                            defenses.append(c.getInt(j),
+                                                    defense);
+                                        }
+                                        match_data.append(defense);
                                     } else
                                         match_data.append(c.getString(j));
                                 }
