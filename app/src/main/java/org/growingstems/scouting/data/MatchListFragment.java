@@ -37,7 +37,9 @@ public class MatchListFragment extends DataFragment {
 	private int teamNum = -1;
 	private String eventName = null;
 
-	public MatchListFragment(int team_num) {
+	public MatchListFragment() {}
+
+	/*public MatchListFragment(int team_num) {
 		teamNum = team_num;
 		eventName = null;
 	}
@@ -50,7 +52,7 @@ public class MatchListFragment extends DataFragment {
 	public MatchListFragment(String event_name, int team_num) {
 		teamNum = team_num;
 		eventName = event_name;
-	}
+	}*/
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

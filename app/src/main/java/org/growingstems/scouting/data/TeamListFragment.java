@@ -36,9 +36,9 @@ public class TeamListFragment extends DataFragment {
 
 	private String eventName = null;
 
-	public TeamListFragment(String event_name) {
+	/*public TeamListFragment(String event_name) {
 		eventName = event_name;
-	}
+	}*/
 
 	public TeamListFragment() {
 		eventName = null;
