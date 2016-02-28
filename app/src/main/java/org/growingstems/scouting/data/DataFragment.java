@@ -72,11 +72,11 @@ public abstract class DataFragment extends Fragment {
 			fragment = new EventListFragment();
 			break;
 		case PT_TEAMS:
-			fragment = new TeamListFragment(event_name);
-			break;
+			//fragment = new TeamListFragment(event_name); //TODO
+			//break;
 		case PT_MATCHES:
-			fragment = new MatchListFragment(event_name, teamNumber);
-			break;
+			//fragment = new MatchListFragment(event_name, teamNumber); //TODO
+			//break;
 		case PT_PITS:
 			//fragment = new PitsDataFragment(teamNumber); //TODO
 			//break;
