@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="org.growingstems.scouting.DataActivity$PlaceholderFragment" >
+
+    <LinearLayout
+        android:id="@+id/data_team_input_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <AutoCompleteTextView
+            android:id="@+id/data_team_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/team_hint"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/data_teamB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="@string/team_lookup" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/dataList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/data_team_input_layout" />
+
+</RelativeLayout>

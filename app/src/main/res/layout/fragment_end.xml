@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.robobees.stronghold.EndMatchFragment">
+
+    <TextView
+        android:id="@+id/endTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/end_input_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/endTextView">
+
+        <LinearLayout
+            android:id="@+id/endGameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/challenge_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/challenged" />
+
+                <CheckBox
+                    android:id="@+id/scale_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/scaled" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/notes"
+                android:inputType="textMultiLine" />
+
+            <Spinner
+                android:id="@+id/commonNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/match_notes_options"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/botTip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/tipped" />
+
+                    <CheckBox
+                        android:id="@+id/foul"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/foul" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/yellow_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/yellowcard" />
+
+                    <CheckBox
+                        android:id="@+id/red_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/redcard" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

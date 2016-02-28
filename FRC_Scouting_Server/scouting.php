@@ -1,6 +1,6 @@
 <?php
 /* 
- * Copyright 2015 Daniel Logan.
+ * Copyright 2016 Daniel Logan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,6 +116,12 @@ elseif ($_POST['password'] == $pass) {
         $json .= genJSON($result, "configuration_lu") . ",";
         mysql_free_result($result);
         
+        //defense_lu
+        $query = "SELECT * FROM defense_lu" . $suffix;
+        $result = mysql_query($query);
+        $json .= genJSON($result, "defense_lu") . ",";
+        mysql_free_result($result);
+        
         //event_lu
         $query = "SELECT * FROM event_lu" . $suffix;
         $result = mysql_query($query);
@@ -135,9 +141,9 @@ elseif ($_POST['password'] == $pass) {
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM fact_match_data_2015" . $suffix;
+        $query = "SELECT * FROM fact_match_data_2016" . $suffix;
         $result = mysql_query($query);
-        $json .= genJSON($result, "fact_match_data_2015") . ",";
+        $json .= genJSON($result, "fact_match_data_2016") . ",";
         mysql_free_result($result);
         
         
@@ -147,9 +153,9 @@ elseif ($_POST['password'] == $pass) {
         mysql_free_result($result);
         
         
-        $query = "SELECT * FROM scout_pit_data_2015" . $suffix;
+        $query = "SELECT * FROM scout_pit_data_2016" . $suffix;
         $result = mysql_query($query);
-        $json .= genJSON($result, "scout_pit_data_2015") . ",";
+        $json .= genJSON($result, "scout_pit_data_2016") . ",";
         mysql_free_result($result);
         
         
@@ -177,31 +183,66 @@ elseif ($_POST['password'] == $pass) {
         $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
         $practice_match = mysql_real_escape_string(stripslashes(trim($_POST['practice_match'])));
         $position_id = mysql_real_escape_string(stripslashes(trim($_POST['position_id'])));
-        $auto_move = mysql_real_escape_string(stripslashes(trim($_POST['auto_move'])));
-        $auto_totes = mysql_real_escape_string(stripslashes(trim($_POST['auto_totes'])));
-        $auto_stack_2 = mysql_real_escape_string(stripslashes(trim($_POST['auto_stack_2'])));
-        $auto_stack_3 = mysql_real_escape_string(stripslashes(trim($_POST['auto_stack_3'])));
-        $auto_bin = mysql_real_escape_string(stripslashes(trim($_POST['auto_bin'])));
-        $auto_step_bin = mysql_real_escape_string(stripslashes(trim($_POST['auto_step_bin'])));
-        $totes_1 = mysql_real_escape_string(stripslashes(trim($_POST['totes_1'])));
-        $totes_2 = mysql_real_escape_string(stripslashes(trim($_POST['totes_2'])));
-        $totes_3 = mysql_real_escape_string(stripslashes(trim($_POST['totes_3'])));
-        $totes_4 = mysql_real_escape_string(stripslashes(trim($_POST['totes_4'])));
-        $totes_5 = mysql_real_escape_string(stripslashes(trim($_POST['totes_5'])));
-        $totes_6 = mysql_real_escape_string(stripslashes(trim($_POST['totes_6'])));
-        $coop_1 = mysql_real_escape_string(stripslashes(trim($_POST['coop_1'])));
-        $coop_2 = mysql_real_escape_string(stripslashes(trim($_POST['coop_2'])));
-        $coop_3 = mysql_real_escape_string(stripslashes(trim($_POST['coop_3'])));
-        $coop_4 = mysql_real_escape_string(stripslashes(trim($_POST['coop_4'])));
-        $bin_1 = mysql_real_escape_string(stripslashes(trim($_POST['bin_1'])));
-        $bin_2 = mysql_real_escape_string(stripslashes(trim($_POST['bin_2'])));
-        $bin_3 = mysql_real_escape_string(stripslashes(trim($_POST['bin_3'])));
-        $bin_4 = mysql_real_escape_string(stripslashes(trim($_POST['bin_4'])));
-        $bin_5 = mysql_real_escape_string(stripslashes(trim($_POST['bin_5'])));
-        $bin_6 = mysql_real_escape_string(stripslashes(trim($_POST['bin_6'])));
-        $bin_litter = mysql_real_escape_string(stripslashes(trim($_POST['bin_litter'])));
-        $landfill_litter = mysql_real_escape_string(stripslashes(trim($_POST['landfill_litter'])));
-        $tipped_stack = mysql_real_escape_string(stripslashes(trim($_POST['tipped_stack'])));
+        $red_def_2 = mysql_real_escape_string(stripslashes(trim($_POST['red_def_2'])));
+        $red_def_3 = mysql_real_escape_string(stripslashes(trim($_POST['red_def_3'])));
+        $red_def_4 = mysql_real_escape_string(stripslashes(trim($_POST['red_def_4'])));
+        $red_def_5 = mysql_real_escape_string(stripslashes(trim($_POST['red_def_5'])));
+        $blue_def_2 = mysql_real_escape_string(stripslashes(trim($_POST['blue_def_2'])));
+        $blue_def_3 = mysql_real_escape_string(stripslashes(trim($_POST['blue_def_3'])));
+        $blue_def_4 = mysql_real_escape_string(stripslashes(trim($_POST['blue_def_4'])));
+        $blue_def_5 = mysql_real_escape_string(stripslashes(trim($_POST['blue_def_5'])));
+        $auto_reach = mysql_real_escape_string(stripslashes(trim($_POST['auto_reach'])));
+        $start_spy = mysql_real_escape_string(stripslashes(trim($_POST['start_spy'])));
+        $auto_cross_portcullis_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_portcullis_for'])));
+        $auto_cross_portcullis_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_portcullis_rev'])));
+        $auto_cross_cheval_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_cheval_for'])));
+        $auto_cross_cheval_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_cheval_rev'])));
+        $auto_cross_moat_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_moat_for'])));
+        $auto_cross_moat_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_moat_rev'])));
+        $auto_cross_ramparts_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_ramparts_for'])));
+        $auto_cross_ramparts_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_ramparts_rev'])));
+        $auto_cross_drawbridge_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_drawbridge_for'])));
+        $auto_cross_drawbridge_for_with_help = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_drawbridge_for_with_help'])));
+        $auto_cross_drawbridge_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_drawbridge_rev'])));
+        $auto_cross_sally_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_sally_for'])));
+        $auto_cross_sally_for_with_help = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_sally_for_with_help'])));
+        $auto_cross_sally_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_sally_rev'])));
+        $auto_cross_rock_wall_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_rock_wall_for'])));
+        $auto_cross_rock_wall_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_rock_wall_rev'])));
+        $auto_cross_rough_terrain_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_rough_terrain_for'])));
+        $auto_cross_rough_terrain_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_rough_terrain_rev'])));
+        $auto_cross_low_bar_for = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_low_bar_for'])));
+        $auto_cross_low_bar_rev = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross_low_bar_rev'])));
+        $auto_score_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_low'])));
+        $auto_score_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_high'])));
+        $auto_miss_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_miss_low'])));
+        $auto_miss_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_miss_high'])));
+        $cross_portcullis_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_portcullis_for'])));
+        $cross_portcullis_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_portcullis_rev'])));
+        $cross_cheval_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_cheval_for'])));
+        $cross_cheval_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_cheval_rev'])));
+        $cross_moat_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_moat_for'])));
+        $cross_moat_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_moat_rev'])));
+        $cross_ramparts_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_ramparts_for'])));
+        $cross_ramparts_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_ramparts_rev'])));
+        $cross_drawbridge_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_drawbridge_for'])));
+        $cross_drawbridge_for_with_help = mysql_real_escape_string(stripslashes(trim($_POST['cross_drawbridge_for_with_help'])));
+        $cross_drawbridge_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_drawbridge_rev'])));
+        $cross_sally_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_sally_for'])));
+        $cross_sally_for_with_help = mysql_real_escape_string(stripslashes(trim($_POST['cross_sally_for_with_help'])));
+        $cross_sally_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_sally_rev'])));
+        $cross_rock_wall_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_rock_wall_for'])));
+        $cross_rock_wall_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_rock_wall_rev'])));
+        $cross_rough_terrain_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_rough_terrain_for'])));
+        $cross_rough_terrain_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_rough_terrain_rev'])));
+        $cross_low_bar_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_low_bar_for'])));
+        $cross_low_bar_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_low_bar_rev'])));
+        $score_low = mysql_real_escape_string(stripslashes(trim($_POST['score_low'])));
+        $score_high = mysql_real_escape_string(stripslashes(trim($_POST['score_high'])));
+        $miss_low = mysql_real_escape_string(stripslashes(trim($_POST['miss_low'])));
+        $miss_high = mysql_real_escape_string(stripslashes(trim($_POST['miss_high'])));
+        $challenge = mysql_real_escape_string(stripslashes(trim($_POST['challenge'])));
+        $scale = mysql_real_escape_string(stripslashes(trim($_POST['scale'])));
         $foul = mysql_real_escape_string(stripslashes(trim($_POST['foul'])));
         $tip_over = mysql_real_escape_string(stripslashes(trim($_POST['tip_over'])));
         $yellow_card = mysql_real_escape_string(stripslashes(trim($_POST['yellow_card'])));
@@ -209,46 +250,95 @@ elseif ($_POST['password'] == $pass) {
         $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
 
         
-        $result = mysql_query("SELECT id FROM fact_match_data_2015 WHERE event_id=" . $event_id . " AND match_id="
+        $result = mysql_query("SELECT id FROM fact_match_data_2016 WHERE event_id=" . $event_id . " AND match_id="
                 . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match );
         $row = mysql_fetch_array($result);
         $match_row_id = $row["id"];
         
         if (mysql_num_rows($result) == 0) {
         
-            $query = "INSERT INTO fact_match_data_2015(event_id,match_id,team_id,practice_match,position_id,auto_move,auto_totes,auto_stack_2,auto_stack_3,auto_bin,"
-                    . "auto_step_bin,totes_1,totes_2,totes_3,totes_4,totes_5,totes_6,coop_1,coop_2,coop_3,coop_4,bin_1,bin_2,bin_3,bin_4,bin_5,bin_6,"
-                    . "bin_litter,landfill_litter,tipped_stack,foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
+            $query = "INSERT INTO fact_match_data_2016(event_id,match_id,team_id,practice_match,position_id,"
+                    . "red_def_2,red_def_3,red_def_4,red_def_5,blue_def_2,blue_def_3,blue_def_4,blue_def_5,"
+                    . "auto_reach,start_spy,auto_cross_portcullis_for,auto_cross_portcullis_rev,auto_cross_cheval_for,"
+                    . "auto_cross_cheval_rev,auto_cross_moat_for,auto_cross_moat_rev,auto_cross_ramparts_for,"
+                    . "auto_cross_ramparts_rev,auto_cross_drawbridge_for,auto_cross_drawbridge_for_with_help,"
+                    . "auto_cross_drawbridge_rev,auto_cross_sally_for,auto_cross_sally_for_with_help,"
+                    . "auto_cross_sally_rev,auto_cross_rock_wall_for,auto_cross_rock_wall_rev,"
+                    . "auto_cross_rough_terrain_for,auto_cross_rough_terrain_rev,auto_cross_low_bar_for,"
+                    . "auto_cross_low_bar_rev,auto_score_low,auto_score_high,auto_miss_low,auto_miss_high,"
+                    . "cross_portcullis_for,cross_portcullis_rev,cross_cheval_for,"
+                    . "cross_cheval_rev,cross_moat_for,cross_moat_rev,cross_ramparts_for,"
+                    . "cross_ramparts_rev,cross_drawbridge_for,cross_drawbridge_for_with_help,"
+                    . "cross_drawbridge_rev,cross_sally_for,cross_sally_for_with_help,"
+                    . "cross_sally_rev,cross_rock_wall_for,cross_rock_wall_rev,"
+                    . "cross_rough_terrain_for,cross_rough_terrain_rev,cross_low_bar_for,"
+                    . "cross_low_bar_rev,score_low,score_high,miss_low,miss_high,challenge,scale,"
+                    . "foul,tip_over,yellow_card,red_card,notes,invalid) VALUES("
                     . $event_id . ","
                     . $match_id . ","
                     . $team_id . ","
                     . $practice_match . ","
                     . $position_id . ","
-                    . $auto_move . ","
-                    . $auto_totes . ","
-                    . $auto_stack_2 . ","
-                    . $auto_stack_3 . ","
-                    . $auto_bin . ","
-                    . $auto_step_bin . ","
-                    . $totes_1 . ","
-                    . $totes_2 . ","
-                    . $totes_3 . ","
-                    . $totes_4 . ","
-                    . $totes_5 . ","
-                    . $totes_6 . ","
-                    . $coop_1 . ","
-                    . $coop_2 . ","
-                    . $coop_3 . ","
-                    . $coop_4 . ","
-                    . $bin_1 . ","
-                    . $bin_2 . ","
-                    . $bin_3 . ","
-                    . $bin_4 . ","
-                    . $bin_5 . ","
-                    . $bin_6 . ","
-                    . $bin_litter . ","
-                    . $landfill_litter . ","
-                    . $tipped_stack . ","
+                    . $red_def_2 . ","
+                    . $red_def_3 . ","
+                    . $red_def_4 . ","
+                    . $red_def_5 . ","
+                    . $blue_def_2 . ","
+                    . $blue_def_3 . ","
+                    . $blue_def_4 . ","
+                    . $blue_def_5 . ","
+                    . $auto_reach . ","
+                    . $start_spy . ","
+                    . $auto_cross_portcullis_for . ","
+                    . $auto_cross_portcullis_rev . ","
+                    . $auto_cross_cheval_for . ","
+                    . $auto_cross_cheval_rev . ","
+                    . $auto_cross_moat_for . ","
+                    . $auto_cross_moat_rev . ","
+                    . $auto_cross_ramparts_for . ","
+                    . $auto_cross_ramparts_rev . ","
+                    . $auto_cross_drawbridge_for . ","
+                    . $auto_cross_drawbridge_for_with_help . ","
+                    . $auto_cross_drawbridge_rev . ","
+                    . $auto_cross_sally_for . ","
+                    . $auto_cross_sally_for_with_help . ","
+                    . $auto_cross_sally_rev . ","
+                    . $auto_cross_rock_wall_for . ","
+                    . $auto_cross_rock_wall_rev . ","
+                    . $auto_cross_rough_terrain_for . ","
+                    . $auto_cross_rough_terrain_rev . ","
+                    . $auto_cross_low_bar_for . ","
+                    . $auto_cross_low_bar_rev . ","
+                    . $auto_score_low . ","
+                    . $auto_score_high . ","
+                    . $auto_miss_low . ","
+                    . $auto_miss_high . ","
+                    . $cross_portcullis_for . ","
+                    . $cross_portcullis_rev . ","
+                    . $cross_cheval_for . ","
+                    . $cross_cheval_rev . ","
+                    . $cross_moat_for . ","
+                    . $cross_moat_rev . ","
+                    . $cross_ramparts_for . ","
+                    . $cross_ramparts_rev . ","
+                    . $cross_drawbridge_for . ","
+                    . $cross_drawbridge_for_with_help . ","
+                    . $cross_drawbridge_rev . ","
+                    . $cross_sally_for . ","
+                    . $cross_sally_for_with_help . ","
+                    . $cross_sally_rev . ","
+                    . $cross_rock_wall_for . ","
+                    . $cross_rock_wall_rev . ","
+                    . $cross_rough_terrain_for . ","
+                    . $cross_rough_terrain_rev . ","
+                    . $cross_low_bar_for . ","
+                    . $cross_low_bar_rev . ","
+                    . $score_low . ","
+                    . $score_high . ","
+                    . $miss_low . ","
+                    . $miss_high . ","
+                    . $challenge . ","
+                    . $scale . ","
                     . $foul . ","
                     . $tip_over . ","
                     . $yellow_card . ","
@@ -259,37 +349,72 @@ elseif ($_POST['password'] == $pass) {
             
         } 
         else {
-            $query = "UPDATE fact_match_data_2015 SET "
+            $query = "UPDATE fact_match_data_2016 SET "
                     . "event_id=" . $event_id
                     . ",match_id=" . $match_id
                     . ",team_id=" . $team_id
                     . ",practice_match=" . $practice_match
                     . ",position_id=" . $position_id
-                    . ",auto_move=" . $auto_move
-                    . ",auto_totes=" . $auto_totes
-                    . ",auto_stack_2=" . $auto_stack_2
-                    . ",auto_stack_3=" . $auto_stack_3
-                    . ",auto_bin=" . $auto_bin
-                    . ",auto_step_bin=" . $auto_step_bin
-                    . ",totes_1=" . $totes_1
-                    . ",totes_2=" . $totes_2
-                    . ",totes_3=" . $totes_3
-                    . ",totes_4=" . $totes_4
-                    . ",totes_5=" . $totes_5
-                    . ",totes_6=" . $totes_6
-                    . ",coop_1=" . $coop_1
-                    . ",coop_2=" . $coop_2
-                    . ",coop_3=" . $coop_3
-                    . ",coop_4=" . $coop_4
-                    . ",bin_1=" . $bin_1
-                    . ",bin_2=" . $bin_2
-                    . ",bin_3=" . $bin_3
-                    . ",bin_4=" . $bin_4
-                    . ",bin_5=" . $bin_5
-                    . ",bin_6=" . $bin_6
-                    . ",bin_litter=" . $bin_litter
-                    . ",landfill_litter=" . $landfill_litter
-                    . ",tipped_stack=" . $tipped_stack
+                    . ",red_def_2=" . $red_def_2
+                    . ",red_def_3=" . $red_def_3
+                    . ",red_def_4=" . $red_def_4
+                    . ",red_def_5=" . $red_def_5
+                    . ",blue_def_2=" . $blue_def_2
+                    . ",blue_def_3=" . $blue_def_3
+                    . ",blue_def_4=" . $blue_def_4
+                    . ",blue_def_5=" . $blue_def_5
+                    . ",auto_reach=" . $auto_reach
+                    . ",start_spy=" . $start_spy
+                    . ",auto_cross_portcullis_for=" . $auto_cross_portcullis_for
+                    . ",auto_cross_portcullis_rev=" . $auto_cross_portcullis_rev
+                    . ",auto_cross_cheval_for=" . $auto_cross_cheval_for
+                    . ",auto_cross_cheval_rev=" . $auto_cross_cheval_rev
+                    . ",auto_cross_moat_for=" . $auto_cross_moat_for
+                    . ",auto_cross_moat_rev=" . $auto_cross_moat_rev
+                    . ",auto_cross_ramparts_for=" . $auto_cross_ramparts_for
+                    . ",auto_cross_ramparts_rev=" . $auto_cross_ramparts_rev
+                    . ",auto_cross_drawbridge_for=" . $auto_cross_drawbridge_for
+                    . ",auto_cross_drawbridge_for_with_help=" . $auto_cross_drawbridge_for_with_help
+                    . ",auto_cross_drawbridge_rev=" . $auto_cross_drawbridge_rev
+                    . ",auto_cross_sally_for=" . $auto_cross_sally_for
+                    . ",auto_cross_sally_for_with_help=" . $auto_cross_sally_for_with_help
+                    . ",auto_cross_sally_rev=" . $auto_cross_sally_rev
+                    . ",auto_cross_rock_wall_for=" . $auto_cross_rock_wall_for
+                    . ",auto_cross_rock_wall_rev=" . $auto_cross_rock_wall_rev
+                    . ",auto_cross_rough_terrain_for=" . $auto_cross_rough_terrain_for
+                    . ",auto_cross_rough_terrain_rev=" . $auto_cross_rough_terrain_rev
+                    . ",auto_cross_low_bar_for=" . $auto_cross_low_bar_for
+                    . ",auto_cross_low_bar_rev=" . $auto_cross_low_bar_rev
+                    . ",auto_score_low=" . $auto_score_low
+                    . ",auto_score_high=" . $auto_score_high
+                    . ",auto_miss_low=" . $auto_miss_low
+                    . ",auto_miss_high=" . $auto_miss_high
+                    . ",cross_portcullis_for=" . $cross_portcullis_for
+                    . ",cross_portcullis_rev=" . $cross_portcullis_rev
+                    . ",cross_cheval_for=" . $cross_cheval_for
+                    . ",cross_cheval_rev=" . $cross_cheval_rev
+                    . ",cross_moat_for=" . $cross_moat_for
+                    . ",cross_moat_rev=" . $cross_moat_rev
+                    . ",cross_ramparts_for=" . $cross_ramparts_for
+                    . ",cross_ramparts_rev=" . $cross_ramparts_rev
+                    . ",cross_drawbridge_for=" . $cross_drawbridge_for
+                    . ",cross_drawbridge_for_with_help=" . $cross_drawbridge_for_with_help
+                    . ",cross_drawbridge_rev=" . $cross_drawbridge_rev
+                    . ",cross_sally_for=" . $cross_sally_for
+                    . ",cross_sally_for_with_help=" . $cross_sally_for_with_help
+                    . ",cross_sally_rev=" . $cross_sally_rev
+                    . ",cross_rock_wall_for=" . $cross_rock_wall_for
+                    . ",cross_rock_wall_rev=" . $cross_rock_wall_rev
+                    . ",cross_rough_terrain_for=" . $cross_rough_terrain_for
+                    . ",cross_rough_terrain_rev=" . $cross_rough_terrain_rev
+                    . ",cross_low_bar_for=" . $cross_low_bar_for
+                    . ",cross_low_bar_rev=" . $cross_low_bar_rev
+                    . ",score_low=" . $score_low
+                    . ",score_high=" . $score_high
+                    . ",miss_low=" . $miss_low
+                    . ",miss_high=" . $miss_high
+                    . ",challenge=" . $challenge
+                    . ",scale=" . $scale
                     . ",foul=" . $foul
                     . ",tip_over=" . $tip_over
                     . ",yellow_card=" . $yellow_card
@@ -303,7 +428,7 @@ elseif ($_POST['password'] == $pass) {
         
         
         if ($success) {
-            $query = "SELECT id, timestamp FROM fact_match_data_2015 WHERE event_id=" . $event_id . " AND match_id="
+            $query = "SELECT id, timestamp FROM fact_match_data_2016 WHERE event_id=" . $event_id . " AND match_id="
                     . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match;
             $result = mysql_query($query);
             if ($result) {
@@ -315,6 +440,7 @@ elseif ($_POST['password'] == $pass) {
             }
         } else {
             $resp = 'Database Query Failed';
+            //$resp .= $query;
         }
 
         //$resp = $query;
@@ -326,102 +452,111 @@ elseif ($_POST['password'] == $pass) {
         $wheel_type_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_type_id'])));
         $wheel_base_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_base_id'])));
         $notes = mysql_real_escape_string(stripslashes(trim($_POST['notes'])));
-        $push_tote = mysql_real_escape_string(stripslashes(trim($_POST['push_tote'])));
-        $push_bin = mysql_real_escape_string(stripslashes(trim($_POST['push_bin'])));
-        $lift_tote = mysql_real_escape_string(stripslashes(trim($_POST['lift_tote'])));
-        $lift_bin = mysql_real_escape_string(stripslashes(trim($_POST['lift_bin'])));
-        $push_litter = mysql_real_escape_string(stripslashes(trim($_POST['push_litter'])));
-        $load_litter = mysql_real_escape_string(stripslashes(trim($_POST['load_litter'])));
-        $stack_tote_height = mysql_real_escape_string(stripslashes(trim($_POST['stack_tote_height'])));
-        $stack_bin_height = mysql_real_escape_string(stripslashes(trim($_POST['stack_bin_height'])));
-        $coop_totes = mysql_real_escape_string(stripslashes(trim($_POST['coop_totes'])));
-        $coop_stack_height = mysql_real_escape_string(stripslashes(trim($_POST['coop_stack_height'])));
-        $move_auto = mysql_real_escape_string(stripslashes(trim($_POST['move_auto'])));
-        $auto_bin_score = mysql_real_escape_string(stripslashes(trim($_POST['auto_bin_score'])));
-        $auto_tote_score = mysql_real_escape_string(stripslashes(trim($_POST['auto_tote_score'])));
-        $auto_tote_stack_height = mysql_real_escape_string(stripslashes(trim($_POST['auto_tote_stack_height'])));
-        $auto_step_bins = mysql_real_escape_string(stripslashes(trim($_POST['auto_step_bins'])));
-        $manip_style = mysql_real_escape_string(stripslashes(trim($_POST['manip_style'])));
-        $need_upright_tote = mysql_real_escape_string(stripslashes(trim($_POST['need_upright_tote'])));
-        $need_upright_bin = mysql_real_escape_string(stripslashes(trim($_POST['need_upright_bin'])));
-        $can_upright_tote = mysql_real_escape_string(stripslashes(trim($_POST['can_upright_tote'])));
-        $can_upright_bin = mysql_real_escape_string(stripslashes(trim($_POST['can_upright_bin'])));
+        $start_spy = mysql_real_escape_string(stripslashes(trim($_POST['start_spy'])));
+        $auto_reach = mysql_real_escape_string(stripslashes(trim($_POST['auto_reach'])));
+        $auto_cross = mysql_real_escape_string(stripslashes(trim($_POST['auto_cross'])));
+        $auto_score_low = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_low'])));
+        $auto_score_high = mysql_real_escape_string(stripslashes(trim($_POST['auto_score_high'])));
+        $cross_portcullis = mysql_real_escape_string(stripslashes(trim($_POST['cross_portcullis'])));
+        $cross_cheval = mysql_real_escape_string(stripslashes(trim($_POST['cross_cheval'])));
+        $cross_moat = mysql_real_escape_string(stripslashes(trim($_POST['cross_moat'])));
+        $cross_ramparts = mysql_real_escape_string(stripslashes(trim($_POST['cross_ramparts'])));
+        $cross_drawbridge_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_drawbridge_for'])));
+        $cross_drawbridge_for_with_help = mysql_real_escape_string(stripslashes(trim($_POST['cross_drawbridge_for_with_help'])));
+        $cross_drawbridge_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_drawbridge_rev'])));
+        $cross_sally_for = mysql_real_escape_string(stripslashes(trim($_POST['cross_sally_for'])));
+        $cross_sally_for_with_help = mysql_real_escape_string(stripslashes(trim($_POST['cross_sally_for_with_help'])));
+        $cross_sally_rev = mysql_real_escape_string(stripslashes(trim($_POST['cross_sally_rev'])));
+        $cross_rock_wall = mysql_real_escape_string(stripslashes(trim($_POST['cross_rock_wall'])));
+        $cross_rough_terrain = mysql_real_escape_string(stripslashes(trim($_POST['cross_rough_terrain'])));
+        $cross_low_bar = mysql_real_escape_string(stripslashes(trim($_POST['cross_low_bar'])));
+        $score_high = mysql_real_escape_string(stripslashes(trim($_POST['score_high'])));
+        $score_low = mysql_real_escape_string(stripslashes(trim($_POST['score_low'])));
+        $challenge = mysql_real_escape_string(stripslashes(trim($_POST['challenge'])));
+        $scale = mysql_real_escape_string(stripslashes(trim($_POST['scale'])));
 
-        $query = " SELECT id FROM scout_pit_data_2015 WHERE team_id=" . $team_id;
+
+        $query = " SELECT id FROM scout_pit_data_2016 WHERE team_id=" . $team_id;
         $result = mysql_query($query);
         $row = mysql_fetch_array($result);
         $id = $row["id"];
         if (mysql_num_rows($result) == 0) {
             $success = false;
-            $query = "INSERT INTO scout_pit_data_2015(team_id,config_id,wheel_type_id,wheel_base_id,notes,push_tote,push_bin,lift_tote,lift_bin,push_litter,"
-                    . "load_litter,stack_tote_height,stack_bin_height,coop_totes,coop_stack_height,move_auto,auto_bin_score,auto_tote_score,"
-                    . "auto_tote_stack_height,auto_step_bins,manip_style,need_upright_tote,need_upright_bin,can_upright_tote,can_upright_bin,invalid) "
+            $query = "INSERT INTO scout_pit_data_2016(team_id,config_id,wheel_type_id,wheel_base_id,notes,"
+                    . "start_spy,auto_reach,auto_cross,auto_score_low,auto_score_high,cross_portcullis,cross_cheval,"
+                    . "cross_moat,cross_ramparts,cross_drawbridge_for,cross_drawbridge_for_with_help,cross_drawbridge_rev,"
+                    . "cross_sally_for,cross_sally_for_with_help,cross_sally_rev,cross_rock_wall,cross_rough_terrain,"
+                    . "cross_low_bar,score_high,score_low,challenge,scale,invalid) "
                     . "VALUES("
                     . $team_id
                     . "," . $config_id
                     . "," . $wheel_type_id
                     . "," . $wheel_base_id
                     . ",'" . $notes
-                    . "'," . $push_tote
-                    . "," . $push_bin
-                    . "," . $lift_tote
-                    . "," . $lift_bin
-                    . "," . $push_litter
-                    . "," . $load_litter
-                    . "," . $stack_tote_height
-                    . "," . $stack_bin_height
-                    . "," . $coop_totes
-                    . "," . $coop_stack_height
-                    . "," . $move_auto
-                    . "," . $auto_bin_score
-                    . "," . $auto_tote_score
-                    . "," . $auto_tote_stack_height
-                    . "," . $auto_step_bins
-                    . ",'" . $manip_style
-                    . "'," . $need_upright_tote
-                    . "," . $need_upright_bin
-                    . "," . $can_upright_tote
-                    . "," . $can_upright_bin . ",0);";
+                    . "'," . $start_spy
+                    . "," . $auto_reach
+                    . "," . $auto_cross
+                    . "," . $auto_score_low
+                    . "," . $auto_score_high
+                    . "," . $cross_portcullis
+                    . "," . $cross_cheval
+                    . "," . $cross_moat
+                    . "," . $cross_ramparts
+                    . "," . $cross_drawbridge_for
+                    . "," . $cross_drawbridge_for_with_help
+                    . "," . $cross_drawbridge_rev
+                    . "," . $cross_sally_for
+                    . "," . $cross_sally_for_with_help
+                    . "," . $cross_sally_rev
+                    . "," . $cross_rock_wall
+                    . "," . $cross_rough_terrain
+                    . "," . $cross_low_bar
+                    . "," . $score_high
+                    . "," . $score_low
+                    . "," . $challenge
+                    . "," . $scale . ",0);";
           
 
             $success = mysql_query($query);
         } else {
             
             $success = false;
-            $query = " UPDATE scout_pit_data_2015 ";
-            $query .= "SET team_id=" . $team_id . ",
-						config_id=" . $config_id . ",
-						wheel_type_id=" . $wheel_type_id . ",
-						wheel_base_id=" . $wheel_base_id . ",
-						notes='" . $notes . "',
-						push_tote=" . $push_tote . ",
-						push_bin=" . $push_bin . ",
-						lift_tote=" . $lift_tote . ",
-						lift_bin=" . $lift_bin . ",
-						push_litter=" . $push_litter . ",
-                                                load_litter=" . $load_litter . ",
-						stack_tote_height=" . $stack_tote_height . ",
-						stack_bin_height=" . $stack_bin_height . ",
-						coop_totes=" . $coop_totes . ",
-                                                coop_stack_height=" . $coop_stack_height . ",
-                                                move_auto=" . $move_auto . ",
-                                                auto_bin_score=" . $auto_bin_score . ",
-                                                auto_tote_score=" . $auto_tote_score . ",
-                                                auto_tote_stack_height=" . $auto_tote_stack_height . ",
-                                                auto_step_bins=" . $auto_step_bins . ",
-                                                manip_style='" . $manip_style . "',
-                                                need_upright_tote=" . $need_upright_tote . ",
-                                                need_upright_bin=" . $need_upright_bin . ",
-                                                can_upright_tote=" . $can_upright_tote . ",
-                                                can_upright_bin=" . $can_upright_bin . ",
-                                                invalid=0" . " 
-						WHERE id=" . $id;
+            $query = " UPDATE scout_pit_data_2016 ";
+            $query .= "SET team_id=" . $team_id . ","
+                    . "config_id=" . $config_id . ","
+                    . "wheel_type_id=" . $wheel_type_id . ","
+                    . "wheel_base_id=" . $wheel_base_id . ","
+                    . "notes='" . $notes . "',"
+                    . "start_spy=" . $start_spy . ","
+                    . "auto_reach=" . $auto_reach . ","
+                    . "auto_cross=" . $auto_cross . ","
+                    . "auto_score_low=" . $auto_score_low . ","
+                    . "auto_score_high=" . $auto_score_high . ","
+                    . "cross_portcullis=" . $cross_portcullis . ","
+                    . "cross_cheval=" . $cross_cheval . ","
+                    . "cross_moat=" . $cross_moat . ","
+                    . "cross_ramparts=" . $cross_ramparts . ","
+                    . "cross_drawbridge_for=" . $cross_drawbridge_for . ","
+                    . "cross_drawbridge_for_with_help=" . $cross_drawbridge_for_with_help . ","
+                    . "cross_drawbridge_rev=" . $cross_drawbridge_rev . ","
+                    . "cross_sally_for=" . $cross_sally_for . ","
+                    . "cross_sally_for_with_help=" . $cross_sally_for_with_help . ","
+                    . "cross_sally_rev=" . $cross_sally_rev . ","
+                    . "cross_rock_wall=" . $cross_rock_wall . ","
+                    . "cross_rough_terrain=" . $cross_rough_terrain . ","
+                    . "cross_low_bar=" . $cross_low_bar . ","
+                    . "score_high=" . $score_high . ","
+                    . "score_low=" . $score_low . ","
+                    . "challenge=" . $challenge . ","
+                    . "scale=" . $scale . ","
+                    . "invalid=0"
+                    . " WHERE id=" . $id;
 
             $success = mysql_query($query);
         }
         
         if ($success) {
-            $result = mysql_query("SELECT id, timestamp FROM scout_pit_data_2015 WHERE team_id=" . $team_id);
+            $result = mysql_query("SELECT id, timestamp FROM scout_pit_data_2016 WHERE team_id=" . $team_id);
             $row = mysql_fetch_array($result);
             $resp = $row["id"] . "," . strtotime($row["timestamp"]);
         } else {
@@ -437,4 +572,3 @@ elseif ($_POST['password'] == $pass) {
 
     echo $resp;
 }
-
