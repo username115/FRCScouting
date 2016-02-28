@@ -21,15 +21,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import org.growingstems.scouting.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EndMatchFragment extends MatchFragment {
 
     private boolean displayed = false;
+
+    private Spinner commonNotes;
 
     public EndMatchFragment() {
         // Required empty public constructor
@@ -61,10 +68,30 @@ public class EndMatchFragment extends MatchFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         displayed = true;
+        commonNotes = (Spinner) view.findViewById(R.id.commonNotes);
     }
 
     public void onResume() {
         super.onResume();
+
+        Activity a = getActivity();
+
+        if (a instanceof MatchActivity) {
+            MatchActivity match = (MatchActivity) a;
+            List<String> options = match.getNotesOptions();
+
+            if (options == null)
+                options = new ArrayList<String>(1);
+
+            options.add(0, commonNotes.getItemAtPosition(0).toString());
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(match,
+                    android.R.layout.simple_spinner_item, options);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            commonNotes.setAdapter(adapter);
+        }
     }
 
     public void onPause() {

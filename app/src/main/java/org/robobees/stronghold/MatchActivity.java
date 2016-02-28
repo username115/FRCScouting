@@ -38,6 +38,8 @@ import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
+import java.util.List;
+
 
 public class MatchActivity extends DBActivity {
 
@@ -105,23 +107,10 @@ public class MatchActivity extends DBActivity {
         teamData.practice_match = Prefs.getPracticeMatch(getApplicationContext(), false);
 
         updatePosition();
+    }
 
-        //TODO update note options from db
-        /*
-        List<String> options = db.getNotesOptions();
-
-		if (options == null)
-			options = new ArrayList<String>(1);
-
-		options.add(0, commonNotes.getItemAtPosition(0).toString());
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, options);
-
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		commonNotes.setAdapter(adapter);
-         */
+    public List<String> getNotesOptions() {
+        return db.getNotesOptions();
     }
 
     private void updatePosition() {
