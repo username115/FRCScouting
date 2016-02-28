@@ -74,7 +74,7 @@ public class MatchActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
-        HELPMESSAGE = "interface used for recording match data."; //TODO finish match help message
+        HELPMESSAGE = "Record Match Data here.\nEnter Which defenses are on the field first. (Important!!)\nRecord crossings forward: f, and reverse: r.\nSome defenses can be crossed forward with help: h\nRecord scores: s, and misses: m";
 
         getGUIRefs();
 
