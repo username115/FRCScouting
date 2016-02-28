@@ -1048,6 +1048,8 @@ public class DB {
                 null, // don't order
                 "0,1"); // limit to 1
         String ret = "";
+        if (c.getCount() < 1)
+            return "";
         try {
             c.moveToFirst();
             ret = c.getString(c
