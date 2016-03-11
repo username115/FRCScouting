@@ -16,6 +16,7 @@
 
 package org.growingstems.scouting;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.frc836.database.DB;
@@ -115,6 +116,7 @@ public class Prefs extends PreferenceActivity {
     private void updateEventPreference(List<String> events) {
         if (!events.isEmpty())// || eventP.getEntries()==null)
         {
+            Collections.sort(events);
             String[] entries = events.toArray(new String[0]);
             eventP.setEntries(entries);
             eventP.setEntryValues(entries);
