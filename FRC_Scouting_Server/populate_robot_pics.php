@@ -6,7 +6,7 @@ include('scouting-header.php');
 
 $dir=''; //populate with the directory on the server that pictures are stored in
 
-$url=''; //populate with the url that leads to that same directory
+$url=''; //populate with the url that leads to that same directory (begin with http:// or https://)
 
 if ($handle = opendir($dir)) {
     echo "Entries:<br>";

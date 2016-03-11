@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import org.frc836.database.DBActivity;
 import org.frc836.database.PitStats;
 import org.growingstems.scouting.MainMenuSelection;
+import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class PitsActivitySH extends DBActivity {
 
     private PitStatsSH stats;
 
-    private EditText teamT;
+    private AutoCompleteTextView teamT;
     private Spinner configS;
     private Spinner drivetrainS;
     private Spinner wheeltypeS;
@@ -91,7 +93,8 @@ public class PitsActivitySH extends DBActivity {
                 + "not need to be collected.";
 
         stats = new PitStatsSH();
-        teamT = (EditText) findViewById(R.id.pits_teamT);
+        teamT = (AutoCompleteTextView) findViewById(R.id.pits_teamT);
+        teamT.setThreshold(1);
         configS = (Spinner) findViewById(R.id.pits_configS);
         drivetrainS = (Spinner) findViewById(R.id.pits_drivetrainS);
         wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
@@ -167,6 +170,7 @@ public class PitsActivitySH extends DBActivity {
             timer.removeCallbacks(task);
         }
         tasks.clear();
+        setTeamList(db.getTeamsWithData());
     }
 
     public void onBackPressed() {
@@ -336,6 +340,8 @@ public class PitsActivitySH extends DBActivity {
         else
             Toast.makeText(getApplicationContext(), "Error in local database",
                     Toast.LENGTH_LONG).show();
+
+        setTeamList(db.getTeamsWithData(Prefs.getEvent(this, "CHS District - Greater DC Event")));
     }
 
     protected void clear() {
@@ -510,5 +516,14 @@ public class PitsActivitySH extends DBActivity {
                 || scoreLowC.isChecked() || challengeC.isChecked() || scaleC.isChecked())
             return false;
         return true;
+    }
+
+    private void setTeamList(List<String> teams) {
+        if (teams == null || teams.isEmpty())
+            return;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, teams);
+
+        teamT.setAdapter(adapter);
     }
 }
