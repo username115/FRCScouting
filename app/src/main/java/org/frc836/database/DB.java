@@ -520,6 +520,10 @@ public class DB {
         }
     }
 
+    public List<String> getTeamsWithData() {
+        return getTeamsWithData(null);
+    }
+
     public List<String> getTeamsWithData(String eventName) {
         synchronized (ScoutingDBHelper.lock) {
             try {

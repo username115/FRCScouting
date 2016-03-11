@@ -13,14 +13,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <AutoCompleteTextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/team_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/pits_teamT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                 android:inputType="number">
 
                 <requestFocus />
-            </EditText>
+            </AutoCompleteTextView>
 
         </LinearLayout>
 

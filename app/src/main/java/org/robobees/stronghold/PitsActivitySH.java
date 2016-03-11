@@ -22,6 +22,7 @@ import android.widget.Toast;
 import org.frc836.database.DBActivity;
 import org.frc836.database.PitStats;
 import org.growingstems.scouting.MainMenuSelection;
+import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 import java.util.ArrayList;
@@ -169,6 +170,7 @@ public class PitsActivitySH extends DBActivity {
             timer.removeCallbacks(task);
         }
         tasks.clear();
+        setTeamList(db.getTeamsWithData());
     }
 
     public void onBackPressed() {
@@ -338,6 +340,8 @@ public class PitsActivitySH extends DBActivity {
         else
             Toast.makeText(getApplicationContext(), "Error in local database",
                     Toast.LENGTH_LONG).show();
+
+        setTeamList(db.getTeamsWithData(Prefs.getEvent(this, "CHS District - Greater DC Event")));
     }
 
     protected void clear() {
@@ -515,7 +519,7 @@ public class PitsActivitySH extends DBActivity {
     }
 
     private void setTeamList(List<String> teams) {
-        if (teams.isEmpty())
+        if (teams == null || teams.isEmpty())
             return;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, teams);
