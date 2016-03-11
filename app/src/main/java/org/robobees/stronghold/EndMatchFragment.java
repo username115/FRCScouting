@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -37,6 +38,8 @@ public class EndMatchFragment extends MatchFragment {
     private boolean displayed = false;
 
     private Spinner commonNotes;
+
+    private EditText teamNotes;
 
     public EndMatchFragment() {
         // Required empty public constructor
@@ -69,6 +72,8 @@ public class EndMatchFragment extends MatchFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         displayed = true;
         commonNotes = (Spinner) view.findViewById(R.id.commonNotes);
+        teamNotes = (EditText)getView().findViewById(R.id.notes);
+        commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
     }
 
     public void onResume() {
@@ -123,5 +128,28 @@ public class EndMatchFragment extends MatchFragment {
         ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.redCard);
         ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellowCard);
     }
+
+    public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View v, int position,
+                                   long id) {
+            if (position == 0 || !(parent instanceof Spinner))
+                return;
+            Spinner par = (Spinner) parent;
+            String note = teamNotes.getText().toString();
+            if (!note.contains(par.getItemAtPosition(position).toString())) {
+                if (!note.trim().equals(""))
+                    note = note + "; ";
+                note = note + par.getItemAtPosition(position);
+                teamNotes.setText(note);
+            }
+            par.setSelection(0);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+
+    };
 
 }
