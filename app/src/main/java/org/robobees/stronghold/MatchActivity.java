@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
@@ -55,6 +56,7 @@ public class MatchActivity extends DBActivity {
 
     private static final int CANCEL_DIALOG = 0;
     private static final int LOAD_DIALOG = 353563;
+    private static final int TIME_DIALOG = 2;
 
     private String HELPMESSAGE;
 
@@ -68,6 +70,15 @@ public class MatchActivity extends DBActivity {
     private Button nextB;
 
     private int mCurrentPage;
+
+    private Handler timer = new Handler();
+    private static final int DELAY = 16000;
+
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            showDialog(TIME_DIALOG);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +118,15 @@ public class MatchActivity extends DBActivity {
         teamData.practice_match = Prefs.getPracticeMatch(getApplicationContext(), false);
 
         updatePosition();
+
+        if (mCurrentPage == AUTO_SCREEN) {
+            timer.postDelayed(mUpdateTimeTask, DELAY);
+        }
+    }
+
+    protected void onPause() {
+        super.onPause();
+        timer.removeCallbacks(mUpdateTimeTask);
     }
 
     public List<String> getNotesOptions() {
@@ -205,6 +225,27 @@ public class MatchActivity extends DBActivity {
                                 });
                 dialog = builder.create();
                 break;
+            case TIME_DIALOG:
+                builder.setMessage("Continue to Tele-Op?")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        onNext(nextB);
+                                    }
+                                })
+                        .setNegativeButton("No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        timer.removeCallbacks(mUpdateTimeTask);
+                                        timer.postDelayed(mUpdateTimeTask, DELAY);
+                                        dialog.cancel();
+                                    }
+                                });
+                dialog = builder.create();
+                break;
             default:
                 dialog = null;
         }
@@ -262,26 +303,31 @@ public class MatchActivity extends DBActivity {
                 loadPreMatch();
                 lastB.setText("Cancel");
                 nextB.setText("Auto");
+                timer.removeCallbacks(mUpdateTimeTask);
                 break;
             case AUTO_SCREEN:
                 loadAuto();
                 lastB.setText("Pre-match");
                 nextB.setText("Tele op");
+                timer.postDelayed(mUpdateTimeTask, DELAY);
                 break;
             case TELE_SCREEN:
                 loadTele();
                 lastB.setText("Auto");
                 nextB.setText("End Game");
+                timer.removeCallbacks(mUpdateTimeTask);
                 break;
             case END_SCREEN:
                 loadEnd();
                 lastB.setText("Tele op");
                 nextB.setText("submit");
+                timer.removeCallbacks(mUpdateTimeTask);
                 break;
             default:
                 loadAll();
                 lastB.setText("Cancel");
                 nextB.setText("Auto");
+                timer.removeCallbacks(mUpdateTimeTask);
         }
     }
 
