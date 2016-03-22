@@ -36,12 +36,18 @@ public class TeamListFragment extends DataFragment {
 
 	private String eventName = null;
 
-	/*public TeamListFragment(String event_name) {
-		eventName = event_name;
-	}*/
+	public static TeamListFragment getInstance(String event_name) {
+		TeamListFragment fragment = new TeamListFragment();
+		fragment.setEventName(event_name);
+		return fragment;
+	}
 
 	public TeamListFragment() {
 		eventName = null;
+	}
+
+	public void setEventName(String event) {
+		eventName = event;
 	}
 
 	@Override

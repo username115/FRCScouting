@@ -769,9 +769,9 @@ public class DB {
                         null, // don't order
                         "0,1"); // limit to 1
                 try {
-
-                    stats.fromCursor(c, this, db);
-
+                    if (c.getCount() > 0)
+                        stats.fromCursor(c, this, db);
+                    
                 } finally {
                     if (c != null)
                         c.close();

@@ -37,22 +37,30 @@ public class MatchListFragment extends DataFragment {
 	private int teamNum = -1;
 	private String eventName = null;
 
+	public static MatchListFragment getInstance(String event_name) {
+		return getInstance(event_name, -1);
+	}
+
+	public static MatchListFragment getInstance(int team_num) {
+		return getInstance(null, team_num);
+	}
+
+	public static MatchListFragment getInstance(String event_name, int team_num) {
+		MatchListFragment fragment = new MatchListFragment();
+		fragment.setEvent(event_name);
+		fragment.setTeamNum(team_num);
+		return fragment;
+	}
+
 	public MatchListFragment() {}
 
-	/*public MatchListFragment(int team_num) {
-		teamNum = team_num;
-		eventName = null;
-	}
-
-	public MatchListFragment(String event_name) {
-		teamNum = -1;
+	public void setEvent(String event_name) {
 		eventName = event_name;
 	}
 
-	public MatchListFragment(String event_name, int team_num) {
+	public void setTeamNum(int team_num) {
 		teamNum = team_num;
-		eventName = event_name;
-	}*/
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

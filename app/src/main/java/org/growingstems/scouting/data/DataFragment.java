@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import org.frc836.database.DBActivity;
 import org.growingstems.scouting.R;
+import org.robobees.stronghold.PitsDataFragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -72,14 +73,14 @@ public abstract class DataFragment extends Fragment {
 			fragment = new EventListFragment();
 			break;
 		case PT_TEAMS:
-			//fragment = new TeamListFragment(event_name); //TODO
-			//break;
+			fragment = TeamListFragment.getInstance(event_name);
+			break;
 		case PT_MATCHES:
-			//fragment = new MatchListFragment(event_name, teamNumber); //TODO
-			//break;
+			fragment = MatchListFragment.getInstance(event_name, teamNumber);
+			break;
 		case PT_PITS:
-			//fragment = new PitsDataFragment(teamNumber); //TODO
-			//break;
+			fragment = PitsDataFragment.getInstance(teamNumber);
+			break;
 		default:
 			return null;
 		}
