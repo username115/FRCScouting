@@ -21,7 +21,9 @@ import java.util.List;
 
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
+import org.robobees.stronghold.MatchActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,144 +36,155 @@ import android.widget.Toast;
 
 public class MatchListFragment extends DataFragment {
 
-	private int teamNum = -1;
-	private String eventName = null;
+    private int teamNum = -1;
+    private String eventName = null;
 
-	public static MatchListFragment getInstance(String event_name) {
-		return getInstance(event_name, -1);
-	}
+    public static MatchListFragment getInstance(String event_name) {
+        return getInstance(event_name, -1);
+    }
 
-	public static MatchListFragment getInstance(int team_num) {
-		return getInstance(null, team_num);
-	}
+    public static MatchListFragment getInstance(int team_num) {
+        return getInstance(null, team_num);
+    }
 
-	public static MatchListFragment getInstance(String event_name, int team_num) {
-		MatchListFragment fragment = new MatchListFragment();
-		fragment.setEvent(event_name);
-		fragment.setTeamNum(team_num);
-		return fragment;
-	}
+    public static MatchListFragment getInstance(String event_name, int team_num) {
+        MatchListFragment fragment = new MatchListFragment();
+        fragment.setEvent(event_name);
+        fragment.setTeamNum(team_num);
+        return fragment;
+    }
 
-	public MatchListFragment() {}
+    public MatchListFragment() {
+    }
 
-	public void setEvent(String event_name) {
-		eventName = event_name;
-	}
+    public void setEvent(String event_name) {
+        eventName = event_name;
+    }
 
-	public void setTeamNum(int team_num) {
-		teamNum = team_num;
-	}
+    public void setTeamNum(int team_num) {
+        teamNum = team_num;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		rootView.findViewById(R.id.data_team_input_layout).setVisibility(
-				View.GONE);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        rootView.findViewById(R.id.data_team_input_layout).setVisibility(
+                View.GONE);
 
-		return rootView;
-	}
+        return rootView;
+    }
 
-	@Override
-	protected void refreshData() {
-		if (!displayed)
-			return;
+    @Override
+    protected void refreshData() {
+        if (!displayed)
+            return;
 
-		List<String> matches = null;
-		if (eventName != null)
-			matches = getMatchesForEvent(eventName, teamNum);
-		else {
-			matches = getMatchesForTeam(teamNum);
-		}
+        List<String> matches = null;
+        if (eventName != null)
+            matches = getMatchesForEvent(eventName, teamNum);
+        else {
+            matches = getMatchesForTeam(teamNum);
+        }
 
-		if (matches == null || matches.isEmpty()) {
-			StringBuilder message = new StringBuilder(
-					"No Matches for selected ");
-			if (teamNum > 0 && eventName != null) {
-				message.append("Team/Event combination");
-			} else if (teamNum > 0) {
-				message.append("Team");
-			} else if (eventName != null) {
-				message.append("Event");
-			} else {
-				message = new StringBuilder("Invalid Event or Team Selected");
-			}
-			matches.add(message.toString());
-		}
+        if (matches == null || matches.isEmpty()) {
+            StringBuilder message = new StringBuilder(
+                    "No Matches for selected ");
+            if (teamNum > 0 && eventName != null) {
+                message.append("Team/Event combination");
+            } else if (teamNum > 0) {
+                message.append("Team");
+            } else if (eventName != null) {
+                message.append("Event");
+            } else {
+                message = new StringBuilder("Invalid Event or Team Selected");
+            }
+            matches.add(message.toString());
+        }
 
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getActivity(), defaultListResource, matches);
-		dataList.setAdapter(adapter);
-		dataList.setOnItemClickListener(new MatchClick());
-	}
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), defaultListResource, matches);
+        dataList.setAdapter(adapter);
+        dataList.setOnItemClickListener(new MatchClick());
+    }
 
-	private List<String> getMatchesForTeam(int teamNum) {
-		List<String> events = mParent.getDB().getEventsForTeam(teamNum);
-		String curEvent = Prefs.getEvent(getActivity(), "");
-		List<String> matches = new ArrayList<String>(events.size() * 12);
-		if (events != null) {
-			if (curEvent.length() > 0 && events.contains(curEvent)) {
-				events.remove(curEvent);
-				events.add(0, curEvent);
-			}
-			for (String event : events) {
-				List<String> t = getMatchesForEvent(event, teamNum);
-				if (t != null) {
-					t.add(0, event);
-					matches.addAll(t);
-				}
-			}
-		}
-		return matches;
-	}
+    private List<String> getMatchesForTeam(int teamNum) {
+        List<String> events = mParent.getDB().getEventsForTeam(teamNum);
+        String curEvent = Prefs.getEvent(getActivity(), "");
+        List<String> matches = new ArrayList<String>(events.size() * 12);
+        if (events != null) {
+            if (curEvent.length() > 0 && events.contains(curEvent)) {
+                events.remove(curEvent);
+                events.add(0, curEvent);
+            }
+            for (String event : events) {
+                List<String> t = getMatchesForEvent(event, teamNum);
+                if (t != null) {
+                    t.add(0, event);
+                    matches.addAll(t);
+                }
+            }
+        }
+        return matches;
+    }
 
-	private List<String> getMatchesForEvent(String eventName, int teamNum) {
-		boolean prac = Prefs.getPracticeMatch(mParent, false);
+    private List<String> getMatchesForEvent(String eventName, int teamNum) {
+        boolean prac = Prefs.getPracticeMatch(mParent, false);
 
-		List<String> matches = getMatchesForEvent(eventName, prac, teamNum);
-		List<String> matches2 = getMatchesForEvent(eventName, !prac, teamNum);
-		if (matches.size() > 1 && matches2.size() > 1) {
-			matches.addAll(matches2);
-		} else if (matches.size() <= 1 && matches2.size() > 1) {
-			matches = matches2;
-		}
-		return matches;
-	}
+        List<String> matches = getMatchesForEvent(eventName, prac, teamNum);
+        List<String> matches2 = getMatchesForEvent(eventName, !prac, teamNum);
+        if (matches.size() > 1 && matches2.size() > 1) {
+            matches.addAll(matches2);
+        } else if (matches.size() <= 1 && matches2.size() > 1) {
+            matches = matches2;
+        }
+        return matches;
+    }
 
-	private List<String> getMatchesForEvent(String eventName, boolean prac,
-			int teamNum) {
-		List<String> matches = null;
-		if (eventName != null)
-			matches = mParent.getDB().getMatchesWithData(eventName, prac,
-					teamNum);
+    private List<String> getMatchesForEvent(String eventName, boolean prac,
+                                            int teamNum) {
+        List<String> matches = null;
+        if (eventName != null)
+            matches = mParent.getDB().getMatchesWithData(eventName, prac,
+                    teamNum);
 
-		if (matches == null)
-			matches = new ArrayList<String>(1);
-		if (!matches.isEmpty()) {
-			matches.add(0, prac ? "Practice Matches" : "Qualification Matches");
-		}
+        if (matches == null)
+            matches = new ArrayList<String>(1);
+        if (!matches.isEmpty()) {
+            matches.add(0, prac ? "Practice Matches" : "Qualification Matches");
+        }
 
-		return matches;
-	}
+        return matches;
+    }
 
-	private class MatchClick implements AdapterView.OnItemClickListener {
+    private class MatchClick implements AdapterView.OnItemClickListener {
 
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			if (view instanceof TextView) {
-				String match = ((TextView) view).getText().toString();
-				if (TextUtils.isDigitsOnly(match))
-					loadMatch(Integer.valueOf(match));
-			}
-		}
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            if (view instanceof TextView) {
+                String match = ((TextView) view).getText().toString();
+                if (TextUtils.isDigitsOnly(match))
+                    loadMatch(Integer.valueOf(match));
+            }
+        }
 
-	}
+    }
 
-	private void loadMatch(int match) {
-		Toast.makeText(getActivity(), "Open match " + match, Toast.LENGTH_SHORT)
-				.show();
-		// TODO load match
-	}
+    private void loadMatch(int match) {
+        if (teamNum > 0) {
+            Intent intent = new Intent(getActivity(),
+                    MatchActivity.class);
+            intent.putExtra("team", String.valueOf(teamNum));
+            intent.putExtra("match", String.valueOf(match));
+            intent.putExtra("readOnly", true);
+            if (eventName != null) {
+                intent.putExtra("event", eventName);
+            }
+            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity(), "Select a team first", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

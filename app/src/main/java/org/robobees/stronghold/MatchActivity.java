@@ -71,6 +71,9 @@ public class MatchActivity extends DBActivity {
 
     private int mCurrentPage;
 
+    private boolean readOnly = false;
+    private String event = null;
+
     private Handler timer = new Handler();
     private static final int DELAY = 16000;
 
@@ -92,6 +95,8 @@ public class MatchActivity extends DBActivity {
         Intent intent = getIntent();
         teamText.setText(intent.getStringExtra("team"));
         matchT.setText(intent.getStringExtra("match"));
+        readOnly = intent.getBooleanExtra("readOnly", false);
+        event = intent.getStringExtra("event");
 
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
         mCurrentPage = PRE_MATCH_SCREEN;
@@ -113,13 +118,13 @@ public class MatchActivity extends DBActivity {
     protected void onResume() {
         super.onResume();
 
-        teamData.event = Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event");
+        teamData.event = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
 
         teamData.practice_match = Prefs.getPracticeMatch(getApplicationContext(), false);
 
         updatePosition();
 
-        if (mCurrentPage == AUTO_SCREEN) {
+        if (mCurrentPage == AUTO_SCREEN && !readOnly) {
             timer.postDelayed(mUpdateTimeTask, DELAY);
         }
     }
@@ -194,9 +199,7 @@ public class MatchActivity extends DBActivity {
                                             teamData = new MatchStatsSH(
                                                     Integer.valueOf(teamText
                                                             .getText().toString()),
-                                                    Prefs.getEvent(
-                                                            getApplicationContext(),
-                                                            "Chesapeake Regional"),
+                                                    event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event,
                                                     Integer.valueOf(matchT
                                                             .getText().toString()
                                                             .length()));
@@ -240,7 +243,8 @@ public class MatchActivity extends DBActivity {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
                                         timer.removeCallbacks(mUpdateTimeTask);
-                                        timer.postDelayed(mUpdateTimeTask, DELAY);
+                                        if (!readOnly)
+                                            timer.postDelayed(mUpdateTimeTask, DELAY);
                                         dialog.cancel();
                                     }
                                 });
@@ -259,21 +263,19 @@ public class MatchActivity extends DBActivity {
         boolean loadData = false;
         if (team != null && team.length() > 0 && match != null
                 && match.length() > 0) {
-            teamData = (MatchStatsSH) db.getMatchStats(Prefs.getEvent(
-                    getApplicationContext(), "CHS District - Greater DC Event"), Integer
+            teamData = (MatchStatsSH) db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
                     .valueOf(match), Integer.valueOf(team), Prefs
                     .getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
                 teamData = new MatchStatsSH(Integer.valueOf(team),
-                        Prefs.getEvent(getApplicationContext(),
-                                "CHS District - Greater DC Event"), Integer.valueOf(match),
+                        event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
                         Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
         } else
             teamData = new MatchStatsSH();
 
-        if (loadData) {
+        if (loadData && !readOnly) {
             showDialog(LOAD_DIALOG);
         }
         mViewPager.setCurrentItem(0, true);
@@ -309,7 +311,8 @@ public class MatchActivity extends DBActivity {
                 loadAuto();
                 lastB.setText("Pre-match");
                 nextB.setText("Tele op");
-                timer.postDelayed(mUpdateTimeTask, DELAY);
+                if (!readOnly)
+                    timer.postDelayed(mUpdateTimeTask, DELAY);
                 break;
             case TELE_SCREEN:
                 loadTele();
@@ -320,7 +323,7 @@ public class MatchActivity extends DBActivity {
             case END_SCREEN:
                 loadEnd();
                 lastB.setText("Tele op");
-                nextB.setText("submit");
+                nextB.setText(readOnly ? "Cancel" : "submit");
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             default:
@@ -338,7 +341,10 @@ public class MatchActivity extends DBActivity {
 
     public void onBack(View v) {
         if (mCurrentPage == 0 || mCurrentPage >= NUM_SCREENS) {
-            showDialog(CANCEL_DIALOG);
+            if (!readOnly)
+                showDialog(CANCEL_DIALOG);
+            else
+                finish();
         }
         mViewPager.setCurrentItem(mCurrentPage - 1, true);
     }
@@ -473,11 +479,13 @@ public class MatchActivity extends DBActivity {
     }
 
     private void submit() {
-        saveEnd();
-        db.submitMatch(teamData);
-        nextB.setEnabled(false);
-        if (matchT.getText().length() > 0)
-            setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+        if (!readOnly) {
+            saveEnd();
+            db.submitMatch(teamData);
+            nextB.setEnabled(false);
+            if (matchT.getText().length() > 0)
+                setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+        }
         finish();
     }
 
