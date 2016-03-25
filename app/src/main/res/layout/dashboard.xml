@@ -32,11 +32,11 @@
 
         <Button
             android:id="@+id/dataB"
-            android:enabled="false"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Data Lookup" />
+            android:text="Data Lookup\n(BETA)" />
 
         <View
             android:layout_width="0dp"
