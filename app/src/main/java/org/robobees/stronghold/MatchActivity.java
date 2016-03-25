@@ -73,6 +73,7 @@ public class MatchActivity extends DBActivity {
 
     private boolean readOnly = false;
     private String event = null;
+    private boolean prac = false;
 
     private Handler timer = new Handler();
     private static final int DELAY = 16000;
@@ -97,6 +98,7 @@ public class MatchActivity extends DBActivity {
         matchT.setText(intent.getStringExtra("match"));
         readOnly = intent.getBooleanExtra("readOnly", false);
         event = intent.getStringExtra("event");
+        prac = intent.getBooleanExtra("practice", false);
 
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
         mCurrentPage = PRE_MATCH_SCREEN;
@@ -120,7 +122,7 @@ public class MatchActivity extends DBActivity {
 
         teamData.event = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
 
-        teamData.practice_match = Prefs.getPracticeMatch(getApplicationContext(), false);
+        teamData.practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
 
         updatePosition();
 
@@ -264,12 +266,11 @@ public class MatchActivity extends DBActivity {
         if (team != null && team.length() > 0 && match != null
                 && match.length() > 0) {
             teamData = (MatchStatsSH) db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
-                    .valueOf(match), Integer.valueOf(team), Prefs
-                    .getPracticeMatch(getApplicationContext(), false));
+                    .valueOf(match), Integer.valueOf(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
                 teamData = new MatchStatsSH(Integer.valueOf(team),
                         event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
-                        Prefs.getPracticeMatch(getApplicationContext(), false));
+                        readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
         } else

@@ -18,6 +18,7 @@ package org.growingstems.scouting.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
@@ -36,8 +37,13 @@ import android.widget.Toast;
 
 public class MatchListFragment extends DataFragment {
 
+    private static final String PRACTICE = "Practice Matches";
+    private static final String QUALIFICATION = "Qualification Matches";
+
     private int teamNum = -1;
     private String eventName = null;
+
+    private List<String> matchList;
 
     public static MatchListFragment getInstance(String event_name) {
         return getInstance(event_name, -1);
@@ -104,6 +110,7 @@ public class MatchListFragment extends DataFragment {
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), defaultListResource, matches);
+        matchList = matches;
         dataList.setAdapter(adapter);
         dataList.setOnItemClickListener(new MatchClick());
     }
@@ -151,7 +158,7 @@ public class MatchListFragment extends DataFragment {
         if (matches == null)
             matches = new ArrayList<String>(1);
         if (!matches.isEmpty()) {
-            matches.add(0, prac ? "Practice Matches" : "Qualification Matches");
+            matches.add(0, prac ? PRACTICE : QUALIFICATION);
         }
 
         return matches;
@@ -165,21 +172,49 @@ public class MatchListFragment extends DataFragment {
             if (view instanceof TextView) {
                 String match = ((TextView) view).getText().toString();
                 if (TextUtils.isDigitsOnly(match))
-                    loadMatch(Integer.valueOf(match));
+                    loadMatch(Integer.valueOf(match), eventName == null ? getEvent(position) : eventName, getPractice(position));
             }
         }
 
     }
 
-    private void loadMatch(int match) {
+    private String getEvent(int position) {
+        ListIterator<String> iter = matchList.listIterator(position);
+
+        String ret = null;
+        String cur;
+        while (iter.hasPrevious() && ret == null) {
+            cur = iter.previous();
+            if (!TextUtils.isDigitsOnly(cur) && !cur.equalsIgnoreCase(PRACTICE) && !cur.equalsIgnoreCase(QUALIFICATION))
+                ret = cur;
+        }
+        return ret;
+    }
+
+    private boolean getPractice(int position) {
+        ListIterator<String> iter = matchList.listIterator(position);
+
+        String cur;
+        while( iter.hasPrevious()) {
+            cur = iter.previous();
+            if (cur.equalsIgnoreCase(PRACTICE))
+                return true;
+            if (cur.equalsIgnoreCase(QUALIFICATION))
+                return false;
+        }
+        return false;
+    }
+
+    private void loadMatch(int match, String event, boolean prac) {
         if (teamNum > 0) {
             Intent intent = new Intent(getActivity(),
                     MatchActivity.class);
             intent.putExtra("team", String.valueOf(teamNum));
             intent.putExtra("match", String.valueOf(match));
             intent.putExtra("readOnly", true);
-            if (eventName != null) {
-                intent.putExtra("event", eventName);
+            intent.putExtra("practice", prac);
+            if (event != null) {
+                intent.putExtra("event", event);
             }
             startActivity(intent);
         } else {
