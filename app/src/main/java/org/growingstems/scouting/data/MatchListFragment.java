@@ -28,10 +28,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -171,8 +173,27 @@ public class MatchListFragment extends DataFragment {
                                 long id) {
             if (view instanceof TextView) {
                 String match = ((TextView) view).getText().toString();
-                if (TextUtils.isDigitsOnly(match))
-                    loadMatch(Integer.valueOf(match), eventName == null ? getEvent(position) : eventName, getPractice(position));
+                if (TextUtils.isDigitsOnly(match)) {
+                    final String event = eventName == null ? getEvent(position) : eventName;
+                    final boolean prac = getPractice(position);
+                    final int mat = Integer.valueOf(match);
+                    if (teamNum > 0)
+                        loadMatch(mat, event, prac, teamNum);
+                    else {
+                        PopupMenu popup = new PopupMenu(getActivity(), view);
+                        List<String> teams = mParent.getDB().getTeamsForMatch(event,mat,prac);
+                        for(String team : teams)
+                            popup.getMenu().add(team);
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                loadMatch(mat, event, prac, Integer.valueOf(item.getTitle().toString()));
+                                return true;
+                            }
+                        });
+                        popup.show();
+                    }
+                }
             }
         }
 
@@ -205,11 +226,11 @@ public class MatchListFragment extends DataFragment {
         return false;
     }
 
-    private void loadMatch(int match, String event, boolean prac) {
-        if (teamNum > 0) {
+    private void loadMatch(int match, String event, boolean prac, int team) {
+        if (team > 0) {
             Intent intent = new Intent(getActivity(),
                     MatchActivity.class);
-            intent.putExtra("team", String.valueOf(teamNum));
+            intent.putExtra("team", String.valueOf(team));
             intent.putExtra("match", String.valueOf(match));
             intent.putExtra("readOnly", true);
             intent.putExtra("practice", prac);
