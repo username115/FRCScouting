@@ -17,6 +17,7 @@
 package org.frc836.database;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2016_Entry;
 import org.json.JSONException;
@@ -140,5 +141,16 @@ public abstract class PitStats {
 		vals.put(COLUMN_NAME_INVALID, 0);
 		
 		return vals;
+	}
+
+	public LinkedHashMap<String, String> getDisplayData() {
+		LinkedHashMap<String, String> args = new LinkedHashMap<String, String>();
+
+		args.put(COLUMN_NAME_CONFIG_ID, chassis_config);
+		args.put(COLUMN_NAME_WHEEL_TYPE_ID, wheel_type);
+		args.put(COLUMN_NAME_WHEEL_BASE_ID, wheel_base);
+		args.put(COLUMN_NAME_NOTES, comments);
+
+		return args;
 	}
 }

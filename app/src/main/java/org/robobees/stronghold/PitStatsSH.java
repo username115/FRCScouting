@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PitStatsSH extends PitStats {
@@ -199,6 +200,36 @@ public class PitStatsSH extends PitStats {
         vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW, json.getInt(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW));
         vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CHALLENGE, json.getInt(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CHALLENGE));
         vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCALE, json.getInt(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCALE));
+
+        return vals;
+    }
+
+    public LinkedHashMap<String, String> getDisplayData() {
+
+        LinkedHashMap<String, String> vals = super.getDisplayData();
+
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_START_SPY, String.valueOf(start_spy ? 1 : 0));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTO_REACH, String.valueOf(auto_reach ? 1 : 0));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTO_CROSS, String.valueOf(auto_cross ? 1 : 0));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_LOW, String.valueOf(auto_score_low));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_AUTO_SCORE_HIGH, String.valueOf(auto_score_high));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_PORTCULLIS, String.valueOf(cross_portcullis));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_CHEVAL, String.valueOf(cross_cheval));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_MOAT, String.valueOf(cross_moat));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_RAMPARTS, String.valueOf(cross_ramparts));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_DRAWBRIDGE_FOR, String.valueOf(cross_drawbridge_for));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_DRAWBRIDGE_FOR_WITH_HELP, String.valueOf(cross_drawbridge_for_with_help));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_DRAWBRIDGE_REV, String.valueOf(cross_drawbridge_rev));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_SALLY_FOR, String.valueOf(cross_sally_for));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_SALLY_FOR_WITH_HELP, String.valueOf(cross_sally_for_with_help));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_SALLY_REV, String.valueOf(cross_sally_rev));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_ROCK_WALL, String.valueOf(cross_rock_wall));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_ROUGH_TERRAIN, String.valueOf(cross_rough_terrain));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CROSS_LOW_BAR, String.valueOf(cross_low_bar));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCORE_HIGH, String.valueOf(score_high));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCORE_LOW, String.valueOf(score_low));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CHALLENGE, String.valueOf(challenge));
+        vals.put(SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_SCALE, String.valueOf(scale));
 
         return vals;
     }

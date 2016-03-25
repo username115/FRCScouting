@@ -64,7 +64,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 			DataFragment.PT_TEAMS };
 	protected static final int[] EVENT_TABS = { DataFragment.PT_TEAMS,
 			DataFragment.PT_MATCHES };
-	protected static final int[] TEAM_TABS = { //DataFragment.PT_PITS,
+	protected static final int[] TEAM_TABS = { DataFragment.PT_PITS,
 			DataFragment.PT_MATCHES }; // TODO
 
 	/**
