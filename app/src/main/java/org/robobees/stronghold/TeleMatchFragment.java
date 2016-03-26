@@ -15,6 +15,7 @@
  */
 package org.robobees.stronghold;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -142,7 +143,12 @@ public class TeleMatchFragment extends MatchFragment {
         int defDisp[] = new int[5];
         int defSaved[] = new int[5];
         boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        String pos = Prefs.getPosition(getActivity(), "Red 1");
+        Activity act = getActivity();
+        String pos;
+        if (act instanceof MatchActivity)
+            pos = ((MatchActivity)act).getPosition();
+        else
+            pos = Prefs.getPosition(getActivity(), "Red 1");
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
             defDisp[0] = RIGHT_LOW;
             defDisp[1] = RIGHT_2;
@@ -237,7 +243,12 @@ public class TeleMatchFragment extends MatchFragment {
             rightL.setBackgroundResource(R.color.red);
         }
 
-        String pos = Prefs.getPosition(getActivity(), "Red 1");
+        Activity act = getActivity();
+        String pos;
+        if (act instanceof MatchActivity)
+            pos = ((MatchActivity)act).getPosition();
+        else
+            pos = Prefs.getPosition(getActivity(), "Red 1");
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
             leftL.setVisibility(View.GONE);
             rightL.setVisibility(View.VISIBLE);
