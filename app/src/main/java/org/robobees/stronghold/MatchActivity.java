@@ -74,6 +74,7 @@ public class MatchActivity extends DBActivity {
     private boolean readOnly = false;
     private String event = null;
     private boolean prac = false;
+    private String position = null;
 
     private Handler timer = new Handler();
     private static final int DELAY = 16000;
@@ -99,6 +100,7 @@ public class MatchActivity extends DBActivity {
         readOnly = intent.getBooleanExtra("readOnly", false);
         event = intent.getStringExtra("event");
         prac = intent.getBooleanExtra("practice", false);
+        position = intent.getStringExtra("position");
 
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
         mCurrentPage = PRE_MATCH_SCREEN;
@@ -112,7 +114,8 @@ public class MatchActivity extends DBActivity {
             }
         });
 
-        posT.setOnClickListener(new positionClickListener());
+        if (!readOnly)
+            posT.setOnClickListener(new positionClickListener());
 
         loadData();
     }
@@ -141,7 +144,7 @@ public class MatchActivity extends DBActivity {
     }
 
     private void updatePosition() {
-        String pos = Prefs.getPosition(getApplicationContext(), "Red 1");
+        String pos = position == null ? Prefs.getPosition(getApplicationContext(), "Red 1") : position;
         posT.setText(pos);
         if (pos.contains("Blue")) {
             posT.setTextColor(Color.BLUE);
@@ -488,6 +491,10 @@ public class MatchActivity extends DBActivity {
                 setResult(Integer.valueOf(matchT.getText().toString()) + 1);
         }
         finish();
+    }
+
+    public String getPosition() {
+        return position == null ? Prefs.getPosition(getApplicationContext(), "Red 1") : position;
     }
 
 

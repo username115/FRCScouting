@@ -825,7 +825,7 @@ public class DB {
     }
 
     public List<String> getTeamsForMatch(String eventName, int match,
-                                             boolean practice) {
+                                         boolean practice) {
         synchronized (ScoutingDBHelper.lock) {
 
             try {
@@ -854,6 +854,51 @@ public class DB {
                             ret.add(c.getString(c
                                     .getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_TEAM_ID)));
                         } while (c.moveToNext());
+                    else
+                        ret = null;
+                } finally {
+                    if (c != null)
+                        c.close();
+                    ScoutingDBHelper.getInstance().close();
+                }
+
+                return ret;
+
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
+    public String getPosition(String eventName, int match,
+                              boolean practice, int team) {
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = {MatchStatsStruct.COLUMN_NAME_POSITION_ID};
+                String[] where = {String.valueOf(match),
+                        String.valueOf(getEventIDFromName(eventName, db)),
+                        practice ? "1" : "0",
+                        String.valueOf(team)};
+
+                Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+                        MatchStatsStruct.COLUMN_NAME_MATCH_ID + "=? AND "
+                                + MatchStatsStruct.COLUMN_NAME_EVENT_ID
+                                + "=? AND "
+                                + MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
+                                + "=? AND "
+                                + MatchStatsStruct.COLUMN_NAME_TEAM_ID
+                                + "=?", where, null, null, null, "0,1");
+                String ret;
+                try {
+
+                    if (c.moveToFirst())
+                        ret = getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_POSITION_ID)), db);
                     else
                         ret = null;
                 } finally {
@@ -1177,6 +1222,7 @@ public class DB {
         }
         return ret;
     }
+
 
     static OnHandleFileListener mDirSelectListener = new OnHandleFileListener() {
         @Override

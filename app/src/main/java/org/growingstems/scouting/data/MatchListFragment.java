@@ -178,16 +178,17 @@ public class MatchListFragment extends DataFragment {
                     final boolean prac = getPractice(position);
                     final int mat = Integer.valueOf(match);
                     if (teamNum > 0)
-                        loadMatch(mat, event, prac, teamNum);
+                        loadMatch(mat, event, prac, teamNum, mParent.getDB().getPosition(event, mat, prac, teamNum));
                     else {
                         PopupMenu popup = new PopupMenu(getActivity(), view);
-                        List<String> teams = mParent.getDB().getTeamsForMatch(event,mat,prac);
-                        for(String team : teams)
+                        List<String> teams = mParent.getDB().getTeamsForMatch(event, mat, prac);
+                        for (String team : teams)
                             popup.getMenu().add(team);
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                loadMatch(mat, event, prac, Integer.valueOf(item.getTitle().toString()));
+                                int team = Integer.valueOf(item.getTitle().toString());
+                                loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
                                 return true;
                             }
                         });
@@ -216,7 +217,7 @@ public class MatchListFragment extends DataFragment {
         ListIterator<String> iter = matchList.listIterator(position);
 
         String cur;
-        while( iter.hasPrevious()) {
+        while (iter.hasPrevious()) {
             cur = iter.previous();
             if (cur.equalsIgnoreCase(PRACTICE))
                 return true;
@@ -226,7 +227,7 @@ public class MatchListFragment extends DataFragment {
         return false;
     }
 
-    private void loadMatch(int match, String event, boolean prac, int team) {
+    private void loadMatch(int match, String event, boolean prac, int team, String position) {
         if (team > 0) {
             Intent intent = new Intent(getActivity(),
                     MatchActivity.class);
@@ -234,6 +235,7 @@ public class MatchListFragment extends DataFragment {
             intent.putExtra("match", String.valueOf(match));
             intent.putExtra("readOnly", true);
             intent.putExtra("practice", prac);
+            intent.putExtra("position", position);
             if (event != null) {
                 intent.putExtra("event", event);
             }
