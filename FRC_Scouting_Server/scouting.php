@@ -134,6 +134,11 @@ elseif ($_POST['password'] == $pass) {
         $json .= genJSON($result, "robot_lu") . ",";
         mysql_free_result($result);
         
+        $query = "SELECT * FROM picklist" . $suffix;
+        $result = mysql_query($query);
+        $json .= genJSON($result, "picklist") . ",";
+        mysql_free_result($result);
+        
         //position_lu
         $query = "SELECT * FROM position_lu" . $suffix;
         $result = mysql_query($query);
@@ -563,6 +568,56 @@ elseif ($_POST['password'] == $pass) {
             $resp = 'Database Query Failed : \n' . $query;
         }
     } 
+    else if ($_POST['type'] == 'picklist') {
+        
+        $team_id = mysql_real_escape_string(stripslashes(trim($_POST['team_id'])));
+        $event_id = mysql_real_escape_string(stripslashes(trim($_POST['event_id'])));
+        $sort = mysql_real_escape_string(stripslashes(trim($_POST['sort'])));
+        $picked = mysql_real_escape_string(stripslashes(trim($_POST['picked'])));
+        $removed = mysql_real_escape_string(stripslashes(trim($_POST['removed'])));
+
+
+        $query = " SELECT id FROM picklist WHERE team_id=" . $team_id . " AND event_id=" . $event_id;
+        $result = mysql_query($query);
+        $row = mysql_fetch_array($result);
+        $id = $row["id"];
+        if (mysql_num_rows($result) == 0) {
+            $success = false;
+            $query = "INSERT INTO picklist(event_id,team_id,sort,picked,removed,invalid) "
+                    . "VALUES("
+                    . $event_id
+                    . "," . $team_id
+                    . "," . $sort
+                    . "," . $picked
+                    . "," . $removed
+                    . "," . $removed
+                    . ");";
+          
+
+            $success = mysql_query($query);
+        } else {
+            
+            $success = false;
+            $query = " UPDATE picklist ";
+            $query .= "SET team_id=" . $team_id . ","
+                    . "event_id=" . $event_id . ","
+                    . "sort=" . $sort . ","
+                    . "picked=" . $picked . ","
+                    . "removed='" . $removed . "',"
+                    . "invalid=" . $removed
+                    . " WHERE id=" . $id;
+
+            $success = mysql_query($query);
+        }
+        
+        if ($success) {
+            $result = mysql_query("SELECT id, timestamp FROM picklist WHERE team_id=" . $team_id . " AND event_id=" . $event_id);
+            $row = mysql_fetch_array($result);
+            $resp = $row["id"] . "," . strtotime($row["timestamp"]);
+        } else {
+            $resp = 'Database Query Failed : \n' . $query;
+        }
+    }
     else {
         $resp = 'invalid submission type';
     }

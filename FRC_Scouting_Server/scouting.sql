@@ -355,6 +355,27 @@ INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `picklist`
+--
+
+CREATE TABLE IF NOT EXISTS `picklist` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `event_id` int(10) unsigned NOT NULL,
+  `team_id` int(10) unsigned NOT NULL,
+  `sort` int(3) unsigned NOT NULL,
+  `picked` tinyint(1) NOT NULL DEFAULT '0',
+  `removed` tinyint(1) unsigned NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `event_id` (`event_id`,`team_id`,`picked`),
+  KEY `removed` (`removed`),
+  KEY `sort` (`sort`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `position_lu`
 --
 

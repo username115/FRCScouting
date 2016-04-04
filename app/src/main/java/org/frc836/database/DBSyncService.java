@@ -315,12 +315,17 @@ public class DBSyncService extends Service {
                 processPositions(json
                         .getJSONArray(POSITION_LU_Entry.TABLE_NAME));
 
+                if (json.has(PICKLIST_Entry.TABLE_NAME))
+                    processPicklist(json.getJSONArray(PICKLIST_Entry.TABLE_NAME));
+
                 updateTimeStamp(json.getLong("timestamp"));
 
                 if (!running)
                     return null;
                 sendMatches();
                 sendPits();
+                if (json.has(PICKLIST_Entry.TABLE_NAME))
+                    sendPicklist();
 
             } catch (Exception e) {
                 return -1;
@@ -1427,6 +1432,91 @@ public class DBSyncService extends Service {
         }
     }
 
+    private void processPicklist(JSONArray picklist) {
+        updateNotificationText(getString(R.string.notify_table) + " "
+                + PICKLIST_Entry.TABLE_NAME);
+        try {
+            for (int i = 0; i < picklist.length(); i++) {
+                JSONObject row = picklist.getJSONObject(i);
+                Action action = Action.UPDATE;
+                if (row.getInt(POSITION_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+                    action = Action.DELETE;
+                }
+                ContentValues vals = new ContentValues();
+                vals.put(PICKLIST_Entry.COLUMN_NAME_ID,
+                        row.getInt(PICKLIST_Entry.COLUMN_NAME_ID));
+                vals.put(PICKLIST_Entry.COLUMN_NAME_EVENT_ID,
+                        row.getInt(PICKLIST_Entry.COLUMN_NAME_EVENT_ID));
+                vals.put(PICKLIST_Entry.COLUMN_NAME_TEAM_ID,
+                        row.getInt(PICKLIST_Entry.COLUMN_NAME_TEAM_ID));
+                vals.put(PICKLIST_Entry.COLUMN_NAME_SORT,
+                        row.getInt(PICKLIST_Entry.COLUMN_NAME_SORT));
+                vals.put(PICKLIST_Entry.COLUMN_NAME_PICKED,
+                        row.getInt(PICKLIST_Entry.COLUMN_NAME_PICKED));
+                vals.put(PICKLIST_Entry.COLUMN_NAME_REMOVED,
+                        row.getInt(PICKLIST_Entry.COLUMN_NAME_REMOVED));
+                vals.put(
+                        PICKLIST_Entry.COLUMN_NAME_TIMESTAMP,
+                        DB.dateParser.format(new Date(
+                                row.getLong(PICKLIST_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+
+                // check if this entry exists already
+                String[] projection = {PICKLIST_Entry.COLUMN_NAME_ID};
+                String[] where = {vals
+                        .getAsString(PICKLIST_Entry.COLUMN_NAME_EVENT_ID),
+                        vals.getAsString(PICKLIST_Entry.COLUMN_NAME_TEAM_ID)};
+
+                synchronized (ScoutingDBHelper.lock) {
+
+                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                            .getWritableDatabase();
+
+                    Cursor c = db.query(
+                            PICKLIST_Entry.TABLE_NAME,
+                            projection, // select
+                            PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=?", where,
+                            null, // don't
+                            // group
+                            null, // don't filter
+                            null, // don't order
+                            "0,1"); // limit to 1
+                    try {
+                        if (!c.moveToFirst()) {
+                            if (action == Action.UPDATE)
+                                action = Action.INSERT;
+                            else if (action == Action.DELETE)
+                                action = Action.NOTHING;
+
+                        }
+
+                        switch (action) {
+                            case UPDATE:
+                                db.update(PICKLIST_Entry.TABLE_NAME, vals,
+                                        PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=?",
+                                        where);
+                                break;
+                            case INSERT:
+                                db.insert(PICKLIST_Entry.TABLE_NAME, null, vals);
+                                break;
+                            case DELETE:
+                                db.delete(PICKLIST_Entry.TABLE_NAME,
+                                        PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=?",
+                                        where);
+                                break;
+                            default:
+                        }
+                    } finally {
+                        if (c != null)
+                            c.close();
+                        ScoutingDBHelper.getInstance().close();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            // TODO handle error
+        }
+    }
+
     private void sendMatches() {
         // TODO could be abstracted further?
 
@@ -1501,6 +1591,50 @@ public class DBSyncService extends Service {
                     c.close();
                 ScoutingDBHelper.getInstance().close();
             }
+        }
+    }
+
+    private void sendPicklist() {
+        // TODO could be abstracted further?
+
+        // repurposed invalid flag for marking fields that need to be uploaded
+        String[] pickProjection = {PICKLIST_Entry.COLUMN_NAME_EVENT_ID,
+                PICKLIST_Entry.COLUMN_NAME_TEAM_ID,
+                PICKLIST_Entry.COLUMN_NAME_SORT,
+                PICKLIST_Entry.COLUMN_NAME_PICKED,
+                PICKLIST_Entry.COLUMN_NAME_REMOVED};
+
+        synchronized (ScoutingDBHelper.lock) {
+
+            SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                    .getReadableDatabase();
+
+            Cursor c = db.query(PICKLIST_Entry.TABLE_NAME, pickProjection,
+                    PICKLIST_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
+                    null, null);
+            try {
+
+                synchronized (outgoing) {
+
+                    if (c.moveToFirst())
+                        do {
+                            Map<String, String> args = new HashMap<String, String>();
+                            args.put("password", password);
+                            args.put("type", "picklist");
+                            args.put("version", version);
+                            for (int i = 0; i < pickProjection.length; i++) {
+                                args.put(pickProjection[i], c.getString(c
+                                        .getColumnIndex(pickProjection[i])));
+                            }
+                            outgoing.add(args);
+                        } while (c.moveToNext());
+                }
+            } finally {
+                if (c != null)
+                    c.close();
+                ScoutingDBHelper.getInstance().close();
+            }
+
         }
     }
 }
