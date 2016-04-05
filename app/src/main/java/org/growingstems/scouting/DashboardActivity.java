@@ -49,6 +49,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 	private Button match;
 	private Button pits;
 	private Button data;
+	private Button picklist;
 	private ImageView beeLogo;
 	private ImageView stemsLogo;
 
@@ -60,6 +61,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 	private static final int PITS_ACTIVITY_CODE = 4639;
 	private static final int MATCH_ACTIVITY_CODE = 4640;
 	private static final int DATA_ACTIVITY_CODE = 4641;
+	private static final int PICK_ACTIVITY_CODE = 4642;
 
 	private String HELPMESSAGE;
 	private static final String URL_MESSAGE = "You have not set a web site for this app to interface with.\nWould you like to do so now?";
@@ -86,6 +88,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 		match = (Button) findViewById(R.id.matchB);
 		pits = (Button) findViewById(R.id.pitB);
 		data = (Button) findViewById(R.id.dataB);
+		picklist = (Button) findViewById(R.id.picklistB);
 		beeLogo = (ImageView) findViewById(R.id.beeLogo);
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
 
@@ -119,6 +122,14 @@ public class DashboardActivity extends ScoutingMenuActivity {
 				Intent intent = new Intent(getBaseContext(), DataActivity.class);
 				startActivityForResult(intent, DATA_ACTIVITY_CODE);
 
+			}
+		});
+
+		picklist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getBaseContext(), PickActivity.class); //TODO
+				startActivityForResult(intent, PICK_ACTIVITY_CODE);
 			}
 		});
 
@@ -320,6 +331,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 			break;
 		case PITS_ACTIVITY_CODE:
 		case MATCH_ACTIVITY_CODE:
+		case PICK_ACTIVITY_CODE:
 		case DATA_ACTIVITY_CODE:
 			DB db = new DB(getBaseContext(), binder);
 			db.checkVersion(new VersionCallback());

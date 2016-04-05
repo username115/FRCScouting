@@ -10,7 +10,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -22,8 +21,8 @@
         <activity
             android:name=".MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:label="@string/waiting"></activity>
-        <activity android:name=".Prefs"></activity>
+            android:label="@string/waiting" />
+        <activity android:name=".Prefs" />
         <activity
             android:name=".DashboardActivity"
             android:configChanges="orientation"
@@ -39,13 +38,13 @@
             android:name="org.frc836.database.DBSyncService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="true"></service>
+            android:stopWithTask="true" />
 
         <activity
             android:name="org.robobees.stronghold.MatchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".data.DataActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -57,7 +56,15 @@
         <activity
             android:name="org.robobees.stronghold.PitsActivitySH"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/pits_label"></activity>
+            android:label="@string/pits_label" />
+        <activity
+            android:name=".PickActivity"
+            android:label="@string/title_activity_pick"
+            android:parentActivityName=".DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.growingstems.scouting.DashboardActivity" />
+        </activity>
     </application>
 
 </manifest>

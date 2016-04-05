@@ -601,4 +601,15 @@ public final class FRCScoutingContract {
 		"DROP TABLE IF EXISTS wheel_type_lu;"
 	};
 
+	public static final String up20163to20164 = "CREATE TABLE IF NOT EXISTS picklist (\n" +
+			"	id integer primary key autoincrement,\n" +
+			"	event_id unsigned int(10) NOT NULL,\n" +
+			"	team_id unsigned int(10) NOT NULL,\n" +
+			"	sort unsigned int(3) NOT NULL,\n" +
+			"	picked tinyint(1) NOT NULL DEFAULT '0',\n" +
+			"	removed unsigned tinyint(1) NOT NULL,\n" +
+			"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+			"	invalid unsigned tinyint(1) NOT NULL\n" +
+			");";
+
 }
