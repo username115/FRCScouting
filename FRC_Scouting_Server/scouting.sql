@@ -366,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `picklist` (
   `picked` tinyint(1) NOT NULL DEFAULT '0',
   `removed` tinyint(1) unsigned NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL,
+  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `event_id` (`event_id`,`team_id`,`picked`),
   KEY `removed` (`removed`),

@@ -10,7 +10,7 @@
     tools:context="org.growingstems.scouting.PickActivity">
 
     <com.android.TouchInterceptor
-        android:id="@android:id/list"
+        android:id="@+id/PickList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="18sp"

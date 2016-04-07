@@ -26,10 +26,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 public class TeamListFragment extends DataFragment {
@@ -87,10 +89,11 @@ public class TeamListFragment extends DataFragment {
 				getActivity(), defaultListResource, teams);
 		dataList.setAdapter(adapter);
 		dataList.setOnItemClickListener(new TeamClick());
+		dataList.setOnItemLongClickListener(new TeamLongClick());
 	}
 
 	private void setTeamList(List<String> teams) {
-		if (teams.isEmpty())
+		if (teams.isEmpty() || getActivity() == null)
 			return;
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_dropdown_item_1line, teams);
@@ -105,11 +108,64 @@ public class TeamListFragment extends DataFragment {
 				long id) {
 			if (view instanceof TextView) {
 				String team = ((TextView) view).getText().toString();
-				loadTeam(Integer.valueOf(team));
+				try {
+					loadTeam(Integer.valueOf(team));
+				} catch (NumberFormatException e) {
+
+				}
 			}
 		}
 
 	}
+
+	private class TeamLongClick implements AdapterView.OnItemLongClickListener {
+
+		@Override
+		public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+			if (view instanceof TextView) {
+				String team = ((TextView) view).getText().toString();
+                try {
+                    Integer.valueOf(team);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+                PopupMenu popup = new PopupMenu(getActivity(), view);
+                List<String> t = mParent.getDB().getPickList(Prefs.getEvent(mParent, "CHS District - Greater DC Event"));
+                if (t != null && t.contains(team))
+                    popup.getMenu().add(REMOVETEAMPICK);
+                else
+                    popup.getMenu().add(PICKLISTITEM);
+                popup.setOnMenuItemClickListener(new TeamMenuItemListener(team));
+                popup.show();
+			}
+			return true;
+		}
+	}
+
+    private static final String PICKLISTITEM = "Add Team to Pick List";
+    private static final String REMOVETEAMPICK = "Remove Team from Pick List";
+
+    private class TeamMenuItemListener implements PopupMenu.OnMenuItemClickListener {
+
+        String teamNum;
+
+        public TeamMenuItemListener(String team) {
+            teamNum = team;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            try {
+                if (item.getTitle().toString().compareTo(PICKLISTITEM) == 0)
+                    mParent.getDB().addTeamToPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District - Greater DC Event"));
+                else if (item.getTitle().toString().compareTo(REMOVETEAMPICK) == 0)
+                    mParent.getDB().removeTeamFromPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District - Greater DC Event"));
+            } catch (NumberFormatException e) {
+                return false;
+            }
+            return true;
+        }
+    }
 
 	private class LoadClick implements View.OnClickListener {
 

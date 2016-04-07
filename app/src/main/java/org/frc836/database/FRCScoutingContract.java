@@ -491,7 +491,7 @@ public final class FRCScoutingContract {
 		"	picked tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	removed unsigned tinyint(1) NOT NULL,\n" +
 		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid unsigned tinyint(1) NOT NULL\n" +
+		"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
 		");",
 	
 		"CREATE TABLE IF NOT EXISTS position_lu (\n" +
@@ -609,7 +609,7 @@ public final class FRCScoutingContract {
 			"	picked tinyint(1) NOT NULL DEFAULT '0',\n" +
 			"	removed unsigned tinyint(1) NOT NULL,\n" +
 			"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-			"	invalid unsigned tinyint(1) NOT NULL\n" +
+			"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
 			");";
 
 }

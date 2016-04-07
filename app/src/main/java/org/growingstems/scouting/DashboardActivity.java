@@ -128,7 +128,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 		picklist.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), PickActivity.class); //TODO
+				Intent intent = new Intent(getBaseContext(), PickActivity.class);
 				startActivityForResult(intent, PICK_ACTIVITY_CODE);
 			}
 		});

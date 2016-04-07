@@ -56,7 +56,7 @@ import android.widget.Toast;
 
 public class DB {
 
-    public static final boolean debug = false;
+    public static final boolean debug = true;
     // kinda dangerous, but we are assuming that the timestamp field will always
     // have the same name for all tables
     public static final String COLUMN_NAME_TIMESTAMP = PitStats.COLUMN_NAME_TIMESTAMP;
@@ -191,6 +191,149 @@ public class DB {
             insertOrUpdate(PitStats.TABLE_NAME, null, values,
                     PitStats.COLUMN_NAME_ID, PitStats.COLUMN_NAME_TEAM_ID
                             + "=?", where);
+
+            startSync();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private int getNextSortID(long eventID, SQLiteDatabase db) {
+        String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT};
+        String[] where = {String.valueOf(eventID), "0"};
+        Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME, // from the event_lu
+                // table
+                projection, // select
+                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " +
+                        FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED + "=?", // where
+                where,
+                null, // don't group
+                null, // don't filter
+                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, null);
+        int ret = -1;
+        try {
+            if (c.getCount() > 0) {
+                c.moveToLast();
+                ret = c.getInt(c
+                        .getColumnIndexOrThrow(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT)) + 1;
+            } else
+                ret = 1;
+        } finally {
+            if (c != null)
+                c.close();
+        }
+
+        return ret;
+    }
+
+    public boolean addTeamToPickList(int team, String eventName) {
+        try {
+            long eventID;
+            int sortNum;
+            synchronized (ScoutingDBHelper.lock) {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
+                eventID = getEventIDFromName(eventName, db);
+                sortNum = getNextSortID(eventID, db);
+                ScoutingDBHelper.getInstance().close();
+            }
+
+            ContentValues values = new ContentValues();
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, team);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID, eventID);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED, 0);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, 0);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, sortNum);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID, team * eventID);
+
+            String[] where = {String.valueOf(team),
+                    String.valueOf(eventID)};
+
+            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
+                    null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
+                    FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
+                    where);
+
+            startSync();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    public boolean removeTeamFromPickList(int team, String eventName) {
+        try {
+            long eventID;
+            List<String> t = getPickList(eventName);
+            if (t == null || !t.contains(String.valueOf(team)))
+                return true;
+            synchronized (ScoutingDBHelper.lock) {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
+                eventID = getEventIDFromName(eventName, db);
+                ScoutingDBHelper.getInstance().close();
+            }
+
+            ContentValues values = new ContentValues();
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, team);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID, eventID);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED, 1);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, 0);
+
+            String[] where = {String.valueOf(team),
+                    String.valueOf(eventID)};
+
+            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
+                    null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
+                    FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
+                    where);
+
+            t.remove(t.indexOf(String.valueOf(team)));
+
+            int i = 1;
+            for (String teamNum : t) {
+                updateSort(teamNum, i, eventID);
+                i++;
+            }
+
+            startSync();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    public boolean updateSort(String team, int sort, String eventName) {
+        long eventID;
+        synchronized (ScoutingDBHelper.lock) {
+            SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
+            eventID = getEventIDFromName(eventName, db);
+            ScoutingDBHelper.getInstance().close();
+        }
+
+        return updateSort(team, sort, eventID);
+    }
+
+    private boolean updateSort(String team, int sort, long eventID) {
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, Integer.valueOf(team));
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID, eventID);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED, 0);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, 0);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, sort);
+
+            String[] where = {String.valueOf(team),
+                    String.valueOf(eventID)};
+
+            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
+                    null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
+                    FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
+                    where);
 
             startSync();
             return true;
@@ -853,6 +996,49 @@ public class DB {
                         do {
                             ret.add(c.getString(c
                                     .getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_TEAM_ID)));
+                        } while (c.moveToNext());
+                    else
+                        ret = null;
+                } finally {
+                    if (c != null)
+                        c.close();
+                    ScoutingDBHelper.getInstance().close();
+                }
+
+                return ret;
+
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
+    public List<String> getPickList(String eventName) {
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID};
+                String[] where = {
+                        String.valueOf(getEventIDFromName(eventName, db)), "0"};
+
+                Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME, projection,
+                        FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID
+                                + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED + "=?",
+                        where, null, null, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT);
+                List<String> ret;
+                try {
+
+                    ret = new ArrayList<String>(c.getCount());
+
+                    if (c.moveToFirst())
+                        do {
+                            ret.add(c.getString(c
+                                    .getColumnIndexOrThrow(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID)));
                         } while (c.moveToNext());
                     else
                         ret = null;

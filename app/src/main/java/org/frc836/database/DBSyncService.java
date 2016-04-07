@@ -463,6 +463,7 @@ public class DBSyncService extends Service {
             ex = null;
             try {
                 int match = -1, event = -1, team = -1, practice = -1;
+                boolean picklist = false;
                 Map<String, String> sent = params[0].getParams();
                 if (params[0].getResponseString().contains("Failed"))
                     return null;
@@ -499,13 +500,19 @@ public class DBSyncService extends Service {
                             break;
                         } else if (sent.get("type").equalsIgnoreCase("pits")
                                 && sent.get(PitStats.COLUMN_NAME_TEAM_ID)
-
                                 .equalsIgnoreCase(
                                         args.get(PitStats.COLUMN_NAME_TEAM_ID))) {
                             team = Integer.valueOf(sent
                                     .get(PitStats.COLUMN_NAME_TEAM_ID));
                             outgoing.remove(i);
                             break;
+                        } else if (sent.get("type").equalsIgnoreCase("picklist")
+                                && sent.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID).equalsIgnoreCase(args.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID))
+                                && sent.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID).equalsIgnoreCase(args.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID))) {
+                            picklist = true;
+                            team = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID));
+                            event = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID));
+                            outgoing.remove(i);
                         }
                     }
                 }
@@ -539,7 +546,7 @@ public class DBSyncService extends Service {
                                         + "=? AND "
                                         + MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
                                         + "=?", selectionArgs);
-                    } else if (team > 0) { // pits were updated
+                    } else if (team > 0 && !picklist) { // pits were updated
                         values.put(PitStats.COLUMN_NAME_ID,
                                 Integer.valueOf(r[0].trim()));
                         values.put(PitStats.COLUMN_NAME_TIMESTAMP, DB.dateParser
@@ -549,6 +556,13 @@ public class DBSyncService extends Service {
                         String[] selectionArgs = {String.valueOf(team)};
                         db.update(PitStats.TABLE_NAME, values,
                                 PitStats.COLUMN_NAME_TEAM_ID + "=?", selectionArgs);
+                    } else if (picklist) { // picklist was updated
+                        values.put(PICKLIST_Entry.COLUMN_NAME_ID, Integer.valueOf(r[0].trim()));
+                        values.put(PICKLIST_Entry.COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(Long.valueOf(r[1].trim()) * 1000)));
+                        values.put(PICKLIST_Entry.COLUMN_NAME_INVALID, 0);
+
+                        String[] selectionArgs = {String.valueOf(team), String.valueOf(event)};
+                        db.update(PICKLIST_Entry.TABLE_NAME, values, PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?", selectionArgs);
                     }
                     ScoutingDBHelper.getInstance().close();
                 }
@@ -1439,7 +1453,7 @@ public class DBSyncService extends Service {
             for (int i = 0; i < picklist.length(); i++) {
                 JSONObject row = picklist.getJSONObject(i);
                 Action action = Action.UPDATE;
-                if (row.getInt(POSITION_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+                if (row.getInt(PICKLIST_Entry.COLUMN_NAME_INVALID) != 0) {
                     action = Action.DELETE;
                 }
                 ContentValues vals = new ContentValues();
@@ -1595,8 +1609,6 @@ public class DBSyncService extends Service {
     }
 
     private void sendPicklist() {
-        // TODO could be abstracted further?
-
         // repurposed invalid flag for marking fields that need to be uploaded
         String[] pickProjection = {PICKLIST_Entry.COLUMN_NAME_EVENT_ID,
                 PICKLIST_Entry.COLUMN_NAME_TEAM_ID,

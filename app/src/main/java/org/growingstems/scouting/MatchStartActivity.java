@@ -136,7 +136,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 			intent.putExtra("team", teamNum.getText().toString());
 			intent.putExtra("match", matchNum.getText().toString());
 			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
-			// TODO
 
 		}
 
