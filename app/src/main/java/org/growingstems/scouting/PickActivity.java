@@ -11,6 +11,7 @@ import com.android.TouchInterceptor;
 import org.frc836.database.DBActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PickActivity extends DBActivity implements View.OnCreateContextMenuListener {
@@ -60,7 +61,11 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
     private TouchInterceptor.DropListener mDropListener =
             new TouchInterceptor.DropListener() {
                 public void drop(int from, int to) {
-                    //TODO
+                    boolean fromFirst = from < to;
+                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District - Greater DC Event");
+                    List<String> teams = db.getPickList(eventName);
+                    Collections.rotate(teams.subList(fromFirst ? from: to, fromFirst ? to:from), fromFirst ? 1:-1);
+                    db.updateSort(teams, eventName);
                 }
             };
 

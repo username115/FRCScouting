@@ -306,7 +306,7 @@ public class DB {
 
     }
 
-    public boolean updateSort(String team, int sort, String eventName) {
+    public void updateSort(List<String> teams, String eventName) {
         long eventID;
         synchronized (ScoutingDBHelper.lock) {
             SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
@@ -314,7 +314,11 @@ public class DB {
             ScoutingDBHelper.getInstance().close();
         }
 
-        return updateSort(team, sort, eventID);
+        int sort = 1;
+        for (String team : teams) {
+            updateSort(team, sort, eventID);
+            sort++;
+        }
     }
 
     private boolean updateSort(String team, int sort, long eventID) {
