@@ -54,7 +54,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick List"
+        android:text="Pick List (BETA)"
         android:id="@+id/picklistB"
         android:layout_gravity="center_horizontal" />
 
