@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import org.frc836.database.DBActivity;
 import org.growingstems.scouting.R;
+import org.robobees.stronghold.GraphFragment;
 import org.robobees.stronghold.PitsDataFragment;
 
 import android.app.Fragment;
@@ -37,6 +38,7 @@ public abstract class DataFragment extends Fragment {
     public static final int PT_TEAMS = 1;
     public static final int PT_MATCHES = 2;
     public static final int PT_PITS = 3;
+    public static final int PT_GRAPH = 4;
 
     protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -83,6 +85,9 @@ public abstract class DataFragment extends Fragment {
             case PT_PITS:
                 fragment = PitsDataFragment.getInstance(teamNumber);
                 break;
+            case PT_GRAPH:
+                fragment = GraphFragment.getInstance(teamNumber, event_name);
+                break;
             default:
                 return null;
         }
@@ -106,6 +111,8 @@ public abstract class DataFragment extends Fragment {
             case PT_PITS:
                 return context.getString(R.string.title_pits_section)
                         .toUpperCase(l);
+            case PT_GRAPH:
+                return "Graph".toUpperCase(l);
         }
         return null;
     }
@@ -124,8 +131,12 @@ public abstract class DataFragment extends Fragment {
         }
 
         displayed = true;
-        refreshData();
         return rootView;
+    }
+
+    public void onResume() {
+        super.onResume();
+        refreshData();
     }
 
     protected abstract void refreshData();
