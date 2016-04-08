@@ -1302,6 +1302,7 @@ public class DB {
                     SparseArray<String> events = new SparseArray<String>();
                     SparseArray<String> positions = new SparseArray<String>();
                     SparseArray<String> defenses = new SparseArray<String>();
+                    defenses.put(0, "None");
 
                     Cursor c = null;
                     StringBuilder match_data = null, pit_data = null;
