@@ -306,6 +306,72 @@ public class DB {
 
     }
 
+    private int getTeamPicked(int team, long eventID, SQLiteDatabase db) {
+        String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED};
+        String[] where = {String.valueOf(team), String.valueOf(eventID)};
+        Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
+                projection, // select
+                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
+                where,
+                null, // don't group
+                null, // don't filter
+                null, // don't order
+                "0,1"); // limit to 1
+        int ret = -1;
+        try {
+            c.moveToFirst();
+            ret = c.getInt(c
+                    .getColumnIndexOrThrow(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED));
+        } finally {
+            if (c != null)
+                c.close();
+        }
+
+        return ret;
+    }
+
+    public boolean teamPickToggle(int team, String eventName) {
+        try {
+            long eventID;
+            boolean picked;
+            List<String> t = getPickList(eventName);
+            if (t == null || !t.contains(String.valueOf(team)))
+                return true;
+            synchronized (ScoutingDBHelper.lock) {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
+                eventID = getEventIDFromName(eventName, db);
+                picked = getTeamPicked(team, eventID, db) != 0;
+                ScoutingDBHelper.getInstance().close();
+            }
+
+            ContentValues values = new ContentValues();
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
+            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, picked ? 0 : 1);
+
+            String[] where = {String.valueOf(team),
+                    String.valueOf(eventID)};
+
+            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
+                    null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
+                    FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
+                    where);
+
+            t.remove(t.indexOf(String.valueOf(team)));
+
+            int i = 1;
+            for (String teamNum : t) {
+                updateSort(teamNum, i, eventID);
+                i++;
+            }
+
+            startSync();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
     public void updateSort(List<String> teams, String eventName) {
         long eventID;
         synchronized (ScoutingDBHelper.lock) {
@@ -1010,6 +1076,29 @@ public class DB {
                 }
 
                 return ret;
+
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
+    public Cursor getPickListCursor(String eventName, SQLiteDatabase db) {
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+                String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID + " AS _id", FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED};
+                String[] where = {
+                        String.valueOf(getEventIDFromName(eventName, db)), "0"};
+
+                Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME, projection,
+                        FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID
+                                + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED + "=?",
+                        where, null, null, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT);
+
+
+                return c;
 
             } catch (Exception e) {
                 return null;
