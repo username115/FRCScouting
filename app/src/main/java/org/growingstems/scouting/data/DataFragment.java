@@ -33,97 +33,101 @@ import android.widget.Button;
 import android.widget.ListView;
 
 public abstract class DataFragment extends Fragment {
-	public static final int PT_EVENTS = 0;
-	public static final int PT_TEAMS = 1;
-	public static final int PT_MATCHES = 2;
-	public static final int PT_PITS = 3;
+    public static final int PT_EVENTS = 0;
+    public static final int PT_TEAMS = 1;
+    public static final int PT_MATCHES = 2;
+    public static final int PT_PITS = 3;
 
-	protected static final int defaultListResource = android.R.layout.simple_list_item_1;
+    protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
-	protected ListView dataList;
-	protected AutoCompleteTextView autoText;
-	protected Button loadB;
-	protected boolean displayed = false;
+    protected ListView dataList;
+    protected AutoCompleteTextView autoText;
+    protected Button loadB;
+    protected boolean displayed = false;
 
-	protected View rootView;
+    protected View rootView;
 
-	protected int mSectionType;
+    protected int mSectionType;
 
-	protected DBActivity mParent;
+    protected DBActivity mParent;
 
-	public static DataFragment newInstance(int section_title, DBActivity parent) {
-		return newInstance(section_title, parent, -1, null);
-	}
+    protected int default_layout_resource = R.layout.fragment_data;
 
-	public static DataFragment newInstance(int section_title,
-			DBActivity parent, int teamNumber) {
-		return newInstance(section_title, parent, teamNumber, null);
-	}
+    public static DataFragment newInstance(int section_title, DBActivity parent) {
+        return newInstance(section_title, parent, -1, null);
+    }
 
-	public static DataFragment newInstance(int section_title,
-			DBActivity parent, String event_name) {
-		return newInstance(section_title, parent, -1, event_name);
-	}
+    public static DataFragment newInstance(int section_title,
+                                           DBActivity parent, int teamNumber) {
+        return newInstance(section_title, parent, teamNumber, null);
+    }
 
-	public static DataFragment newInstance(int section_title,
-			DBActivity parent, int teamNumber, String event_name) {
-		DataFragment fragment;
-		switch (section_title) {
-		case PT_EVENTS:
-			fragment = new EventListFragment();
-			break;
-		case PT_TEAMS:
-			fragment = TeamListFragment.getInstance(event_name);
-			break;
-		case PT_MATCHES:
-			fragment = MatchListFragment.getInstance(event_name, teamNumber);
-			break;
-		case PT_PITS:
-			fragment = PitsDataFragment.getInstance(teamNumber);
-			break;
-		default:
-			return null;
-		}
-		fragment.mParent = parent;
-		fragment.mSectionType = section_title;
-		return fragment;
-	}
+    public static DataFragment newInstance(int section_title,
+                                           DBActivity parent, String event_name) {
+        return newInstance(section_title, parent, -1, event_name);
+    }
 
-	public static String getPageTitle(int section_title, Context context) {
-		Locale l = Locale.getDefault();
-		switch (section_title) {
-		case PT_EVENTS:
-			return context.getString(R.string.title_event_section).toUpperCase(
-					l);
-		case PT_TEAMS:
-			return context.getString(R.string.title_team_section)
-					.toUpperCase(l);
-		case PT_MATCHES:
-			return context.getString(R.string.title_match_section).toUpperCase(
-					l);
-		case PT_PITS:
-			return context.getString(R.string.title_pits_section)
-					.toUpperCase(l);
-		}
-		return null;
-	}
+    public static DataFragment newInstance(int section_title,
+                                           DBActivity parent, int teamNumber, String event_name) {
+        DataFragment fragment;
+        switch (section_title) {
+            case PT_EVENTS:
+                fragment = new EventListFragment();
+                break;
+            case PT_TEAMS:
+                fragment = TeamListFragment.getInstance(event_name);
+                break;
+            case PT_MATCHES:
+                fragment = MatchListFragment.getInstance(event_name, teamNumber);
+                break;
+            case PT_PITS:
+                fragment = PitsDataFragment.getInstance(teamNumber);
+                break;
+            default:
+                return null;
+        }
+        fragment.mParent = parent;
+        fragment.mSectionType = section_title;
+        return fragment;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		rootView = inflater.inflate(R.layout.fragment_data, container, false);
-		dataList = (ListView) rootView.findViewById(R.id.dataList);
+    public static String getPageTitle(int section_title, Context context) {
+        Locale l = Locale.getDefault();
+        switch (section_title) {
+            case PT_EVENTS:
+                return context.getString(R.string.title_event_section).toUpperCase(
+                        l);
+            case PT_TEAMS:
+                return context.getString(R.string.title_team_section)
+                        .toUpperCase(l);
+            case PT_MATCHES:
+                return context.getString(R.string.title_match_section).toUpperCase(
+                        l);
+            case PT_PITS:
+                return context.getString(R.string.title_pits_section)
+                        .toUpperCase(l);
+        }
+        return null;
+    }
 
-		autoText = (AutoCompleteTextView) rootView
-				.findViewById(R.id.data_team_id);
-		loadB = (Button) rootView.findViewById(R.id.data_teamB);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        rootView = inflater.inflate(default_layout_resource, container, false);
+        if (default_layout_resource == R.layout.fragment_data) {
+            dataList = (ListView) rootView.findViewById(R.id.dataList);
 
-		displayed = true;
-		refreshData();
-		return rootView;
-	}
+            autoText = (AutoCompleteTextView) rootView
+                    .findViewById(R.id.data_team_id);
+            loadB = (Button) rootView.findViewById(R.id.data_teamB);
+        }
 
-	protected abstract void refreshData();
+        displayed = true;
+        refreshData();
+        return rootView;
+    }
+
+    protected abstract void refreshData();
 
 }
