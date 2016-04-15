@@ -1,0 +1,120 @@
+/*
+ * Copyright 2016 Daniel Logan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.robobees.stronghold;
+
+import android.os.AsyncTask;
+import android.util.SparseArray;
+
+import org.frc836.database.DB;
+
+public class GraphDataSource {
+
+    public enum DataType {None, Scores}
+
+    private DB db;
+
+    public GraphDataSource(DB db) {
+        this.db = db;
+    }
+
+    public void getMaxScores(int team, String event,GraphDataCallback callback) {
+        GraphData data = new GraphData(callback, DataType.Scores);
+        data.setTeamNum(team);
+        db.getMatchesForTeam(team, event, new DBResp(data));
+    }
+
+    private class DBResp implements DB.DBCallback {
+
+        private GraphData _data;
+
+        public DBResp(GraphData data) {
+            _data = data;
+        }
+
+        @Override
+        public void onFinish(DB.DBData data) {
+            _data._input = data;
+            if (_data.getDataType() == DataType.Scores)
+                (new ScoresAsync()).execute(_data);
+        }
+    }
+
+    public interface GraphDataCallback {
+        void onFinished(GraphData data);
+    }
+
+    public class GraphData {
+        protected GraphDataCallback _callback;
+
+        private DataType _dataType = DataType.None;
+
+        protected DB.DBData _input;
+
+        private int _teamNum = -1; //Scores
+
+        protected SparseArray<Integer> _totalScores = null;
+
+        protected double _averageScore = -1.0;
+
+        public GraphData(GraphDataCallback callback, DataType type) {
+            _callback = callback;
+            _dataType = type;
+        }
+
+        public DataType getDataType() {
+            return _dataType;
+        }
+
+        protected void setTeamNum(int team) {
+            _teamNum = team;
+        }
+
+        public int getTeamNum() {
+            return _teamNum;
+        }
+
+        public SparseArray<Integer> getTotalScores() {
+            if (_dataType != DataType.Scores) {
+                return null;
+            }
+            return _totalScores;
+        }
+
+        public double getAverageScore() {
+            return _averageScore;
+        }
+
+
+    }
+
+    private class ScoresAsync extends AsyncTask<GraphData, Integer, GraphData> {
+
+
+        @Override
+        protected GraphData doInBackground(GraphData... params) {
+            
+            // TODO
+            return null;
+        }
+
+        protected void onPostExecute(GraphData data) {
+            if (data != null && data._callback != null)
+                data._callback.onFinished(data);
+        }
+    }
+
+}

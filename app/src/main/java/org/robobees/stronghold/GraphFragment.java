@@ -1,3 +1,19 @@
+/*
+ * Copyright 2016 Daniel Logan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.robobees.stronghold;
 
 
@@ -15,12 +31,14 @@ import org.growingstems.scouting.R;
 import org.growingstems.scouting.data.DataFragment;
 
 
-public class GraphFragment extends DataFragment {
+public class GraphFragment extends DataFragment implements GraphDataSource.GraphDataCallback {
 
     protected int teamNum = -1;
     protected String eventName = null;
 
     private GraphicalView mChart;
+
+    private GraphDataSource dataSource;
 
     private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
 
@@ -53,12 +71,18 @@ public class GraphFragment extends DataFragment {
         mChart = ChartFactory.getCubeLineChartView(getActivity(), mDataset, mRenderer,
                 0.0f);
         layout.addView(mChart);
+        dataSource = new GraphDataSource(mParent.getDB());
         return rootView;
     }
 
     @Override
     protected void refreshData() {
-        //TODO
+        dataSource.getMaxScores(teamNum, eventName, this);
+        //TODO more graphs
     }
 
+    @Override
+    public void onFinished(GraphDataSource.GraphData data) {
+        //TODO
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan
+ * Copyright 2016 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,8 @@ public class DB {
 
     public static final SimpleDateFormat dateParser = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss.sss", Locale.US);
+
+    public enum RequestType {None, Matches}
 
     @SuppressWarnings("unused")
     private DB() {
@@ -815,6 +817,46 @@ public class DB {
         }
     }
 
+    public List<Long> getEventIDsForTeam(int teamNum) {
+        synchronized (ScoutingDBHelper.lock) {
+            try {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+                String[] projection = {
+                        MatchStatsStruct.COLUMN_NAME_EVENT_ID,
+                        "MAX(" + MatchStatsStruct.COLUMN_NAME_TIMESTAMP
+                                + ") AS time"};
+
+                String selection = MatchStatsStruct.COLUMN_NAME_TEAM_ID + "=?";
+                String[] selectionArgs = {String.valueOf(teamNum)};
+
+                Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+                        selection, selectionArgs,
+                        MatchStatsStruct.COLUMN_NAME_EVENT_ID, null, "time");
+
+                List<Long> ret;
+                try {
+                    ret = new ArrayList<Long>(c.getCount());
+
+                    if (c.moveToFirst())
+                        do {
+                            ret.add(c.getLong(c.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_EVENT_ID)));
+                        } while (c.moveToNext());
+                    else
+                        ret = null;
+                } finally {
+                    if (c != null)
+                        c.close();
+                    ScoutingDBHelper.getInstance().close();
+                }
+                return ret;
+
+            } catch (Exception e) {
+                return null;
+            }
+        }
+    }
+
     public List<String> getEventsForTeam(int teamNum) {
         synchronized (ScoutingDBHelper.lock) {
             try {
@@ -899,6 +941,64 @@ public class DB {
                     if (c.moveToFirst())
                         do {
                             ret.add(c.getString(c
+                                    .getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_MATCH_ID)));
+                        } while (c.moveToNext());
+                    else
+                        ret = null;
+                } finally {
+                    if (c != null)
+                        c.close();
+                    ScoutingDBHelper.getInstance().close();
+                }
+
+                return ret;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+    }
+
+    private List<Integer> getMatchesWithData(long event_id, boolean practice,
+                                             int teamNum) {
+        synchronized (ScoutingDBHelper.lock) {
+            try {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = {MatchStatsStruct.COLUMN_NAME_MATCH_ID};
+
+                List<String> args = new ArrayList<String>(3);
+
+                String selection = "";
+                String[] selectionArgs = new String[1];
+
+                if (event_id > 0) {
+                    selection += MatchStatsStruct.COLUMN_NAME_EVENT_ID
+                            + "=? AND ";
+                    args.add(String.valueOf(event_id));
+                }
+                if (teamNum > 0) {
+                    selection += MatchStatsStruct.COLUMN_NAME_TEAM_ID
+                            + "=? AND ";
+                    args.add(String.valueOf(teamNum));
+                }
+
+                selection += MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH + "=?";
+                args.add(practice ? "1" : "0");
+                selectionArgs = args.toArray(selectionArgs);
+
+                Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+                        selection, selectionArgs,
+                        MatchStatsStruct.COLUMN_NAME_MATCH_ID, null,
+                        MatchStatsStruct.COLUMN_NAME_MATCH_ID);
+                List<Integer> ret;
+                try {
+
+                    ret = new ArrayList<Integer>(c.getCount());
+
+                    if (c.moveToFirst())
+                        do {
+                            ret.add(c.getInt(c
                                     .getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_MATCH_ID)));
                         } while (c.moveToNext());
                     else
@@ -1012,6 +1112,44 @@ public class DB {
                 String[] projection = stats.getProjection();
                 String[] where = {String.valueOf(match),
                         String.valueOf(getEventIDFromName(eventName, db)),
+                        String.valueOf(team), practice ? "1" : "0"};
+
+                Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+                        MatchStatsStruct.COLUMN_NAME_MATCH_ID + "=? AND "
+                                + MatchStatsStruct.COLUMN_NAME_EVENT_ID
+                                + "=? AND "
+                                + MatchStatsStruct.COLUMN_NAME_TEAM_ID
+                                + "=? AND "
+                                + MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
+                                + "=?", where, null, null, null, "0,1");
+
+                stats.fromCursor(c, this, db);
+                if (c != null)
+                    c.close();
+                ScoutingDBHelper.getInstance().close();
+
+                return stats;
+
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
+    public MatchStatsStruct getMatchStats(long event_id, int match,
+                                          int team, boolean practice) {
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+                MatchStatsStruct stats = MatchStatsStruct.getNewMatchStats();
+
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = stats.getProjection();
+                String[] where = {String.valueOf(match),
+                        String.valueOf(event_id),
                         String.valueOf(team), practice ? "1" : "0"};
 
                 Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
@@ -1841,7 +1979,93 @@ public class DB {
     }
 
     public interface SyncCallback {
-        public void onFinish();
+        void onFinish();
+    }
+
+    public interface DBCallback {
+        void onFinish(DBData data);
+    }
+
+    public class DBData {
+        protected RequestType _type = RequestType.None;
+
+        protected DBCallback _callback;
+
+        protected int _teamNum = -1; //Matches
+        protected String _eventName = null; //Matches
+
+        protected Map<String, SparseArray<MatchStatsStruct>> _matches;
+
+        public DBData(RequestType type, DBCallback callback) {
+            _type = type;
+            _callback = callback;
+        }
+
+    }
+
+    public void getMatchesForTeam(int team, String eventName, DBCallback callback) {
+        DBData dat = new DBData(RequestType.Matches, callback);
+        dat._teamNum = team;
+        dat._eventName = eventName;
+        (new MatchesAsync()).execute(dat);
+    }
+
+    private class MatchesAsync extends AsyncTask<DBData, Integer, DBData> {
+
+
+        @Override
+        protected DBData doInBackground(DBData... params) {
+            if (params[0] == null || params[0]._type != RequestType.Matches)
+                return null;
+            if (params[0]._teamNum > 0) {
+                List<Long> eventList;
+                if (params[0]._eventName != null) {
+                    synchronized (ScoutingDBHelper.lock) {
+                        try {
+                            SQLiteDatabase db = ScoutingDBHelper.getInstance().getReadableDatabase();
+                            eventList = new ArrayList<Long>(1);
+                            eventList.add(getEventIDFromName(params[0]._eventName, db));
+                        } finally {
+                            ScoutingDBHelper.getInstance().close();
+                        }
+                    }
+                } else {
+                    eventList = getEventIDsForTeam(params[0]._teamNum);
+                }
+
+                if (eventList == null || eventList.isEmpty()) {
+                    return null;
+                }
+
+                params[0]._matches = new HashMap<String, SparseArray<MatchStatsStruct>>(eventList.size());
+
+                for (Long id : eventList) {
+                    SparseArray<MatchStatsStruct> matches = new SparseArray<MatchStatsStruct>();
+
+                    List<Integer> matchList = getMatchesWithData(id, false, params[0]._teamNum);
+
+                    for (Integer match : matchList) {
+                        matches.append(match, getMatchStats(id, match, params[0]._teamNum, false));
+                    }
+
+                    synchronized (ScoutingDBHelper.lock) {
+                        try {
+                            SQLiteDatabase db = ScoutingDBHelper.getInstance().getReadableDatabase();
+                            params[0]._matches.put(getEventNameFromID(id.intValue(), db), matches);
+                        } finally {
+                            ScoutingDBHelper.getInstance().close();
+                        }
+                    }
+                }
+                return params[0];
+            }
+            return null;
+        }
+
+        protected void onPostExecute(DBData data) {
+            if (data != null && data._callback != null)
+                data._callback.onFinish(data);
+        }
     }
 
 }
