@@ -18,8 +18,14 @@ package org.robobees.stronghold;
 
 import android.os.AsyncTask;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import org.frc836.database.DB;
+import org.frc836.database.MatchStatsStruct;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class GraphDataSource {
 
@@ -31,7 +37,7 @@ public class GraphDataSource {
         this.db = db;
     }
 
-    public void getMaxScores(int team, String event,GraphDataCallback callback) {
+    public void getMaxScores(int team, String event, GraphDataCallback callback) {
         GraphData data = new GraphData(callback, DataType.Scores);
         data.setTeamNum(team);
         db.getMatchesForTeam(team, event, new DBResp(data));
@@ -66,7 +72,9 @@ public class GraphDataSource {
 
         private int _teamNum = -1; //Scores
 
-        protected SparseArray<Integer> _totalScores = null;
+        private String _eventName = null;
+
+        protected Map<String, SparseIntArray> _totalScores = null;
 
         protected double _averageScore = -1.0;
 
@@ -87,15 +95,32 @@ public class GraphDataSource {
             return _teamNum;
         }
 
-        public SparseArray<Integer> getTotalScores() {
+        public String getEventName() {
+            return _eventName;
+        }
+
+        public SparseIntArray getTotalScores() {
+            return getTotalScores(null);
+        }
+
+        public SparseIntArray getTotalScores(String eventName) {
             if (_dataType != DataType.Scores) {
                 return null;
             }
-            return _totalScores;
+            if (eventName == null && _eventName != null) {
+                return _totalScores.get(_eventName);
+            } else if (eventName != null) {
+                return _totalScores.get(eventName);
+            }
+            return null;
         }
 
         public double getAverageScore() {
             return _averageScore;
+        }
+
+        public Set<String> getEventsWithScores() {
+            return _totalScores.keySet();
         }
 
 
@@ -106,9 +131,30 @@ public class GraphDataSource {
 
         @Override
         protected GraphData doInBackground(GraphData... params) {
-            
-            // TODO
-            return null;
+
+            Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
+
+            params[0]._totalScores = new HashMap<String, SparseIntArray>(eventMap.size());
+
+            params[0]._averageScore = 0.0;
+
+            int count = 0;
+
+            for (Map.Entry<String, SparseArray<MatchStatsStruct>> event : eventMap.entrySet()) {
+                SparseArray<MatchStatsStruct> matches = event.getValue();
+                SparseIntArray scores = new SparseIntArray(matches.size());
+
+                for (int i = 0; i < matches.size(); i++) {
+                    int matchNum = matches.keyAt(i);
+                    int score = matches.get(matchNum).getTotalScore();
+                    scores.put(matchNum, score);
+                    count++;
+                    params[0]._averageScore += score;
+                }
+                params[0]._totalScores.put(event.getKey(), scores);
+            }
+            params[0]._averageScore /= count;
+            return params[0];
         }
 
         protected void onPostExecute(GraphData data) {

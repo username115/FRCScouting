@@ -136,7 +136,8 @@ public abstract class DataFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        refreshData();
+        if (displayed)
+            refreshData();
     }
 
     protected abstract void refreshData();

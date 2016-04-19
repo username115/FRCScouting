@@ -459,4 +459,27 @@ public class MatchStatsSH extends MatchStatsStruct {
 
         return vals;
     }
+
+    @Override
+    public int getTotalScore() {
+        int score = 0;
+
+        int auto_cross = Math.min(auto_cross_portcullis_for, 2) + Math.min(auto_cross_cheval_for, 2) + Math.min(auto_cross_moat_for, 2) + Math.min(auto_cross_ramparts_for, 2) +
+                Math.min(auto_cross_drawbridge_for, 2) + Math.min(auto_cross_drawbridge_for_with_help, 2) + Math.min(auto_cross_sally_for, 2) + Math.min(auto_cross_sally_for_with_help, 2) +
+                Math.min(auto_cross_rock_wall_for, 2) + Math.min(auto_cross_rough_terrain_for, 2) + Math.min(auto_cross_low_bar_for, 2);
+        int cross = Math.min(cross_portcullis_for, 2) + Math.min(cross_cheval_for, 2) + Math.min(cross_moat_for, 2) + Math.min(cross_ramparts_for, 2) +
+                Math.min(cross_drawbridge_for, 2) + Math.min(cross_drawbridge_for_with_help, 2) + Math.min(cross_sally_for, 2) + Math.min(cross_sally_for_with_help, 2) +
+                Math.min(cross_rock_wall_for, 2) + Math.min(cross_rough_terrain_for, 2) + Math.min(cross_low_bar_for, 2);
+        score += (auto_reach && auto_cross == 0) ? 2 : 0;
+        score += auto_cross * 10;
+        score += auto_score_low * 5;
+        score += auto_score_high * 10;
+        score += cross * 5;
+        score += score_low * 2;
+        score += score_high * 5;
+        score += (challenge && !scale) ? 5 : 0;
+        score += scale ? 15 : 0;
+
+        return score;
+    }
 }

@@ -1994,13 +1994,24 @@ public class DB {
         protected int _teamNum = -1; //Matches
         protected String _eventName = null; //Matches
 
-        protected Map<String, SparseArray<MatchStatsStruct>> _matches;
+        protected Map<String, SparseArray<MatchStatsStruct>> _matches; //eventname to matchlist
 
         public DBData(RequestType type, DBCallback callback) {
             _type = type;
             _callback = callback;
         }
 
+        public int getTeamNum() {
+            return _teamNum;
+        }
+
+        public String getEventName() {
+            return _eventName;
+        }
+
+        public Map<String, SparseArray<MatchStatsStruct>> getMatches() {
+            return _matches;
+        }
     }
 
     public void getMatchesForTeam(int team, String eventName, DBCallback callback) {
