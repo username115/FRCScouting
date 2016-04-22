@@ -19,17 +19,21 @@ package org.robobees.stronghold;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.SparseIntArray;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.model.XYValueSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.growingstems.scouting.R;
@@ -77,21 +81,38 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
         super.onCreateView(inflater, container, savedInstanceState);
         if (dataSource == null)
             dataSource = new GraphDataSource(mParent.getDB());
-        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph);
-        mRenderer.setYAxisMin(0);
-        mRenderer.setXAxisMin(0);
-        mRenderer.setXTitle("Match Number");
-        mChart = ChartFactory.getCubeLineChartView(getActivity(), mDataset, mRenderer,
-                0.0f);
-        layout.addView(mChart);
+
 
         return rootView;
     }
 
     @Override
     protected void refreshData() {
+        if (!displayed)
+            return;
         if (dataSource == null)
             dataSource = new GraphDataSource(mParent.getDB());
+
+        if (mChart == null) {
+            LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph);
+            mRenderer.setYAxisMin(0);
+            mRenderer.setXAxisMin(0);
+            mRenderer.setXTitle("Match Number");
+            DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+            float val = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, metrics);
+            mRenderer.setLabelsTextSize(val);
+            mRenderer.setAxisTitleTextSize(val);
+            mRenderer.setLegendTextSize(val);
+            mRenderer.setPointSize(val / 4.0f);
+            mChart = ChartFactory.getCubeLineChartView(getActivity(), mDataset, mRenderer,
+                    0.0f);
+            mChart.setBackgroundColor(Color.BLACK);
+            layout.addView(mChart, new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+        } else {
+            mChart.repaint();
+        }
         dataSource.getMaxScores(teamNum, eventName, this);
         //TODO more graphs?
     }
@@ -103,7 +124,7 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
             case Scores:
                 int minMatch = 10000000, maxMatch = 0;
                 if (eventName != null) {
-                    XYSeries series = new XYSeries("Total Score");
+                    XYValueSeries series = new XYValueSeries("Match Score");
                     SparseIntArray scores = data.getTotalScores();
                     if (scores == null) {
                         break;
@@ -122,9 +143,9 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
                 }
                 // TODO multiple events
 
-                XYSeries series = new XYSeries("Average Score");
+                XYValueSeries series = new XYValueSeries("Average Score");
                 double average = data.getAverageScore();
-                series.add(minMatch, average);
+                series.add(0, average);
                 series.add(maxMatch, average);
                 mDataset.addSeries(AVERAGESCORE, series);
                 XYSeriesRenderer render = new XYSeriesRenderer();

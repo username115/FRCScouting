@@ -40,6 +40,7 @@ public class GraphDataSource {
     public void getMaxScores(int team, String event, GraphDataCallback callback) {
         GraphData data = new GraphData(callback, DataType.Scores);
         data.setTeamNum(team);
+        data.setEventName(event);
         db.getMatchesForTeam(team, event, new DBResp(data));
     }
 
@@ -89,6 +90,10 @@ public class GraphDataSource {
 
         protected void setTeamNum(int team) {
             _teamNum = team;
+        }
+
+        protected void setEventName(String eventName) {
+            _eventName = eventName;
         }
 
         public int getTeamNum() {
