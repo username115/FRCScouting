@@ -18,6 +18,7 @@ package org.frc836.database;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -179,7 +180,10 @@ public class DBSyncService extends Service {
     }
 
     private void updateNotificationText(String text) {
-        mBuilder.setContentText(text);
+        if (text.length() < 20) //arbitrary setting
+            mBuilder.setContentText(text);
+        else
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
         if (notify)
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
                     .notify(notifyID, mBuilder.build());
@@ -376,7 +380,7 @@ public class DBSyncService extends Service {
                                     .show();
                     }
                     syncInProgress = false;
-                    updateNotificationText(getString(R.string.service_notify_text));
+                    updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
 
                     mTimerTask.postDelayed(dataTask, Prefs
                             .getMilliSecondsBetweenSyncs(
@@ -408,7 +412,7 @@ public class DBSyncService extends Service {
                         .show();
             }
             syncInProgress = false;
-            updateNotificationText(getString(R.string.service_notify_text));
+            updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
 
             mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
                     getApplicationContext(), DELAY));
@@ -441,7 +445,7 @@ public class DBSyncService extends Service {
                         .show();
             }
             syncInProgress = false;
-            updateNotificationText(getString(R.string.service_notify_text));
+            updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
 
             mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
                     getApplicationContext(), DELAY));
@@ -596,7 +600,7 @@ public class DBSyncService extends Service {
                                 .show();
                     }
                     syncInProgress = false;
-                    updateNotificationText(getString(R.string.service_notify_text));
+                    updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
 
                     mTimerTask.postDelayed(dataTask, Prefs
                             .getMilliSecondsBetweenSyncs(
@@ -646,7 +650,7 @@ public class DBSyncService extends Service {
             }
 
             syncInProgress = true;
-            updateNotificationText(getString(R.string.notify_sync_starting));
+            updateNotificationText(getString(R.string.notify_sync_starting) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
 
             if (syncForced || initSync) {
                 initSync = false;
