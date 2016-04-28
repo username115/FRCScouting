@@ -32,16 +32,16 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
 import org.achartengine.model.XYValueSeries;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.growingstems.scouting.R;
 import org.growingstems.scouting.data.DataFragment;
 
+import java.util.Set;
 
-public class GraphFragment extends DataFragment implements GraphDataSource.GraphDataCallback {
+
+public class MatchLineGraphFragment extends DataFragment implements GraphDataSource.GraphDataCallback {
 
     protected int teamNum = -1;
     protected String eventName = null;
@@ -56,7 +56,7 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
 
     private SparseArray<XYSeriesRenderer> mRenderers = new SparseArray<XYSeriesRenderer>(NUMGRAPHS);
 
-    private SparseArray<XYValueSeries> mData  = new SparseArray<XYValueSeries>(NUMGRAPHS);
+    private SparseArray<XYValueSeries> mData = new SparseArray<XYValueSeries>(NUMGRAPHS);
 
     private static final int NUMGRAPHS = 7;
 
@@ -67,8 +67,8 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
     private static final int[] COLORS = {Color.GREEN, Color.CYAN, Color.RED,
             Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.BLUE};
 
-    public static GraphFragment getInstance(int team_num, String event_name) {
-        GraphFragment fragment = new GraphFragment();
+    public static MatchLineGraphFragment getInstance(int team_num, String event_name) {
+        MatchLineGraphFragment fragment = new MatchLineGraphFragment();
         fragment.setEventName(event_name);
         fragment.setTeamNum(team_num);
         fragment.default_layout_resource = R.layout.fragment_graph;
@@ -133,15 +133,15 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
             case Scores:
                 int minMatch = 10000000, maxMatch = 0;
                 if (eventName != null) {
+                    SparseIntArray scores = data.getTotalScores();
+                    if (scores == null) {
+                        break;
+                    }
                     XYValueSeries series = mData.get(TOTALSCORES[0]);
                     if (series == null) {
                         series = new XYValueSeries("Match Score");
                         mData.put(TOTALSCORES[0], series);
-                        mDataset.addSeries(TOTALSCORES[0], series);
-                    }
-                    SparseIntArray scores = data.getTotalScores();
-                    if (scores == null) {
-                        break;
+                        mDataset.addSeries(series);
                     }
                     series.clear();
                     for (int i = 0; i < scores.size(); i++) {
@@ -154,19 +154,52 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
                     if (render == null) {
                         render = new XYSeriesRenderer();
                         mRenderers.put(TOTALSCORES[0], render);
-                        mRenderer.addSeriesRenderer(TOTALSCORES[0], render);
+                        mRenderer.addSeriesRenderer(render);
                         render.setPointStyle(PointStyle.DIAMOND);
                         render.setColor(COLORS[(TOTALSCORES[0]) % COLORS.length]);
                     }
 
+                } else {
+                    Set<String> events = data.getEventsWithScores();
+                    int j = 0;
+                    for (String eventName : events) {
+                        if (eventName != null) {
+                            SparseIntArray scores = data.getTotalScores(eventName);
+                            if (scores == null) {
+                                break;
+                            }
+                            XYValueSeries series = mData.get(TOTALSCORES[j]);
+                            if (series == null) {
+                                series = new XYValueSeries("Match Score: " + eventName);
+                                mData.put(TOTALSCORES[j], series);
+                                mDataset.addSeries(series);
+                            }
+
+                            series.clear();
+                            for (int i = 0; i < scores.size(); i++) {
+                                int match = scores.keyAt(i);
+                                series.add(match, scores.get(match));
+                                minMatch = Math.min(minMatch, match);
+                                maxMatch = Math.max(maxMatch, match);
+                            }
+                            XYSeriesRenderer render = mRenderers.get(TOTALSCORES[j]);
+                            if (render == null) {
+                                render = new XYSeriesRenderer();
+                                mRenderers.put(TOTALSCORES[j], render);
+                                mRenderer.addSeriesRenderer(render);
+                                render.setPointStyle(PointStyle.DIAMOND);
+                                render.setColor(COLORS[(TOTALSCORES[j]) % COLORS.length]);
+                            }
+                            j++;
+                        }
+                    }
                 }
-                // TODO multiple events
 
                 XYValueSeries series = mData.get(AVERAGESCORE);
                 if (series == null) {
                     series = new XYValueSeries("Average Score");
                     mData.put(AVERAGESCORE, series);
-                    mDataset.addSeries(AVERAGESCORE, series);
+                    mDataset.addSeries(series);
                 }
                 double average = data.getAverageScore();
                 series.clear();
@@ -176,12 +209,12 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
                 if (render == null) {
                     render = new XYSeriesRenderer();
                     mRenderers.put(AVERAGESCORE, render);
-                    mRenderer.addSeriesRenderer(AVERAGESCORE, render);
+                    mRenderer.addSeriesRenderer(render);
                     render.setFillPoints(false);
                     render.setColor(COLORS[AVERAGESCORE % COLORS.length]);
                 }
                 break;
-            // TODO more graphs
+            // TODO more graphs?
         }
 
         if (mChart != null)
