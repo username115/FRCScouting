@@ -100,6 +100,7 @@ public class DBSyncService extends Service {
         initSync = !loadTimestamp();
         password = "";
         callback = null;
+        syncInProgress = false;
 
         mTimerTask = new Handler();
 
@@ -202,6 +203,7 @@ public class DBSyncService extends Service {
         notify = false;
         ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
                 .cancel(notifyID);
+        syncInProgress = false;
         super.onDestroy();
     }
 
