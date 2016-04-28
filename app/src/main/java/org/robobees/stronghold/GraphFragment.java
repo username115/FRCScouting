@@ -20,13 +20,13 @@ package org.robobees.stronghold;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -34,6 +34,7 @@ import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.model.XYValueSeries;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.growingstems.scouting.R;
@@ -52,6 +53,12 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
     private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
 
     private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
+
+    private SparseArray<XYSeriesRenderer> mRenderers = new SparseArray<XYSeriesRenderer>(NUMGRAPHS);
+
+    private SparseArray<XYValueSeries> mData  = new SparseArray<XYValueSeries>(NUMGRAPHS);
+
+    private static final int NUMGRAPHS = 7;
 
     private static final int[] TOTALSCORES = {0, 2, 3, 4, 5, 6};
 
@@ -113,7 +120,9 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
         } else {
             mChart.repaint();
         }
-        dataSource.getMaxScores(teamNum, eventName, this);
+        if (teamNum > 0) {
+            dataSource.getMaxScores(teamNum, eventName, this);
+        }
         //TODO more graphs?
     }
 
@@ -124,35 +133,53 @@ public class GraphFragment extends DataFragment implements GraphDataSource.Graph
             case Scores:
                 int minMatch = 10000000, maxMatch = 0;
                 if (eventName != null) {
-                    XYValueSeries series = new XYValueSeries("Match Score");
+                    XYValueSeries series = mData.get(TOTALSCORES[0]);
+                    if (series == null) {
+                        series = new XYValueSeries("Match Score");
+                        mData.put(TOTALSCORES[0], series);
+                        mDataset.addSeries(TOTALSCORES[0], series);
+                    }
                     SparseIntArray scores = data.getTotalScores();
                     if (scores == null) {
                         break;
                     }
+                    series.clear();
                     for (int i = 0; i < scores.size(); i++) {
                         int match = scores.keyAt(i);
                         series.add(match, scores.get(match));
                         minMatch = Math.min(minMatch, match);
                         maxMatch = Math.max(maxMatch, match);
                     }
-                    mDataset.addSeries(TOTALSCORES[0], series);
-                    XYSeriesRenderer render = new XYSeriesRenderer();
-                    render.setPointStyle(PointStyle.DIAMOND);
-                    render.setColor(COLORS[(TOTALSCORES[0]) % COLORS.length]);
-                    mRenderer.addSeriesRenderer(TOTALSCORES[0], render);
+                    XYSeriesRenderer render = mRenderers.get(TOTALSCORES[0]);
+                    if (render == null) {
+                        render = new XYSeriesRenderer();
+                        mRenderers.put(TOTALSCORES[0], render);
+                        mRenderer.addSeriesRenderer(TOTALSCORES[0], render);
+                        render.setPointStyle(PointStyle.DIAMOND);
+                        render.setColor(COLORS[(TOTALSCORES[0]) % COLORS.length]);
+                    }
+
                 }
                 // TODO multiple events
 
-                XYValueSeries series = new XYValueSeries("Average Score");
+                XYValueSeries series = mData.get(AVERAGESCORE);
+                if (series == null) {
+                    series = new XYValueSeries("Average Score");
+                    mData.put(AVERAGESCORE, series);
+                    mDataset.addSeries(AVERAGESCORE, series);
+                }
                 double average = data.getAverageScore();
+                series.clear();
                 series.add(0, average);
                 series.add(maxMatch, average);
-                mDataset.addSeries(AVERAGESCORE, series);
-                XYSeriesRenderer render = new XYSeriesRenderer();
-                render.setFillPoints(false);
-                render.setColor(COLORS[AVERAGESCORE % COLORS.length]);
-                mRenderer.addSeriesRenderer(AVERAGESCORE, render);
-
+                XYSeriesRenderer render = mRenderers.get(AVERAGESCORE);
+                if (render == null) {
+                    render = new XYSeriesRenderer();
+                    mRenderers.put(AVERAGESCORE, render);
+                    mRenderer.addSeriesRenderer(AVERAGESCORE, render);
+                    render.setFillPoints(false);
+                    render.setColor(COLORS[AVERAGESCORE % COLORS.length]);
+                }
                 break;
             // TODO more graphs
         }
