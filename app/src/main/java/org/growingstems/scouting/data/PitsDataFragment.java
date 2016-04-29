@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.robobees.stronghold;
+package org.growingstems.scouting.data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.frc836.database.PitStats;
-import org.growingstems.scouting.data.DataFragment;
 
 import android.widget.ArrayAdapter;
 
@@ -52,24 +51,24 @@ public class PitsDataFragment extends DataFragment {
 
         PitStats stat = mParent.getDB().getTeamPitStats(teamNum);
 
-        if (stat instanceof PitStatsSH) {
+        //if (stat instanceof PitStatsSH) {
 
-            if (stat.team > 0) {
-                Map<String, String> myData = stat.getDisplayData();
+        if (stat.team > 0) {
+            Map<String, String> myData = stat.getDisplayData();
 
-                data = new ArrayList<String>(myData.size());
+            data = new ArrayList<String>(myData.size());
 
-                for (Map.Entry<String, String> line : myData.entrySet()) {
-                    data.add(line.getKey() + ": " + line.getValue());
-                }
-            } else {
-                data = new ArrayList<String>(1);
-                data.add("No Pit data available for team");
+            for (Map.Entry<String, String> line : myData.entrySet()) {
+                data.add(line.getKey() + ": " + line.getValue());
             }
         } else {
             data = new ArrayList<String>(1);
-            data.add("Data gathered from wrong year.");
+            data.add("No Pit data available for team");
         }
+        //} else {
+        //    data = new ArrayList<String>(1);
+        //    data.add("Data gathered from wrong year.");
+        //}
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), defaultListResource, data);

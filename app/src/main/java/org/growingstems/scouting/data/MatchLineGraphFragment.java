@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.robobees.stronghold;
+package org.growingstems.scouting.data;
 
 
 import android.graphics.Color;
@@ -36,19 +36,18 @@ import org.achartengine.model.XYValueSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.growingstems.scouting.R;
-import org.growingstems.scouting.data.DataFragment;
 
 import java.util.Set;
 
 
-public class MatchLineGraphFragment extends DataFragment implements GraphDataSource.GraphDataCallback {
+public class MatchLineGraphFragment extends DataFragment implements DataSource.DataCallback {
 
     protected int teamNum = -1;
     protected String eventName = null;
 
     private GraphicalView mChart;
 
-    private GraphDataSource dataSource;
+    private DataSource dataSource;
 
     private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
 
@@ -87,7 +86,7 @@ public class MatchLineGraphFragment extends DataFragment implements GraphDataSou
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         if (dataSource == null)
-            dataSource = new GraphDataSource(mParent.getDB());
+            dataSource = new DataSource(mParent.getDB());
 
 
         return rootView;
@@ -98,7 +97,7 @@ public class MatchLineGraphFragment extends DataFragment implements GraphDataSou
         if (!displayed)
             return;
         if (dataSource == null)
-            dataSource = new GraphDataSource(mParent.getDB());
+            dataSource = new DataSource(mParent.getDB());
 
         if (mChart == null) {
             LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph);
@@ -127,7 +126,7 @@ public class MatchLineGraphFragment extends DataFragment implements GraphDataSou
     }
 
     @Override
-    public void onFinished(GraphDataSource.GraphData data) {
+    public void onFinished(DataSource.Data data) {
 
         switch (data.getDataType()) {
             case Scores:

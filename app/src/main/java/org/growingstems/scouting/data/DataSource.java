@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.robobees.stronghold;
+package org.growingstems.scouting.data;
 
 import android.os.AsyncTask;
 import android.util.SparseArray;
@@ -27,18 +27,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class GraphDataSource {
+public class DataSource {
 
     public enum DataType {None, Scores}
 
     private DB db;
 
-    public GraphDataSource(DB db) {
+    public DataSource(DB db) {
         this.db = db;
     }
 
-    public void getMaxScores(int team, String event, GraphDataCallback callback) {
-        GraphData data = new GraphData(callback, DataType.Scores);
+    public void getMaxScores(int team, String event, DataCallback callback) {
+        Data data = new Data(callback, DataType.Scores);
         data.setTeamNum(team);
         data.setEventName(event);
         db.getMatchesForTeam(team, event, new DBResp(data));
@@ -46,9 +46,9 @@ public class GraphDataSource {
 
     private class DBResp implements DB.DBCallback {
 
-        private GraphData _data;
+        private Data _data;
 
-        public DBResp(GraphData data) {
+        public DBResp(Data data) {
             _data = data;
         }
 
@@ -60,12 +60,12 @@ public class GraphDataSource {
         }
     }
 
-    public interface GraphDataCallback {
-        void onFinished(GraphData data);
+    public interface DataCallback {
+        void onFinished(Data data);
     }
 
-    public class GraphData {
-        protected GraphDataCallback _callback;
+    public class Data {
+        protected DataCallback _callback;
 
         private DataType _dataType = DataType.None;
 
@@ -79,7 +79,7 @@ public class GraphDataSource {
 
         protected double _averageScore = -1.0;
 
-        public GraphData(GraphDataCallback callback, DataType type) {
+        public Data(DataCallback callback, DataType type) {
             _callback = callback;
             _dataType = type;
         }
@@ -131,11 +131,11 @@ public class GraphDataSource {
 
     }
 
-    private class ScoresAsync extends AsyncTask<GraphData, Integer, GraphData> {
+    private class ScoresAsync extends AsyncTask<Data, Integer, Data> {
 
 
         @Override
-        protected GraphData doInBackground(GraphData... params) {
+        protected Data doInBackground(Data... params) {
 
             Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
 
@@ -162,7 +162,7 @@ public class GraphDataSource {
             return params[0];
         }
 
-        protected void onPostExecute(GraphData data) {
+        protected void onPostExecute(Data data) {
             if (data != null && data._callback != null)
                 data._callback.onFinished(data);
         }

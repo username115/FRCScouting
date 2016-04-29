@@ -20,8 +20,6 @@ import java.util.Locale;
 
 import org.frc836.database.DBActivity;
 import org.growingstems.scouting.R;
-import org.robobees.stronghold.MatchLineGraphFragment;
-import org.robobees.stronghold.PitsDataFragment;
 
 import android.app.Fragment;
 import android.content.Context;

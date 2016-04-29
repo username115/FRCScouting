@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/graph"
     android:orientation="vertical"
-    tools:context="org.robobees.stronghold.MatchLineGraphFragment">
+    tools:context=".data.MatchLineGraphFragment">
 
 
 
