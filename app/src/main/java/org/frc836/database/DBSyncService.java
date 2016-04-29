@@ -180,10 +180,8 @@ public class DBSyncService extends Service {
     }
 
     private void updateNotificationText(String text) {
-        if (text.length() < 20) //arbitrary setting
-            mBuilder.setContentText(text);
-        else
-            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
+
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
         if (notify)
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
                     .notify(notifyID, mBuilder.build());
@@ -301,7 +299,7 @@ public class DBSyncService extends Service {
                 processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
                 if (!running)
-                    return null;
+                    return -1;
                 processMatches(json.getJSONArray(MatchStatsStruct.TABLE_NAME));
 
                 processNotes(json.getJSONArray(NOTES_OPTIONS_Entry.TABLE_NAME));
@@ -309,7 +307,7 @@ public class DBSyncService extends Service {
                 processRobots(json.getJSONArray(ROBOT_LU_Entry.TABLE_NAME));
 
                 if (!running)
-                    return null;
+                    return -1;
                 processPits(json.getJSONArray(PitStats.TABLE_NAME));
 
                 processWheelBase(json
@@ -327,7 +325,7 @@ public class DBSyncService extends Service {
                 updateTimeStamp(json.getLong("timestamp"));
 
                 if (!running)
-                    return null;
+                    return -1;
                 sendMatches();
                 sendPits();
                 if (json.has(PICKLIST_Entry.TABLE_NAME))
@@ -650,7 +648,7 @@ public class DBSyncService extends Service {
             }
 
             syncInProgress = true;
-            updateNotificationText(getString(R.string.notify_sync_starting) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
+            updateNotificationText(getString(R.string.notify_sync_starting));
 
             if (syncForced || initSync) {
                 initSync = false;
