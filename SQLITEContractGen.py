@@ -21,6 +21,7 @@ import re
 import sys
 import argparse
 import os
+import csv
 try:
 	import StringIO #for python 2.x
 except:
@@ -147,7 +148,7 @@ class SqlTable:
 		self.columns.append(column)
 	def addRow(self, data):
 		i_col = 0
-		for dat in data.split(','):
+		for dat in next(csv.reader([data], quotechar="'", skipinitialspace=True)):
 			dat = dat.strip()
 			self.columns[self.mapping[i_col]].addRow(dat)
 			i_col += 1
