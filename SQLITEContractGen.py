@@ -207,7 +207,7 @@ class SqlTable:
 			val = str(column.getRow( i_row ))
 			if column.name == self.getPrimaryKey():
 				s += "UNION SELECT"
-			s += ' '+ val +','
+			s += " '"+ val +"',"
 		return s[0:-1]
 	def _createStr_InsertStr_firstrow(self):
 		s = ""
