@@ -22,6 +22,8 @@
         <item name="blue1">Blue 1</item>
         <item name="blue2">Blue 2</item>
         <item name="blue3">Blue 3</item>
+        <item name="red_pilot">Red Pilots</item>
+        <item name="blue_pilot">Blue Pilots</item>
     </string-array>
     <string-array name="numbers">
         <item>0</item>
@@ -77,37 +79,11 @@
         <item>50</item>
     </string-array>
 
-    <string-array name="numbins">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
-
-    <string-array name="numautototes">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="numbinsfromstep">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
-    <string name="score_plus">s</string>
-    <string name="score_miss">m</string>
+    <string name="score_plus_1">+1</string>
+    <string name="score_plus_5">+5</string>
+    <string name="miss_plus_1">M1</string>
+    <string name="miss_plus_5">M5</string>
+    <string name="normal_plus">+</string>
 
     <string-array name="configuration">
         <item>Long</item>
@@ -160,6 +136,10 @@
         <item>No Show</item>
         <item>Defender</item>
         <item>Didn\'t move</item>
+    </string-array>
+    <string-array name="match_prev_notes_options">
+        <item>Past Notes</item>
+        <item>None for this team</item>
     </string-array>
     <string-array name="Events">
         <item>None</item>

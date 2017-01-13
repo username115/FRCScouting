@@ -26,466 +26,127 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+
             <LinearLayout
                 android:id="@+id/rightTeleMatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_weight="1"
-                android:background="@color/blue"
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/rightDefenseLowBarBox"
+                <ImageSwitcher
+                    android:id="@+id/rightAirshipTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/low_bar"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/blue_diag"
+                    android:scaleX="-1">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossForLowBarCount"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossForLowBarB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rightHelpLowBarL"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/rightLeftGearBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical"
-                        android:visibility="invisible">
+                        android:padding="30sp"
+                        android:scaleX="-1">
+
 
                         <Spinner
-                            android:id="@+id/rightCrossHelpLowBarCount"
+                            android:id="@+id/rightLeftGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/addRightCrossHelpLowBarB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:id="@+id/rightLeftGearB"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
+                            android:text="@string/normal_plus" />
 
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
+                </ImageSwitcher>
 
-                        <Spinner
-                            android:id="@+id/rightCrossRevLowBarCount"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossRevLowBarB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-                <!-- lowBar -->
-
-                <LinearLayout
-                    android:id="@+id/rightDefense2Box"
+                <ImageSwitcher
+                    android:id="@+id/rightAirshipMid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/blue_square">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossFor2Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossFor2B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rightHelp2L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/rightCenterGearBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical"
-                        android:visibility="invisible">
+                        android:padding="30sp">
+
 
                         <Spinner
-                            android:id="@+id/rightCrossHelp2Count"
+                            android:id="@+id/rightCenterGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/addRightCrossHelp2B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:id="@+id/rightCenterGearB"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
+                            android:text="@string/normal_plus" />
 
 
                     </LinearLayout>
+                </ImageSwitcher>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossRev2Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossRev2B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-                <!-- Def 2 -->
-
-                <LinearLayout
-                    android:id="@+id/rightDefense3Box"
+                <ImageSwitcher
+                    android:id="@+id/rightAirshipBot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/blue_diag"
+                    android:scaleX="-1"
+                    android:scaleY="-1">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossFor3Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossFor3B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rightHelp3L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/rightRightGearBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical"
-                        android:visibility="invisible">
+                        android:padding="30sp"
+                        android:scaleX="-1"
+                        android:scaleY="-1">
+
 
                         <Spinner
-                            android:id="@+id/rightCrossHelp3Count"
+                            android:id="@+id/rightRightGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/addRightCrossHelp3B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:id="@+id/rightRightGearB"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
+                            android:text="@string/normal_plus" />
 
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossRev3Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossRev3B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-                <!-- Def 3 -->
-
-                <LinearLayout
-                    android:id="@+id/rightDefense4Box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossFor4Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossFor4B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rightHelp4L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
-
-                        <Spinner
-                            android:id="@+id/rightCrossHelp4Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossHelp4B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossRev4Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossRev4B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-                <!-- Def 4 -->
-
-                <LinearLayout
-                    android:id="@+id/rightDefense5Box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossFor5Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossFor5B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rightHelp5L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
-
-                        <Spinner
-                            android:id="@+id/rightCrossHelp5Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossHelp5B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/rightCrossRev5Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addRightCrossRev5B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-                <!-- Def 5 -->
-
+                </ImageSwitcher>
 
             </LinearLayout>
             <!-- rightTeleMatch layout -->
@@ -498,142 +159,142 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/highGoalBox"
+                <ImageSwitcher
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/high_goal"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/boiler_top">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_weight="1"
+                        android:id="@+id/highGoalBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical">
 
                         <Spinner
                             android:id="@+id/scoreHighCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="90sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:entries="@array/numbers"
+                            android:gravity="center" />
 
-                            android:entries="@array/numbers" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/scoreHighB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_plus" />
+                            <Button
+                                android:id="@+id/scoreHighB"
+                                android:layout_width="40sp"
+                                android:layout_height="40sp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginRight="10sp"
+                                android:text="@string/score_plus_1" />
 
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
+                            <Button
+                                android:id="@+id/scoreHigh5B"
+                                android:layout_width="40sp"
+                                android:layout_height="40sp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/score_plus_5" />
+                        </LinearLayout>
 
                         <Spinner
                             android:id="@+id/missHighCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="90sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20sp"
+                            android:entries="@array/numbers"
+                            android:gravity="center" />
 
-                            android:entries="@array/numbers" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/missHighB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_miss" />
+                            <Button
+                                android:id="@+id/missHighB"
+                                android:layout_width="40sp"
+                                android:layout_height="40sp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginRight="10sp"
+                                android:text="@string/miss_plus_1"
+                                android:textSize="10sp" />
+
+                            <Button
+                                android:id="@+id/missHigh5B"
+                                android:layout_width="40sp"
+                                android:layout_height="40sp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/miss_plus_5"
+                                android:textSize="10sp" />
+                        </LinearLayout>
 
 
                     </LinearLayout>
 
+                </ImageSwitcher>
 
-                </LinearLayout>
-
-                <ImageView
+                <ImageSwitcher
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/tower_center" />
-
-                <LinearLayout
-                    android:id="@+id/lowGoalBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/low_goal"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/boiler_bottom">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_weight="1"
+                        android:id="@+id/lowGoalBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical">
 
                         <Spinner
                             android:id="@+id/scoreLowCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="90sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:entries="@array/numbers"
+                            android:gravity="center" />
 
-                            android:entries="@array/numbers" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/scoreLowB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_plus" />
+                            <Button
+                                android:id="@+id/scoreLowB"
+                                android:layout_width="40sp"
+                                android:layout_height="40sp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginRight="10sp"
+                                android:text="@string/score_plus_1" />
+
+                            <Button
+                                android:id="@+id/scoreLow5B"
+                                android:layout_width="40sp"
+                                android:layout_height="40sp"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/score_plus_5" />
+                        </LinearLayout>
 
 
                     </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/missLowCount"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/missLowB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_miss" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                </ImageSwitcher>
 
             </LinearLayout>
-            <!-- tower layout -->
+            <!-- boiler layout -->
 
             <LinearLayout
                 android:id="@+id/leftTeleMatch"
@@ -642,454 +303,115 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_weight="1"
-                android:background="@color/red"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/leftDefense5Box"
+                <ImageSwitcher
+                    android:id="@+id/leftAirshipTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/red_diag">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossFor5Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossFor5B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/leftHelp5L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/leftLeftGearBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical"
-                        android:visibility="invisible">
+                        android:padding="30sp">
+
 
                         <Spinner
-                            android:id="@+id/leftCrossHelp5Count"
+                            android:id="@+id/leftLeftGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/addLeftCrossHelp5B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:id="@+id/leftLeftGearB"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
+                            android:text="@string/normal_plus" />
 
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
+                </ImageSwitcher>
 
-                        <Spinner
-                            android:id="@+id/leftCrossRev5Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossRev5B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/leftDefense4Box"
+                <ImageSwitcher
+                    android:id="@+id/leftAirshipMid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/red_square">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossFor4Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossFor4B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/leftHelp4L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/leftCenterGearBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical"
-                        android:visibility="invisible">
+                        android:padding="30sp">
+
 
                         <Spinner
-                            android:id="@+id/leftCrossHelp4Count"
+                            android:id="@+id/leftCenterGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/addLeftCrossHelp4B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:id="@+id/leftCenterGearB"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
+                            android:text="@string/normal_plus" />
 
 
                     </LinearLayout>
+                </ImageSwitcher>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossRev4Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossRev4B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/leftDefense3Box"
+                <ImageSwitcher
+                    android:id="@+id/leftAirshipBot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:background="@drawable/red_diag"
+                    android:scaleY="-1">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossFor3Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossFor3B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/leftHelp3L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/leftRightGearBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false"
                         android:orientation="vertical"
-                        android:visibility="invisible">
+                        android:padding="30sp"
+                        android:scaleY="-1">
+
 
                         <Spinner
-                            android:id="@+id/leftCrossHelp3Count"
+                            android:id="@+id/leftRightGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/addLeftCrossHelp3B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:id="@+id/leftRightGearB"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
+                            android:text="@string/normal_plus" />
 
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossRev3Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossRev3B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/leftDefense2Box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/blank"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossFor2Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossFor2B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/leftHelp2L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
-
-                        <Spinner
-                            android:id="@+id/leftCrossHelp2Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossHelp2B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossRev2Count"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossRev2B"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/leftDefenseLowBarBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/low_bar"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossForLowBarCount"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossForLowBarB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_for" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/leftHelpLowBarL"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
-
-                        <Spinner
-                            android:id="@+id/leftCrossHelpLowBarCount"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossHelpLowBarB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_help" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <Spinner
-                            android:id="@+id/leftCrossRevLowBarCount"
-                            style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-
-                            android:entries="@array/numbers" />
-
-                        <Button
-                            android:id="@+id/addLeftCrossRevLowBarB"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/score_rev" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
+                </ImageSwitcher>
 
             </LinearLayout>
             <!-- leftTeleMatch layout -->

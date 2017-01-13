@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="aAdd1"/>
-    <string name="aAdd2"/>
-    <string name="aAdd3"/>
-    <string name="aCount1"/>
-    <string name="aCount2"/>
-    <string name="aCount3"/>
-    <string name="aMoved"/>
-    <string name="bins_scored"/>
-    <string name="numBins_scored"/>
-    <string name="bins_step"/>
-    <string name="numBins_step"/>
+
     <string name="auto_input_text">Autonomous Mode</string>
-    <string name="start_spy_text_match">Started as Spy</string>
-    <string name="auto_reach_text_match">Reached Outer Works</string>
+    <string name="cross_baseline_match">Crossed Baseline</string>
+    <string name="dump_hopper_match">Dumped Hopper</string>
 
 </resources>
