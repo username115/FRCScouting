@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Daniel Logan
+ * Copyright 2017 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.frc836.database;
 
 import java.util.Date;
 
-import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2016_Entry;
+import org.frc836.database.FRCScoutingContract.FACT_MATCH_DATA_2017_Entry;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.robobees.stronghold.MatchStatsSH;
@@ -40,20 +40,20 @@ public abstract class MatchStatsStruct {
     public boolean practice_match;
     public String position;
 
-    public static final String TABLE_NAME = FACT_MATCH_DATA_2016_Entry.TABLE_NAME;
-    public static final String COLUMN_NAME_ID = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_ID;
-    public static final String COLUMN_NAME_EVENT_ID = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_EVENT_ID;
-    public static final String COLUMN_NAME_MATCH_ID = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_MATCH_ID;
-    public static final String COLUMN_NAME_TEAM_ID = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_TEAM_ID;
-    public static final String COLUMN_NAME_NOTES = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_NOTES;
-    public static final String COLUMN_NAME_TIP_OVER = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_TIP_OVER;
-    public static final String COLUMN_NAME_FOUL = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_FOUL;
-    public static final String COLUMN_NAME_YELLOW_CARD = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_YELLOW_CARD;
-    public static final String COLUMN_NAME_RED_CARD = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_CARD;
-    public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_PRACTICE_MATCH;
-    public static final String COLUMN_NAME_POSITION_ID = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_POSITION_ID;
-    public static final String COLUMN_NAME_INVALID = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_INVALID;
-    public static final String COLUMN_NAME_TIMESTAMP = FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_TIMESTAMP;
+    public static final String TABLE_NAME = FACT_MATCH_DATA_2017_Entry.TABLE_NAME;
+    public static final String COLUMN_NAME_ID = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_ID;
+    public static final String COLUMN_NAME_EVENT_ID = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_EVENT_ID;
+    public static final String COLUMN_NAME_MATCH_ID = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_MATCH_ID;
+    public static final String COLUMN_NAME_TEAM_ID = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_TEAM_ID;
+    public static final String COLUMN_NAME_NOTES = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_NOTES;
+    public static final String COLUMN_NAME_TIP_OVER = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_TIP_OVER;
+    public static final String COLUMN_NAME_FOUL = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_FOUL;
+    public static final String COLUMN_NAME_YELLOW_CARD = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_YELLOW_CARD;
+    public static final String COLUMN_NAME_RED_CARD = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_RED_CARD;
+    public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_PRACTICE_MATCH;
+    public static final String COLUMN_NAME_POSITION_ID = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_POSITION_ID;
+    public static final String COLUMN_NAME_INVALID = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_INVALID;
+    public static final String COLUMN_NAME_TIMESTAMP = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_TIMESTAMP;
 
     public static MatchStatsStruct getNewMatchStats() {
         return new MatchStatsSH();
@@ -145,7 +145,7 @@ public abstract class MatchStatsStruct {
     }
 
     public boolean isTextField(String column_name) {
-        return FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_NOTES
+        return FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_NOTES
                 .equalsIgnoreCase(column_name);
     }
 

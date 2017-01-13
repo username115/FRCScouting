@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Daniel Logan
+ * Copyright 2017 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package org.frc836.database;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2016_Entry;
+import org.frc836.database.FRCScoutingContract.SCOUT_PIT_DATA_2017_Entry;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.robobees.stronghold.PitStatsSH;
@@ -38,15 +38,15 @@ public abstract class PitStats {
 	public boolean auto_mode;
 	public String comments;
 
-	public static final String COLUMN_NAME_TEAM_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_TEAM_ID;
-	public static final String TABLE_NAME = SCOUT_PIT_DATA_2016_Entry.TABLE_NAME;
-	public static final String COLUMN_NAME_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_ID;
-	public static final String COLUMN_NAME_TIMESTAMP = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_TIMESTAMP;
-	public static final String COLUMN_NAME_INVALID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_INVALID;
-	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_CONFIG_ID;
-	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_WHEEL_BASE_ID;
-	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
-	public static final String COLUMN_NAME_NOTES = SCOUT_PIT_DATA_2016_Entry.COLUMN_NAME_NOTES;
+	public static final String COLUMN_NAME_TEAM_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_TEAM_ID;
+	public static final String TABLE_NAME = SCOUT_PIT_DATA_2017_Entry.TABLE_NAME;
+	public static final String COLUMN_NAME_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_ID;
+	public static final String COLUMN_NAME_TIMESTAMP = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_TIMESTAMP;
+	public static final String COLUMN_NAME_INVALID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_INVALID;
+	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_CONFIG_ID;
+	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_WHEEL_BASE_ID;
+	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
+	public static final String COLUMN_NAME_NOTES = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_NOTES;
 
 	public static PitStats getNewPitStats() {
 		return new PitStatsSH();
