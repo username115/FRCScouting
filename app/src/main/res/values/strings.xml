@@ -173,5 +173,6 @@
     <string name="score_help">H</string>
     <string name="score_rev">R</string>
     <string name="title_activity_pick">Pick List</string>
+    <string name="pilot_input_text">Pilot Scouting</string>
 
 </resources>
