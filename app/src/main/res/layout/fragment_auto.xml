@@ -103,7 +103,7 @@
                         android:id="@+id/rightCenterGearBox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
+                        android:layout_gravity="center_vertical|right"
                         android:baselineAligned="false"
                         android:orientation="vertical"
                         android:padding="30sp">
@@ -370,7 +370,7 @@
                         android:id="@+id/leftCenterGearBox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
+                        android:layout_gravity="center_vertical|left"
                         android:baselineAligned="false"
                         android:orientation="vertical"
                         android:padding="30sp">
