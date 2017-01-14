@@ -45,3 +45,6 @@ captures/
 
 .idea/
 *.iml
+
+#python cache files
+*.pyc
