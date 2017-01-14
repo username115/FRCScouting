@@ -61,6 +61,18 @@ class SqlColumn:
 			self.type = "integer"
 		if re.search('varchar',self.type):
 			self.type = "text"
+	def toJavaType(self):
+		self.toSqLite()
+		if re.search('text',self.type):
+			self.type = 'String'
+		if re.search('tinyint',self.type):
+			self.type = 'boolean'
+		if re.search('int',self.type):
+			self.type = 'int'
+		if self.name == 'position_id':
+			self.type = 'String'
+		if self.name == 'event_id':
+			self.type = 'String'
 	def toSqLite(self):
 		self.toSqLiteType()
 		if self.primary:

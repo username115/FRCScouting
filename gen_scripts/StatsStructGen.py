@@ -2,19 +2,20 @@
 
 _description = '''
 This script take in a SQL file with INSERTS and CREATES and transforms
-	it into a SQLite contract in Java. Meant to be used with a phpmyadmin
+	it into a struct in Java. Meant to be used with a phpmyadmin
 	exported sql file. Defaults assume the FRC 836 file structure.
 '''
 
 _defaultRun = '''
-	python SQLITEContractGen.py
+	python StatsStructGen.py
 		--packagename=org.frc836.database
-		--classname=FRCScoutingContract
+		--classname=MatchStatsStruct
+		--tablename=fact_match_data_2017
 		--infile=FRC_Scouting_Server/scouting.sql
-		--outfile=src/org/frc836/database/FRCScoutingContract.java
+		--outfile=app/src/main/java/org/frc836/database/MatchStatsStruct.java
 '''
-__author__ = "Jonny"
-__version__ = "2.0"
+__author__ = "Dan"
+__version__ = "1.0"
 __copyright__ = ""
 
 import SQLHelper
@@ -28,7 +29,7 @@ import argparse
 
 
 
-class SqlToJava():
+class SqlToJavaStruct():
 	re_GetSqlVar = re.compile(r"[`](?P<var>\w+)[`]")
 	re_CreateStatement = re.compile(r'''
 			\s* CREATE \s+ TABLE \s+ IF \s+ NOT \s+ EXISTS \s+    # grabs the create statement
@@ -56,12 +57,11 @@ class SqlToJava():
 			#[(] (?P<row>[^)]+) [)]   # matches everything in parens
 		''',re.VERBOSE)
 	def __init__(self, packageName=None, className="DefaultJavaClassName",
-					baseClass=None, baseClassHeader=None):
+					tableName=None):
 		self.tables = list()
 		self.packageName = packageName
 		self.className = className
-		self.baseClass = baseClass
-		self.baseClassHeader = baseClassHeader
+		self.tableName = tableName
 	def findTableName(self, tableName):
 		for i in range(0, len(self.tables)):
 			if tableName == self.tables[i].name:
@@ -77,46 +77,112 @@ class SqlToJava():
 		ret += "*/\n\n"
 		ret += "package "+ self.packageName +";\n"
 		ret += "\n"
-		if self.baseClassHeader:
-			ret += "import "+ self.baseClassHeader +";\n"
-		ret += "\n"
-		ret += "public final class "+ self.className +" {\n"
-		ret += "\tpublic "+ self.className +"() {}"
+		ret += "import android.content.ContentValues;\n"
+		ret += "import android.database.Cursor;\n"
+		ret += "import android.database.sqlite.SQLiteDatabase;\n"
+		ret += "import org.frc836.database.DB;\n"
+		ret += "import org.frc836.database.FRCScoutingContract." + self.tableName.upper() + "_Entry;\n"
+		ret += "import org.json.JSONException;\n"
+		ret += "import org.json.JSONObject;\n"
+		ret += "import java.util.Date;\n"
+		ret += "import java.util.ArrayList;\n"
+		ret += "import java.util.Arrays;\n"
+		ret += "import java.util.List;\n\n"
+		ret += "public class "+ self.className + " {\n"
 		return ret
 	def createStr_Footer(self):
 		ret = "}"
 		return ret
-	def createStr_Classes(self):
+
+	def createStr_Variables(self):
+		ret = ""
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if not 'id'== column.name and not 'timestamp'==column.name and not 'invalid'==column.name:
+					column.toJavaType()
+					ret += "public " + column.type + " " + column.name + ";\n"
+		return ret
+
+	def createStr_Constants(self):
+		ret = ""
+		ret += "public static final String TABLE_NAME = " + self.tableName.upper() + "_Entry.TABLE_NAME;\n"
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				ret += "public static final String COLUMN_NAME_" + column.name.upper() + " = " + self.tableName.upper() + "_Entry.COLUMN_NAME_" + column.name.upper() + ";\n"
+
+		return ret
+
+	def createStr_Init(self):
+		this.event = None
+		this.team = None
+		this.match = None
+		this.practice = None
+
+		ret = ""
+		ret += "public "+ self.className +"() {\n\tinit();\n}\n"
+		ret += "\n"
+		ret += "public void init() {\n"
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if not 'id'== column.name and not 'timestamp'==column.name and not 'invalid'==column.name:
+					ret += "\t" + column.name + " = "
+					if (column.type == 'boolean'):
+						ret += "false;"
+					elif (column.type == 'String'):
+						ret += '"";'
+					else:
+						ret += "0;"
+					ret += "\n"
+				if (re.search('practice',column.name)):
+					practice = column.name
+				elif (re.search('match',column.name)):
+					match = column.name
+				elif (re.search('event',column.name)):
+					event = column.name
+				elif (re.search('team',column.name)):
+					team = column.name
+				
+
+		ret += "}\n"
+
+		if match and event and team:
+			ret += "\n"
+			ret += "public " + self.className +"(int team, String event, int match) {\n\tinit();\n"
+			ret += "\tthis." + team + " = team;\n"
+			ret += "\tthis." + event + " = event;\n"
+			ret += "\tthis." + match + " = match;\n"
+			ret += "}"
+			if practice:
+				ret += "\n\n"
+				ret += "public " + self.className +"(int team, String event, int match, boolean practice) {\n\tinit();\n"
+				ret += "\tthis." + team + " = team;\n"
+				ret += "\tthis." + event + " = event;\n"
+				ret += "\tthis." + match + " = match;\n"
+				ret += "\tthis." + practice + " = practice;\n"
+				ret += "}"
+		return ret
+
+	def createStr_getValues(self):
+		ret = ""
+		#TODO
+		return ret
+
+	def createStr_JavaStruct(self):
 		s = ""
-		for table in self.tables:
-			s += table.createStr_Class(self.baseClass) +"\n\n"
-		return s[0:-2]
-	def createStr_DropStr(self):
-		s = "public static final String[] SQL_DELETE_ENTRIES = {\n"
-		for table in self.tables:
-			tmp = "\""+ table.createStr_DropStr() +"\""
-			s += SQLHelper.indent(tmp) +",\n"
-		return s[0:-2] +"\n};"
-	def createStr_CreateStr(self):
-		s = "public static final String[] SQL_CREATE_ENTRIES = {\n"
-		for table in self.tables:
-			s += SQLHelper.indent( SQLHelper.toJavaString(table.createStr_CreateStr()))
-			s += ",\n\n"
-			tmp = table.createStr_InsertStr()
-			if tmp:
-				s += SQLHelper.indent( SQLHelper.toJavaString(tmp))
-				s += ",\n\n"
-		return s[0:-3] +"\n};"
-	def createStr_JavaSqLite(self):
-		s = ""
-		s += self.createStr_Header() +"\n"
+		s += self.createStr_Header() + "\n"
 		s += "\n"
-		s += SQLHelper.indent(self.createStr_Classes()) +"\n"
+		s += SQLHelper.indent(self.createStr_Variables()) + "\n"
 		s += "\n"
-		s += SQLHelper.indent(self.createStr_CreateStr()) +"\n"
+		s += SQLHelper.indent(self.createStr_Constants()) + "\n"
 		s += "\n"
-		s += SQLHelper.indent(self.createStr_DropStr()) +"\n"
+		s += SQLHelper.indent(self.createStr_Init()) + "\n"
 		s += "\n"
+		s += SQLHelper.indent(self.createStr_getValues()) + "\n"
+		s += "\n"
+		#TODO finish this section
 		s += self.createStr_Footer()
 		return s
 		
@@ -176,22 +242,15 @@ class SqlToJava():
 			elif self.re_InsertStatement.search(ln):
 				self._parseStatement_Insert(ln)
 		f.close()
-	def writeJavaSqLiteFile(self, filename, verbose=False):
+	def writeJavaStruct(self, filename, verbose=False):
 		directory = os.path.dirname(filename)
 		if not os.path.exists(directory):
 			if verbose: print("Creating output directory: " + directory)
 			os.makedirs(directory)
 		f = open(filename,'w')
 		if verbose: print("Writing to \'"+ str(f.name) +"\' in mode \'"+ str(f.mode) +"\'")
-		f.write( self.createStr_JavaSqLite() )
+		f.write( self.createStr_JavaStruct() )
 		f.close()
-
-	def printCreates(self):
-		for table in self.tables:
-			print( table.createStr_CreateStr() +"\n")
-	def printInserts(self):
-		for table in self.tables:
-			print( table.createStr_InsertStr() +"\n")
 
 #===============================================================================
 # init_args()
@@ -212,17 +271,14 @@ def init_args():
 		help='The name of the Java class')
 	parser.add_argument('--packagename','-pn',required=False,
 		help='The database package to use')
-	parser.add_argument('--baseclass','-bc',required=False,
-		help='The class that all of the generated classes will implement')
-	parser.add_argument('--baseclassHeader','-bch',required=False,
-		help='The file that needs to be imported to use the baseclass')
+	parser.add_argument('--tablename','-tbl',required=False,
+		help='The table to implement this struct for')
 
 	parser.set_defaults( infilename='FRC_Scouting_Server/scouting.sql',
-							outfilename='src/org/frc836/database/FRCScoutingContract.java',
+							outfilename='app/src/main/java/org/frc836/database/MatchStatsStruct.java',
 							packagename='org.frc836.database',
-							classname='FRCScoutingContract',
-							baseclass='BaseColumns',
-							baseclassHeader='android.provider.BaseColumns'
+							classname='MatchStatsStruct',
+							tablename='fact_match_data_2017'
 						)
 
 	args = parser.parse_args()
@@ -231,10 +287,9 @@ def init_args():
 if __name__ == "__main__":
 	args = init_args()
 	
-	SqlCreator = SqlToJava(packageName = args.packagename,
+	SqlCreator = SqlToJavaStruct(packageName = args.packagename,
 							className = args.classname,
-							baseClass = args.baseclass,
-							baseClassHeader = args.baseclassHeader
-						)
+							tableName = args.tablename
+							)
 	SqlCreator.readFile(args.infilename, verbose=True)
-	SqlCreator.writeJavaSqLiteFile(args.outfilename, verbose=True)
+	SqlCreator.writeJavaStruct(args.outfilename, verbose=True)
