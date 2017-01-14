@@ -145,6 +145,10 @@
         <item>None</item>
     </string-array>
 
+    <string-array name="team_number_entry">
+        <item>Manual</item>
+    </string-array>
+
     <string name="menu_settings">Settings</string>
     <string name="title_activity_data">Data Lookup</string>
     <string name="team_lookup">Load</string>
