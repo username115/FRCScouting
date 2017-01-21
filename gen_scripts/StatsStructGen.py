@@ -115,10 +115,14 @@ class SqlToJavaStruct():
 		return ret
 
 	def createStr_Init(self):
-		this.event = None
-		this.team = None
-		this.match = None
-		this.practice = None
+		self.event = None
+		self.team = None
+		self.match = None
+		self.practice = None
+		self.position = None
+		self.config = None
+		self.wheel_base = None
+		self.wheel_type = None
 
 		ret = ""
 		ret += "public "+ self.className +"() {\n\tinit();\n}\n"
@@ -132,43 +136,176 @@ class SqlToJavaStruct():
 					if (column.type == 'boolean'):
 						ret += "false;"
 					elif (column.type == 'String'):
-						ret += '"";'
+						if re.search('position',column.name):
+							ret += '"Red 1";'
+						elif re.search('config',column.name) or re.search('wheel_base',column.name) or re.search('wheel_type',column.name):
+							ret += '"other";'
+						else:
+							ret += '"";'
 					else:
 						ret += "0;"
 					ret += "\n"
 				if (re.search('practice',column.name)):
-					practice = column.name
+					self.practice = column.name
 				elif (re.search('match',column.name)):
-					match = column.name
+					self.match = column.name
 				elif (re.search('event',column.name)):
-					event = column.name
+					self.event = column.name
 				elif (re.search('team',column.name)):
-					team = column.name
+					self.team = column.name
+				elif (re.search('position',column.name)):
+					self.position = column.name
+				elif (re.search('config',column.name)):
+					self.config = column.name
+				elif (re.search('wheel_base',column.name)):
+					self.wheel_base = column.name
+				elif (re.search('wheel_type',column.name)):
+					self.wheel_type = column.name
 				
 
 		ret += "}\n"
 
-		if match and event and team:
+		if self.match and self.event and self.team:
 			ret += "\n"
 			ret += "public " + self.className +"(int team, String event, int match) {\n\tinit();\n"
-			ret += "\tthis." + team + " = team;\n"
-			ret += "\tthis." + event + " = event;\n"
-			ret += "\tthis." + match + " = match;\n"
+			ret += "\tthis." + self.team + " = team;\n"
+			ret += "\tthis." + self.event + " = event;\n"
+			ret += "\tthis." + self.match + " = match;\n"
 			ret += "}"
-			if practice:
+			if self.practice:
 				ret += "\n\n"
 				ret += "public " + self.className +"(int team, String event, int match, boolean practice) {\n\tinit();\n"
-				ret += "\tthis." + team + " = team;\n"
-				ret += "\tthis." + event + " = event;\n"
-				ret += "\tthis." + match + " = match;\n"
-				ret += "\tthis." + practice + " = practice;\n"
+				ret += "\tthis." + self.team + " = team;\n"
+				ret += "\tthis." + self.event + " = event;\n"
+				ret += "\tthis." + self.match + " = match;\n"
+				ret += "\tthis." + self.practice + " = practice;\n"
 				ret += "}"
 		return ret
 
 	def createStr_getValues(self):
-		ret = ""
-		#TODO
+		ret = "public ContentValues getValues(DB db, SQLiteDatabase database) {\n"
+		ret += "\tContentValues vals = new ContentValues();\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			if self.event:
+				ret += "\tlong ev = db.getEventIDFromName(" + self.event + ", database);\n"
+
+
+			for column in self.tables[tableindex].columns:
+				if 'id'==column.name and self.event:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", ev * 10000000 + match_id * 10000 + team_id);\n"
+				elif 'id'==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", team_id * team_id);\n"
+				elif self.event==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", ev);\n"
+				elif self.position==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getPosIDFromName(" + column.name + ", database));\n"
+				elif self.config==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getConfigIDFromName(" + column.name + ", database));\n"
+				elif self.wheel_type==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getWheelTypeIDFromName(" + column.name + ", database));\n"
+				elif self.wheel_base==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getWheelBaseIDFromName(" + column.name + ", database));\n"
+				elif "invalid"==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", 1);\n"
+				elif not 'timestamp'==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", " + column.name
+					if column.type=="boolean":
+						ret += " ? 1 : 0"
+					ret += ");\n"
+		ret += "\n\treturn vals;\n}"
+
 		return ret
+
+	def createStr_fromCursor(self):
+		ret = "public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {\n"
+		ret += "\tc.moveToFirst();\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+
+			for column in self.tables[tableindex].columns:
+				if self.event==column.name:
+					ret += "\t" + column.name + " = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+				elif self.position==column.name:
+					ret += "\t" + column.name + " = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+				elif self.config==column.name:
+					ret += "\t" + column.name + " = DB.getConfigNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+				elif self.wheel_type==column.name:
+					ret += "\t" + column.name + " = DB.getWheelTypeNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+				elif self.wheel_base==column.name:
+					ret += "\t" + column.name + " = DB.getWheelBaseNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+				elif not 'timestamp'==column.name and not 'id'==column.name and not 'invalid'==column.name:
+					if column.type== "String":
+						ret += "\t" + column.name + " = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "));\n"
+					else:
+						ret += "\t" + column.name + " = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "))"
+						if column.type=="boolean":
+							ret += " != 0"
+						ret += ";\n"
+		ret += "}"
+
+		return ret
+
+	def createStr_getProjection(self):
+		ret = "public String[] getProjection() {\n"
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			ret += "\tList<String> temp = new ArrayList<String>(" + str(len(self.tables[tableindex].columns)-3) + ");\n"
+
+
+			for column in self.tables[tableindex].columns:
+				if not 'timestamp'==column.name and not 'id'==column.name and not 'invalid'==column.name:
+					ret += "\ttemp.add(COLUMN_NAME_" + column.name.upper() + ");\n"
+		ret += "\tString[] projection = new String[temp.size()];\n"
+		ret += "\treturn temp.toArray(projection);\n}"
+
+		return ret
+
+	def createStr_isString(self):
+		ret = "public boolean isTextField(String column_name) {\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.config and not column.name == self.wheel_type and not column.name == self.wheel_base):
+					ret += "\tif (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
+		ret += "\treturn false;\n}"
+
+		return ret
+
+	def createStr_needsConverted(self):
+		ret = "public boolean needsConvertedToText(String column_name) {\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if (column.name == self.event or column.name == self.position or column.name == self.config or column.name == self.wheel_type or column.name == self.wheel_base):
+					ret += "\tif (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
+		ret += "\treturn false;\n}"
+
+		return ret
+
+	def createStr_jsonToCV(self):
+		ret = "public ContentValues jsonToCV(JSONObject json) throws JSONException {\n"
+		ret += "\tContentValues vals = new ContentValues();\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.config and not column.name == self.wheel_type and not column.name == self.wheel_base):
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.getString(COLUMN_NAME_" + column.name.upper() + "));\n"
+				elif column.name == "timestamp":
+					ret += "\tvals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));\n"
+				elif column.name == "invalid":
+					ret += "\tvals.put(COLUMN_NAME_INVALID, 0);\n"
+				else:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.getInt(COLUMN_NAME_" + column.name.upper() + "));\n"
+
+		ret += "\treturn vals;\n}"
+		return ret
+
 
 	def createStr_JavaStruct(self):
 		s = ""
@@ -181,6 +318,16 @@ class SqlToJavaStruct():
 		s += SQLHelper.indent(self.createStr_Init()) + "\n"
 		s += "\n"
 		s += SQLHelper.indent(self.createStr_getValues()) + "\n"
+		s += "\n"
+		s += SQLHelper.indent(self.createStr_fromCursor()) + "\n"
+		s += "\n"
+		s += SQLHelper.indent(self.createStr_getProjection()) + "\n"
+		s += "\n"
+		s += SQLHelper.indent(self.createStr_isString()) + "\n"
+		s += "\n"
+		s += SQLHelper.indent(self.createStr_needsConverted()) + "\n"
+		s += "\n"
+		s += SQLHelper.indent(self.createStr_jsonToCV()) + "\n"
 		s += "\n"
 		#TODO finish this section
 		s += self.createStr_Footer()

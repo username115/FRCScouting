@@ -73,6 +73,13 @@ class SqlColumn:
 			self.type = 'String'
 		if self.name == 'event_id':
 			self.type = 'String'
+		if self.name == 'config_id':
+			self.type = 'String'
+		if self.name == 'wheel_type_id':
+			self.type = 'String'
+		if self.name == 'wheel_base_id':
+			self.type = 'String'
+
 	def toSqLite(self):
 		self.toSqLiteType()
 		if self.primary:
