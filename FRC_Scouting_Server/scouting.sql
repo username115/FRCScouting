@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Jan 09, 2017 at 06:57 PM
+-- Generation Time: Jan 23, 2017 at 11:31 PM
 -- Server version: 5.6.33-log
 -- PHP Version: 5.4.31
 
@@ -309,6 +309,31 @@ CREATE TABLE IF NOT EXISTS `fact_pilot_data_2017` (
   KEY `event_id` (`event_id`,`team_id`,`match_id`,`practice_match`,`position_id`),
   KEY `invalid` (`invalid`,`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `game_info`
+--
+
+CREATE TABLE IF NOT EXISTS `game_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `intvalue` int(15) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`),
+  KEY `timestamp` (`timestamp`,`invalid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `game_info`
+--
+
+INSERT INTO `game_info` (`id`, `key`, `intvalue`, `timestamp`, `invalid`) VALUES
+(1, '2017_rotor_3_preinstalled', 1, '2017-01-13 21:09:25', 0),
+(2, '2017_rotor_4_preinstalled', 2, '2017-01-13 21:09:36', 0);
 
 -- --------------------------------------------------------
 

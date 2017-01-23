@@ -93,6 +93,15 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
 	}
 	
+	public static abstract class GAME_INFO_Entry implements BaseColumns {
+		public static final String TABLE_NAME = "game_info";
+		public static final String COLUMN_NAME_ID = "id";
+		public static final String COLUMN_NAME_KEY = "key";
+		public static final String COLUMN_NAME_INTVALUE = "intvalue";
+		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+		public static final String COLUMN_NAME_INVALID = "invalid";
+	}
+	
 	public static abstract class NOTES_OPTIONS_Entry implements BaseColumns {
 		public static final String TABLE_NAME = "notes_options";
 		public static final String COLUMN_NAME_ID = "id";
@@ -425,6 +434,18 @@ public final class FRCScoutingContract {
 		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
 		");",
 	
+		"CREATE TABLE IF NOT EXISTS game_info (\n" +
+		"	id integer primary key autoincrement,\n" +
+		"	key text NOT NULL,\n" +
+		"	intvalue int(15) NOT NULL,\n" +
+		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+		");",
+	
+		"INSERT INTO game_info\n" +
+		"SELECT 1 AS id, 2017_rotor_3_preinstalled AS key, 1 AS intvalue, 2017-01-13 21:09:25 AS timestamp, 0 AS invalid\n" +
+		"UNION SELECT '2', '2017_rotor_4_preinstalled', '2', '2017-01-13 21:09:36', '0';",
+	
 		"CREATE TABLE IF NOT EXISTS notes_options (\n" +
 		"	id integer primary key autoincrement,\n" +
 		"	option_text text NOT NULL,\n" +
@@ -548,6 +569,7 @@ public final class FRCScoutingContract {
 		"DROP TABLE IF EXISTS event_lu;",
 		"DROP TABLE IF EXISTS fact_match_data_2017;",
 		"DROP TABLE IF EXISTS fact_pilot_data_2017;",
+		"DROP TABLE IF EXISTS game_info;",
 		"DROP TABLE IF EXISTS notes_options;",
 		"DROP TABLE IF EXISTS picklist;",
 		"DROP TABLE IF EXISTS position_lu;",
