@@ -1,4 +1,4 @@
-package org.robobees.stronghold;
+package org.frc836.yearly;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,7 +28,7 @@ import org.growingstems.scouting.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PitsActivitySH extends DBActivity {
+public class PitsActivity extends DBActivity {
 
     private String HELPMESSAGE;
 
@@ -190,7 +190,7 @@ public class PitsActivitySH extends DBActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-                                        PitsActivitySH.this.finish();
+                                        PitsActivity.this.finish();
                                     }
                                 })
                         .setNegativeButton("No",

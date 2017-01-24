@@ -69,7 +69,7 @@ public class DBSyncService extends Service {
 
     private Timestamp lastSync;
 
-    private List<Map<String, String>> outgoing;
+    private final List<Map<String, String>> outgoing = new ArrayList<Map<String, String>>();
 
     private boolean syncForced = false;
     private boolean initSync = false;
@@ -108,8 +108,6 @@ public class DBSyncService extends Service {
         dataTask = new SyncDataTask();
 
         password = Prefs.getSavedPassword(getApplicationContext());
-
-        outgoing = new ArrayList<Map<String, String>>();
 
         utils = new HttpUtils();
 
@@ -293,8 +291,6 @@ public class DBSyncService extends Service {
 
                 processConfig(json
                         .getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME));
-
-                processDefense(json.getJSONArray(DEFENSE_LU_Entry.TABLE_NAME));
 
                 processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
@@ -742,82 +738,6 @@ public class DBSyncService extends Service {
         }
     }
 
-    private void processDefense(JSONArray defense) {
-        try {
-            updateNotificationText(getString(R.string.notify_table) + " "
-                    + DEFENSE_LU_Entry.TABLE_NAME);
-            for (int i = 0; i < defense.length(); i++) {
-                JSONObject row = defense.getJSONObject(i);
-                Action action = Action.UPDATE;
-                if (row.getInt(DEFENSE_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-                    action = Action.DELETE;
-                }
-                ContentValues vals = new ContentValues();
-                vals.put(DEFENSE_LU_Entry.COLUMN_NAME_ID,
-                        row.getInt(DEFENSE_LU_Entry.COLUMN_NAME_ID));
-                vals.put(
-                        DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC,
-                        row.getString(DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC));
-                vals.put(
-                        DEFENSE_LU_Entry.COLUMN_NAME_TIMESTAMP,
-                        DB.dateParser.format(new Date(
-                                row.getLong(DEFENSE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-
-                // check if this entry exists already
-                String[] projection = {DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC};
-                String[] where = {vals
-                        .getAsString(DEFENSE_LU_Entry.COLUMN_NAME_ID)};
-                synchronized (ScoutingDBHelper.lock) {
-
-                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                            .getWritableDatabase();
-
-                    Cursor c = db.query(
-                            DEFENSE_LU_Entry.TABLE_NAME,
-                            projection, // select
-                            DEFENSE_LU_Entry.COLUMN_NAME_ID + "=?",
-                            where, null, // don't
-                            // group
-                            null, // don't filter
-                            null, // don't order
-                            "0,1"); // limit to 1
-                    try {
-                        if (!c.moveToFirst()) {
-                            if (action == Action.UPDATE)
-                                action = Action.INSERT;
-                            else if (action == Action.DELETE)
-                                action = Action.NOTHING;
-                        }
-
-                        switch (action) {
-                            case UPDATE:
-                                db.update(DEFENSE_LU_Entry.TABLE_NAME, vals,
-                                        DEFENSE_LU_Entry.COLUMN_NAME_ID
-                                                + " = ?", where);
-                                break;
-                            case INSERT:
-                                db.insert(DEFENSE_LU_Entry.TABLE_NAME, null,
-                                        vals);
-                                break;
-                            case DELETE:
-                                db.delete(DEFENSE_LU_Entry.TABLE_NAME,
-                                        DEFENSE_LU_Entry.COLUMN_NAME_ID
-                                                + " = ?", where);
-                                break;
-                            default:
-                        }
-                    } finally {
-                        if (c != null)
-                            c.close();
-                        ScoutingDBHelper.getInstance().close();
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            // TODO handle error
-        }
-    }
-
     private void processEvents(JSONArray events) {
         try {
             updateNotificationText(getString(R.string.notify_table) + " "
@@ -905,7 +825,7 @@ public class DBSyncService extends Service {
                 if (row.getInt(MatchStatsStruct.COLUMN_NAME_INVALID) != 0) {
                     action = Action.DELETE;
                 }
-                ContentValues vals = MatchStatsStruct.getNewMatchStats()
+                ContentValues vals = new MatchStatsStruct()
                         .jsonToCV(row);
 
                 // check if this entry exists already
@@ -1153,7 +1073,7 @@ public class DBSyncService extends Service {
                 if (row.getInt(PitStats.COLUMN_NAME_INVALID) != 0) {
                     action = Action.DELETE;
                 }
-                ContentValues vals = PitStats.getNewPitStats().jsonToCV(row);
+                ContentValues vals = new PitStats().jsonToCV(row);
 
                 // check if this entry exists already
                 String[] projection = {PitStats.COLUMN_NAME_ID,
@@ -1539,7 +1459,7 @@ public class DBSyncService extends Service {
         // TODO could be abstracted further?
 
         // repurposed invalid flag for marking fields that need to be uploaded
-        String[] matchProjection = MatchStatsStruct.getNewMatchStats()
+        String[] matchProjection = new MatchStatsStruct()
                 .getProjection();
 
         synchronized (ScoutingDBHelper.lock) {
@@ -1578,7 +1498,7 @@ public class DBSyncService extends Service {
 
     private void sendPits() {
         // TODO could be abstracted further
-        String[] pitProjection = PitStats.getNewPitStats().getProjection();
+        String[] pitProjection = new PitStats().getProjection();
         synchronized (ScoutingDBHelper.lock) {
 
             SQLiteDatabase db = ScoutingDBHelper.getInstance()

@@ -17,7 +17,7 @@
 package org.growingstems.scouting;
 
 import org.frc836.database.DBActivity;
-import org.robobees.stronghold.MatchActivity;
+import org.frc836.yearly.MatchActivity;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;

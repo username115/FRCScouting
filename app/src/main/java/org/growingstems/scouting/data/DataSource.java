@@ -21,7 +21,7 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 import org.frc836.database.DB;
-import org.frc836.database.MatchStatsStruct;
+import org.frc836.yearly.MatchStatsYearly;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -137,7 +137,7 @@ public class DataSource {
         @Override
         protected Data doInBackground(Data... params) {
 
-            Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
+            Map<String, SparseArray<MatchStatsYearly>> eventMap = params[0]._input.getMatches();
 
             params[0]._totalScores = new HashMap<String, SparseIntArray>(eventMap.size());
 
@@ -145,8 +145,8 @@ public class DataSource {
 
             int count = 0;
 
-            for (Map.Entry<String, SparseArray<MatchStatsStruct>> event : eventMap.entrySet()) {
-                SparseArray<MatchStatsStruct> matches = event.getValue();
+            for (Map.Entry<String, SparseArray<MatchStatsYearly>> event : eventMap.entrySet()) {
+                SparseArray<MatchStatsYearly> matches = event.getValue();
                 SparseIntArray scores = new SparseIntArray(matches.size());
 
                 for (int i = 0; i < matches.size(); i++) {

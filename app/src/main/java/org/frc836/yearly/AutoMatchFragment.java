@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.robobees.stronghold;
+package org.frc836.yearly;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,14 +23,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import org.growingstems.scouting.MatchFragment;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 
-public class TeleMatchFragment extends MatchFragment {
+public class AutoMatchFragment extends MatchFragment {
 
     private static final int LEFT_5 = 0;
     private static final int LEFT_4 = 1;
@@ -64,6 +66,9 @@ public class TeleMatchFragment extends MatchFragment {
     private Button scoreLowB;
     private Button missLowB;
 
+    private CheckBox spyC;
+    private CheckBox reachC;
+
     private LinearLayout leftL;
     private LinearLayout rightL;
 
@@ -72,7 +77,7 @@ public class TeleMatchFragment extends MatchFragment {
     private boolean displayed = false;
 
 
-    public TeleMatchFragment() {
+    public AutoMatchFragment() {
         // Required empty public constructor
     }
 
@@ -82,8 +87,8 @@ public class TeleMatchFragment extends MatchFragment {
      *
      * @return A new instance of fragment PreMatch.
      */
-    public static TeleMatchFragment newInstance() {
-        return new TeleMatchFragment();
+    public static AutoMatchFragment newInstance() {
+        return new AutoMatchFragment();
     }
 
     @Override
@@ -114,7 +119,7 @@ public class TeleMatchFragment extends MatchFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tele, container, false);
+        return inflater.inflate(R.layout.fragment_auto, container, false);
     }
 
     @Override
@@ -175,55 +180,57 @@ public class TeleMatchFragment extends MatchFragment {
             defSaved[3] = data.blue_def_4;
             defSaved[4] = data.blue_def_5;
         }
-        data.clearTele();
+        data.clearAuto();
         for (int i = 0; i < 5; i++) {
             switch (defSaved[i]) {
                 case 1: //Portcullis
-                    data.cross_portcullis_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_portcullis_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_portcullis_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_portcullis_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 2: //Cheval
-                    data.cross_cheval_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_cheval_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_cheval_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_cheval_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 3: //Moat
-                    data.cross_moat_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_moat_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_moat_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_moat_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 4: //Ramparts
-                    data.cross_ramparts_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_ramparts_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_ramparts_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_ramparts_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 5: //Drawbridge
-                    data.cross_drawbridge_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_drawbridge_for_with_help = helpS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_drawbridge_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_drawbridge_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_drawbridge_for_with_help = helpS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_drawbridge_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 6: //Sally
-                    data.cross_sally_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_sally_for_with_help = helpS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_sally_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_sally_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_sally_for_with_help = helpS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_sally_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 7: //Rock Wall
-                    data.cross_rock_wall_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_rock_wall_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_rock_wall_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_rock_wall_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 8: //Rough Terrain
-                    data.cross_rough_terrain_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_rough_terrain_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_rough_terrain_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_rough_terrain_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
                 case 9: //Low Bar
-                    data.cross_low_bar_for = forS.get(defDisp[i]).getSelectedItemPosition();
-                    data.cross_low_bar_rev = revS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_low_bar_for = forS.get(defDisp[i]).getSelectedItemPosition();
+                    data.auto_cross_low_bar_rev = revS.get(defDisp[i]).getSelectedItemPosition();
                     break;
             }
         }
 
+        data.start_spy = spyC.isChecked();
+        data.auto_reach = reachC.isChecked();
 
-        data.score_high = scoreHighS.getSelectedItemPosition();
-        data.score_low = scoreLowS.getSelectedItemPosition();
-        data.miss_high = missHighS.getSelectedItemPosition();
-        data.miss_low = missLowS.getSelectedItemPosition();
+        data.auto_score_high = scoreHighS.getSelectedItemPosition();
+        data.auto_score_low = scoreLowS.getSelectedItemPosition();
+        data.auto_miss_high = missHighS.getSelectedItemPosition();
+        data.auto_miss_low = missLowS.getSelectedItemPosition();
     }
 
     @Override
@@ -284,50 +291,50 @@ public class TeleMatchFragment extends MatchFragment {
             images.get(defDisp[i]).setBackgroundResource(resources.get(defSaved[i]));
             switch (defSaved[i]) {
                 case 1: //Portcullis
-                    forS.get(defDisp[i]).setSelection(data.cross_portcullis_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_portcullis_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_portcullis_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_portcullis_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 case 2: //Cheval
-                    forS.get(defDisp[i]).setSelection(data.cross_cheval_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_cheval_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_cheval_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_cheval_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 case 3: //Moat
-                    forS.get(defDisp[i]).setSelection(data.cross_moat_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_moat_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_moat_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_moat_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 case 4: //Ramparts
-                    forS.get(defDisp[i]).setSelection(data.cross_ramparts_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_ramparts_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_ramparts_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_ramparts_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 case 5: //Drawbridge
-                    forS.get(defDisp[i]).setSelection(data.cross_drawbridge_for);
-                    helpS.get(defDisp[i]).setSelection(data.cross_drawbridge_for_with_help);
-                    revS.get(defDisp[i]).setSelection(data.cross_drawbridge_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_drawbridge_for);
+                    helpS.get(defDisp[i]).setSelection(data.auto_cross_drawbridge_for_with_help);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_drawbridge_rev);
                     helpL.get(defDisp[i]).setVisibility(View.VISIBLE);
                     break;
                 case 6: //Sally
-                    forS.get(defDisp[i]).setSelection(data.cross_sally_for);
-                    helpS.get(defDisp[i]).setSelection(data.cross_sally_for_with_help);
-                    revS.get(defDisp[i]).setSelection(data.cross_sally_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_sally_for);
+                    helpS.get(defDisp[i]).setSelection(data.auto_cross_sally_for_with_help);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_sally_rev);
                     helpL.get(defDisp[i]).setVisibility(View.VISIBLE);
                     break;
                 case 7: //Rock Wall
-                    forS.get(defDisp[i]).setSelection(data.cross_rock_wall_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_rock_wall_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_rock_wall_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_rock_wall_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 case 8: //Rough Terrain
-                    forS.get(defDisp[i]).setSelection(data.cross_rough_terrain_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_rough_terrain_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_rough_terrain_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_rough_terrain_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 case 9: //Low Bar
-                    forS.get(defDisp[i]).setSelection(data.cross_low_bar_for);
-                    revS.get(defDisp[i]).setSelection(data.cross_low_bar_rev);
+                    forS.get(defDisp[i]).setSelection(data.auto_cross_low_bar_for);
+                    revS.get(defDisp[i]).setSelection(data.auto_cross_low_bar_rev);
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
                     break;
                 default:
@@ -336,15 +343,17 @@ public class TeleMatchFragment extends MatchFragment {
                     helpL.get(defDisp[i]).setVisibility(View.INVISIBLE);
             }
         }
-        scoreHighS.setSelection(data.score_high);
-        scoreLowS.setSelection(data.score_low);
-        missHighS.setSelection(data.miss_high);
-        missLowS.setSelection(data.miss_low);
+        spyC.setChecked(data.start_spy);
+        reachC.setChecked(data.auto_reach);
+        scoreHighS.setSelection(data.auto_score_high);
+        scoreLowS.setSelection(data.auto_score_low);
+        missHighS.setSelection(data.auto_miss_high);
+        missLowS.setSelection(data.auto_miss_low);
     }
 
     private void getGUIRefs(View view) {
-        leftL = (LinearLayout) view.findViewById(R.id.leftTeleMatch);
-        rightL = (LinearLayout) view.findViewById(R.id.rightTeleMatch);
+        leftL = (LinearLayout) view.findViewById(R.id.leftAutoMatch);
+        rightL = (LinearLayout) view.findViewById(R.id.rightAutoMatch);
 
         forS.put(LEFT_5, (Spinner) view.findViewById(R.id.leftCrossFor5Count));
         forS.put(LEFT_4, (Spinner) view.findViewById(R.id.leftCrossFor4Count));
@@ -451,6 +460,9 @@ public class TeleMatchFragment extends MatchFragment {
         missHighB = (Button) view.findViewById(R.id.missHighB);
         scoreLowB = (Button) view.findViewById(R.id.scoreLowB);
         missLowB = (Button) view.findViewById(R.id.missLowB);
+
+        spyC = (CheckBox) view.findViewById(R.id.startSpyC);
+        reachC = (CheckBox) view.findViewById(R.id.reachOuterWorksC);
     }
 
     private void setListeners() {
