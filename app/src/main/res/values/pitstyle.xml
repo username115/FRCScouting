@@ -34,7 +34,7 @@
     <string name="ground_load_gear_pit_text">Can Load Gears from floor</string>
     <string name="station_load_gear_pit_text">Can Load Gears from loading station</string>
 
-    <string name="loading_speed_text">Fuel Loading Speed</string>
+    <string name="loading_speed_text">Floor Fuel Loading Speed</string>
     <string name="loading_speed_hint">Fuel/Second</string>
 
     <string name="robot_speed_text">Robot Max Speed</string>

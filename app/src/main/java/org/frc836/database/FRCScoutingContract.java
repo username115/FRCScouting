@@ -160,7 +160,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_TELE_SCORE_HIGH_COUNT = "tele_score_high_count";
 		public static final String COLUMN_NAME_TELE_SCORE_LOW_COUNT = "tele_score_low_count";
 		public static final String COLUMN_NAME_ACCURACY = "accuracy";
-		public static final String COLUMN_NAME_HOPPER_CAPACITY = "hopper_capacity";
+		public static final String COLUMN_NAME_FUEL_CAPACITY = "fuel_capacity";
 		public static final String COLUMN_NAME_SCORING_SPEED_BPS = "scoring_speed_bps";
 		public static final String COLUMN_NAME_LOADING_SPEED_BPS = "loading_speed_bps";
 		public static final String COLUMN_NAME_MAX_ROBOT_SPEED_FTS = "max_robot_speed_fts";
@@ -515,7 +515,7 @@ public final class FRCScoutingContract {
 		"	tele_score_high_count unsigned int(4) NOT NULL,\n" +
 		"	tele_score_low_count unsigned int(4) NOT NULL,\n" +
 		"	accuracy unsigned int(3) NOT NULL,\n" +
-		"	hopper_capacity unsigned int(4) NOT NULL,\n" +
+		"	fuel_capacity unsigned int(4) NOT NULL,\n" +
 		"	scoring_speed_bps unsigned int(2) NOT NULL,\n" +
 		"	loading_speed_bps unsigned int(3) NOT NULL,\n" +
 		"	max_robot_speed_fts unsigned int(3) NOT NULL,\n" +

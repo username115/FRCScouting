@@ -453,7 +453,7 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2017` (
   `tele_score_high_count` int(4) unsigned NOT NULL,
   `tele_score_low_count` int(4) unsigned NOT NULL,
   `accuracy` int(3) unsigned NOT NULL,
-  `hopper_capacity` int(4) unsigned NOT NULL,
+  `fuel_capacity` int(4) unsigned NOT NULL,
   `scoring_speed_bps` int(2) unsigned NOT NULL,
   `loading_speed_bps` int(3) unsigned NOT NULL,
   `max_robot_speed_fts` int(3) unsigned NOT NULL,

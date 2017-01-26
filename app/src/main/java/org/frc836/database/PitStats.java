@@ -47,7 +47,7 @@ public class PitStats {
 	public int tele_score_high_count;
 	public int tele_score_low_count;
 	public int accuracy;
-	public int hopper_capacity;
+	public int fuel_capacity;
 	public int scoring_speed_bps;
 	public int loading_speed_bps;
 	public int max_robot_speed_fts;
@@ -77,7 +77,7 @@ public class PitStats {
 	public static final String COLUMN_NAME_TELE_SCORE_HIGH_COUNT = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_TELE_SCORE_HIGH_COUNT;
 	public static final String COLUMN_NAME_TELE_SCORE_LOW_COUNT = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_TELE_SCORE_LOW_COUNT;
 	public static final String COLUMN_NAME_ACCURACY = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_ACCURACY;
-	public static final String COLUMN_NAME_HOPPER_CAPACITY = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_HOPPER_CAPACITY;
+	public static final String COLUMN_NAME_FUEL_CAPACITY = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_FUEL_CAPACITY;
 	public static final String COLUMN_NAME_SCORING_SPEED_BPS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_SCORING_SPEED_BPS;
 	public static final String COLUMN_NAME_LOADING_SPEED_BPS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_LOADING_SPEED_BPS;
 	public static final String COLUMN_NAME_MAX_ROBOT_SPEED_FTS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_MAX_ROBOT_SPEED_FTS;
@@ -112,7 +112,7 @@ public class PitStats {
 		tele_score_high_count = 0;
 		tele_score_low_count = 0;
 		accuracy = 0;
-		hopper_capacity = 0;
+		fuel_capacity = 0;
 		scoring_speed_bps = 0;
 		loading_speed_bps = 0;
 		max_robot_speed_fts = 0;
@@ -144,7 +144,7 @@ public class PitStats {
 		vals.put(COLUMN_NAME_TELE_SCORE_HIGH_COUNT, tele_score_high_count);
 		vals.put(COLUMN_NAME_TELE_SCORE_LOW_COUNT, tele_score_low_count);
 		vals.put(COLUMN_NAME_ACCURACY, accuracy);
-		vals.put(COLUMN_NAME_HOPPER_CAPACITY, hopper_capacity);
+		vals.put(COLUMN_NAME_FUEL_CAPACITY, fuel_capacity);
 		vals.put(COLUMN_NAME_SCORING_SPEED_BPS, scoring_speed_bps);
 		vals.put(COLUMN_NAME_LOADING_SPEED_BPS, loading_speed_bps);
 		vals.put(COLUMN_NAME_MAX_ROBOT_SPEED_FTS, max_robot_speed_fts);
@@ -177,7 +177,7 @@ public class PitStats {
 		tele_score_high_count = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TELE_SCORE_HIGH_COUNT));
 		tele_score_low_count = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TELE_SCORE_LOW_COUNT));
 		accuracy = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ACCURACY));
-		hopper_capacity = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_HOPPER_CAPACITY));
+		fuel_capacity = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FUEL_CAPACITY));
 		scoring_speed_bps = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCORING_SPEED_BPS));
 		loading_speed_bps = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_LOADING_SPEED_BPS));
 		max_robot_speed_fts = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MAX_ROBOT_SPEED_FTS));
@@ -207,7 +207,7 @@ public class PitStats {
 		temp.add(COLUMN_NAME_TELE_SCORE_HIGH_COUNT);
 		temp.add(COLUMN_NAME_TELE_SCORE_LOW_COUNT);
 		temp.add(COLUMN_NAME_ACCURACY);
-		temp.add(COLUMN_NAME_HOPPER_CAPACITY);
+		temp.add(COLUMN_NAME_FUEL_CAPACITY);
 		temp.add(COLUMN_NAME_SCORING_SPEED_BPS);
 		temp.add(COLUMN_NAME_LOADING_SPEED_BPS);
 		temp.add(COLUMN_NAME_MAX_ROBOT_SPEED_FTS);
@@ -256,7 +256,7 @@ public class PitStats {
 		vals.put(COLUMN_NAME_TELE_SCORE_HIGH_COUNT, json.getInt(COLUMN_NAME_TELE_SCORE_HIGH_COUNT));
 		vals.put(COLUMN_NAME_TELE_SCORE_LOW_COUNT, json.getInt(COLUMN_NAME_TELE_SCORE_LOW_COUNT));
 		vals.put(COLUMN_NAME_ACCURACY, json.getInt(COLUMN_NAME_ACCURACY));
-		vals.put(COLUMN_NAME_HOPPER_CAPACITY, json.getInt(COLUMN_NAME_HOPPER_CAPACITY));
+		vals.put(COLUMN_NAME_FUEL_CAPACITY, json.getInt(COLUMN_NAME_FUEL_CAPACITY));
 		vals.put(COLUMN_NAME_SCORING_SPEED_BPS, json.getInt(COLUMN_NAME_SCORING_SPEED_BPS));
 		vals.put(COLUMN_NAME_LOADING_SPEED_BPS, json.getInt(COLUMN_NAME_LOADING_SPEED_BPS));
 		vals.put(COLUMN_NAME_MAX_ROBOT_SPEED_FTS, json.getInt(COLUMN_NAME_MAX_ROBOT_SPEED_FTS));
@@ -289,7 +289,7 @@ public class PitStats {
 		vals.put( COLUMN_NAME_TELE_SCORE_HIGH_COUNT, String.valueOf(tele_score_high_count));
 		vals.put( COLUMN_NAME_TELE_SCORE_LOW_COUNT, String.valueOf(tele_score_low_count));
 		vals.put( COLUMN_NAME_ACCURACY, String.valueOf(accuracy));
-		vals.put( COLUMN_NAME_HOPPER_CAPACITY, String.valueOf(hopper_capacity));
+		vals.put( COLUMN_NAME_FUEL_CAPACITY, String.valueOf(fuel_capacity));
 		vals.put( COLUMN_NAME_SCORING_SPEED_BPS, String.valueOf(scoring_speed_bps));
 		vals.put( COLUMN_NAME_LOADING_SPEED_BPS, String.valueOf(loading_speed_bps));
 		vals.put( COLUMN_NAME_MAX_ROBOT_SPEED_FTS, String.valueOf(max_robot_speed_fts));
