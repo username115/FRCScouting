@@ -1138,12 +1138,12 @@ public class DB {
         }
     }
 
-    public MatchStatsYearly getMatchStats(long event_id, int match,
+    public MatchStatsStruct getMatchStats(long event_id, int match,
                                           int team, boolean practice) {
         synchronized (ScoutingDBHelper.lock) {
 
             try {
-                MatchStatsYearly stats = new MatchStatsYearly();
+                MatchStatsStruct stats = new MatchStatsStruct();
 
                 SQLiteDatabase db = ScoutingDBHelper.getInstance()
                         .getReadableDatabase();
@@ -1914,7 +1914,7 @@ public class DB {
         protected int _teamNum = -1; //Matches
         protected String _eventName = null; //Matches
 
-        protected Map<String, SparseArray<MatchStatsYearly>> _matches; //eventname to matchlist
+        protected Map<String, SparseArray<MatchStatsStruct>> _matches; //eventname to matchlist
 
         public DBData(RequestType type, DBCallback callback) {
             _type = type;
@@ -1929,7 +1929,7 @@ public class DB {
             return _eventName;
         }
 
-        public Map<String, SparseArray<MatchStatsYearly>> getMatches() {
+        public Map<String, SparseArray<MatchStatsStruct>> getMatches() {
             return _matches;
         }
     }
@@ -1968,10 +1968,10 @@ public class DB {
                     return null;
                 }
 
-                params[0]._matches = new HashMap<String, SparseArray<MatchStatsYearly>>(eventList.size());
+                params[0]._matches = new HashMap<String, SparseArray<MatchStatsStruct>>(eventList.size());
 
                 for (Long id : eventList) {
-                    SparseArray<MatchStatsYearly> matches = new SparseArray<MatchStatsYearly>();
+                    SparseArray<MatchStatsStruct> matches = new SparseArray<MatchStatsStruct>();
 
                     List<Integer> matchList = getMatchesWithData(id, false, params[0]._teamNum);
 

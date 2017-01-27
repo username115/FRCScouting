@@ -4,23 +4,16 @@ import org.frc836.database.MatchStatsStruct;
 
 
 
-public class MatchStatsYearly extends MatchStatsStruct {
-    public MatchStatsYearly() {
-        super.init();
-    }
+public abstract class MatchStatsYearly {
 
-    public MatchStatsYearly(int team, String event, int match) {
-        super(team, event, match);
-    }
-
-    public MatchStatsYearly(int team, String event, int match, boolean practice) {
-        super(team, event, match, practice);
-    }
-
-    public int getTotalScore() {
+    public static int getTotalScore(MatchStatsStruct stats) {
         int score = 0;
         // TODO
 
         return score;
+    }
+
+    public static void clearAuto(MatchStatsStruct stats) {
+        // TODO
     }
 }
