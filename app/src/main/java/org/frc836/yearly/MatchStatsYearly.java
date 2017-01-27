@@ -16,4 +16,8 @@ public abstract class MatchStatsYearly {
     public static void clearAuto(MatchStatsStruct stats) {
         // TODO
     }
+
+    public static void clearTele(MatchStatsStruct stats) {
+        // TODO
+    }
 }

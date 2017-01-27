@@ -44,7 +44,7 @@
                     android:scaleX="-1">
 
                     <LinearLayout
-                        android:id="@+id/rightLeftGearBox"
+                        android:id="@+id/rightRightGearBox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -55,7 +55,7 @@
 
 
                         <Spinner
-                            android:id="@+id/rightLeftGearCount"
+                            android:id="@+id/rightRightGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
                             android:layout_width="40sp"
                             android:layout_height="40sp"
@@ -63,7 +63,7 @@
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/rightLeftGearB"
+                            android:id="@+id/rightRightGearB"
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
@@ -118,7 +118,7 @@
                     android:scaleY="-1">
 
                     <LinearLayout
-                        android:id="@+id/rightRightGearBox"
+                        android:id="@+id/rightLeftGearBox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -130,7 +130,7 @@
 
 
                         <Spinner
-                            android:id="@+id/rightRightGearCount"
+                            android:id="@+id/rightLeftGearCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
                             android:layout_width="40sp"
                             android:layout_height="40sp"
@@ -138,7 +138,7 @@
                             android:entries="@array/numbers" />
 
                         <Button
-                            android:id="@+id/rightRightGearB"
+                            android:id="@+id/rightLeftGearB"
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
