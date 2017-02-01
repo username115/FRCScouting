@@ -122,9 +122,9 @@ public class TeleMatchFragment extends MatchFragment {
             pos = Prefs.getPosition(getActivity(), "Red 1");
         int side;
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
-            side = RIGHT;
-        } else {
             side = LEFT;
+        } else {
+            side = RIGHT;
         }
 
         MatchStatsYearly.clearTele(data);
@@ -169,13 +169,13 @@ public class TeleMatchFragment extends MatchFragment {
 
         int side;
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
-            layouts[LEFT].setVisibility(View.GONE);
-            layouts[RIGHT].setVisibility(View.VISIBLE);
-            side = RIGHT;
-        } else {
             layouts[LEFT].setVisibility(View.VISIBLE);
             layouts[RIGHT].setVisibility(View.GONE);
             side = LEFT;
+        } else {
+            layouts[LEFT].setVisibility(View.GONE);
+            layouts[RIGHT].setVisibility(View.VISIBLE);
+            side = RIGHT;
         }
 
         LeftGearCount[side].setSelection(data.gear_delivered_left);

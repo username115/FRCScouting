@@ -127,9 +127,9 @@ public class AutoMatchFragment extends MatchFragment {
             pos = Prefs.getPosition(getActivity(), "Red 1");
         int side;
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
-            side = RIGHT;
-        } else {
             side = LEFT;
+        } else {
+            side = RIGHT;
         }
 
         MatchStatsYearly.clearAuto(data);
@@ -176,13 +176,13 @@ public class AutoMatchFragment extends MatchFragment {
 
         int side;
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
-            layouts[LEFT].setVisibility(View.GONE);
-            layouts[RIGHT].setVisibility(View.VISIBLE);
-            side = RIGHT;
-        } else {
             layouts[LEFT].setVisibility(View.VISIBLE);
             layouts[RIGHT].setVisibility(View.GONE);
             side = LEFT;
+        } else {
+            layouts[LEFT].setVisibility(View.GONE);
+            layouts[RIGHT].setVisibility(View.VISIBLE);
+            side = RIGHT;
         }
 
         LeftGearCount[side].setSelection(data.auto_gear_delivered_left);
