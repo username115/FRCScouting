@@ -36,7 +36,6 @@ import org.frc836.database.FRCScoutingContract.POSITION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.ROBOT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
 import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
-import org.frc836.database.FRCScoutingContract.DEFENSE_LU_Entry;
 import org.frc836.samsung.fileselector.FileOperation;
 import org.frc836.samsung.fileselector.FileSelector;
 import org.frc836.samsung.fileselector.OnHandleFileListener;
@@ -53,6 +52,8 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
 import android.widget.Toast;
+
+import org.frc836.yearly.MatchStatsYearly;
 
 public class DB {
 
@@ -1064,7 +1065,7 @@ public class DB {
         synchronized (ScoutingDBHelper.lock) {
 
             try {
-                PitStats stats = PitStats.getNewPitStats();
+                PitStats stats = new PitStats();
 
                 SQLiteDatabase db = ScoutingDBHelper.getInstance()
                         .getReadableDatabase();
@@ -1104,7 +1105,7 @@ public class DB {
         synchronized (ScoutingDBHelper.lock) {
 
             try {
-                MatchStatsStruct stats = MatchStatsStruct.getNewMatchStats();
+                MatchStatsStruct stats = new MatchStatsStruct();
 
                 SQLiteDatabase db = ScoutingDBHelper.getInstance()
                         .getReadableDatabase();
@@ -1142,7 +1143,7 @@ public class DB {
         synchronized (ScoutingDBHelper.lock) {
 
             try {
-                MatchStatsStruct stats = MatchStatsStruct.getNewMatchStats();
+                MatchStatsStruct stats = new MatchStatsStruct();
 
                 SQLiteDatabase db = ScoutingDBHelper.getInstance()
                         .getReadableDatabase();
@@ -1460,30 +1461,6 @@ public class DB {
         return ret;
     }
 
-    public long getDefenseIDFromName(String type, SQLiteDatabase db) {
-
-        String[] projection = {DEFENSE_LU_Entry.COLUMN_NAME_ID};
-        String[] where = {type};
-        Cursor c = db.query(DEFENSE_LU_Entry.TABLE_NAME,
-                projection, // select
-                DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC + " LIKE ?",
-                where, // EventName
-                null, // don't group
-                null, // don't filter
-                null, // don't order
-                "0,1"); // limit to 1
-        long ret = -1;
-        try {
-            c.moveToFirst();
-            ret = c.getLong(c
-                    .getColumnIndexOrThrow(DEFENSE_LU_Entry.COLUMN_NAME_ID));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-        return ret;
-    }
-
     public static String getConfigNameFromID(int config, SQLiteDatabase db) {
 
         String[] projection = {CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC};
@@ -1543,30 +1520,6 @@ public class DB {
             c.moveToFirst();
             ret = c.getString(c
                     .getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-        return ret;
-    }
-
-    public static String getDefenseNameFromID(int type, SQLiteDatabase db) {
-
-        String[] projection = {DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC};
-        String[] where = {String.valueOf(type)};
-        Cursor c = db.query(DEFENSE_LU_Entry.TABLE_NAME, projection, // select
-                DEFENSE_LU_Entry.COLUMN_NAME_ID + " LIKE ?", where, // EventName
-                null, // don't group
-                null, // don't filter
-                null, // don't order
-                "0,1"); // limit to 1
-        String ret = "";
-        if (c.getCount() < 1)
-            return "";
-        try {
-            c.moveToFirst();
-            ret = c.getString(c
-                    .getColumnIndexOrThrow(DEFENSE_LU_Entry.COLUMN_NAME_DEFENSE_DESC));
         } finally {
             if (c != null)
                 c.close();
@@ -1765,7 +1718,7 @@ public class DB {
                                                     .getColumnName(j))
                                             && !debug)
                                         j++;
-                                    if (MatchStatsStruct.getNewMatchStats()
+                                    if (new MatchStatsStruct()
                                             .isTextField(c.getColumnName(j)))
                                         match_data.append("\"")
                                                 .append(c.getString(j))
@@ -1792,39 +1745,6 @@ public class DB {
                                                     position);
                                         }
                                         match_data.append(position);
-                                    } else if (FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_2
-                                            .equalsIgnoreCase(c
-                                                    .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_3
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_4
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_RED_DEF_5
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_2
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_3
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_4
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j)) ||
-                                            FRCScoutingContract.FACT_MATCH_DATA_2016_Entry.COLUMN_NAME_BLUE_DEF_5
-                                                    .equalsIgnoreCase(c
-                                                            .getColumnName(j))) {
-                                        String defense = defenses.get(c
-                                                .getInt(j));
-                                        if (defense == null) {
-                                            defense = getDefenseNameFromID(
-                                                    c.getInt(j), db);
-                                            defenses.append(c.getInt(j),
-                                                    defense);
-                                        }
-                                        match_data.append(defense);
                                     } else
                                         match_data.append(c.getString(j));
                                 }
@@ -1881,7 +1801,7 @@ public class DB {
                                                     .getColumnName(j))
                                             && !debug)
                                         j++;
-                                    if (PitStats.getNewPitStats().isTextField(
+                                    if (new PitStats().isTextField(
                                             c.getColumnName(j)))
                                         pit_data.append("\"")
                                                 .append(c.getString(j))

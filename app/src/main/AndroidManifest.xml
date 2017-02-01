@@ -41,7 +41,7 @@
             android:stopWithTask="true" />
 
         <activity
-            android:name="org.robobees.stronghold.MatchActivity"
+            android:name="org.frc836.yearly.MatchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
             android:windowSoftInputMode="stateHidden" />
@@ -54,7 +54,7 @@
                 android:value="org.growingstems.scouting.DashboardActivity" />
         </activity>
         <activity
-            android:name="org.robobees.stronghold.PitsActivitySH"
+            android:name="org.frc836.yearly.PitsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/pits_label" />
         <activity

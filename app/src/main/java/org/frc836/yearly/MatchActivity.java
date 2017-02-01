@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan, Matthew Berkin
+ * Copyright 2015 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.robobees.stronghold;
+package org.frc836.yearly;
 
 
 import android.app.AlertDialog;
@@ -35,7 +35,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.frc836.database.DBActivity;
+import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MainMenuSelection;
+import org.growingstems.scouting.MatchFragment;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
@@ -44,11 +46,10 @@ import java.util.List;
 
 public class MatchActivity extends DBActivity {
 
-    public static final int NUM_SCREENS = 4;
-    public static final int PRE_MATCH_SCREEN = 0;
-    public static final int AUTO_SCREEN = 1;
-    public static final int TELE_SCREEN = 2;
-    public static final int END_SCREEN = 3;
+    public static final int NUM_SCREENS = 3;
+    public static final int AUTO_SCREEN = 0;
+    public static final int TELE_SCREEN = 1;
+    public static final int END_SCREEN = 2;
 
     private MatchViewAdapter mMatchViewAdapter;
 
@@ -60,7 +61,7 @@ public class MatchActivity extends DBActivity {
 
     private String HELPMESSAGE;
 
-    private MatchStatsSH teamData;
+    private MatchStatsStruct teamData;
 
     private EditText teamText;
     private EditText matchT;
@@ -103,7 +104,7 @@ public class MatchActivity extends DBActivity {
         position = intent.getStringExtra("position");
 
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
-        mCurrentPage = PRE_MATCH_SCREEN;
+        mCurrentPage = AUTO_SCREEN;
 
         mViewPager = (ViewPager) findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
@@ -123,7 +124,7 @@ public class MatchActivity extends DBActivity {
     protected void onResume() {
         super.onResume();
 
-        teamData.event = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        teamData.event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
 
         teamData.practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
 
@@ -201,17 +202,15 @@ public class MatchActivity extends DBActivity {
                                         if (teamText.getText().toString().length() > 0
                                                 && matchT.getText().toString()
                                                 .length() > 0) {
-                                            teamData = new MatchStatsSH(
+                                            teamData = new MatchStatsStruct(
                                                     Integer.valueOf(teamText
                                                             .getText().toString()),
                                                     event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event,
                                                     Integer.valueOf(matchT
-                                                            .getText().toString()
-                                                            .length()));
+                                                            .getText().toString()));
                                         } else
-                                            teamData = new MatchStatsSH();
+                                            teamData = new MatchStatsStruct();
 
-                                        loadPreMatch();
                                         loadAuto();
                                         loadTele();
                                         loadEnd();
@@ -268,16 +267,16 @@ public class MatchActivity extends DBActivity {
         boolean loadData = false;
         if (team != null && team.length() > 0 && match != null
                 && match.length() > 0) {
-            teamData = (MatchStatsSH) db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
+            teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
                     .valueOf(match), Integer.valueOf(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
-                teamData = new MatchStatsSH(Integer.valueOf(team),
+                teamData = new MatchStatsStruct(Integer.valueOf(team),
                         event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
         } else
-            teamData = new MatchStatsSH();
+            teamData = new MatchStatsStruct();
 
         if (loadData && !readOnly) {
             showDialog(LOAD_DIALOG);
@@ -290,9 +289,6 @@ public class MatchActivity extends DBActivity {
 
     public void pageSelected(int page) {
         switch (mCurrentPage) {
-            case PRE_MATCH_SCREEN:
-                savePreMatch();
-                break;
             case AUTO_SCREEN:
                 saveAuto();
                 break;
@@ -305,12 +301,6 @@ public class MatchActivity extends DBActivity {
         }
         mCurrentPage = page;
         switch (page) {
-            case PRE_MATCH_SCREEN:
-                loadPreMatch();
-                lastB.setText("Cancel");
-                nextB.setText("Auto");
-                timer.removeCallbacks(mUpdateTimeTask);
-                break;
             case AUTO_SCREEN:
                 loadAuto();
                 lastB.setText("Pre-match");
@@ -384,10 +374,6 @@ public class MatchActivity extends DBActivity {
                 return fragments.get(i);
             }
             switch (i) {
-                case PRE_MATCH_SCREEN:
-                    fragment = PreMatch.newInstance();
-                    fragments.put(i, fragment);
-                    return fragment;
                 case AUTO_SCREEN:
                     fragment = AutoMatchFragment.newInstance();
                     fragments.put(i, fragment);
@@ -421,15 +407,6 @@ public class MatchActivity extends DBActivity {
 
     }
 
-    private void loadPreMatch() {
-        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).loadData(teamData);
-    }
-
-    private void savePreMatch() {
-        saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).saveData(teamData);
-    }
-
     private void loadAuto() {
         mMatchViewAdapter.getMatchFragment(AUTO_SCREEN).loadData(teamData);
     }
@@ -458,14 +435,12 @@ public class MatchActivity extends DBActivity {
     }
 
     private void loadAll() {
-        loadPreMatch();
         loadAuto();
         loadTele();
         loadEnd();
     }
 
     private void saveAll() {
-        savePreMatch();
         saveAuto();
         saveTele();
         saveEnd();
@@ -474,12 +449,12 @@ public class MatchActivity extends DBActivity {
     private void saveTeamInfo() {
         String team = teamText.getText().toString();
         if (team != null && team.length() > 0)
-            teamData.team = Integer.valueOf(team);
+            teamData.team_id = Integer.valueOf(team);
         String match = matchT.getText().toString();
         if (match != null && match.length() > 0) {
-            teamData.match = Integer.valueOf(match);
+            teamData.match_id = Integer.valueOf(match);
         }
-        teamData.position = posT.getText().toString();
+        teamData.position_id = posT.getText().toString();
     }
 
     private void submit() {

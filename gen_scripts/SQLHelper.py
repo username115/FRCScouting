@@ -185,7 +185,10 @@ class SqlTable:
 			val = str(column.getRow( i_row ))
 			if column.name == self.getPrimaryKey():
 				s += "UNION SELECT"
-			s += " '"+ val +"',"
+			if (column.type.lower() == 'text' or column.type.lower() == 'timestamp' or column.type.lower() == 'datetime'):
+				s += " '"+ val +"',"
+			else:
+				s += " " + val + ","
 		return s[0:-1]
 	def _createStr_InsertStr_firstrow(self):
 		s = ""
@@ -193,7 +196,10 @@ class SqlTable:
 			val = str(column.getRow(0))
 			if column.name == self.getPrimaryKey():
 				s += "SELECT"
-			s += ' '+ val +" AS "+ column.name
+			if (column.type.lower() == 'text' or column.type.lower() == 'timestamp' or column.type.lower() == 'datetime'):
+				s += " '"+ val +"' AS "+ column.name
+			else:
+				s += " "+ val +" AS "+ column.name
 			s += ','
 		return s[0:-1]	
 	def createStr_InsertStr(self):

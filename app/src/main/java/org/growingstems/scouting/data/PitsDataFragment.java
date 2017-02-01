@@ -53,7 +53,7 @@ public class PitsDataFragment extends DataFragment {
 
         //if (stat instanceof PitStatsSH) {
 
-        if (stat.team > 0) {
+        if (stat.team_id > 0) {
             Map<String, String> myData = stat.getDisplayData();
 
             data = new ArrayList<String>(myData.size());

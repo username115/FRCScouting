@@ -100,6 +100,34 @@
                     android:layout_weight="1"
                     android:entries="@array/wheels" />
             </TableRow>
+            </TableLayout>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="25dp">
+
+                <CheckBox
+                    android:textStyle="bold"
+                    android:text="@string/score_low_pit_text"
+                    android:id="@+id/pits_can_score_low"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <CheckBox
+                    android:textStyle="bold"
+                    android:text="@string/score_high_pit_text"
+                    android:id="@+id/pits_can_score_high"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <CheckBox
+                    android:textStyle="bold"
+                    android:text="@string/score_gear_pit_text"
+                    android:id="@+id/pits_can_score_gears"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
         </TableLayout>
 
         <View
@@ -121,22 +149,16 @@
             android:paddingLeft="25dp">
 
             <CheckBox
-                android:id="@+id/start_spy_pit"
+                android:id="@+id/auto_gear_pit"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="@string/start_spy_text_pit" />
+                android:text="@string/auto_gear_pit" />
 
             <CheckBox
-                android:id="@+id/auto_reach_pit"
+                android:id="@+id/auto_hopper_pit"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="@string/auto_reach_text_pit" />
-
-            <CheckBox
-                android:id="@+id/auto_cross_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/auto_cross_text_pit" />
+                android:text="@string/auto_hopper_pit" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -188,110 +210,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/crossings_header_text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/crossings_subheading_text"
-            android:textSize="15sp" />
-
-        <TableLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="25dp">
-
-            <CheckBox
-                android:id="@+id/portcullis_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/portcullis_text" />
-
-            <CheckBox
-                android:id="@+id/cheval_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/cheval_text" />
-
-            <CheckBox
-                android:id="@+id/moat_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/moat_text" />
-
-            <CheckBox
-                android:id="@+id/ramparts_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/ramparts_text" />
-
-            <CheckBox
-                android:id="@+id/drawbridge_for_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/drawbridge_for_text" />
-
-            <CheckBox
-                android:id="@+id/drawbridge_for_with_help_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/drawbridge_help_text" />
-
-            <CheckBox
-                android:id="@+id/drawbridge_rev_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/drawbridge_rev_text" />
-
-            <CheckBox
-                android:id="@+id/sally_for_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/sally_for_text" />
-
-            <CheckBox
-                android:id="@+id/sally_for_with_help_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/sally_help_text" />
-
-            <CheckBox
-                android:id="@+id/sally_rev_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/sally_rev_text" />
-
-            <CheckBox
-                android:id="@+id/rock_wall_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/rock_wall_text" />
-
-            <CheckBox
-                android:id="@+id/rough_terrain_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/rough_terrain_text" />
-
-            <CheckBox
-                android:id="@+id/low_bar_pit"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/low_bar_text" />
-        </TableLayout>
-
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:background="@color/pits_seperator_color" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/operator_mode_text"
+            android:text="@string/tele_header_text"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -300,29 +219,187 @@
             android:layout_height="fill_parent"
             android:paddingLeft="25dp">
 
-            <CheckBox
-                android:id="@+id/score_low_pit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/score_low_pit_text" />
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/tele_score_low_text_pit" />
+
+                <EditText
+                    android:id="@+id/tele_score_low_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/auto_score_low_hint_pit"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/tele_score_high_text_pit" />
+
+                <EditText
+                    android:id="@+id/tele_score_high_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/auto_score_high_hint_pit"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/accuracy_pit_text" />
+
+                <EditText
+                    android:id="@+id/accuracy_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/accuracy_hint_pit"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/scoring_speed_text" />
+
+                <EditText
+                    android:id="@+id/scoring_speed_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/scoring_speed_hint"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/fuel_capacity_text" />
+
+                <EditText
+                    android:id="@+id/fuel_capacity_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/fuel_capacity_hint"
+                    android:inputType="number" />
+            </TableRow>
 
             <CheckBox
-                android:id="@+id/score_high_pit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/score_high_pit_text" />
+                android:id="@+id/ground_load_fuel_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/ground_load_fuel_pit_text" />
 
             <CheckBox
-                android:id="@+id/challenge_pit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/challenge_pit_text" />
+                android:id="@+id/hopper_load_fuel_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/hopper_load_fuel_pit_text" />
 
             <CheckBox
-                android:id="@+id/scale_pit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/scale_pit_text" />
+                android:id="@+id/station_load_fuel_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/station_load_fuel_pit_text" />
+
+            <CheckBox
+                android:id="@+id/ground_load_gear_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/ground_load_gear_pit_text" />
+
+            <CheckBox
+                android:id="@+id/station_load_gear_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/station_load_gear_pit_text" />
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/loading_speed_text" />
+
+                <EditText
+                    android:id="@+id/loading_speed_fps_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/loading_speed_hint"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/robot_speed_text" />
+
+                <EditText
+                    android:id="@+id/robot_speed_fps_pit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/robot_speed_hint"
+                    android:inputType="number" />
+            </TableRow>
+
+            <CheckBox
+                android:id="@+id/can_climb_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/can_climb_pit_text" />
+
+            <CheckBox
+                android:id="@+id/custom_rope_pit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/custom_rope_pit_text" />
 
         </TableLayout>
 

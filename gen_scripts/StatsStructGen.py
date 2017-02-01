@@ -15,7 +15,7 @@ _defaultRun = '''
 		--outfile=app/src/main/java/org/frc836/database/MatchStatsStruct.java
 '''
 __author__ = "Dan"
-__version__ = "1.0"
+__version__ = "1.1"
 __copyright__ = ""
 
 import SQLHelper
@@ -80,13 +80,12 @@ class SqlToJavaStruct():
 		ret += "import android.content.ContentValues;\n"
 		ret += "import android.database.Cursor;\n"
 		ret += "import android.database.sqlite.SQLiteDatabase;\n"
-		ret += "import org.frc836.database.DB;\n"
 		ret += "import org.frc836.database.FRCScoutingContract." + self.tableName.upper() + "_Entry;\n"
 		ret += "import org.json.JSONException;\n"
 		ret += "import org.json.JSONObject;\n"
 		ret += "import java.util.Date;\n"
 		ret += "import java.util.ArrayList;\n"
-		ret += "import java.util.Arrays;\n"
+		ret += "import java.util.LinkedHashMap;\n"
 		ret += "import java.util.List;\n\n"
 		ret += "public class "+ self.className + " {\n"
 		return ret
@@ -306,6 +305,23 @@ class SqlToJavaStruct():
 		ret += "\treturn vals;\n}"
 		return ret
 
+	def createStr_getDisplayData(self):
+		ret = "public LinkedHashMap<String,String> getDisplayData() {\n"
+		ret += "\tLinkedHashMap<String,String> vals = new LinkedHashMap<String,String>();\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if (column.type=="String"):
+					ret += "\tvals.put( COLUMN_NAME_" + column.name.upper() + ", " + column.name + ");\n"
+				if (column.type=="int"):
+					ret += "\tvals.put( COLUMN_NAME_" + column.name.upper() + ", String.valueOf(" + column.name + "));\n"
+				if (column.type=="boolean" and not column.name=="invalid"):
+					ret += "\tvals.put( COLUMN_NAME_" + column.name.upper() + ", String.valueOf(" + column.name + " ? 1 : 0));\n"
+
+		ret += "\treturn vals;\n}"
+		return ret;
+
 
 	def createStr_JavaStruct(self):
 		s = ""
@@ -329,7 +345,8 @@ class SqlToJavaStruct():
 		s += "\n"
 		s += SQLHelper.indent(self.createStr_jsonToCV()) + "\n"
 		s += "\n"
-		#TODO finish this section
+		s += SQLHelper.indent(self.createStr_getDisplayData()) + "\n"
+		s += "\n"
 		s += self.createStr_Footer()
 		return s
 		

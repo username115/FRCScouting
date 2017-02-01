@@ -1,4 +1,4 @@
-package org.robobees.stronghold;
+package org.frc836.yearly;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,11 +28,11 @@ import org.growingstems.scouting.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PitsActivitySH extends DBActivity {
+public class PitsActivity extends DBActivity {
 
     private String HELPMESSAGE;
 
-    private PitStatsSH stats;
+    private PitStats stats;
 
     private AutoCompleteTextView teamT;
     private Spinner configS;
@@ -43,33 +43,37 @@ public class PitsActivitySH extends DBActivity {
     private Button submitB;
     private TextView teamInfoT;
 
+
+    //2017 start
+    private CheckBox scoreLowC;
+    private CheckBox scoreHighC;
+    private CheckBox scoreGearC;
+
     //autonomous mode
-    private CheckBox startSpyC;
-    private CheckBox autoReachC;
-    private CheckBox autoCrossC;
+    private CheckBox autoGearC;
+    private CheckBox autoHopperC;
     private EditText autoScoreLowT;
     private EditText autoScoreHighT;
 
-    //Defenses
-    private CheckBox crossPortcullisC;
-    private CheckBox crossChevalC;
-    private CheckBox crossMoatC;
-    private CheckBox crossRampartsC;
-    private CheckBox crossDrawbridgeForC;
-    private CheckBox crossDrawbridgeHelpC;
-    private CheckBox crossDrawbridgeRevC;
-    private CheckBox crossSallyForC;
-    private CheckBox crossSallyHelpC;
-    private CheckBox crossSallyRevC;
-    private CheckBox crossRockWallC;
-    private CheckBox crossRoughTerrainC;
-    private CheckBox crossLowBarC;
+    //tele-op
+    private EditText lowGoalsT;
+    private EditText highGoalsT;
+    private EditText accuracyT;
+    private EditText scoringSpeedT;
+    private EditText fuelCapacityT;
+    private CheckBox groundLoadFuelC;
+    private CheckBox hopperLoadFuelC;
+    private CheckBox stationLoadFuelC;
+    private CheckBox groundLoadGearC;
+    private CheckBox stationLoadGearC;
 
-    //other
-    private CheckBox scoreLowC;
-    private CheckBox scoreHighC;
-    private CheckBox challengeC;
-    private CheckBox scaleC;
+    private EditText floorLoadingSpeedT;
+    private EditText maxSpeedT;
+    private CheckBox canClimbC;
+    private CheckBox customRopeC;
+
+
+    //2017 end
 
     private Handler timer = new Handler();
     private static final int DELAY = 500;
@@ -92,40 +96,40 @@ public class PitsActivitySH extends DBActivity {
                 + "If the date shown is during the current event, data does "
                 + "not need to be collected.";
 
-        stats = new PitStatsSH();
+        stats = new PitStats();
         teamT = (AutoCompleteTextView) findViewById(R.id.pits_teamT);
         teamT.setThreshold(1);
         configS = (Spinner) findViewById(R.id.pits_configS);
         drivetrainS = (Spinner) findViewById(R.id.pits_drivetrainS);
         wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
 
+        //2017 start
+        scoreLowC = (CheckBox) findViewById(R.id.pits_can_score_low);
+        scoreHighC = (CheckBox) findViewById(R.id.pits_can_score_high);
+        scoreGearC = (CheckBox) findViewById(R.id.pits_can_score_gears);
+
         //autonomous mode
-        startSpyC = (CheckBox) findViewById(R.id.start_spy_pit);
-        autoReachC = (CheckBox) findViewById(R.id.auto_reach_pit);
-        autoCrossC = (CheckBox) findViewById(R.id.auto_cross_pit);
+        autoGearC = (CheckBox) findViewById(R.id.auto_gear_pit);
+        autoHopperC = (CheckBox) findViewById(R.id.auto_hopper_pit);
         autoScoreLowT = (EditText) findViewById(R.id.auto_score_low_pit);
         autoScoreHighT = (EditText) findViewById(R.id.auto_score_high_pit);
 
-        //Defenses
-        crossPortcullisC = (CheckBox) findViewById(R.id.portcullis_pit);
-        crossChevalC = (CheckBox) findViewById(R.id.cheval_pit);
-        crossMoatC = (CheckBox) findViewById(R.id.moat_pit);
-        crossRampartsC = (CheckBox) findViewById(R.id.ramparts_pit);
-        crossDrawbridgeForC = (CheckBox) findViewById(R.id.drawbridge_for_pit);
-        crossDrawbridgeHelpC = (CheckBox) findViewById(R.id.drawbridge_for_with_help_pit);
-        crossDrawbridgeRevC = (CheckBox) findViewById(R.id.drawbridge_rev_pit);
-        crossSallyForC = (CheckBox) findViewById(R.id.sally_for_pit);
-        crossSallyHelpC = (CheckBox) findViewById(R.id.sally_for_with_help_pit);
-        crossSallyRevC = (CheckBox) findViewById(R.id.sally_rev_pit);
-        crossRockWallC = (CheckBox) findViewById(R.id.rock_wall_pit);
-        crossRoughTerrainC = (CheckBox) findViewById(R.id.rough_terrain_pit);
-        crossLowBarC = (CheckBox) findViewById(R.id.low_bar_pit);
-
-        //other
-        scoreLowC = (CheckBox) findViewById(R.id.score_low_pit);
-        scoreHighC = (CheckBox) findViewById(R.id.score_high_pit);
-        challengeC = (CheckBox) findViewById(R.id.challenge_pit);
-        scaleC = (CheckBox) findViewById(R.id.scale_pit);
+        //tele-op mode
+        lowGoalsT = (EditText) findViewById(R.id.tele_score_low_pit);
+        highGoalsT = (EditText) findViewById(R.id.tele_score_high_pit);
+        accuracyT = (EditText) findViewById(R.id.accuracy_pit);
+        scoringSpeedT = (EditText) findViewById(R.id.scoring_speed_pit);
+        fuelCapacityT = (EditText) findViewById(R.id.fuel_capacity_pit);
+        groundLoadFuelC = (CheckBox) findViewById(R.id.ground_load_fuel_pit);
+        hopperLoadFuelC = (CheckBox) findViewById(R.id.hopper_load_fuel_pit);
+        stationLoadFuelC = (CheckBox) findViewById(R.id.station_load_fuel_pit);
+        groundLoadGearC = (CheckBox) findViewById(R.id.ground_load_gear_pit);
+        stationLoadGearC = (CheckBox) findViewById(R.id.station_load_gear_pit);
+        floorLoadingSpeedT = (EditText) findViewById(R.id.loading_speed_fps_pit);
+        maxSpeedT = (EditText) findViewById(R.id.robot_speed_fps_pit);
+        canClimbC = (CheckBox) findViewById(R.id.can_climb_pit);
+        customRopeC = (CheckBox) findViewById(R.id.custom_rope_pit);
+        //2017 end
 
         commentsT = (EditText) findViewById(R.id.pits_commentsT);
         submitB = (Button) findViewById(R.id.pits_submitB);
@@ -190,7 +194,7 @@ public class PitsActivitySH extends DBActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-                                        PitsActivitySH.this.finish();
+                                        PitsActivity.this.finish();
                                     }
                                 })
                         .setNegativeButton("No",
@@ -291,49 +295,86 @@ public class PitsActivitySH extends DBActivity {
 
         tstr = teamT.getText().toString().trim();
         if (tstr.length() > 0)
-            stats.team = Integer.valueOf(tstr);
+            stats.team_id = Integer.valueOf(tstr);
         else {
             showDialog(NOTEAM_DIALOG);
             return;
         }
 
-        stats.wheel_type = wheeltypeS.getSelectedItem().toString();
-        stats.chassis_config = configS.getSelectedItem().toString();
-        stats.wheel_base = drivetrainS.getSelectedItem().toString();
+        stats.wheel_type_id = wheeltypeS.getSelectedItem().toString();
+        stats.config_id = configS.getSelectedItem().toString();
+        stats.wheel_base_id = drivetrainS.getSelectedItem().toString();
 
-        stats.comments = commentsT.getText().toString();
+        stats.notes = commentsT.getText().toString();
 
-        stats.start_spy = startSpyC.isChecked();
-        stats.auto_reach = autoReachC.isChecked();
-        stats.auto_cross = autoCrossC.isChecked();
+
+
+        stats.can_score_high = scoreHighC.isChecked();
+        stats.can_score_low = scoreLowC.isChecked();
+        stats.can_score_gears = scoreGearC.isChecked();
+
+        stats.can_climb = canClimbC.isChecked();
+
+        stats.ground_load_fuel = groundLoadFuelC.isChecked();
+        stats.hopper_load_fuel = hopperLoadFuelC.isChecked();
+        stats.station_load_fuel = stationLoadFuelC.isChecked();
+        stats.ground_load_gear = groundLoadGearC.isChecked();
+        stats.station_load_gear = stationLoadGearC.isChecked();
+
+        stats.custom_rope = customRopeC.isChecked();
+
         tstr = autoScoreLowT.getText().toString().trim();
         if (tstr.length() > 0)
-            stats.auto_score_low = Short.valueOf(tstr);
+            stats.auto_score_low_count = Integer.valueOf(tstr);
         else
-            stats.auto_score_low = 0;
+            stats.auto_score_low_count = 0;
         tstr = autoScoreHighT.getText().toString().trim();
         if (tstr.length() > 0)
-            stats.auto_score_high = Short.valueOf(tstr);
+            stats.auto_score_high_count = Integer.valueOf(tstr);
         else
-            stats.auto_score_high = 0;
+            stats.auto_score_high_count = 0;
+        stats.auto_gear = autoGearC.isChecked();
+        stats.auto_hopper = autoHopperC.isChecked();
 
-        stats.cross_portcullis = crossPortcullisC.isChecked();
-        stats.cross_cheval = crossChevalC.isChecked();
-        stats.cross_moat = crossMoatC.isChecked();
-        stats.cross_ramparts = crossRampartsC.isChecked();
-        stats.cross_drawbridge_for = crossDrawbridgeForC.isChecked();
-        stats.cross_drawbridge_for_with_help = crossDrawbridgeHelpC.isChecked();
-        stats.cross_drawbridge_rev = crossDrawbridgeRevC.isChecked();
-        stats.cross_sally_for = crossSallyForC.isChecked();
-        stats.cross_sally_for_with_help = crossSallyHelpC.isChecked();
-        stats.cross_sally_rev = crossSallyRevC.isChecked();
-        stats.cross_rock_wall = crossRockWallC.isChecked();
-        stats.cross_rough_terrain = crossRoughTerrainC.isChecked();
-        stats.cross_low_bar = crossLowBarC.isChecked();
-        stats.score_low = scoreLowC.isChecked();
-        stats.score_high = scoreHighC.isChecked();
-        stats.challenge = challengeC.isChecked();
-        stats.scale = scaleC.isChecked();
+        tstr = highGoalsT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.tele_score_high_count = Integer.valueOf(tstr);
+        else
+            stats.tele_score_high_count = 0;
+        tstr = lowGoalsT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.tele_score_low_count = Integer.valueOf(tstr);
+        else
+            stats.tele_score_low_count = 0;
+
+        tstr = accuracyT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.accuracy = Integer.valueOf(tstr);
+        else
+            stats.accuracy = 0;
+        tstr = fuelCapacityT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.fuel_capacity = Integer.valueOf(tstr);
+        else
+            stats.fuel_capacity = 0;
+        tstr = scoringSpeedT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.scoring_speed_bps = Integer.valueOf(tstr);
+        else
+            stats.scoring_speed_bps = 0;
+        tstr = floorLoadingSpeedT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.loading_speed_bps = Integer.valueOf(tstr);
+        else
+            stats.loading_speed_bps = 0;
+        tstr = maxSpeedT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.max_robot_speed_fts = Integer.valueOf(tstr);
+        else
+            stats.max_robot_speed_fts = 0;
+
+
+
 
         if (db.submitPits(stats))
             clear();
@@ -357,33 +398,34 @@ public class PitsActivitySH extends DBActivity {
         drivetrainS.setSelection(0);
         wheeltypeS.setSelection(0);
 
+
+        //2017
+        scoreLowC.setChecked(false);
+        scoreHighC.setChecked(false);
+        scoreGearC.setChecked(false);
+
         //autonomous mode
-        startSpyC.setChecked(false);
-        autoReachC.setChecked(false);
-        autoCrossC.setChecked(false);
+        autoGearC.setChecked(false);
+        autoHopperC.setChecked(false);
         autoScoreLowT.setText("");
         autoScoreHighT.setText("");
 
-        //Defenses
-        crossPortcullisC.setChecked(false);
-        crossChevalC.setChecked(false);
-        crossMoatC.setChecked(false);
-        crossRampartsC.setChecked(false);
-        crossDrawbridgeForC.setChecked(false);
-        crossDrawbridgeHelpC.setChecked(false);
-        crossDrawbridgeRevC.setChecked(false);
-        crossSallyForC.setChecked(false);
-        crossSallyHelpC.setChecked(false);
-        crossSallyRevC.setChecked(false);
-        crossRockWallC.setChecked(false);
-        crossRoughTerrainC.setChecked(false);
-        crossLowBarC.setChecked(false);
+        //tele-op
+        lowGoalsT.setText("");
+        highGoalsT.setText("");
+        accuracyT.setText("");
+        scoringSpeedT.setText("");
+        fuelCapacityT.setText("");
+        groundLoadFuelC.setChecked(false);
+        hopperLoadFuelC.setChecked(false);
+        stationLoadFuelC.setChecked(false);
+        groundLoadGearC.setChecked(false);
+        stationLoadGearC.setChecked(false);
 
-        //other
-        scoreLowC.setChecked(false);
-        scoreHighC.setChecked(false);
-        challengeC.setChecked(false);
-        scaleC.setChecked(false);
+        floorLoadingSpeedT.setText("");
+        maxSpeedT.setText("");
+        canClimbC.setChecked(false);
+        customRopeC.setChecked(false);
     }
 
     private class teamTextListener implements TextWatcher {
@@ -447,75 +489,83 @@ public class PitsActivitySH extends DBActivity {
     }
 
     private void getTeamStats(int teamNum) {
-        PitStats s = db.getTeamPitStats(teamNum);
-        if (s instanceof PitStatsSH)
-            stats = (PitStatsSH) s;
-        else
-            return;
+        PitStats stats = db.getTeamPitStats(teamNum);
 
         populateData(stats);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void populateData(PitStatsSH stats) {
+    public void populateData(PitStats stats) {
         int index = ((ArrayAdapter) configS.getAdapter())
-                .getPosition(stats.chassis_config);
+                .getPosition(stats.config_id);
         configS.setSelection(index);
 
         index = ((ArrayAdapter) drivetrainS.getAdapter())
-                .getPosition(stats.wheel_base);
+                .getPosition(stats.wheel_base_id);
         drivetrainS.setSelection(index);
 
         index = ((ArrayAdapter) wheeltypeS.getAdapter())
-                .getPosition(stats.wheel_type);
+                .getPosition(stats.wheel_type_id);
         wheeltypeS.setSelection(index);
 
-        commentsT.setText(stats.comments);
+        commentsT.setText(stats.notes);
 
-        startSpyC.setChecked(stats.start_spy);
-        autoReachC.setChecked(stats.auto_reach);
-        autoCrossC.setChecked(stats.auto_cross);
-        autoScoreLowT.setText(String.valueOf(stats.auto_score_low));
-        autoScoreHighT.setText(String.valueOf(stats.auto_score_high));
+        scoreLowC.setChecked(stats.can_score_low);
+        scoreHighC.setChecked(stats.can_score_high);
+        scoreGearC.setChecked(stats.can_score_gears);
 
-        crossPortcullisC.setChecked(stats.cross_portcullis);
-        crossChevalC.setChecked(stats.cross_cheval);
-        crossMoatC.setChecked(stats.cross_moat);
-        crossRampartsC.setChecked(stats.cross_ramparts);
-        crossDrawbridgeForC.setChecked(stats.cross_drawbridge_for);
-        crossDrawbridgeHelpC.setChecked(stats.cross_drawbridge_for_with_help);
-        crossDrawbridgeRevC.setChecked(stats.cross_drawbridge_rev);
-        crossSallyForC.setChecked(stats.cross_sally_for);
-        crossSallyHelpC.setChecked(stats.cross_sally_for_with_help);
-        crossSallyRevC.setChecked(stats.cross_sally_rev);
-        crossRockWallC.setChecked(stats.cross_rock_wall);
-        crossRoughTerrainC.setChecked(stats.cross_rough_terrain);
-        crossLowBarC.setChecked(stats.cross_low_bar);
-        scoreLowC.setChecked(stats.score_low);
-        scoreHighC.setChecked(stats.score_high);
-        challengeC.setChecked(stats.challenge);
-        scaleC.setChecked(stats.scale);
+        //autonomous mode
+        autoGearC.setChecked(stats.auto_gear);
+        autoHopperC.setChecked(stats.auto_hopper);
+        autoScoreLowT.setText(String.valueOf(stats.auto_score_low_count));
+        autoScoreHighT.setText(String.valueOf(stats.auto_score_high_count));
+
+        //tele-op
+        lowGoalsT.setText(String.valueOf(stats.tele_score_low_count));
+        highGoalsT.setText(String.valueOf(stats.tele_score_high_count));
+        accuracyT.setText(String.valueOf(stats.accuracy));
+        scoringSpeedT.setText(String.valueOf(stats.scoring_speed_bps));
+        fuelCapacityT.setText(String.valueOf(stats.fuel_capacity));
+        groundLoadFuelC.setChecked(stats.ground_load_fuel);
+        hopperLoadFuelC.setChecked(stats.hopper_load_fuel);
+        stationLoadFuelC.setChecked(stats.station_load_fuel);
+        groundLoadGearC.setChecked(stats.ground_load_gear);
+        stationLoadGearC.setChecked(stats.station_load_gear);
+
+        floorLoadingSpeedT.setText(String.valueOf(stats.loading_speed_bps));
+        maxSpeedT.setText(String.valueOf(stats.max_robot_speed_fts));
+        canClimbC.setChecked(stats.can_climb);
+        customRopeC.setChecked(stats.custom_rope);
+
     }
 
     private boolean dataClear() {
-        if (commentsT.getText().toString().length() > 0
+        return  !(commentsT.getText().toString().length() > 0
                 || configS.getSelectedItemPosition() != 0
                 || drivetrainS.getSelectedItemPosition() != 0
                 || wheeltypeS.getSelectedItemPosition() != 0
-                || startSpyC.isChecked() || autoReachC.isChecked()
-                || autoCrossC.isChecked()
+                || scoreLowC.isChecked()
+                || scoreHighC.isChecked()
+                || scoreGearC.isChecked()
+                || autoGearC.isChecked()
+                || autoHopperC.isChecked()
                 || autoScoreLowT.getText().toString().length() > 0
                 || autoScoreHighT.getText().toString().length() > 0
-                || crossPortcullisC.isChecked() || crossChevalC.isChecked()
-                || crossMoatC.isChecked() || crossRampartsC.isChecked()
-                || crossDrawbridgeForC.isChecked() || crossDrawbridgeHelpC.isChecked()
-                || crossDrawbridgeRevC.isChecked() || crossSallyForC.isChecked()
-                || crossSallyHelpC.isChecked() || crossSallyRevC.isChecked()
-                || crossRockWallC.isChecked() || crossRoughTerrainC.isChecked()
-                || crossLowBarC.isChecked() || scoreHighC.isChecked()
-                || scoreLowC.isChecked() || challengeC.isChecked() || scaleC.isChecked())
-            return false;
-        return true;
+                || lowGoalsT.getText().toString().length() > 0
+                || highGoalsT.getText().toString().length() > 0
+                || accuracyT.getText().toString().length() > 0
+                || scoringSpeedT.getText().toString().length() > 0
+                || fuelCapacityT.getText().toString().length() > 0
+                || groundLoadFuelC.isChecked()
+                || hopperLoadFuelC.isChecked()
+                || stationLoadFuelC.isChecked()
+                || groundLoadGearC.isChecked()
+                || stationLoadGearC.isChecked()
+                || floorLoadingSpeedT.getText().toString().length() > 0
+                || maxSpeedT.getText().toString().length() > 0
+                || canClimbC.isChecked()
+                || customRopeC.isChecked()
+                );
     }
 
     private void setTeamList(List<String> teams) {

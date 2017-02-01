@@ -20,7 +20,7 @@ import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.data.DataActivity;
-import org.robobees.stronghold.PitsActivitySH;
+import org.frc836.yearly.PitsActivity;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 
@@ -110,7 +110,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 			public void onClick(View v) {
 
 				Intent intent = new Intent(getBaseContext(),
-						PitsActivitySH.class);
+						PitsActivity.class);
 				startActivityForResult(intent, PITS_ACTIVITY_CODE);
 			}
 		});

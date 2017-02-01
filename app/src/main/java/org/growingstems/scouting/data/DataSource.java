@@ -22,6 +22,7 @@ import android.util.SparseIntArray;
 
 import org.frc836.database.DB;
 import org.frc836.database.MatchStatsStruct;
+import org.frc836.yearly.MatchStatsYearly;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -151,7 +152,7 @@ public class DataSource {
 
                 for (int i = 0; i < matches.size(); i++) {
                     int matchNum = matches.keyAt(i);
-                    int score = matches.get(matchNum).getTotalScore();
+                    int score = MatchStatsYearly.getTotalScore(matches.get(matchNum));
                     scores.put(matchNum, score);
                     count++;
                     params[0]._averageScore += score;

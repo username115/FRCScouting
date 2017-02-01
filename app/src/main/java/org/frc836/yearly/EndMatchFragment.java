@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.robobees.stronghold;
+package org.frc836.yearly;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.frc836.database.MatchStatsStruct;
+import org.growingstems.scouting.MatchFragment;
 import org.growingstems.scouting.R;
 
 import java.util.ArrayList;
@@ -104,29 +105,29 @@ public class EndMatchFragment extends MatchFragment {
     }
 
     @Override
-    public void saveData(MatchStatsSH data) {
+    public void saveData(MatchStatsStruct data) {
         if (getView() == null || data == null || !displayed)
             return;
-        data.challenge = ((CheckBox)getView().findViewById(R.id.challenge_end)).isChecked();
-        data.scale = ((CheckBox)getView().findViewById(R.id.scale_end)).isChecked();
+        data.climb_attempt = ((CheckBox)getView().findViewById(R.id.climb_end_attempt)).isChecked();
+        data.climb_rope = ((CheckBox)getView().findViewById(R.id.climb_end)).isChecked();
         data.notes = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
-        data.tipOver = ((CheckBox)getView().findViewById(R.id.botTip)).isChecked();
+        data.tip_over = ((CheckBox)getView().findViewById(R.id.botTip)).isChecked();
         data.foul = ((CheckBox)getView().findViewById(R.id.foul)).isChecked();
-        data.yellowCard = ((CheckBox)getView().findViewById(R.id.yellow_card)).isChecked();
-        data.redCard = ((CheckBox)getView().findViewById(R.id.red_card)).isChecked();
+        data.yellow_card = ((CheckBox)getView().findViewById(R.id.yellow_card)).isChecked();
+        data.red_card = ((CheckBox)getView().findViewById(R.id.red_card)).isChecked();
     }
 
     @Override
-    public void loadData(MatchStatsSH data) {
+    public void loadData(MatchStatsStruct data) {
         if (getView() == null || data == null || !displayed)
             return;
-        ((CheckBox)getView().findViewById(R.id.challenge_end)).setChecked(data.challenge);
-        ((CheckBox)getView().findViewById(R.id.scale_end)).setChecked(data.scale);
+        ((CheckBox)getView().findViewById(R.id.climb_end_attempt)).setChecked(data.climb_attempt);
+        ((CheckBox)getView().findViewById(R.id.climb_end)).setChecked(data.climb_rope);
         ((EditText)getView().findViewById(R.id.notes)).setText(data.notes);
-        ((CheckBox)getView().findViewById(R.id.botTip)).setChecked(data.tipOver);
+        ((CheckBox)getView().findViewById(R.id.botTip)).setChecked(data.tip_over);
         ((CheckBox)getView().findViewById(R.id.foul)).setChecked(data.foul);
-        ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.redCard);
-        ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellowCard);
+        ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.red_card);
+        ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
     }
 
     public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {
