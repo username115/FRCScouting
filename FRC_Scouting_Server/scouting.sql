@@ -318,12 +318,13 @@ CREATE TABLE IF NOT EXISTS `fact_pilot_data_2017` (
 
 CREATE TABLE IF NOT EXISTS `game_info` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `key` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `keystring` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `intvalue` int(15) NOT NULL,
+  `stringval` text COLLATE latin1_general_cs NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `invalid` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `key` (`key`),
+  UNIQUE KEY `key` (`keystring`),
   KEY `timestamp` (`timestamp`,`invalid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=3 ;
 
@@ -331,9 +332,9 @@ CREATE TABLE IF NOT EXISTS `game_info` (
 -- Dumping data for table `game_info`
 --
 
-INSERT INTO `game_info` (`id`, `key`, `intvalue`, `timestamp`, `invalid`) VALUES
-(1, '2017_rotor_3_preinstalled', 1, '2017-01-13 21:09:25', 0),
-(2, '2017_rotor_4_preinstalled', 2, '2017-01-13 21:09:36', 0);
+INSERT INTO `game_info` (`id`, `keystring`, `intvalue`, `stringval`, `timestamp`, `invalid`) VALUES
+(1, '2017_rotor_3_preinstalled', 1, '', '2017-01-13 21:09:25', 0),
+(2, '2017_rotor_4_preinstalled', 2, '', '2017-01-13 21:09:36', 0);
 
 -- --------------------------------------------------------
 
