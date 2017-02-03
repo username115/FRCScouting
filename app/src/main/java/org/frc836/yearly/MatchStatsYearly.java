@@ -1,7 +1,10 @@
 package org.frc836.yearly;
 
-import org.frc836.database.MatchStatsStruct;
+import android.database.sqlite.SQLiteDatabase;
 
+import org.frc836.database.DB;
+import org.frc836.database.MatchStatsStruct;
+import org.frc836.database.ScoutingDBHelper;
 
 
 public abstract class MatchStatsYearly {
@@ -9,6 +12,8 @@ public abstract class MatchStatsYearly {
     public static int getTotalScore(final MatchStatsStruct stats) {
         int score = 0;
         double pressure = 0;
+        SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                .getReadableDatabase();
 
         // I'm going to assume all fuel scored by T=0 is counted.
         // This is supposed to be an estimate anyways
@@ -24,8 +29,8 @@ public abstract class MatchStatsYearly {
         // TODO read from game-specific table for number of gears per rotor
         int rotor1 = 1;
         int rotor2 = 2;
-        int rotor3 = 4;
-        int rotor4 = 6;
+        int rotor3 = DB.getGameInfoInt("2017_rotor_3_preinstalled", db, 4);
+        int rotor4 = DB.getGameInfoInt("2017_rotor_4_preinstalled", db, 6);
 
         // Since this is also an estimate, I'm just going to assume no other gears delivered (including the free one)
         int auto_gears_delivered = stats.auto_gear_delivered_right + stats.auto_gear_delivered_left + stats.auto_gear_delivered_center;

@@ -1593,6 +1593,50 @@ public class DB {
         return ret;
     }
 
+    public static int getGameInfoInt(String key, SQLiteDatabase db, int defaultValue) {
+
+        String[] projection = {FRCScoutingContract.GAME_INFO_Entry.COLUMN_NAME_INTVALUE};
+        String[] where = {key};
+        Cursor c = db.query(FRCScoutingContract.GAME_INFO_Entry.TABLE_NAME, projection, // select
+                FRCScoutingContract.GAME_INFO_Entry.COLUMN_NAME_KEYSTRING + "= ?", where, // Key
+                null, // don't group
+                null, // don't filter
+                null, // don't order
+                "0,1"); // limit to 1
+        int ret = defaultValue;
+        try {
+            c.moveToFirst();
+            ret = c.getInt(c
+                    .getColumnIndexOrThrow(FRCScoutingContract.GAME_INFO_Entry.COLUMN_NAME_INTVALUE));
+        } finally {
+            if (c != null)
+                c.close();
+        }
+        return ret;
+    }
+
+    public static String getGameInfoString(String key, SQLiteDatabase db, String defaultValue) {
+
+        String[] projection = {FRCScoutingContract.GAME_INFO_Entry.COLUMN_NAME_STRINGVAL};
+        String[] where = {key};
+        Cursor c = db.query(FRCScoutingContract.GAME_INFO_Entry.TABLE_NAME, projection, // select
+                FRCScoutingContract.GAME_INFO_Entry.COLUMN_NAME_KEYSTRING + "= ?", where, // Key
+                null, // don't group
+                null, // don't filter
+                null, // don't order
+                "0,1"); // limit to 1
+        String ret = defaultValue;
+        try {
+            c.moveToFirst();
+            ret = c.getString(c
+                    .getColumnIndexOrThrow(FRCScoutingContract.GAME_INFO_Entry.COLUMN_NAME_STRINGVAL));
+        } finally {
+            if (c != null)
+                c.close();
+        }
+        return ret;
+    }
+
 
     static OnHandleFileListener mDirSelectListener = new OnHandleFileListener() {
         @Override
