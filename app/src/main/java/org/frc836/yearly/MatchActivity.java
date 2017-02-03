@@ -144,6 +144,10 @@ public class MatchActivity extends DBActivity {
         return db.getNotesOptions();
     }
 
+    public List<String> getTeamNotes() {
+        return db.getNotesForTeam(teamData.team_id);
+    }
+
     private void updatePosition() {
         String pos = position == null ? Prefs.getPosition(getApplicationContext(), "Red 1") : position;
         posT.setText(pos);

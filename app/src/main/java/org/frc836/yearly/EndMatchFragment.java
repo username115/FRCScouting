@@ -40,6 +40,8 @@ public class EndMatchFragment extends MatchFragment {
 
     private Spinner commonNotes;
 
+    private Spinner pastNotes;
+
     private EditText teamNotes;
 
     public EndMatchFragment() {
@@ -74,7 +76,9 @@ public class EndMatchFragment extends MatchFragment {
         displayed = true;
         commonNotes = (Spinner) view.findViewById(R.id.commonNotes);
         teamNotes = (EditText)getView().findViewById(R.id.notes);
+        pastNotes = (Spinner)getView().findViewById(R.id.previousNotes);
         commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
+        pastNotes.setOnItemSelectedListener(new NotesSelectedListener());
     }
 
     public void onResume() {
@@ -85,18 +89,28 @@ public class EndMatchFragment extends MatchFragment {
         if (a instanceof MatchActivity) {
             MatchActivity match = (MatchActivity) a;
             List<String> options = match.getNotesOptions();
+            List<String> teamOptions = match.getTeamNotes();
 
             if (options == null)
                 options = new ArrayList<String>(1);
 
+            if (teamOptions == null)
+                teamOptions = new ArrayList<String>(1);
+
             options.add(0, commonNotes.getItemAtPosition(0).toString());
+            teamOptions.add(0, pastNotes.getItemAtPosition(0).toString());
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(match,
                     android.R.layout.simple_spinner_item, options);
 
+            ArrayAdapter<String> adapterTeam = new ArrayAdapter<String>(match,
+                    android.R.layout.simple_spinner_item, teamOptions);
+
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapterTeam.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             commonNotes.setAdapter(adapter);
+            pastNotes.setAdapter(adapterTeam);
         }
     }
 

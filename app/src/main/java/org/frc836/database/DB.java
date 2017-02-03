@@ -695,6 +695,48 @@ public class DB {
         }
     }
 
+    public List<String> getNotesForTeam(int team_id) {
+        synchronized (ScoutingDBHelper.lock) {
+            try {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = {MatchStatsStruct.COLUMN_NAME_NOTES};
+                String selection = MatchStatsStruct.COLUMN_NAME_TEAM_ID + "=?";
+                String[] selectionArgs = {String.valueOf(team_id)};
+
+                Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
+                        selection, selectionArgs,
+                        MatchStatsStruct.COLUMN_NAME_EVENT_ID, null, MatchStatsStruct.COLUMN_NAME_ID);
+                List<String> ret;
+                try {
+
+                    ret = new ArrayList<String>(c.getCount());
+
+                    if (c.moveToFirst())
+                        do {
+                            String[] notes = c.getString(c
+                                    .getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_NOTES)).split(";");
+                            for (String note: notes) {
+                                if (!ret.contains(note))
+                                    ret.add(note);
+                            }
+                        } while (c.moveToNext());
+                    else
+                        ret = null;
+                } finally {
+                    if (c != null)
+                        c.close();
+                    ScoutingDBHelper.getInstance().close();
+                }
+
+                return ret;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+    }
+
     public List<String> getEventsWithData() {
         synchronized (ScoutingDBHelper.lock) {
             try {
