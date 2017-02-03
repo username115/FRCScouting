@@ -26,7 +26,6 @@ public abstract class MatchStatsYearly {
 
         score += stats.auto_cross_baseline ? 5 : 0;
 
-        // TODO read from game-specific table for number of gears per rotor
         int rotor1 = 1;
         int rotor2 = 2;
         int rotor3 = DB.getGameInfoInt("2017_rotor_3_preinstalled", db, 4);
