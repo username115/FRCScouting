@@ -318,6 +318,9 @@ public class DBSyncService extends Service {
                 if (json.has(PICKLIST_Entry.TABLE_NAME))
                     processPicklist(json.getJSONArray(PICKLIST_Entry.TABLE_NAME));
 
+                if (json.has(GAME_INFO_Entry.TABLE_NAME))
+                    processGameInfo(json.getJSONArray(GAME_INFO_Entry.TABLE_NAME));
+
                 updateTimeStamp(json.getLong("timestamp"));
 
                 if (!running)
@@ -722,6 +725,85 @@ public class DBSyncService extends Service {
                             case DELETE:
                                 db.delete(CONFIGURATION_LU_Entry.TABLE_NAME,
                                         CONFIGURATION_LU_Entry.COLUMN_NAME_ID
+                                                + " = ?", where);
+                                break;
+                            default:
+                        }
+                    } finally {
+                        if (c != null)
+                            c.close();
+                        ScoutingDBHelper.getInstance().close();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            // TODO handle error
+        }
+    }
+
+    private void processGameInfo(JSONArray gameInfo) {
+        try {
+            updateNotificationText(getString(R.string.notify_table) + " "
+                    + GAME_INFO_Entry.TABLE_NAME);
+            for (int i = 0; i < gameInfo.length(); i++) {
+                JSONObject row = gameInfo.getJSONObject(i);
+                Action action = Action.UPDATE;
+                if (row.getInt(GAME_INFO_Entry.COLUMN_NAME_INVALID) != 0) {
+                    action = Action.DELETE;
+                }
+                ContentValues vals = new ContentValues();
+                vals.put(GAME_INFO_Entry.COLUMN_NAME_ID,
+                        row.getInt(GAME_INFO_Entry.COLUMN_NAME_ID));
+                vals.put(GAME_INFO_Entry.COLUMN_NAME_KEYSTRING,
+                        row.getString(GAME_INFO_Entry.COLUMN_NAME_KEYSTRING));
+                vals.put(GAME_INFO_Entry.COLUMN_NAME_INTVALUE,
+                        row.getInt(GAME_INFO_Entry.COLUMN_NAME_INTVALUE));
+                vals.put(GAME_INFO_Entry.COLUMN_NAME_STRINGVAL,
+                        row.getString(GAME_INFO_Entry.COLUMN_NAME_STRINGVAL));
+                vals.put(
+                        GAME_INFO_Entry.COLUMN_NAME_TIMESTAMP,
+                        DB.dateParser.format(new Date(
+                                row.getLong(GAME_INFO_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+
+                // check if this entry exists already
+                String[] projection = {GAME_INFO_Entry.COLUMN_NAME_KEYSTRING};
+                String[] where = {vals
+                        .getAsString(GAME_INFO_Entry.COLUMN_NAME_ID)};
+                synchronized (ScoutingDBHelper.lock) {
+
+                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                            .getWritableDatabase();
+
+                    Cursor c = db.query(
+                            GAME_INFO_Entry.TABLE_NAME,
+                            projection, // select
+                            GAME_INFO_Entry.COLUMN_NAME_ID + "=?",
+                            where, null, // don't
+                            // group
+                            null, // don't filter
+                            null, // don't order
+                            "0,1"); // limit to 1
+                    try {
+                        if (!c.moveToFirst()) {
+                            if (action == Action.UPDATE)
+                                action = Action.INSERT;
+                            else if (action == Action.DELETE)
+                                action = Action.NOTHING;
+                        }
+
+                        switch (action) {
+                            case UPDATE:
+                                db.update(GAME_INFO_Entry.TABLE_NAME, vals,
+                                        GAME_INFO_Entry.COLUMN_NAME_ID
+                                                + " = ?", where);
+                                break;
+                            case INSERT:
+                                db.insert(GAME_INFO_Entry.TABLE_NAME, null,
+                                        vals);
+                                break;
+                            case DELETE:
+                                db.delete(GAME_INFO_Entry.TABLE_NAME,
+                                        GAME_INFO_Entry.COLUMN_NAME_ID
                                                 + " = ?", where);
                                 break;
                             default:
