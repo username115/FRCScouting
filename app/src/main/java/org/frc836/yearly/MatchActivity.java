@@ -322,7 +322,7 @@ public class MatchActivity extends DBActivity {
             case END_SCREEN:
                 loadEnd();
                 lastB.setText("Tele op");
-                nextB.setText(readOnly ? "Cancel" : "submit");
+                nextB.setText(readOnly ? "Cancel" : "Submit");
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             default:
