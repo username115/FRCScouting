@@ -91,6 +91,7 @@ public class MatchActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
+        // TODO
         HELPMESSAGE = "Record Match Data here.\nEnter Which defenses are on the field first. (Important!!)\nRecord crossings forward: f, and reverse: r.\nSome defenses can be crossed forward with help: h\nRecord scores: s, and misses: m";
 
         getGUIRefs();
@@ -288,7 +289,7 @@ public class MatchActivity extends DBActivity {
         mViewPager.setCurrentItem(0, true);
         loadAll();
         lastB.setText("Cancel");
-        nextB.setText("Auto");
+        nextB.setText("Tele op");
     }
 
     public void pageSelected(int page) {
@@ -307,7 +308,7 @@ public class MatchActivity extends DBActivity {
         switch (page) {
             case AUTO_SCREEN:
                 loadAuto();
-                lastB.setText("Pre-match");
+                lastB.setText("Cancel");
                 nextB.setText("Tele op");
                 if (!readOnly)
                     timer.postDelayed(mUpdateTimeTask, DELAY);
@@ -327,7 +328,7 @@ public class MatchActivity extends DBActivity {
             default:
                 loadAll();
                 lastB.setText("Cancel");
-                nextB.setText("Auto");
+                nextB.setText("Tele op");
                 timer.removeCallbacks(mUpdateTimeTask);
         }
     }
