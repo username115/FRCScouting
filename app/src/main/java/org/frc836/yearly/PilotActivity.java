@@ -147,6 +147,10 @@ public class PilotActivity extends DBActivity {
         return db.getPilotNotesForTeam(team_id);
     }
 
+    public int getTeam(int position) {
+        return pilotData[position].team_id;
+    }
+
     public List<String> getTeams() {
         String pos = position == null ? Prefs.getPosition(getApplicationContext(), "Red Pilot") : position;
         List<String> teams = new ArrayList<String>(3);
