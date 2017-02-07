@@ -198,8 +198,8 @@ public class TeleMatchFragment extends MatchFragment {
         scoreLowB = (Button) view.findViewById(R.id.scoreLowB);
         scoreLow5B = (Button) view.findViewById(R.id.scoreLow5B);
 
-        layouts[LEFT] = (LinearLayout) view.findViewById(R.id.leftAutoMatch);
-        layouts[RIGHT] = (LinearLayout) view.findViewById(R.id.rightAutoMatch);
+        layouts[LEFT] = (LinearLayout) view.findViewById(R.id.leftTeleMatch);
+        layouts[RIGHT] = (LinearLayout) view.findViewById(R.id.rightTeleMatch);
 
         AirshipTop[LEFT] = (ImageSwitcher) view.findViewById(R.id.leftAirshipTop);
         AirshipMid[LEFT] = (ImageSwitcher) view.findViewById(R.id.leftAirshipMid);

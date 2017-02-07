@@ -35,7 +35,7 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:hint="Team#"
-            android:inputType="number"></EditText>
+            android:inputType="number"/>
     </LinearLayout>
     <!-- header layout -->
 
