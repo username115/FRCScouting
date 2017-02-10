@@ -628,5 +628,7 @@
     <string name="score_rev">R</string>
     <string name="title_activity_pick">Pick List</string>
     <string name="pilot_input_text">Pilot Scouting</string>
+    <string name="lift_plus_1">L+</string>
+    <string name="pilot_turn_rotor">Turn</string>
 
 </resources>
