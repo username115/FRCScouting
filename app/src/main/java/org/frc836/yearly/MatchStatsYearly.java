@@ -28,8 +28,8 @@ public abstract class MatchStatsYearly {
 
         int rotor1 = 1;
         int rotor2 = 2;
-        int rotor3 = DB.getGameInfoInt("2017_rotor_3_preinstalled", db, 4);
-        int rotor4 = DB.getGameInfoInt("2017_rotor_4_preinstalled", db, 6);
+        int rotor3 = 5 - DB.getGameInfoInt("2017_rotor_3_preinstalled", db, 1);
+        int rotor4 = 8 - DB.getGameInfoInt("2017_rotor_4_preinstalled", db, 2);
 
         // Since this is also an estimate, I'm just going to assume no other gears delivered (including the free one)
         int auto_gears_delivered = stats.auto_gear_delivered_right + stats.auto_gear_delivered_left + stats.auto_gear_delivered_center;

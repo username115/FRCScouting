@@ -34,7 +34,9 @@ public class PilotStatsStruct {
 	public int match_id;
 	public boolean practice_match;
 	public String position_id;
-	public int gears_installed;
+	public int gears_installed_2;
+	public int gears_installed_3;
+	public int gears_installed_4;
 	public int gears_lifed;
 	public boolean rotor_1_started;
 	public boolean rotor_2_started;
@@ -53,7 +55,9 @@ public class PilotStatsStruct {
 	public static final String COLUMN_NAME_MATCH_ID = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_MATCH_ID;
 	public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_PRACTICE_MATCH;
 	public static final String COLUMN_NAME_POSITION_ID = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_POSITION_ID;
-	public static final String COLUMN_NAME_GEARS_INSTALLED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED;
+	public static final String COLUMN_NAME_GEARS_INSTALLED_2 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_2;
+	public static final String COLUMN_NAME_GEARS_INSTALLED_3 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_3;
+	public static final String COLUMN_NAME_GEARS_INSTALLED_4 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_4;
 	public static final String COLUMN_NAME_GEARS_LIFED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_LIFED;
 	public static final String COLUMN_NAME_ROTOR_1_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_1_STARTED;
 	public static final String COLUMN_NAME_ROTOR_2_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_2_STARTED;
@@ -77,7 +81,9 @@ public class PilotStatsStruct {
 		match_id = 0;
 		practice_match = false;
 		position_id = "Red 1";
-		gears_installed = 0;
+		gears_installed_2 = 0;
+		gears_installed_3 = 0;
+		gears_installed_4 = 0;
 		gears_lifed = 0;
 		rotor_1_started = false;
 		rotor_2_started = false;
@@ -113,7 +119,9 @@ public class PilotStatsStruct {
 		vals.put(COLUMN_NAME_MATCH_ID, match_id);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, practice_match ? 1 : 0);
 		vals.put(COLUMN_NAME_POSITION_ID, db.getPosIDFromName(position_id, database));
-		vals.put(COLUMN_NAME_GEARS_INSTALLED, gears_installed);
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_2, gears_installed_2);
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, gears_installed_3);
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, gears_installed_4);
 		vals.put(COLUMN_NAME_GEARS_LIFED, gears_lifed);
 		vals.put(COLUMN_NAME_ROTOR_1_STARTED, rotor_1_started ? 1 : 0);
 		vals.put(COLUMN_NAME_ROTOR_2_STARTED, rotor_2_started ? 1 : 0);
@@ -135,7 +143,9 @@ public class PilotStatsStruct {
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
 		practice_match = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_PRACTICE_MATCH)) != 0;
 		position_id = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_ID)), database);
-		gears_installed = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED));
+		gears_installed_2 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_2));
+		gears_installed_3 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_3));
+		gears_installed_4 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_4));
 		gears_lifed = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_LIFED));
 		rotor_1_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_1_STARTED)) != 0;
 		rotor_2_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_2_STARTED)) != 0;
@@ -148,13 +158,15 @@ public class PilotStatsStruct {
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(15);
+		List<String> temp = new ArrayList<String>(17);
 		temp.add(COLUMN_NAME_EVENT_ID);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_MATCH_ID);
 		temp.add(COLUMN_NAME_PRACTICE_MATCH);
 		temp.add(COLUMN_NAME_POSITION_ID);
-		temp.add(COLUMN_NAME_GEARS_INSTALLED);
+		temp.add(COLUMN_NAME_GEARS_INSTALLED_2);
+		temp.add(COLUMN_NAME_GEARS_INSTALLED_3);
+		temp.add(COLUMN_NAME_GEARS_INSTALLED_4);
 		temp.add(COLUMN_NAME_GEARS_LIFED);
 		temp.add(COLUMN_NAME_ROTOR_1_STARTED);
 		temp.add(COLUMN_NAME_ROTOR_2_STARTED);
@@ -190,7 +202,9 @@ public class PilotStatsStruct {
 		vals.put(COLUMN_NAME_MATCH_ID, json.getInt(COLUMN_NAME_MATCH_ID));
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.getInt(COLUMN_NAME_PRACTICE_MATCH));
 		vals.put(COLUMN_NAME_POSITION_ID, json.getInt(COLUMN_NAME_POSITION_ID));
-		vals.put(COLUMN_NAME_GEARS_INSTALLED, json.getInt(COLUMN_NAME_GEARS_INSTALLED));
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_2, json.getInt(COLUMN_NAME_GEARS_INSTALLED_2));
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, json.getInt(COLUMN_NAME_GEARS_INSTALLED_3));
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, json.getInt(COLUMN_NAME_GEARS_INSTALLED_4));
 		vals.put(COLUMN_NAME_GEARS_LIFED, json.getInt(COLUMN_NAME_GEARS_LIFED));
 		vals.put(COLUMN_NAME_ROTOR_1_STARTED, json.getInt(COLUMN_NAME_ROTOR_1_STARTED));
 		vals.put(COLUMN_NAME_ROTOR_2_STARTED, json.getInt(COLUMN_NAME_ROTOR_2_STARTED));
@@ -212,7 +226,9 @@ public class PilotStatsStruct {
 		vals.put( COLUMN_NAME_MATCH_ID, String.valueOf(match_id));
 		vals.put( COLUMN_NAME_PRACTICE_MATCH, String.valueOf(practice_match ? 1 : 0));
 		vals.put( COLUMN_NAME_POSITION_ID, position_id);
-		vals.put( COLUMN_NAME_GEARS_INSTALLED, String.valueOf(gears_installed));
+		vals.put( COLUMN_NAME_GEARS_INSTALLED_2, String.valueOf(gears_installed_2));
+		vals.put( COLUMN_NAME_GEARS_INSTALLED_3, String.valueOf(gears_installed_3));
+		vals.put( COLUMN_NAME_GEARS_INSTALLED_4, String.valueOf(gears_installed_4));
 		vals.put( COLUMN_NAME_GEARS_LIFED, String.valueOf(gears_lifed));
 		vals.put( COLUMN_NAME_ROTOR_1_STARTED, String.valueOf(rotor_1_started ? 1 : 0));
 		vals.put( COLUMN_NAME_ROTOR_2_STARTED, String.valueOf(rotor_2_started ? 1 : 0));
