@@ -126,7 +126,7 @@ public class PilotPreMatchFragment extends PilotFragment {
         if (getView() == null || data == null || !displayed)
             return;
         for (int i=0; i<2; i++) {
-            if (teamS[i].getSelectedItemPosition() == 0) {
+            if (teamS[i].getSelectedItemPosition() == 0 && teamT[i].getText().toString().length() > 0) {
                 data[i].team_id = Integer.valueOf(teamT[i].getText().toString());
             }
         }
