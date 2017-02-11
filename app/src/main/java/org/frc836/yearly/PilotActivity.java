@@ -302,6 +302,9 @@ public class PilotActivity extends DBActivity {
             case MATCH:
                 saveMatch();
                 break;
+            case END_MATCH:
+                saveEnd();
+                break;
         }
         mCurrentPage = page;
         switch (page) {
@@ -319,6 +322,7 @@ public class PilotActivity extends DBActivity {
                 loadEnd();
                 lastB.setText("Match");
                 nextB.setText(readOnly ? "Cancel" : "Submit");
+                break;
             default:
                 loadAll();
                 lastB.setText("Cancel");
