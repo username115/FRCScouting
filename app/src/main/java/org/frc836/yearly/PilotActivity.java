@@ -103,8 +103,6 @@ public class PilotActivity extends DBActivity {
         teamThidden.setVisibility(View.INVISIBLE);
         teamThidden.setEnabled(false);
 
-        pilotData = new PilotStatsStruct[2];
-
         mMatchViewAdapter = new PilotMatchViewAdapter(getFragmentManager());
         mCurrentPage = PRE_MATCH;
 
@@ -157,12 +155,11 @@ public class PilotActivity extends DBActivity {
         String posPrefix;
         if (pos.contains("Blue")) {
             posPrefix = "Blue ";
-        }
-        else {
+        } else {
             posPrefix = "Red ";
         }
 
-        for (int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             String temp = schedule.getTeam(pilotData[0].match_id, posPrefix + i, this);
             if (temp.length() > 0) {
                 teams.add(temp);
@@ -215,10 +212,36 @@ public class PilotActivity extends DBActivity {
                                 });
                 dialog = builder.create();
                 break;
-            /*case LOAD_DIALOG:
-                // TODO
-
-                break;*/
+            case LOAD_DIALOG:
+                builder.setMessage("Data for this match exists.\nLoad old match?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (matchT.getText().toString().length() > 0) {
+                                    pilotData = new PilotStatsStruct[2];
+                                    pilotData[0] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
+                                            readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                                    pilotData[1] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
+                                            readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                                } else {
+                                    pilotData = new PilotStatsStruct[2];
+                                    pilotData[0] = new PilotStatsStruct();
+                                    pilotData[1] = new PilotStatsStruct();
+                                }
+                                loadPreMatch();
+                                loadMatch();
+                                loadEnd();
+                            }
+                        });
+                dialog = builder.create();
+                break;
             case MainMenuSelection.HELPDIALOG:
                 builder.setMessage(HELPMESSAGE)
                         .setCancelable(true)
@@ -241,7 +264,34 @@ public class PilotActivity extends DBActivity {
 
     private void loadData() {
         String match = matchT.getText().toString();
-        // TODO
+
+        boolean loadData = false;
+        if (match != null && match.length() > 0) {
+            pilotData = db.getPilotData(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
+                    .valueOf(match), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+            if (pilotData == null) {
+                pilotData = new PilotStatsStruct[2];
+                pilotData[0] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+                        readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                pilotData[1] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+                        readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+            } else {
+                loadData = true;
+            }
+        } else {
+            pilotData = new PilotStatsStruct[2];
+            pilotData[0] = new PilotStatsStruct();
+            pilotData[1] = new PilotStatsStruct();
+        }
+
+        if (loadData && !readOnly) {
+            showDialog(LOAD_DIALOG);
+        }
+
+        mViewPager.setCurrentItem(0, true);
+        loadAll();
+        lastB.setText("Cancel");
+        nextB.setText("Start");
     }
 
     public void pageSelected(int page) {

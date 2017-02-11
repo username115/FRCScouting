@@ -142,7 +142,10 @@ public class PilotPreMatchFragment extends PilotFragment {
             if (index < 0) {
                 teamS[i].setSelection(0);
                 setTeamIndex(i, 0);
-                teamT[i].setText(String.valueOf(data[i].team_id));
+                if (data[i].team_id > 0)
+                    teamT[i].setText(String.valueOf(data[i].team_id));
+                else
+                    teamT[i].setText("");
             } else {
                 teamS[i].setSelection(index + 1);
                 setTeamIndex(i, index + 1);

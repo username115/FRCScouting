@@ -1256,6 +1256,44 @@ public class DB {
         }
     }
 
+    public PilotStatsStruct[] getPilotData(String eventName, int match, boolean practice) {
+
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+                PilotStatsStruct[] stats = new PilotStatsStruct[2];
+                stats[0] = new PilotStatsStruct();
+                stats[1] = new PilotStatsStruct();
+
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = stats[0].getProjection();
+                String[] where = {String.valueOf(match),
+                        String.valueOf(getEventIDFromName(eventName, db)), practice ? "1" : "0"};
+
+                Cursor c = db.query(PilotStatsStruct.TABLE_NAME, projection,
+                        PilotStatsStruct.COLUMN_NAME_MATCH_ID + "=? AND "
+                                + PilotStatsStruct.COLUMN_NAME_EVENT_ID
+                                + "=? AND "
+                                + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH
+                                + "=?", where, null, null, null, "0,2");
+
+                stats[0].fromCursor(c, this, db, 0);
+                stats[1].fromCursor(c, this, db, 1);
+                if (c != null)
+                    c.close();
+                ScoutingDBHelper.getInstance().close();
+
+                return stats;
+
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
     public MatchStatsStruct getMatchStats(long event_id, int match,
                                           int team, boolean practice) {
         synchronized (ScoutingDBHelper.lock) {

@@ -133,8 +133,8 @@ public class PilotEndFragment extends PilotFragment {
             commonNotes[1].setAdapter(adapter);
             pastNotes[1].setAdapter(adapterTeam2);
 
-            teamT[0].setText(match.getTeam(0));
-            teamT[1].setText(match.getTeam(1));
+            teamT[0].setText(String.valueOf(match.getTeam(0)));
+            teamT[1].setText(String.valueOf(match.getTeam(1)));
         }
     }
 
@@ -170,6 +170,9 @@ public class PilotEndFragment extends PilotFragment {
         ((CheckBox)getView().findViewById(R.id.foul2)).setChecked(data[1].foul);
         ((CheckBox)getView().findViewById(R.id.red_card2)).setChecked(data[1].red_card);
         ((CheckBox)getView().findViewById(R.id.yellow_card2)).setChecked(data[1].yellow_card);
+
+        ((TextView)getView().findViewById(R.id.team1T)).setText(String.valueOf(data[0].team_id));
+        ((TextView)getView().findViewById(R.id.team2T)).setText(String.valueOf(data[1].team_id));
     }
 
     public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {

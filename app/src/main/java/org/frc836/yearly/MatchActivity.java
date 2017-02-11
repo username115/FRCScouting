@@ -191,7 +191,7 @@ public class MatchActivity extends DBActivity {
                 dialog = builder.create();
                 break;
             case LOAD_DIALOG:
-                builder.setMessage("Data for this match Exists.\nLoad old match?")
+                builder.setMessage("Data for this match exists.\nLoad old match?")
                         .setCancelable(false)
                         .setPositiveButton("Yes",
                                 new DialogInterface.OnClickListener() {

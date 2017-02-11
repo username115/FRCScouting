@@ -18,6 +18,7 @@ package org.growingstems.scouting;
 
 import org.frc836.database.DBActivity;
 import org.frc836.yearly.MatchActivity;
+import org.frc836.yearly.PilotActivity;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;
@@ -131,12 +132,17 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
     private class StartClickListener implements OnClickListener {
 
         public void onClick(View v) {
-            Intent intent = new Intent(MatchStartActivity.this,
-                    MatchActivity.class);
+            Intent intent;
+            if (position.getText().toString().contains("Pilot")) {
+                intent = new Intent(MatchStartActivity.this, PilotActivity.class);
+            }
+            else {
+                intent = new Intent(MatchStartActivity.this,
+                        MatchActivity.class);
+            }
             intent.putExtra("team", teamNum.getText().toString());
             intent.putExtra("match", matchNum.getText().toString());
             startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
-
         }
 
     }
@@ -151,6 +157,13 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             position.setTextColor(Color.BLUE);
         else
             position.setTextColor(Color.RED);
+
+        //2017 Change
+        if (pos.contains("Pilot")) {
+            teamNum.setVisibility(View.INVISIBLE);
+        } else {
+            teamNum.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -182,11 +195,13 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         } catch (Exception e) {
             def = "";
         }
-
-        teamNum.setText(schedule.getTeam(matchNum, position.getText()
-                .toString(), this, def));
-        if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
-            loadPicture();
+        // 2017 Change
+        if (!position.getText().toString().contains("Pilot")) {
+            teamNum.setText(schedule.getTeam(matchNum, position.getText()
+                    .toString(), this, def));
+            if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
+                loadPicture();
+            }
         }
     }
 

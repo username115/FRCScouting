@@ -179,7 +179,7 @@ public class PilotMatchFragment extends PilotFragment {
         }
 
         for (int i=0; i<2; i++) {
-            teamT[i].setText(data[i].team_id);
+            teamT[i].setText(String.valueOf(data[i].team_id));
 
             liftS[i].setSelection(data[i].gears_lifed);
             gearInstallS[1][i].setSelection(data[i].gears_installed_2);
@@ -248,7 +248,7 @@ public class PilotMatchFragment extends PilotFragment {
         for (int i=0; i<2; i++) {
             liftB[i].setOnClickListener(new OnIncrementListener(liftS[i], 1, -1, null, null));
 
-            for (int j=1; i<4; i++) {
+            for (int j=1; j<4; j++) {
                 gearinstallB[j][i].setOnClickListener(new OnIncrementListener(gearInstallS[j][i], 1, rotor[i], rotorC[i], gearinstallB[i]));
             }
         }
