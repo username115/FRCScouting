@@ -1,10 +1,7 @@
-def indent(level=0, indent_char='\t'):
-	return ''.join([indent_char for x in range(level)])
-
+from sqlparser import SqlColumn, SqlTable
 
 
 def _post_msg(io, post_type, table, querylist=set()):
-
 	columns = table.columns
 
 	cols2update = [v for k,v in columns.items() if k not in ['id','timestamp'] ]
@@ -225,36 +222,5 @@ r'''
 		_post_msg(io, post, table, querylist)
 
 
-
-
-
-from sqlparser import parse_sql
-import logging
-from sys import stdout
-if __name__ == '__main__':
-
-
-	with open('scouting_2016.sql', 'r') as fin:
-		tables = parse_sql(fin)
-
-
-	post_tables = [
-		('match', tables['fact_match_data_2016'], ['event_id','match_id','team_id','practice_match'])
-	]
-
-	write_php(stdout, tables, post_tables)
-
-	#for _,table in tables.items():
-	#	print(table.name)
-	#	for _,col in table.columns_header.items():
-	#		print("\t{}".format(col))
-
-
-	#write_php(stdout, tables)
-
-	#log = logging.getLogger('myapp')
-	#log.setLevel(logging.ERROR)
-	#ch = logging.StreamHandler()
-	#ch.setLevel(logging.DEBUG)
-	#log.addHandler(ch)
-	#log.info("blah")
+def write(io, tables, post_tables):
+	write_php(io, tables, post_tables)
