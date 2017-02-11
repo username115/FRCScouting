@@ -179,6 +179,40 @@ public class DB {
 
     }
 
+    public boolean submitPilot(PilotStatsStruct pilotData) {
+        try {
+            String where = PilotStatsStruct.COLUMN_NAME_EVENT_ID + "=? AND "
+                    + PilotStatsStruct.COLUMN_NAME_MATCH_ID + "=? AND "
+                    + PilotStatsStruct.COLUMN_NAME_TEAM_ID + "=? AND "
+                    + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH + "=?";
+            ContentValues values;
+            synchronized (ScoutingDBHelper.lock) {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                values = pilotData.getValues(this, db);
+
+                ScoutingDBHelper.getInstance().close();
+            }
+            String[] whereArgs = {
+                    values.getAsString(PilotStatsStruct.COLUMN_NAME_EVENT_ID),
+                    values.getAsString(PilotStatsStruct.COLUMN_NAME_MATCH_ID),
+                    values.getAsString(PilotStatsStruct.COLUMN_NAME_TEAM_ID),
+                    values.getAsString(PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH)};
+
+            insertOrUpdate(PilotStatsStruct.TABLE_NAME, null, values,
+                    PilotStatsStruct.COLUMN_NAME_ID, where, whereArgs);
+
+            startSync();
+
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
     public boolean submitPits(PitStats stats) {
         try {
             ContentValues values;
@@ -737,6 +771,48 @@ public class DB {
         }
     }
 
+    public List<String> getPilotNotesForTeam(int team_id) {
+        synchronized (ScoutingDBHelper.lock) {
+            try {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = {PilotStatsStruct.COLUMN_NAME_NOTES};
+                String selection = PilotStatsStruct.COLUMN_NAME_TEAM_ID + "=?";
+                String[] selectionArgs = {String.valueOf(team_id)};
+
+                Cursor c = db.query(PilotStatsStruct.TABLE_NAME, projection,
+                        selection, selectionArgs,
+                        PilotStatsStruct.COLUMN_NAME_EVENT_ID, null, PilotStatsStruct.COLUMN_NAME_ID);
+                List<String> ret;
+                try {
+
+                    ret = new ArrayList<String>(c.getCount());
+
+                    if (c.moveToFirst())
+                        do {
+                            String[] notes = c.getString(c
+                                    .getColumnIndexOrThrow(PilotStatsStruct.COLUMN_NAME_NOTES)).split(";");
+                            for (String note: notes) {
+                                if (!ret.contains(note))
+                                    ret.add(note);
+                            }
+                        } while (c.moveToNext());
+                    else
+                        ret = null;
+                } finally {
+                    if (c != null)
+                        c.close();
+                    ScoutingDBHelper.getInstance().close();
+                }
+
+                return ret;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+    }
+
     public List<String> getEventsWithData() {
         synchronized (ScoutingDBHelper.lock) {
             try {
@@ -1167,6 +1243,44 @@ public class DB {
                                 + "=?", where, null, null, null, "0,1");
 
                 stats.fromCursor(c, this, db);
+                if (c != null)
+                    c.close();
+                ScoutingDBHelper.getInstance().close();
+
+                return stats;
+
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
+    public PilotStatsStruct[] getPilotData(String eventName, int match, boolean practice) {
+
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+                PilotStatsStruct[] stats = new PilotStatsStruct[2];
+                stats[0] = new PilotStatsStruct();
+                stats[1] = new PilotStatsStruct();
+
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getReadableDatabase();
+
+                String[] projection = stats[0].getProjection();
+                String[] where = {String.valueOf(match),
+                        String.valueOf(getEventIDFromName(eventName, db)), practice ? "1" : "0"};
+
+                Cursor c = db.query(PilotStatsStruct.TABLE_NAME, projection,
+                        PilotStatsStruct.COLUMN_NAME_MATCH_ID + "=? AND "
+                                + PilotStatsStruct.COLUMN_NAME_EVENT_ID
+                                + "=? AND "
+                                + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH
+                                + "=?", where, null, null, null, "0,2");
+
+                stats[0].fromCursor(c, this, db, 0);
+                stats[1].fromCursor(c, this, db, 1);
                 if (c != null)
                     c.close();
                 ScoutingDBHelper.getInstance().close();

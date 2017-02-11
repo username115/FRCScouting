@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.frc836.yearly.TeleMatchFragment">
+    tools:context="org.frc836.yearly.PilotPreMatchFragment">
 
     <TextView
         android:id="@+id/pilotTextView"
@@ -15,9 +15,7 @@
 
 
     <ScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
         android:layout_below="@+id/pilotTextView">
 
@@ -39,10 +37,13 @@
                     android:entries="@array/team_number_entry" />
 
                 <EditText
+                    android:id="@+id/pilotTeam1T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="20sp"
-                    android:hint="@string/team_hint" />
+                    android:hint="@string/team_hint"
+                    android:inputType="number"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -59,10 +60,13 @@
                     android:entries="@array/team_number_entry" />
 
                 <EditText
+                    android:id="@+id/pilotTeam2T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="20sp"
-                    android:hint="@string/team_hint"/>
+                    android:hint="@string/team_hint"
+                    android:inputType="number"
+                    android:visibility="visible" />
 
             </LinearLayout>
 

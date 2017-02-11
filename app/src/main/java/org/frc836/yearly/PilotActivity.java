@@ -36,34 +36,36 @@ import android.widget.TextView;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.MatchStatsStruct;
+import org.frc836.database.PilotStatsStruct;
 import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.MatchFragment;
+import org.growingstems.scouting.MatchSchedule;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class MatchActivity extends DBActivity {
+public class PilotActivity extends DBActivity {
 
     public static final int NUM_SCREENS = 3;
-    public static final int AUTO_SCREEN = 0;
-    public static final int TELE_SCREEN = 1;
-    public static final int END_SCREEN = 2;
+    public static final int PRE_MATCH = 0;
+    public static final int MATCH = 1;
+    public static final int END_MATCH = 2;
 
-    private MatchViewAdapter mMatchViewAdapter;
+    private PilotMatchViewAdapter mMatchViewAdapter;
 
     private ViewPager mViewPager;
 
     private static final int CANCEL_DIALOG = 0;
     private static final int LOAD_DIALOG = 353563;
-    private static final int TIME_DIALOG = 2;
 
     private String HELPMESSAGE;
 
-    private MatchStatsStruct teamData;
+    private PilotStatsStruct[] pilotData;
 
-    private EditText teamText;
+    private TextView teamThidden;
     private EditText matchT;
     private TextView posT;
 
@@ -77,14 +79,7 @@ public class MatchActivity extends DBActivity {
     private boolean prac = false;
     private String position = null;
 
-    private Handler timer = new Handler();
-    private static final int DELAY = 16000;
-
-    private Runnable mUpdateTimeTask = new Runnable() {
-        public void run() {
-            showDialog(TIME_DIALOG);
-        }
-    };
+    private MatchSchedule schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,16 +91,20 @@ public class MatchActivity extends DBActivity {
 
         getGUIRefs();
 
+        schedule = new MatchSchedule();
+
         Intent intent = getIntent();
-        teamText.setText(intent.getStringExtra("team"));
         matchT.setText(intent.getStringExtra("match"));
         readOnly = intent.getBooleanExtra("readOnly", false);
         event = intent.getStringExtra("event");
         prac = intent.getBooleanExtra("practice", false);
         position = intent.getStringExtra("position");
 
-        mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
-        mCurrentPage = AUTO_SCREEN;
+        teamThidden.setVisibility(View.INVISIBLE);
+        teamThidden.setEnabled(false);
+
+        mMatchViewAdapter = new PilotMatchViewAdapter(getFragmentManager());
+        mCurrentPage = PRE_MATCH;
 
         mViewPager = (ViewPager) findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
@@ -125,43 +124,66 @@ public class MatchActivity extends DBActivity {
     protected void onResume() {
         super.onResume();
 
-        teamData.event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        pilotData[0].event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        pilotData[1].event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
 
-        teamData.practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
+        pilotData[0].practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
+        pilotData[1].practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
 
         updatePosition();
-
-        if (mCurrentPage == AUTO_SCREEN && !readOnly) {
-            timer.postDelayed(mUpdateTimeTask, DELAY);
-        }
     }
 
     protected void onPause() {
         super.onPause();
-        timer.removeCallbacks(mUpdateTimeTask);
     }
 
     public List<String> getNotesOptions() {
         return db.getNotesOptions();
     }
 
-    public List<String> getTeamNotes() {
-        return db.getNotesForTeam(teamData.team_id);
+    public List<String> getTeamNotes(int team_id) {
+        return db.getPilotNotesForTeam(team_id);
+    }
+
+    public int getTeam(int position) {
+        return pilotData[position].team_id;
+    }
+
+    public List<String> getTeams() {
+        String pos = position == null ? Prefs.getPosition(getApplicationContext(), "Red Pilot") : position;
+        List<String> teams = new ArrayList<String>(3);
+        String posPrefix;
+        if (pos.contains("Blue")) {
+            posPrefix = "Blue ";
+        } else {
+            posPrefix = "Red ";
+        }
+
+        for (int i = 0; i < 3; i++) {
+            String temp = schedule.getTeam(pilotData[0].match_id, posPrefix + i, this);
+            if (temp.length() > 0) {
+                teams.add(temp);
+            }
+        }
+        return teams;
     }
 
     private void updatePosition() {
-        String pos = position == null ? Prefs.getPosition(getApplicationContext(), "Red 1") : position;
+        String pos = position == null ? Prefs.getPosition(getApplicationContext(), "Red Pilot") : position;
         posT.setText(pos);
         if (pos.contains("Blue")) {
             posT.setTextColor(Color.BLUE);
         } else {
             posT.setTextColor(Color.RED);
         }
+        if (!pos.contains("Pilot")) {
+            finish();
+        }
     }
 
     private class positionClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            MainMenuSelection.openSettings(MatchActivity.this);
+            MainMenuSelection.openSettings(PilotActivity.this);
         }
     }
 
@@ -178,7 +200,7 @@ public class MatchActivity extends DBActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-                                        MatchActivity.this.finish();
+                                        PilotActivity.this.finish();
                                     }
                                 })
                         .setNegativeButton("No",
@@ -193,34 +215,31 @@ public class MatchActivity extends DBActivity {
             case LOAD_DIALOG:
                 builder.setMessage("Data for this match exists.\nLoad old match?")
                         .setCancelable(false)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        dialog.cancel();
-                                    }
-                                })
-                        .setNegativeButton("No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        if (teamText.getText().toString().length() > 0
-                                                && matchT.getText().toString()
-                                                .length() > 0) {
-                                            teamData = new MatchStatsStruct(
-                                                    Integer.valueOf(teamText
-                                                            .getText().toString()),
-                                                    event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event,
-                                                    Integer.valueOf(matchT
-                                                            .getText().toString()));
-                                        } else
-                                            teamData = new MatchStatsStruct();
-
-                                        loadAuto();
-                                        loadTele();
-                                        loadEnd();
-                                    }
-                                });
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (matchT.getText().toString().length() > 0) {
+                                    pilotData = new PilotStatsStruct[2];
+                                    pilotData[0] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
+                                            readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                                    pilotData[1] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
+                                            readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                                } else {
+                                    pilotData = new PilotStatsStruct[2];
+                                    pilotData[0] = new PilotStatsStruct();
+                                    pilotData[1] = new PilotStatsStruct();
+                                }
+                                loadPreMatch();
+                                loadMatch();
+                                loadEnd();
+                            }
+                        });
                 dialog = builder.create();
                 break;
             case MainMenuSelection.HELPDIALOG:
@@ -237,28 +256,6 @@ public class MatchActivity extends DBActivity {
                                 });
                 dialog = builder.create();
                 break;
-            case TIME_DIALOG:
-                builder.setMessage("Continue to Tele-Op?")
-                        .setCancelable(true)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        onNext(nextB);
-                                    }
-                                })
-                        .setNegativeButton("No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        timer.removeCallbacks(mUpdateTimeTask);
-                                        if (!readOnly)
-                                            timer.postDelayed(mUpdateTimeTask, DELAY);
-                                        dialog.cancel();
-                                    }
-                                });
-                dialog = builder.create();
-                break;
             default:
                 dialog = null;
         }
@@ -266,70 +263,66 @@ public class MatchActivity extends DBActivity {
     }
 
     private void loadData() {
-        String team = teamText.getText().toString();
         String match = matchT.getText().toString();
 
         boolean loadData = false;
-        if (team != null && team.length() > 0 && match != null
-                && match.length() > 0) {
-            teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
-                    .valueOf(match), Integer.valueOf(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
-            if (teamData == null)
-                teamData = new MatchStatsStruct(Integer.valueOf(team),
-                        event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+        if (match != null && match.length() > 0) {
+            pilotData = db.getPilotData(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
+                    .valueOf(match), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+            if (pilotData == null) {
+                pilotData = new PilotStatsStruct[2];
+                pilotData[0] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
-            else
+                pilotData[1] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+                        readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+            } else {
                 loadData = true;
-        } else
-            teamData = new MatchStatsStruct();
+            }
+        } else {
+            pilotData = new PilotStatsStruct[2];
+            pilotData[0] = new PilotStatsStruct();
+            pilotData[1] = new PilotStatsStruct();
+        }
 
         if (loadData && !readOnly) {
             showDialog(LOAD_DIALOG);
         }
+
         mViewPager.setCurrentItem(0, true);
         loadAll();
         lastB.setText("Cancel");
-        nextB.setText("Tele op");
+        nextB.setText("Start");
     }
 
     public void pageSelected(int page) {
         switch (mCurrentPage) {
-            case AUTO_SCREEN:
-                saveAuto();
+            case PRE_MATCH:
+                savePreMatch();
                 break;
-            case TELE_SCREEN:
-                saveTele();
-                break;
-            case END_SCREEN:
-                saveEnd();
+            case MATCH:
+                saveMatch();
                 break;
         }
         mCurrentPage = page;
         switch (page) {
-            case AUTO_SCREEN:
-                loadAuto();
+            case PRE_MATCH:
+                loadPreMatch();
                 lastB.setText("Cancel");
-                nextB.setText("Tele op");
-                if (!readOnly)
-                    timer.postDelayed(mUpdateTimeTask, DELAY);
+                nextB.setText("Start");
                 break;
-            case TELE_SCREEN:
-                loadTele();
-                lastB.setText("Auto");
-                nextB.setText("End Game");
-                timer.removeCallbacks(mUpdateTimeTask);
+            case MATCH:
+                loadMatch();
+                lastB.setText("Pre-Match");
+                nextB.setText("End Match");
                 break;
-            case END_SCREEN:
+            case END_MATCH:
                 loadEnd();
-                lastB.setText("Tele op");
+                lastB.setText("Match");
                 nextB.setText(readOnly ? "Cancel" : "Submit");
-                timer.removeCallbacks(mUpdateTimeTask);
-                break;
             default:
                 loadAll();
                 lastB.setText("Cancel");
-                nextB.setText("Tele op");
-                timer.removeCallbacks(mUpdateTimeTask);
+                nextB.setText("Start");
         }
     }
 
@@ -357,13 +350,13 @@ public class MatchActivity extends DBActivity {
     }
 
 
-    private static class MatchViewAdapter extends FragmentPagerAdapter {
+    private static class PilotMatchViewAdapter extends FragmentPagerAdapter {
 
-        SparseArray<MatchFragment> fragments;
+        SparseArray<PilotFragment> fragments;
 
-        public MatchViewAdapter(FragmentManager fm) {
+        public PilotMatchViewAdapter(FragmentManager fm) {
             super(fm);
-            fragments = new SparseArray<MatchFragment>(NUM_SCREENS);
+            fragments = new SparseArray<PilotFragment>(NUM_SCREENS);
         }
 
         @Override
@@ -372,24 +365,24 @@ public class MatchActivity extends DBActivity {
 
         }
 
-        public MatchFragment getMatchFragment(int i) {
-            MatchFragment fragment;
+        public PilotFragment getMatchFragment(int i) {
+            PilotFragment fragment;
 
             if (fragments.get(i) != null) {
                 return fragments.get(i);
             }
             switch (i) {
-                case AUTO_SCREEN:
-                    fragment = AutoMatchFragment.newInstance();
+                case PRE_MATCH:
+                    fragment = PilotPreMatchFragment.newInstance();
                     fragments.put(i, fragment);
                     return fragment;
-                case TELE_SCREEN:
-                    fragment = TeleMatchFragment.newInstance();
+                case MATCH:
+                    fragment = PilotMatchFragment.newInstance();
                     fragments.put(i, fragment);
                     return fragment;
-                case END_SCREEN:
+                case END_MATCH:
                 default:
-                    fragment = EndMatchFragment.newInstance();
+                    fragment = PilotEndFragment.newInstance();
                     fragments.put(i, fragment);
                     return fragment;
             }
@@ -402,7 +395,7 @@ public class MatchActivity extends DBActivity {
     }
 
     private void getGUIRefs() {
-        teamText = (EditText) findViewById(R.id.teamNum);
+        teamThidden = (EditText) findViewById(R.id.teamNum);
 
         matchT = (EditText) findViewById(R.id.matchNum);
         posT = (TextView) findViewById(R.id.pos);
@@ -412,60 +405,60 @@ public class MatchActivity extends DBActivity {
 
     }
 
-    private void loadAuto() {
-        mMatchViewAdapter.getMatchFragment(AUTO_SCREEN).loadData(teamData);
+    private void loadPreMatch() {
+        mMatchViewAdapter.getMatchFragment(PRE_MATCH).loadData(pilotData);
     }
 
-    private void saveAuto() {
+    private void savePreMatch() {
         saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(AUTO_SCREEN).saveData(teamData);
+        mMatchViewAdapter.getMatchFragment(PRE_MATCH).saveData(pilotData);
     }
 
-    private void loadTele() {
-        mMatchViewAdapter.getMatchFragment(TELE_SCREEN).loadData(teamData);
+    private void loadMatch() {
+        mMatchViewAdapter.getMatchFragment(MATCH).loadData(pilotData);
     }
 
-    private void saveTele() {
+    private void saveMatch() {
         saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(TELE_SCREEN).saveData(teamData);
+        mMatchViewAdapter.getMatchFragment(MATCH).saveData(pilotData);
     }
 
     private void loadEnd() {
-        mMatchViewAdapter.getMatchFragment(END_SCREEN).loadData(teamData);
+        mMatchViewAdapter.getMatchFragment(END_MATCH).loadData(pilotData);
     }
 
     private void saveEnd() {
         saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(END_SCREEN).saveData(teamData);
+        mMatchViewAdapter.getMatchFragment(END_MATCH).saveData(pilotData);
     }
 
     private void loadAll() {
-        loadAuto();
-        loadTele();
+        loadPreMatch();
+        loadMatch();
         loadEnd();
     }
 
     private void saveAll() {
-        saveAuto();
-        saveTele();
+        savePreMatch();
+        saveMatch();
         saveEnd();
     }
 
     private void saveTeamInfo() {
-        String team = teamText.getText().toString();
-        if (team != null && team.length() > 0)
-            teamData.team_id = Integer.valueOf(team);
         String match = matchT.getText().toString();
         if (match != null && match.length() > 0) {
-            teamData.match_id = Integer.valueOf(match);
+            pilotData[0].match_id = Integer.valueOf(match);
+            pilotData[1].match_id = Integer.valueOf(match);
         }
-        teamData.position_id = posT.getText().toString();
+        pilotData[0].position_id = posT.getText().toString();
+        pilotData[1].position_id = posT.getText().toString();
     }
 
     private void submit() {
         if (!readOnly) {
             saveEnd();
-            db.submitMatch(teamData);
+            db.submitPilot(pilotData[0]);
+            db.submitPilot(pilotData[1]);
             nextB.setEnabled(false);
             if (matchT.getText().length() > 0)
                 setResult(Integer.valueOf(matchT.getText().toString()) + 1);
@@ -474,7 +467,7 @@ public class MatchActivity extends DBActivity {
     }
 
     public String getPosition() {
-        return position == null ? Prefs.getPosition(getApplicationContext(), "Red 1") : position;
+        return position == null ? Prefs.getPosition(getApplicationContext(), "Red Pilot") : position;
     }
 
 

@@ -79,7 +79,9 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
 		public static final String COLUMN_NAME_POSITION_ID = "position_id";
-		public static final String COLUMN_NAME_GEARS_INSTALLED = "gears_installed";
+		public static final String COLUMN_NAME_GEARS_INSTALLED_2 = "gears_installed_2";
+		public static final String COLUMN_NAME_GEARS_INSTALLED_3 = "gears_installed_3";
+		public static final String COLUMN_NAME_GEARS_INSTALLED_4 = "gears_installed_4";
 		public static final String COLUMN_NAME_GEARS_LIFED = "gears_lifed";
 		public static final String COLUMN_NAME_ROTOR_1_STARTED = "rotor_1_started";
 		public static final String COLUMN_NAME_ROTOR_2_STARTED = "rotor_2_started";
@@ -421,7 +423,9 @@ public final class FRCScoutingContract {
 		"	match_id unsigned int(4) NOT NULL,\n" +
 		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	position_id unsigned int(3) NOT NULL,\n" +
-		"	gears_installed unsigned int(3) NOT NULL,\n" +
+		"	gears_installed_2 unsigned int(3) NOT NULL,\n" +
+		"	gears_installed_3 unsigned int(3) NOT NULL,\n" +
+		"	gears_installed_4 unsigned int(3) NOT NULL,\n" +
 		"	gears_lifed unsigned int(3) NOT NULL,\n" +
 		"	rotor_1_started tinyint(1) NOT NULL,\n" +
 		"	rotor_2_started tinyint(1) NOT NULL,\n" +

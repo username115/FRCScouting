@@ -45,6 +45,11 @@
             android:label="@string/match_label"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name="org.frc836.yearly.PilotActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/match_label"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".data.DataActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_data">
