@@ -32,7 +32,7 @@ r'''
 
 	for col in cols2update:
 		if col.name == 'invalid':
-			io.write('\t\t\t\t. 0);";') # This is for the invalid flag
+			io.write('\t\t\t\t. "0);";') # This is for the invalid flag
 
 		elif col.type in ['text']:
 			io.write('{}. "\'" . ${} . "\',"\n'.format('\t\t\t\t', col.name))

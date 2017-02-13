@@ -27,10 +27,13 @@ with open(mysqlfile, 'r') as fin:
 	tables = decode(fin)
 
 
-from scouting_php__writter import write_php
+from scouting_php__writer import write_php
 outfile = normpath("{}/FRC_Scouting_Server/scouting.php".format(ProjRootPath))
 post_tables = [
-	('match', tables['fact_match_data_2017'], ['event_id','match_id','team_id','practice_match'])
+	('match', tables['fact_match_data_2017'], ['event_id','match_id','team_id','practice_match']),
+	('pilot', tables['fact_pilot_data_2017'], ['event_id','match_id','team_id','practice_match']),
+	('pits', tables['scout_pit_data_2017'], ['team_id']),
+	('picklist', tables['picklist'], ['event_id','team_id'])
 ]
 
 with open(outfile, 'w') as f:
