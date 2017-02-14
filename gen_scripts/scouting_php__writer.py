@@ -53,7 +53,7 @@ r'''
 		else:
 			io.write( '\t\t\t\t. "{0}=" . ${0} . ","\n'.format(col.name) )
 
-	io.write('\t\t\t\t. " WHERE id=" . $id;\n\n')
+	io.write('\t\t\t\t. " WHERE id=" . $match_row_id;\n\n')
 	io.write('\t\t\t$success = mysql_query($query);\n\t\t}\n')
 
 	io.write('\t\tif ($success) {\n')

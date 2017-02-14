@@ -474,6 +474,7 @@ public class DBSyncService extends Service {
             try {
                 int match = -1, event = -1, team = -1, practice = -1;
                 boolean picklist = false;
+                boolean pilot = false;
                 Map<String, String> sent = params[0].getParams();
                 if (params[0].getResponseString().contains("Failed"))
                     return null;
@@ -523,6 +524,31 @@ public class DBSyncService extends Service {
                             team = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID));
                             event = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID));
                             outgoing.remove(i);
+                        } else if (sent.get("type").equalsIgnoreCase("pilot")
+                                && sent.get(PilotStatsStruct.COLUMN_NAME_EVENT_ID)
+                                .equalsIgnoreCase(
+                                        args.get(PilotStatsStruct.COLUMN_NAME_EVENT_ID))
+                                && sent.get(PilotStatsStruct.COLUMN_NAME_MATCH_ID)
+                                .equalsIgnoreCase(
+                                        args.get(PilotStatsStruct.COLUMN_NAME_MATCH_ID))
+                                && sent.get(PilotStatsStruct.COLUMN_NAME_TEAM_ID)
+                                .equalsIgnoreCase(
+                                        args.get(PilotStatsStruct.COLUMN_NAME_TEAM_ID))
+                                && sent.get(
+                                PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH)
+                                .equalsIgnoreCase(
+                                        args.get(PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH))) {
+                            match = Integer.valueOf(sent
+                                    .get(MatchStatsStruct.COLUMN_NAME_MATCH_ID));
+                            event = Integer.valueOf(sent
+                                    .get(MatchStatsStruct.COLUMN_NAME_EVENT_ID));
+                            team = Integer.valueOf(sent
+                                    .get(MatchStatsStruct.COLUMN_NAME_TEAM_ID));
+                            practice = Integer
+                                    .valueOf(sent
+                                            .get(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH));
+                            outgoing.remove(i);
+                            pilot = true;
                         }
                     }
                 }
@@ -534,7 +560,7 @@ public class DBSyncService extends Service {
                     ContentValues values = new ContentValues();
 
                     // TODO could probably be abstracted further
-                    if (match > 0) { // match was updated
+                    if (match > 0 && !pilot) { // match was updated
                         values.put(MatchStatsStruct.COLUMN_NAME_ID,
                                 Integer.valueOf(r[0].trim()));
                         values.put(MatchStatsStruct.COLUMN_NAME_TIMESTAMP,
@@ -556,7 +582,7 @@ public class DBSyncService extends Service {
                                         + "=? AND "
                                         + MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
                                         + "=?", selectionArgs);
-                    } else if (team > 0 && !picklist) { // pits were updated
+                    } else if (team > 0 && !picklist && !pilot) { // pits were updated
                         values.put(PitStats.COLUMN_NAME_ID,
                                 Integer.valueOf(r[0].trim()));
                         values.put(PitStats.COLUMN_NAME_TIMESTAMP, DB.dateParser
@@ -573,6 +599,28 @@ public class DBSyncService extends Service {
 
                         String[] selectionArgs = {String.valueOf(team), String.valueOf(event)};
                         db.update(PICKLIST_Entry.TABLE_NAME, values, PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?", selectionArgs);
+                    } else if (pilot) {
+                        values.put(PilotStatsStruct.COLUMN_NAME_ID,
+                                Integer.valueOf(r[0].trim()));
+                        values.put(PilotStatsStruct.COLUMN_NAME_TIMESTAMP,
+                                DB.dateParser.format(new Date(Long.valueOf(r[1]
+                                        .trim()) * 1000)));
+                        values.put(PilotStatsStruct.COLUMN_NAME_INVALID, 0);
+
+                        String[] selectionArgs = {String.valueOf(event),
+                                String.valueOf(match), String.valueOf(team),
+                                String.valueOf(practice)};
+                        db.update(
+                                PilotStatsStruct.TABLE_NAME,
+                                values,
+                                PilotStatsStruct.COLUMN_NAME_EVENT_ID
+                                        + "=? AND "
+                                        + PilotStatsStruct.COLUMN_NAME_MATCH_ID
+                                        + "=? AND "
+                                        + PilotStatsStruct.COLUMN_NAME_TEAM_ID
+                                        + "=? AND "
+                                        + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH
+                                        + "=?", selectionArgs);
                     }
                     ScoutingDBHelper.getInstance().close();
                 }

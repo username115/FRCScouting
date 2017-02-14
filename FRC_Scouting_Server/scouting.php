@@ -102,16 +102,16 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 
+		//notes_options
+		$query = "SELECT * FROM notes_options" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "notes_options") . ",";
+		mysql_free_result($result);
+
 		//configuration_lu
 		$query = "SELECT * FROM configuration_lu" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "configuration_lu") . ",";
-		mysql_free_result($result);
-
-		//event_lu
-		$query = "SELECT * FROM event_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "event_lu") . ",";
 		mysql_free_result($result);
 
 		//wheel_type_lu
@@ -120,34 +120,10 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "wheel_type_lu") . ",";
 		mysql_free_result($result);
 
-		//game_info
-		$query = "SELECT * FROM game_info" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "game_info") . ",";
-		mysql_free_result($result);
-
 		//fact_pilot_data_2017
 		$query = "SELECT * FROM fact_pilot_data_2017" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "fact_pilot_data_2017") . ",";
-		mysql_free_result($result);
-
-		//notes_options
-		$query = "SELECT * FROM notes_options" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "notes_options") . ",";
-		mysql_free_result($result);
-
-		//scout_pit_data_2017
-		$query = "SELECT * FROM scout_pit_data_2017" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "scout_pit_data_2017") . ",";
-		mysql_free_result($result);
-
-		//wheel_base_lu
-		$query = "SELECT * FROM wheel_base_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_base_lu") . ",";
 		mysql_free_result($result);
 
 		//fact_match_data_2017
@@ -156,10 +132,34 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "fact_match_data_2017") . ",";
 		mysql_free_result($result);
 
+		//scout_pit_data_2017
+		$query = "SELECT * FROM scout_pit_data_2017" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "scout_pit_data_2017") . ",";
+		mysql_free_result($result);
+
+		//event_lu
+		$query = "SELECT * FROM event_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "event_lu") . ",";
+		mysql_free_result($result);
+
 		//picklist
 		$query = "SELECT * FROM picklist" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "picklist") . ",";
+		mysql_free_result($result);
+
+		//game_info
+		$query = "SELECT * FROM game_info" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "game_info") . ",";
+		mysql_free_result($result);
+
+		//wheel_base_lu
+		$query = "SELECT * FROM wheel_base_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_base_lu") . ",";
 		mysql_free_result($result);
 
 		//position_lu
@@ -273,7 +273,7 @@ elseif ($_POST['password'] == $pass) {
 				. "tip_over=" . $tip_over . ","
 				. "notes='" . $notes . "',"
 				. "invalid=0"
-				. " WHERE id=" . $id;
+				. " WHERE id=" . $match_row_id;
 
 			$success = mysql_query($query);
 		}
@@ -352,7 +352,7 @@ elseif ($_POST['password'] == $pass) {
 				. "red_card=" . $red_card . ","
 				. "notes='" . $notes . "',"
 				. "invalid=0"
-				. " WHERE id=" . $id;
+				. " WHERE id=" . $match_row_id;
 
 			$success = mysql_query($query);
 		}
@@ -458,7 +458,7 @@ elseif ($_POST['password'] == $pass) {
 				. "wheel_type_id=" . $wheel_type_id . ","
 				. "notes='" . $notes . "',"
 				. "invalid=0"
-				. " WHERE id=" . $id;
+				. " WHERE id=" . $match_row_id;
 
 			$success = mysql_query($query);
 		}
@@ -501,7 +501,7 @@ elseif ($_POST['password'] == $pass) {
 				. "picked=" . $picked . ","
 				. "removed=" . $removed . ","
 				. "invalid=0"
-				. " WHERE id=" . $id;
+				. " WHERE id=" . $match_row_id;
 
 			$success = mysql_query($query);
 		}

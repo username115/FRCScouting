@@ -25,7 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
@@ -124,8 +123,8 @@ public class PilotActivity extends DBActivity {
     protected void onResume() {
         super.onResume();
 
-        pilotData[0].event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
-        pilotData[1].event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        pilotData[0].event_id = (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        pilotData[1].event_id = (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
 
         pilotData[0].practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
         pilotData[1].practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
@@ -226,9 +225,9 @@ public class PilotActivity extends DBActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (matchT.getText().toString().length() > 0) {
                                     pilotData = new PilotStatsStruct[2];
-                                    pilotData[0] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
+                                    pilotData[0] = new PilotStatsStruct(0, (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
                                             readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
-                                    pilotData[1] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
+                                    pilotData[1] = new PilotStatsStruct(0, (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(matchT.getText().toString()),
                                             readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
                                 } else {
                                     pilotData = new PilotStatsStruct[2];
@@ -267,13 +266,13 @@ public class PilotActivity extends DBActivity {
 
         boolean loadData = false;
         if (match != null && match.length() > 0) {
-            pilotData = db.getPilotData(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
+            pilotData = db.getPilotData((event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
                     .valueOf(match), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (pilotData == null) {
                 pilotData = new PilotStatsStruct[2];
-                pilotData[0] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+                pilotData[0] = new PilotStatsStruct(0, (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
-                pilotData[1] = new PilotStatsStruct(0, event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+                pilotData[1] = new PilotStatsStruct(0, (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             } else {
                 loadData = true;
@@ -456,6 +455,9 @@ public class PilotActivity extends DBActivity {
         }
         pilotData[0].position_id = posT.getText().toString();
         pilotData[1].position_id = posT.getText().toString();
+
+        pilotData[0].event_id = (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        pilotData[1].event_id = (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
     }
 
     private void submit() {
