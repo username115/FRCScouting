@@ -1556,7 +1556,7 @@ public class DBSyncService extends Service {
             for (int i = 0; i < picklist.length(); i++) {
                 JSONObject row = picklist.getJSONObject(i);
                 Action action = Action.UPDATE;
-                if (row.getInt(PICKLIST_Entry.COLUMN_NAME_INVALID) != 0) {
+                if (row.getInt(PICKLIST_Entry.COLUMN_NAME_REMOVED) != 0 || row.getInt(PICKLIST_Entry.COLUMN_NAME_INVALID) != 0) {
                     action = Action.DELETE;
                 }
                 ContentValues vals = new ContentValues();

@@ -198,16 +198,21 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 ''')
-
+	cnt = 0
 	for tablename, table in tables.items():
+		cnt = cnt+1
+		if cnt == len(tables):
+			sep = "}"
+		else:
+			sep = ","
 		io.write(
 r'''
 		//{0}
 		$query = "SELECT * FROM {0}" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "{0}") . ",";
+		$json .= genJSON($result, "{0}") . "{1}";
 		mysql_free_result($result);
-'''.format(tablename))
+'''.format(tablename, sep))
 
 	io.write(
 r'''
@@ -220,6 +225,16 @@ r'''
 
 	for post,table,querylist in post_tables:
 		_post_msg(io, post, table, querylist)
+
+	io.write(
+'''
+	else {
+		$resp = 'invalid submission type';
+	}
+
+	echo $resp;
+}
+''')
 
 
 def write(io, tables, post_tables):
