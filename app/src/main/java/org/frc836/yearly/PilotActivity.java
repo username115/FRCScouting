@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Daniel Logan
+ * Copyright 2017 Daniel Logan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,10 +34,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.frc836.database.DBActivity;
-import org.frc836.database.MatchStatsStruct;
 import org.frc836.database.PilotStatsStruct;
 import org.growingstems.scouting.MainMenuSelection;
-import org.growingstems.scouting.MatchFragment;
 import org.growingstems.scouting.MatchSchedule;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
