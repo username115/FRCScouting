@@ -91,8 +91,21 @@ public class MatchActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
-        // TODO
-        HELPMESSAGE = "Record Match Data here.\nEnter Which defenses are on the field first. (Important!!)\nRecord crossings forward: f, and reverse: r.\nSome defenses can be crossed forward with help: h\nRecord scores: s, and misses: m";
+        HELPMESSAGE = "Record Match Data here.\n"
+                + "Ensure that the alliance you are scouting is set to the correct side of the field.\n" +
+                "Auto:\n" +
+                "Record scores and misses for high goal, scores for low goal.\n" +
+                "Numbers can be incremented by one or five.\n" +
+                "Record gears placed on lifts.\n" +
+                "Also record if the robot crossed the baseline and/or dumped a hopper.\n" +
+                "Tele-Op:\n" +
+                "Record scores and misses for high goal, scores for low goal.\n" +
+                "Numbers can be incremented by one or five.\n" +
+                "Record gears placed on lifts.\n" +
+                "Also record if the robot crossed the baseline and/or dumped a hopper.\n" +
+                "End game:\n" +
+                "Record fouls, cards, and if a robot scaled or attmpted to scale.\n" +
+                "Record any pertinent notes. Two drop-downs are provided for common notes.";
 
         getGUIRefs();
 

@@ -83,8 +83,11 @@ public class PilotActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
-        // TODO
-        HELPMESSAGE = "Record Match Data here.\nEnter Which defenses are on the field first. (Important!!)\nRecord crossings forward: f, and reverse: r.\nSome defenses can be crossed forward with help: h\nRecord scores: s, and misses: m";
+        HELPMESSAGE = "Record Pilot Match data here.\n" +
+                "Begin by entering which teams have pilots. If a match schedule is loaded, these will appear in the drop-down menus.\n" +
+                "Enter how many gears have been lifted by each team at the top.\n" +
+                "Enter how many gears each team has installed for each rotor and which team turned each rotor.\n" +
+                "Fill in any pertinent details at the end. There are two drop-downs for common notes.";
 
         getGUIRefs();
 
