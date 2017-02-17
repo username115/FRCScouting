@@ -78,8 +78,10 @@ public class PilotMatchFragment extends PilotFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tempData[0] = new PilotStatsStruct();
-        tempData[1] = new PilotStatsStruct();
+        if (tempData[0] == null)
+            tempData[0] = new PilotStatsStruct();
+        if (tempData[1] == null)
+            tempData[1] = new PilotStatsStruct();
     }
 
     @Override

@@ -65,8 +65,10 @@ public class PilotPreMatchFragment extends PilotFragment {
         super.onCreate(savedInstanceState);
         teamS = new Spinner[2];
         teamT = new EditText[2];
-        tempData[0] = new PilotStatsStruct();
-        tempData[1] = new PilotStatsStruct();
+        if (tempData[0] == null)
+            tempData[0] = new PilotStatsStruct();
+        if (tempData[1] == null)
+            tempData[1] = new PilotStatsStruct();
     }
 
     @Override

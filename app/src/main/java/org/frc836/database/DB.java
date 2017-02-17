@@ -1252,7 +1252,7 @@ public class DB {
         }
     }
 
-    public PilotStatsStruct[] getPilotData(String eventName, int match, boolean practice) {
+    public PilotStatsStruct[] getPilotData(String eventName, int match, String position, boolean practice) {
 
         synchronized (ScoutingDBHelper.lock) {
 
@@ -1266,13 +1266,15 @@ public class DB {
 
                 String[] projection = stats[0].getProjection();
                 String[] where = {String.valueOf(match),
-                        String.valueOf(getEventIDFromName(eventName, db)), practice ? "1" : "0"};
+                        String.valueOf(getEventIDFromName(eventName, db)), practice ? "1" : "0", String.valueOf(getPosIDFromName(position, db))};
 
                 Cursor c = db.query(PilotStatsStruct.TABLE_NAME, projection,
                         PilotStatsStruct.COLUMN_NAME_MATCH_ID + "=? AND "
                                 + PilotStatsStruct.COLUMN_NAME_EVENT_ID
                                 + "=? AND "
                                 + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH
+                                + "=? AND "
+                                + PilotStatsStruct.COLUMN_NAME_POSITION_ID
                                 + "=?", where, null, null, null, "0,2");
 
                 stats[0].fromCursor(c, this, db, 0);

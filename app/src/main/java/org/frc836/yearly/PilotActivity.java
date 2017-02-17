@@ -268,7 +268,7 @@ public class PilotActivity extends DBActivity {
         boolean loadData = false;
         if (match != null && match.length() > 0) {
             pilotData = db.getPilotData((event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
-                    .valueOf(match), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                    .valueOf(match), position == null ? Prefs.getPosition(getApplicationContext(), "Red Pilot") : position, readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (pilotData == null) {
                 pilotData = new PilotStatsStruct[2];
                 pilotData[0] = new PilotStatsStruct(0, (event == null || event.length() == 0) ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
