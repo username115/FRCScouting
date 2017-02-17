@@ -740,19 +740,16 @@ public class DB {
                 String[] selectionArgs = {String.valueOf(team_id)};
 
                 Cursor c = db.query(MatchStatsStruct.TABLE_NAME, projection,
-                        selection, selectionArgs,
-                        MatchStatsStruct.COLUMN_NAME_EVENT_ID, null, MatchStatsStruct.COLUMN_NAME_ID);
+                        selection, selectionArgs, null, null, MatchStatsStruct.COLUMN_NAME_ID);
                 List<String> ret;
                 try {
-
                     ret = new ArrayList<String>(c.getCount());
 
                     if (c.moveToFirst())
                         do {
-                            String[] notes = c.getString(c
-                                    .getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_NOTES)).split(";");
+                            String[] notes = c.getString(c.getColumnIndexOrThrow(MatchStatsStruct.COLUMN_NAME_NOTES)).split(";");
                             for (String note: notes) {
-                                if (!ret.contains(note))
+                                if (note.length() > 0 && !ret.contains(note))
                                     ret.add(note);
                             }
                         } while (c.moveToNext());
@@ -782,8 +779,7 @@ public class DB {
                 String[] selectionArgs = {String.valueOf(team_id)};
 
                 Cursor c = db.query(PilotStatsStruct.TABLE_NAME, projection,
-                        selection, selectionArgs,
-                        PilotStatsStruct.COLUMN_NAME_EVENT_ID, null, PilotStatsStruct.COLUMN_NAME_ID);
+                        selection, selectionArgs, null, null, PilotStatsStruct.COLUMN_NAME_ID);
                 List<String> ret;
                 try {
 
@@ -794,7 +790,7 @@ public class DB {
                             String[] notes = c.getString(c
                                     .getColumnIndexOrThrow(PilotStatsStruct.COLUMN_NAME_NOTES)).split(";");
                             for (String note: notes) {
-                                if (!ret.contains(note))
+                                if (note.length() > 0 && !ret.contains(note))
                                     ret.add(note);
                             }
                         } while (c.moveToNext());
