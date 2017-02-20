@@ -122,7 +122,7 @@ public class PilotMatchFragment extends PilotFragment {
             return;
 
         for (int i=0; i<2; i++) {
-            data[i].gears_lifed = liftS[i].getSelectedItemPosition();
+            data[i].gears_lifted = liftS[i].getSelectedItemPosition();
             data[i].gears_installed_2 = gearInstallS[1][i].getSelectedItemPosition();
             data[i].gears_installed_3 = gearInstallS[2][i].getSelectedItemPosition();
             data[i].gears_installed_4 = gearInstallS[3][i].getSelectedItemPosition();
@@ -183,7 +183,7 @@ public class PilotMatchFragment extends PilotFragment {
         for (int i=0; i<2; i++) {
             teamT[i].setText(String.valueOf(data[i].team_id));
 
-            liftS[i].setSelection(data[i].gears_lifed);
+            liftS[i].setSelection(data[i].gears_lifted);
             gearInstallS[1][i].setSelection(data[i].gears_installed_2);
             gearInstallS[2][i].setSelection(data[i].gears_installed_3);
             gearInstallS[3][i].setSelection(data[i].gears_installed_4);
