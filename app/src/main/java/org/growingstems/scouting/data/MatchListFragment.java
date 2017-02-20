@@ -22,7 +22,7 @@ import java.util.ListIterator;
 
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
-import org.robobees.stronghold.MatchActivity;
+import org.frc836.yearly.MatchActivity;
 
 import android.content.Intent;
 import android.os.Bundle;

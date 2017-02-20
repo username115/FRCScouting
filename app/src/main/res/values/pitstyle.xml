@@ -3,35 +3,45 @@
 
     <color name="pits_seperator_color">#ff777777</color>
 
-    <string name="auto_reach_text_pit">Can reach Outer Works</string>
-    <string name="start_spy_text_pit">Starts as Spy</string>
-    <string name="auto_cross_text_pit">Can cross Outer Works</string>
-
     <string name="auto_score_low_text_pit">Low Goal</string>
     <string name="auto_score_high_text_pit">High Goal</string>
-    <string name="auto_score_low_hint_pit"># of Boulders</string>
-    <string name="auto_score_high_hint_pit"># of Boulders</string>
-
-    <string name="crossings_header_text">Defense Crossings</string>
-    <string name="crossings_subheading_text">Can they cross the following defenses?</string>
-    <string name="portcullis_text">Portcullis</string>
-    <string name="cheval_text">Cheval de Frise</string>
-    <string name="moat_text">Moat</string>
-    <string name="ramparts_text">Ramparts</string>
-    <string name="drawbridge_for_text">Drawbridge (from Neutral)</string>
-    <string name="drawbridge_help_text">Drawbridge (with help)</string>
-    <string name="drawbridge_rev_text">Drawbridge (from Courtyard)</string>
-    <string name="sally_for_text">Sally Port (from Neutral)</string>
-    <string name="sally_help_text">Sally Port (with help)</string>
-    <string name="sally_rev_text">Sally Port (from Courtyard)</string>
-    <string name="rock_wall_text">Rock Wall</string>
-    <string name="rough_terrain_text">Rough Terrain</string>
-    <string name="low_bar_text">Low Bar</string>
+    <string name="auto_score_low_hint_pit"># of Fuel Pieces</string>
+    <string name="auto_score_high_hint_pit"># of Fuel Pieces</string>
 
     <string name="score_low_pit_text">Able to score in low goal</string>
     <string name="score_high_pit_text">Able to score in high goal</string>
-    <string name="challenge_pit_text">Able to Challenge</string>
-    <string name="scale_pit_text">Able to Scale</string>
+    <string name="score_gear_pit_text">Able to score gears</string>
+
+    <string name="auto_gear_pit">Scores gear in auto</string>
+    <string name="auto_hopper_pit">Dumps hopper in auto</string>
+
+    <string name="tele_header_text">Tele-Op Mode</string>
+
+    <string name="tele_score_low_text_pit">Low Goals/Match</string>
+    <string name="tele_score_high_text_pit">High Goals/Match</string>
+
+    <string name="accuracy_pit_text">Approx Accuracy</string>
+    <string name="accuracy_hint_pit">%</string>
+    <string name="scoring_speed_text">Fuel Scoring Speed</string>
+    <string name="scoring_speed_hint">Fuel/Second</string>
+
+    <string name="fuel_capacity_text">Fuel Capacity</string>
+    <string name="fuel_capacity_hint"># of Fuel</string>
+
+    <string name="ground_load_fuel_pit_text">Can Load Fuel from floor</string>
+    <string name="hopper_load_fuel_pit_text">Can Load Fuel from hopper</string>
+    <string name="station_load_fuel_pit_text">Can Load Fuel from loading station</string>
+    <string name="ground_load_gear_pit_text">Can Load Gears from floor</string>
+    <string name="station_load_gear_pit_text">Can Load Gears from loading station</string>
+
+    <string name="loading_speed_text">Floor Fuel Loading Speed</string>
+    <string name="loading_speed_hint">Fuel/Second</string>
+
+    <string name="robot_speed_text">Robot Max Speed</string>
+    <string name="robot_speed_hint">FPS</string>
+
+    <string name="can_climb_pit_text">Able to Climb</string>
+    <string name="custom_rope_pit_text">Custom Rope</string>
 
     <string name="manipulation_description_text">Manipulator:</string>
     <string name="manipulation_description_hint">Give a short description of the manipulator used.</string>

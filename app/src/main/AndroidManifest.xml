@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.growingstems.scouting"
-    android:versionCode="35"
-    android:versionName="2.2016.1.4">
+    android:versionCode="36"
+    android:versionName="2.2017.0.0">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -10,8 +10,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -22,8 +20,8 @@
         <activity
             android:name=".MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:label="@string/waiting"></activity>
-        <activity android:name=".Prefs"></activity>
+            android:label="@string/waiting" />
+        <activity android:name=".Prefs" />
         <activity
             android:name=".DashboardActivity"
             android:configChanges="orientation"
@@ -39,13 +37,18 @@
             android:name="org.frc836.database.DBSyncService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="true"></service>
+            android:stopWithTask="true" />
 
         <activity
-            android:name="org.robobees.stronghold.MatchActivity"
+            android:name="org.frc836.yearly.MatchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="org.frc836.yearly.PilotActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/match_label"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".data.DataActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -55,9 +58,17 @@
                 android:value="org.growingstems.scouting.DashboardActivity" />
         </activity>
         <activity
-            android:name="org.robobees.stronghold.PitsActivitySH"
+            android:name="org.frc836.yearly.PitsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/pits_label"></activity>
+            android:label="@string/pits_label" />
+        <activity
+            android:name=".PickActivity"
+            android:label="@string/title_activity_pick"
+            android:parentActivityName=".DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.growingstems.scouting.DashboardActivity" />
+        </activity>
     </application>
 
 </manifest>

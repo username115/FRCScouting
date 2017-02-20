@@ -223,38 +223,66 @@ public class Prefs extends PreferenceActivity {
     }
 
     public static String getEvent(Context context, String defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("eventPref", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString("eventPref", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static boolean getRobotPicPref(Context context, boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("robotPicPref", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("robotPicPref", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static boolean getPracticeMatch(Context context, boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("practiceMatchPref", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("practiceMatchPref", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static String getDefaultTeamNumber(Context context,
                                               String defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("teamPref", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString("teamPref", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static boolean getAutoSync(Context context, boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("enableSyncPref", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("enableSyncPref", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static String getPosition(Context context, String defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("positionPref", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString("positionPref", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static Boolean getRedLeft(Context context, Boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("redLeft", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("redLeft", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static void setRedLeft(Context context, boolean redLeft) {
@@ -267,23 +295,31 @@ public class Prefs extends PreferenceActivity {
 
     public static int getMilliSecondsBetweenSyncs(Context context,
                                                   final int defaultValue) {
-        String val = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("syncFreqPref", "");
-
-        int secs = defaultValue;
-        if (val == null || val.length() == 0)
-            return defaultValue;
         try {
-            secs = Integer.valueOf(val.split(" ")[0]) * 60 * 1000;
-        } catch (Exception e) {
+            String val = PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString("syncFreqPref", "");
+
+            int secs = defaultValue;
+            if (val == null || val.length() == 0)
+                return defaultValue;
+            try {
+                secs = Integer.valueOf(val.split(" ")[0]) * 60 * 1000;
+            } catch (NumberFormatException e) {
+                return defaultValue;
+            }
+            return secs;
+        } catch (NullPointerException e) {
             return defaultValue;
         }
-        return secs;
     }
 
     public static boolean getDontPrompt(Context context, boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("doNotAskURL", defaultValue);
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("doNotAskURL", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
     public static void setDontPrompt(Context context, boolean dontPrompt) {

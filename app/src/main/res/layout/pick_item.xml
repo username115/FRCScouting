@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="66dip"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:baselineAligned="false">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="66dip"
+        android:gravity="center_vertical"
+        android:ignoreGravity="@+id/icon"
+        android:paddingLeft="47dip"
+        >
+
+        <!-- icon is used for albumart, the grabber in edit playlist mode, and the playlist icon in the list of playlists -->
+        <ImageView android:id="@+id/icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <!-- The height is set to half the height of the parent, which is 64 dip -->
+        <TextView android:id="@+id/line1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:paddingLeft="9dip"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_toRightOf="@id/icon"
+            android:ellipsize="marquee"
+            android:singleLine="true" />
+        <TextView android:id="@+id/picked"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:paddingLeft="9dip"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_toRightOf="@id/line1"
+            android:text="Already Picked:"
+            android:ellipsize="marquee"
+            android:singleLine="true" />
+        <TextView android:id="@+id/line2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:paddingLeft="9dip"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_toRightOf="@id/picked"
+            android:ellipsize="marquee"
+            android:singleLine="true" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

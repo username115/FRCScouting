@@ -4,13 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class ScoutingDBHelper extends SQLiteOpenHelper {
+import java.util.Objects;
+
+public class ScoutingDBHelper extends SQLiteOpenHelper {
 	
-	public static final int DATABASE_VERSION = 20163;
+	public static final int DATABASE_VERSION = 20174;
 	public static final String DATABASE_NAME = "FRCscouting.db";
 	
 	private static ScoutingDBHelper helper;
-	public static Object lock;
+	public static final Object lock = new Object();
 	
 	public ScoutingDBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +38,6 @@ class ScoutingDBHelper extends SQLiteOpenHelper {
 	
 	public static ScoutingDBHelper getInstance(Context context) {
 		if (helper == null) {
-			lock = new Object();
 			helper = new ScoutingDBHelper(context);
 		}
 		return helper;

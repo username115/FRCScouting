@@ -17,7 +17,8 @@
 package org.growingstems.scouting;
 
 import org.frc836.database.DBActivity;
-import org.robobees.stronghold.MatchActivity;
+import org.frc836.yearly.MatchActivity;
+import org.frc836.yearly.PilotActivity;
 import org.sigmond.net.AsyncPictureRequest;
 import org.sigmond.net.PicCallback;
 import org.sigmond.net.PicRequestInfo;
@@ -47,249 +48,262 @@ import android.widget.TextView;
 
 public class MatchStartActivity extends DBActivity implements PicCallback {
 
-	private EditText teamNum;
-	private TextView position;
-	private EditText matchNum;
-	private Button startB;
-	private ImageView robotPic;
+    private EditText teamNum;
+    private TextView position;
+    private EditText matchNum;
+    private Button startB;
+    private ImageView robotPic;
 
-	private String HELPMESSAGE;
+    private String HELPMESSAGE;
 
-	private MatchSchedule schedule;
+    private MatchSchedule schedule;
 
-	private static final int MATCH_ACTIVITY_REQUEST = 0;
+    private static final int MATCH_ACTIVITY_REQUEST = 0;
 
-	private ProgressDialog pd;
+    private ProgressDialog pd;
 
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.matchstart);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.matchstart);
 
-		HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
-				+ "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
-				+ "Match number and team number will automatically update upon successful submission of match data.";
+        HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
+                + "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
+                + "Match number and team number will automatically update upon successful submission of match data.";
 
-		teamNum = (EditText) findViewById(R.id.startTeamNum);
-		position = (TextView) findViewById(R.id.startPos);
-		matchNum = (EditText) findViewById(R.id.startMatchNum);
-		startB = (Button) findViewById(R.id.startMatchB);
-		robotPic = (ImageView) findViewById(R.id.robotPic);
+        teamNum = (EditText) findViewById(R.id.startTeamNum);
+        position = (TextView) findViewById(R.id.startPos);
+        matchNum = (EditText) findViewById(R.id.startMatchNum);
+        startB = (Button) findViewById(R.id.startMatchB);
+        robotPic = (ImageView) findViewById(R.id.robotPic);
 
-		position.setOnClickListener(new positionClickListener());
-		startB.setOnClickListener(new StartClickListener());
-		robotPic.setOnClickListener(new PictureClickListener());
+        position.setOnClickListener(new positionClickListener());
+        startB.setOnClickListener(new StartClickListener());
+        robotPic.setOnClickListener(new PictureClickListener());
 
-		matchNum.addTextChangedListener(new matchTextListener());
-		schedule = new MatchSchedule();
+        matchNum.addTextChangedListener(new matchTextListener());
+        schedule = new MatchSchedule();
 
-	}
+    }
 
-	public void onResume() {
-		super.onResume();
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		updatePosition();
+    public void onResume() {
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        updatePosition();
 
-		if (!schedule.isValid(this)) {
-			schedule.updateSchedule(
-					prefs.getString("eventPref", "Chesapeake Regional"), this,
-					false);
-		}
+        if (!schedule.isValid(this)) {
+            schedule.updateSchedule(
+                    prefs.getString("eventPref", "Chesapeake Regional"), this,
+                    false);
+        }
 
-	}
+    }
 
-	private class positionClickListener implements OnClickListener {
+    private class positionClickListener implements OnClickListener {
 
-		public void onClick(View v) {
-			MainMenuSelection.openSettings(MatchStartActivity.this);
-		}
+        public void onClick(View v) {
+            MainMenuSelection.openSettings(MatchStartActivity.this);
+        }
 
-	}
+    }
 
-	private class matchTextListener implements TextWatcher {
+    private class matchTextListener implements TextWatcher {
 
-		public void afterTextChanged(Editable s) {
-			if (s.length() > 0)
-				setMatch(Integer.valueOf(s.toString()));
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0)
+                setMatch(Integer.valueOf(s.toString()));
 
-		}
+        }
 
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
-			// Auto-generated method stub
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // Auto-generated method stub
 
-		}
+        }
 
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-			// Auto-generated method stub
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+            // Auto-generated method stub
 
-		}
+        }
 
-	}
+    }
 
-	private class StartClickListener implements OnClickListener {
+    private class StartClickListener implements OnClickListener {
 
-		public void onClick(View v) {
-			Intent intent = new Intent(MatchStartActivity.this,
-					MatchActivity.class);
-			intent.putExtra("team", teamNum.getText().toString());
-			intent.putExtra("match", matchNum.getText().toString());
-			startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
-			// TODO
+        public void onClick(View v) {
+            Intent intent;
+            if (position.getText().toString().contains("Pilot")) {
+                intent = new Intent(MatchStartActivity.this, PilotActivity.class);
+            }
+            else {
+                intent = new Intent(MatchStartActivity.this,
+                        MatchActivity.class);
+            }
+            intent.putExtra("team", teamNum.getText().toString());
+            intent.putExtra("match", matchNum.getText().toString());
+            startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
+        }
 
-		}
+    }
 
-	}
+    private void updatePosition() {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        String pos = prefs.getString("positionPref", "Red 1");
 
-	private void updatePosition() {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		String pos = prefs.getString("positionPref", "Red 1");
+        position.setText(pos);
+        if (pos.contains("Blue"))
+            position.setTextColor(Color.BLUE);
+        else
+            position.setTextColor(Color.RED);
 
-		position.setText(pos);
-		if (pos.contains("Blue"))
-			position.setTextColor(Color.BLUE);
-		else
-			position.setTextColor(Color.RED);
-	}
+        //2017 Change
+        if (pos.contains("Pilot")) {
+            teamNum.setVisibility(View.INVISIBLE);
+        } else {
+            teamNum.setVisibility(View.VISIBLE);
+        }
+    }
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Prefs.PREFS_ACTIVITY_CODE) {
-			MatchSchedule schedule = new MatchSchedule();
-			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(getBaseContext());
-			schedule.updateSchedule(
-					prefs.getString("eventPref", "Chesapeake Regional"), this,
-					false);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Prefs.PREFS_ACTIVITY_CODE) {
+            MatchSchedule schedule = new MatchSchedule();
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(getBaseContext());
+            schedule.updateSchedule(
+                    prefs.getString("eventPref", "Chesapeake Regional"), this,
+                    false);
 
-			updatePosition();
+            updatePosition();
 
-			if (matchNum.getText().length() > 0)
-				setMatch(Integer.valueOf(matchNum.getText().toString()));
-		}
-		if (requestCode == MATCH_ACTIVITY_REQUEST && resultCode > 0) {
-			matchNum.setText(String.valueOf(resultCode));
-		}
-	}
+            if (matchNum.getText().length() > 0)
+                setMatch(Integer.valueOf(matchNum.getText().toString()));
+        }
+        if (requestCode == MATCH_ACTIVITY_REQUEST && resultCode > 0) {
+            matchNum.setText(String.valueOf(resultCode));
+        }
+    }
 
-	private void setMatch(int matchNum) {
+    private void setMatch(int matchNum) {
 
-		String def = teamNum.getText().toString().trim();
-		try {
-			if (def.length() > 9 || Integer.valueOf(def) <= 0)
-				def = "";
-		} catch (Exception e) {
-			def = "";
-		}
+        String def = teamNum.getText().toString().trim();
+        try {
+            if (def.length() > 9 || Integer.valueOf(def) <= 0)
+                def = "";
+        } catch (Exception e) {
+            def = "";
+        }
+        // 2017 Change
+        if (!position.getText().toString().contains("Pilot")) {
+            teamNum.setText(schedule.getTeam(matchNum, position.getText()
+                    .toString(), this, def));
+            if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
+                loadPicture();
+            }
+        }
+    }
 
-		teamNum.setText(schedule.getTeam(matchNum, position.getText()
-				.toString(), this, def));
-		if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
-			loadPicture();
-		}
-	}
+    private class PictureClickListener implements OnClickListener {
 
-	private class PictureClickListener implements OnClickListener {
+        public void onClick(View v) {
+            pd = ProgressDialog.show(MatchStartActivity.this, "Busy",
+                    "Retrieving Team Robot Photo", false);
+            pd.setCancelable(true);
+            loadPicture();
+        }
 
-		public void onClick(View v) {
-			pd = ProgressDialog.show(MatchStartActivity.this, "Busy",
-					"Retrieving Team Robot Photo", false);
-			pd.setCancelable(true);
-			loadPicture();
-		}
+    }
 
-	}
+    private void loadPicture() {
+        if (teamNum.getText().length() < 1) {
+            if (pd != null)
+                pd.dismiss();
+            return;
+        }
+        String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText()
+                .toString()));
+        if (pictureURL.length() < 5) {
+            if (pd != null)
+                pd.dismiss();
+            robotPic.setImageResource(R.drawable.robot);
+            return;
+        }
+        PicRequestInfo info = new PicRequestInfo(pictureURL,
+                MatchStartActivity.this);
+        AsyncPictureRequest req = new AsyncPictureRequest();
+        req.execute(info);
+    }
 
-	private void loadPicture() {
-		if (teamNum.getText().length() < 1) {
-			if (pd != null)
-				pd.dismiss();
-			return;
-		}
-		String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText()
-				.toString()));
-		if (pictureURL.length() < 5) {
-			if (pd != null)
-				pd.dismiss();
-			robotPic.setImageResource(R.drawable.robot);
-			return;
-		}
-		PicRequestInfo info = new PicRequestInfo(pictureURL,
-				MatchStartActivity.this);
-		AsyncPictureRequest req = new AsyncPictureRequest();
-		req.execute(info);
-	}
+    public void onFinished(Drawable drawable) {
+        if (pd != null)
+            pd.dismiss();
+        if (drawable == null) {
+            robotPic.setImageResource(R.drawable.robot);
+        } else {
+            scaleImage(robotPic, robotPic.getWidth(), drawable);
+            // robotPic.setImageDrawable(drawable);
+            // robotPic.setScaleType(ScaleType.FIT_XY);
+            // robotPic.setAdjustViewBounds(true);
+        }
+    }
 
-	public void onFinished(Drawable drawable) {
-		if (pd != null)
-			pd.dismiss();
-		if (drawable == null) {
-			robotPic.setImageResource(R.drawable.robot);
-		} else {
-			scaleImage(robotPic, robotPic.getWidth(), drawable);
-			// robotPic.setImageDrawable(drawable);
-			// robotPic.setScaleType(ScaleType.FIT_XY);
-			// robotPic.setAdjustViewBounds(true);
-		}
-	}
+    private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
 
-	private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        // Get current dimensions
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
 
-		// Get current dimensions
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
+        float scale = ((float) widthInDp) / width;
 
-		float scale = ((float) widthInDp) / width;
+        // Create a matrix for the scaling and add the scaling data
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
 
-		// Create a matrix for the scaling and add the scaling data
-		Matrix matrix = new Matrix();
-		matrix.postScale(scale, scale);
+        // Create a new bitmap and convert it to a format understood by the
+        // ImageView
+        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+                matrix, true);
+        BitmapDrawable result = new BitmapDrawable(scaledBitmap);
+        width = scaledBitmap.getWidth();
+        height = scaledBitmap.getHeight();
 
-		// Create a new bitmap and convert it to a format understood by the
-		// ImageView
-		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
-				matrix, true);
-		BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-		width = scaledBitmap.getWidth();
-		height = scaledBitmap.getHeight();
+        // Apply the scaled bitmap
+        view.setImageDrawable(result);
 
-		// Apply the scaled bitmap
-		view.setImageDrawable(result);
+        // Now change ImageView's dimensions to match the scaled image
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view
+                .getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
+    }
 
-		// Now change ImageView's dimensions to match the scaled image
-		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view
-				.getLayoutParams();
-		params.width = width;
-		params.height = height;
-		view.setLayoutParams(params);
-	}
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        switch (id) {
+            case MainMenuSelection.HELPDIALOG:
+                builder.setMessage(HELPMESSAGE)
+                        .setCancelable(true)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
 
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		switch (id) {
-		case MainMenuSelection.HELPDIALOG:
-			builder.setMessage(HELPMESSAGE)
-					.setCancelable(true)
-					.setPositiveButton("OK",
-							new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        dialog.cancel();
 
-								public void onClick(DialogInterface dialog,
-										int which) {
-									dialog.cancel();
-
-								}
-							});
-			dialog = builder.create();
-			break;
-		default:
-			dialog = null;
-		}
-		return dialog;
-	}
+                                    }
+                                });
+                dialog = builder.create();
+                break;
+            default:
+                dialog = null;
+        }
+        return dialog;
+    }
 
 }

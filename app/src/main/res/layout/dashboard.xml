@@ -51,6 +51,13 @@
             android:text="Pits" />
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick List (BETA)"
+        android:id="@+id/picklistB"
+        android:layout_gravity="center_horizontal" />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
