@@ -37,7 +37,7 @@ public class PilotStatsStruct {
 	public int gears_installed_2;
 	public int gears_installed_3;
 	public int gears_installed_4;
-	public int gears_lifed;
+	public int gears_lifted;
 	public boolean rotor_1_started;
 	public boolean rotor_2_started;
 	public boolean rotor_3_started;
@@ -58,7 +58,7 @@ public class PilotStatsStruct {
 	public static final String COLUMN_NAME_GEARS_INSTALLED_2 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_2;
 	public static final String COLUMN_NAME_GEARS_INSTALLED_3 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_3;
 	public static final String COLUMN_NAME_GEARS_INSTALLED_4 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_4;
-	public static final String COLUMN_NAME_GEARS_LIFED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_LIFED;
+	public static final String COLUMN_NAME_GEARS_LIFTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_LIFTED;
 	public static final String COLUMN_NAME_ROTOR_1_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_1_STARTED;
 	public static final String COLUMN_NAME_ROTOR_2_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_2_STARTED;
 	public static final String COLUMN_NAME_ROTOR_3_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_3_STARTED;
@@ -84,7 +84,7 @@ public class PilotStatsStruct {
 		gears_installed_2 = 0;
 		gears_installed_3 = 0;
 		gears_installed_4 = 0;
-		gears_lifed = 0;
+		gears_lifted = 0;
 		rotor_1_started = false;
 		rotor_2_started = false;
 		rotor_3_started = false;
@@ -122,7 +122,7 @@ public class PilotStatsStruct {
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_2, gears_installed_2);
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, gears_installed_3);
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, gears_installed_4);
-		vals.put(COLUMN_NAME_GEARS_LIFED, gears_lifed);
+		vals.put(COLUMN_NAME_GEARS_LIFTED, gears_lifted);
 		vals.put(COLUMN_NAME_ROTOR_1_STARTED, rotor_1_started ? 1 : 0);
 		vals.put(COLUMN_NAME_ROTOR_2_STARTED, rotor_2_started ? 1 : 0);
 		vals.put(COLUMN_NAME_ROTOR_3_STARTED, rotor_3_started ? 1 : 0);
@@ -136,8 +136,8 @@ public class PilotStatsStruct {
 		return vals;
 	}
 
-	public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {
-		c.moveToPosition(pos);
+	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
+		c.moveToFirst();
 		event_id = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_EVENT_ID)), database);
 		team_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
@@ -146,7 +146,7 @@ public class PilotStatsStruct {
 		gears_installed_2 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_2));
 		gears_installed_3 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_3));
 		gears_installed_4 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_4));
-		gears_lifed = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_LIFED));
+		gears_lifted = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_LIFTED));
 		rotor_1_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_1_STARTED)) != 0;
 		rotor_2_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_2_STARTED)) != 0;
 		rotor_3_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_3_STARTED)) != 0;
@@ -167,7 +167,7 @@ public class PilotStatsStruct {
 		temp.add(COLUMN_NAME_GEARS_INSTALLED_2);
 		temp.add(COLUMN_NAME_GEARS_INSTALLED_3);
 		temp.add(COLUMN_NAME_GEARS_INSTALLED_4);
-		temp.add(COLUMN_NAME_GEARS_LIFED);
+		temp.add(COLUMN_NAME_GEARS_LIFTED);
 		temp.add(COLUMN_NAME_ROTOR_1_STARTED);
 		temp.add(COLUMN_NAME_ROTOR_2_STARTED);
 		temp.add(COLUMN_NAME_ROTOR_3_STARTED);
@@ -205,7 +205,7 @@ public class PilotStatsStruct {
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_2, json.getInt(COLUMN_NAME_GEARS_INSTALLED_2));
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, json.getInt(COLUMN_NAME_GEARS_INSTALLED_3));
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, json.getInt(COLUMN_NAME_GEARS_INSTALLED_4));
-		vals.put(COLUMN_NAME_GEARS_LIFED, json.getInt(COLUMN_NAME_GEARS_LIFED));
+		vals.put(COLUMN_NAME_GEARS_LIFTED, json.getInt(COLUMN_NAME_GEARS_LIFTED));
 		vals.put(COLUMN_NAME_ROTOR_1_STARTED, json.getInt(COLUMN_NAME_ROTOR_1_STARTED));
 		vals.put(COLUMN_NAME_ROTOR_2_STARTED, json.getInt(COLUMN_NAME_ROTOR_2_STARTED));
 		vals.put(COLUMN_NAME_ROTOR_3_STARTED, json.getInt(COLUMN_NAME_ROTOR_3_STARTED));
@@ -229,7 +229,7 @@ public class PilotStatsStruct {
 		vals.put( COLUMN_NAME_GEARS_INSTALLED_2, String.valueOf(gears_installed_2));
 		vals.put( COLUMN_NAME_GEARS_INSTALLED_3, String.valueOf(gears_installed_3));
 		vals.put( COLUMN_NAME_GEARS_INSTALLED_4, String.valueOf(gears_installed_4));
-		vals.put( COLUMN_NAME_GEARS_LIFED, String.valueOf(gears_lifed));
+		vals.put( COLUMN_NAME_GEARS_LIFTED, String.valueOf(gears_lifted));
 		vals.put( COLUMN_NAME_ROTOR_1_STARTED, String.valueOf(rotor_1_started ? 1 : 0));
 		vals.put( COLUMN_NAME_ROTOR_2_STARTED, String.valueOf(rotor_2_started ? 1 : 0));
 		vals.put( COLUMN_NAME_ROTOR_3_STARTED, String.valueOf(rotor_3_started ? 1 : 0));

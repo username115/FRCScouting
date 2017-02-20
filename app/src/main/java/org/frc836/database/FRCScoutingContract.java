@@ -82,7 +82,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_GEARS_INSTALLED_2 = "gears_installed_2";
 		public static final String COLUMN_NAME_GEARS_INSTALLED_3 = "gears_installed_3";
 		public static final String COLUMN_NAME_GEARS_INSTALLED_4 = "gears_installed_4";
-		public static final String COLUMN_NAME_GEARS_LIFED = "gears_lifed";
+		public static final String COLUMN_NAME_GEARS_LIFTED = "gears_lifted";
 		public static final String COLUMN_NAME_ROTOR_1_STARTED = "rotor_1_started";
 		public static final String COLUMN_NAME_ROTOR_2_STARTED = "rotor_2_started";
 		public static final String COLUMN_NAME_ROTOR_3_STARTED = "rotor_3_started";
@@ -426,7 +426,7 @@ public final class FRCScoutingContract {
 		"	gears_installed_2 unsigned int(3) NOT NULL,\n" +
 		"	gears_installed_3 unsigned int(3) NOT NULL,\n" +
 		"	gears_installed_4 unsigned int(3) NOT NULL,\n" +
-		"	gears_lifed unsigned int(3) NOT NULL,\n" +
+		"	gears_lifted unsigned int(3) NOT NULL,\n" +
 		"	rotor_1_started tinyint(1) NOT NULL,\n" +
 		"	rotor_2_started tinyint(1) NOT NULL,\n" +
 		"	rotor_3_started tinyint(1) NOT NULL,\n" +

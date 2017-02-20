@@ -102,6 +102,60 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 
+		//event_lu
+		$query = "SELECT * FROM event_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "event_lu") . ",";
+		mysql_free_result($result);
+
+		//game_info
+		$query = "SELECT * FROM game_info" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "game_info") . ",";
+		mysql_free_result($result);
+
+		//position_lu
+		$query = "SELECT * FROM position_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "position_lu") . ",";
+		mysql_free_result($result);
+
+		//robot_lu
+		$query = "SELECT * FROM robot_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "robot_lu") . ",";
+		mysql_free_result($result);
+
+		//fact_pilot_data_2017
+		$query = "SELECT * FROM fact_pilot_data_2017" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "fact_pilot_data_2017") . ",";
+		mysql_free_result($result);
+
+		//scout_pit_data_2017
+		$query = "SELECT * FROM scout_pit_data_2017" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "scout_pit_data_2017") . ",";
+		mysql_free_result($result);
+
+		//fact_match_data_2017
+		$query = "SELECT * FROM fact_match_data_2017" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "fact_match_data_2017") . ",";
+		mysql_free_result($result);
+
+		//picklist
+		$query = "SELECT * FROM picklist" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "picklist") . ",";
+		mysql_free_result($result);
+
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_type_lu") . ",";
+		mysql_free_result($result);
+
 		//notes_options
 		$query = "SELECT * FROM notes_options" . $suffix;
 		$result = mysql_query($query);
@@ -114,64 +168,10 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "configuration_lu") . ",";
 		mysql_free_result($result);
 
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . ",";
-		mysql_free_result($result);
-
-		//fact_pilot_data_2017
-		$query = "SELECT * FROM fact_pilot_data_2017" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "fact_pilot_data_2017") . ",";
-		mysql_free_result($result);
-
-		//fact_match_data_2017
-		$query = "SELECT * FROM fact_match_data_2017" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "fact_match_data_2017") . ",";
-		mysql_free_result($result);
-
-		//scout_pit_data_2017
-		$query = "SELECT * FROM scout_pit_data_2017" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "scout_pit_data_2017") . ",";
-		mysql_free_result($result);
-
-		//event_lu
-		$query = "SELECT * FROM event_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "event_lu") . ",";
-		mysql_free_result($result);
-
-		//picklist
-		$query = "SELECT * FROM picklist" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "picklist") . ",";
-		mysql_free_result($result);
-
-		//game_info
-		$query = "SELECT * FROM game_info" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "game_info") . ",";
-		mysql_free_result($result);
-
 		//wheel_base_lu
 		$query = "SELECT * FROM wheel_base_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_base_lu") . ",";
-		mysql_free_result($result);
-
-		//position_lu
-		$query = "SELECT * FROM position_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "position_lu") . ",";
-		mysql_free_result($result);
-
-		//robot_lu
-		$query = "SELECT * FROM robot_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "robot_lu") . "}";
+		$json .= genJSON($result, "wheel_base_lu") . "}";
 		mysql_free_result($result);
 
 		$resp = $json;
@@ -294,7 +294,7 @@ elseif ($_POST['password'] == $pass) {
 		$gears_installed_2 = mysql_real_escape_string(stripslashes(trim($_POST['gears_installed_2'])));
 		$gears_installed_3 = mysql_real_escape_string(stripslashes(trim($_POST['gears_installed_3'])));
 		$gears_installed_4 = mysql_real_escape_string(stripslashes(trim($_POST['gears_installed_4'])));
-		$gears_lifed = mysql_real_escape_string(stripslashes(trim($_POST['gears_lifed'])));
+		$gears_lifted = mysql_real_escape_string(stripslashes(trim($_POST['gears_lifted'])));
 		$rotor_1_started = mysql_real_escape_string(stripslashes(trim($_POST['rotor_1_started'])));
 		$rotor_2_started = mysql_real_escape_string(stripslashes(trim($_POST['rotor_2_started'])));
 		$rotor_3_started = mysql_real_escape_string(stripslashes(trim($_POST['rotor_3_started'])));
@@ -311,7 +311,7 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO fact_pilot_data_2017(event_id,team_id,match_id,practice_match,position_id,gears_installed_2,gears_installed_3,gears_installed_4,gears_lifed,rotor_1_started,rotor_2_started,rotor_3_started,rotor_4_started,foul,yellow_card,red_card,notes,invalid) VALUES("
+			$query = "INSERT INTO fact_pilot_data_2017(event_id,team_id,match_id,practice_match,position_id,gears_installed_2,gears_installed_3,gears_installed_4,gears_lifted,rotor_1_started,rotor_2_started,rotor_3_started,rotor_4_started,foul,yellow_card,red_card,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
@@ -320,7 +320,7 @@ elseif ($_POST['password'] == $pass) {
 				. $gears_installed_2 . ","
 				. $gears_installed_3 . ","
 				. $gears_installed_4 . ","
-				. $gears_lifed . ","
+				. $gears_lifted . ","
 				. $rotor_1_started . ","
 				. $rotor_2_started . ","
 				. $rotor_3_started . ","
@@ -342,7 +342,7 @@ elseif ($_POST['password'] == $pass) {
 				. "gears_installed_2=" . $gears_installed_2 . ","
 				. "gears_installed_3=" . $gears_installed_3 . ","
 				. "gears_installed_4=" . $gears_installed_4 . ","
-				. "gears_lifed=" . $gears_lifed . ","
+				. "gears_lifted=" . $gears_lifted . ","
 				. "rotor_1_started=" . $rotor_1_started . ","
 				. "rotor_2_started=" . $rotor_2_started . ","
 				. "rotor_3_started=" . $rotor_3_started . ","
