@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageSwitcher;
@@ -58,7 +59,7 @@ public class PilotMatchFragment extends PilotFragment {
 
     private LinearLayout[] internals = new LinearLayout[4];
 
-    private int rotor[] = new int[4];
+    private int rotorMax[] = new int[4];
 
 
     public PilotMatchFragment() {
@@ -98,10 +99,10 @@ public class PilotMatchFragment extends PilotFragment {
         SQLiteDatabase db = ScoutingDBHelper.getInstance()
                 .getReadableDatabase();
 
-        rotor[0] = 1;
-        rotor[1] = 2;
-        rotor[2] = 5 - DB.getGameInfoInt("2017_rotor_3_preinstalled", db, 1);
-        rotor[3] = 8 - DB.getGameInfoInt("2017_rotor_4_preinstalled", db, 2);
+        rotorMax[0] = 1;
+        rotorMax[1] = 2;
+        rotorMax[2] = 5 - DB.getGameInfoInt("2017_rotor_3_preinstalled", db, 1);
+        rotorMax[3] = 8 - DB.getGameInfoInt("2017_rotor_4_preinstalled", db, 2);
         displayed = true;
     }
 
@@ -121,7 +122,7 @@ public class PilotMatchFragment extends PilotFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-        for (int i=0; i<2; i++) {
+        for (int i = 0; i < 2; i++) {
             data[i].gears_lifted = liftS[i].getSelectedItemPosition();
             data[i].gears_installed_2 = gearInstallS[1][i].getSelectedItemPosition();
             data[i].gears_installed_3 = gearInstallS[2][i].getSelectedItemPosition();
@@ -149,17 +150,17 @@ public class PilotMatchFragment extends PilotFragment {
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
         if (pos.contains("Blue")) {
-            for (int i=0; i<4; i++) {
+            for (int i = 0; i < 4; i++) {
                 diags[i].setBackgroundResource(R.drawable.blue_diag);
             }
-            for (int i=0; i<2; i++) {
+            for (int i = 0; i < 2; i++) {
                 sides[i].setBackgroundResource(R.drawable.blue_square);
             }
         } else {
-            for (int i=0; i<4; i++) {
+            for (int i = 0; i < 4; i++) {
                 diags[i].setBackgroundResource(R.drawable.red_diag);
             }
-            for (int i=0; i<2; i++) {
+            for (int i = 0; i < 2; i++) {
                 sides[i].setBackgroundResource(R.drawable.red_square);
             }
         }
@@ -167,32 +168,36 @@ public class PilotMatchFragment extends PilotFragment {
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
             airship.setScaleX(1.0f);
             airship.setScaleY(1.0f);
-            for (int i=0; i<4; i++) {
+            for (int i = 0; i < 4; i++) {
                 internals[i].setScaleX(1.0f);
                 internals[i].setScaleY(1.0f);
             }
         } else {
             airship.setScaleX(-1.0f);
             airship.setScaleY(-1.0f);
-            for (int i=0; i<4; i++) {
+            for (int i = 0; i < 4; i++) {
                 internals[i].setScaleX(-1.0f);
                 internals[i].setScaleY(-1.0f);
             }
         }
 
-        for (int i=0; i<2; i++) {
+        updateGearInstall(1, 0, data[0].gears_installed_2);
+        updateGearInstall(1, 1, data[1].gears_installed_2);
+        updateGearInstall(2, 0, data[0].gears_installed_3);
+        updateGearInstall(2, 1, data[1].gears_installed_3);
+        updateGearInstall(3, 0, data[0].gears_installed_4);
+        updateGearInstall(3, 1, data[1].gears_installed_4);
+
+        for (int i = 0; i < 2; i++) {
             teamT[i].setText(String.valueOf(data[i].team_id));
 
             liftS[i].setSelection(data[i].gears_lifted);
-            gearInstallS[1][i].setSelection(data[i].gears_installed_2);
-            gearInstallS[2][i].setSelection(data[i].gears_installed_3);
-            gearInstallS[3][i].setSelection(data[i].gears_installed_4);
+
             rotorC[0][i].setChecked(data[i].rotor_1_started);
             rotorC[1][i].setChecked(data[i].rotor_2_started);
             rotorC[2][i].setChecked(data[i].rotor_3_started);
             rotorC[3][i].setChecked(data[i].rotor_4_started);
         }
-        // TODO enable/disable based on counts
     }
 
     private void getGUIRefs(View view) {
@@ -247,47 +252,96 @@ public class PilotMatchFragment extends PilotFragment {
     }
 
     private void setListeners() {
-        for (int i=0; i<2; i++) {
-            liftB[i].setOnClickListener(new OnIncrementListener(liftS[i], 1, -1, null, null));
+        for (int i = 0; i < 2; i++) {
+            liftB[i].setOnClickListener(new OnIncrementListener(liftS[i], 1));
 
-            for (int j=1; j<4; j++) {
-                gearinstallB[j][i].setOnClickListener(new OnIncrementListener(gearInstallS[j][i], 1, rotor[i], rotorC[i], gearinstallB[i]));
+            for (int j = 1; j < 4; j++) {
+                gearinstallB[j][i].setOnClickListener(new OnGearInstallListener(j, i, 1));
+                gearInstallS[j][i].setOnItemSelectedListener(new OnGearInstallListener(j, i, 1));
             }
         }
-        // TODO add listeners for spinners to enable/disable based on counts
+    }
+
+    private void updateGearInstall(int rotor, int team, int count) {
+        gearInstallS[rotor][team].setSelection(count);
+
+        int installed = gearInstallS[rotor][0].getSelectedItemPosition() + gearInstallS[rotor][1].getSelectedItemPosition();
+
+        if (installed >= rotorMax[rotor]) {
+            if (installed > rotorMax[rotor]) {
+                gearInstallS[rotor][team].setSelection(rotorMax[rotor] - gearInstallS[rotor][(team + 1) % 2].getSelectedItemPosition());
+            }
+            for (int i = 0; i < 2; i++) {
+                rotorC[rotor][i].setEnabled(true);
+                gearinstallB[rotor][i].setEnabled(false);
+                if (rotor < 3) {
+                    gearInstallS[rotor + 1][i].setClickable(true);
+                    gearinstallB[rotor + 1][i].setEnabled(true);
+                }
+            }
+        } else {
+            for (int i = 0; i < 2; i++) {
+                rotorC[rotor][i].setEnabled(false);
+                rotorC[rotor][i].setChecked(false);
+                if (rotor > 1)
+                    gearinstallB[rotor][i].setEnabled((gearInstallS[rotor - 1][0].getSelectedItemPosition() + gearInstallS[rotor - 1][1].getSelectedItemPosition()) >= rotorMax[rotor - 1]);
+                else
+                    gearinstallB[rotor][i].setEnabled(true);
+                if (rotor < 3) {
+                    gearInstallS[rotor + 1][i].setClickable(false);
+                    gearInstallS[rotor + 1][i].setSelection(0);
+                    gearinstallB[rotor + 1][i].setEnabled(false);
+                }
+            }
+        }
+
     }
 
     private class OnIncrementListener implements View.OnClickListener {
 
         int m_increment = 1;
         Spinner m_spinner;
-        int m_upperlimit;
-        CheckBox[] m_enables;
-        Button[] m_disables;
 
-        OnIncrementListener(Spinner view, int inc, int upperLimit, CheckBox[] enables, Button[] disables) {
+        OnIncrementListener(Spinner view, int inc) {
             super();
             m_increment = inc;
             m_spinner = view;
-            m_upperlimit = upperLimit;
-            m_enables = enables;
-            m_disables = disables;
         }
 
         @Override
         public void onClick(View v) {
             int actual = m_spinner.getSelectedItemPosition() + m_increment;
-            /*if (actual > m_upperlimit) {
-                actual = m_upperlimit;
-                for (CheckBox box : m_enables) {
-                    box.setEnabled(true);
-                }
-                for (Button b : m_disables) {
-                    b.setEnabled(false);
-                }
-            }*/
-            // TODO set limits on gears
             m_spinner.setSelection(actual);
+        }
+    }
+
+    private class OnGearInstallListener implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+        int m_increment = 1;
+        int m_rotor = 1;
+        int m_team = 0;
+
+        OnGearInstallListener(int rotor, int team, int inc) {
+            super();
+            m_increment = inc;
+            m_rotor = rotor;
+            m_team = team;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int new_score = gearInstallS[m_rotor][m_team].getSelectedItemPosition() + m_increment;
+            updateGearInstall(m_rotor, m_team, new_score);
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            updateGearInstall(m_rotor, m_team, position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 }

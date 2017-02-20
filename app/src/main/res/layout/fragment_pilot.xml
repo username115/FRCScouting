@@ -204,7 +204,8 @@
                         <CheckBox
                             android:id="@+id/team1TurnR2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -264,7 +265,8 @@
                         <CheckBox
                             android:id="@+id/team2TurnR2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -292,7 +294,8 @@
                         <CheckBox
                             android:id="@+id/team1TurnR4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -311,6 +314,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:clickable="false"
                             android:entries="@array/numbers"
                             android:gravity="center" />
 
@@ -319,6 +323,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:enabled="false"
                             android:text="@string/normal_plus" />
                     </LinearLayout>
 
@@ -333,6 +338,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:clickable="false"
                             android:entries="@array/numbers"
                             android:gravity="center" />
 
@@ -341,6 +347,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:enabled="false"
                             android:text="@string/normal_plus" />
                     </LinearLayout>
 
@@ -352,7 +359,8 @@
                         <CheckBox
                             android:id="@+id/team2TurnR4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -380,7 +388,8 @@
                         <CheckBox
                             android:id="@+id/team1TurnR3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -399,6 +408,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:clickable="false"
                             android:entries="@array/numbers"
                             android:gravity="center" />
 
@@ -407,6 +417,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:enabled="false"
                             android:text="@string/normal_plus" />
                     </LinearLayout>
 
@@ -421,6 +432,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:clickable="false"
                             android:entries="@array/numbers"
                             android:gravity="center" />
 
@@ -429,6 +441,7 @@
                             android:layout_width="40sp"
                             android:layout_height="40sp"
                             android:layout_gravity="center_horizontal"
+                            android:enabled="false"
                             android:text="@string/normal_plus" />
                     </LinearLayout>
 
@@ -440,7 +453,8 @@
                         <CheckBox
                             android:id="@+id/team2TurnR3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:enabled="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
