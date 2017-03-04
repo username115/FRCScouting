@@ -159,7 +159,7 @@ public class PilotActivity extends DBActivity {
             posPrefix = "Red ";
         }
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             String temp = schedule.getTeam(pilotData[0].match_id, posPrefix + i, this);
             if (temp.length() > 0) {
                 teams.add(temp);
