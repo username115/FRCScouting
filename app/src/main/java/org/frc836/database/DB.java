@@ -1919,7 +1919,7 @@ public class DB {
                                     if (new MatchStatsStruct()
                                             .isTextField(c.getColumnName(j)))
                                         match_data.append("\"")
-                                                .append(c.getString(j))
+                                                .append(c.getString(j).replace("\"", "'"))
                                                 .append("\"");
                                     else if (MatchStatsStruct.COLUMN_NAME_EVENT_ID
                                             .equalsIgnoreCase(c
@@ -2009,7 +2009,7 @@ public class DB {
                                     if (new PilotStatsStruct()
                                             .isTextField(c.getColumnName(j)))
                                         pilot_data.append("\"")
-                                                .append(c.getString(j))
+                                                .append(c.getString(j).replace("\"", "'"))
                                                 .append("\"");
                                     else if (PilotStatsStruct.COLUMN_NAME_EVENT_ID
                                             .equalsIgnoreCase(c
