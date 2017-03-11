@@ -1950,7 +1950,7 @@ public class DB {
                                 progress++;
                                 mBuilder.setProgress(100,
                                         (int) (((double) progress)
-                                                / ((double) rowCount) * 50),
+                                                / ((double) rowCount) * 33), //2017
                                         false);
                                 notManager.notify(notifyId, mBuilder.build());
 
@@ -1960,6 +1960,97 @@ public class DB {
                             c.close();
                         ScoutingDBHelper.getInstance().close();
                     }
+
+                    //2017 only
+                    StringBuilder pilot_data = null;
+                    // export pilots
+                    db = ScoutingDBHelper.getInstance().getReadableDatabase();
+                    try {
+
+                        c = db.rawQuery("SELECT * FROM "
+                                + PilotStatsStruct.TABLE_NAME, null);
+                        // decent estimate for how big the output will be. will
+                        // definitely be too small, but will keep it from having
+                        // to resize too many times
+                        pilot_data = new StringBuilder(c.getCount()
+                                * c.getColumnCount() * 2);
+
+                        for (int i = 0; i < c.getColumnCount(); i++) {
+                            if (i > 0)
+                                pilot_data.append(",");
+                            if (PilotStatsStruct.COLUMN_NAME_INVALID
+                                    .equalsIgnoreCase(c.getColumnName(i))
+                                    && !debug)
+                                i++;
+                            if (PilotStatsStruct.COLUMN_NAME_EVENT_ID
+                                    .equalsIgnoreCase(c.getColumnName(i)))
+                                pilot_data
+                                        .append(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE);
+                            else if (PilotStatsStruct.COLUMN_NAME_POSITION_ID
+                                    .equalsIgnoreCase(c.getColumnName(i)))
+                                pilot_data
+                                        .append(POSITION_LU_Entry.COLUMN_NAME_POSITION);
+                            else
+                                pilot_data.append(c.getColumnName(i));
+                        }
+                        pilot_data.append("\n");
+                        int rowCount = c.getCount();
+                        int progress = 0;
+                        if (c.moveToFirst())
+                            do {
+                                for (int j = 0; j < c.getColumnCount(); j++) {
+                                    if (j > 0)
+                                        pilot_data.append(",");
+                                    if (PilotStatsStruct.COLUMN_NAME_INVALID
+                                            .equalsIgnoreCase(c
+                                                    .getColumnName(j))
+                                            && !debug)
+                                        j++;
+                                    if (new PilotStatsStruct()
+                                            .isTextField(c.getColumnName(j)))
+                                        pilot_data.append("\"")
+                                                .append(c.getString(j))
+                                                .append("\"");
+                                    else if (PilotStatsStruct.COLUMN_NAME_EVENT_ID
+                                            .equalsIgnoreCase(c
+                                                    .getColumnName(j))) {
+                                        String event = events.get(c.getInt(j));
+                                        if (event == null) {
+                                            event = getEventCodeFromID(
+                                                    c.getInt(j), db);
+                                            events.append(c.getInt(j), event);
+                                        }
+                                        pilot_data.append(event);
+                                    } else if (PilotStatsStruct.COLUMN_NAME_POSITION_ID
+                                            .equalsIgnoreCase(c
+                                                    .getColumnName(j))) {
+                                        String position = positions.get(c
+                                                .getInt(j));
+                                        if (position == null) {
+                                            position = getPosNameFromID(
+                                                    c.getInt(j), db);
+                                            positions.append(c.getInt(j),
+                                                    position);
+                                        }
+                                        pilot_data.append(position);
+                                    } else
+                                        pilot_data.append(c.getString(j));
+                                }
+                                pilot_data.append("\n");
+                                progress++;
+                                mBuilder.setProgress(100,
+                                        (int) (((double) progress)
+                                                / ((double) rowCount) * 33) + 33,
+                                        false);
+                                notManager.notify(notifyId, mBuilder.build());
+
+                            } while (c.moveToNext());
+                    } finally {
+                        if (c != null)
+                            c.close();
+                        ScoutingDBHelper.getInstance().close();
+                    }
+                    //2017 only
 
                     // export pits
                     db = ScoutingDBHelper.getInstance().getReadableDatabase();
@@ -2002,7 +2093,7 @@ public class DB {
                                     if (new PitStats().isTextField(
                                             c.getColumnName(j)))
                                         pit_data.append("\"")
-                                                .append(c.getString(j))
+                                                .append(c.getString(j).replace("\"", "'"))
                                                 .append("\"");
                                         // wanted to encapsulate the following, but
                                         // doing so would slow down the export.
@@ -2045,7 +2136,7 @@ public class DB {
                                 mBuilder.setProgress(
                                         100,
                                         (int) (((double) progress)
-                                                / ((double) rowCount) * 50) + 50,
+                                                / ((double) rowCount) * 34) + 66, //2017
                                         false);
                                 notManager.notify(notifyId, mBuilder.build());
                             } while (c.moveToNext());
@@ -2068,6 +2159,13 @@ public class DB {
                     if (pit_data != null) {
                         destination = new FileOutputStream(pits);
                         destination.write(pit_data.toString().getBytes());
+                        destination.close();
+                    }
+                    //2017
+                    File pilots = new File(sd, "pilots.csv");
+                    if (pilot_data != null) {
+                        destination = new FileOutputStream(pilots);
+                        destination.write(pilot_data.toString().getBytes());
                         destination.close();
                     }
                     try {
