@@ -1855,7 +1855,7 @@ public class DB {
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentTitle("Exporting Scouting Data")
                             .setContentText("to " + callback.filename)
-                            .setProgress(100, 0, false);
+                            .setProgress(300, 0, false); //2017
 
                     NotificationManager notManager = ((NotificationManager) callback.context
                             .getSystemService(Context.NOTIFICATION_SERVICE));
@@ -1948,9 +1948,9 @@ public class DB {
                                 }
                                 match_data.append("\n");
                                 progress++;
-                                mBuilder.setProgress(100,
+                                mBuilder.setProgress(300,
                                         (int) (((double) progress)
-                                                / ((double) rowCount) * 33), //2017
+                                                / ((double) rowCount) * 100), //2017
                                         false);
                                 notManager.notify(notifyId, mBuilder.build());
 
@@ -2038,9 +2038,9 @@ public class DB {
                                 }
                                 pilot_data.append("\n");
                                 progress++;
-                                mBuilder.setProgress(100,
+                                mBuilder.setProgress(300,
                                         (int) (((double) progress)
-                                                / ((double) rowCount) * 33) + 33,
+                                                / ((double) rowCount) * 100) + 100,
                                         false);
                                 notManager.notify(notifyId, mBuilder.build());
 
@@ -2134,9 +2134,9 @@ public class DB {
                                 pit_data.append("\n");
                                 progress++;
                                 mBuilder.setProgress(
-                                        100,
+                                        300,
                                         (int) (((double) progress)
-                                                / ((double) rowCount) * 34) + 66, //2017
+                                                / ((double) rowCount) * 100) + 200, //2017
                                         false);
                                 notManager.notify(notifyId, mBuilder.build());
                             } while (c.moveToNext());
