@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.Objects;
-
 public class ScoutingDBHelper extends SQLiteOpenHelper {
 	
 	public static final int DATABASE_VERSION = 20174;
@@ -22,6 +20,7 @@ public class ScoutingDBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		for (int i = 0; i<FRCScoutingContract.SQL_CREATE_ENTRIES.length; i++)
 			db.execSQL(FRCScoutingContract.SQL_CREATE_ENTRIES[i]);
+        DBActivity.dbUpdated();
 	}
 
 	@Override
@@ -46,5 +45,9 @@ public class ScoutingDBHelper extends SQLiteOpenHelper {
 	public static ScoutingDBHelper getInstance() {
 		return helper;
 	}
+
+    public interface DBInstantiatedCallback {
+        void dbInstantiated();
+    }
 
 }

@@ -80,7 +80,9 @@ public class DB {
         utils = new HttpUtils();
         password = pass;
         this.context = context;
-        ScoutingDBHelper.getInstance(context.getApplicationContext());
+        //initialize the database if it isn't created already
+        SQLiteDatabase tmp = ScoutingDBHelper.getInstance(context.getApplicationContext()).getReadableDatabase();
+        tmp.close();
         this.binder = binder;
     }
 
@@ -88,7 +90,9 @@ public class DB {
         this.context = context;
         utils = new HttpUtils();
         password = Prefs.getSavedPassword(context);
-        ScoutingDBHelper.getInstance(context.getApplicationContext());
+        //initialize the database if it isn't created already
+        SQLiteDatabase tmp = ScoutingDBHelper.getInstance(context.getApplicationContext()).getReadableDatabase();
+        tmp.close();
         this.binder = binder;
     }
 
