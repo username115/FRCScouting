@@ -144,8 +144,8 @@ public class PilotMatchFragment extends PilotFragment {
 
         Activity act = getActivity();
         String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity) act).getPosition();
+        if (act instanceof PilotActivity)
+            pos = ((PilotActivity) act).getPosition();
         else
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
