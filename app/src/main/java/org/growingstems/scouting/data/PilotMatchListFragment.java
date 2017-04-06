@@ -184,11 +184,15 @@ public class PilotMatchListFragment extends DataFragment {
                         PopupMenu popup = new PopupMenu(getActivity(), view);
                         List<String> teams = mParent.getDB().getPilotTeamsForMatch(event, mat, prac);
                         for (String team : teams)
-                            popup.getMenu().add(team);
+                            try {
+                                popup.getMenu().add(mParent.getDB().getPilotPosition(event, mat, prac, Integer.valueOf(team)).split(" ")[0] + ":" + team);
+                            } catch (NumberFormatException e) {
+                                //TODO handle this
+                            }
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                int team = Integer.valueOf(item.getTitle().toString());
+                                int team = Integer.valueOf(item.getTitle().toString().split(":")[1]);
                                 loadMatch(mat, event, prac, team, mParent.getDB().getPilotPosition(event, mat, prac, team));
                                 return true;
                             }
