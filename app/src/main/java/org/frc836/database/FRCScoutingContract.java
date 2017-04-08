@@ -167,6 +167,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_SCORING_SPEED_BPS = "scoring_speed_bps";
 		public static final String COLUMN_NAME_LOADING_SPEED_BPS = "loading_speed_bps";
 		public static final String COLUMN_NAME_MAX_ROBOT_SPEED_FTS = "max_robot_speed_fts";
+		public static final String COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS = "robot_gross_weight_lbs";
 		public static final String COLUMN_NAME_CONFIG_ID = "config_id";
 		public static final String COLUMN_NAME_WHEEL_BASE_ID = "wheel_base_id";
 		public static final String COLUMN_NAME_WHEEL_TYPE_ID = "wheel_type_id";
@@ -525,6 +526,7 @@ public final class FRCScoutingContract {
 		"	scoring_speed_bps unsigned int(2) NOT NULL,\n" +
 		"	loading_speed_bps unsigned int(3) NOT NULL,\n" +
 		"	max_robot_speed_fts unsigned int(3) NOT NULL,\n" +
+		"	robot_gross_weight_lbs unsigned int(4) NOT NULL,\n" +
 		"	config_id unsigned int(3) NOT NULL,\n" +
 		"	wheel_base_id unsigned int(3) NOT NULL,\n" +
 		"	wheel_type_id unsigned int(3) NOT NULL,\n" +

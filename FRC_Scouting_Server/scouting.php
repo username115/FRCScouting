@@ -102,28 +102,22 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 
-		//event_lu
-		$query = "SELECT * FROM event_lu" . $suffix;
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "event_lu") . ",";
+		$json .= genJSON($result, "wheel_type_lu") . ",";
 		mysql_free_result($result);
 
-		//game_info
-		$query = "SELECT * FROM game_info" . $suffix;
+		//notes_options
+		$query = "SELECT * FROM notes_options" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "game_info") . ",";
+		$json .= genJSON($result, "notes_options") . ",";
 		mysql_free_result($result);
 
-		//position_lu
-		$query = "SELECT * FROM position_lu" . $suffix;
+		//fact_match_data_2017
+		$query = "SELECT * FROM fact_match_data_2017" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "position_lu") . ",";
-		mysql_free_result($result);
-
-		//robot_lu
-		$query = "SELECT * FROM robot_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "robot_lu") . ",";
+		$json .= genJSON($result, "fact_match_data_2017") . ",";
 		mysql_free_result($result);
 
 		//fact_pilot_data_2017
@@ -138,10 +132,16 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "scout_pit_data_2017") . ",";
 		mysql_free_result($result);
 
-		//fact_match_data_2017
-		$query = "SELECT * FROM fact_match_data_2017" . $suffix;
+		//configuration_lu
+		$query = "SELECT * FROM configuration_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "fact_match_data_2017") . ",";
+		$json .= genJSON($result, "configuration_lu") . ",";
+		mysql_free_result($result);
+
+		//position_lu
+		$query = "SELECT * FROM position_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "position_lu") . ",";
 		mysql_free_result($result);
 
 		//picklist
@@ -150,22 +150,22 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "picklist") . ",";
 		mysql_free_result($result);
 
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		//game_info
+		$query = "SELECT * FROM game_info" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . ",";
+		$json .= genJSON($result, "game_info") . ",";
 		mysql_free_result($result);
 
-		//notes_options
-		$query = "SELECT * FROM notes_options" . $suffix;
+		//event_lu
+		$query = "SELECT * FROM event_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "notes_options") . ",";
+		$json .= genJSON($result, "event_lu") . ",";
 		mysql_free_result($result);
 
-		//configuration_lu
-		$query = "SELECT * FROM configuration_lu" . $suffix;
+		//robot_lu
+		$query = "SELECT * FROM robot_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "configuration_lu") . ",";
+		$json .= genJSON($result, "robot_lu") . ",";
 		mysql_free_result($result);
 
 		//wheel_base_lu
@@ -387,6 +387,7 @@ elseif ($_POST['password'] == $pass) {
 		$scoring_speed_bps = mysql_real_escape_string(stripslashes(trim($_POST['scoring_speed_bps'])));
 		$loading_speed_bps = mysql_real_escape_string(stripslashes(trim($_POST['loading_speed_bps'])));
 		$max_robot_speed_fts = mysql_real_escape_string(stripslashes(trim($_POST['max_robot_speed_fts'])));
+		$robot_gross_weight_lbs = mysql_real_escape_string(stripslashes(trim($_POST['robot_gross_weight_lbs'])));
 		$config_id = mysql_real_escape_string(stripslashes(trim($_POST['config_id'])));
 		$wheel_base_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_base_id'])));
 		$wheel_type_id = mysql_real_escape_string(stripslashes(trim($_POST['wheel_type_id'])));
@@ -399,7 +400,7 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO scout_pit_data_2017(team_id,can_score_high,can_score_low,can_score_gears,can_climb,ground_load_fuel,hopper_load_fuel,station_load_fuel,ground_load_gear,station_load_gear,custom_rope,auto_score_high_count,auto_score_low_count,auto_gear,auto_hopper,tele_score_high_count,tele_score_low_count,accuracy,fuel_capacity,scoring_speed_bps,loading_speed_bps,max_robot_speed_fts,config_id,wheel_base_id,wheel_type_id,notes,invalid) VALUES("
+			$query = "INSERT INTO scout_pit_data_2017(team_id,can_score_high,can_score_low,can_score_gears,can_climb,ground_load_fuel,hopper_load_fuel,station_load_fuel,ground_load_gear,station_load_gear,custom_rope,auto_score_high_count,auto_score_low_count,auto_gear,auto_hopper,tele_score_high_count,tele_score_low_count,accuracy,fuel_capacity,scoring_speed_bps,loading_speed_bps,max_robot_speed_fts,robot_gross_weight_lbs,config_id,wheel_base_id,wheel_type_id,notes,invalid) VALUES("
 				. $team_id . ","
 				. $can_score_high . ","
 				. $can_score_low . ","
@@ -422,6 +423,7 @@ elseif ($_POST['password'] == $pass) {
 				. $scoring_speed_bps . ","
 				. $loading_speed_bps . ","
 				. $max_robot_speed_fts . ","
+				. $robot_gross_weight_lbs . ","
 				. $config_id . ","
 				. $wheel_base_id . ","
 				. $wheel_type_id . ","
@@ -453,6 +455,7 @@ elseif ($_POST['password'] == $pass) {
 				. "scoring_speed_bps=" . $scoring_speed_bps . ","
 				. "loading_speed_bps=" . $loading_speed_bps . ","
 				. "max_robot_speed_fts=" . $max_robot_speed_fts . ","
+				. "robot_gross_weight_lbs=" . $robot_gross_weight_lbs . ","
 				. "config_id=" . $config_id . ","
 				. "wheel_base_id=" . $wheel_base_id . ","
 				. "wheel_type_id=" . $wheel_type_id . ","

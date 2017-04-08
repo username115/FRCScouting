@@ -460,6 +460,7 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2017` (
   `scoring_speed_bps` int(2) unsigned NOT NULL,
   `loading_speed_bps` int(3) unsigned NOT NULL,
   `max_robot_speed_fts` int(3) unsigned NOT NULL,
+  `robot_gross_weight_lbs` int(4) unsigned NOT NULL,
   `config_id` int(3) unsigned NOT NULL,
   `wheel_base_id` int(3) unsigned NOT NULL,
   `wheel_type_id` int(3) unsigned NOT NULL,
