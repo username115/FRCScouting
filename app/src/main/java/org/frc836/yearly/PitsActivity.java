@@ -69,6 +69,7 @@ public class PitsActivity extends DBActivity {
 
     private EditText floorLoadingSpeedT;
     private EditText maxSpeedT;
+    private EditText weightT;
     private CheckBox canClimbC;
     private CheckBox customRopeC;
 
@@ -127,6 +128,7 @@ public class PitsActivity extends DBActivity {
         stationLoadGearC = (CheckBox) findViewById(R.id.station_load_gear_pit);
         floorLoadingSpeedT = (EditText) findViewById(R.id.loading_speed_fps_pit);
         maxSpeedT = (EditText) findViewById(R.id.robot_speed_fps_pit);
+        weightT = (EditText) findViewById(R.id.robot_gross_weightT);
         canClimbC = (CheckBox) findViewById(R.id.can_climb_pit);
         customRopeC = (CheckBox) findViewById(R.id.custom_rope_pit);
         //2017 end
@@ -372,6 +374,11 @@ public class PitsActivity extends DBActivity {
             stats.max_robot_speed_fts = Integer.valueOf(tstr);
         else
             stats.max_robot_speed_fts = 0;
+        tstr = weightT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.robot_gross_weight_lbs = Integer.valueOf(tstr);
+        else
+            stats.robot_gross_weight_lbs = 0;
 
 
 
@@ -424,6 +431,7 @@ public class PitsActivity extends DBActivity {
 
         floorLoadingSpeedT.setText("");
         maxSpeedT.setText("");
+        weightT.setText("");
         canClimbC.setChecked(false);
         customRopeC.setChecked(false);
     }
@@ -534,6 +542,7 @@ public class PitsActivity extends DBActivity {
 
         floorLoadingSpeedT.setText(String.valueOf(stats.loading_speed_bps));
         maxSpeedT.setText(String.valueOf(stats.max_robot_speed_fts));
+        weightT.setText(String.valueOf(stats.robot_gross_weight_lbs));
         canClimbC.setChecked(stats.can_climb);
         customRopeC.setChecked(stats.custom_rope);
 
@@ -563,6 +572,7 @@ public class PitsActivity extends DBActivity {
                 || stationLoadGearC.isChecked()
                 || floorLoadingSpeedT.getText().toString().length() > 0
                 || maxSpeedT.getText().toString().length() > 0
+                || weightT.getText().toString().length() > 0
                 || canClimbC.isChecked()
                 || customRopeC.isChecked()
                 );
