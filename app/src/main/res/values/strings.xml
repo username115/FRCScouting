@@ -632,5 +632,6 @@
     <string name="pilot_turn_rotor">Turn</string>
     <string name="robot_weight_text">Gross Weight</string>
     <string name="robot_weight_hint"><![CDATA[lbs (inc Batt&Bump)]]></string>
+    <string name="drop_plus_1">D+</string>
 
 </resources>

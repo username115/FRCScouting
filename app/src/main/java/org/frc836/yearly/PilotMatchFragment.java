@@ -47,6 +47,8 @@ public class PilotMatchFragment extends PilotFragment {
     private TextView[] teamT = new TextView[2];
     private Spinner[] liftS = new Spinner[2];
     private Button[] liftB = new Button[2];
+    private Spinner[] dropS = new Spinner[2];
+    private Button[] dropB = new Button[2];
 
     private CheckBox[][] rotorC = {new CheckBox[2], new CheckBox[2], new CheckBox[2], new CheckBox[2]};
     private Spinner[][] gearInstallS = {new Spinner[2], new Spinner[2], new Spinner[2], new Spinner[2]};
@@ -124,6 +126,7 @@ public class PilotMatchFragment extends PilotFragment {
 
         for (int i = 0; i < 2; i++) {
             data[i].gears_lifted = liftS[i].getSelectedItemPosition();
+            data[i].gears_dropped = dropS[i].getSelectedItemPosition();
             data[i].gears_installed_2 = gearInstallS[1][i].getSelectedItemPosition();
             data[i].gears_installed_3 = gearInstallS[2][i].getSelectedItemPosition();
             data[i].gears_installed_4 = gearInstallS[3][i].getSelectedItemPosition();
@@ -192,6 +195,7 @@ public class PilotMatchFragment extends PilotFragment {
             teamT[i].setText(String.valueOf(data[i].team_id));
 
             liftS[i].setSelection(data[i].gears_lifted);
+            dropS[i].setSelection(data[i].gears_dropped);
 
             rotorC[0][i].setChecked(data[i].rotor_1_started);
             rotorC[1][i].setChecked(data[i].rotor_2_started);
@@ -210,6 +214,12 @@ public class PilotMatchFragment extends PilotFragment {
 
         liftB[0] = (Button) view.findViewById(R.id.team1LiftButton);
         liftB[1] = (Button) view.findViewById(R.id.team2LiftButton);
+
+        dropS[0] = (Spinner) view.findViewById(R.id.team1DropCount);
+        dropS[1] = (Spinner) view.findViewById(R.id.team2DropCount);
+
+        dropB[0] = (Button) view.findViewById(R.id.team1DropButton);
+        dropB[1] = (Button) view.findViewById(R.id.team2DropButton);
 
         rotorC[0][0] = (CheckBox) view.findViewById(R.id.team1TurnR1);
         rotorC[0][1] = (CheckBox) view.findViewById(R.id.team2TurnR1);
@@ -254,6 +264,7 @@ public class PilotMatchFragment extends PilotFragment {
     private void setListeners() {
         for (int i = 0; i < 2; i++) {
             liftB[i].setOnClickListener(new OnIncrementListener(liftS[i], 1));
+            dropB[i].setOnClickListener(new OnIncrementListener(dropS[i], 1));
 
             for (int j = 1; j < 4; j++) {
                 gearinstallB[j][i].setOnClickListener(new OnGearInstallListener(j, i, 1));
