@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ScoutingDBHelper extends SQLiteOpenHelper {
 	
-	public static final int DATABASE_VERSION = 20175;
+	public static final int DATABASE_VERSION = 20176;
 	public static final String DATABASE_NAME = "FRCscouting.db";
 	
 	private static ScoutingDBHelper helper;
 	public static final Object lock = new Object();
 
 	private static final String upgrade20174to20175 = "ALTER TABLE scout_pit_data_2017 ADD COLUMN robot_gross_weight_lbs unsigned int(4) NOT NULL DEFAULT 0;";
+	private static final String upgrade20175to20176 = "ALTER TABLE fact_pilot_data_2017 ADD COLUMN gears_dropped unsigned int(3) NOT NULL DEFAULT 0;";
 	
 	public ScoutingDBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,6 +36,8 @@ public class ScoutingDBHelper extends SQLiteOpenHelper {
 			switch (oldVersion) {
 				case 20174:
 				    db.execSQL(upgrade20174to20175);
+                case 20175:
+                    db.execSQL(upgrade20175to20176);
                 default:
                     break;
 			}

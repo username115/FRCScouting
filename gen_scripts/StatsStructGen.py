@@ -219,7 +219,9 @@ class SqlToJavaStruct():
 
 	def createStr_fromCursor(self):
 		ret = "public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {\n"
-		ret += "\tc.moveToFirst();\n"
+		ret += "\tfromCursor(c, db, database, 0);\n}\n\n"
+		ret += "public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {\n"
+		ret += "\tc.moveToPosition(pos);\n"
 
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:

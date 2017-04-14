@@ -173,7 +173,11 @@ public class MatchStatsStruct {
 	}
 
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
-		c.moveToFirst();
+		fromCursor(c, db, database, 0);
+	}
+	
+	public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {
+		c.moveToPosition(pos);
 		event_id = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_EVENT_ID)), database);
 		team_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));

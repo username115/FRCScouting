@@ -162,7 +162,11 @@ public class PitStats {
 	}
 
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
-		c.moveToFirst();
+		fromCursor(c, db, database, 0);
+	}
+	
+	public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {
+		c.moveToPosition(pos);
 		team_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		can_score_high = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CAN_SCORE_HIGH)) != 0;
 		can_score_low = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CAN_SCORE_LOW)) != 0;

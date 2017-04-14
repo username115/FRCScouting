@@ -297,6 +297,7 @@ CREATE TABLE IF NOT EXISTS `fact_pilot_data_2017` (
   `gears_installed_3` int(3) unsigned NOT NULL,
   `gears_installed_4` int(3) unsigned NOT NULL,
   `gears_lifted` int(3) unsigned NOT NULL,
+  `gears_dropped` int(3) unsigned NOT NULL,
   `rotor_1_started` tinyint(1) NOT NULL,
   `rotor_2_started` tinyint(1) NOT NULL,
   `rotor_3_started` tinyint(1) NOT NULL,
