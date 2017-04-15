@@ -62,6 +62,8 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_GEAR_DELIVERED_CENTER = "gear_delivered_center";
 		public static final String COLUMN_NAME_CLIMB_ROPE = "climb_rope";
 		public static final String COLUMN_NAME_CLIMB_ATTEMPT = "climb_attempt";
+		public static final String COLUMN_NAME_ALIGN_TIME = "align_time";
+		public static final String COLUMN_NAME_CLIMB_TIME = "climb_time";
 		public static final String COLUMN_NAME_FOUL = "foul";
 		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
 		public static final String COLUMN_NAME_RED_CARD = "red_card";
@@ -409,6 +411,8 @@ public final class FRCScoutingContract {
 		"	gear_delivered_center unsigned int(3) NOT NULL,\n" +
 		"	climb_rope tinyint(1) NOT NULL,\n" +
 		"	climb_attempt unsigned tinyint(1) NOT NULL,\n" +
+		"	align_time int(3) NOT NULL,\n" +
+		"	climb_time int(3) NOT NULL,\n" +
 		"	foul tinyint(1) NOT NULL,\n" +
 		"	yellow_card tinyint(1) NOT NULL,\n" +
 		"	red_card tinyint(1) NOT NULL,\n" +

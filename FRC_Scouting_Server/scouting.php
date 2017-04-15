@@ -102,16 +102,28 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 
+		//robot_lu
+		$query = "SELECT * FROM robot_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "robot_lu") . ",";
+		mysql_free_result($result);
+
 		//fact_pilot_data_2017
 		$query = "SELECT * FROM fact_pilot_data_2017" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "fact_pilot_data_2017") . ",";
 		mysql_free_result($result);
 
-		//picklist
-		$query = "SELECT * FROM picklist" . $suffix;
+		//notes_options
+		$query = "SELECT * FROM notes_options" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "picklist") . ",";
+		$json .= genJSON($result, "notes_options") . ",";
+		mysql_free_result($result);
+
+		//position_lu
+		$query = "SELECT * FROM position_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "position_lu") . ",";
 		mysql_free_result($result);
 
 		//scout_pit_data_2017
@@ -126,42 +138,6 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "event_lu") . ",";
 		mysql_free_result($result);
 
-		//position_lu
-		$query = "SELECT * FROM position_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "position_lu") . ",";
-		mysql_free_result($result);
-
-		//robot_lu
-		$query = "SELECT * FROM robot_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "robot_lu") . ",";
-		mysql_free_result($result);
-
-		//configuration_lu
-		$query = "SELECT * FROM configuration_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "configuration_lu") . ",";
-		mysql_free_result($result);
-
-		//notes_options
-		$query = "SELECT * FROM notes_options" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "notes_options") . ",";
-		mysql_free_result($result);
-
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . ",";
-		mysql_free_result($result);
-
-		//wheel_base_lu
-		$query = "SELECT * FROM wheel_base_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_base_lu") . ",";
-		mysql_free_result($result);
-
 		//game_info
 		$query = "SELECT * FROM game_info" . $suffix;
 		$result = mysql_query($query);
@@ -171,7 +147,31 @@ elseif ($_POST['password'] == $pass) {
 		//fact_match_data_2017
 		$query = "SELECT * FROM fact_match_data_2017" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "fact_match_data_2017") . "}";
+		$json .= genJSON($result, "fact_match_data_2017") . ",";
+		mysql_free_result($result);
+
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_type_lu") . ",";
+		mysql_free_result($result);
+
+		//picklist
+		$query = "SELECT * FROM picklist" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "picklist") . ",";
+		mysql_free_result($result);
+
+		//configuration_lu
+		$query = "SELECT * FROM configuration_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "configuration_lu") . ",";
+		mysql_free_result($result);
+
+		//wheel_base_lu
+		$query = "SELECT * FROM wheel_base_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_base_lu") . "}";
 		mysql_free_result($result);
 
 		$resp = $json;
@@ -201,6 +201,8 @@ elseif ($_POST['password'] == $pass) {
 		$gear_delivered_center = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_center']) ? $_POST['gear_delivered_center'] : '0'));
 		$climb_rope = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_rope']) ? $_POST['climb_rope'] : '0'));
 		$climb_attempt = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_attempt']) ? $_POST['climb_attempt'] : '0'));
+		$align_time = mysql_real_escape_string(stripslashes(trim(isset($_POST['align_time']) ? $_POST['align_time'] : '0'));
+		$climb_time = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_time']) ? $_POST['climb_time'] : '0'));
 		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0'));
 		$yellow_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['yellow_card']) ? $_POST['yellow_card'] : '0'));
 		$red_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['red_card']) ? $_POST['red_card'] : '0'));
@@ -214,7 +216,7 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO fact_match_data_2017(event_id,team_id,match_id,practice_match,position_id,auto_score_low,auto_score_high,auto_miss_high,auto_cross_baseline,auto_gear_delivered_left,auto_gear_delivered_right,auto_gear_delivered_center,auto_dump_hopper,score_low,score_high,miss_high,gear_delivered_left,gear_delivered_right,gear_delivered_center,climb_rope,climb_attempt,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
+			$query = "INSERT INTO fact_match_data_2017(event_id,team_id,match_id,practice_match,position_id,auto_score_low,auto_score_high,auto_miss_high,auto_cross_baseline,auto_gear_delivered_left,auto_gear_delivered_right,auto_gear_delivered_center,auto_dump_hopper,score_low,score_high,miss_high,gear_delivered_left,gear_delivered_right,gear_delivered_center,climb_rope,climb_attempt,align_time,climb_time,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
@@ -236,6 +238,8 @@ elseif ($_POST['password'] == $pass) {
 				. $gear_delivered_center . ","
 				. $climb_rope . ","
 				. $climb_attempt . ","
+				. $align_time . ","
+				. $climb_time . ","
 				. $foul . ","
 				. $yellow_card . ","
 				. $red_card . ","
@@ -267,6 +271,8 @@ elseif ($_POST['password'] == $pass) {
 				. "gear_delivered_center=" . $gear_delivered_center . ","
 				. "climb_rope=" . $climb_rope . ","
 				. "climb_attempt=" . $climb_attempt . ","
+				. "align_time=" . $align_time . ","
+				. "climb_time=" . $climb_time . ","
 				. "foul=" . $foul . ","
 				. "yellow_card=" . $yellow_card . ","
 				. "red_card=" . $red_card . ","

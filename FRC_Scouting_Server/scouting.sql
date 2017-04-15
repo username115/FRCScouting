@@ -268,6 +268,8 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2017` (
   `gear_delivered_center` int(3) unsigned NOT NULL,
   `climb_rope` tinyint(1) NOT NULL,
   `climb_attempt` tinyint(1) unsigned NOT NULL,
+  `align_time` int(3) NOT NULL,
+  `climb_time` int(3) NOT NULL,
   `foul` tinyint(1) NOT NULL,
   `yellow_card` tinyint(1) NOT NULL,
   `red_card` tinyint(1) NOT NULL,

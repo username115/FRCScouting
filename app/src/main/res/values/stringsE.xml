@@ -9,5 +9,9 @@
     <string name="end_input_text">End Game</string>
     <string name="climb">Climbed</string>
     <string name="climb_attempt">Attempted to Climb</string>
+    <string name="text_align_time">Align Time:</string>
+    <string name="climb_time_hint">seconds</string>
+    <string name="unknown">Unknown</string>
+    <string name="text_climb_time">Climb Time:</string>
 
 </resources>
