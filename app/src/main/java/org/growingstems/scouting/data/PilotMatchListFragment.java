@@ -121,7 +121,7 @@ public class PilotMatchListFragment extends DataFragment {
     private List<String> getMatchesForTeam(int teamNum) {
         List<String> events = mParent.getDB().getEventsForTeam(teamNum);
         String curEvent = Prefs.getEvent(getActivity(), "");
-        List<String> matches = new ArrayList<String>(events.size() * 12);
+        List<String> matches = new ArrayList<String>(events != null ? (events.size() * 12) : 10);
         if (events != null) {
             if (curEvent.length() > 0 && events.contains(curEvent)) {
                 events.remove(curEvent);
