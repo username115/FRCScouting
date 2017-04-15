@@ -94,7 +94,7 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
 
     @Override
     protected void refreshData() {
-        if (!displayed || !mParent.isDisplayed())
+        if (!isDisplayed())
             return;
         if (dataSource == null)
             dataSource = new DataSource(mParent.getDB());

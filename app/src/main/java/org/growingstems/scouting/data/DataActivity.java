@@ -87,6 +87,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        isDisplayed = true;
 		m_callback = new ServiceWatcher();
 		setContentView(R.layout.activity_data);
 		Intent intent = getIntent();

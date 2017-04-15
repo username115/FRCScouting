@@ -138,9 +138,13 @@ public abstract class DataFragment extends Fragment {
         return rootView;
     }
 
+    protected boolean isDisplayed() {
+        return mParent != null && displayed && mParent.isDisplayed();
+    }
+
     public void onResume() {
         super.onResume();
-        if (displayed && mParent.isDisplayed())
+        if (isDisplayed())
             refreshData();
     }
 

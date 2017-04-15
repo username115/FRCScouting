@@ -68,7 +68,7 @@ public class TeamListFragment extends DataFragment {
 
 	@Override
 	protected void refreshData() {
-		if (!displayed || getActivity() == null)
+		if (!isDisplayed() || getActivity() == null)
 			return;
 		List<String> teams = mParent.getDB().getTeamsWithData(eventName);
 		String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "").trim();

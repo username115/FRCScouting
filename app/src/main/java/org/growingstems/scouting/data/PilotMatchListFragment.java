@@ -86,7 +86,7 @@ public class PilotMatchListFragment extends DataFragment {
 
     @Override
     protected void refreshData() {
-        if (!displayed)
+        if (!isDisplayed())
             return;
 
         List<String> matches = null;

@@ -44,7 +44,7 @@ public class PitsDataFragment extends DataFragment {
 
     @Override
     protected void refreshData() {
-        if (!displayed || !mParent.isDisplayed())
+        if (!isDisplayed())
             return;
 
         List<String> data = null;
