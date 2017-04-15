@@ -50,26 +50,26 @@ public abstract class DataFragment extends Fragment {
 
     protected int mSectionType;
 
-    protected DBActivity mParent;
+    protected DataActivity mParent;
 
     protected int default_layout_resource = R.layout.fragment_data;
 
-    public static DataFragment newInstance(int section_title, DBActivity parent) {
+    public static DataFragment newInstance(int section_title, DataActivity parent) {
         return newInstance(section_title, parent, -1, null);
     }
 
     public static DataFragment newInstance(int section_title,
-                                           DBActivity parent, int teamNumber) {
+                                           DataActivity parent, int teamNumber) {
         return newInstance(section_title, parent, teamNumber, null);
     }
 
     public static DataFragment newInstance(int section_title,
-                                           DBActivity parent, String event_name) {
+                                           DataActivity parent, String event_name) {
         return newInstance(section_title, parent, -1, event_name);
     }
 
     public static DataFragment newInstance(int section_title,
-                                           DBActivity parent, int teamNumber, String event_name) {
+                                           DataActivity parent, int teamNumber, String event_name) {
         DataFragment fragment;
         switch (section_title) {
             case PT_EVENTS:
@@ -140,7 +140,7 @@ public abstract class DataFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        if (displayed)
+        if (displayed && mParent.isDisplayed())
             refreshData();
     }
 

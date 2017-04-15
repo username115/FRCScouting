@@ -85,7 +85,7 @@ public class MatchListFragment extends DataFragment {
 
     @Override
     protected void refreshData() {
-        if (!displayed)
+        if (!displayed || !mParent.isDisplayed())
             return;
 
         List<String> matches = null;
