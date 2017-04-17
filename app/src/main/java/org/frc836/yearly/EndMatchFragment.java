@@ -124,6 +124,12 @@ public class EndMatchFragment extends MatchFragment {
             return;
         data.climb_attempt = ((CheckBox)getView().findViewById(R.id.climb_end_attempt)).isChecked();
         data.climb_rope = ((CheckBox)getView().findViewById(R.id.climb_end)).isChecked();
+        data.align_time = (((CheckBox)getView().findViewById(R.id.alignTimeUnknownC)).isChecked() ||
+                ((EditText)getView().findViewById(R.id.alignTimeT)).getText().toString().length() < 1) ? -1 :
+                Integer.valueOf(((EditText)getView().findViewById(R.id.alignTimeT)).getText().toString());
+        data.climb_time = (((CheckBox)getView().findViewById(R.id.climbTimeUnknownC)).isChecked() ||
+                ((EditText)getView().findViewById(R.id.climbTimeT)).getText().toString().length() < 1) ? -1 :
+                Integer.valueOf(((EditText)getView().findViewById(R.id.climbTimeT)).getText().toString());
         data.notes = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
         data.tip_over = ((CheckBox)getView().findViewById(R.id.botTip)).isChecked();
         data.foul = ((CheckBox)getView().findViewById(R.id.foul)).isChecked();
@@ -137,6 +143,10 @@ public class EndMatchFragment extends MatchFragment {
             return;
         ((CheckBox)getView().findViewById(R.id.climb_end_attempt)).setChecked(data.climb_attempt);
         ((CheckBox)getView().findViewById(R.id.climb_end)).setChecked(data.climb_rope);
+        ((CheckBox)getView().findViewById(R.id.alignTimeUnknownC)).setChecked(data.align_time <= 0);
+        ((CheckBox)getView().findViewById(R.id.climbTimeUnknownC)).setChecked(data.climb_time <= 0);
+        ((EditText)getView().findViewById(R.id.alignTimeT)).setText(data.align_time <= 0 ? "" : String.valueOf(data.align_time));
+        ((EditText)getView().findViewById(R.id.climbTimeT)).setText(data.climb_time <= 0 ? "" : String.valueOf(data.climb_time));
         ((EditText)getView().findViewById(R.id.notes)).setText(data.notes);
         ((CheckBox)getView().findViewById(R.id.botTip)).setChecked(data.tip_over);
         ((CheckBox)getView().findViewById(R.id.foul)).setChecked(data.foul);

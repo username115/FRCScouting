@@ -54,18 +54,21 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 
 	protected enum DataType {
 		dt_Default, dt_Event, dt_Team
-	};
+	}
 
 	protected DataType dataType = DataType.dt_Default;
 	protected String eventName = null;
 	protected int teamNum = -1;
 
+	protected boolean isDisplayed = false;
+
 	protected static final int[] DEFAULT_TABS = { DataFragment.PT_EVENTS,
 			DataFragment.PT_TEAMS };
 	protected static final int[] EVENT_TABS = { DataFragment.PT_TEAMS,
-			DataFragment.PT_MATCHES };
+			DataFragment.PT_MATCHES, DataFragment.PT_PILOTMATCHES };
 	protected static final int[] TEAM_TABS = { DataFragment.PT_PITS,
-			DataFragment.PT_MATCHES, DataFragment.PT_MATCHLINEGRAPH }; // TODO
+			DataFragment.PT_MATCHES, DataFragment.PT_PILOTMATCHES,
+			DataFragment.PT_MATCHLINEGRAPH }; // TODO
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -84,6 +87,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        isDisplayed = true;
 		m_callback = new ServiceWatcher();
 		setContentView(R.layout.activity_data);
 		Intent intent = getIntent();
@@ -148,10 +152,21 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 	}
 
 	@Override
+	protected void onPause() {
+        super.onPause();
+        isDisplayed = false;
+    }
+
+	@Override
 	protected void onResume() {
 		super.onResume();
+        isDisplayed = true;
 		reloadData();
 	}
+
+    public boolean isDisplayed() {
+        return isDisplayed;
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

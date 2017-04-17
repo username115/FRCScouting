@@ -50,6 +50,8 @@ public class MatchStatsStruct {
 	public int gear_delivered_center;
 	public boolean climb_rope;
 	public boolean climb_attempt;
+	public int align_time;
+	public int climb_time;
 	public boolean foul;
 	public boolean yellow_card;
 	public boolean red_card;
@@ -80,6 +82,8 @@ public class MatchStatsStruct {
 	public static final String COLUMN_NAME_GEAR_DELIVERED_CENTER = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_GEAR_DELIVERED_CENTER;
 	public static final String COLUMN_NAME_CLIMB_ROPE = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_CLIMB_ROPE;
 	public static final String COLUMN_NAME_CLIMB_ATTEMPT = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_CLIMB_ATTEMPT;
+	public static final String COLUMN_NAME_ALIGN_TIME = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_ALIGN_TIME;
+	public static final String COLUMN_NAME_CLIMB_TIME = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_CLIMB_TIME;
 	public static final String COLUMN_NAME_FOUL = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_FOUL;
 	public static final String COLUMN_NAME_YELLOW_CARD = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_YELLOW_CARD;
 	public static final String COLUMN_NAME_RED_CARD = FACT_MATCH_DATA_2017_Entry.COLUMN_NAME_RED_CARD;
@@ -115,6 +119,8 @@ public class MatchStatsStruct {
 		gear_delivered_center = 0;
 		climb_rope = false;
 		climb_attempt = false;
+		align_time = 0;
+		climb_time = 0;
 		foul = false;
 		yellow_card = false;
 		red_card = false;
@@ -162,6 +168,8 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_GEAR_DELIVERED_CENTER, gear_delivered_center);
 		vals.put(COLUMN_NAME_CLIMB_ROPE, climb_rope ? 1 : 0);
 		vals.put(COLUMN_NAME_CLIMB_ATTEMPT, climb_attempt ? 1 : 0);
+		vals.put(COLUMN_NAME_ALIGN_TIME, align_time);
+		vals.put(COLUMN_NAME_CLIMB_TIME, climb_time);
 		vals.put(COLUMN_NAME_FOUL, foul ? 1 : 0);
 		vals.put(COLUMN_NAME_YELLOW_CARD, yellow_card ? 1 : 0);
 		vals.put(COLUMN_NAME_RED_CARD, red_card ? 1 : 0);
@@ -173,7 +181,11 @@ public class MatchStatsStruct {
 	}
 
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
-		c.moveToFirst();
+		fromCursor(c, db, database, 0);
+	}
+	
+	public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {
+		c.moveToPosition(pos);
 		event_id = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_EVENT_ID)), database);
 		team_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
@@ -195,6 +207,8 @@ public class MatchStatsStruct {
 		gear_delivered_center = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEAR_DELIVERED_CENTER));
 		climb_rope = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CLIMB_ROPE)) != 0;
 		climb_attempt = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CLIMB_ATTEMPT)) != 0;
+		align_time = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ALIGN_TIME));
+		climb_time = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CLIMB_TIME));
 		foul = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FOUL)) != 0;
 		yellow_card = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_YELLOW_CARD)) != 0;
 		red_card = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_RED_CARD)) != 0;
@@ -203,7 +217,7 @@ public class MatchStatsStruct {
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(26);
+		List<String> temp = new ArrayList<String>(28);
 		temp.add(COLUMN_NAME_EVENT_ID);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_MATCH_ID);
@@ -225,6 +239,8 @@ public class MatchStatsStruct {
 		temp.add(COLUMN_NAME_GEAR_DELIVERED_CENTER);
 		temp.add(COLUMN_NAME_CLIMB_ROPE);
 		temp.add(COLUMN_NAME_CLIMB_ATTEMPT);
+		temp.add(COLUMN_NAME_ALIGN_TIME);
+		temp.add(COLUMN_NAME_CLIMB_TIME);
 		temp.add(COLUMN_NAME_FOUL);
 		temp.add(COLUMN_NAME_YELLOW_CARD);
 		temp.add(COLUMN_NAME_RED_CARD);
@@ -250,33 +266,35 @@ public class MatchStatsStruct {
 
 	public ContentValues jsonToCV(JSONObject json) throws JSONException {
 		ContentValues vals = new ContentValues();
-		vals.put(COLUMN_NAME_ID, json.getInt(COLUMN_NAME_ID));
-		vals.put(COLUMN_NAME_EVENT_ID, json.getInt(COLUMN_NAME_EVENT_ID));
-		vals.put(COLUMN_NAME_TEAM_ID, json.getInt(COLUMN_NAME_TEAM_ID));
-		vals.put(COLUMN_NAME_MATCH_ID, json.getInt(COLUMN_NAME_MATCH_ID));
-		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.getInt(COLUMN_NAME_PRACTICE_MATCH));
-		vals.put(COLUMN_NAME_POSITION_ID, json.getInt(COLUMN_NAME_POSITION_ID));
-		vals.put(COLUMN_NAME_AUTO_SCORE_LOW, json.getInt(COLUMN_NAME_AUTO_SCORE_LOW));
-		vals.put(COLUMN_NAME_AUTO_SCORE_HIGH, json.getInt(COLUMN_NAME_AUTO_SCORE_HIGH));
-		vals.put(COLUMN_NAME_AUTO_MISS_HIGH, json.getInt(COLUMN_NAME_AUTO_MISS_HIGH));
-		vals.put(COLUMN_NAME_AUTO_CROSS_BASELINE, json.getInt(COLUMN_NAME_AUTO_CROSS_BASELINE));
-		vals.put(COLUMN_NAME_AUTO_GEAR_DELIVERED_LEFT, json.getInt(COLUMN_NAME_AUTO_GEAR_DELIVERED_LEFT));
-		vals.put(COLUMN_NAME_AUTO_GEAR_DELIVERED_RIGHT, json.getInt(COLUMN_NAME_AUTO_GEAR_DELIVERED_RIGHT));
-		vals.put(COLUMN_NAME_AUTO_GEAR_DELIVERED_CENTER, json.getInt(COLUMN_NAME_AUTO_GEAR_DELIVERED_CENTER));
-		vals.put(COLUMN_NAME_AUTO_DUMP_HOPPER, json.getInt(COLUMN_NAME_AUTO_DUMP_HOPPER));
-		vals.put(COLUMN_NAME_SCORE_LOW, json.getInt(COLUMN_NAME_SCORE_LOW));
-		vals.put(COLUMN_NAME_SCORE_HIGH, json.getInt(COLUMN_NAME_SCORE_HIGH));
-		vals.put(COLUMN_NAME_MISS_HIGH, json.getInt(COLUMN_NAME_MISS_HIGH));
-		vals.put(COLUMN_NAME_GEAR_DELIVERED_LEFT, json.getInt(COLUMN_NAME_GEAR_DELIVERED_LEFT));
-		vals.put(COLUMN_NAME_GEAR_DELIVERED_RIGHT, json.getInt(COLUMN_NAME_GEAR_DELIVERED_RIGHT));
-		vals.put(COLUMN_NAME_GEAR_DELIVERED_CENTER, json.getInt(COLUMN_NAME_GEAR_DELIVERED_CENTER));
-		vals.put(COLUMN_NAME_CLIMB_ROPE, json.getInt(COLUMN_NAME_CLIMB_ROPE));
-		vals.put(COLUMN_NAME_CLIMB_ATTEMPT, json.getInt(COLUMN_NAME_CLIMB_ATTEMPT));
-		vals.put(COLUMN_NAME_FOUL, json.getInt(COLUMN_NAME_FOUL));
-		vals.put(COLUMN_NAME_YELLOW_CARD, json.getInt(COLUMN_NAME_YELLOW_CARD));
-		vals.put(COLUMN_NAME_RED_CARD, json.getInt(COLUMN_NAME_RED_CARD));
-		vals.put(COLUMN_NAME_TIP_OVER, json.getInt(COLUMN_NAME_TIP_OVER));
-		vals.put(COLUMN_NAME_NOTES, json.getString(COLUMN_NAME_NOTES));
+		vals.put(COLUMN_NAME_ID, json.has(COLUMN_NAME_ID) ? json.getInt(COLUMN_NAME_ID) : 0);
+		vals.put(COLUMN_NAME_EVENT_ID, json.has(COLUMN_NAME_EVENT_ID) ? json.getInt(COLUMN_NAME_EVENT_ID) : 0);
+		vals.put(COLUMN_NAME_TEAM_ID, json.has(COLUMN_NAME_TEAM_ID) ? json.getInt(COLUMN_NAME_TEAM_ID) : 0);
+		vals.put(COLUMN_NAME_MATCH_ID, json.has(COLUMN_NAME_MATCH_ID) ? json.getInt(COLUMN_NAME_MATCH_ID) : 0);
+		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.has(COLUMN_NAME_PRACTICE_MATCH) ? json.getInt(COLUMN_NAME_PRACTICE_MATCH) : 0);
+		vals.put(COLUMN_NAME_POSITION_ID, json.has(COLUMN_NAME_POSITION_ID) ? json.getInt(COLUMN_NAME_POSITION_ID) : 0);
+		vals.put(COLUMN_NAME_AUTO_SCORE_LOW, json.has(COLUMN_NAME_AUTO_SCORE_LOW) ? json.getInt(COLUMN_NAME_AUTO_SCORE_LOW) : 0);
+		vals.put(COLUMN_NAME_AUTO_SCORE_HIGH, json.has(COLUMN_NAME_AUTO_SCORE_HIGH) ? json.getInt(COLUMN_NAME_AUTO_SCORE_HIGH) : 0);
+		vals.put(COLUMN_NAME_AUTO_MISS_HIGH, json.has(COLUMN_NAME_AUTO_MISS_HIGH) ? json.getInt(COLUMN_NAME_AUTO_MISS_HIGH) : 0);
+		vals.put(COLUMN_NAME_AUTO_CROSS_BASELINE, json.has(COLUMN_NAME_AUTO_CROSS_BASELINE) ? json.getInt(COLUMN_NAME_AUTO_CROSS_BASELINE) : 0);
+		vals.put(COLUMN_NAME_AUTO_GEAR_DELIVERED_LEFT, json.has(COLUMN_NAME_AUTO_GEAR_DELIVERED_LEFT) ? json.getInt(COLUMN_NAME_AUTO_GEAR_DELIVERED_LEFT) : 0);
+		vals.put(COLUMN_NAME_AUTO_GEAR_DELIVERED_RIGHT, json.has(COLUMN_NAME_AUTO_GEAR_DELIVERED_RIGHT) ? json.getInt(COLUMN_NAME_AUTO_GEAR_DELIVERED_RIGHT) : 0);
+		vals.put(COLUMN_NAME_AUTO_GEAR_DELIVERED_CENTER, json.has(COLUMN_NAME_AUTO_GEAR_DELIVERED_CENTER) ? json.getInt(COLUMN_NAME_AUTO_GEAR_DELIVERED_CENTER) : 0);
+		vals.put(COLUMN_NAME_AUTO_DUMP_HOPPER, json.has(COLUMN_NAME_AUTO_DUMP_HOPPER) ? json.getInt(COLUMN_NAME_AUTO_DUMP_HOPPER) : 0);
+		vals.put(COLUMN_NAME_SCORE_LOW, json.has(COLUMN_NAME_SCORE_LOW) ? json.getInt(COLUMN_NAME_SCORE_LOW) : 0);
+		vals.put(COLUMN_NAME_SCORE_HIGH, json.has(COLUMN_NAME_SCORE_HIGH) ? json.getInt(COLUMN_NAME_SCORE_HIGH) : 0);
+		vals.put(COLUMN_NAME_MISS_HIGH, json.has(COLUMN_NAME_MISS_HIGH) ? json.getInt(COLUMN_NAME_MISS_HIGH) : 0);
+		vals.put(COLUMN_NAME_GEAR_DELIVERED_LEFT, json.has(COLUMN_NAME_GEAR_DELIVERED_LEFT) ? json.getInt(COLUMN_NAME_GEAR_DELIVERED_LEFT) : 0);
+		vals.put(COLUMN_NAME_GEAR_DELIVERED_RIGHT, json.has(COLUMN_NAME_GEAR_DELIVERED_RIGHT) ? json.getInt(COLUMN_NAME_GEAR_DELIVERED_RIGHT) : 0);
+		vals.put(COLUMN_NAME_GEAR_DELIVERED_CENTER, json.has(COLUMN_NAME_GEAR_DELIVERED_CENTER) ? json.getInt(COLUMN_NAME_GEAR_DELIVERED_CENTER) : 0);
+		vals.put(COLUMN_NAME_CLIMB_ROPE, json.has(COLUMN_NAME_CLIMB_ROPE) ? json.getInt(COLUMN_NAME_CLIMB_ROPE) : 0);
+		vals.put(COLUMN_NAME_CLIMB_ATTEMPT, json.has(COLUMN_NAME_CLIMB_ATTEMPT) ? json.getInt(COLUMN_NAME_CLIMB_ATTEMPT) : 0);
+		vals.put(COLUMN_NAME_ALIGN_TIME, json.has(COLUMN_NAME_ALIGN_TIME) ? json.getInt(COLUMN_NAME_ALIGN_TIME) : 0);
+		vals.put(COLUMN_NAME_CLIMB_TIME, json.has(COLUMN_NAME_CLIMB_TIME) ? json.getInt(COLUMN_NAME_CLIMB_TIME) : 0);
+		vals.put(COLUMN_NAME_FOUL, json.has(COLUMN_NAME_FOUL) ? json.getInt(COLUMN_NAME_FOUL) : 0);
+		vals.put(COLUMN_NAME_YELLOW_CARD, json.has(COLUMN_NAME_YELLOW_CARD) ? json.getInt(COLUMN_NAME_YELLOW_CARD) : 0);
+		vals.put(COLUMN_NAME_RED_CARD, json.has(COLUMN_NAME_RED_CARD) ? json.getInt(COLUMN_NAME_RED_CARD) : 0);
+		vals.put(COLUMN_NAME_TIP_OVER, json.has(COLUMN_NAME_TIP_OVER) ? json.getInt(COLUMN_NAME_TIP_OVER) : 0);
+		vals.put(COLUMN_NAME_NOTES, json.has(COLUMN_NAME_NOTES) ? json.getString(COLUMN_NAME_NOTES) : "");
 		vals.put(COLUMN_NAME_INVALID, 0);
 		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
 		return vals;
@@ -305,6 +323,8 @@ public class MatchStatsStruct {
 		vals.put( COLUMN_NAME_GEAR_DELIVERED_CENTER, String.valueOf(gear_delivered_center));
 		vals.put( COLUMN_NAME_CLIMB_ROPE, String.valueOf(climb_rope ? 1 : 0));
 		vals.put( COLUMN_NAME_CLIMB_ATTEMPT, String.valueOf(climb_attempt ? 1 : 0));
+		vals.put( COLUMN_NAME_ALIGN_TIME, String.valueOf(align_time));
+		vals.put( COLUMN_NAME_CLIMB_TIME, String.valueOf(climb_time));
 		vals.put( COLUMN_NAME_FOUL, String.valueOf(foul ? 1 : 0));
 		vals.put( COLUMN_NAME_YELLOW_CARD, String.valueOf(yellow_card ? 1 : 0));
 		vals.put( COLUMN_NAME_RED_CARD, String.valueOf(red_card ? 1 : 0));

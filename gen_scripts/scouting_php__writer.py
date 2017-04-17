@@ -10,7 +10,7 @@ def _post_msg(io, post_type, table, querylist=set()):
 
 	# Define the variables that we will be using
 	for col in filter(lambda x: x not in ['id','timestamp','invalid'], columns.keys()):
-		io.write("\t\t${0} = mysql_real_escape_string(stripslashes(trim($_POST['{0}'])));\n".format(col))
+		io.write("\t\t${0} = mysql_real_escape_string(stripslashes(trim(isset($_POST['{0}']) ? $_POST['{0}'] : '0'));\n".format(col))
 
 	io.write('\n\t\t$result = mysql_query("SELECT id FROM {0}'.format(table.name))
 	if querylist:

@@ -16,14 +16,6 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.growingstems.scouting.Prefs;
-import org.growingstems.scouting.R;
-import org.frc836.yearly.MatchActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,7 +29,16 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MatchListFragment extends DataFragment {
+import org.frc836.yearly.MatchActivity;
+import org.frc836.yearly.PilotActivity;
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+public class PilotMatchListFragment extends DataFragment {
 
     private static final String PRACTICE = "Practice Matches";
     private static final String QUALIFICATION = "Qualification Matches";
@@ -47,22 +48,22 @@ public class MatchListFragment extends DataFragment {
 
     private List<String> matchList;
 
-    public static MatchListFragment getInstance(String event_name) {
+    public static PilotMatchListFragment getInstance(String event_name) {
         return getInstance(event_name, -1);
     }
 
-    public static MatchListFragment getInstance(int team_num) {
+    public static PilotMatchListFragment getInstance(int team_num) {
         return getInstance(null, team_num);
     }
 
-    public static MatchListFragment getInstance(String event_name, int team_num) {
-        MatchListFragment fragment = new MatchListFragment();
+    public static PilotMatchListFragment getInstance(String event_name, int team_num) {
+        PilotMatchListFragment fragment = new PilotMatchListFragment();
         fragment.setEvent(event_name);
         fragment.setTeamNum(team_num);
         return fragment;
     }
 
-    public MatchListFragment() {
+    public PilotMatchListFragment() {
     }
 
     public void setEvent(String event_name) {
@@ -154,7 +155,7 @@ public class MatchListFragment extends DataFragment {
                                             int teamNum) {
         List<String> matches = null;
         if (eventName != null)
-            matches = mParent.getDB().getMatchesWithData(eventName, prac,
+            matches = mParent.getDB().getPilotMatchesWithData(eventName, prac,
                     teamNum);
 
         if (matches == null)
@@ -178,13 +179,13 @@ public class MatchListFragment extends DataFragment {
                     final boolean prac = getPractice(position);
                     final int mat = Integer.valueOf(match);
                     if (teamNum > 0)
-                        loadMatch(mat, event, prac, teamNum, mParent.getDB().getPosition(event, mat, prac, teamNum));
+                        loadMatch(mat, event, prac, teamNum, mParent.getDB().getPilotPosition(event, mat, prac, teamNum));
                     else {
                         PopupMenu popup = new PopupMenu(getActivity(), view);
-                        List<String> teams = mParent.getDB().getTeamsForMatch(event, mat, prac);
+                        List<String> teams = mParent.getDB().getPilotTeamsForMatch(event, mat, prac);
                         for (String team : teams)
                             try {
-                                popup.getMenu().add(mParent.getDB().getPosition(event, mat, prac, Integer.valueOf(team)) + ":" + team);
+                                popup.getMenu().add(mParent.getDB().getPilotPosition(event, mat, prac, Integer.valueOf(team)).split(" ")[0] + ":" + team);
                             } catch (NumberFormatException e) {
                                 //TODO handle this
                             }
@@ -192,7 +193,7 @@ public class MatchListFragment extends DataFragment {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 int team = Integer.valueOf(item.getTitle().toString().split(":")[1]);
-                                loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
+                                loadMatch(mat, event, prac, team, mParent.getDB().getPilotPosition(event, mat, prac, team));
                                 return true;
                             }
                         });
@@ -234,8 +235,7 @@ public class MatchListFragment extends DataFragment {
     private void loadMatch(int match, String event, boolean prac, int team, String position) {
         if (team > 0) {
             Intent intent = new Intent(getActivity(),
-                    MatchActivity.class);
-            intent.putExtra("team", String.valueOf(team));
+                    PilotActivity.class);
             intent.putExtra("match", String.valueOf(match));
             intent.putExtra("readOnly", true);
             intent.putExtra("practice", prac);

@@ -38,6 +38,7 @@ public class PilotStatsStruct {
 	public int gears_installed_3;
 	public int gears_installed_4;
 	public int gears_lifted;
+	public int gears_dropped;
 	public boolean rotor_1_started;
 	public boolean rotor_2_started;
 	public boolean rotor_3_started;
@@ -59,6 +60,7 @@ public class PilotStatsStruct {
 	public static final String COLUMN_NAME_GEARS_INSTALLED_3 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_3;
 	public static final String COLUMN_NAME_GEARS_INSTALLED_4 = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_INSTALLED_4;
 	public static final String COLUMN_NAME_GEARS_LIFTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_LIFTED;
+	public static final String COLUMN_NAME_GEARS_DROPPED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_GEARS_DROPPED;
 	public static final String COLUMN_NAME_ROTOR_1_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_1_STARTED;
 	public static final String COLUMN_NAME_ROTOR_2_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_2_STARTED;
 	public static final String COLUMN_NAME_ROTOR_3_STARTED = FACT_PILOT_DATA_2017_Entry.COLUMN_NAME_ROTOR_3_STARTED;
@@ -85,6 +87,7 @@ public class PilotStatsStruct {
 		gears_installed_3 = 0;
 		gears_installed_4 = 0;
 		gears_lifted = 0;
+		gears_dropped = 0;
 		rotor_1_started = false;
 		rotor_2_started = false;
 		rotor_3_started = false;
@@ -123,6 +126,7 @@ public class PilotStatsStruct {
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, gears_installed_3);
 		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, gears_installed_4);
 		vals.put(COLUMN_NAME_GEARS_LIFTED, gears_lifted);
+		vals.put(COLUMN_NAME_GEARS_DROPPED, gears_dropped);
 		vals.put(COLUMN_NAME_ROTOR_1_STARTED, rotor_1_started ? 1 : 0);
 		vals.put(COLUMN_NAME_ROTOR_2_STARTED, rotor_2_started ? 1 : 0);
 		vals.put(COLUMN_NAME_ROTOR_3_STARTED, rotor_3_started ? 1 : 0);
@@ -136,6 +140,10 @@ public class PilotStatsStruct {
 		return vals;
 	}
 
+	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
+		fromCursor(c, db, database, 0);
+	}
+	
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {
 		c.moveToPosition(pos);
 		event_id = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_EVENT_ID)), database);
@@ -147,6 +155,7 @@ public class PilotStatsStruct {
 		gears_installed_3 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_3));
 		gears_installed_4 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_INSTALLED_4));
 		gears_lifted = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_LIFTED));
+		gears_dropped = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GEARS_DROPPED));
 		rotor_1_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_1_STARTED)) != 0;
 		rotor_2_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_2_STARTED)) != 0;
 		rotor_3_started = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTOR_3_STARTED)) != 0;
@@ -158,7 +167,7 @@ public class PilotStatsStruct {
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(17);
+		List<String> temp = new ArrayList<String>(18);
 		temp.add(COLUMN_NAME_EVENT_ID);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_MATCH_ID);
@@ -168,6 +177,7 @@ public class PilotStatsStruct {
 		temp.add(COLUMN_NAME_GEARS_INSTALLED_3);
 		temp.add(COLUMN_NAME_GEARS_INSTALLED_4);
 		temp.add(COLUMN_NAME_GEARS_LIFTED);
+		temp.add(COLUMN_NAME_GEARS_DROPPED);
 		temp.add(COLUMN_NAME_ROTOR_1_STARTED);
 		temp.add(COLUMN_NAME_ROTOR_2_STARTED);
 		temp.add(COLUMN_NAME_ROTOR_3_STARTED);
@@ -196,24 +206,25 @@ public class PilotStatsStruct {
 
 	public ContentValues jsonToCV(JSONObject json) throws JSONException {
 		ContentValues vals = new ContentValues();
-		vals.put(COLUMN_NAME_ID, json.getInt(COLUMN_NAME_ID));
-		vals.put(COLUMN_NAME_EVENT_ID, json.getInt(COLUMN_NAME_EVENT_ID));
-		vals.put(COLUMN_NAME_TEAM_ID, json.getInt(COLUMN_NAME_TEAM_ID));
-		vals.put(COLUMN_NAME_MATCH_ID, json.getInt(COLUMN_NAME_MATCH_ID));
-		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.getInt(COLUMN_NAME_PRACTICE_MATCH));
-		vals.put(COLUMN_NAME_POSITION_ID, json.getInt(COLUMN_NAME_POSITION_ID));
-		vals.put(COLUMN_NAME_GEARS_INSTALLED_2, json.getInt(COLUMN_NAME_GEARS_INSTALLED_2));
-		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, json.getInt(COLUMN_NAME_GEARS_INSTALLED_3));
-		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, json.getInt(COLUMN_NAME_GEARS_INSTALLED_4));
-		vals.put(COLUMN_NAME_GEARS_LIFTED, json.getInt(COLUMN_NAME_GEARS_LIFTED));
-		vals.put(COLUMN_NAME_ROTOR_1_STARTED, json.getInt(COLUMN_NAME_ROTOR_1_STARTED));
-		vals.put(COLUMN_NAME_ROTOR_2_STARTED, json.getInt(COLUMN_NAME_ROTOR_2_STARTED));
-		vals.put(COLUMN_NAME_ROTOR_3_STARTED, json.getInt(COLUMN_NAME_ROTOR_3_STARTED));
-		vals.put(COLUMN_NAME_ROTOR_4_STARTED, json.getInt(COLUMN_NAME_ROTOR_4_STARTED));
-		vals.put(COLUMN_NAME_FOUL, json.getInt(COLUMN_NAME_FOUL));
-		vals.put(COLUMN_NAME_YELLOW_CARD, json.getInt(COLUMN_NAME_YELLOW_CARD));
-		vals.put(COLUMN_NAME_RED_CARD, json.getInt(COLUMN_NAME_RED_CARD));
-		vals.put(COLUMN_NAME_NOTES, json.getString(COLUMN_NAME_NOTES));
+		vals.put(COLUMN_NAME_ID, json.has(COLUMN_NAME_ID) ? json.getInt(COLUMN_NAME_ID) : 0);
+		vals.put(COLUMN_NAME_EVENT_ID, json.has(COLUMN_NAME_EVENT_ID) ? json.getInt(COLUMN_NAME_EVENT_ID) : 0);
+		vals.put(COLUMN_NAME_TEAM_ID, json.has(COLUMN_NAME_TEAM_ID) ? json.getInt(COLUMN_NAME_TEAM_ID) : 0);
+		vals.put(COLUMN_NAME_MATCH_ID, json.has(COLUMN_NAME_MATCH_ID) ? json.getInt(COLUMN_NAME_MATCH_ID) : 0);
+		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.has(COLUMN_NAME_PRACTICE_MATCH) ? json.getInt(COLUMN_NAME_PRACTICE_MATCH) : 0);
+		vals.put(COLUMN_NAME_POSITION_ID, json.has(COLUMN_NAME_POSITION_ID) ? json.getInt(COLUMN_NAME_POSITION_ID) : 0);
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_2, json.has(COLUMN_NAME_GEARS_INSTALLED_2) ? json.getInt(COLUMN_NAME_GEARS_INSTALLED_2) : 0);
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_3, json.has(COLUMN_NAME_GEARS_INSTALLED_3) ? json.getInt(COLUMN_NAME_GEARS_INSTALLED_3) : 0);
+		vals.put(COLUMN_NAME_GEARS_INSTALLED_4, json.has(COLUMN_NAME_GEARS_INSTALLED_4) ? json.getInt(COLUMN_NAME_GEARS_INSTALLED_4) : 0);
+		vals.put(COLUMN_NAME_GEARS_LIFTED, json.has(COLUMN_NAME_GEARS_LIFTED) ? json.getInt(COLUMN_NAME_GEARS_LIFTED) : 0);
+		vals.put(COLUMN_NAME_GEARS_DROPPED, json.has(COLUMN_NAME_GEARS_DROPPED) ? json.getInt(COLUMN_NAME_GEARS_DROPPED) : 0);
+		vals.put(COLUMN_NAME_ROTOR_1_STARTED, json.has(COLUMN_NAME_ROTOR_1_STARTED) ? json.getInt(COLUMN_NAME_ROTOR_1_STARTED) : 0);
+		vals.put(COLUMN_NAME_ROTOR_2_STARTED, json.has(COLUMN_NAME_ROTOR_2_STARTED) ? json.getInt(COLUMN_NAME_ROTOR_2_STARTED) : 0);
+		vals.put(COLUMN_NAME_ROTOR_3_STARTED, json.has(COLUMN_NAME_ROTOR_3_STARTED) ? json.getInt(COLUMN_NAME_ROTOR_3_STARTED) : 0);
+		vals.put(COLUMN_NAME_ROTOR_4_STARTED, json.has(COLUMN_NAME_ROTOR_4_STARTED) ? json.getInt(COLUMN_NAME_ROTOR_4_STARTED) : 0);
+		vals.put(COLUMN_NAME_FOUL, json.has(COLUMN_NAME_FOUL) ? json.getInt(COLUMN_NAME_FOUL) : 0);
+		vals.put(COLUMN_NAME_YELLOW_CARD, json.has(COLUMN_NAME_YELLOW_CARD) ? json.getInt(COLUMN_NAME_YELLOW_CARD) : 0);
+		vals.put(COLUMN_NAME_RED_CARD, json.has(COLUMN_NAME_RED_CARD) ? json.getInt(COLUMN_NAME_RED_CARD) : 0);
+		vals.put(COLUMN_NAME_NOTES, json.has(COLUMN_NAME_NOTES) ? json.getString(COLUMN_NAME_NOTES) : "");
 		vals.put(COLUMN_NAME_INVALID, 0);
 		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
 		return vals;
@@ -230,6 +241,7 @@ public class PilotStatsStruct {
 		vals.put( COLUMN_NAME_GEARS_INSTALLED_3, String.valueOf(gears_installed_3));
 		vals.put( COLUMN_NAME_GEARS_INSTALLED_4, String.valueOf(gears_installed_4));
 		vals.put( COLUMN_NAME_GEARS_LIFTED, String.valueOf(gears_lifted));
+		vals.put( COLUMN_NAME_GEARS_DROPPED, String.valueOf(gears_dropped));
 		vals.put( COLUMN_NAME_ROTOR_1_STARTED, String.valueOf(rotor_1_started ? 1 : 0));
 		vals.put( COLUMN_NAME_ROTOR_2_STARTED, String.valueOf(rotor_2_started ? 1 : 0));
 		vals.put( COLUMN_NAME_ROTOR_3_STARTED, String.valueOf(rotor_3_started ? 1 : 0));

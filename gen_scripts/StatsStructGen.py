@@ -219,7 +219,9 @@ class SqlToJavaStruct():
 
 	def createStr_fromCursor(self):
 		ret = "public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {\n"
-		ret += "\tc.moveToFirst();\n"
+		ret += "\tfromCursor(c, db, database, 0);\n}\n\n"
+		ret += "public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {\n"
+		ret += "\tc.moveToPosition(pos);\n"
 
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
@@ -294,13 +296,13 @@ class SqlToJavaStruct():
 		if tableindex:
 			for column in self.tables[tableindex].columns:
 				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.config and not column.name == self.wheel_type and not column.name == self.wheel_base):
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.getString(COLUMN_NAME_" + column.name.upper() + "));\n"
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getString(COLUMN_NAME_" + column.name.upper() + ') : "");\n'
 				elif column.name == "timestamp":
 					ret += "\tvals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));\n"
 				elif column.name == "invalid":
 					ret += "\tvals.put(COLUMN_NAME_INVALID, 0);\n"
 				else:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.getInt(COLUMN_NAME_" + column.name.upper() + "));\n"
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getInt(COLUMN_NAME_" + column.name.upper() + ") : 0);\n"
 
 		ret += "\treturn vals;\n}"
 		return ret

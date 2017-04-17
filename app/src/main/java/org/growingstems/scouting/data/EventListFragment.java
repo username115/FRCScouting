@@ -44,7 +44,7 @@ public class EventListFragment extends DataFragment {
 
 	@Override
 	protected void refreshData() {
-		if (!displayed || getActivity() == null)
+		if (!isDisplayed() || getActivity() == null)
 			return;
 		List<String> events = mParent.getDB().getEventsWithData();
 		String curEvent = Prefs.getEvent(getActivity(), "");

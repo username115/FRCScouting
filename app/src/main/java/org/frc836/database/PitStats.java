@@ -51,6 +51,7 @@ public class PitStats {
 	public int scoring_speed_bps;
 	public int loading_speed_bps;
 	public int max_robot_speed_fts;
+	public int robot_gross_weight_lbs;
 	public String config_id;
 	public String wheel_base_id;
 	public String wheel_type_id;
@@ -81,6 +82,7 @@ public class PitStats {
 	public static final String COLUMN_NAME_SCORING_SPEED_BPS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_SCORING_SPEED_BPS;
 	public static final String COLUMN_NAME_LOADING_SPEED_BPS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_LOADING_SPEED_BPS;
 	public static final String COLUMN_NAME_MAX_ROBOT_SPEED_FTS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_MAX_ROBOT_SPEED_FTS;
+	public static final String COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS;
 	public static final String COLUMN_NAME_CONFIG_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_CONFIG_ID;
 	public static final String COLUMN_NAME_WHEEL_BASE_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_WHEEL_BASE_ID;
 	public static final String COLUMN_NAME_WHEEL_TYPE_ID = SCOUT_PIT_DATA_2017_Entry.COLUMN_NAME_WHEEL_TYPE_ID;
@@ -116,6 +118,7 @@ public class PitStats {
 		scoring_speed_bps = 0;
 		loading_speed_bps = 0;
 		max_robot_speed_fts = 0;
+		robot_gross_weight_lbs = 0;
 		config_id = "other";
 		wheel_base_id = "other";
 		wheel_type_id = "other";
@@ -148,6 +151,7 @@ public class PitStats {
 		vals.put(COLUMN_NAME_SCORING_SPEED_BPS, scoring_speed_bps);
 		vals.put(COLUMN_NAME_LOADING_SPEED_BPS, loading_speed_bps);
 		vals.put(COLUMN_NAME_MAX_ROBOT_SPEED_FTS, max_robot_speed_fts);
+		vals.put(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS, robot_gross_weight_lbs);
 		vals.put(COLUMN_NAME_CONFIG_ID, db.getConfigIDFromName(config_id, database));
 		vals.put(COLUMN_NAME_WHEEL_BASE_ID, db.getWheelBaseIDFromName(wheel_base_id, database));
 		vals.put(COLUMN_NAME_WHEEL_TYPE_ID, db.getWheelTypeIDFromName(wheel_type_id, database));
@@ -158,7 +162,11 @@ public class PitStats {
 	}
 
 	public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {
-		c.moveToFirst();
+		fromCursor(c, db, database, 0);
+	}
+	
+	public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {
+		c.moveToPosition(pos);
 		team_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		can_score_high = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CAN_SCORE_HIGH)) != 0;
 		can_score_low = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CAN_SCORE_LOW)) != 0;
@@ -181,6 +189,7 @@ public class PitStats {
 		scoring_speed_bps = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCORING_SPEED_BPS));
 		loading_speed_bps = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_LOADING_SPEED_BPS));
 		max_robot_speed_fts = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MAX_ROBOT_SPEED_FTS));
+		robot_gross_weight_lbs = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS));
 		config_id = DB.getConfigNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CONFIG_ID)), database);
 		wheel_base_id = DB.getWheelBaseNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_WHEEL_BASE_ID)), database);
 		wheel_type_id = DB.getWheelTypeNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_WHEEL_TYPE_ID)), database);
@@ -188,7 +197,7 @@ public class PitStats {
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(26);
+		List<String> temp = new ArrayList<String>(27);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_CAN_SCORE_HIGH);
 		temp.add(COLUMN_NAME_CAN_SCORE_LOW);
@@ -211,6 +220,7 @@ public class PitStats {
 		temp.add(COLUMN_NAME_SCORING_SPEED_BPS);
 		temp.add(COLUMN_NAME_LOADING_SPEED_BPS);
 		temp.add(COLUMN_NAME_MAX_ROBOT_SPEED_FTS);
+		temp.add(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS);
 		temp.add(COLUMN_NAME_CONFIG_ID);
 		temp.add(COLUMN_NAME_WHEEL_BASE_ID);
 		temp.add(COLUMN_NAME_WHEEL_TYPE_ID);
@@ -237,33 +247,34 @@ public class PitStats {
 
 	public ContentValues jsonToCV(JSONObject json) throws JSONException {
 		ContentValues vals = new ContentValues();
-		vals.put(COLUMN_NAME_ID, json.getInt(COLUMN_NAME_ID));
-		vals.put(COLUMN_NAME_TEAM_ID, json.getInt(COLUMN_NAME_TEAM_ID));
-		vals.put(COLUMN_NAME_CAN_SCORE_HIGH, json.getInt(COLUMN_NAME_CAN_SCORE_HIGH));
-		vals.put(COLUMN_NAME_CAN_SCORE_LOW, json.getInt(COLUMN_NAME_CAN_SCORE_LOW));
-		vals.put(COLUMN_NAME_CAN_SCORE_GEARS, json.getInt(COLUMN_NAME_CAN_SCORE_GEARS));
-		vals.put(COLUMN_NAME_CAN_CLIMB, json.getInt(COLUMN_NAME_CAN_CLIMB));
-		vals.put(COLUMN_NAME_GROUND_LOAD_FUEL, json.getInt(COLUMN_NAME_GROUND_LOAD_FUEL));
-		vals.put(COLUMN_NAME_HOPPER_LOAD_FUEL, json.getInt(COLUMN_NAME_HOPPER_LOAD_FUEL));
-		vals.put(COLUMN_NAME_STATION_LOAD_FUEL, json.getInt(COLUMN_NAME_STATION_LOAD_FUEL));
-		vals.put(COLUMN_NAME_GROUND_LOAD_GEAR, json.getInt(COLUMN_NAME_GROUND_LOAD_GEAR));
-		vals.put(COLUMN_NAME_STATION_LOAD_GEAR, json.getInt(COLUMN_NAME_STATION_LOAD_GEAR));
-		vals.put(COLUMN_NAME_CUSTOM_ROPE, json.getInt(COLUMN_NAME_CUSTOM_ROPE));
-		vals.put(COLUMN_NAME_AUTO_SCORE_HIGH_COUNT, json.getInt(COLUMN_NAME_AUTO_SCORE_HIGH_COUNT));
-		vals.put(COLUMN_NAME_AUTO_SCORE_LOW_COUNT, json.getInt(COLUMN_NAME_AUTO_SCORE_LOW_COUNT));
-		vals.put(COLUMN_NAME_AUTO_GEAR, json.getInt(COLUMN_NAME_AUTO_GEAR));
-		vals.put(COLUMN_NAME_AUTO_HOPPER, json.getInt(COLUMN_NAME_AUTO_HOPPER));
-		vals.put(COLUMN_NAME_TELE_SCORE_HIGH_COUNT, json.getInt(COLUMN_NAME_TELE_SCORE_HIGH_COUNT));
-		vals.put(COLUMN_NAME_TELE_SCORE_LOW_COUNT, json.getInt(COLUMN_NAME_TELE_SCORE_LOW_COUNT));
-		vals.put(COLUMN_NAME_ACCURACY, json.getInt(COLUMN_NAME_ACCURACY));
-		vals.put(COLUMN_NAME_FUEL_CAPACITY, json.getInt(COLUMN_NAME_FUEL_CAPACITY));
-		vals.put(COLUMN_NAME_SCORING_SPEED_BPS, json.getInt(COLUMN_NAME_SCORING_SPEED_BPS));
-		vals.put(COLUMN_NAME_LOADING_SPEED_BPS, json.getInt(COLUMN_NAME_LOADING_SPEED_BPS));
-		vals.put(COLUMN_NAME_MAX_ROBOT_SPEED_FTS, json.getInt(COLUMN_NAME_MAX_ROBOT_SPEED_FTS));
-		vals.put(COLUMN_NAME_CONFIG_ID, json.getInt(COLUMN_NAME_CONFIG_ID));
-		vals.put(COLUMN_NAME_WHEEL_BASE_ID, json.getInt(COLUMN_NAME_WHEEL_BASE_ID));
-		vals.put(COLUMN_NAME_WHEEL_TYPE_ID, json.getInt(COLUMN_NAME_WHEEL_TYPE_ID));
-		vals.put(COLUMN_NAME_NOTES, json.getString(COLUMN_NAME_NOTES));
+		vals.put(COLUMN_NAME_ID, json.has(COLUMN_NAME_ID) ? json.getInt(COLUMN_NAME_ID) : 0);
+		vals.put(COLUMN_NAME_TEAM_ID, json.has(COLUMN_NAME_TEAM_ID) ? json.getInt(COLUMN_NAME_TEAM_ID) : 0);
+		vals.put(COLUMN_NAME_CAN_SCORE_HIGH, json.has(COLUMN_NAME_CAN_SCORE_HIGH) ? json.getInt(COLUMN_NAME_CAN_SCORE_HIGH) : 0);
+		vals.put(COLUMN_NAME_CAN_SCORE_LOW, json.has(COLUMN_NAME_CAN_SCORE_LOW) ? json.getInt(COLUMN_NAME_CAN_SCORE_LOW) : 0);
+		vals.put(COLUMN_NAME_CAN_SCORE_GEARS, json.has(COLUMN_NAME_CAN_SCORE_GEARS) ? json.getInt(COLUMN_NAME_CAN_SCORE_GEARS) : 0);
+		vals.put(COLUMN_NAME_CAN_CLIMB, json.has(COLUMN_NAME_CAN_CLIMB) ? json.getInt(COLUMN_NAME_CAN_CLIMB) : 0);
+		vals.put(COLUMN_NAME_GROUND_LOAD_FUEL, json.has(COLUMN_NAME_GROUND_LOAD_FUEL) ? json.getInt(COLUMN_NAME_GROUND_LOAD_FUEL) : 0);
+		vals.put(COLUMN_NAME_HOPPER_LOAD_FUEL, json.has(COLUMN_NAME_HOPPER_LOAD_FUEL) ? json.getInt(COLUMN_NAME_HOPPER_LOAD_FUEL) : 0);
+		vals.put(COLUMN_NAME_STATION_LOAD_FUEL, json.has(COLUMN_NAME_STATION_LOAD_FUEL) ? json.getInt(COLUMN_NAME_STATION_LOAD_FUEL) : 0);
+		vals.put(COLUMN_NAME_GROUND_LOAD_GEAR, json.has(COLUMN_NAME_GROUND_LOAD_GEAR) ? json.getInt(COLUMN_NAME_GROUND_LOAD_GEAR) : 0);
+		vals.put(COLUMN_NAME_STATION_LOAD_GEAR, json.has(COLUMN_NAME_STATION_LOAD_GEAR) ? json.getInt(COLUMN_NAME_STATION_LOAD_GEAR) : 0);
+		vals.put(COLUMN_NAME_CUSTOM_ROPE, json.has(COLUMN_NAME_CUSTOM_ROPE) ? json.getInt(COLUMN_NAME_CUSTOM_ROPE) : 0);
+		vals.put(COLUMN_NAME_AUTO_SCORE_HIGH_COUNT, json.has(COLUMN_NAME_AUTO_SCORE_HIGH_COUNT) ? json.getInt(COLUMN_NAME_AUTO_SCORE_HIGH_COUNT) : 0);
+		vals.put(COLUMN_NAME_AUTO_SCORE_LOW_COUNT, json.has(COLUMN_NAME_AUTO_SCORE_LOW_COUNT) ? json.getInt(COLUMN_NAME_AUTO_SCORE_LOW_COUNT) : 0);
+		vals.put(COLUMN_NAME_AUTO_GEAR, json.has(COLUMN_NAME_AUTO_GEAR) ? json.getInt(COLUMN_NAME_AUTO_GEAR) : 0);
+		vals.put(COLUMN_NAME_AUTO_HOPPER, json.has(COLUMN_NAME_AUTO_HOPPER) ? json.getInt(COLUMN_NAME_AUTO_HOPPER) : 0);
+		vals.put(COLUMN_NAME_TELE_SCORE_HIGH_COUNT, json.has(COLUMN_NAME_TELE_SCORE_HIGH_COUNT) ? json.getInt(COLUMN_NAME_TELE_SCORE_HIGH_COUNT) : 0);
+		vals.put(COLUMN_NAME_TELE_SCORE_LOW_COUNT, json.has(COLUMN_NAME_TELE_SCORE_LOW_COUNT) ? json.getInt(COLUMN_NAME_TELE_SCORE_LOW_COUNT) : 0);
+		vals.put(COLUMN_NAME_ACCURACY, json.has(COLUMN_NAME_ACCURACY) ? json.getInt(COLUMN_NAME_ACCURACY) : 0);
+		vals.put(COLUMN_NAME_FUEL_CAPACITY, json.has(COLUMN_NAME_FUEL_CAPACITY) ? json.getInt(COLUMN_NAME_FUEL_CAPACITY) : 0);
+		vals.put(COLUMN_NAME_SCORING_SPEED_BPS, json.has(COLUMN_NAME_SCORING_SPEED_BPS) ? json.getInt(COLUMN_NAME_SCORING_SPEED_BPS) : 0);
+		vals.put(COLUMN_NAME_LOADING_SPEED_BPS, json.has(COLUMN_NAME_LOADING_SPEED_BPS) ? json.getInt(COLUMN_NAME_LOADING_SPEED_BPS) : 0);
+		vals.put(COLUMN_NAME_MAX_ROBOT_SPEED_FTS, json.has(COLUMN_NAME_MAX_ROBOT_SPEED_FTS) ? json.getInt(COLUMN_NAME_MAX_ROBOT_SPEED_FTS) : 0);
+		vals.put(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS, json.has(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS) ? json.getInt(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS) : 0);
+		vals.put(COLUMN_NAME_CONFIG_ID, json.has(COLUMN_NAME_CONFIG_ID) ? json.getInt(COLUMN_NAME_CONFIG_ID) : 0);
+		vals.put(COLUMN_NAME_WHEEL_BASE_ID, json.has(COLUMN_NAME_WHEEL_BASE_ID) ? json.getInt(COLUMN_NAME_WHEEL_BASE_ID) : 0);
+		vals.put(COLUMN_NAME_WHEEL_TYPE_ID, json.has(COLUMN_NAME_WHEEL_TYPE_ID) ? json.getInt(COLUMN_NAME_WHEEL_TYPE_ID) : 0);
+		vals.put(COLUMN_NAME_NOTES, json.has(COLUMN_NAME_NOTES) ? json.getString(COLUMN_NAME_NOTES) : "");
 		vals.put(COLUMN_NAME_INVALID, 0);
 		vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));
 		return vals;
@@ -293,6 +304,7 @@ public class PitStats {
 		vals.put( COLUMN_NAME_SCORING_SPEED_BPS, String.valueOf(scoring_speed_bps));
 		vals.put( COLUMN_NAME_LOADING_SPEED_BPS, String.valueOf(loading_speed_bps));
 		vals.put( COLUMN_NAME_MAX_ROBOT_SPEED_FTS, String.valueOf(max_robot_speed_fts));
+		vals.put( COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS, String.valueOf(robot_gross_weight_lbs));
 		vals.put( COLUMN_NAME_CONFIG_ID, config_id);
 		vals.put( COLUMN_NAME_WHEEL_BASE_ID, wheel_base_id);
 		vals.put( COLUMN_NAME_WHEEL_TYPE_ID, wheel_type_id);

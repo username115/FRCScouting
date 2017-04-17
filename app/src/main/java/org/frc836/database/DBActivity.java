@@ -26,14 +26,18 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 
-public abstract class DBActivity extends ScoutingMenuActivity {
+public abstract class DBActivity extends ScoutingMenuActivity implements ScoutingDBHelper.DBInstantiatedCallback {
     protected DB db;
-    protected LocalBinder binder;
+    protected LocalBinder binder = null;
     protected ServiceWatcher watcher = new ServiceWatcher();
     protected ServiceConnection m_callback = null;
 
+    private static boolean db_updated = false;
+    private static ScoutingDBHelper.DBInstantiatedCallback callback;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        callback = this;
         initDB();
     }
 
@@ -41,6 +45,10 @@ public abstract class DBActivity extends ScoutingMenuActivity {
         Intent sync = new Intent(this, DBSyncService.class);
         bindService(sync, watcher, Context.BIND_AUTO_CREATE);
         db = new DB(this, binder);
+        if (binder != null && db_updated) {
+            binder.initSync();
+            db_updated = false;
+        }
     }
 
     @Override
@@ -68,6 +76,12 @@ public abstract class DBActivity extends ScoutingMenuActivity {
                 db.setBinder(binder);
                 if (m_callback != null)
                     m_callback.onServiceConnected(name, service);
+                if (db_updated) {
+                    binder.initSync();
+                    db_updated = false;
+                } else {
+                    binder.startSync();
+                }
             }
         }
 
@@ -78,4 +92,16 @@ public abstract class DBActivity extends ScoutingMenuActivity {
 
     }
 
+    public void dbInstantiated() {
+        if (binder != null && db_updated) {
+            binder.initSync();
+            db_updated = false;
+        }
+    }
+
+    public static void dbUpdated() {
+        db_updated = true;
+        if (callback != null)
+            callback.dbInstantiated();
+    }
 }

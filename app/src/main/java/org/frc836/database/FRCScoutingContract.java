@@ -62,6 +62,8 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_GEAR_DELIVERED_CENTER = "gear_delivered_center";
 		public static final String COLUMN_NAME_CLIMB_ROPE = "climb_rope";
 		public static final String COLUMN_NAME_CLIMB_ATTEMPT = "climb_attempt";
+		public static final String COLUMN_NAME_ALIGN_TIME = "align_time";
+		public static final String COLUMN_NAME_CLIMB_TIME = "climb_time";
 		public static final String COLUMN_NAME_FOUL = "foul";
 		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
 		public static final String COLUMN_NAME_RED_CARD = "red_card";
@@ -83,6 +85,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_GEARS_INSTALLED_3 = "gears_installed_3";
 		public static final String COLUMN_NAME_GEARS_INSTALLED_4 = "gears_installed_4";
 		public static final String COLUMN_NAME_GEARS_LIFTED = "gears_lifted";
+		public static final String COLUMN_NAME_GEARS_DROPPED = "gears_dropped";
 		public static final String COLUMN_NAME_ROTOR_1_STARTED = "rotor_1_started";
 		public static final String COLUMN_NAME_ROTOR_2_STARTED = "rotor_2_started";
 		public static final String COLUMN_NAME_ROTOR_3_STARTED = "rotor_3_started";
@@ -167,6 +170,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_SCORING_SPEED_BPS = "scoring_speed_bps";
 		public static final String COLUMN_NAME_LOADING_SPEED_BPS = "loading_speed_bps";
 		public static final String COLUMN_NAME_MAX_ROBOT_SPEED_FTS = "max_robot_speed_fts";
+		public static final String COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS = "robot_gross_weight_lbs";
 		public static final String COLUMN_NAME_CONFIG_ID = "config_id";
 		public static final String COLUMN_NAME_WHEEL_BASE_ID = "wheel_base_id";
 		public static final String COLUMN_NAME_WHEEL_TYPE_ID = "wheel_type_id";
@@ -407,6 +411,8 @@ public final class FRCScoutingContract {
 		"	gear_delivered_center unsigned int(3) NOT NULL,\n" +
 		"	climb_rope tinyint(1) NOT NULL,\n" +
 		"	climb_attempt unsigned tinyint(1) NOT NULL,\n" +
+		"	align_time int(3) NOT NULL,\n" +
+		"	climb_time int(3) NOT NULL,\n" +
 		"	foul tinyint(1) NOT NULL,\n" +
 		"	yellow_card tinyint(1) NOT NULL,\n" +
 		"	red_card tinyint(1) NOT NULL,\n" +
@@ -427,6 +433,7 @@ public final class FRCScoutingContract {
 		"	gears_installed_3 unsigned int(3) NOT NULL,\n" +
 		"	gears_installed_4 unsigned int(3) NOT NULL,\n" +
 		"	gears_lifted unsigned int(3) NOT NULL,\n" +
+		"	gears_dropped unsigned int(3) NOT NULL,\n" +
 		"	rotor_1_started tinyint(1) NOT NULL,\n" +
 		"	rotor_2_started tinyint(1) NOT NULL,\n" +
 		"	rotor_3_started tinyint(1) NOT NULL,\n" +
@@ -525,6 +532,7 @@ public final class FRCScoutingContract {
 		"	scoring_speed_bps unsigned int(2) NOT NULL,\n" +
 		"	loading_speed_bps unsigned int(3) NOT NULL,\n" +
 		"	max_robot_speed_fts unsigned int(3) NOT NULL,\n" +
+		"	robot_gross_weight_lbs unsigned int(4) NOT NULL,\n" +
 		"	config_id unsigned int(3) NOT NULL,\n" +
 		"	wheel_base_id unsigned int(3) NOT NULL,\n" +
 		"	wheel_type_id unsigned int(3) NOT NULL,\n" +

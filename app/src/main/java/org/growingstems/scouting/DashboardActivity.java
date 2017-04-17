@@ -17,6 +17,7 @@
 package org.growingstems.scouting;
 
 import org.frc836.database.DB;
+import org.frc836.database.DBActivity;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.data.DataActivity;
@@ -44,7 +45,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
-public class DashboardActivity extends ScoutingMenuActivity {
+public class DashboardActivity extends DBActivity {
 
 	private Button match;
 	private Button pits;
@@ -53,8 +54,8 @@ public class DashboardActivity extends ScoutingMenuActivity {
 	private ImageView beeLogo;
 	private ImageView stemsLogo;
 
-	private LocalBinder binder;
-	private ServiceWatcher watcher = new ServiceWatcher();
+	/*private LocalBinder binder;
+	private ServiceWatcher watcher = new ServiceWatcher();*/
 
 	private static final int VERSION_DIALOG = 7;
 	private static final int URL_DIALOG = 39382;
@@ -92,9 +93,9 @@ public class DashboardActivity extends ScoutingMenuActivity {
 		beeLogo = (ImageView) findViewById(R.id.beeLogo);
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
 
-		Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
+		//Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
 		// intent.setPackage("org.frc836.database");
-		bindService(intent, watcher, Context.BIND_AUTO_CREATE);
+		//bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
 		match.setOnClickListener(new OnClickListener() {
 
@@ -185,11 +186,11 @@ public class DashboardActivity extends ScoutingMenuActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (watcher != null && watcher.serviceRegistered)
-			unbindService(watcher);
+		/*if (watcher != null && watcher.serviceRegistered)
+			unbindService(watcher);*/
 	}
 
-	protected class ServiceWatcher implements ServiceConnection {
+	/*protected class ServiceWatcher implements ServiceConnection {
 
 		boolean serviceRegistered = false;
 
@@ -205,7 +206,7 @@ public class DashboardActivity extends ScoutingMenuActivity {
 			serviceRegistered = false;
 		}
 
-	}
+	}*/
 
 	protected class VersionCallback implements HttpCallback {
 

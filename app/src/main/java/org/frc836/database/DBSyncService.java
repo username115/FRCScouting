@@ -113,7 +113,7 @@ public class DBSyncService extends Service {
 
         DBSyncService.version = getString(R.string.VersionID);
 
-        mTimerTask.post(dataTask);
+        //mTimerTask.post(dataTask);
 
         mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
@@ -235,6 +235,7 @@ public class DBSyncService extends Service {
         public void initSync() {
             mTimerTask.removeCallbacks(dataTask);
             initSync = true;
+            DBSyncService.this.deleteFile(FILENAME);
             mTimerTask.post(dataTask);
         }
 
@@ -676,6 +677,7 @@ public class DBSyncService extends Service {
                 Toast.makeText(getApplicationContext(),
                         "Sync Forced: " + syncForced, Toast.LENGTH_SHORT)
                         .show();
+                Toast.makeText(getApplicationContext(), "Init Sync: " + initSync, Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(),
                         "Sync in Progress: " + syncInProgress,
                         Toast.LENGTH_SHORT).show();

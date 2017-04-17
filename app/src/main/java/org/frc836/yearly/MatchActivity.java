@@ -257,7 +257,8 @@ public class MatchActivity extends DBActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-                                        onNext(nextB);
+                                        if (mCurrentPage == AUTO_SCREEN)
+                                            onNext(nextB);
                                     }
                                 })
                         .setNegativeButton("No",

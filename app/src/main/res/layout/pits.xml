@@ -389,6 +389,26 @@
                     android:inputType="number" />
             </TableRow>
 
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/robot_weight_text" />
+
+                <EditText
+                    android:id="@+id/robot_gross_weightT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:ems="10"
+                    android:hint="@string/robot_weight_hint"
+                    android:inputType="number" />
+            </TableRow>
+
             <CheckBox
                 android:id="@+id/can_climb_pit"
                 android:layout_width="fill_parent"

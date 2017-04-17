@@ -51,6 +51,23 @@
                 android:layout_height="40sp"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/lift_plus_1" />
+
+            <Spinner
+                android:id="@+id/team1DropCount"
+                style="@style/SpinnerAsEditTextHalfAlpha"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:entries="@array/numbers"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/team1DropButton"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/drop_plus_1" />
         </LinearLayout>
 
     </LinearLayout>
@@ -94,6 +111,23 @@
                 android:layout_height="40sp"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/lift_plus_1" />
+
+            <Spinner
+                android:id="@+id/team2DropCount"
+                style="@style/SpinnerAsEditTextHalfAlpha"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:entries="@array/numbers"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/team2DropButton"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/drop_plus_1" />
         </LinearLayout>
 
     </LinearLayout>
