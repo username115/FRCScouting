@@ -94,6 +94,8 @@ public class DBSyncService extends Service {
 
     private NotificationCompat.Builder mBuilder;
 
+    private Date lastSyncTimeForNotify = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -384,8 +386,10 @@ public class DBSyncService extends Service {
                                     "Synced with Database", Toast.LENGTH_SHORT)
                                     .show();
                     }
+                    if (result >= 0)
+                        lastSyncTimeForNotify = new Date();
                     syncInProgress = false;
-                    updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
+                    updateNotificationText(getString(R.string.service_notify_text) + (lastSyncTimeForNotify != null ? ("\nLast Sync at " + DateFormat.getTimeInstance().format(lastSyncTimeForNotify)) : ""));
 
                     mTimerTask.postDelayed(dataTask, Prefs
                             .getMilliSecondsBetweenSyncs(
@@ -417,7 +421,7 @@ public class DBSyncService extends Service {
                         .show();
             }
             syncInProgress = false;
-            updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
+            updateNotificationText(getString(R.string.service_notify_text) + (lastSyncTimeForNotify != null ? ("\nLast Sync at " + DateFormat.getTimeInstance().format(lastSyncTimeForNotify)) : ""));
 
             mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
                     getApplicationContext(), DELAY));
@@ -450,7 +454,7 @@ public class DBSyncService extends Service {
                         .show();
             }
             syncInProgress = false;
-            updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
+            updateNotificationText(getString(R.string.service_notify_text) + (lastSyncTimeForNotify != null ? ("\nLast Sync at " + DateFormat.getTimeInstance().format(lastSyncTimeForNotify)) : ""));
 
             mTimerTask.postDelayed(dataTask, Prefs.getMilliSecondsBetweenSyncs(
                     getApplicationContext(), DELAY));
@@ -640,6 +644,8 @@ public class DBSyncService extends Service {
             if (ex != null) {
                 Toast.makeText(DBSyncService.this, "Unhandled Exception in response from server: " + ex.getMessage() + " " + ex.getStackTrace(), Toast.LENGTH_LONG);
             }
+            else
+                lastSyncTimeForNotify = new Date();
             synchronized (outgoing) {
                 if (!outgoing.isEmpty() && ex == null)
                     utils.doPost(Prefs
@@ -653,7 +659,7 @@ public class DBSyncService extends Service {
                                 .show();
                     }
                     syncInProgress = false;
-                    updateNotificationText(getString(R.string.service_notify_text) + "\nLast Sync at " + DateFormat.getTimeInstance().format(new Date()));
+                    updateNotificationText(getString(R.string.service_notify_text) + (lastSyncTimeForNotify != null ? ("\nLast Sync at " + DateFormat.getTimeInstance().format(lastSyncTimeForNotify)) : ""));
 
                     mTimerTask.postDelayed(dataTask, Prefs
                             .getMilliSecondsBetweenSyncs(

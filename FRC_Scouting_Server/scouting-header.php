@@ -21,5 +21,5 @@ mysql_query("SET names UTF8");
 $pass=''; //set to a password. It will be the same password for all of your users.
 //This is just a scouting app, and does not require high security. All inserted data is escaped, so nothing should get in.
 
-$ver='2.2017.0.3';
+$ver='2.2017.0.4';
 

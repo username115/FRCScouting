@@ -102,28 +102,22 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 
+		//position_lu
+		$query = "SELECT * FROM position_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "position_lu") . ",";
+		mysql_free_result($result);
+
 		//robot_lu
 		$query = "SELECT * FROM robot_lu" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "robot_lu") . ",";
 		mysql_free_result($result);
 
-		//fact_pilot_data_2017
-		$query = "SELECT * FROM fact_pilot_data_2017" . $suffix;
+		//wheel_base_lu
+		$query = "SELECT * FROM wheel_base_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "fact_pilot_data_2017") . ",";
-		mysql_free_result($result);
-
-		//notes_options
-		$query = "SELECT * FROM notes_options" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "notes_options") . ",";
-		mysql_free_result($result);
-
-		//position_lu
-		$query = "SELECT * FROM position_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "position_lu") . ",";
+		$json .= genJSON($result, "wheel_base_lu") . ",";
 		mysql_free_result($result);
 
 		//scout_pit_data_2017
@@ -132,34 +126,16 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "scout_pit_data_2017") . ",";
 		mysql_free_result($result);
 
-		//event_lu
-		$query = "SELECT * FROM event_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "event_lu") . ",";
-		mysql_free_result($result);
-
-		//game_info
-		$query = "SELECT * FROM game_info" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "game_info") . ",";
-		mysql_free_result($result);
-
 		//fact_match_data_2017
 		$query = "SELECT * FROM fact_match_data_2017" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "fact_match_data_2017") . ",";
 		mysql_free_result($result);
 
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		//notes_options
+		$query = "SELECT * FROM notes_options" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . ",";
-		mysql_free_result($result);
-
-		//picklist
-		$query = "SELECT * FROM picklist" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "picklist") . ",";
+		$json .= genJSON($result, "notes_options") . ",";
 		mysql_free_result($result);
 
 		//configuration_lu
@@ -168,10 +144,34 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "configuration_lu") . ",";
 		mysql_free_result($result);
 
-		//wheel_base_lu
-		$query = "SELECT * FROM wheel_base_lu" . $suffix;
+		//picklist
+		$query = "SELECT * FROM picklist" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_base_lu") . "}";
+		$json .= genJSON($result, "picklist") . ",";
+		mysql_free_result($result);
+
+		//fact_pilot_data_2017
+		$query = "SELECT * FROM fact_pilot_data_2017" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "fact_pilot_data_2017") . ",";
+		mysql_free_result($result);
+
+		//event_lu
+		$query = "SELECT * FROM event_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "event_lu") . ",";
+		mysql_free_result($result);
+
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_type_lu") . ",";
+		mysql_free_result($result);
+
+		//game_info
+		$query = "SELECT * FROM game_info" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "game_info") . "}";
 		mysql_free_result($result);
 
 		$resp = $json;
@@ -180,34 +180,34 @@ elseif ($_POST['password'] == $pass) {
 		$resp = 'Version Mismatch, server using version ' . $ver;
 	}
 	else if ($_POST['type'] == 'match') {
-		$event_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0'));
-		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0'));
-		$match_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0'));
-		$practice_match = mysql_real_escape_string(stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0'));
-		$position_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0'));
-		$auto_score_low = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_low']) ? $_POST['auto_score_low'] : '0'));
-		$auto_score_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_high']) ? $_POST['auto_score_high'] : '0'));
-		$auto_miss_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_miss_high']) ? $_POST['auto_miss_high'] : '0'));
-		$auto_cross_baseline = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_cross_baseline']) ? $_POST['auto_cross_baseline'] : '0'));
-		$auto_gear_delivered_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear_delivered_left']) ? $_POST['auto_gear_delivered_left'] : '0'));
-		$auto_gear_delivered_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear_delivered_right']) ? $_POST['auto_gear_delivered_right'] : '0'));
-		$auto_gear_delivered_center = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear_delivered_center']) ? $_POST['auto_gear_delivered_center'] : '0'));
-		$auto_dump_hopper = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_dump_hopper']) ? $_POST['auto_dump_hopper'] : '0'));
-		$score_low = mysql_real_escape_string(stripslashes(trim(isset($_POST['score_low']) ? $_POST['score_low'] : '0'));
-		$score_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['score_high']) ? $_POST['score_high'] : '0'));
-		$miss_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['miss_high']) ? $_POST['miss_high'] : '0'));
-		$gear_delivered_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_left']) ? $_POST['gear_delivered_left'] : '0'));
-		$gear_delivered_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_right']) ? $_POST['gear_delivered_right'] : '0'));
-		$gear_delivered_center = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_center']) ? $_POST['gear_delivered_center'] : '0'));
-		$climb_rope = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_rope']) ? $_POST['climb_rope'] : '0'));
-		$climb_attempt = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_attempt']) ? $_POST['climb_attempt'] : '0'));
-		$align_time = mysql_real_escape_string(stripslashes(trim(isset($_POST['align_time']) ? $_POST['align_time'] : '0'));
-		$climb_time = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_time']) ? $_POST['climb_time'] : '0'));
-		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0'));
-		$yellow_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['yellow_card']) ? $_POST['yellow_card'] : '0'));
-		$red_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['red_card']) ? $_POST['red_card'] : '0'));
-		$tip_over = mysql_real_escape_string(stripslashes(trim(isset($_POST['tip_over']) ? $_POST['tip_over'] : '0'));
-		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0'));
+		$event_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0')));
+		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0')));
+		$match_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0')));
+		$practice_match = mysql_real_escape_string(stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0')));
+		$position_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0')));
+		$auto_score_low = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_low']) ? $_POST['auto_score_low'] : '0')));
+		$auto_score_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_high']) ? $_POST['auto_score_high'] : '0')));
+		$auto_miss_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_miss_high']) ? $_POST['auto_miss_high'] : '0')));
+		$auto_cross_baseline = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_cross_baseline']) ? $_POST['auto_cross_baseline'] : '0')));
+		$auto_gear_delivered_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear_delivered_left']) ? $_POST['auto_gear_delivered_left'] : '0')));
+		$auto_gear_delivered_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear_delivered_right']) ? $_POST['auto_gear_delivered_right'] : '0')));
+		$auto_gear_delivered_center = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear_delivered_center']) ? $_POST['auto_gear_delivered_center'] : '0')));
+		$auto_dump_hopper = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_dump_hopper']) ? $_POST['auto_dump_hopper'] : '0')));
+		$score_low = mysql_real_escape_string(stripslashes(trim(isset($_POST['score_low']) ? $_POST['score_low'] : '0')));
+		$score_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['score_high']) ? $_POST['score_high'] : '0')));
+		$miss_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['miss_high']) ? $_POST['miss_high'] : '0')));
+		$gear_delivered_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_left']) ? $_POST['gear_delivered_left'] : '0')));
+		$gear_delivered_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_right']) ? $_POST['gear_delivered_right'] : '0')));
+		$gear_delivered_center = mysql_real_escape_string(stripslashes(trim(isset($_POST['gear_delivered_center']) ? $_POST['gear_delivered_center'] : '0')));
+		$climb_rope = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_rope']) ? $_POST['climb_rope'] : '0')));
+		$climb_attempt = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_attempt']) ? $_POST['climb_attempt'] : '0')));
+		$align_time = mysql_real_escape_string(stripslashes(trim(isset($_POST['align_time']) ? $_POST['align_time'] : '0')));
+		$climb_time = mysql_real_escape_string(stripslashes(trim(isset($_POST['climb_time']) ? $_POST['climb_time'] : '0')));
+		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0')));
+		$yellow_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['yellow_card']) ? $_POST['yellow_card'] : '0')));
+		$red_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['red_card']) ? $_POST['red_card'] : '0')));
+		$tip_over = mysql_real_escape_string(stripslashes(trim(isset($_POST['tip_over']) ? $_POST['tip_over'] : '0')));
+		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0')));
 
 		$result = mysql_query("SELECT id FROM fact_match_data_2017 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
 
@@ -292,24 +292,24 @@ elseif ($_POST['password'] == $pass) {
 		}
 	}
 	else if ($_POST['type'] == 'pilot') {
-		$event_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0'));
-		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0'));
-		$match_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0'));
-		$practice_match = mysql_real_escape_string(stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0'));
-		$position_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0'));
-		$gears_installed_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_installed_2']) ? $_POST['gears_installed_2'] : '0'));
-		$gears_installed_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_installed_3']) ? $_POST['gears_installed_3'] : '0'));
-		$gears_installed_4 = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_installed_4']) ? $_POST['gears_installed_4'] : '0'));
-		$gears_lifted = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_lifted']) ? $_POST['gears_lifted'] : '0'));
-		$gears_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_dropped']) ? $_POST['gears_dropped'] : '0'));
-		$rotor_1_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_1_started']) ? $_POST['rotor_1_started'] : '0'));
-		$rotor_2_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_2_started']) ? $_POST['rotor_2_started'] : '0'));
-		$rotor_3_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_3_started']) ? $_POST['rotor_3_started'] : '0'));
-		$rotor_4_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_4_started']) ? $_POST['rotor_4_started'] : '0'));
-		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0'));
-		$yellow_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['yellow_card']) ? $_POST['yellow_card'] : '0'));
-		$red_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['red_card']) ? $_POST['red_card'] : '0'));
-		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0'));
+		$event_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0')));
+		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0')));
+		$match_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0')));
+		$practice_match = mysql_real_escape_string(stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0')));
+		$position_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0')));
+		$gears_installed_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_installed_2']) ? $_POST['gears_installed_2'] : '0')));
+		$gears_installed_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_installed_3']) ? $_POST['gears_installed_3'] : '0')));
+		$gears_installed_4 = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_installed_4']) ? $_POST['gears_installed_4'] : '0')));
+		$gears_lifted = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_lifted']) ? $_POST['gears_lifted'] : '0')));
+		$gears_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['gears_dropped']) ? $_POST['gears_dropped'] : '0')));
+		$rotor_1_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_1_started']) ? $_POST['rotor_1_started'] : '0')));
+		$rotor_2_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_2_started']) ? $_POST['rotor_2_started'] : '0')));
+		$rotor_3_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_3_started']) ? $_POST['rotor_3_started'] : '0')));
+		$rotor_4_started = mysql_real_escape_string(stripslashes(trim(isset($_POST['rotor_4_started']) ? $_POST['rotor_4_started'] : '0')));
+		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0')));
+		$yellow_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['yellow_card']) ? $_POST['yellow_card'] : '0')));
+		$red_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['red_card']) ? $_POST['red_card'] : '0')));
+		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0')));
 
 		$result = mysql_query("SELECT id FROM fact_pilot_data_2017 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
 
@@ -374,33 +374,33 @@ elseif ($_POST['password'] == $pass) {
 		}
 	}
 	else if ($_POST['type'] == 'pits') {
-		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0'));
-		$can_score_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_score_high']) ? $_POST['can_score_high'] : '0'));
-		$can_score_low = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_score_low']) ? $_POST['can_score_low'] : '0'));
-		$can_score_gears = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_score_gears']) ? $_POST['can_score_gears'] : '0'));
-		$can_climb = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_climb']) ? $_POST['can_climb'] : '0'));
-		$ground_load_fuel = mysql_real_escape_string(stripslashes(trim(isset($_POST['ground_load_fuel']) ? $_POST['ground_load_fuel'] : '0'));
-		$hopper_load_fuel = mysql_real_escape_string(stripslashes(trim(isset($_POST['hopper_load_fuel']) ? $_POST['hopper_load_fuel'] : '0'));
-		$station_load_fuel = mysql_real_escape_string(stripslashes(trim(isset($_POST['station_load_fuel']) ? $_POST['station_load_fuel'] : '0'));
-		$ground_load_gear = mysql_real_escape_string(stripslashes(trim(isset($_POST['ground_load_gear']) ? $_POST['ground_load_gear'] : '0'));
-		$station_load_gear = mysql_real_escape_string(stripslashes(trim(isset($_POST['station_load_gear']) ? $_POST['station_load_gear'] : '0'));
-		$custom_rope = mysql_real_escape_string(stripslashes(trim(isset($_POST['custom_rope']) ? $_POST['custom_rope'] : '0'));
-		$auto_score_high_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_high_count']) ? $_POST['auto_score_high_count'] : '0'));
-		$auto_score_low_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_low_count']) ? $_POST['auto_score_low_count'] : '0'));
-		$auto_gear = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear']) ? $_POST['auto_gear'] : '0'));
-		$auto_hopper = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_hopper']) ? $_POST['auto_hopper'] : '0'));
-		$tele_score_high_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['tele_score_high_count']) ? $_POST['tele_score_high_count'] : '0'));
-		$tele_score_low_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['tele_score_low_count']) ? $_POST['tele_score_low_count'] : '0'));
-		$accuracy = mysql_real_escape_string(stripslashes(trim(isset($_POST['accuracy']) ? $_POST['accuracy'] : '0'));
-		$fuel_capacity = mysql_real_escape_string(stripslashes(trim(isset($_POST['fuel_capacity']) ? $_POST['fuel_capacity'] : '0'));
-		$scoring_speed_bps = mysql_real_escape_string(stripslashes(trim(isset($_POST['scoring_speed_bps']) ? $_POST['scoring_speed_bps'] : '0'));
-		$loading_speed_bps = mysql_real_escape_string(stripslashes(trim(isset($_POST['loading_speed_bps']) ? $_POST['loading_speed_bps'] : '0'));
-		$max_robot_speed_fts = mysql_real_escape_string(stripslashes(trim(isset($_POST['max_robot_speed_fts']) ? $_POST['max_robot_speed_fts'] : '0'));
-		$robot_gross_weight_lbs = mysql_real_escape_string(stripslashes(trim(isset($_POST['robot_gross_weight_lbs']) ? $_POST['robot_gross_weight_lbs'] : '0'));
-		$config_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['config_id']) ? $_POST['config_id'] : '0'));
-		$wheel_base_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['wheel_base_id']) ? $_POST['wheel_base_id'] : '0'));
-		$wheel_type_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['wheel_type_id']) ? $_POST['wheel_type_id'] : '0'));
-		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0'));
+		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0')));
+		$can_score_high = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_score_high']) ? $_POST['can_score_high'] : '0')));
+		$can_score_low = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_score_low']) ? $_POST['can_score_low'] : '0')));
+		$can_score_gears = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_score_gears']) ? $_POST['can_score_gears'] : '0')));
+		$can_climb = mysql_real_escape_string(stripslashes(trim(isset($_POST['can_climb']) ? $_POST['can_climb'] : '0')));
+		$ground_load_fuel = mysql_real_escape_string(stripslashes(trim(isset($_POST['ground_load_fuel']) ? $_POST['ground_load_fuel'] : '0')));
+		$hopper_load_fuel = mysql_real_escape_string(stripslashes(trim(isset($_POST['hopper_load_fuel']) ? $_POST['hopper_load_fuel'] : '0')));
+		$station_load_fuel = mysql_real_escape_string(stripslashes(trim(isset($_POST['station_load_fuel']) ? $_POST['station_load_fuel'] : '0')));
+		$ground_load_gear = mysql_real_escape_string(stripslashes(trim(isset($_POST['ground_load_gear']) ? $_POST['ground_load_gear'] : '0')));
+		$station_load_gear = mysql_real_escape_string(stripslashes(trim(isset($_POST['station_load_gear']) ? $_POST['station_load_gear'] : '0')));
+		$custom_rope = mysql_real_escape_string(stripslashes(trim(isset($_POST['custom_rope']) ? $_POST['custom_rope'] : '0')));
+		$auto_score_high_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_high_count']) ? $_POST['auto_score_high_count'] : '0')));
+		$auto_score_low_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_score_low_count']) ? $_POST['auto_score_low_count'] : '0')));
+		$auto_gear = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_gear']) ? $_POST['auto_gear'] : '0')));
+		$auto_hopper = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_hopper']) ? $_POST['auto_hopper'] : '0')));
+		$tele_score_high_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['tele_score_high_count']) ? $_POST['tele_score_high_count'] : '0')));
+		$tele_score_low_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['tele_score_low_count']) ? $_POST['tele_score_low_count'] : '0')));
+		$accuracy = mysql_real_escape_string(stripslashes(trim(isset($_POST['accuracy']) ? $_POST['accuracy'] : '0')));
+		$fuel_capacity = mysql_real_escape_string(stripslashes(trim(isset($_POST['fuel_capacity']) ? $_POST['fuel_capacity'] : '0')));
+		$scoring_speed_bps = mysql_real_escape_string(stripslashes(trim(isset($_POST['scoring_speed_bps']) ? $_POST['scoring_speed_bps'] : '0')));
+		$loading_speed_bps = mysql_real_escape_string(stripslashes(trim(isset($_POST['loading_speed_bps']) ? $_POST['loading_speed_bps'] : '0')));
+		$max_robot_speed_fts = mysql_real_escape_string(stripslashes(trim(isset($_POST['max_robot_speed_fts']) ? $_POST['max_robot_speed_fts'] : '0')));
+		$robot_gross_weight_lbs = mysql_real_escape_string(stripslashes(trim(isset($_POST['robot_gross_weight_lbs']) ? $_POST['robot_gross_weight_lbs'] : '0')));
+		$config_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['config_id']) ? $_POST['config_id'] : '0')));
+		$wheel_base_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['wheel_base_id']) ? $_POST['wheel_base_id'] : '0')));
+		$wheel_type_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['wheel_type_id']) ? $_POST['wheel_type_id'] : '0')));
+		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0')));
 
 		$result = mysql_query("SELECT id FROM scout_pit_data_2017 WHERE team_id=" . $team_id);
 
@@ -483,11 +483,11 @@ elseif ($_POST['password'] == $pass) {
 		}
 	}
 	else if ($_POST['type'] == 'picklist') {
-		$event_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0'));
-		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0'));
-		$sort = mysql_real_escape_string(stripslashes(trim(isset($_POST['sort']) ? $_POST['sort'] : '0'));
-		$picked = mysql_real_escape_string(stripslashes(trim(isset($_POST['picked']) ? $_POST['picked'] : '0'));
-		$removed = mysql_real_escape_string(stripslashes(trim(isset($_POST['removed']) ? $_POST['removed'] : '0'));
+		$event_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0')));
+		$team_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0')));
+		$sort = mysql_real_escape_string(stripslashes(trim(isset($_POST['sort']) ? $_POST['sort'] : '0')));
+		$picked = mysql_real_escape_string(stripslashes(trim(isset($_POST['picked']) ? $_POST['picked'] : '0')));
+		$removed = mysql_real_escape_string(stripslashes(trim(isset($_POST['removed']) ? $_POST['removed'] : '0')));
 
 		$result = mysql_query("SELECT id FROM picklist WHERE event_id=" . $event_id . " AND team_id=" . $team_id);
 
