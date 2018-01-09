@@ -326,8 +326,6 @@ public class DBSyncService extends Service {
 
                 if (!running)
                     return -1;
-                if (json.has(PilotStatsStruct.TABLE_NAME))
-                    processPilots(json.getJSONArray(PilotStatsStruct.TABLE_NAME));
 
                 updateTimeStamp(json.getLong("timestamp"));
 
@@ -335,8 +333,6 @@ public class DBSyncService extends Service {
                     return -1;
                 sendMatches();
                 sendPits();
-                if (json.has(PilotStatsStruct.TABLE_NAME))
-                    sendPilots();
                 if (json.has(PICKLIST_Entry.TABLE_NAME))
                     sendPicklist();
 
@@ -529,31 +525,6 @@ public class DBSyncService extends Service {
                             team = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID));
                             event = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID));
                             outgoing.remove(i);
-                        } else if (sent.get("type").equalsIgnoreCase("pilot")
-                                && sent.get(PilotStatsStruct.COLUMN_NAME_EVENT_ID)
-                                .equalsIgnoreCase(
-                                        args.get(PilotStatsStruct.COLUMN_NAME_EVENT_ID))
-                                && sent.get(PilotStatsStruct.COLUMN_NAME_MATCH_ID)
-                                .equalsIgnoreCase(
-                                        args.get(PilotStatsStruct.COLUMN_NAME_MATCH_ID))
-                                && sent.get(PilotStatsStruct.COLUMN_NAME_TEAM_ID)
-                                .equalsIgnoreCase(
-                                        args.get(PilotStatsStruct.COLUMN_NAME_TEAM_ID))
-                                && sent.get(
-                                PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH)
-                                .equalsIgnoreCase(
-                                        args.get(PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH))) {
-                            match = Integer.valueOf(sent
-                                    .get(MatchStatsStruct.COLUMN_NAME_MATCH_ID));
-                            event = Integer.valueOf(sent
-                                    .get(MatchStatsStruct.COLUMN_NAME_EVENT_ID));
-                            team = Integer.valueOf(sent
-                                    .get(MatchStatsStruct.COLUMN_NAME_TEAM_ID));
-                            practice = Integer
-                                    .valueOf(sent
-                                            .get(MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH));
-                            outgoing.remove(i);
-                            pilot = true;
                         }
                     }
                 }
@@ -604,28 +575,6 @@ public class DBSyncService extends Service {
 
                         String[] selectionArgs = {String.valueOf(team), String.valueOf(event)};
                         db.update(PICKLIST_Entry.TABLE_NAME, values, PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?", selectionArgs);
-                    } else if (pilot) {
-                        values.put(PilotStatsStruct.COLUMN_NAME_ID,
-                                Integer.valueOf(r[0].trim()));
-                        values.put(PilotStatsStruct.COLUMN_NAME_TIMESTAMP,
-                                DB.dateParser.format(new Date(Long.valueOf(r[1]
-                                        .trim()) * 1000)));
-                        values.put(PilotStatsStruct.COLUMN_NAME_INVALID, 0);
-
-                        String[] selectionArgs = {String.valueOf(event),
-                                String.valueOf(match), String.valueOf(team),
-                                String.valueOf(practice)};
-                        db.update(
-                                PilotStatsStruct.TABLE_NAME,
-                                values,
-                                PilotStatsStruct.COLUMN_NAME_EVENT_ID
-                                        + "=? AND "
-                                        + PilotStatsStruct.COLUMN_NAME_MATCH_ID
-                                        + "=? AND "
-                                        + PilotStatsStruct.COLUMN_NAME_TEAM_ID
-                                        + "=? AND "
-                                        + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH
-                                        + "=?", selectionArgs);
                     }
                     ScoutingDBHelper.getInstance().close();
                 }
@@ -1033,96 +982,6 @@ public class DBSyncService extends Service {
                             case DELETE:
                                 db.delete(MatchStatsStruct.TABLE_NAME,
                                         MatchStatsStruct.COLUMN_NAME_ID + " = ?",
-                                        where2);
-                                break;
-                            default:
-                        }
-                    } finally {
-                        if (c != null)
-                            c.close();
-                        ScoutingDBHelper.getInstance().close();
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            // TODO handle error
-        }
-    }
-
-    private void processPilots(JSONArray pilots) {
-        updateNotificationText(getString(R.string.notify_table) + " "
-                + PilotStatsStruct.TABLE_NAME);
-        // TODO could be abstracted further
-        try {
-            for (int i = 0; i < pilots.length(); i++) {
-                JSONObject row = pilots.getJSONObject(i);
-                Action action = Action.UPDATE;
-                if (row.getInt(PilotStatsStruct.COLUMN_NAME_INVALID) != 0) {
-                    action = Action.DELETE;
-                }
-                ContentValues vals = new PilotStatsStruct()
-                        .jsonToCV(row);
-
-                // check if this entry exists already
-                String[] projection = {PilotStatsStruct.COLUMN_NAME_ID,
-                        PilotStatsStruct.COLUMN_NAME_INVALID};
-                String[] where = {
-                        vals.getAsString(PilotStatsStruct.COLUMN_NAME_EVENT_ID),
-                        vals.getAsString(PilotStatsStruct.COLUMN_NAME_MATCH_ID),
-                        vals.getAsString(PilotStatsStruct.COLUMN_NAME_TEAM_ID),
-                        vals.getAsString(PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH)};
-
-                synchronized (ScoutingDBHelper.lock) {
-                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                            .getWritableDatabase();
-
-                    Cursor c = db
-                            .query(PilotStatsStruct.TABLE_NAME,
-                                    projection, // select
-                                    PilotStatsStruct.COLUMN_NAME_EVENT_ID
-                                            + "=? AND "
-                                            + PilotStatsStruct.COLUMN_NAME_MATCH_ID
-                                            + "=? AND "
-                                            + PilotStatsStruct.COLUMN_NAME_TEAM_ID
-                                            + "=? AND "
-                                            + PilotStatsStruct.COLUMN_NAME_PRACTICE_MATCH
-                                            + "=?", where, null, // don't
-                                    // group
-                                    null, // don't filter
-                                    null, // don't order
-                                    "0,1"); // limit to 1
-                    try {
-                        int id = 0, invalid = 0;
-                        if (!c.moveToFirst()) {
-                            if (action == Action.UPDATE)
-                                action = Action.INSERT;
-                            else if (action == Action.DELETE)
-                                action = Action.NOTHING;
-                        } else {
-                            id = c.getInt(c
-                                    .getColumnIndexOrThrow(PilotStatsStruct.COLUMN_NAME_ID));
-                            invalid = c
-                                    .getInt(c
-                                            .getColumnIndexOrThrow(PilotStatsStruct.COLUMN_NAME_INVALID));
-                            if (invalid > 0) // this field has not been sent to
-                                // server yet.
-                                action = Action.NOTHING;
-                        }
-
-                        String[] where2 = {String.valueOf(id)};
-
-                        switch (action) {
-                            case UPDATE:
-                                db.update(PilotStatsStruct.TABLE_NAME, vals,
-                                        PilotStatsStruct.COLUMN_NAME_ID + " = ?",
-                                        where2);
-                                break;
-                            case INSERT:
-                                db.insert(PilotStatsStruct.TABLE_NAME, null, vals);
-                                break;
-                            case DELETE:
-                                db.delete(PilotStatsStruct.TABLE_NAME,
-                                        PilotStatsStruct.COLUMN_NAME_ID + " = ?",
                                         where2);
                                 break;
                             default:
@@ -1764,47 +1623,6 @@ public class DBSyncService extends Service {
                     c.close();
                 ScoutingDBHelper.getInstance().close();
             }
-        }
-    }
-
-    private void sendPilots() {
-        // TODO could be abstracted further?
-
-        // repurposed invalid flag for marking fields that need to be uploaded
-        String[] pilotProjection = new PilotStatsStruct()
-                .getProjection();
-
-        synchronized (ScoutingDBHelper.lock) {
-
-            SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                    .getReadableDatabase();
-
-            Cursor c = db.query(PilotStatsStruct.TABLE_NAME, pilotProjection,
-                    PilotStatsStruct.COLUMN_NAME_INVALID + "<>0", null, null,
-                    null, null);
-            try {
-
-                synchronized (outgoing) {
-
-                    if (c.moveToFirst())
-                        do {
-                            Map<String, String> args = new HashMap<String, String>();
-                            args.put("password", password);
-                            args.put("type", "pilot");
-                            args.put("version", version);
-                            for (int i = 0; i < pilotProjection.length; i++) {
-                                args.put(pilotProjection[i], c.getString(c
-                                        .getColumnIndex(pilotProjection[i])));
-                            }
-                            outgoing.add(args);
-                        } while (c.moveToNext());
-                }
-            } finally {
-                if (c != null)
-                    c.close();
-                ScoutingDBHelper.getInstance().close();
-            }
-
         }
     }
 

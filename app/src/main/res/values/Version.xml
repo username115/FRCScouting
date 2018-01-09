@@ -1,7 +1,7 @@
 <resources>
-    <string name="VersionID">2.2017.0.4</string>
+    <string name="VersionID">2.2018.0.0</string>
     <string name="APKURL">http://robobees.org/android/FRCScouting_%s.apk</string>
-    <string name="VersionDate">2017-04-28</string>
+    <string name="VersionDate">2018-01-08</string>
     <string name="dev_email">apps@growingstems.org</string>
     
 </resources>

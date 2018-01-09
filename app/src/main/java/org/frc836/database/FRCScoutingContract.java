@@ -38,61 +38,35 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
 	
-	public static abstract class FACT_MATCH_DATA_2017_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "fact_match_data_2017";
+	public static abstract class FACT_MATCH_DATA_2018_Entry implements BaseColumns {
+		public static final String TABLE_NAME = "fact_match_data_2018";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_EVENT_ID = "event_id";
 		public static final String COLUMN_NAME_TEAM_ID = "team_id";
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
 		public static final String COLUMN_NAME_POSITION_ID = "position_id";
-		public static final String COLUMN_NAME_AUTO_SCORE_LOW = "auto_score_low";
-		public static final String COLUMN_NAME_AUTO_SCORE_HIGH = "auto_score_high";
-		public static final String COLUMN_NAME_AUTO_MISS_HIGH = "auto_miss_high";
-		public static final String COLUMN_NAME_AUTO_CROSS_BASELINE = "auto_cross_baseline";
-		public static final String COLUMN_NAME_AUTO_GEAR_DELIVERED_LEFT = "auto_gear_delivered_left";
-		public static final String COLUMN_NAME_AUTO_GEAR_DELIVERED_RIGHT = "auto_gear_delivered_right";
-		public static final String COLUMN_NAME_AUTO_GEAR_DELIVERED_CENTER = "auto_gear_delivered_center";
-		public static final String COLUMN_NAME_AUTO_DUMP_HOPPER = "auto_dump_hopper";
-		public static final String COLUMN_NAME_SCORE_LOW = "score_low";
-		public static final String COLUMN_NAME_SCORE_HIGH = "score_high";
-		public static final String COLUMN_NAME_MISS_HIGH = "miss_high";
-		public static final String COLUMN_NAME_GEAR_DELIVERED_LEFT = "gear_delivered_left";
-		public static final String COLUMN_NAME_GEAR_DELIVERED_RIGHT = "gear_delivered_right";
-		public static final String COLUMN_NAME_GEAR_DELIVERED_CENTER = "gear_delivered_center";
-		public static final String COLUMN_NAME_CLIMB_ROPE = "climb_rope";
+		public static final String COLUMN_NAME_AUTO_RUN = "auto_run";
+		public static final String COLUMN_NAME_AUTO_SWITCH_COUNT = "auto_switch_count";
+		public static final String COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT = "auto_switch_wrong_side_count";
+		public static final String COLUMN_NAME_AUTO_SCALE_COUNT = "auto_scale_count";
+		public static final String COLUMN_NAME_AUTO_SCALE_WRONG_SIDE_COUNT = "auto_scale_wrong_side_count";
+		public static final String COLUMN_NAME_AUTO_EXCHANGE_COUNT = "auto_exchange_count";
+		public static final String COLUMN_NAME_SWITCH_COUNT = "switch_count";
+		public static final String COLUMN_NAME_SWITCH_WRONG_SIDE_COUNT = "switch_wrong_side_count";
+		public static final String COLUMN_NAME_SCALE_COUNT = "scale_count";
+		public static final String COLUMN_NAME_SCALE_WRONG_SIDE_COUNT = "scale_wrong_side_count";
+		public static final String COLUMN_NAME_OPPOSITE_SWITCH_COUNT = "opposite_switch_count";
+		public static final String COLUMN_NAME_OPPOSITE_SWITCH_WRONG_SIDE_COUNT = "opposite_switch_wrong_side_count";
+		public static final String COLUMN_NAME_EXCHANGE_COUNT = "exchange_count";
+		public static final String COLUMN_NAME_PARKED = "parked";
+		public static final String COLUMN_NAME_CLIMBED = "climbed";
 		public static final String COLUMN_NAME_CLIMB_ATTEMPT = "climb_attempt";
-		public static final String COLUMN_NAME_ALIGN_TIME = "align_time";
-		public static final String COLUMN_NAME_CLIMB_TIME = "climb_time";
+		public static final String COLUMN_NAME_SUPPORTED_OTHERS = "supported_others";
 		public static final String COLUMN_NAME_FOUL = "foul";
 		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
 		public static final String COLUMN_NAME_RED_CARD = "red_card";
 		public static final String COLUMN_NAME_TIP_OVER = "tip_over";
-		public static final String COLUMN_NAME_NOTES = "notes";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-	}
-	
-	public static abstract class FACT_PILOT_DATA_2017_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "fact_pilot_data_2017";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_EVENT_ID = "event_id";
-		public static final String COLUMN_NAME_TEAM_ID = "team_id";
-		public static final String COLUMN_NAME_MATCH_ID = "match_id";
-		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
-		public static final String COLUMN_NAME_POSITION_ID = "position_id";
-		public static final String COLUMN_NAME_GEARS_INSTALLED_2 = "gears_installed_2";
-		public static final String COLUMN_NAME_GEARS_INSTALLED_3 = "gears_installed_3";
-		public static final String COLUMN_NAME_GEARS_INSTALLED_4 = "gears_installed_4";
-		public static final String COLUMN_NAME_GEARS_LIFTED = "gears_lifted";
-		public static final String COLUMN_NAME_GEARS_DROPPED = "gears_dropped";
-		public static final String COLUMN_NAME_ROTOR_1_STARTED = "rotor_1_started";
-		public static final String COLUMN_NAME_ROTOR_2_STARTED = "rotor_2_started";
-		public static final String COLUMN_NAME_ROTOR_3_STARTED = "rotor_3_started";
-		public static final String COLUMN_NAME_ROTOR_4_STARTED = "rotor_4_started";
-		public static final String COLUMN_NAME_FOUL = "foul";
-		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
-		public static final String COLUMN_NAME_RED_CARD = "red_card";
 		public static final String COLUMN_NAME_NOTES = "notes";
 		public static final String COLUMN_NAME_INVALID = "invalid";
 		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
@@ -145,30 +119,21 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_INVALID = "invalid";
 	}
 	
-	public static abstract class SCOUT_PIT_DATA_2017_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "scout_pit_data_2017";
+	public static abstract class SCOUT_PIT_DATA_2018_Entry implements BaseColumns {
+		public static final String TABLE_NAME = "scout_pit_data_2018";
 		public static final String COLUMN_NAME_ID = "id";
 		public static final String COLUMN_NAME_TEAM_ID = "team_id";
-		public static final String COLUMN_NAME_CAN_SCORE_HIGH = "can_score_high";
-		public static final String COLUMN_NAME_CAN_SCORE_LOW = "can_score_low";
-		public static final String COLUMN_NAME_CAN_SCORE_GEARS = "can_score_gears";
-		public static final String COLUMN_NAME_CAN_CLIMB = "can_climb";
-		public static final String COLUMN_NAME_GROUND_LOAD_FUEL = "ground_load_fuel";
-		public static final String COLUMN_NAME_HOPPER_LOAD_FUEL = "hopper_load_fuel";
-		public static final String COLUMN_NAME_STATION_LOAD_FUEL = "station_load_fuel";
-		public static final String COLUMN_NAME_GROUND_LOAD_GEAR = "ground_load_gear";
-		public static final String COLUMN_NAME_STATION_LOAD_GEAR = "station_load_gear";
-		public static final String COLUMN_NAME_CUSTOM_ROPE = "custom_rope";
-		public static final String COLUMN_NAME_AUTO_SCORE_HIGH_COUNT = "auto_score_high_count";
-		public static final String COLUMN_NAME_AUTO_SCORE_LOW_COUNT = "auto_score_low_count";
-		public static final String COLUMN_NAME_AUTO_GEAR = "auto_gear";
-		public static final String COLUMN_NAME_AUTO_HOPPER = "auto_hopper";
-		public static final String COLUMN_NAME_TELE_SCORE_HIGH_COUNT = "tele_score_high_count";
-		public static final String COLUMN_NAME_TELE_SCORE_LOW_COUNT = "tele_score_low_count";
-		public static final String COLUMN_NAME_ACCURACY = "accuracy";
-		public static final String COLUMN_NAME_FUEL_CAPACITY = "fuel_capacity";
-		public static final String COLUMN_NAME_SCORING_SPEED_BPS = "scoring_speed_bps";
-		public static final String COLUMN_NAME_LOADING_SPEED_BPS = "loading_speed_bps";
+		public static final String COLUMN_NAME_AUTO_RUN = "auto_run";
+		public static final String COLUMN_NAME_AUTO_SWITCH_COUNT = "auto_switch_count";
+		public static final String COLUMN_NAME_AUTO_SCALE_COUNT = "auto_scale_count";
+		public static final String COLUMN_NAME_SWITCH_SCORE = "switch_score";
+		public static final String COLUMN_NAME_SCALE_SCORE = "scale_score";
+		public static final String COLUMN_NAME_EXCHANGE = "exchange";
+		public static final String COLUMN_NAME_CLIMB = "climb";
+		public static final String COLUMN_NAME_SUPPORTS_OTHERS = "supports_others";
+		public static final String COLUMN_NAME_FLOOR_ACQUIRE = "floor_acquire";
+		public static final String COLUMN_NAME_EXCHANGE_ACQUIRE = "exchange_acquire";
+		public static final String COLUMN_NAME_PORTAL_ACQUIRE = "portal_acquire";
 		public static final String COLUMN_NAME_MAX_ROBOT_SPEED_FTS = "max_robot_speed_fts";
 		public static final String COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS = "robot_gross_weight_lbs";
 		public static final String COLUMN_NAME_CONFIG_ID = "config_id";
@@ -222,225 +187,219 @@ public final class FRCScoutingContract {
 		");",
 	
 		"INSERT INTO event_lu\n" +
-		"SELECT 1 AS id, 'Western Canada Regional' AS event_name, 'ABCA' AS event_code, '2017-04-05 00:00:00' AS date_start, '2017-01-09 23:42:38' AS timestamp, 0 AS invalid\n" +
-		"UNION SELECT 2, 'Rocket City Regional', 'ALHU', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 3, 'FIRST Championship - St. Louis - Archimedes Subdivision', 'ARCHIMEDES', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 4, 'FIRST Championship - St. Louis - ARDA Division', 'ARDA', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 5, 'Arkansas Rock City Regional', 'ARLI', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 6, 'Southern Cross Regional', 'AUSC', '2017-03-13 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 7, 'South Pacific Regional', 'AUSP', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 8, 'Arizona North Regional', 'AZFL', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 9, 'Arizona West Regional', 'AZPX', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 10, 'Sacramento Regional', 'CADA', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 11, 'Orange County Regional', 'CAIR', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 12, 'Los Angeles Regional', 'CALB', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 13, 'Central Valley Regional', 'CAMA', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 14, 'FIRST Championship - Houston - CANE Division', 'CANE', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 15, 'FIRST Championship - St. Louis - Carson Subdivision', 'CARSON', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 16, 'FIRST Championship - Houston - Carver Subdivision', 'CARVER', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 17, 'San Diego Regional presented by Qualcomm', 'CASD', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 18, 'San Francisco Regional', 'CASF', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 19, 'Silicon Valley Regional', 'CASJ', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 20, 'FIRST Championship - St. Louis - CATE Division', 'CATE', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 21, 'Ventura Regional', 'CAVE', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 22, 'FIRST Chesapeake District Championship', 'CHCMP', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 23, 'FIRST Championship - St. Louis', 'CMPMO', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 24, 'FIRST Championship - Houston', 'CMPTX', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 25, 'Colorado Regional', 'CODE', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 26, 'NE District - Hartford Event', 'CTHAR', '2017-03-31 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 27, 'NE District - Waterbury Event', 'CTWAT', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 28, 'FIRST Championship - St. Louis - CUDA Division', 'CUDA', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 29, 'FIRST Championship - St. Louis - Curie Subdivision', 'CURIE', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 30, 'FIRST Championship - St. Louis - Daly Subdivision', 'DALY', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 31, 'FIRST Championship - St. Louis - Darwin Subdivision', 'DARWIN', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 32, 'Orlando Regional', 'FLOR', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 33, 'South Florida Regional', 'FLWP', '2017-03-01 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 34, 'PCH District - Albany Event', 'GAALB', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 35, 'Peachtree State Championship', 'GACMP', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 36, 'PCH District - Columbus Event', 'GACOL', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 37, 'PCH District - Dalton Event', 'GADAL', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 38, 'PCH District - Gainesville Event', 'GAGAI', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 39, 'FIRST Championship - Houston - Galileo Subdivision', 'GALILEO', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 40, 'FIRST Championship - Houston - GARO Division', 'GARO', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 41, 'Shenzhen Regional', 'GUSH', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 42, 'Hawaii Regional', 'HIHO', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 43, 'FIRST Championship - Houston - Hopper Subdivision', 'HOPPER', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 44, 'FIRST Championship - Houston - HOTU Division', 'HOTU', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 45, 'Iowa Regional', 'IACF', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 46, 'Idaho Regional', 'IDBO', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 47, 'Midwest Regional', 'ILCH', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 48, 'Central Illinois Regional', 'ILPE', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 49, 'Indiana State Championship', 'INCMP', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 50, 'IN District - St. Joseph Event', 'INMIS', '2017-03-10 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 51, 'IN District - Perry Meridian Event', 'INPMH', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 52, 'IN District - Tippecanoe Event', 'INWLA', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 53, 'FIRST Israel District Championship', 'ISCMP', '2017-03-28 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 54, 'ISR District Event #1', 'ISDE1', '2017-03-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 55, 'ISR District Event #2', 'ISDE2', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 56, 'ISR District Event #3', 'ISDE3', '2017-03-13 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 57, 'ISR District Event #4', 'ISDE4', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 58, 'Bayou Regional', 'LAKE', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 59, 'NE District - Greater Boston Event', 'MABOS', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 60, 'NE District - SE Mass Event', 'MABRI', '2017-03-10 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 61, 'NE District - North Shore Event', 'MAREA', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 62, 'NE District - Worcester Polytechnic Institute Event', 'MAWOR', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 63, 'CHS District - Greater DC Event', 'MDBET', '2017-03-10 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 64, 'CHS District - Central Maryland Event', 'MDEDG', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 65, 'CHS District - Northern Maryland Event', 'MDOWI', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 66, 'NE District - Pine Tree Event', 'MELEW', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 67, 'FIM District - Ann Arbor Pioneer Event', 'MIANN', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 68, 'FIM District - Woodhaven Event', 'MIBRO', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 69, 'FIM District - Center Line Event', 'MICEN', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 70, 'Michigan State Championship - See Site Information', 'MICMP', '2017-04-12 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 71, 'FIM District - Escanaba Event', 'MIESC', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 72, 'FIM District - Gaylord Event', 'MIGAY', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 73, 'FIM District - Gull Lake Event', 'MIGUL', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 74, 'FIM District - Howell Event', 'MIHOW', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 75, 'FIM District - Kettering University Event #2', 'MIKE2', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 76, 'FIM District - East Kentwood Event', 'MIKEN', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 77, 'FIM District - Kettering University Event #1', 'MIKET', '2017-03-02 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 78, 'FIM District - Lakeview Event', 'MILAK', '2017-03-02 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 79, 'FIM District - Lansing Event', 'MILAN', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 80, 'FIM District - Livonia Event', 'MILIV', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 81, 'FIM District - Lake Superior State University Event', 'MILSU', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 82, 'FIM District - Marysville Event', 'MIMAR', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 83, 'FIM District - Midland Event', 'MIMID', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 84, 'FIM District - Shepherd Event', 'MISHE', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 85, 'FIM District - St. Joseph Event', 'MISJO', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 86, 'FIM District - Southfield Event', 'MISOU', '2017-03-02 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 87, 'FIM District - Troy Event', 'MITRY', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 88, 'FIM District - Traverse City Event', 'MITVC', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 89, 'FIM District - Waterford Event', 'MIWAT', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 90, 'FIM District - West Michigan Event', 'MIWMI', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 91, 'Lake Superior Regional', 'MNDU', '2017-03-01 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 92, 'Northern Lights Regional', 'MNDU2', '2017-03-01 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 93, 'Minnesota 10000 Lakes Regional', 'MNMI', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 94, 'Minnesota North Star Regional', 'MNMI2', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 95, 'Greater Kansas City Regional', 'MOKC', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 96, 'St. Louis Regional', 'MOSL', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 97, 'FIRST Mid-Atlantic District Championship sponsored by Johnson & Johnso', 'MRCMP', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 98, 'Toluca Regional', 'MXTL', '2017-03-01 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 99, 'Laguna Regional', 'MXTO', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 100, 'NC District - UNC Asheville Event', 'NCASH', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 101, 'FIRST North Carolina State Championship', 'NCCMP', '2017-03-31 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 102, 'NC District - Greensboro Event', 'NCGRE', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 103, 'NC District - Raleigh Event', 'NCRAL', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 104, 'NC District - Pitt County Event', 'NCWIN', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 105, 'New England District Championship', 'NECMP', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 106, 'FIRST Championship - Houston - Newton Subdivision', 'NEWTON', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 107, 'NE District - Southern NH Event', 'NHBED', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 108, 'NE District - Granite State Event', 'NHGRS', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 109, 'MAR District - Bridgewater-Raritan Event', 'NJBRI', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 110, 'MAR District - Mount Olive Event', 'NJFLA', '2017-03-10 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 111, 'MAR District - Montgomery Event', 'NJSKI', '2017-03-31 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 112, 'MAR District - Seneca Event', 'NJTAB', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 113, 'Las Vegas Regional', 'NVLV', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 114, 'SBPLI Long Island Regional', 'NYLI', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 115, 'New York City Regional', 'NYNY', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 116, 'Finger Lakes Regional', 'NYRO', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 117, 'Hudson Valley Regional', 'NYSU', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 118, 'New York Tech Valley Regional', 'NYTR', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 119, 'Buckeye Regional', 'OHCL', '2017-03-29 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 120, 'Miami Valley Regional', 'OHSP', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 121, 'Oklahoma Regional', 'OKOK', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 122, 'ONT District - Georgian College Event', 'ONBAR', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 123, 'FIRST Ontario Provincial Championship', 'ONCMP', '2017-04-12 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 124, 'ONT District - McMaster University Event', 'ONHAM', '2017-04-07 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 125, 'ONT District - Western University, Engineering Event', 'ONLON', '2017-03-31 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 126, 'ONT District - North Bay Event', 'ONNOB', '2017-04-06 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 127, 'ONT District - Durham College Event', 'ONOSH', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 128, 'ONT District - Ryerson University Event', 'ONTO1', '2017-03-10 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 129, 'ONT District - Victoria Park Collegiate Event', 'ONTO2', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 130, 'ONT District - University of Waterloo Event', 'ONWAT', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 131, 'ONT District - Windsor Essex Great Lakes Event', 'ONWIN', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 132, 'PNW District - Lake Oswego Event', 'ORLAK', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 133, 'PNW District - Clackamas Academy of Industrial Science Event', 'ORORE', '2017-03-23 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 134, 'PNW District - Wilsonville Event', 'ORWIL', '2017-03-09 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 135, 'Greater Pittsburgh Regional', 'PACA', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 136, 'MAR District - Hatboro-Horsham Event', 'PAHAT', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 137, 'MAR District - Springside Chestnut Hill Academy Event', 'PAPHI', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 138, 'MAR District - Westtown Event', 'PAWCH', '2017-03-10 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 139, 'Pacific Northwest District Championship', 'PNCMP', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 140, 'Festival de Robotique - Montreal Regional', 'QCMO', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 141, 'NE District - Rhode Island Event', 'RIPRO', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 142, 'FIRST Championship - Houston - Roebling Subdivision', 'ROEBLING', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 143, 'Palmetto Regional', 'SCMB', '2017-03-01 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 144, 'FIRST Championship - St. Louis - Tesla Subdivision', 'TESLA', '2017-04-26 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 145, 'Smoky Mountains Regional', 'TNKN', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 146, 'FIRST Championship - Houston - Turing Subdivision', 'TURING', '2017-04-19 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 147, 'Dallas Regional', 'TXDA', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 148, 'Lone Star Central Regional', 'TXHO', '2017-03-15 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 149, 'Hub City Regional', 'TXLU', '2017-03-01 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 150, 'Alamo Regional', 'TXSA', '2017-04-05 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 151, 'Brazos Valley Regional', 'TXWA', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 152, 'Lone Star North Regional', 'TXWO', '2017-03-30 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 153, 'Utah Regional', 'UTWV', '2017-03-08 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 154, 'CHS District - Southwest Virginia Event', 'VABLA', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 155, 'CHS District - Central Virginia Event', 'VAGLE', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 156, 'CHS District - Northern Virginia Event', 'VAHAY', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 157, 'CHS District - Hampton Roads Event', 'VAPOR', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 158, 'PNW District - Auburn Event', 'WAAHS', '2017-03-31 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 159, 'PNW District - Auburn Mountainview Event', 'WAAMV', '2017-03-03 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 160, 'PNW District - Central Washington University Event', 'WAELL', '2017-03-16 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 161, 'PNW District - Mount Vernon Event', 'WAMOU', '2017-03-17 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 162, 'PNW District - Glacier Peak Event', 'WASNO', '2017-03-24 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 163, 'PNW District - West Valley Event', 'WASPO', '2017-03-02 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 164, 'Seven Rivers Regional', 'WILA', '2017-04-12 00:00:00', '2017-01-09 23:42:38', 0\n" +
-		"UNION SELECT 165, 'Wisconsin Regional', 'WIMI', '2017-03-22 00:00:00', '2017-01-09 23:42:38', 0;",
+		"SELECT 1 AS id, 'Canadian Rockies Regional' AS event_name, 'ABCA' AS event_code, '2018-04-04 00:00:00' AS date_start, '2018-01-09 00:26:01' AS timestamp, 0 AS invalid\n" +
+		"UNION SELECT 2, 'Rocket City Regional', 'ALHU', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 3, 'FIRST Championship - Detroit - Archimedes Subdivision', 'ARCHIMEDES', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 4, 'FIRST Championship - Detroit - ARDA Division', 'ARDA', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 5, 'Arkansas Rock City Regional', 'ARLI', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 6, 'Southern Cross Regional', 'AUSC', '2018-03-10 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 7, 'South Pacific Regional', 'AUSP', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 8, 'Arizona North Regional', 'AZFL', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 9, 'Arizona West Regional', 'AZPX', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 10, 'Canadian Pacific Regional', 'BCVI', '2018-03-13 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 11, 'Aerospace Valley Regional', 'CAAV', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 12, 'Sacramento Regional', 'CADA', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 13, 'Central Valley Regional', 'CAFR', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 14, 'Orange County Regional', 'CAIR', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 15, 'FIRST Championship - Houston - CANE Division', 'CANE', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 16, 'Los Angeles Regional', 'CAPO', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 17, 'FIRST Championship - Detroit - Carson Subdivision', 'CARSON', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 18, 'FIRST Championship - Houston - Carver Subdivision', 'CARVER', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 19, 'San Diego Regional presented by Qualcomm', 'CASD', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 20, 'San Francisco Regional', 'CASF', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 21, 'Silicon Valley Regional', 'CASJ', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 22, 'FIRST Championship - Detroit - CATE Division', 'CATE', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 23, 'Ventura Regional', 'CAVE', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 24, 'FIRST Chesapeake District Championship', 'CHCMP', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 25, 'FIRST Championship - Detroit', 'CMPMI', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 26, 'FIRST Championship - Houston', 'CMPTX', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 27, 'Colorado Regional', 'CODE', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 28, 'NE District Hartford Event', 'CTHAR', '2018-04-06 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 29, 'NE District Southern CT Event', 'CTSCT', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 30, 'NE District Waterbury Event', 'CTWAT', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 31, 'FIRST Championship - Detroit - CUDA Division', 'CUDA', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 32, 'FIRST Championship - Detroit - Curie Subdivision', 'CURIE', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 33, 'FIRST Championship - Detroit - Daly Subdivision', 'DALY', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 34, 'FIRST Championship - Detroit - Darwin Subdivision', 'DARWIN', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 35, 'Orlando Regional', 'FLOR', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 36, 'South Florida Regional', 'FLWP', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 37, 'PCH District Albany Event', 'GAALB', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 38, 'Peachtree District State Championship', 'GACMP', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 39, 'PCH District Columbus Event', 'GACOL', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 40, 'PCH District Dalton Event', 'GADAL', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 41, 'PCH District Duluth Event', 'GADUL', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 42, 'PCH District Gainesville Event', 'GAGAI', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 43, 'FIRST Championship - Houston - Galileo Subdivision', 'GALILEO', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 44, 'FIRST Championship - Houston - GARO Division', 'GARO', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 45, 'Shenzhen Regional', 'GUSH', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 46, 'Hawaii Regional', 'HIHO', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 47, 'FIRST Championship - Houston - Hopper Subdivision', 'HOPPER', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 48, 'FIRST Championship - Houston - HOTU Division', 'HOTU', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 49, 'Iowa Regional', 'IACF', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 50, 'Idaho Regional', 'IDBO', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 51, 'Midwest Regional', 'ILCH', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 52, 'Central Illinois Regional', 'ILPE', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 53, 'Indiana State Championship', 'INCMP', '2018-04-12 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 54, 'IN District St. Joseph Event', 'INMIS', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 55, 'IN District Plainfield Event sponsored by Toyota', 'INPLA', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 56, 'IN District Tippecanoe Event', 'INWLA', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 57, 'FIRST Israel District Championship', 'ISCMP', '2018-03-27 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 58, 'ISR District Event #1', 'ISDE1', '2018-03-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 59, 'ISR District Event #2', 'ISDE2', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 60, 'ISR District Event #3', 'ISDE3', '2018-03-12 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 61, 'ISR District Event #4', 'ISDE4', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 62, 'Bayou Regional', 'LAKE', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 63, 'NE District Greater Boston Event', 'MABOS', '2018-04-06 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 64, 'NE District SE Mass Event', 'MABRI', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 65, 'NE District North Shore Event', 'MAREA', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 66, 'NE District Worcester Polytechnic Institute Event', 'MAWOR', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 67, 'CHS District Central Maryland Event sponsored by Leidos', 'MDEDG', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 68, 'CHS District Southern Maryland Event', 'MDOXO', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 69, 'NE District Pine Tree Event', 'MELEW', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 70, 'FIM District Alpena Event', 'MIALP', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 71, 'FIM District Belleville Event', 'MIBEL', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 72, 'FIM District Center Line Event', 'MICEN', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 73, 'Michigan State Championship', 'MICMP', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 74, 'Michigan State Championship - Field 1 Division', 'MICMP1', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 75, 'Michigan State Championship - Field 2 Division', 'MICMP2', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 76, 'Michigan State Championship - Field 3 Division', 'MICMP3', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 77, 'Michigan State Championship - Field 4 Division', 'MICMP4', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 78, 'FIM District Escanaba Event', 'MIESC', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 79, 'FIM District Forest Hills Event', 'MIFOR', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 80, 'FIM District Gaylord Event', 'MIGAY', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 81, 'FIM District Gibraltar Event', 'MIGIB', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 82, 'FIM District Gull Lake Event', 'MIGUL', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 83, 'FIM District Kettering University Event #2', 'MIKE2', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 84, 'FIM District East Kentwood Event', 'MIKEN', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 85, 'FIM District Kettering University Event #1', 'MIKET', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 86, 'FIM District Lakeview Event', 'MILAK', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 87, 'FIM District Lansing Event', 'MILAN', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 88, 'FIM District Lincoln Event', 'MILIN', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 89, 'FIM District Livonia Event', 'MILIV', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 90, 'FIM District Lake Superior State University Event', 'MILSU', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 91, 'FIM District Marysville Event', 'MIMAR', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 92, 'FIM District Midland Event', 'MIMID', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 93, 'FIM District Milford Event', 'MIMIL', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 94, 'FIM District Shepherd Event', 'MISHE', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 95, 'FIM District St. Joseph Event', 'MISJO', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 96, 'FIM District Southfield Event', 'MISOU', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 97, 'FIM District Troy Event', 'MITRY', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 98, 'FIM District Traverse City Event', 'MITVC', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 99, 'FIM District Waterford Event', 'MIWAT', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 100, 'FIM District West Michigan Event', 'MIWMI', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 101, 'Lake Superior Regional', 'MNDU', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 102, 'Northern Lights Regional', 'MNDU2', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 103, 'Minnesota 10000 Lakes Regional', 'MNMI', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 104, 'Minnesota North Star Regional', 'MNMI2', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 105, 'Greater Kansas City Regional', 'MOKC', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 106, 'Heartland Regional', 'MOKC2', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 107, 'St. Louis Regional', 'MOSL', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 108, 'FIRST Mid-Atlantic District Championship', 'MRCMP', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 109, 'Monterrey Regional', 'MXMO', '2018-02-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 110, 'Laguna Regional', 'MXTO', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 111, 'NC District UNC Asheville Event', 'NCASH', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 112, 'FIRST North Carolina State Championship', 'NCCMP', '2018-04-06 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 113, 'NC District Pitt County Event', 'NCGRE', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 114, 'NC District UNC Pembroke Event', 'NCPEM', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 115, 'NC District Forsyth County Event', 'NCWIN', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 116, 'Great Northern Regional', 'NDGF', '2018-02-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 117, 'New England District Championship', 'NECMP', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 118, 'FIRST Championship - Houston - Newton Subdivision', 'NEWTON', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 119, 'NE District UNH Event', 'NHDUR', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 120, 'NE District Granite State Event', 'NHGRS', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 121, 'MAR District Bridgewater-Raritan Event', 'NJBRI', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 122, 'MAR District Mount Olive Event', 'NJFLA', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 123, 'MAR District Montgomery Event', 'NJSKI', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 124, 'MAR District Seneca Event', 'NJTAB', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 125, 'Las Vegas Regional', 'NVLV', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 126, 'SBPLI Long Island Regional #1', 'NYLI', '2018-04-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 127, 'SBPLI Long Island Regional #2', 'NYLI2', '2018-04-12 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 128, 'New York City Regional', 'NYNY', '2018-04-05 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 129, 'Finger Lakes Regional', 'NYRO', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 130, 'Hudson Valley Regional', 'NYSU', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 131, 'New York Tech Valley Regional', 'NYTR', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 132, 'Central New York Regional', 'NYUT', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 133, 'Buckeye Regional', 'OHCL', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 134, 'Miami Valley Regional', 'OHMV', '2018-02-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 135, 'Oklahoma Regional', 'OKOK', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 136, 'ONT District Georgian College Event', 'ONBAR', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 137, 'FIRST Ontario Provincial Championship', 'ONCMP', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 138, 'FIRST Ontario Provincial Championship - Science Division', 'ONCMP1', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 139, 'FIRST Ontario Provincial Championship - Technology Division', 'ONCMP2', '2018-04-11 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 140, 'ONT District McMaster University Event', 'ONHAM', '2018-04-06 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 141, 'ONT District Western University, Western Engineering Event', 'ONLON', '2018-04-06 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 142, 'ONT District North Bay Event', 'ONNOB', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 143, 'ONT District York University Event', 'ONNYO', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 144, 'ONT District Durham College Event', 'ONOSH', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 145, 'ONT District Ryerson University Event', 'ONTO1', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 146, 'ONT District University of Waterloo Event', 'ONWAT', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 147, 'ONT District Windsor Essex Great Lakes Event', 'ONWIN', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 148, 'PNW District Lake Oswego Event', 'ORLAK', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 149, 'PNW District Clackamas Academy Event', 'ORORE', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 150, 'PNW District Wilsonville Event', 'ORWIL', '2018-03-08 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 151, 'Greater Pittsburgh Regional', 'PACA', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 152, 'MAR District Hatboro-Horsham Event', 'PAHAT', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 153, 'MAR District Springside Chestnut Hill Academy Event', 'PAPHI', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 154, 'MAR District Westtown Event', 'PAWCH', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 155, 'Pacific Northwest District Championship', 'PNCMP', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 156, 'Festival de Robotique - Montreal Regional', 'QCMO', '2018-02-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 157, 'NE District Rhode Island Event', 'RISMI', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 158, 'FIRST Championship - Houston - Roebling Subdivision', 'ROEBLING', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 159, 'Palmetto Regional', 'SCMB', '2018-02-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 160, 'Shanghai Regional', 'SHMI', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 161, 'FIRST Championship - Detroit - Tesla Subdivision', 'TESLA', '2018-04-25 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 162, 'Smoky Mountains Regional', 'TNKN', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 163, 'Istanbul Regional', 'TUIS', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 164, 'FIRST Championship - Houston - Turing Subdivision', 'TURING', '2018-04-18 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 165, 'Dallas Regional', 'TXDA', '2018-03-01 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 166, 'El Paso Regional', 'TXEL', '2018-03-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 167, 'Lone Star Central Regional', 'TXHO', '2018-03-14 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 168, 'Hub City Regional', 'TXLU', '2018-03-07 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 169, 'Lone Star South Regional', 'TXPA', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 170, 'Alamo Regional', 'TXSA', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 171, 'Utah Regional', 'UTWV', '2018-02-28 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 172, 'CHS District Southwest Virginia Event', 'VABLA', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 173, 'CHS District Greater DC Event co-sponsored by Micron', 'VAGDC', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 174, 'CHS District Central Virginia Event', 'VAGLE', '2018-03-09 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 175, 'CHS District Northern Virginia Event', 'VAHAY', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 176, 'CHS District Hampton Roads Event sponsored by Newport News Shipbuildin', 'VAPOR', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 177, 'PNW District Auburn Event', 'WAAHS', '2018-03-16 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 178, 'PNW District Auburn Mountainview Event', 'WAAMV', '2018-03-29 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 179, 'PNW District Mount Vernon Event', 'WAMOU', '2018-03-02 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 180, 'PNW District Glacier Peak Event', 'WASNO', '2018-03-23 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 181, 'PNW District West Valley Event', 'WASPO', '2018-03-22 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 182, 'PNW District SunDome Event', 'WAYAK', '2018-03-15 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 183, 'Seven Rivers Regional', 'WILA', '2018-04-04 00:00:00', '2018-01-09 00:26:01', 0\n" +
+		"UNION SELECT 184, 'Wisconsin Regional', 'WIMI', '2018-03-21 00:00:00', '2018-01-09 00:26:01', 0;",
 	
-		"CREATE TABLE IF NOT EXISTS fact_match_data_2017 (\n" +
+		"CREATE TABLE IF NOT EXISTS fact_match_data_2018 (\n" +
 		"	id integer primary key autoincrement,\n" +
 		"	event_id unsigned int(4) NOT NULL,\n" +
 		"	team_id unsigned int(5) NOT NULL,\n" +
 		"	match_id unsigned int(4) NOT NULL,\n" +
 		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	position_id unsigned int(3) NOT NULL,\n" +
-		"	auto_score_low unsigned int(4) NOT NULL,\n" +
-		"	auto_score_high unsigned int(4) NOT NULL,\n" +
-		"	auto_miss_high unsigned int(4) NOT NULL,\n" +
-		"	auto_cross_baseline tinyint(1) NOT NULL,\n" +
-		"	auto_gear_delivered_left unsigned int(3) NOT NULL,\n" +
-		"	auto_gear_delivered_right unsigned int(3) NOT NULL,\n" +
-		"	auto_gear_delivered_center unsigned int(3) NOT NULL,\n" +
-		"	auto_dump_hopper tinyint(1) NOT NULL,\n" +
-		"	score_low unsigned int(4) NOT NULL,\n" +
-		"	score_high unsigned int(4) NOT NULL,\n" +
-		"	miss_high unsigned int(4) NOT NULL,\n" +
-		"	gear_delivered_left unsigned int(3) NOT NULL,\n" +
-		"	gear_delivered_right unsigned int(3) NOT NULL,\n" +
-		"	gear_delivered_center unsigned int(3) NOT NULL,\n" +
-		"	climb_rope tinyint(1) NOT NULL,\n" +
+		"	auto_run unsigned tinyint(1) NOT NULL,\n" +
+		"	auto_switch_count unsigned int(2) NOT NULL,\n" +
+		"	auto_switch_wrong_side_count unsigned int(2) NOT NULL,\n" +
+		"	auto_scale_count unsigned int(2) NOT NULL,\n" +
+		"	auto_scale_wrong_side_count unsigned int(2) NOT NULL,\n" +
+		"	auto_exchange_count unsigned int(2) NOT NULL,\n" +
+		"	switch_count unsigned int(3) NOT NULL,\n" +
+		"	switch_wrong_side_count unsigned int(3) NOT NULL,\n" +
+		"	scale_count unsigned int(3) NOT NULL,\n" +
+		"	scale_wrong_side_count unsigned int(3) NOT NULL,\n" +
+		"	opposite_switch_count unsigned int(3) NOT NULL,\n" +
+		"	opposite_switch_wrong_side_count unsigned int(3) NOT NULL,\n" +
+		"	exchange_count unsigned int(3) NOT NULL,\n" +
+		"	parked unsigned tinyint(1) NOT NULL,\n" +
+		"	climbed unsigned tinyint(1) NOT NULL,\n" +
 		"	climb_attempt unsigned tinyint(1) NOT NULL,\n" +
-		"	align_time int(3) NOT NULL,\n" +
-		"	climb_time int(3) NOT NULL,\n" +
+		"	supported_others unsigned tinyint(1) NOT NULL,\n" +
 		"	foul tinyint(1) NOT NULL,\n" +
 		"	yellow_card tinyint(1) NOT NULL,\n" +
 		"	red_card tinyint(1) NOT NULL,\n" +
 		"	tip_over tinyint(1) NOT NULL,\n" +
-		"	notes text NOT NULL,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
-		");",
-	
-		"CREATE TABLE IF NOT EXISTS fact_pilot_data_2017 (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	event_id unsigned int(4) NOT NULL,\n" +
-		"	team_id unsigned int(5) NOT NULL,\n" +
-		"	match_id unsigned int(4) NOT NULL,\n" +
-		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	position_id unsigned int(3) NOT NULL,\n" +
-		"	gears_installed_2 unsigned int(3) NOT NULL,\n" +
-		"	gears_installed_3 unsigned int(3) NOT NULL,\n" +
-		"	gears_installed_4 unsigned int(3) NOT NULL,\n" +
-		"	gears_lifted unsigned int(3) NOT NULL,\n" +
-		"	gears_dropped unsigned int(3) NOT NULL,\n" +
-		"	rotor_1_started tinyint(1) NOT NULL,\n" +
-		"	rotor_2_started tinyint(1) NOT NULL,\n" +
-		"	rotor_3_started tinyint(1) NOT NULL,\n" +
-		"	rotor_4_started tinyint(1) NOT NULL,\n" +
-		"	foul tinyint(1) NOT NULL,\n" +
-		"	yellow_card tinyint(1) NOT NULL,\n" +
-		"	red_card tinyint(1) NOT NULL,\n" +
 		"	notes text NOT NULL,\n" +
 		"	invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
@@ -454,10 +413,6 @@ public final class FRCScoutingContract {
 		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
 		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
 		");",
-	
-		"INSERT INTO game_info\n" +
-		"SELECT 1 AS id, '2017_rotor_3_preinstalled' AS keystring, 1 AS intvalue, '' AS stringval, '2017-01-13 21:09:25' AS timestamp, 0 AS invalid\n" +
-		"UNION SELECT 2, '2017_rotor_4_preinstalled', 2, '', '2017-01-13 21:09:36', 0;",
 	
 		"CREATE TABLE IF NOT EXISTS notes_options (\n" +
 		"	id integer primary key autoincrement,\n" +
@@ -496,9 +451,7 @@ public final class FRCScoutingContract {
 		"UNION SELECT 3, 'Red 3', '2015-02-12 00:30:36', 0\n" +
 		"UNION SELECT 4, 'Blue 1', '2015-02-12 00:30:36', 0\n" +
 		"UNION SELECT 5, 'Blue 2', '2015-02-12 00:30:50', 0\n" +
-		"UNION SELECT 6, 'Blue 3', '2015-02-12 00:30:50', 0\n" +
-		"UNION SELECT 7, 'Red Pilot', '2017-01-08 18:03:16', 0\n" +
-		"UNION SELECT 8, 'Blue Pilot', '2017-01-08 18:03:16', 0;",
+		"UNION SELECT 6, 'Blue 3', '2015-02-12 00:30:50', 0;",
 	
 		"CREATE TABLE IF NOT EXISTS robot_lu (\n" +
 		"	id integer primary key autoincrement,\n" +
@@ -508,29 +461,20 @@ public final class FRCScoutingContract {
 		"	invalid unsigned tinyint(1) NOT NULL DEFAULT '0'\n" +
 		");",
 	
-		"CREATE TABLE IF NOT EXISTS scout_pit_data_2017 (\n" +
+		"CREATE TABLE IF NOT EXISTS scout_pit_data_2018 (\n" +
 		"	id integer primary key autoincrement,\n" +
 		"	team_id unsigned int(5) NOT NULL,\n" +
-		"	can_score_high tinyint(1) NOT NULL,\n" +
-		"	can_score_low tinyint(1) NOT NULL,\n" +
-		"	can_score_gears tinyint(1) NOT NULL,\n" +
-		"	can_climb tinyint(1) NOT NULL,\n" +
-		"	ground_load_fuel tinyint(1) NOT NULL,\n" +
-		"	hopper_load_fuel tinyint(1) NOT NULL,\n" +
-		"	station_load_fuel tinyint(1) NOT NULL,\n" +
-		"	ground_load_gear tinyint(1) NOT NULL,\n" +
-		"	station_load_gear tinyint(1) NOT NULL,\n" +
-		"	custom_rope tinyint(1) NOT NULL,\n" +
-		"	auto_score_high_count unsigned int(4) NOT NULL,\n" +
-		"	auto_score_low_count unsigned int(4) NOT NULL,\n" +
-		"	auto_gear tinyint(1) NOT NULL,\n" +
-		"	auto_hopper tinyint(1) NOT NULL,\n" +
-		"	tele_score_high_count unsigned int(4) NOT NULL,\n" +
-		"	tele_score_low_count unsigned int(4) NOT NULL,\n" +
-		"	accuracy unsigned int(3) NOT NULL,\n" +
-		"	fuel_capacity unsigned int(4) NOT NULL,\n" +
-		"	scoring_speed_bps unsigned int(2) NOT NULL,\n" +
-		"	loading_speed_bps unsigned int(3) NOT NULL,\n" +
+		"	auto_run unsigned tinyint(1) NOT NULL,\n" +
+		"	auto_switch_count unsigned int(2) NOT NULL,\n" +
+		"	auto_scale_count unsigned int(2) NOT NULL,\n" +
+		"	switch_score unsigned tinyint(1) NOT NULL,\n" +
+		"	scale_score unsigned tinyint(1) NOT NULL,\n" +
+		"	exchange unsigned tinyint(1) NOT NULL,\n" +
+		"	climb unsigned tinyint(1) NOT NULL,\n" +
+		"	supports_others unsigned tinyint(1) NOT NULL,\n" +
+		"	floor_acquire unsigned tinyint(1) NOT NULL,\n" +
+		"	exchange_acquire unsigned tinyint(1) NOT NULL,\n" +
+		"	portal_acquire unsigned tinyint(1) NOT NULL,\n" +
 		"	max_robot_speed_fts unsigned int(3) NOT NULL,\n" +
 		"	robot_gross_weight_lbs unsigned int(4) NOT NULL,\n" +
 		"	config_id unsigned int(3) NOT NULL,\n" +
@@ -581,14 +525,13 @@ public final class FRCScoutingContract {
 	public static final String[] SQL_DELETE_ENTRIES = {
 		"DROP TABLE IF EXISTS configuration_lu;",
 		"DROP TABLE IF EXISTS event_lu;",
-		"DROP TABLE IF EXISTS fact_match_data_2017;",
-		"DROP TABLE IF EXISTS fact_pilot_data_2017;",
+		"DROP TABLE IF EXISTS fact_match_data_2018;",
 		"DROP TABLE IF EXISTS game_info;",
 		"DROP TABLE IF EXISTS notes_options;",
 		"DROP TABLE IF EXISTS picklist;",
 		"DROP TABLE IF EXISTS position_lu;",
 		"DROP TABLE IF EXISTS robot_lu;",
-		"DROP TABLE IF EXISTS scout_pit_data_2017;",
+		"DROP TABLE IF EXISTS scout_pit_data_2018;",
 		"DROP TABLE IF EXISTS wheel_base_lu;",
 		"DROP TABLE IF EXISTS wheel_type_lu;"
 	};
