@@ -3,45 +3,27 @@
 
     <color name="pits_seperator_color">#ff777777</color>
 
-    <string name="auto_score_low_text_pit">Low Goal</string>
-    <string name="auto_score_high_text_pit">High Goal</string>
-    <string name="auto_score_low_hint_pit"># of Fuel Pieces</string>
-    <string name="auto_score_high_hint_pit"># of Fuel Pieces</string>
-
-    <string name="score_low_pit_text">Able to score in low goal</string>
-    <string name="score_high_pit_text">Able to score in high goal</string>
-    <string name="score_gear_pit_text">Able to score gears</string>
-
-    <string name="auto_gear_pit">Scores gear in auto</string>
-    <string name="auto_hopper_pit">Dumps hopper in auto</string>
-
     <string name="tele_header_text">Tele-Op Mode</string>
 
-    <string name="tele_score_low_text_pit">Low Goals/Match</string>
-    <string name="tele_score_high_text_pit">High Goals/Match</string>
+    <string name="score_switch_pit_text">Can Place On Switch</string>
+    <string name="score_scale_pit_text">Can Place On Scale</string>
+    <string name="auto_run_pit_text">Auto Run?</string>
+    <string name="auto_score_switch_text_pit">Auto Switch</string>
+    <string name="auto_score_switch_hint_pit"># of Cubes</string>
+    <string name="auto_score_scale_text_pit">Auto Scale</string>
+    <string name="auto_score_scale_hint_pit"># of Cubes</string>
+    <string name="deposit_exchange_text_pit">Can Deposit in Exchange</string>
+    <string name="receive_exchange_text_pit">Can Acquire from Exchange</string>
+    <string name="receive_portal_text_pit">Can Acquire from Portal</string>
+    <string name="acquire_floor_text_pit">Can Acquire from Floor</string>
+    <string name="can_climb_pit_text">Able to Climb</string>
+    <string name="support_others_pit_text">Supports Other\'s Climbs</string>
 
-    <string name="accuracy_pit_text">Approx Accuracy</string>
-    <string name="accuracy_hint_pit">%</string>
-    <string name="scoring_speed_text">Fuel Scoring Speed</string>
-    <string name="scoring_speed_hint">Fuel/Second</string>
 
-    <string name="fuel_capacity_text">Fuel Capacity</string>
-    <string name="fuel_capacity_hint"># of Fuel</string>
-
-    <string name="ground_load_fuel_pit_text">Can Load Fuel from floor</string>
-    <string name="hopper_load_fuel_pit_text">Can Load Fuel from hopper</string>
-    <string name="station_load_fuel_pit_text">Can Load Fuel from loading station</string>
-    <string name="ground_load_gear_pit_text">Can Load Gears from floor</string>
-    <string name="station_load_gear_pit_text">Can Load Gears from loading station</string>
-
-    <string name="loading_speed_text">Floor Fuel Loading Speed</string>
-    <string name="loading_speed_hint">Fuel/Second</string>
 
     <string name="robot_speed_text">Robot Max Speed</string>
-    <string name="robot_speed_hint">FPS</string>
+    <string name="robot_speed_hint">ft/s</string>
 
-    <string name="can_climb_pit_text">Able to Climb</string>
-    <string name="custom_rope_pit_text">Custom Rope</string>
 
     <string name="manipulation_description_text">Manipulator:</string>
     <string name="manipulation_description_hint">Give a short description of the manipulator used.</string>
