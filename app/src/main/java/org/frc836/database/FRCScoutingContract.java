@@ -46,6 +46,9 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
 		public static final String COLUMN_NAME_POSITION_ID = "position_id";
+		public static final String COLUMN_NAME_NEAR_SWITCH_RIGHT = "near_switch_right";
+		public static final String COLUMN_NAME_SCALE_RIGHT = "scale_right";
+		public static final String COLUMN_NAME_FAR_SWITCH_RIGHT = "far_switch_right";
 		public static final String COLUMN_NAME_AUTO_RUN = "auto_run";
 		public static final String COLUMN_NAME_AUTO_SWITCH_COUNT = "auto_switch_count";
 		public static final String COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT = "auto_switch_wrong_side_count";
@@ -379,6 +382,9 @@ public final class FRCScoutingContract {
 		"	match_id unsigned int(4) NOT NULL,\n" +
 		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	position_id unsigned int(3) NOT NULL,\n" +
+		"	near_switch_right unsigned tinyint(1) NOT NULL,\n" +
+		"	scale_right unsigned tinyint(1) NOT NULL,\n" +
+		"	far_switch_right unsigned tinyint(1) NOT NULL,\n" +
 		"	auto_run unsigned tinyint(1) NOT NULL,\n" +
 		"	auto_switch_count unsigned int(2) NOT NULL,\n" +
 		"	auto_switch_wrong_side_count unsigned int(2) NOT NULL,\n" +

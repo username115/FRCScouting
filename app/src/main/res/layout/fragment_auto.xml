@@ -59,7 +59,6 @@
                     android:id="@+id/rightAirshipTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/blue_diag"
                     android:scaleX="-1">
 
                     <LinearLayout
@@ -96,8 +95,7 @@
                 <ImageSwitcher
                     android:id="@+id/rightAirshipMid"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/blue_square">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/rightCenterGearBox"
@@ -132,7 +130,6 @@
                     android:id="@+id/rightAirshipBot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/blue_diag"
                     android:scaleX="-1"
                     android:scaleY="-1">
 
@@ -180,8 +177,7 @@
 
                 <ImageSwitcher
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/boiler_top">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/highGoalBox"
@@ -265,8 +261,7 @@
 
                 <ImageSwitcher
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/boiler_bottom">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/lowGoalBox"
@@ -327,8 +322,7 @@
                 <ImageSwitcher
                     android:id="@+id/leftAirshipTop"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/red_diag">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/leftLeftGearBox"
@@ -363,8 +357,7 @@
                 <ImageSwitcher
                     android:id="@+id/leftAirshipMid"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/red_square">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/leftCenterGearBox"
@@ -399,7 +392,6 @@
                     android:id="@+id/leftAirshipBot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/red_diag"
                     android:scaleY="-1">
 
                     <LinearLayout

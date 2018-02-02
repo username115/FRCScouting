@@ -34,6 +34,9 @@ public class MatchStatsStruct {
 	public int match_id;
 	public boolean practice_match;
 	public String position_id;
+	public boolean near_switch_right;
+	public boolean scale_right;
+	public boolean far_switch_right;
 	public boolean auto_run;
 	public int auto_switch_count;
 	public int auto_switch_wrong_side_count;
@@ -65,6 +68,9 @@ public class MatchStatsStruct {
 	public static final String COLUMN_NAME_MATCH_ID = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_MATCH_ID;
 	public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_PRACTICE_MATCH;
 	public static final String COLUMN_NAME_POSITION_ID = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_POSITION_ID;
+	public static final String COLUMN_NAME_NEAR_SWITCH_RIGHT = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_NEAR_SWITCH_RIGHT;
+	public static final String COLUMN_NAME_SCALE_RIGHT = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_SCALE_RIGHT;
+	public static final String COLUMN_NAME_FAR_SWITCH_RIGHT = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_FAR_SWITCH_RIGHT;
 	public static final String COLUMN_NAME_AUTO_RUN = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_AUTO_RUN;
 	public static final String COLUMN_NAME_AUTO_SWITCH_COUNT = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_AUTO_SWITCH_COUNT;
 	public static final String COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT = FACT_MATCH_DATA_2018_Entry.COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT;
@@ -101,6 +107,9 @@ public class MatchStatsStruct {
 		match_id = 0;
 		practice_match = false;
 		position_id = "Red 1";
+		near_switch_right = false;
+		scale_right = false;
+		far_switch_right = false;
 		auto_run = false;
 		auto_switch_count = 0;
 		auto_switch_wrong_side_count = 0;
@@ -149,6 +158,9 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_MATCH_ID, match_id);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, practice_match ? 1 : 0);
 		vals.put(COLUMN_NAME_POSITION_ID, db.getPosIDFromName(position_id, database));
+		vals.put(COLUMN_NAME_NEAR_SWITCH_RIGHT, near_switch_right ? 1 : 0);
+		vals.put(COLUMN_NAME_SCALE_RIGHT, scale_right ? 1 : 0);
+		vals.put(COLUMN_NAME_FAR_SWITCH_RIGHT, far_switch_right ? 1 : 0);
 		vals.put(COLUMN_NAME_AUTO_RUN, auto_run ? 1 : 0);
 		vals.put(COLUMN_NAME_AUTO_SWITCH_COUNT, auto_switch_count);
 		vals.put(COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT, auto_switch_wrong_side_count);
@@ -187,6 +199,9 @@ public class MatchStatsStruct {
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
 		practice_match = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_PRACTICE_MATCH)) != 0;
 		position_id = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_ID)), database);
+		near_switch_right = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_NEAR_SWITCH_RIGHT)) != 0;
+		scale_right = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCALE_RIGHT)) != 0;
+		far_switch_right = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FAR_SWITCH_RIGHT)) != 0;
 		auto_run = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_RUN)) != 0;
 		auto_switch_count = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_SWITCH_COUNT));
 		auto_switch_wrong_side_count = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT));
@@ -212,12 +227,15 @@ public class MatchStatsStruct {
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(27);
+		List<String> temp = new ArrayList<String>(30);
 		temp.add(COLUMN_NAME_EVENT_ID);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_MATCH_ID);
 		temp.add(COLUMN_NAME_PRACTICE_MATCH);
 		temp.add(COLUMN_NAME_POSITION_ID);
+		temp.add(COLUMN_NAME_NEAR_SWITCH_RIGHT);
+		temp.add(COLUMN_NAME_SCALE_RIGHT);
+		temp.add(COLUMN_NAME_FAR_SWITCH_RIGHT);
 		temp.add(COLUMN_NAME_AUTO_RUN);
 		temp.add(COLUMN_NAME_AUTO_SWITCH_COUNT);
 		temp.add(COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT);
@@ -266,6 +284,9 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_MATCH_ID, json.has(COLUMN_NAME_MATCH_ID) ? json.getInt(COLUMN_NAME_MATCH_ID) : 0);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.has(COLUMN_NAME_PRACTICE_MATCH) ? json.getInt(COLUMN_NAME_PRACTICE_MATCH) : 0);
 		vals.put(COLUMN_NAME_POSITION_ID, json.has(COLUMN_NAME_POSITION_ID) ? json.getInt(COLUMN_NAME_POSITION_ID) : 0);
+		vals.put(COLUMN_NAME_NEAR_SWITCH_RIGHT, json.has(COLUMN_NAME_NEAR_SWITCH_RIGHT) ? json.getInt(COLUMN_NAME_NEAR_SWITCH_RIGHT) : 0);
+		vals.put(COLUMN_NAME_SCALE_RIGHT, json.has(COLUMN_NAME_SCALE_RIGHT) ? json.getInt(COLUMN_NAME_SCALE_RIGHT) : 0);
+		vals.put(COLUMN_NAME_FAR_SWITCH_RIGHT, json.has(COLUMN_NAME_FAR_SWITCH_RIGHT) ? json.getInt(COLUMN_NAME_FAR_SWITCH_RIGHT) : 0);
 		vals.put(COLUMN_NAME_AUTO_RUN, json.has(COLUMN_NAME_AUTO_RUN) ? json.getInt(COLUMN_NAME_AUTO_RUN) : 0);
 		vals.put(COLUMN_NAME_AUTO_SWITCH_COUNT, json.has(COLUMN_NAME_AUTO_SWITCH_COUNT) ? json.getInt(COLUMN_NAME_AUTO_SWITCH_COUNT) : 0);
 		vals.put(COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT, json.has(COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT) ? json.getInt(COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT) : 0);
@@ -300,6 +321,9 @@ public class MatchStatsStruct {
 		vals.put( COLUMN_NAME_MATCH_ID, String.valueOf(match_id));
 		vals.put( COLUMN_NAME_PRACTICE_MATCH, String.valueOf(practice_match ? 1 : 0));
 		vals.put( COLUMN_NAME_POSITION_ID, position_id);
+		vals.put( COLUMN_NAME_NEAR_SWITCH_RIGHT, String.valueOf(near_switch_right ? 1 : 0));
+		vals.put( COLUMN_NAME_SCALE_RIGHT, String.valueOf(scale_right ? 1 : 0));
+		vals.put( COLUMN_NAME_FAR_SWITCH_RIGHT, String.valueOf(far_switch_right ? 1 : 0));
 		vals.put( COLUMN_NAME_AUTO_RUN, String.valueOf(auto_run ? 1 : 0));
 		vals.put( COLUMN_NAME_AUTO_SWITCH_COUNT, String.valueOf(auto_switch_count));
 		vals.put( COLUMN_NAME_AUTO_SWITCH_WRONG_SIDE_COUNT, String.valueOf(auto_switch_wrong_side_count));

@@ -102,6 +102,36 @@ elseif ($_POST['password'] == $pass) {
 		$json = '{"timestamp" : ' . strtotime(date("Y-m-d H:i:s")) . ',';
 		$json .= '"version" : "' . $ver . '",';
 
+		//configuration_lu
+		$query = "SELECT * FROM configuration_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "configuration_lu") . ",";
+		mysql_free_result($result);
+
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_type_lu") . ",";
+		mysql_free_result($result);
+
+		//scout_pit_data_2018
+		$query = "SELECT * FROM scout_pit_data_2018" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "scout_pit_data_2018") . ",";
+		mysql_free_result($result);
+
+		//position_lu
+		$query = "SELECT * FROM position_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "position_lu") . ",";
+		mysql_free_result($result);
+
+		//event_lu
+		$query = "SELECT * FROM event_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "event_lu") . ",";
+		mysql_free_result($result);
+
 		//game_info
 		$query = "SELECT * FROM game_info" . $suffix;
 		$result = mysql_query($query);
@@ -114,22 +144,16 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "picklist") . ",";
 		mysql_free_result($result);
 
-		//event_lu
-		$query = "SELECT * FROM event_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "event_lu") . ",";
-		mysql_free_result($result);
-
-		//position_lu
-		$query = "SELECT * FROM position_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "position_lu") . ",";
-		mysql_free_result($result);
-
 		//fact_match_data_2018
 		$query = "SELECT * FROM fact_match_data_2018" . $suffix;
 		$result = mysql_query($query);
 		$json .= genJSON($result, "fact_match_data_2018") . ",";
+		mysql_free_result($result);
+
+		//notes_options
+		$query = "SELECT * FROM notes_options" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "notes_options") . ",";
 		mysql_free_result($result);
 
 		//wheel_base_lu
@@ -138,34 +162,10 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "wheel_base_lu") . ",";
 		mysql_free_result($result);
 
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . ",";
-		mysql_free_result($result);
-
 		//robot_lu
 		$query = "SELECT * FROM robot_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "robot_lu") . ",";
-		mysql_free_result($result);
-
-		//scout_pit_data_2018
-		$query = "SELECT * FROM scout_pit_data_2018" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "scout_pit_data_2018") . ",";
-		mysql_free_result($result);
-
-		//configuration_lu
-		$query = "SELECT * FROM configuration_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "configuration_lu") . ",";
-		mysql_free_result($result);
-
-		//notes_options
-		$query = "SELECT * FROM notes_options" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "notes_options") . "}";
+		$json .= genJSON($result, "robot_lu") . "}";
 		mysql_free_result($result);
 
 		$resp = $json;
@@ -179,6 +179,9 @@ elseif ($_POST['password'] == $pass) {
 		$match_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0')));
 		$practice_match = mysql_real_escape_string(stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0')));
 		$position_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0')));
+		$near_switch_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['near_switch_right']) ? $_POST['near_switch_right'] : '0')));
+		$scale_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['scale_right']) ? $_POST['scale_right'] : '0')));
+		$far_switch_right = mysql_real_escape_string(stripslashes(trim(isset($_POST['far_switch_right']) ? $_POST['far_switch_right'] : '0')));
 		$auto_run = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_run']) ? $_POST['auto_run'] : '0')));
 		$auto_switch_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_switch_count']) ? $_POST['auto_switch_count'] : '0')));
 		$auto_switch_wrong_side_count = mysql_real_escape_string(stripslashes(trim(isset($_POST['auto_switch_wrong_side_count']) ? $_POST['auto_switch_wrong_side_count'] : '0')));
@@ -209,12 +212,15 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO fact_match_data_2018(event_id,team_id,match_id,practice_match,position_id,auto_run,auto_switch_count,auto_switch_wrong_side_count,auto_scale_count,auto_scale_wrong_side_count,auto_exchange_count,switch_count,switch_wrong_side_count,scale_count,scale_wrong_side_count,opposite_switch_count,opposite_switch_wrong_side_count,exchange_count,parked,climbed,climb_attempt,supported_others,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
+			$query = "INSERT INTO fact_match_data_2018(event_id,team_id,match_id,practice_match,position_id,near_switch_right,scale_right,far_switch_right,auto_run,auto_switch_count,auto_switch_wrong_side_count,auto_scale_count,auto_scale_wrong_side_count,auto_exchange_count,switch_count,switch_wrong_side_count,scale_count,scale_wrong_side_count,opposite_switch_count,opposite_switch_wrong_side_count,exchange_count,parked,climbed,climb_attempt,supported_others,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
 				. $practice_match . ","
 				. $position_id . ","
+				. $near_switch_right . ","
+				. $scale_right . ","
+				. $far_switch_right . ","
 				. $auto_run . ","
 				. $auto_switch_count . ","
 				. $auto_switch_wrong_side_count . ","
@@ -247,6 +253,9 @@ elseif ($_POST['password'] == $pass) {
 				. "match_id=" . $match_id . ","
 				. "practice_match=" . $practice_match . ","
 				. "position_id=" . $position_id . ","
+				. "near_switch_right=" . $near_switch_right . ","
+				. "scale_right=" . $scale_right . ","
+				. "far_switch_right=" . $far_switch_right . ","
 				. "auto_run=" . $auto_run . ","
 				. "auto_switch_count=" . $auto_switch_count . ","
 				. "auto_switch_wrong_side_count=" . $auto_switch_wrong_side_count . ","
