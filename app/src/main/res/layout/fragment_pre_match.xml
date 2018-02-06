@@ -13,13 +13,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Switch Side" />
+        android:text="@string/switch_sides" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/switchSidesB">
+        android:layout_below="@id/switchSidesB">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,13 +30,16 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1.05">
 
                 <ImageButton
                     android:id="@+id/leftSwitchB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="fitXY"
                     android:src="@drawable/switch_drawing" />
             </LinearLayout>
 
@@ -49,20 +52,25 @@
                     android:id="@+id/scaleB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
                     android:src="@drawable/scale_drawing" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1.05">
 
                 <ImageButton
                     android:id="@+id/rightSwitchB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
                     android:src="@drawable/switch_drawing" />
             </LinearLayout>
 

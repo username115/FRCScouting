@@ -46,10 +46,11 @@ import java.util.List;
 
 public class MatchActivity extends DBActivity {
 
-    public static final int NUM_SCREENS = 3;
-    public static final int AUTO_SCREEN = 0;
-    public static final int TELE_SCREEN = 1;
-    public static final int END_SCREEN = 2;
+    public static final int NUM_SCREENS = 4;
+    public static final int PRE_MATCH_SCREEN = 0;
+    public static final int AUTO_SCREEN = 1;
+    public static final int TELE_SCREEN = 2;
+    public static final int END_SCREEN = 3;
 
     private MatchViewAdapter mMatchViewAdapter;
 
@@ -91,6 +92,7 @@ public class MatchActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
+        // TODO
         HELPMESSAGE = "Record Match Data here.\n"
                 + "Ensure that the alliance you are scouting is set to the correct side of the field.\n" +
                 "Auto:\n" +
@@ -118,7 +120,7 @@ public class MatchActivity extends DBActivity {
         position = intent.getStringExtra("position");
 
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
-        mCurrentPage = AUTO_SCREEN;
+        mCurrentPage = PRE_MATCH_SCREEN;
 
         mViewPager = (ViewPager) findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
@@ -266,7 +268,7 @@ public class MatchActivity extends DBActivity {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
                                         timer.removeCallbacks(mUpdateTimeTask);
-                                        if (!readOnly)
+                                        if (!readOnly && mCurrentPage == AUTO_SCREEN)
                                             timer.postDelayed(mUpdateTimeTask, DELAY);
                                         dialog.cancel();
                                     }
@@ -308,6 +310,9 @@ public class MatchActivity extends DBActivity {
 
     public void pageSelected(int page) {
         switch (mCurrentPage) {
+            case PRE_MATCH_SCREEN:
+                savePreMatch();
+                break;
             case AUTO_SCREEN:
                 saveAuto();
                 break;
@@ -320,9 +325,15 @@ public class MatchActivity extends DBActivity {
         }
         mCurrentPage = page;
         switch (page) {
+            case PRE_MATCH_SCREEN:
+                loadPreMatch();
+                lastB.setText("Cancel");
+                nextB.setText("Auto");
+                timer.removeCallbacks(mUpdateTimeTask);
+                break;
             case AUTO_SCREEN:
                 loadAuto();
-                lastB.setText("Cancel");
+                lastB.setText("Pre-Match");
                 nextB.setText("Tele op");
                 if (!readOnly)
                     timer.postDelayed(mUpdateTimeTask, DELAY);
@@ -393,6 +404,10 @@ public class MatchActivity extends DBActivity {
                 return fragments.get(i);
             }
             switch (i) {
+                case PRE_MATCH_SCREEN:
+                    fragment = PreMatchFragment.newInstance();
+                    fragments.put(i, fragment);
+                    return fragment;
                 case AUTO_SCREEN:
                     fragment = AutoMatchFragment.newInstance();
                     fragments.put(i, fragment);
@@ -426,6 +441,15 @@ public class MatchActivity extends DBActivity {
 
     }
 
+    private void loadPreMatch() {
+        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).loadData(teamData);
+    }
+
+    private void savePreMatch() {
+        saveTeamInfo();
+        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).saveData(teamData);
+    }
+
     private void loadAuto() {
         mMatchViewAdapter.getMatchFragment(AUTO_SCREEN).loadData(teamData);
     }
@@ -454,12 +478,14 @@ public class MatchActivity extends DBActivity {
     }
 
     private void loadAll() {
+        loadTele();
         loadAuto();
         loadTele();
         loadEnd();
     }
 
     private void saveAll() {
+        saveTele();
         saveAuto();
         saveTele();
         saveEnd();

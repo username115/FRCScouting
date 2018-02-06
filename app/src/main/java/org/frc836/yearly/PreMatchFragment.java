@@ -76,6 +76,13 @@ public class PreMatchFragment extends MatchFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         getGUIRefs(view);
+
+
+        if (!Prefs.getRedLeft(getActivity(), true)) {
+            tempData.scale_right = true;
+            tempData.near_switch_right = true;
+            tempData.far_switch_right = true;
+        }
         setListeners();
         displayed = true;
     }
@@ -111,7 +118,9 @@ public class PreMatchFragment extends MatchFragment {
         boolean redLeft = Prefs.getRedLeft(getActivity(), true);
 
         if (!redLeft)
-            scale.setScaleX(-1);
+            scale.setScaleX(-1f);
+        else
+            scale.setScaleX(1f);
 
 
         Activity act = getActivity();
@@ -171,6 +180,9 @@ public class PreMatchFragment extends MatchFragment {
 
     private void switchSides() {
         saveData(tempData);
+        tempData.scale_right = !tempData.scale_right;
+        tempData.near_switch_right = !tempData.near_switch_right;
+        tempData.far_switch_right = !tempData.far_switch_right;
         Prefs.setRedLeft(getActivity(), !(Prefs.getRedLeft(getActivity(), true)));
         loadData(tempData);
     }
