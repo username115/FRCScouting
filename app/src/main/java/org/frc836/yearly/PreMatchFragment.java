@@ -200,13 +200,19 @@ public class PreMatchFragment extends MatchFragment {
         if ((side == RIGHT && ((!redLeft && isRed) || (redLeft && !isRed)))
                 || (side == LEFT && ((!redLeft && !isRed) || (redLeft && isRed)))) {
             tempData.near_switch_right = !tempData.near_switch_right;
+            tempData.far_switch_right = !tempData.far_switch_right;
+            left_switch.setScaleY(-1 * left_switch.getScaleY());
+            right_switch.setScaleY(-1 * right_switch.getScaleY());
         } else if (side != SCALE) {
             tempData.far_switch_right = !tempData.far_switch_right;
+            tempData.near_switch_right = !tempData.near_switch_right;
+            left_switch.setScaleY(-1 * left_switch.getScaleY());
+            right_switch.setScaleY(-1 * right_switch.getScaleY());
         } else {
             tempData.scale_right = !tempData.scale_right;
+            resource.setScaleY(-1 * resource.getScaleY());
         }
 
-        resource.setScaleY(-1 * resource.getScaleY());
     }
 
 }
