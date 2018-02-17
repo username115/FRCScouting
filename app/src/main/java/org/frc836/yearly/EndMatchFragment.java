@@ -81,10 +81,6 @@ public class EndMatchFragment extends MatchFragment {
         pastNotes = (Spinner)getView().findViewById(R.id.previousNotes);
         commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
         pastNotes.setOnItemSelectedListener(new NotesSelectedListener());
-        ((EditText)getView().findViewById(R.id.alignTimeT)).addTextChangedListener(
-                new TimeTextChangedListener((CheckBox)getView().findViewById(R.id.alignTimeUnknownC)));
-        ((EditText)getView().findViewById(R.id.climbTimeT)).addTextChangedListener(
-                new TimeTextChangedListener((CheckBox)getView().findViewById(R.id.climbTimeUnknownC)));
     }
 
     public void onResume() {
@@ -129,18 +125,13 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
         data.climb_attempt = ((CheckBox)getView().findViewById(R.id.climb_end_attempt)).isChecked();
-        data.climb_rope = ((CheckBox)getView().findViewById(R.id.climb_end)).isChecked();
-        data.align_time = (((CheckBox)getView().findViewById(R.id.alignTimeUnknownC)).isChecked() ||
-                ((EditText)getView().findViewById(R.id.alignTimeT)).getText().toString().length() < 1) ? -1 :
-                Integer.valueOf(((EditText)getView().findViewById(R.id.alignTimeT)).getText().toString());
-        data.climb_time = (((CheckBox)getView().findViewById(R.id.climbTimeUnknownC)).isChecked() ||
-                ((EditText)getView().findViewById(R.id.climbTimeT)).getText().toString().length() < 1) ? -1 :
-                Integer.valueOf(((EditText)getView().findViewById(R.id.climbTimeT)).getText().toString());
+        data.climbed = ((CheckBox)getView().findViewById(R.id.climb_end)).isChecked();
         data.notes = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
         data.tip_over = ((CheckBox)getView().findViewById(R.id.botTip)).isChecked();
         data.foul = ((CheckBox)getView().findViewById(R.id.foul)).isChecked();
         data.yellow_card = ((CheckBox)getView().findViewById(R.id.yellow_card)).isChecked();
         data.red_card = ((CheckBox)getView().findViewById(R.id.red_card)).isChecked();
+        data.supported_others = ((CheckBox)getView().findViewById(R.id.assisted_climb)).isChecked();
     }
 
     @Override
@@ -148,16 +139,13 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
         ((CheckBox)getView().findViewById(R.id.climb_end_attempt)).setChecked(data.climb_attempt);
-        ((CheckBox)getView().findViewById(R.id.climb_end)).setChecked(data.climb_rope);
-        ((CheckBox)getView().findViewById(R.id.alignTimeUnknownC)).setChecked(data.align_time <= 0);
-        ((CheckBox)getView().findViewById(R.id.climbTimeUnknownC)).setChecked(data.climb_time <= 0);
-        ((EditText)getView().findViewById(R.id.alignTimeT)).setText(data.align_time <= 0 ? "" : String.valueOf(data.align_time));
-        ((EditText)getView().findViewById(R.id.climbTimeT)).setText(data.climb_time <= 0 ? "" : String.valueOf(data.climb_time));
+        ((CheckBox)getView().findViewById(R.id.climb_end)).setChecked(data.climbed);
         ((EditText)getView().findViewById(R.id.notes)).setText(data.notes);
         ((CheckBox)getView().findViewById(R.id.botTip)).setChecked(data.tip_over);
         ((CheckBox)getView().findViewById(R.id.foul)).setChecked(data.foul);
         ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.red_card);
         ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
+        ((CheckBox)getView().findViewById(R.id.assisted_climb)).setChecked(data.supported_others);
     }
 
     public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -181,73 +169,6 @@ public class EndMatchFragment extends MatchFragment {
         public void onNothingSelected(AdapterView<?> parent) {
         }
 
-    }
-
-    class TimeTextChangedListener implements TextWatcher {
-
-        private CheckBox m_unknown;
-
-        public TimeTextChangedListener(CheckBox unknownC) {
-            m_unknown = unknownC;
-        }
-
-        /**
-         * This method is called to notify you that, within <code>s</code>,
-         * the <code>count</code> characters beginning at <code>start</code>
-         * are about to be replaced by new text with length <code>after</code>.
-         * It is an error to attempt to make changes to <code>s</code> from
-         * this callback.
-         *
-         * @param s
-         * @param start
-         * @param count
-         * @param after
-         */
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Auto-generated method stub
-        }
-
-        /**
-         * This method is called to notify you that, within <code>s</code>,
-         * the <code>count</code> characters beginning at <code>start</code>
-         * have just replaced old text that had length <code>before</code>.
-         * It is an error to attempt to make changes to <code>s</code> from
-         * this callback.
-         *
-         * @param s
-         * @param start
-         * @param before
-         * @param count
-         */
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Auto-generated method stub
-        }
-
-        /**
-         * This method is called to notify you that, somewhere within
-         * <code>s</code>, the text has been changed.
-         * It is legitimate to make further changes to <code>s</code> from
-         * this callback, but be careful not to get yourself into an infinite
-         * loop, because any changes you make will cause this method to be
-         * called again recursively.
-         * (You are not told where the change took place because other
-         * afterTextChanged() methods may already have made other changes
-         * and invalidated the offsets.  But if you need to know here,
-         * you can use {@link Spannable#setSpan} in {@link #onTextChanged}
-         * to mark your place and then look up from here where the span
-         * ended up.
-         *
-         * @param s
-         */
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (s.length() > 0)
-                m_unknown.setChecked(false);
-            else
-                m_unknown.setChecked(true);
-        }
     }
 
 }

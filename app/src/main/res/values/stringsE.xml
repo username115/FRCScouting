@@ -13,5 +13,6 @@
     <string name="climb_time_hint">seconds</string>
     <string name="unknown">Unknown</string>
     <string name="text_climb_time">Climb Time:</string>
+    <string name="supported_other_s_climb">Supported Other\'s Climb</string>
 
 </resources>
