@@ -137,7 +137,7 @@ public class AutoMatchFragment extends MatchFragment {
 
         mainView.findViewById(R.id.scaleBAuto).setScaleY((data.scale_right == redLeft) ? -1f : 1f);
 
-        if (pos.contains("Blue") != redLeft) {
+        if (pos.contains("Blue") != redLeft) { //LEFT
             mainView.findViewById(R.id.leftSwitchBAuto).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
             mainView.findViewById(R.id.rightSwitchBAuto).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
 
@@ -167,7 +167,7 @@ public class AutoMatchFragment extends MatchFragment {
             wrongSwitchB.setVisibility(View.VISIBLE);
             wrongSwitchS.setVisibility(View.VISIBLE);
 
-        } else {
+        } else { //RIGHT
             mainView.findViewById(R.id.leftSwitchBAuto).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
             mainView.findViewById(R.id.rightSwitchBAuto).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
 
@@ -200,15 +200,15 @@ public class AutoMatchFragment extends MatchFragment {
 
         if (pos.contains("Blue")) {
             ((ImageView) mainView.findViewById(R.id.leftExchangeAuto)).setImageDrawable(
-                    getActivity().getResources().getDrawable(R.drawable.blue_exchange));
+                    act.getResources().getDrawable(R.drawable.blue_exchange));
             ((ImageView) mainView.findViewById(R.id.rightExchangeAuto)).setImageDrawable(
-                    getActivity().getResources().getDrawable(R.drawable.blue_exchange));
+                    act.getResources().getDrawable(R.drawable.blue_exchange));
         } else {
 
             ((ImageView) mainView.findViewById(R.id.leftExchangeAuto)).setImageDrawable(
-                    getActivity().getResources().getDrawable(R.drawable.red_exchange));
+                    act.getResources().getDrawable(R.drawable.red_exchange));
             ((ImageView) mainView.findViewById(R.id.rightExchangeAuto)).setImageDrawable(
-                    getActivity().getResources().getDrawable(R.drawable.red_exchange));
+                    act.getResources().getDrawable(R.drawable.red_exchange));
         }
 
         exchangeS.setSelection(data.auto_exchange_count);

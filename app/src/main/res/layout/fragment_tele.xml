@@ -26,6 +26,46 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
+            <RelativeLayout
+                android:id="@+id/leftExchangeLayoutTele"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/leftExchangeTele"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/red_exchange" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/leftExchangeCountSTele"
+                        style="@style/SpinnerAsEditTextHalfAlpha"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:entries="@array/numbers" />
+
+                    <Button
+                        android:id="@+id/leftExchangeCountBTele"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:text="@string/normal_plus" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -33,7 +73,6 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/leftSwitchLayoutTele"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -154,7 +193,6 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/rightSwitchLayoutTele"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -210,6 +248,46 @@
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/rightExchangeLayoutTele"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/rightExchangeTele"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/blue_exchange" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/rightExchangeCountSTele"
+                        style="@style/SpinnerAsEditTextHalfAlpha"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:entries="@array/numbers" />
+
+                    <Button
+                        android:id="@+id/rightExchangeCountBTele"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:text="@string/normal_plus" />
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
