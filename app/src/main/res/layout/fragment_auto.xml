@@ -14,26 +14,74 @@
         android:text="@string/auto_input_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <CheckBox
+        android:id="@+id/autoRunC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/AutoText"
+        android:layout_centerHorizontal="true"
+        android:text="@string/auto_run" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/AutoText">
+        android:layout_below="@+id/autoRunC">
 
         <LinearLayout
-            android:id="@+id/teleLayout"
+            android:id="@+id/autoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
+            <RelativeLayout
+                android:id="@+id/leftExchangeLayoutAuto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/leftExchangeAuto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/red_exchange" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/leftExchangeCountSAuto"
+                        style="@style/SpinnerAsEditTextHalfAlpha"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:entries="@array/numbers" />
+
+                    <Button
+                        android:id="@+id/leftExchangeCountBAuto"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:text="@string/normal_plus" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
             <LinearLayout
+                android:id="@+id/leftSwitchLayoutAuto"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.05">
 
 
                 <RelativeLayout
-                    android:id="@+id/leftSwitchLayoutAuto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -148,13 +196,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/rightSwitchLayoutAuto"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.05">
 
 
                 <RelativeLayout
-                    android:id="@+id/rightSwitchLayoutAuto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -175,7 +223,8 @@
                         android:layout_height="40sp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:entries="@array/numbers" />
+                        android:entries="@array/numbers"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/rightSwitchTopCountBAuto"
@@ -183,7 +232,8 @@
                         android:layout_height="40sp"
                         android:layout_below="@id/rightSwitchTopCountSAuto"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/normal_plus" />
+                        android:text="@string/normal_plus"
+                        android:visibility="gone" />
 
 
                     <LinearLayout
@@ -198,18 +248,60 @@
                             style="@style/SpinnerAsEditTextHalfAlpha"
                             android:layout_width="40sp"
                             android:layout_height="40sp"
-                            android:entries="@array/numbers" />
+                            android:entries="@array/numbers"
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/rightSwitchBotCountBAuto"
                             android:layout_width="40sp"
                             android:layout_height="40sp"
-                            android:text="@string/normal_plus" />
+                            android:text="@string/normal_plus"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </RelativeLayout>
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/rightExchangeLayoutAuto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/rightExchangeAuto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/blue_exchange" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/rightExchangeCountSAuto"
+                        style="@style/SpinnerAsEditTextHalfAlpha"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:entries="@array/numbers" />
+
+                    <Button
+                        android:id="@+id/rightExchangeCountBAuto"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:text="@string/normal_plus" />
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

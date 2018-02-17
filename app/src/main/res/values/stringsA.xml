@@ -4,5 +4,6 @@
     <string name="auto_input_text">Autonomous Mode</string>
     <string name="cross_baseline_match">Crossed Baseline</string>
     <string name="dump_hopper_match">Dumped Hopper</string>
+    <string name="auto_run">Run</string>
 
 </resources>

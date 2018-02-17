@@ -130,14 +130,22 @@ public class PreMatchFragment extends MatchFragment {
         else
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
+        scale.setScaleY((data.scale_right == redLeft) ? -1f : 1f);
+
         if (pos.contains("Blue") != redLeft) {
-            left_switch.setScaleY(data.near_switch_right ? -1f : 1f);
+            left_switch.setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
+            right_switch.setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+
+            /*left_switch.setScaleY(data.near_switch_right ? -1f : 1f);
             scale.setScaleY(data.scale_right ? -1f : 1f);
-            right_switch.setScaleY(data.far_switch_right ? -1f : 1f);
+            right_switch.setScaleY(data.far_switch_right ? -1f : 1f);*/
         } else {
-            left_switch.setScaleY(data.near_switch_right ? 1f : -1f);
+            left_switch.setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+            right_switch.setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
+
+            /*left_switch.setScaleY(data.far_switch_right ? 1f : -1f);
             scale.setScaleY(data.scale_right ? 1f : -1f);
-            right_switch.setScaleY(data.far_switch_right ? 1f : -1f);
+            right_switch.setScaleY(data.near_switch_right ? 1f : -1f);*/
         }
 
 

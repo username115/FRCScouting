@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -35,34 +36,18 @@ import org.growingstems.scouting.R;
 public class AutoMatchFragment extends MatchFragment {
 
 
-    private static final int LEFT = 0;
-    private static final int RIGHT = 1;
+    private Spinner exchangeS;
+    private Button switchB;
+    private Spinner switchS;
+    private Button wrongSwitchB;
+    private Spinner wrongSwitchS;
+    private Spinner scaleS;
+    private Spinner wrongScaleS;
 
-    private CheckBox crossBaselineC;
-    private CheckBox dumpHopperC;
+    private CheckBox runC;
 
-    private Spinner scoreHighCount;
-    private Button scoreHighB;
-    private Button scoreHigh5B;
-    private Spinner missHighCount;
-    private Button missHighB;
-    private Button missHigh5B;
-    private Spinner scoreLowCount;
-    private Button scoreLowB;
-    private Button scoreLow5B;
+    private View mainView;
 
-    private LinearLayout[] layouts = new LinearLayout[2];
-
-    private ImageSwitcher[] AirshipTop = new ImageSwitcher[2];
-    private ImageSwitcher[] AirshipMid = new ImageSwitcher[2];
-    private ImageSwitcher[] AirshipBot = new ImageSwitcher[2];
-
-    private Spinner[] LeftGearCount = new Spinner[2];
-    private Button[] LeftGearB = new Button[2];
-    private Spinner[] CenterGearCount = new Spinner[2];
-    private Button[] CenterGearB = new Button[2];
-    private Spinner[] RightGearCount = new Spinner[2];
-    private Button[] RightGearB = new Button[2];
 
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
@@ -97,7 +82,8 @@ public class AutoMatchFragment extends MatchFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        getGUIRefs(view);
+        mainView = view;
+        runC = (CheckBox) view.findViewById(R.id.autoRunC);
         setListeners();
         displayed = true;
     }
@@ -117,31 +103,15 @@ public class AutoMatchFragment extends MatchFragment {
     public void saveData(MatchStatsStruct data) {
         if (getView() == null || data == null || !displayed)
             return;
-        // which side are we using
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        Activity act = getActivity();
-        String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity)act).getPosition();
-        else
-            pos = Prefs.getPosition(getActivity(), "Red 1");
-        int side;
-        if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
-            side = LEFT;
-        } else {
-            side = RIGHT;
-        }
 
         MatchStatsYearly.clearAuto(data);
 
-        data.auto_cross_baseline = crossBaselineC.isChecked();
-        data.auto_dump_hopper = dumpHopperC.isChecked();
-        data.auto_score_high = scoreHighCount.getSelectedItemPosition();
-        data.auto_miss_high = missHighCount.getSelectedItemPosition();
-        data.auto_score_low = scoreLowCount.getSelectedItemPosition();
-        data.auto_gear_delivered_left = LeftGearCount[side].getSelectedItemPosition();
-        data.auto_gear_delivered_center = CenterGearCount[side].getSelectedItemPosition();
-        data.auto_gear_delivered_right = RightGearCount[side].getSelectedItemPosition();
+        data.auto_exchange_count = exchangeS.getSelectedItemPosition();
+        data.auto_scale_count = scaleS.getSelectedItemPosition();
+        data.auto_scale_wrong_side_count = wrongScaleS.getSelectedItemPosition();
+        data.auto_switch_count = switchS.getSelectedItemPosition();
+        data.auto_switch_wrong_side_count = wrongSwitchS.getSelectedItemPosition();
+        data.auto_run = runC.isChecked();
     }
 
     @Override
@@ -152,107 +122,123 @@ public class AutoMatchFragment extends MatchFragment {
         // which side are we using
         boolean redLeft = Prefs.getRedLeft(getActivity(), true);
         if (redLeft) {
-            AirshipTop[LEFT].setBackgroundResource(R.drawable.red_diag);
-            AirshipMid[LEFT].setBackgroundResource(R.drawable.red_square);
-            AirshipBot[LEFT].setBackgroundResource(R.drawable.red_diag);
-            AirshipTop[RIGHT].setBackgroundResource(R.drawable.blue_diag);
-            AirshipMid[RIGHT].setBackgroundResource(R.drawable.blue_square);
-            AirshipBot[RIGHT].setBackgroundResource(R.drawable.blue_diag);
+            mainView.findViewById(R.id.scaleBAuto).setScaleX(1.0f);
         } else {
-            AirshipTop[RIGHT].setBackgroundResource(R.drawable.red_diag);
-            AirshipMid[RIGHT].setBackgroundResource(R.drawable.red_square);
-            AirshipBot[RIGHT].setBackgroundResource(R.drawable.red_diag);
-            AirshipTop[LEFT].setBackgroundResource(R.drawable.blue_diag);
-            AirshipMid[LEFT].setBackgroundResource(R.drawable.blue_square);
-            AirshipBot[LEFT].setBackgroundResource(R.drawable.blue_diag);
+            mainView.findViewById(R.id.scaleBAuto).setScaleX(-1.0f);
         }
 
         Activity act = getActivity();
         String pos;
         if (act instanceof MatchActivity)
-            pos = ((MatchActivity)act).getPosition();
+            pos = ((MatchActivity) act).getPosition();
         else
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
-        int side;
-        if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
-            layouts[LEFT].setVisibility(View.VISIBLE);
-            layouts[RIGHT].setVisibility(View.GONE);
-            side = LEFT;
+
+        mainView.findViewById(R.id.scaleBAuto).setScaleY((data.scale_right == redLeft) ? -1f : 1f);
+
+        if (pos.contains("Blue") != redLeft) {
+            mainView.findViewById(R.id.leftSwitchBAuto).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
+            mainView.findViewById(R.id.rightSwitchBAuto).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+
+            //scaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleBotCountBAuto : R.id.ScaleTopCountBAuto);
+            //wrongScaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleTopCountBAuto : R.id.ScaleBotCountBAuto);
+            scaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleBotCountSAuto : R.id.ScaleTopCountSAuto);
+            wrongScaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleTopCountSAuto : R.id.ScaleBotCountSAuto);
+
+            switchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountBAuto : R.id.leftSwitchTopCountBAuto);
+            wrongSwitchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountBAuto : R.id.leftSwitchBotCountBAuto);
+            switchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountSAuto : R.id.leftSwitchTopCountSAuto);
+            wrongSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountSAuto : R.id.leftSwitchBotCountSAuto);
+
+            //exchangeB = (Button)mainView.findViewById(R.id.leftExchangeCountBAuto);
+            exchangeS = (Spinner) mainView.findViewById(R.id.leftExchangeCountSAuto);
+
+            mainView.findViewById(R.id.leftExchangeLayoutAuto).setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.rightExchangeLayoutAuto).setVisibility(View.GONE);
+
+            mainView.findViewById(R.id.rightSwitchTopCountBAuto).setVisibility(View.GONE);
+            mainView.findViewById(R.id.rightSwitchTopCountSAuto).setVisibility(View.GONE);
+            mainView.findViewById(R.id.rightSwitchBotCountBAuto).setVisibility(View.GONE);
+            mainView.findViewById(R.id.rightSwitchBotCountSAuto).setVisibility(View.GONE);
+
+            switchB.setVisibility(View.VISIBLE);
+            switchS.setVisibility(View.VISIBLE);
+            wrongSwitchB.setVisibility(View.VISIBLE);
+            wrongSwitchS.setVisibility(View.VISIBLE);
+
         } else {
-            layouts[LEFT].setVisibility(View.GONE);
-            layouts[RIGHT].setVisibility(View.VISIBLE);
-            side = RIGHT;
+            mainView.findViewById(R.id.leftSwitchBAuto).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+            mainView.findViewById(R.id.rightSwitchBAuto).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
+
+            //wrongScaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleBotCountBAuto : R.id.ScaleTopCountBAuto);
+            //scaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleTopCountBAuto : R.id.ScaleBotCountBAuto);
+            wrongScaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleBotCountSAuto : R.id.ScaleTopCountSAuto);
+            scaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleTopCountSAuto : R.id.ScaleBotCountSAuto);
+
+            wrongSwitchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountBAuto : R.id.rightSwitchTopCountBAuto);
+            switchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountBAuto : R.id.rightSwitchBotCountBAuto);
+            wrongSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountSAuto : R.id.rightSwitchTopCountSAuto);
+            switchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountSAuto : R.id.rightSwitchBotCountSAuto);
+
+            //exchangeB = (Button)mainView.findViewById(R.id.rightExchangeCountBAuto);
+            exchangeS = (Spinner) mainView.findViewById(R.id.rightExchangeCountSAuto);
+
+            mainView.findViewById(R.id.rightExchangeLayoutAuto).setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.leftExchangeLayoutAuto).setVisibility(View.GONE);
+
+            mainView.findViewById(R.id.leftSwitchTopCountBAuto).setVisibility(View.GONE);
+            mainView.findViewById(R.id.leftSwitchTopCountSAuto).setVisibility(View.GONE);
+            mainView.findViewById(R.id.leftSwitchBotCountBAuto).setVisibility(View.GONE);
+            mainView.findViewById(R.id.leftSwitchBotCountSAuto).setVisibility(View.GONE);
+
+            switchB.setVisibility(View.VISIBLE);
+            switchS.setVisibility(View.VISIBLE);
+            wrongSwitchB.setVisibility(View.VISIBLE);
+            wrongSwitchS.setVisibility(View.VISIBLE);
         }
 
-        LeftGearCount[side].setSelection(data.auto_gear_delivered_left);
-        CenterGearCount[side].setSelection(data.auto_gear_delivered_center);
-        RightGearCount[side].setSelection(data.auto_gear_delivered_right);
+        if (pos.contains("Blue")) {
+            ((ImageView) mainView.findViewById(R.id.leftExchangeAuto)).setImageDrawable(
+                    getActivity().getResources().getDrawable(R.drawable.blue_exchange));
+            ((ImageView) mainView.findViewById(R.id.rightExchangeAuto)).setImageDrawable(
+                    getActivity().getResources().getDrawable(R.drawable.blue_exchange));
+        } else {
 
-        crossBaselineC.setChecked(data.auto_cross_baseline);
-        dumpHopperC.setChecked(data.auto_dump_hopper);
-        scoreHighCount.setSelection(data.auto_score_high);
-        missHighCount.setSelection(data.auto_miss_high);
-        scoreLowCount.setSelection(data.auto_score_low);
+            ((ImageView) mainView.findViewById(R.id.leftExchangeAuto)).setImageDrawable(
+                    getActivity().getResources().getDrawable(R.drawable.red_exchange));
+            ((ImageView) mainView.findViewById(R.id.rightExchangeAuto)).setImageDrawable(
+                    getActivity().getResources().getDrawable(R.drawable.red_exchange));
+        }
 
-    }
+        exchangeS.setSelection(data.auto_exchange_count);
+        scaleS.setSelection(data.auto_scale_count);
+        wrongScaleS.setSelection(data.auto_scale_wrong_side_count);
+        switchS.setSelection(data.auto_switch_count);
+        wrongSwitchS.setSelection(data.auto_switch_wrong_side_count);
+        runC.setChecked(data.auto_run);
 
-    private void getGUIRefs(View view) {
-        crossBaselineC = (CheckBox) view.findViewById(R.id.crossBaselineC);
-        dumpHopperC = (CheckBox) view.findViewById(R.id.dumpHopperC);
-
-        scoreHighCount = (Spinner) view.findViewById(R.id.scoreHighCount);
-        scoreHighB = (Button) view.findViewById(R.id.scoreHighB);
-        scoreHigh5B = (Button) view.findViewById(R.id.scoreHigh5B);
-        missHighCount = (Spinner) view.findViewById(R.id.missHighCount);
-        missHighB = (Button) view.findViewById(R.id.missHighB);
-        missHigh5B = (Button) view.findViewById(R.id.missHigh5B);
-        scoreLowCount = (Spinner) view.findViewById(R.id.scoreLowCount);
-        scoreLowB = (Button) view.findViewById(R.id.scoreLowB);
-        scoreLow5B = (Button) view.findViewById(R.id.scoreLow5B);
-
-        layouts[LEFT] = (LinearLayout) view.findViewById(R.id.leftAutoMatch);
-        layouts[RIGHT] = (LinearLayout) view.findViewById(R.id.rightAutoMatch);
-
-        AirshipTop[LEFT] = (ImageSwitcher) view.findViewById(R.id.leftAirshipTop);
-        AirshipMid[LEFT] = (ImageSwitcher) view.findViewById(R.id.leftAirshipMid);
-        AirshipBot[LEFT] = (ImageSwitcher) view.findViewById(R.id.leftAirshipBot);
-
-        AirshipTop[RIGHT] = (ImageSwitcher) view.findViewById(R.id.rightAirshipTop);
-        AirshipMid[RIGHT] = (ImageSwitcher) view.findViewById(R.id.rightAirshipMid);
-        AirshipBot[RIGHT] = (ImageSwitcher) view.findViewById(R.id.rightAirshipBot);
-
-        LeftGearCount[LEFT] = (Spinner) view.findViewById(R.id.leftLeftGearCount);
-        LeftGearB[LEFT] = (Button) view.findViewById(R.id.leftLeftGearB);
-        CenterGearCount[LEFT] = (Spinner) view.findViewById(R.id.leftCenterGearCount);
-        CenterGearB[LEFT] = (Button) view.findViewById(R.id.leftCenterGearB);
-        RightGearCount[LEFT] = (Spinner) view.findViewById(R.id.leftRightGearCount);
-        RightGearB[LEFT] = (Button) view.findViewById(R.id.leftRightGearB);
-
-        LeftGearCount[RIGHT] = (Spinner) view.findViewById(R.id.rightLeftGearCount);
-        LeftGearB[RIGHT] = (Button) view.findViewById(R.id.rightLeftGearB);
-        CenterGearCount[RIGHT] = (Spinner) view.findViewById(R.id.rightCenterGearCount);
-        CenterGearB[RIGHT] = (Button) view.findViewById(R.id.rightCenterGearB);
-        RightGearCount[RIGHT] = (Spinner) view.findViewById(R.id.rightRightGearCount);
-        RightGearB[RIGHT] = (Button) view.findViewById(R.id.rightRightGearB);
 
     }
 
     private void setListeners() {
+        mainView.findViewById(R.id.rightExchangeCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightExchangeCountSAuto), 1));
+        mainView.findViewById(R.id.leftExchangeCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftExchangeCountSAuto), 1));
+        mainView.findViewById(R.id.rightSwitchBotCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightSwitchBotCountSAuto), 1));
+        mainView.findViewById(R.id.rightSwitchTopCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightSwitchTopCountSAuto), 1));
+        mainView.findViewById(R.id.leftSwitchBotCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftSwitchBotCountSAuto), 1));
+        mainView.findViewById(R.id.leftSwitchTopCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftSwitchTopCountSAuto), 1));
+        mainView.findViewById(R.id.ScaleBotCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.ScaleBotCountSAuto), 1));
+        mainView.findViewById(R.id.ScaleTopCountBAuto)
+                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.ScaleTopCountSAuto), 1));
 
-        scoreHighB.setOnClickListener(new OnIncrementListener(scoreHighCount, 1));
-        scoreHigh5B.setOnClickListener(new OnIncrementListener(scoreHighCount, 5));
-        missHighB.setOnClickListener(new OnIncrementListener(missHighCount, 1));
-        missHigh5B.setOnClickListener(new OnIncrementListener(missHighCount, 5));
-        scoreLowB.setOnClickListener(new OnIncrementListener(scoreLowCount, 1));
-        scoreLow5B.setOnClickListener(new OnIncrementListener(scoreLowCount, 5));
-
-        LeftGearB[LEFT].setOnClickListener(new OnIncrementListener(LeftGearCount[LEFT], 1));
-        CenterGearB[LEFT].setOnClickListener(new OnIncrementListener(CenterGearCount[LEFT], 1));
-        RightGearB[LEFT].setOnClickListener(new OnIncrementListener(RightGearCount[LEFT], 1));
-        LeftGearB[RIGHT].setOnClickListener(new OnIncrementListener(LeftGearCount[RIGHT], 1));
-        CenterGearB[RIGHT].setOnClickListener(new OnIncrementListener(CenterGearCount[RIGHT], 1));
-        RightGearB[RIGHT].setOnClickListener(new OnIncrementListener(RightGearCount[RIGHT], 1));
 
     }
 
