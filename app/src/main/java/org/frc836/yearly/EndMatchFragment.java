@@ -132,6 +132,7 @@ public class EndMatchFragment extends MatchFragment {
         data.yellow_card = ((CheckBox)getView().findViewById(R.id.yellow_card)).isChecked();
         data.red_card = ((CheckBox)getView().findViewById(R.id.red_card)).isChecked();
         data.supported_others = ((CheckBox)getView().findViewById(R.id.assisted_climb)).isChecked();
+        data.parked = ((CheckBox)getView().findViewById(R.id.parked)).isChecked();
     }
 
     @Override
@@ -146,6 +147,7 @@ public class EndMatchFragment extends MatchFragment {
         ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.red_card);
         ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
         ((CheckBox)getView().findViewById(R.id.assisted_climb)).setChecked(data.supported_others);
+        ((CheckBox)getView().findViewById(R.id.parked)).setChecked(data.parked);
     }
 
     public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {

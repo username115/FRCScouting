@@ -14,5 +14,6 @@
     <string name="unknown">Unknown</string>
     <string name="text_climb_time">Climb Time:</string>
     <string name="supported_other_s_climb">Supported Other\'s Climb</string>
+    <string name="parked">Parked</string>
 
 </resources>

@@ -32,27 +32,44 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
+                <CheckBox
+                    android:id="@+id/parked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/parked" />
+
                 <CheckBox
                     android:id="@+id/climb_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:layout_weight="1"
                     android:text="@string/climb" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/assisted_climb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/supported_other_s_climb" />
 
                 <CheckBox
                     android:id="@+id/climb_end_attempt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="right"
+                    android:layout_weight="1"
                     android:text="@string/climb_attempt" />
             </LinearLayout>
-            <CheckBox
-                android:id="@+id/assisted_climb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/supported_other_s_climb" />
+
             <EditText
                 android:id="@+id/notes"
                 android:layout_width="match_parent"
