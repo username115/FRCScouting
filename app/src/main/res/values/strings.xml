@@ -22,8 +22,6 @@
         <item name="blue1">Blue 1</item>
         <item name="blue2">Blue 2</item>
         <item name="blue3">Blue 3</item>
-        <item name="red_pilot">Red Pilot</item>
-        <item name="blue_pilot">Blue Pilot</item>
     </string-array>
     <string-array name="numbers">
         <item>0</item>
