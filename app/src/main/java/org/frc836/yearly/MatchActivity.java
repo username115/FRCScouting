@@ -92,21 +92,19 @@ public class MatchActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
-        // TODO
         HELPMESSAGE = "Record Match Data here.\n"
                 + "Ensure that the alliance you are scouting is set to the correct side of the field.\n" +
+                "Pre-match:\n" +
+                "Set scale and switches to the correct orientation for this match.\n" +
                 "Auto:\n" +
-                "Record scores and misses for high goal, scores for low goal.\n" +
-                "Numbers can be incremented by one or five.\n" +
-                "Record gears placed on lifts.\n" +
-                "Also record if the robot crossed the baseline and/or dumped a hopper.\n" +
+                "Record if the robot crossed the Run line.\n" +
+                "Record Power Cubes placed in exchange, switch, and scale.\n" +
                 "Tele-Op:\n" +
-                "Record scores and misses for high goal, scores for low goal.\n" +
-                "Numbers can be incremented by one or five.\n" +
-                "Record gears placed on lifts.\n" +
-                "Also record if the robot crossed the baseline and/or dumped a hopper.\n" +
+                "Record Power Cubes places in exchange, switches, and scale.\n" +
                 "End game:\n" +
-                "Record fouls, cards, and if a robot scaled or attmpted to scale.\n" +
+                "Record fouls, cards, and if a robot parked, climbed, or attmpted to climb.\n" +
+                "Also record if the robot assisted other robots in their climbs.\n" +
+                "Do not record climbs that only counted due to power-ups or penalties.\n" +
                 "Record any pertinent notes. Two drop-downs are provided for common notes.";
 
         getGUIRefs();
