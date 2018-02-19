@@ -40,41 +40,33 @@ public class PitsActivity extends DBActivity {
     private Spinner wheeltypeS;
 
     private EditText commentsT;
-    private Button submitB;
     private TextView teamInfoT;
 
-
-    //2017 start
-    private CheckBox scoreLowC;
-    private CheckBox scoreHighC;
-    private CheckBox scoreGearC;
-
-    //autonomous mode
-    private CheckBox autoGearC;
-    private CheckBox autoHopperC;
-    private EditText autoScoreLowT;
-    private EditText autoScoreHighT;
-
-    //tele-op
-    private EditText lowGoalsT;
-    private EditText highGoalsT;
-    private EditText accuracyT;
-    private EditText scoringSpeedT;
-    private EditText fuelCapacityT;
-    private CheckBox groundLoadFuelC;
-    private CheckBox hopperLoadFuelC;
-    private CheckBox stationLoadFuelC;
-    private CheckBox groundLoadGearC;
-    private CheckBox stationLoadGearC;
-
-    private EditText floorLoadingSpeedT;
     private EditText maxSpeedT;
     private EditText weightT;
+
+
+    //2018 start
+    private CheckBox scoreSwitchC;
+    private CheckBox scoreScaleC;
+
+    //autonomous mode
+    private CheckBox autoRunC;
+    private EditText autoScoreSwitchT;
+    private EditText autoScoreScaleT;
+
+    //tele-op
+    private CheckBox exchangeDepositC;
+    private CheckBox exchangeAcquireC;
+    private CheckBox portalAcquireC;
+    private CheckBox floorAcquireC;
+
+    //End game
     private CheckBox canClimbC;
-    private CheckBox customRopeC;
+    private CheckBox supportOthersC;
 
 
-    //2017 end
+    //2018 end
 
     private Handler timer = new Handler();
     private static final int DELAY = 500;
@@ -104,37 +96,32 @@ public class PitsActivity extends DBActivity {
         drivetrainS = (Spinner) findViewById(R.id.pits_drivetrainS);
         wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
 
-        //2017 start
-        scoreLowC = (CheckBox) findViewById(R.id.pits_can_score_low);
-        scoreHighC = (CheckBox) findViewById(R.id.pits_can_score_high);
-        scoreGearC = (CheckBox) findViewById(R.id.pits_can_score_gears);
+        //2018 start
+        scoreSwitchC = (CheckBox) findViewById(R.id.pits_can_score_switch);
+        scoreScaleC = (CheckBox) findViewById(R.id.pits_can_score_scale);
 
         //autonomous mode
-        autoGearC = (CheckBox) findViewById(R.id.auto_gear_pit);
-        autoHopperC = (CheckBox) findViewById(R.id.auto_hopper_pit);
-        autoScoreLowT = (EditText) findViewById(R.id.auto_score_low_pit);
-        autoScoreHighT = (EditText) findViewById(R.id.auto_score_high_pit);
+        autoRunC = (CheckBox) findViewById(R.id.auto_run_pit);
+        autoScoreSwitchT = (EditText) findViewById(R.id.auto_score_switch_pit);
+        autoScoreScaleT = (EditText) findViewById(R.id.auto_score_scale_pit);
+
 
         //tele-op mode
-        lowGoalsT = (EditText) findViewById(R.id.tele_score_low_pit);
-        highGoalsT = (EditText) findViewById(R.id.tele_score_high_pit);
-        accuracyT = (EditText) findViewById(R.id.accuracy_pit);
-        scoringSpeedT = (EditText) findViewById(R.id.scoring_speed_pit);
-        fuelCapacityT = (EditText) findViewById(R.id.fuel_capacity_pit);
-        groundLoadFuelC = (CheckBox) findViewById(R.id.ground_load_fuel_pit);
-        hopperLoadFuelC = (CheckBox) findViewById(R.id.hopper_load_fuel_pit);
-        stationLoadFuelC = (CheckBox) findViewById(R.id.station_load_fuel_pit);
-        groundLoadGearC = (CheckBox) findViewById(R.id.ground_load_gear_pit);
-        stationLoadGearC = (CheckBox) findViewById(R.id.station_load_gear_pit);
-        floorLoadingSpeedT = (EditText) findViewById(R.id.loading_speed_fps_pit);
+        exchangeDepositC = (CheckBox) findViewById(R.id.pits_can_deposit_exchange);
+        exchangeAcquireC = (CheckBox) findViewById(R.id.pits_can_receive_exchange);
+        portalAcquireC = (CheckBox) findViewById(R.id.pits_can_receive_portal);
+        floorAcquireC = (CheckBox) findViewById(R.id.pits_can_acquire_floor);
+
+
+        canClimbC = (CheckBox) findViewById(R.id.can_climb_pit);
+        supportOthersC = (CheckBox) findViewById(R.id.support_others_pit);
+        //2018 end
+
         maxSpeedT = (EditText) findViewById(R.id.robot_speed_fps_pit);
         weightT = (EditText) findViewById(R.id.robot_gross_weightT);
-        canClimbC = (CheckBox) findViewById(R.id.can_climb_pit);
-        customRopeC = (CheckBox) findViewById(R.id.custom_rope_pit);
-        //2017 end
 
         commentsT = (EditText) findViewById(R.id.pits_commentsT);
-        submitB = (Button) findViewById(R.id.pits_submitB);
+        Button submitB = (Button) findViewById(R.id.pits_submitB);
         teamInfoT = (TextView) findViewById(R.id.pits_teamInfo);
 
         teamT.addTextChangedListener(new teamTextListener());
@@ -311,64 +298,32 @@ public class PitsActivity extends DBActivity {
 
 
 
-        stats.can_score_high = scoreHighC.isChecked();
-        stats.can_score_low = scoreLowC.isChecked();
-        stats.can_score_gears = scoreGearC.isChecked();
+        stats.switch_score = scoreSwitchC.isChecked();
+        stats.scale_score = scoreScaleC.isChecked();
 
-        stats.can_climb = canClimbC.isChecked();
 
-        stats.ground_load_fuel = groundLoadFuelC.isChecked();
-        stats.hopper_load_fuel = hopperLoadFuelC.isChecked();
-        stats.station_load_fuel = stationLoadFuelC.isChecked();
-        stats.ground_load_gear = groundLoadGearC.isChecked();
-        stats.station_load_gear = stationLoadGearC.isChecked();
 
-        stats.custom_rope = customRopeC.isChecked();
+        stats.auto_run = autoRunC.isChecked();
+        stats.exchange = exchangeDepositC.isChecked();
+        stats.exchange_acquire = exchangeAcquireC.isChecked();
+        stats.portal_acquire = portalAcquireC.isChecked();
+        stats.floor_acquire = floorAcquireC.isChecked();
 
-        tstr = autoScoreLowT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.auto_score_low_count = Integer.valueOf(tstr);
-        else
-            stats.auto_score_low_count = 0;
-        tstr = autoScoreHighT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.auto_score_high_count = Integer.valueOf(tstr);
-        else
-            stats.auto_score_high_count = 0;
-        stats.auto_gear = autoGearC.isChecked();
-        stats.auto_hopper = autoHopperC.isChecked();
 
-        tstr = highGoalsT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.tele_score_high_count = Integer.valueOf(tstr);
-        else
-            stats.tele_score_high_count = 0;
-        tstr = lowGoalsT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.tele_score_low_count = Integer.valueOf(tstr);
-        else
-            stats.tele_score_low_count = 0;
+        stats.climb = canClimbC.isChecked();
+        stats.supports_others = supportOthersC.isChecked();
 
-        tstr = accuracyT.getText().toString().trim();
+        tstr = autoScoreSwitchT.getText().toString().trim();
         if (tstr.length() > 0)
-            stats.accuracy = Integer.valueOf(tstr);
+            stats.auto_switch_count = Integer.valueOf(tstr);
         else
-            stats.accuracy = 0;
-        tstr = fuelCapacityT.getText().toString().trim();
+            stats.auto_switch_count = 0;
+        tstr = autoScoreScaleT.getText().toString().trim();
         if (tstr.length() > 0)
-            stats.fuel_capacity = Integer.valueOf(tstr);
+            stats.auto_scale_count = Integer.valueOf(tstr);
         else
-            stats.fuel_capacity = 0;
-        tstr = scoringSpeedT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.scoring_speed_bps = Integer.valueOf(tstr);
-        else
-            stats.scoring_speed_bps = 0;
-        tstr = floorLoadingSpeedT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.loading_speed_bps = Integer.valueOf(tstr);
-        else
-            stats.loading_speed_bps = 0;
+            stats.auto_scale_count = 0;
+
         tstr = maxSpeedT.getText().toString().trim();
         if (tstr.length() > 0)
             stats.max_robot_speed_fts = Integer.valueOf(tstr);
@@ -406,34 +361,26 @@ public class PitsActivity extends DBActivity {
         wheeltypeS.setSelection(0);
 
 
-        //2017
-        scoreLowC.setChecked(false);
-        scoreHighC.setChecked(false);
-        scoreGearC.setChecked(false);
+        //2018
+        scoreSwitchC.setChecked(false);
+        scoreScaleC.setChecked(false);
 
         //autonomous mode
-        autoGearC.setChecked(false);
-        autoHopperC.setChecked(false);
-        autoScoreLowT.setText("");
-        autoScoreHighT.setText("");
+        autoRunC.setChecked(false);
+        autoScoreSwitchT.setText("");
+        autoScoreScaleT.setText("");
 
         //tele-op
-        lowGoalsT.setText("");
-        highGoalsT.setText("");
-        accuracyT.setText("");
-        scoringSpeedT.setText("");
-        fuelCapacityT.setText("");
-        groundLoadFuelC.setChecked(false);
-        hopperLoadFuelC.setChecked(false);
-        stationLoadFuelC.setChecked(false);
-        groundLoadGearC.setChecked(false);
-        stationLoadGearC.setChecked(false);
+        exchangeDepositC.setChecked(false);
+        exchangeAcquireC.setChecked(false);
+        portalAcquireC.setChecked(false);
+        floorAcquireC.setChecked(false);
 
-        floorLoadingSpeedT.setText("");
+        canClimbC.setChecked(false);
+        supportOthersC.setChecked(false);
+
         maxSpeedT.setText("");
         weightT.setText("");
-        canClimbC.setChecked(false);
-        customRopeC.setChecked(false);
     }
 
     private class teamTextListener implements TextWatcher {
@@ -518,33 +465,25 @@ public class PitsActivity extends DBActivity {
 
         commentsT.setText(stats.notes);
 
-        scoreLowC.setChecked(stats.can_score_low);
-        scoreHighC.setChecked(stats.can_score_high);
-        scoreGearC.setChecked(stats.can_score_gears);
+        scoreSwitchC.setChecked(stats.switch_score);
+        scoreScaleC.setChecked(stats.scale_score);
 
         //autonomous mode
-        autoGearC.setChecked(stats.auto_gear);
-        autoHopperC.setChecked(stats.auto_hopper);
-        autoScoreLowT.setText(String.valueOf(stats.auto_score_low_count));
-        autoScoreHighT.setText(String.valueOf(stats.auto_score_high_count));
+        autoRunC.setChecked(stats.auto_run);
+        autoScoreSwitchT.setText(String.valueOf(stats.auto_switch_count));
+        autoScoreScaleT.setText(String.valueOf(stats.auto_scale_count));
 
         //tele-op
-        lowGoalsT.setText(String.valueOf(stats.tele_score_low_count));
-        highGoalsT.setText(String.valueOf(stats.tele_score_high_count));
-        accuracyT.setText(String.valueOf(stats.accuracy));
-        scoringSpeedT.setText(String.valueOf(stats.scoring_speed_bps));
-        fuelCapacityT.setText(String.valueOf(stats.fuel_capacity));
-        groundLoadFuelC.setChecked(stats.ground_load_fuel);
-        hopperLoadFuelC.setChecked(stats.hopper_load_fuel);
-        stationLoadFuelC.setChecked(stats.station_load_fuel);
-        groundLoadGearC.setChecked(stats.ground_load_gear);
-        stationLoadGearC.setChecked(stats.station_load_gear);
+        exchangeDepositC.setChecked(stats.exchange);
+        exchangeAcquireC.setChecked(stats.exchange_acquire);
+        portalAcquireC.setChecked(stats.portal_acquire);
+        floorAcquireC.setChecked(stats.floor_acquire);
 
-        floorLoadingSpeedT.setText(String.valueOf(stats.loading_speed_bps));
+        canClimbC.setChecked(stats.climb);
+        supportOthersC.setChecked(stats.supports_others);
+
         maxSpeedT.setText(String.valueOf(stats.max_robot_speed_fts));
         weightT.setText(String.valueOf(stats.robot_gross_weight_lbs));
-        canClimbC.setChecked(stats.can_climb);
-        customRopeC.setChecked(stats.custom_rope);
 
     }
 
@@ -553,28 +492,19 @@ public class PitsActivity extends DBActivity {
                 || configS.getSelectedItemPosition() != 0
                 || drivetrainS.getSelectedItemPosition() != 0
                 || wheeltypeS.getSelectedItemPosition() != 0
-                || scoreLowC.isChecked()
-                || scoreHighC.isChecked()
-                || scoreGearC.isChecked()
-                || autoGearC.isChecked()
-                || autoHopperC.isChecked()
-                || autoScoreLowT.getText().toString().length() > 0
-                || autoScoreHighT.getText().toString().length() > 0
-                || lowGoalsT.getText().toString().length() > 0
-                || highGoalsT.getText().toString().length() > 0
-                || accuracyT.getText().toString().length() > 0
-                || scoringSpeedT.getText().toString().length() > 0
-                || fuelCapacityT.getText().toString().length() > 0
-                || groundLoadFuelC.isChecked()
-                || hopperLoadFuelC.isChecked()
-                || stationLoadFuelC.isChecked()
-                || groundLoadGearC.isChecked()
-                || stationLoadGearC.isChecked()
-                || floorLoadingSpeedT.getText().toString().length() > 0
+                || scoreSwitchC.isChecked()
+                || scoreScaleC.isChecked()
+                || autoRunC.isChecked()
+                || autoScoreSwitchT.getText().toString().length() > 0
+                || autoScoreScaleT.getText().toString().length() > 0
+                || exchangeDepositC.isChecked()
+                || exchangeAcquireC.isChecked()
+                || portalAcquireC.isChecked()
+                || floorAcquireC.isChecked()
+                || canClimbC.isChecked()
+                || supportOthersC.isChecked()
                 || maxSpeedT.getText().toString().length() > 0
                 || weightT.getText().toString().length() > 0
-                || canClimbC.isChecked()
-                || customRopeC.isChecked()
                 );
     }
 

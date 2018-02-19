@@ -87,9 +87,6 @@ public abstract class DataFragment extends Fragment {
             case PT_MATCHLINEGRAPH:
                 fragment = MatchLineGraphFragment.getInstance(teamNumber, event_name);
                 break;
-            case PT_PILOTMATCHES:
-                fragment = PilotMatchListFragment.getInstance(event_name, teamNumber);
-                break;
             default:
                 return null;
         }
