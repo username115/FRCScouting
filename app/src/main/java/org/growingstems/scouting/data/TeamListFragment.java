@@ -130,7 +130,7 @@ public class TeamListFragment extends DataFragment {
                     return false;
                 }
                 PopupMenu popup = new PopupMenu(getActivity(), view);
-                List<String> t = mParent.getDB().getPickList(Prefs.getEvent(mParent, "CHS District - Greater DC Event"));
+                List<String> t = mParent.getDB().getPickList(Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
                 if (t != null && t.contains(team))
                     popup.getMenu().add(REMOVETEAMPICK);
                 else
@@ -157,9 +157,9 @@ public class TeamListFragment extends DataFragment {
         public boolean onMenuItemClick(MenuItem item) {
             try {
                 if (item.getTitle().toString().compareTo(PICKLISTITEM) == 0)
-                    mParent.getDB().addTeamToPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District - Greater DC Event"));
+                    mParent.getDB().addTeamToPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
                 else if (item.getTitle().toString().compareTo(REMOVETEAMPICK) == 0)
-                    mParent.getDB().removeTeamFromPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District - Greater DC Event"));
+                    mParent.getDB().removeTeamFromPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
             } catch (NumberFormatException e) {
                 return false;
             }

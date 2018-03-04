@@ -66,7 +66,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
 
         SQLiteDatabase data = ScoutingDBHelper.getInstance()
                 .getReadableDatabase();
-        Cursor teams = db.getPickListCursor(Prefs.getEvent(this, "CHS District - Greater DC Event"), data);
+        Cursor teams = db.getPickListCursor(Prefs.getEvent(this, "CHS District Central Virginia Event"), data);
         mAdapter.swapCursor(teams);
         ScoutingDBHelper.getInstance().close();
     }
@@ -76,7 +76,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
             new TouchInterceptor.DropListener() {
                 public void drop(int from, int to) {
                     boolean fromFirst = from < to;
-                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District - Greater DC Event");
+                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
                     List<String> teams = db.getPickList(eventName);
                     Collections.rotate(teams.subList(fromFirst ? from : to, (fromFirst ? to : from) + 1), to - from);
                     db.updateSort(teams, eventName);
@@ -87,7 +87,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
     private TouchInterceptor.RemoveListener mRemoveListener =
             new TouchInterceptor.RemoveListener() {
                 public void remove(int which) {
-                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District - Greater DC Event");
+                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
                     List<String> teams = db.getPickList(eventName);
                     db.removeTeamFromPickList(Integer.valueOf(teams.get(which)), eventName);
                     RefreshData();
@@ -163,7 +163,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
         @Override
         public boolean onMenuItemClick(MenuItem item) {
 
-            String eventName = Prefs.getEvent(PickActivity.this, "CHS District - Greater DC Event");
+            String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
             List<String> teams = db.getPickList(eventName);
             if (item.getTitle().toString().equalsIgnoreCase(REMOVETEXT)) {
                 db.removeTeamFromPickList(Integer.valueOf(teams.get(mPosition)), eventName);
