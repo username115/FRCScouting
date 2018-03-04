@@ -303,7 +303,7 @@ public class MatchActivity extends DBActivity {
         mViewPager.setCurrentItem(0, true);
         loadAll();
         lastB.setText("Cancel");
-        nextB.setText("Tele op");
+        nextB.setText("Auto");
     }
 
     public void pageSelected(int page) {
@@ -351,7 +351,7 @@ public class MatchActivity extends DBActivity {
             default:
                 loadAll();
                 lastB.setText("Cancel");
-                nextB.setText("Tele op");
+                nextB.setText("Auto");
                 timer.removeCallbacks(mUpdateTimeTask);
         }
     }
