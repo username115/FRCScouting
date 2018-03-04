@@ -344,7 +344,7 @@ public class PitsActivity extends DBActivity {
             Toast.makeText(getApplicationContext(), "Error in local database",
                     Toast.LENGTH_LONG).show();
 
-        setTeamList(db.getTeamsWithData(Prefs.getEvent(this, "CHS District - Greater DC Event")));
+        setTeamList(db.getTeamsWithData(Prefs.getEvent(this, "CHS District Central Virginia Event")));
     }
 
     protected void clear() {

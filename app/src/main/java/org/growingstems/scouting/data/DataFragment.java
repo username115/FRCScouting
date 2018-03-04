@@ -37,7 +37,6 @@ public abstract class DataFragment extends Fragment {
     public static final int PT_MATCHES = 2;
     public static final int PT_PITS = 3;
     public static final int PT_MATCHLINEGRAPH = 4;
-    public static final int PT_PILOTMATCHES = 5;
 
     protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -112,8 +111,6 @@ public abstract class DataFragment extends Fragment {
                         .toUpperCase(l);
             case PT_MATCHLINEGRAPH:
                 return "Match Graph".toUpperCase(l);
-            case PT_PILOTMATCHES:
-                return "Pilot Matches".toUpperCase(l);
         }
         return null;
     }

@@ -138,7 +138,7 @@ public class MatchActivity extends DBActivity {
     protected void onResume() {
         super.onResume();
 
-        teamData.event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event;
+        teamData.event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event;
 
         teamData.practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
 
@@ -223,7 +223,7 @@ public class MatchActivity extends DBActivity {
                                             teamData = new MatchStatsStruct(
                                                     Integer.valueOf(teamText
                                                             .getText().toString()),
-                                                    event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event,
+                                                    event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event,
                                                     Integer.valueOf(matchT
                                                             .getText().toString()));
                                         } else
@@ -286,11 +286,11 @@ public class MatchActivity extends DBActivity {
         boolean loadData = false;
         if (team != null && team.length() > 0 && match != null
                 && match.length() > 0) {
-            teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer
+            teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event, Integer
                     .valueOf(match), Integer.valueOf(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
                 teamData = new MatchStatsStruct(Integer.valueOf(team),
-                        event == null ? Prefs.getEvent(getApplicationContext(), "CHS District - Greater DC Event") : event, Integer.valueOf(match),
+                        event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event, Integer.valueOf(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
@@ -303,7 +303,7 @@ public class MatchActivity extends DBActivity {
         mViewPager.setCurrentItem(0, true);
         loadAll();
         lastB.setText("Cancel");
-        nextB.setText("Tele op");
+        nextB.setText("Auto");
     }
 
     public void pageSelected(int page) {
@@ -351,7 +351,7 @@ public class MatchActivity extends DBActivity {
             default:
                 loadAll();
                 lastB.setText("Cancel");
-                nextB.setText("Tele op");
+                nextB.setText("Auto");
                 timer.removeCallbacks(mUpdateTimeTask);
         }
     }
