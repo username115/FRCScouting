@@ -29,6 +29,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
+            android:textSize="25sp"
             android:text="Red 1"
             android:textColor="#FF0000" />
 
@@ -57,8 +58,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/startMatchTeamT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="50sp"
+                android:text=""/>
             <ImageView
                 android:id="@+id/robotPic"
                 android:layout_width="match_parent"
@@ -69,7 +77,7 @@
                 android:clickable="true"
                 android:contentDescription="Robot Picture"
                 android:scaleType="fitCenter"
-                android:src="@drawable/robot" />
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
