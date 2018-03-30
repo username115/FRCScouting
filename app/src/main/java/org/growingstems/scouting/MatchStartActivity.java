@@ -265,6 +265,17 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         }
     }
 
+    private int orient = Configuration.ORIENTATION_UNDEFINED;
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation != orient)
+            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, robotPic.getDrawable());
+        orient = newConfig.orientation;
+    }
+
+
     private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
 
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
