@@ -56,7 +56,7 @@
         android:title="Auto Sync" />
 
     <ListPreference
-        android:defaultValue="1 Minute"
+        android:defaultValue="5 minutes"
         android:dialogTitle="Auto Sync Frequency"
         android:entries="@array/autoSync"
         android:entryValues="@array/autoSync"
