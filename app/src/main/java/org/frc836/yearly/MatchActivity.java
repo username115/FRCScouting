@@ -33,6 +33,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.MatchStatsStruct;
@@ -503,10 +504,18 @@ public class MatchActivity extends DBActivity {
     private void submit() {
         if (!readOnly) {
             saveEnd();
-            db.submitMatch(teamData);
-            nextB.setEnabled(false);
-            if (matchT.getText().length() > 0)
-                setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+            if (teamData.match_id > 0 && teamData.team_id > 0) {
+                db.submitMatch(teamData);
+                nextB.setEnabled(false);
+                if (matchT.getText().length() > 0)
+                    setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+            } else if (teamData.match_id <= 0) {
+                Toast.makeText(this, "Please enter a match number", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                Toast.makeText(this, "Please enter a team number", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
         finish();
     }
