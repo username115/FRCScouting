@@ -153,6 +153,7 @@ public class DashboardActivity extends DBActivity {
 		});
 
 		DB db = new DB(getBaseContext(), binder);
+		PreferenceManager.setDefaultValues(this, R.xml.mainprefs, false);
 		String url = Prefs.getScoutingURLNoDefault(getApplicationContext());
 		if (url.length() > 0) {
 			db.checkVersion(new VersionCallback());

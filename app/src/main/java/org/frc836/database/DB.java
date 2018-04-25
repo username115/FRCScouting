@@ -2063,6 +2063,8 @@ public class DB {
 
                     List<Integer> matchList = getMatchesWithData(id, false, params[0]._teamNum);
 
+                    if (matchList == null)
+                        continue;
                     for (Integer match : matchList) {
                         matches.append(match, getMatchStats(id, match, params[0]._teamNum, false));
                     }

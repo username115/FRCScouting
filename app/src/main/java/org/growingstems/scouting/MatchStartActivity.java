@@ -16,6 +16,7 @@
 
 package org.growingstems.scouting;
 
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.frc836.database.DBActivity;
 import org.frc836.yearly.MatchActivity;
 import org.sigmond.net.AsyncPictureRequest;
@@ -28,6 +29,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -53,6 +56,8 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
     private Button startB;
     private ImageView robotPic;
 
+    private TextView teamText;
+
     private String HELPMESSAGE;
 
     private MatchSchedule schedule;
@@ -75,11 +80,15 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         startB = (Button) findViewById(R.id.startMatchB);
         robotPic = (ImageView) findViewById(R.id.robotPic);
 
+        teamText = (TextView) findViewById(R.id.startMatchTeamT);
+
         position.setOnClickListener(new positionClickListener());
         startB.setOnClickListener(new StartClickListener());
         robotPic.setOnClickListener(new PictureClickListener());
+        teamText.setOnClickListener(new PictureClickListener());
 
         matchNum.addTextChangedListener(new matchTextListener());
+        teamNum.addTextChangedListener(new teamTextListener());
         schedule = new MatchSchedule();
 
     }
@@ -104,6 +113,24 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             MainMenuSelection.openSettings(MatchStartActivity.this);
         }
 
+    }
+
+    private class teamTextListener implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            teamText.setText(s.toString());
+        }
     }
 
     private class matchTextListener implements TextWatcher {
@@ -211,7 +238,8 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         if (pictureURL.length() < 5) {
             if (pd != null)
                 pd.dismiss();
-            robotPic.setImageResource(R.drawable.robot);
+            robotPic.setVisibility(View.GONE);
+            teamText.setVisibility(View.VISIBLE);
             return;
         }
         PicRequestInfo info = new PicRequestInfo(pictureURL,
@@ -224,14 +252,29 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         if (pd != null)
             pd.dismiss();
         if (drawable == null) {
-            robotPic.setImageResource(R.drawable.robot);
+            robotPic.setVisibility(View.GONE);
+            teamText.setVisibility(View.VISIBLE);
         } else {
-            scaleImage(robotPic, robotPic.getWidth(), drawable);
+
+            robotPic.setVisibility(View.VISIBLE);
+            teamText.setVisibility(View.GONE);
+            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, drawable);
             // robotPic.setImageDrawable(drawable);
             // robotPic.setScaleType(ScaleType.FIT_XY);
             // robotPic.setAdjustViewBounds(true);
         }
     }
+
+    private int orient = Configuration.ORIENTATION_UNDEFINED;
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation != orient)
+            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, robotPic.getDrawable());
+        orient = newConfig.orientation;
+    }
+
 
     private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
 

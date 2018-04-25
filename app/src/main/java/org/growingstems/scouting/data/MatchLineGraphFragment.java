@@ -35,9 +35,10 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYValueSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.frc836.yearly.MatchStatsYearly;
 import org.growingstems.scouting.R;
 
-import java.util.Set;
+import java.util.Map;
 
 
 public class MatchLineGraphFragment extends DataFragment implements DataSource.DataCallback {
@@ -57,14 +58,10 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
 
     private SparseArray<XYValueSeries> mData = new SparseArray<XYValueSeries>(NUMGRAPHS);
 
-    private static final int NUMGRAPHS = 7;
-
-    private static final int[] TOTALSCORES = {0, 2, 3, 4, 5, 6};
-
-    private static final int AVERAGESCORE = 1;
+    private static final int NUMGRAPHS = 15;
 
     private static final int[] COLORS = {Color.GREEN, Color.CYAN, Color.RED,
-            Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.BLUE};
+            Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.BLUE, Color.DKGRAY, Color.GRAY, Color.LTGRAY}; //ALL THE COLORS
 
     public static MatchLineGraphFragment getInstance(int team_num, String event_name) {
         MatchLineGraphFragment fragment = new MatchLineGraphFragment();
@@ -94,8 +91,7 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
 
     @Override
     protected void refreshData() {
-        if (!isDisplayed())
-            return;
+        if (!isDisplayed()) return;
         if (dataSource == null)
             dataSource = new DataSource(mParent.getDB());
 
@@ -120,98 +116,79 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
             mChart.repaint();
         }
         if (teamNum > 0) {
-            dataSource.getMaxScores(teamNum, eventName, this);
+            dataSource.getGraphData(teamNum, eventName, this);
         }
         //TODO more graphs?
+    }
+
+    private void renderLine(int index, SparseIntArray line, String name) {
+        XYValueSeries series = mData.get(index);
+        if (series == null) {
+            series = new XYValueSeries(name);
+            mData.put(index, series);
+            mDataset.addSeries(series);
+        }
+        series.clear();
+        for (int i = 0; i < line.size(); i++) {
+            int match = line.keyAt(i);
+            series.add(match, line.get(match));
+        }
+        XYSeriesRenderer renderer = mRenderers.get(index);
+        if (renderer == null) {
+            renderer = new XYSeriesRenderer();
+            mRenderers.put(index, renderer);
+            mRenderer.addSeriesRenderer(renderer);
+            renderer.setPointStyle(PointStyle.DIAMOND);
+            renderer.setColor(COLORS[(index) % COLORS.length]);
+        }
     }
 
     @Override
     public void onFinished(DataSource.Data data) {
 
         switch (data.getDataType()) {
-            case Scores:
+            case Graphs:
                 int minMatch = 10000000, maxMatch = 0;
-                if (eventName != null) {
-                    SparseIntArray scores = data.getTotalScores();
-                    if (scores == null) {
+                int j = 0;
+
+                if (eventName != null) { //show all graphs
+                    if (data.getEventGraphs(eventName) == null)
                         break;
-                    }
-                    XYValueSeries series = mData.get(TOTALSCORES[0]);
-                    if (series == null) {
-                        series = new XYValueSeries("Match Score");
-                        mData.put(TOTALSCORES[0], series);
-                        mDataset.addSeries(series);
-                    }
-                    series.clear();
-                    for (int i = 0; i < scores.size(); i++) {
-                        int match = scores.keyAt(i);
-                        series.add(match, scores.get(match));
-                        minMatch = Math.min(minMatch, match);
-                        maxMatch = Math.max(maxMatch, match);
-                    }
-                    XYSeriesRenderer render = mRenderers.get(TOTALSCORES[0]);
-                    if (render == null) {
-                        render = new XYSeriesRenderer();
-                        mRenderers.put(TOTALSCORES[0], render);
-                        mRenderer.addSeriesRenderer(render);
-                        render.setPointStyle(PointStyle.DIAMOND);
-                        render.setColor(COLORS[(TOTALSCORES[0]) % COLORS.length]);
-                    }
 
+                    for (Map.Entry<String, SparseIntArray> dataLine : data.getEventGraphs(eventName).entrySet()) {
+                        SparseIntArray line = dataLine.getValue();
+                        if (line == null)
+                            continue;
+                        renderLine(j, line, dataLine.getKey());
+                        for (int i = 0; i < line.size(); i++) {
+                            int match = line.keyAt(i);
+                            minMatch = Math.min(minMatch, match);
+                            maxMatch = Math.max(maxMatch, match);
+                        }
+
+                        j++;
+                    }
                 } else {
-                    Set<String> events = data.getEventsWithScores();
-                    int j = 0;
-                    for (String eventName : events) {
-                        if (eventName != null) {
-                            SparseIntArray scores = data.getTotalScores(eventName);
-                            if (scores == null) {
-                                break;
-                            }
-                            XYValueSeries series = mData.get(TOTALSCORES[j]);
-                            if (series == null) {
-                                series = new XYValueSeries("Match Score: " + eventName);
-                                mData.put(TOTALSCORES[j], series);
-                                mDataset.addSeries(series);
-                            }
-
-                            series.clear();
-                            for (int i = 0; i < scores.size(); i++) {
-                                int match = scores.keyAt(i);
-                                series.add(match, scores.get(match));
+                    for (Map.Entry<String, Map<String, SparseIntArray>> event : data.getGraphs().entrySet()) {
+                        String eventN = event.getKey();
+                        for (Map.Entry<String, SparseIntArray> dataLine : data.getEventGraphs(eventN).entrySet()) {
+                            SparseIntArray line = event.getValue().get(dataLine.getKey());
+                            if (line == null)
+                                continue;
+                            renderLine(j, line, dataLine.getKey() + ": " + eventN);
+                            for (int i = 0; i < line.size(); i++) {
+                                int match = line.keyAt(i);
                                 minMatch = Math.min(minMatch, match);
                                 maxMatch = Math.max(maxMatch, match);
                             }
-                            XYSeriesRenderer render = mRenderers.get(TOTALSCORES[j]);
-                            if (render == null) {
-                                render = new XYSeriesRenderer();
-                                mRenderers.put(TOTALSCORES[j], render);
-                                mRenderer.addSeriesRenderer(render);
-                                render.setPointStyle(PointStyle.DIAMOND);
-                                render.setColor(COLORS[(TOTALSCORES[j]) % COLORS.length]);
-                            }
+
                             j++;
                         }
                     }
                 }
 
-                XYValueSeries series = mData.get(AVERAGESCORE);
-                if (series == null) {
-                    series = new XYValueSeries("Average Score");
-                    mData.put(AVERAGESCORE, series);
-                    mDataset.addSeries(series);
-                }
-                double average = data.getAverageScore();
-                series.clear();
-                series.add(0, average);
-                series.add(maxMatch, average);
-                XYSeriesRenderer render = mRenderers.get(AVERAGESCORE);
-                if (render == null) {
-                    render = new XYSeriesRenderer();
-                    mRenderers.put(AVERAGESCORE, render);
-                    mRenderer.addSeriesRenderer(render);
-                    render.setFillPoints(false);
-                    render.setColor(COLORS[AVERAGESCORE % COLORS.length]);
-                }
+                break;
+            default:
                 break;
             // TODO more graphs?
         }

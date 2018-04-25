@@ -30,7 +30,7 @@ import java.util.Set;
 
 public class DataSource {
 
-    public enum DataType {None, Scores}
+    public enum DataType {None, Graphs}
 
     private DB db;
 
@@ -38,8 +38,8 @@ public class DataSource {
         this.db = db;
     }
 
-    public void getMaxScores(int team, String event, DataCallback callback) {
-        Data data = new Data(callback, DataType.Scores);
+    public void getGraphData(int team, String event, DataCallback callback) {
+        Data data = new Data(callback, DataType.Graphs);
         data.setTeamNum(team);
         data.setEventName(event);
         db.getMatchesForTeam(team, event, new DBResp(data));
@@ -56,8 +56,8 @@ public class DataSource {
         @Override
         public void onFinish(DB.DBData data) {
             _data._input = data;
-            if (_data.getDataType() == DataType.Scores)
-                (new ScoresAsync()).execute(_data);
+            if (_data.getDataType() == DataType.Graphs)
+                (new GraphsAsync()).execute(_data);
         }
     }
 
@@ -72,13 +72,11 @@ public class DataSource {
 
         protected DB.DBData _input;
 
-        private int _teamNum = -1; //Scores
+        private int _teamNum = -1;
 
         private String _eventName = null;
 
-        protected Map<String, SparseIntArray> _totalScores = null;
-
-        protected double _averageScore = -1.0;
+        protected Map<String, Map<String, SparseIntArray>> _graphs = null; //<eventName, <GraphName, graphData>>
 
         public Data(DataCallback callback, DataType type) {
             _callback = callback;
@@ -105,34 +103,34 @@ public class DataSource {
             return _eventName;
         }
 
-        public SparseIntArray getTotalScores() {
-            return getTotalScores(null);
+        public Map<String, SparseIntArray> getEventGraphs() {
+            return getEventGraphs(null);
         }
 
-        public SparseIntArray getTotalScores(String eventName) {
-            if (_dataType != DataType.Scores) {
+        public Map<String, Map<String, SparseIntArray>> getGraphs() {
+            return _graphs;
+        }
+
+        public Map<String, SparseIntArray> getEventGraphs(String eventName) {
+            if (_dataType != DataType.Graphs) {
                 return null;
             }
             if (eventName == null && _eventName != null) {
-                return _totalScores.get(_eventName);
+                return _graphs.get(_eventName);
             } else if (eventName != null) {
-                return _totalScores.get(eventName);
+                return _graphs.get(eventName);
             }
             return null;
         }
 
-        public double getAverageScore() {
-            return _averageScore;
-        }
-
         public Set<String> getEventsWithScores() {
-            return _totalScores.keySet();
+            return _graphs.keySet();
         }
 
 
     }
 
-    private class ScoresAsync extends AsyncTask<Data, Integer, Data> {
+    private class GraphsAsync extends AsyncTask<Data, Integer, Data> {
 
 
         @Override
@@ -140,26 +138,27 @@ public class DataSource {
 
             Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
 
-            params[0]._totalScores = new HashMap<String, SparseIntArray>(eventMap.size());
-
-            params[0]._averageScore = 0.0;
+            params[0]._graphs = new HashMap<String, Map<String, SparseIntArray>>(eventMap.size());
 
             int count = 0;
 
             for (Map.Entry<String, SparseArray<MatchStatsStruct>> event : eventMap.entrySet()) {
                 SparseArray<MatchStatsStruct> matches = event.getValue();
-                SparseIntArray scores = new SparseIntArray(matches.size());
+                Map<String, SparseIntArray> graphs = new HashMap<String, SparseIntArray>(MatchStatsYearly.NUM_GRAPHS);
 
-                for (int i = 0; i < matches.size(); i++) {
-                    int matchNum = matches.keyAt(i);
-                    int score = MatchStatsYearly.getTotalScore(matches.get(matchNum));
-                    scores.put(matchNum, score);
-                    count++;
-                    params[0]._averageScore += score;
+                for (int j = 0; j < MatchStatsYearly.NUM_GRAPHS; j++) {
+                    SparseIntArray scores = new SparseIntArray(matches.size());
+
+                    for (int i = 0; i < matches.size(); i++) {
+                        int matchNum = matches.keyAt(i);
+                        int score = MatchStatsYearly.getStat(j, matches.get(matchNum));
+                        scores.put(matchNum, score);
+                        count++;
+                    }
+                    graphs.put(MatchStatsYearly.getGraphNames().get(j), scores);
                 }
-                params[0]._totalScores.put(event.getKey(), scores);
+                params[0]._graphs.put(event.getKey(), graphs);
             }
-            params[0]._averageScore /= count;
             return params[0];
         }
 
