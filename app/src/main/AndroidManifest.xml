@@ -4,10 +4,6 @@
     android:versionCode="43"
     android:versionName="2.2018.0.2">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="19" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -41,11 +37,6 @@
 
         <activity
             android:name="org.frc836.yearly.MatchActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="org.frc836.yearly.PilotActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
             android:windowSoftInputMode="stateHidden" />
