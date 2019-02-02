@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -88,24 +89,24 @@ public class MatchActivity extends DBActivity {
         }
     };
 
+    private static final String defaultEvent = "CHS District Oxon Hill MD Event";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
-        HELPMESSAGE = "Record Match Data here.\n"
-                + "Ensure that the alliance you are scouting is set to the correct side of the field.\n" +
+        HELPMESSAGE = "Record Match Data here.\n" +
                 "Pre-match:\n" +
-                "Set scale and switches to the correct orientation for this match.\n" +
-                "Auto:\n" +
-                "Record if the robot crossed the Run line.\n" +
-                "Record Power Cubes placed in exchange, switch, and scale.\n" +
+                "Record where the robot starts and what game piece is pre-loaded.\n" +
+                "Sandstorm:\n" +
+                "Record if the robot left the HAB.\n" +
+                "Record Hatches and cargo placed in/on the ship and rockets.\n" +
                 "Tele-Op:\n" +
-                "Record Power Cubes places in exchange, switches, and scale.\n" +
+                "Record Hatches and cargo placed in/on the ship and rockets.\n" +
                 "End game:\n" +
                 "Record fouls, cards, and if a robot parked, climbed, or attmpted to climb.\n" +
-                "Also record if the robot assisted other robots in their climbs.\n" +
-                "Do not record climbs that only counted due to power-ups or penalties.\n" +
+                "Record if a robot picked up cargo or hatches from the floor during the match.\n" +
                 "Record any pertinent notes. Two drop-downs are provided for common notes.";
 
         getGUIRefs();
@@ -121,7 +122,7 @@ public class MatchActivity extends DBActivity {
         mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
         mCurrentPage = PRE_MATCH_SCREEN;
 
-        mViewPager = (ViewPager) findViewById(R.id.matchPager);
+        mViewPager = findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -139,7 +140,7 @@ public class MatchActivity extends DBActivity {
     protected void onResume() {
         super.onResume();
 
-        teamData.event_id = event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event;
+        teamData.event_id = event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event;
 
         teamData.practice_match = readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false);
 
@@ -224,7 +225,7 @@ public class MatchActivity extends DBActivity {
                                             teamData = new MatchStatsStruct(
                                                     Integer.valueOf(teamText
                                                             .getText().toString()),
-                                                    event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event,
+                                                    event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event,
                                                     Integer.valueOf(matchT
                                                             .getText().toString()));
                                         } else
@@ -281,17 +282,19 @@ public class MatchActivity extends DBActivity {
     }
 
     private void loadData() {
-        String team = teamText.getText().toString();
-        String match = matchT.getText().toString();
+        Editable teamE = teamText.getText();
+        Editable matchE = matchT.getText();
 
         boolean loadData = false;
-        if (team != null && team.length() > 0 && match != null
-                && match.length() > 0) {
-            teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event, Integer
+        if (teamE != null && teamE.length() > 0 && matchE != null
+                && matchE.length() > 0) {
+            String team = teamE.toString();
+            String match = matchE.toString();
+            teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer
                     .valueOf(match), Integer.valueOf(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
                 teamData = new MatchStatsStruct(Integer.valueOf(team),
-                        event == null ? Prefs.getEvent(getApplicationContext(), "CHS District Central Virginia Event") : event, Integer.valueOf(match),
+                        event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer.valueOf(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
@@ -303,8 +306,8 @@ public class MatchActivity extends DBActivity {
         }
         mViewPager.setCurrentItem(0, true);
         loadAll();
-        lastB.setText("Cancel");
-        nextB.setText("Auto");
+        lastB.setText(getString(R.string.match_change_button_cancel));
+        nextB.setText(getString(R.string.match_change_button_auto));
     }
 
     public void pageSelected(int page) {
@@ -326,33 +329,33 @@ public class MatchActivity extends DBActivity {
         switch (page) {
             case PRE_MATCH_SCREEN:
                 loadPreMatch();
-                lastB.setText("Cancel");
-                nextB.setText("Auto");
+                lastB.setText(getString(R.string.match_change_button_cancel));
+                nextB.setText(getString(R.string.match_change_button_auto));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             case AUTO_SCREEN:
                 loadAuto();
-                lastB.setText("Pre-Match");
-                nextB.setText("Tele op");
+                lastB.setText(getString(R.string.match_change_button_prematch));
+                nextB.setText(getString(R.string.match_change_button_tele));
                 if (!readOnly)
                     timer.postDelayed(mUpdateTimeTask, DELAY);
                 break;
             case TELE_SCREEN:
                 loadTele();
-                lastB.setText("Auto");
-                nextB.setText("End Game");
+                lastB.setText(getString(R.string.match_change_button_auto));
+                nextB.setText(getString(R.string.match_change_button_end));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             case END_SCREEN:
                 loadEnd();
-                lastB.setText("Tele op");
-                nextB.setText(readOnly ? "Cancel" : "Submit");
+                lastB.setText(getString(R.string.match_change_button_tele));
+                nextB.setText(readOnly ? getString(R.string.match_change_button_cancel) : getString(R.string.match_change_button_submit));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             default:
                 loadAll();
-                lastB.setText("Cancel");
-                nextB.setText("Auto");
+                lastB.setText(getString(R.string.match_change_button_cancel));
+                nextB.setText(getString(R.string.match_change_button_auto));
                 timer.removeCallbacks(mUpdateTimeTask);
         }
     }
@@ -385,9 +388,9 @@ public class MatchActivity extends DBActivity {
 
         SparseArray<MatchFragment> fragments;
 
-        public MatchViewAdapter(FragmentManager fm) {
+         MatchViewAdapter(FragmentManager fm) {
             super(fm);
-            fragments = new SparseArray<MatchFragment>(NUM_SCREENS);
+            fragments = new SparseArray<>(NUM_SCREENS);
         }
 
         @Override
@@ -396,7 +399,7 @@ public class MatchActivity extends DBActivity {
 
         }
 
-        public MatchFragment getMatchFragment(int i) {
+        MatchFragment getMatchFragment(int i) {
             MatchFragment fragment;
 
             if (fragments.get(i) != null) {
@@ -430,13 +433,13 @@ public class MatchActivity extends DBActivity {
     }
 
     private void getGUIRefs() {
-        teamText = (EditText) findViewById(R.id.teamNum);
+        teamText = findViewById(R.id.teamNum);
 
-        matchT = (EditText) findViewById(R.id.matchNum);
-        posT = (TextView) findViewById(R.id.pos);
+        matchT = findViewById(R.id.matchNum);
+        posT = findViewById(R.id.pos);
 
-        lastB = (Button) findViewById(R.id.backB);
-        nextB = (Button) findViewById(R.id.nextB);
+        lastB = findViewById(R.id.backB);
+        nextB = findViewById(R.id.nextB);
 
     }
 
@@ -491,12 +494,12 @@ public class MatchActivity extends DBActivity {
     }
 
     private void saveTeamInfo() {
-        String team = teamText.getText().toString();
+        Editable team = teamText.getText();
         if (team != null && team.length() > 0)
-            teamData.team_id = Integer.valueOf(team);
-        String match = matchT.getText().toString();
+            teamData.team_id = Integer.valueOf(team.toString());
+        Editable match = matchT.getText();
         if (match != null && match.length() > 0) {
-            teamData.match_id = Integer.valueOf(match);
+            teamData.match_id = Integer.valueOf(match.toString());
         }
         teamData.position_id = posT.getText().toString();
     }

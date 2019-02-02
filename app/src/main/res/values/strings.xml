@@ -560,7 +560,7 @@
         <item>Low</item>
     </string-array>
 
-    <string name="autonomous_mode_text">Autonomous Mode:</string>
+    <string name="autonomous_mode_text">Sandstorm:</string>
     <string name="operator_mode_text">Operator Mode:</string>
 
     <string name="does_bot_have_mobility_text">Mobility</string>
@@ -632,5 +632,12 @@
     <string name="robot_weight_hint"><![CDATA[lbs (inc Batt&Bump)]]></string>
     <string name="drop_plus_1">D+</string>
     <string name="switch_sides">Switch Side</string>
+
+    <string name="match_change_button_cancel">Cancel</string>
+    <string name="match_change_button_prematch">Pre-Match</string>
+    <string name="match_change_button_auto">Sandstorm</string>
+    <string name="match_change_button_tele">Tele-Op</string>
+    <string name="match_change_button_end">End Game</string>
+    <string name="match_change_button_submit">Submit</string>
 
 </resources>
