@@ -108,18 +108,6 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "configuration_lu") . ",";
 		mysql_free_result($result);
 
-		//game_info
-		$query = "SELECT * FROM game_info" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "game_info") . ",";
-		mysql_free_result($result);
-
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . ",";
-		mysql_free_result($result);
-
 		//event_lu
 		$query = "SELECT * FROM event_lu" . $suffix;
 		$result = mysql_query($query);
@@ -132,10 +120,16 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "fact_match_data_2019") . ",";
 		mysql_free_result($result);
 
-		//robot_lu
-		$query = "SELECT * FROM robot_lu" . $suffix;
+		//game_info
+		$query = "SELECT * FROM game_info" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "robot_lu") . ",";
+		$json .= genJSON($result, "game_info") . ",";
+		mysql_free_result($result);
+
+		//notes_options
+		$query = "SELECT * FROM notes_options" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "notes_options") . ",";
 		mysql_free_result($result);
 
 		//picklist
@@ -150,6 +144,12 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "position_lu") . ",";
 		mysql_free_result($result);
 
+		//robot_lu
+		$query = "SELECT * FROM robot_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "robot_lu") . ",";
+		mysql_free_result($result);
+
 		//scout_pit_data_2019
 		$query = "SELECT * FROM scout_pit_data_2019" . $suffix;
 		$result = mysql_query($query);
@@ -162,10 +162,10 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "wheel_base_lu") . ",";
 		mysql_free_result($result);
 
-		//notes_options
-		$query = "SELECT * FROM notes_options" . $suffix;
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "notes_options") . "}";
+		$json .= genJSON($result, "wheel_type_lu") . "}";
 		mysql_free_result($result);
 
 		$resp = $json;
@@ -181,25 +181,31 @@ elseif ($_POST['password'] == $pass) {
 		$position_id = mysql_real_escape_string(stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0')));
 		$prematch_robot_cargo = mysql_real_escape_string(stripslashes(trim(isset($_POST['prematch_robot_cargo']) ? $_POST['prematch_robot_cargo'] : '0')));
 		$prematch_robot_hatch = mysql_real_escape_string(stripslashes(trim(isset($_POST['prematch_robot_hatch']) ? $_POST['prematch_robot_hatch'] : '0')));
+		$prematch_hab2_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['prematch_hab2_left']) ? $_POST['prematch_hab2_left'] : '0')));
 		$prematch_hab_level = mysql_real_escape_string(stripslashes(trim(isset($_POST['prematch_hab_level']) ? $_POST['prematch_hab_level'] : '0')));
 		$sandstorm_bonus = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_bonus']) ? $_POST['sandstorm_bonus'] : '0')));
 		$sandstorm_hatch_ship = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_hatch_ship']) ? $_POST['sandstorm_hatch_ship'] : '0')));
 		$sandstorm_hatch_rocket_1 = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_hatch_rocket_1']) ? $_POST['sandstorm_hatch_rocket_1'] : '0')));
 		$sandstorm_hatch_rocket_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_hatch_rocket_2']) ? $_POST['sandstorm_hatch_rocket_2'] : '0')));
 		$sandstorm_hatch_rocket_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_hatch_rocket_3']) ? $_POST['sandstorm_hatch_rocket_3'] : '0')));
+		$sandstorm_hatch_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_hatch_dropped']) ? $_POST['sandstorm_hatch_dropped'] : '0')));
 		$sandstorm_cargo_ship = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_cargo_ship']) ? $_POST['sandstorm_cargo_ship'] : '0')));
 		$sandstorm_cargo_rocket_1 = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_cargo_rocket_1']) ? $_POST['sandstorm_cargo_rocket_1'] : '0')));
 		$sandstorm_cargo_rocket_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_cargo_rocket_2']) ? $_POST['sandstorm_cargo_rocket_2'] : '0')));
 		$sandstorm_cargo_rocket_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_cargo_rocket_3']) ? $_POST['sandstorm_cargo_rocket_3'] : '0')));
+		$sandstorm_cargo_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['sandstorm_cargo_dropped']) ? $_POST['sandstorm_cargo_dropped'] : '0')));
 		$hatch_ship = mysql_real_escape_string(stripslashes(trim(isset($_POST['hatch_ship']) ? $_POST['hatch_ship'] : '0')));
 		$hatch_rocket_1 = mysql_real_escape_string(stripslashes(trim(isset($_POST['hatch_rocket_1']) ? $_POST['hatch_rocket_1'] : '0')));
 		$hatch_rocket_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['hatch_rocket_2']) ? $_POST['hatch_rocket_2'] : '0')));
 		$hatch_rocket_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['hatch_rocket_3']) ? $_POST['hatch_rocket_3'] : '0')));
+		$hatch_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['hatch_dropped']) ? $_POST['hatch_dropped'] : '0')));
 		$cargo_ship = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_ship']) ? $_POST['cargo_ship'] : '0')));
 		$cargo_rocket_1 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_rocket_1']) ? $_POST['cargo_rocket_1'] : '0')));
 		$cargo_rocket_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_rocket_2']) ? $_POST['cargo_rocket_2'] : '0')));
 		$cargo_rocket_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_rocket_3']) ? $_POST['cargo_rocket_3'] : '0')));
+		$cargo_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_dropped']) ? $_POST['cargo_dropped'] : '0')));
 		$hab_climb_level = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_level']) ? $_POST['hab_climb_level'] : '0')));
+		$hab_climb_2_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_2_left']) ? $_POST['hab_climb_2_left'] : '0')));
 		$floor_pickup_cargo = mysql_real_escape_string(stripslashes(trim(isset($_POST['floor_pickup_cargo']) ? $_POST['floor_pickup_cargo'] : '0')));
 		$floor_pickup_hatch = mysql_real_escape_string(stripslashes(trim(isset($_POST['floor_pickup_hatch']) ? $_POST['floor_pickup_hatch'] : '0')));
 		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0')));
@@ -215,7 +221,7 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO fact_match_data_2019(event_id,team_id,match_id,practice_match,position_id,prematch_robot_cargo,prematch_robot_hatch,prematch_hab_level,sandstorm_bonus,sandstorm_hatch_ship,sandstorm_hatch_rocket_1,sandstorm_hatch_rocket_2,sandstorm_hatch_rocket_3,sandstorm_cargo_ship,sandstorm_cargo_rocket_1,sandstorm_cargo_rocket_2,sandstorm_cargo_rocket_3,hatch_ship,hatch_rocket_1,hatch_rocket_2,hatch_rocket_3,cargo_ship,cargo_rocket_1,cargo_rocket_2,cargo_rocket_3,hab_climb_level,floor_pickup_cargo,floor_pickup_hatch,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
+			$query = "INSERT INTO fact_match_data_2019(event_id,team_id,match_id,practice_match,position_id,prematch_robot_cargo,prematch_robot_hatch,prematch_hab2_left,prematch_hab_level,sandstorm_bonus,sandstorm_hatch_ship,sandstorm_hatch_rocket_1,sandstorm_hatch_rocket_2,sandstorm_hatch_rocket_3,sandstorm_hatch_dropped,sandstorm_cargo_ship,sandstorm_cargo_rocket_1,sandstorm_cargo_rocket_2,sandstorm_cargo_rocket_3,sandstorm_cargo_dropped,hatch_ship,hatch_rocket_1,hatch_rocket_2,hatch_rocket_3,hatch_dropped,cargo_ship,cargo_rocket_1,cargo_rocket_2,cargo_rocket_3,cargo_dropped,hab_climb_level,hab_climb_2_left,floor_pickup_cargo,floor_pickup_hatch,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
@@ -223,25 +229,31 @@ elseif ($_POST['password'] == $pass) {
 				. $position_id . ","
 				. $prematch_robot_cargo . ","
 				. $prematch_robot_hatch . ","
+				. $prematch_hab2_left . ","
 				. $prematch_hab_level . ","
 				. $sandstorm_bonus . ","
 				. $sandstorm_hatch_ship . ","
 				. $sandstorm_hatch_rocket_1 . ","
 				. $sandstorm_hatch_rocket_2 . ","
 				. $sandstorm_hatch_rocket_3 . ","
+				. $sandstorm_hatch_dropped . ","
 				. $sandstorm_cargo_ship . ","
 				. $sandstorm_cargo_rocket_1 . ","
 				. $sandstorm_cargo_rocket_2 . ","
 				. $sandstorm_cargo_rocket_3 . ","
+				. $sandstorm_cargo_dropped . ","
 				. $hatch_ship . ","
 				. $hatch_rocket_1 . ","
 				. $hatch_rocket_2 . ","
 				. $hatch_rocket_3 . ","
+				. $hatch_dropped . ","
 				. $cargo_ship . ","
 				. $cargo_rocket_1 . ","
 				. $cargo_rocket_2 . ","
 				. $cargo_rocket_3 . ","
+				. $cargo_dropped . ","
 				. $hab_climb_level . ","
+				. $hab_climb_2_left . ","
 				. $floor_pickup_cargo . ","
 				. $floor_pickup_hatch . ","
 				. $foul . ","
@@ -261,25 +273,31 @@ elseif ($_POST['password'] == $pass) {
 				. "position_id=" . $position_id . ","
 				. "prematch_robot_cargo=" . $prematch_robot_cargo . ","
 				. "prematch_robot_hatch=" . $prematch_robot_hatch . ","
+				. "prematch_hab2_left=" . $prematch_hab2_left . ","
 				. "prematch_hab_level=" . $prematch_hab_level . ","
 				. "sandstorm_bonus=" . $sandstorm_bonus . ","
 				. "sandstorm_hatch_ship=" . $sandstorm_hatch_ship . ","
 				. "sandstorm_hatch_rocket_1=" . $sandstorm_hatch_rocket_1 . ","
 				. "sandstorm_hatch_rocket_2=" . $sandstorm_hatch_rocket_2 . ","
 				. "sandstorm_hatch_rocket_3=" . $sandstorm_hatch_rocket_3 . ","
+				. "sandstorm_hatch_dropped=" . $sandstorm_hatch_dropped . ","
 				. "sandstorm_cargo_ship=" . $sandstorm_cargo_ship . ","
 				. "sandstorm_cargo_rocket_1=" . $sandstorm_cargo_rocket_1 . ","
 				. "sandstorm_cargo_rocket_2=" . $sandstorm_cargo_rocket_2 . ","
 				. "sandstorm_cargo_rocket_3=" . $sandstorm_cargo_rocket_3 . ","
+				. "sandstorm_cargo_dropped=" . $sandstorm_cargo_dropped . ","
 				. "hatch_ship=" . $hatch_ship . ","
 				. "hatch_rocket_1=" . $hatch_rocket_1 . ","
 				. "hatch_rocket_2=" . $hatch_rocket_2 . ","
 				. "hatch_rocket_3=" . $hatch_rocket_3 . ","
+				. "hatch_dropped=" . $hatch_dropped . ","
 				. "cargo_ship=" . $cargo_ship . ","
 				. "cargo_rocket_1=" . $cargo_rocket_1 . ","
 				. "cargo_rocket_2=" . $cargo_rocket_2 . ","
 				. "cargo_rocket_3=" . $cargo_rocket_3 . ","
+				. "cargo_dropped=" . $cargo_dropped . ","
 				. "hab_climb_level=" . $hab_climb_level . ","
+				. "hab_climb_2_left=" . $hab_climb_2_left . ","
 				. "floor_pickup_cargo=" . $floor_pickup_cargo . ","
 				. "floor_pickup_hatch=" . $floor_pickup_hatch . ","
 				. "foul=" . $foul . ","
