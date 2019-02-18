@@ -6,6 +6,14 @@
     tools:context="org.frc836.yearly.PreMatchFragment">
 
 
+    <TextView
+        android:id="@+id/PrematchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/prematch_input_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     <!--<Button
         android:id="@+id/switchSidesB"
         android:layout_width="wrap_content"
@@ -19,13 +27,20 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_below="@+id/PrematchText">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/start_hab_level_text"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -101,6 +116,14 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/red_hab_1" />
             </FrameLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/element_preload_text"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"

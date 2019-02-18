@@ -2,5 +2,6 @@
 <resources>
 
     <string name="auto_input_text">Sandstorm</string>
+    <string name="auto_bonus">Bonus (left HAB)</string>
 
 </resources>

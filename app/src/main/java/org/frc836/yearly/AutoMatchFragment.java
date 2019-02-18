@@ -22,9 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import org.frc836.database.MatchStatsStruct;
@@ -35,19 +33,34 @@ import org.growingstems.scouting.R;
 
 public class AutoMatchFragment extends MatchFragment {
 
+    private CheckBox bonusC;
 
-    private Spinner exchangeS;
-    private Button switchB;
-    private Spinner switchS;
-    private Button wrongSwitchB;
-    private Spinner wrongSwitchS;
-    private Spinner scaleS;
-    private Spinner wrongScaleS;
+    private Button shipCargoB;
+    private Spinner shipCargoS;
+    private Button shipHatchB;
+    private Spinner shipHatchS;
 
-    private CheckBox runC;
+    private Button rocketL1CargoB;
+    private Spinner rocketL1CargoS;
+    private Button rocketL1HatchB;
+    private Spinner rocketL1HatchS;
 
-    private View mainView;
+    private Button rocketL2CargoB;
+    private Spinner rocketL2CargoS;
+    private Button rocketL2HatchB;
+    private Spinner rocketL2HatchS;
 
+    private Button rocketL3CargoB;
+    private Spinner rocketL3CargoS;
+    private Button rocketL3HatchB;
+    private Spinner rocketL3HatchS;
+
+    private Button droppedCargoB;
+    private Spinner droppedCargoS;
+    private Button droppedHatchB;
+    private Spinner droppedHatchS;
+
+    private ImageView cargoShip;
 
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
@@ -82,8 +95,7 @@ public class AutoMatchFragment extends MatchFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mainView = view;
-        runC = (CheckBox) view.findViewById(R.id.autoRunC);
+        getGUIRefs(view);
         setListeners();
         displayed = true;
     }
@@ -106,12 +118,18 @@ public class AutoMatchFragment extends MatchFragment {
 
         MatchStatsYearly.clearAuto(data);
 
-        data.auto_exchange_count = exchangeS.getSelectedItemPosition();
-        data.auto_scale_count = scaleS.getSelectedItemPosition();
-        data.auto_scale_wrong_side_count = wrongScaleS.getSelectedItemPosition();
-        data.auto_switch_count = switchS.getSelectedItemPosition();
-        data.auto_switch_wrong_side_count = wrongSwitchS.getSelectedItemPosition();
-        data.auto_run = runC.isChecked();
+        data.sandstorm_bonus = bonusC.isChecked();
+        data.sandstorm_cargo_ship = shipCargoS.getSelectedItemPosition();
+        data.sandstorm_hatch_ship = shipHatchS.getSelectedItemPosition();
+        data.sandstorm_cargo_rocket_1 = rocketL1CargoS.getSelectedItemPosition();
+        data.sandstorm_hatch_rocket_1 = rocketL1HatchS.getSelectedItemPosition();
+        data.sandstorm_cargo_rocket_2 = rocketL2CargoS.getSelectedItemPosition();
+        data.sandstorm_hatch_rocket_2 = rocketL2HatchS.getSelectedItemPosition();
+        data.sandstorm_cargo_rocket_3 = rocketL3CargoS.getSelectedItemPosition();
+        data.sandstorm_hatch_rocket_3 = rocketL3HatchS.getSelectedItemPosition();
+        data.sandstorm_cargo_dropped = droppedCargoS.getSelectedItemPosition();
+        data.sandstorm_hatch_dropped = droppedHatchS.getSelectedItemPosition();
+
     }
 
     @Override
@@ -120,12 +138,12 @@ public class AutoMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
         // which side are we using
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        if (redLeft) {
-            mainView.findViewById(R.id.scaleBAuto).setScaleX(1.0f);
-        } else {
-            mainView.findViewById(R.id.scaleBAuto).setScaleX(-1.0f);
-        }
+        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
+        //if (redLeft) {
+        //    mainView.findViewById(R.id.scaleBAuto).setScaleX(1.0f);
+        //} else {
+        //    mainView.findViewById(R.id.scaleBAuto).setScaleX(-1.0f);
+        //}
 
         Activity act = getActivity();
         String pos;
@@ -135,116 +153,72 @@ public class AutoMatchFragment extends MatchFragment {
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
 
-        mainView.findViewById(R.id.scaleBAuto).setScaleY((data.scale_right == redLeft) ? -1f : 1f);
-
-        if (pos.contains("Blue") != redLeft) { //LEFT
-            mainView.findViewById(R.id.leftSwitchBAuto).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
-            mainView.findViewById(R.id.rightSwitchBAuto).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
-
-            //scaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleBotCountBAuto : R.id.ScaleTopCountBAuto);
-            //wrongScaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleTopCountBAuto : R.id.ScaleBotCountBAuto);
-            scaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleBotCountSAuto : R.id.ScaleTopCountSAuto);
-            wrongScaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleTopCountSAuto : R.id.ScaleBotCountSAuto);
-
-            switchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountBAuto : R.id.leftSwitchTopCountBAuto);
-            wrongSwitchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountBAuto : R.id.leftSwitchBotCountBAuto);
-            switchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountSAuto : R.id.leftSwitchTopCountSAuto);
-            wrongSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountSAuto : R.id.leftSwitchBotCountSAuto);
-
-            //exchangeB = (Button)mainView.findViewById(R.id.leftExchangeCountBAuto);
-            exchangeS = (Spinner) mainView.findViewById(R.id.leftExchangeCountSAuto);
-
-            mainView.findViewById(R.id.leftExchangeLayoutAuto).setVisibility(View.VISIBLE);
-            mainView.findViewById(R.id.rightExchangeLayoutAuto).setVisibility(View.GONE);
-
-            mainView.findViewById(R.id.rightSwitchTopCountBAuto).setVisibility(View.GONE);
-            mainView.findViewById(R.id.rightSwitchTopCountSAuto).setVisibility(View.GONE);
-            mainView.findViewById(R.id.rightSwitchBotCountBAuto).setVisibility(View.GONE);
-            mainView.findViewById(R.id.rightSwitchBotCountSAuto).setVisibility(View.GONE);
-
-            switchB.setVisibility(View.VISIBLE);
-            switchS.setVisibility(View.VISIBLE);
-            wrongSwitchB.setVisibility(View.VISIBLE);
-            wrongSwitchS.setVisibility(View.VISIBLE);
-
-        } else { //RIGHT
-            mainView.findViewById(R.id.leftSwitchBAuto).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
-            mainView.findViewById(R.id.rightSwitchBAuto).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
-
-            //wrongScaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleBotCountBAuto : R.id.ScaleTopCountBAuto);
-            //scaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleTopCountBAuto : R.id.ScaleBotCountBAuto);
-            wrongScaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleBotCountSAuto : R.id.ScaleTopCountSAuto);
-            scaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleTopCountSAuto : R.id.ScaleBotCountSAuto);
-
-            wrongSwitchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountBAuto : R.id.rightSwitchTopCountBAuto);
-            switchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountBAuto : R.id.rightSwitchBotCountBAuto);
-            wrongSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountSAuto : R.id.rightSwitchTopCountSAuto);
-            switchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountSAuto : R.id.rightSwitchBotCountSAuto);
-
-            //exchangeB = (Button)mainView.findViewById(R.id.rightExchangeCountBAuto);
-            exchangeS = (Spinner) mainView.findViewById(R.id.rightExchangeCountSAuto);
-
-            mainView.findViewById(R.id.rightExchangeLayoutAuto).setVisibility(View.VISIBLE);
-            mainView.findViewById(R.id.leftExchangeLayoutAuto).setVisibility(View.GONE);
-
-            mainView.findViewById(R.id.leftSwitchTopCountBAuto).setVisibility(View.GONE);
-            mainView.findViewById(R.id.leftSwitchTopCountSAuto).setVisibility(View.GONE);
-            mainView.findViewById(R.id.leftSwitchBotCountBAuto).setVisibility(View.GONE);
-            mainView.findViewById(R.id.leftSwitchBotCountSAuto).setVisibility(View.GONE);
-
-            switchB.setVisibility(View.VISIBLE);
-            switchS.setVisibility(View.VISIBLE);
-            wrongSwitchB.setVisibility(View.VISIBLE);
-            wrongSwitchS.setVisibility(View.VISIBLE);
-        }
-
         if (pos.contains("Blue")) {
-            ((ImageView) mainView.findViewById(R.id.leftExchangeAuto)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.blue_exchange));
-            ((ImageView) mainView.findViewById(R.id.rightExchangeAuto)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.blue_exchange));
+            cargoShip.setImageResource(R.drawable.blue_ship);
         } else {
-
-            ((ImageView) mainView.findViewById(R.id.leftExchangeAuto)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.red_exchange));
-            ((ImageView) mainView.findViewById(R.id.rightExchangeAuto)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.red_exchange));
+            cargoShip.setImageResource(R.drawable.red_ship);
         }
 
-        exchangeS.setSelection(data.auto_exchange_count);
-        scaleS.setSelection(data.auto_scale_count);
-        wrongScaleS.setSelection(data.auto_scale_wrong_side_count);
-        switchS.setSelection(data.auto_switch_count);
-        wrongSwitchS.setSelection(data.auto_switch_wrong_side_count);
-        runC.setChecked(data.auto_run);
+        bonusC.setChecked(data.sandstorm_bonus);
 
+        shipCargoS.setSelection(data.sandstorm_cargo_ship);
+        shipHatchS.setSelection(data.sandstorm_hatch_ship);
+        rocketL1CargoS.setSelection(data.sandstorm_cargo_rocket_1);
+        rocketL1HatchS.setSelection(data.sandstorm_hatch_rocket_1);
+        rocketL2CargoS.setSelection(data.sandstorm_cargo_rocket_2);
+        rocketL2HatchS.setSelection(data.sandstorm_hatch_rocket_2);
+        rocketL3CargoS.setSelection(data.sandstorm_cargo_rocket_3);
+        rocketL3HatchS.setSelection(data.sandstorm_hatch_rocket_3);
+        droppedCargoS.setSelection(data.sandstorm_cargo_dropped);
+        droppedHatchS.setSelection(data.sandstorm_hatch_dropped);
 
     }
 
-    private void setListeners() {
-        mainView.findViewById(R.id.rightExchangeCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightExchangeCountSAuto), 1));
-        mainView.findViewById(R.id.leftExchangeCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftExchangeCountSAuto), 1));
-        mainView.findViewById(R.id.rightSwitchBotCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightSwitchBotCountSAuto), 1));
-        mainView.findViewById(R.id.rightSwitchTopCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightSwitchTopCountSAuto), 1));
-        mainView.findViewById(R.id.leftSwitchBotCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftSwitchBotCountSAuto), 1));
-        mainView.findViewById(R.id.leftSwitchTopCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftSwitchTopCountSAuto), 1));
-        mainView.findViewById(R.id.ScaleBotCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.ScaleBotCountSAuto), 1));
-        mainView.findViewById(R.id.ScaleTopCountBAuto)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.ScaleTopCountSAuto), 1));
+    private void getGUIRefs(View view) {
+        bonusC = view.findViewById(R.id.autoBonusC);
 
+        shipCargoB = view.findViewById(R.id.shipCargoB);
+        shipCargoS = view.findViewById(R.id.shipCargoCount);
+        shipHatchB = view.findViewById(R.id.shipHatchB);
+        shipHatchS = view.findViewById(R.id.shipHatchCount);
+        rocketL1CargoB = view.findViewById(R.id.rocketL1CargoB);
+        rocketL1CargoS = view.findViewById(R.id.rocketL1CargoCount);
+        rocketL1HatchB = view.findViewById(R.id.rocketL1HatchB);
+        rocketL1HatchS = view.findViewById(R.id.rocketL1HatchCount);
+        rocketL2CargoB = view.findViewById(R.id.rocketL2CargoB);
+        rocketL2CargoS = view.findViewById(R.id.rocketL2CargoCount);
+        rocketL2HatchB = view.findViewById(R.id.rocketL2HatchB);
+        rocketL2HatchS = view.findViewById(R.id.rocketL2HatchCount);
+        rocketL3CargoB = view.findViewById(R.id.rocketL3CargoB);
+        rocketL3CargoS = view.findViewById(R.id.rocketL3CargoCount);
+        rocketL3HatchB = view.findViewById(R.id.rocketL3HatchB);
+        rocketL3HatchS = view.findViewById(R.id.rocketL3HatchCount);
+        droppedCargoB = view.findViewById(R.id.cargoDroppedB);
+        droppedCargoS = view.findViewById(R.id.cargoDroppedCount);
+        droppedHatchB = view.findViewById(R.id.hatchDroppedB);
+        droppedHatchS = view.findViewById(R.id.hatchDroppedCount);
+
+
+        cargoShip = view.findViewById(R.id.cargoShip);
+    }
+
+    private void setListeners() {
+        shipCargoB.setOnClickListener(new OnIncrementListener(shipCargoS, 1));
+        shipHatchB.setOnClickListener(new OnIncrementListener(shipHatchS, 1));
+        rocketL1CargoB.setOnClickListener(new OnIncrementListener(rocketL1CargoS, 1));
+        rocketL1HatchB.setOnClickListener(new OnIncrementListener(rocketL1HatchS, 1));
+        rocketL2CargoB.setOnClickListener(new OnIncrementListener(rocketL2CargoS, 1));
+        rocketL2HatchB.setOnClickListener(new OnIncrementListener(rocketL2HatchS, 1));
+        rocketL3CargoB.setOnClickListener(new OnIncrementListener(rocketL3CargoS, 1));
+        rocketL3HatchB.setOnClickListener(new OnIncrementListener(rocketL3HatchS, 1));
+        droppedCargoB.setOnClickListener(new OnIncrementListener(droppedCargoS, 1));
+        droppedHatchB.setOnClickListener(new OnIncrementListener(droppedHatchS, 1));
 
     }
 
     private class OnIncrementListener implements View.OnClickListener {
 
-        int m_increment = 1;
+        int m_increment;
         Spinner m_spinner;
 
         OnIncrementListener(Spinner view, int inc) {
