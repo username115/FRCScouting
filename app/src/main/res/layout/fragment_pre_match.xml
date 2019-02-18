@@ -33,80 +33,74 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/hab2LeftL"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/blackborder">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/hab2Left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_margin="2dp"
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/red_hab_2_left" />
-                </LinearLayout>
 
-                <LinearLayout
+
+                </FrameLayout>
+
+                <FrameLayout
                     android:id="@+id/hab3L"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/blackborder">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/hab3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="2dp"
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/red_hab_3" />
-                </LinearLayout>
+                </FrameLayout>
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/hab2RightL"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/blackborder">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/hab2Right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:layout_margin="2dp"
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/red_hab_2_right" />
-                </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
 
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/hab1L"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/blackborder">
+                android:layout_gravity="center">
 
                 <ImageButton
                     android:id="@+id/hab1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="2dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/red_hab_1" />
-            </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -114,11 +108,10 @@
                 android:layout_gravity="center">
 
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/cargoL"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/blackborder">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/cargoB"
@@ -130,14 +123,13 @@
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/cargo" />
-                </LinearLayout>
+                </FrameLayout>
 
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/hatchL"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/blackborder">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/hatchB"
@@ -149,7 +141,7 @@
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/hatch" />
-                </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
 
         </LinearLayout>
