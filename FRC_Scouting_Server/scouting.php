@@ -341,7 +341,8 @@ elseif ($_POST['password'] == $pass) {
 		$cargo_1 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_1']) ? $_POST['cargo_1'] : '0')));
 		$cargo_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_2']) ? $_POST['cargo_2'] : '0')));
 		$cargo_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_3']) ? $_POST['cargo_3'] : '0')));
-		$hab_climb_level = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_level']) ? $_POST['hab_climb_level'] : '0')));
+		$hab_climb_2 = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_2']) ? $_POST['hab_climb_2'] : '0')));
+		$hab_climb_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_3']) ? $_POST['hab_climb_3'] : '0')));
 		$hab_climb_speed_lvl_2_sec = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_speed_lvl_2_sec']) ? $_POST['hab_climb_speed_lvl_2_sec'] : '0')));
 		$hab_climb_speed_lvl_3_sec = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_speed_lvl_3_sec']) ? $_POST['hab_climb_speed_lvl_3_sec'] : '0')));
 		$floor_pickup_hatch = mysql_real_escape_string(stripslashes(trim(isset($_POST['floor_pickup_hatch']) ? $_POST['floor_pickup_hatch'] : '0')));
@@ -360,7 +361,7 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO scout_pit_data_2019(team_id,start_hab_level,preload_cargo,preload_hatch,sandstorm_bonus,sandstorm_hatch_ship_front,sandstorm_hatch_ship_side,sandstorm_hatch_rocket_1,sandstorm_hatch_rocket_2,sandstorm_hatch_rocket_3,sandstorm_cargo_ship,sandstorm_cargo_rocket_1,sandstorm_cargo_rocket_2,sandstorm_cargo_rocket_3,sandstorm_hatch_count,sandstorm_cargo_count,hatch_1,hatch_2,hatch_3,cargo_1,cargo_2,cargo_3,hab_climb_level,hab_climb_speed_lvl_2_sec,hab_climb_speed_lvl_3_sec,floor_pickup_hatch,floor_pickup_cargo,max_robot_speed_fts,robot_gross_weight_lbs,config_id,wheel_base_id,wheel_type_id,notes,invalid) VALUES("
+			$query = "INSERT INTO scout_pit_data_2019(team_id,start_hab_level,preload_cargo,preload_hatch,sandstorm_bonus,sandstorm_hatch_ship_front,sandstorm_hatch_ship_side,sandstorm_hatch_rocket_1,sandstorm_hatch_rocket_2,sandstorm_hatch_rocket_3,sandstorm_cargo_ship,sandstorm_cargo_rocket_1,sandstorm_cargo_rocket_2,sandstorm_cargo_rocket_3,sandstorm_hatch_count,sandstorm_cargo_count,hatch_1,hatch_2,hatch_3,cargo_1,cargo_2,cargo_3,hab_climb_2,hab_climb_3,hab_climb_speed_lvl_2_sec,hab_climb_speed_lvl_3_sec,floor_pickup_hatch,floor_pickup_cargo,max_robot_speed_fts,robot_gross_weight_lbs,config_id,wheel_base_id,wheel_type_id,notes,invalid) VALUES("
 				. $team_id . ","
 				. $start_hab_level . ","
 				. $preload_cargo . ","
@@ -383,7 +384,8 @@ elseif ($_POST['password'] == $pass) {
 				. $cargo_1 . ","
 				. $cargo_2 . ","
 				. $cargo_3 . ","
-				. $hab_climb_level . ","
+				. $hab_climb_2 . ","
+				. $hab_climb_3 . ","
 				. $hab_climb_speed_lvl_2_sec . ","
 				. $hab_climb_speed_lvl_3_sec . ","
 				. $floor_pickup_hatch . ","
@@ -421,7 +423,8 @@ elseif ($_POST['password'] == $pass) {
 				. "cargo_1=" . $cargo_1 . ","
 				. "cargo_2=" . $cargo_2 . ","
 				. "cargo_3=" . $cargo_3 . ","
-				. "hab_climb_level=" . $hab_climb_level . ","
+				. "hab_climb_2=" . $hab_climb_2 . ","
+				. "hab_climb_3=" . $hab_climb_3 . ","
 				. "hab_climb_speed_lvl_2_sec=" . $hab_climb_speed_lvl_2_sec . ","
 				. "hab_climb_speed_lvl_3_sec=" . $hab_climb_speed_lvl_3_sec . ","
 				. "floor_pickup_hatch=" . $floor_pickup_hatch . ","
