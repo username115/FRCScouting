@@ -15,5 +15,7 @@
     <string name="text_climb_time">Climb Time:</string>
     <string name="supported_other_s_climb">Supported Other\'s Climb</string>
     <string name="parked">Parked</string>
+    <string name="floor_cargo">Floor Pickup Cargo</string>
+    <string name="floor_hatch">Floor Pickup Hatch</string>
 
 </resources>

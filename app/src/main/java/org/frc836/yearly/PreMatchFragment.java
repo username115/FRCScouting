@@ -255,10 +255,10 @@ public class PreMatchFragment extends MatchFragment {
     private void toggleHabLevel(int level, boolean left2) {
         if (tempData.prematch_hab_level == level && (tempData.prematch_hab2_left == left2 || level != 2)) {
             //selected already selected level, deselect
-            tempData.hab_climb_level = 0;
+            tempData.prematch_hab_level = 0;
             tempData.prematch_hab2_left = false;
         } else {
-            tempData.hab_climb_level = level;
+            tempData.prematch_hab_level = level;
             tempData.prematch_hab2_left = (level == 2 && left2);
         }
         loadData(tempData); //apply to UI

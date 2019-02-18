@@ -28,26 +28,79 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
-
-                <CheckBox
-                    android:id="@+id/parked"
+                <FrameLayout
+                    android:id="@+id/hab2LeftL"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/parked" />
+                    android:layout_height="wrap_content">
 
-                <CheckBox
-                    android:id="@+id/climb_end"
+                    <ImageButton
+                        android:id="@+id/hab2Left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/red_hab_2_left" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/hab3L"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:text="@string/climb" />
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/hab3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/red_hab_3" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/hab2RightL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/hab2Right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/red_hab_2_right" />
+                </FrameLayout>
             </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/hab1L"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageButton
+                    android:id="@+id/hab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/red_hab_1" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,19 +108,19 @@
                 android:orientation="horizontal">
 
                 <CheckBox
-                    android:id="@+id/assisted_climb"
+                    android:id="@+id/floor_pickup_cargo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/supported_other_s_climb" />
+                    android:text="@string/floor_cargo" />
 
                 <CheckBox
-                    android:id="@+id/climb_end_attempt"
+                    android:id="@+id/floor_pickup_hatch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:text="@string/climb_attempt" />
+                    android:text="@string/floor_hatch" />
             </LinearLayout>
 
             <EditText
