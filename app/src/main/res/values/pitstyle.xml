@@ -3,29 +3,63 @@
 
     <color name="pits_seperator_color">#ff777777</color>
 
-    <string name="tele_header_text">Tele-Op Mode</string>
+    <string name="header_text_auto">Sandstorm</string>
+    <string name="header_text_teleop">Tele-Op Mode</string>
 
-    <string name="score_switch_pit_text">Can Place On Switch</string>
-    <string name="score_scale_pit_text">Can Place On Scale</string>
-    <string name="auto_run_pit_text">Auto Run?</string>
-    <string name="auto_score_switch_text_pit">Auto Switch</string>
-    <string name="auto_score_switch_hint_pit"># of Cubes</string>
-    <string name="auto_score_scale_text_pit">Auto Scale</string>
-    <string name="auto_score_scale_hint_pit"># of Cubes</string>
-    <string name="deposit_exchange_text_pit">Can Deposit in Exchange</string>
-    <string name="receive_exchange_text_pit">Can Acquire from Exchange</string>
-    <string name="receive_portal_text_pit">Can Acquire from Portal</string>
-    <string name="acquire_floor_text_pit">Can Acquire from Floor</string>
-    <string name="can_climb_pit_text">Able to Climb</string>
-    <string name="support_others_pit_text">Supports Other\'s Climbs</string>
-
-
-
-    <string name="robot_speed_text">Robot Max Speed</string>
+    <string name="robot_speed_text">Max Speed</string>
     <string name="robot_speed_hint">ft/s</string>
 
 
-    <string name="manipulation_description_text">Manipulator:</string>
-    <string name="manipulation_description_hint">Give a short description of the manipulator used.</string>
+    <string name="pits_cargo">Cargo</string>
+    <string name="pits_hatch">Hatch</string>
+
+    <string name="pits_rocket_lvl_1">lvl 1</string>
+    <string name="pits_rocket_lvl_2">lvl 2</string>
+    <string name="pits_rocket_lvl_3">lvl 3</string>
+
+    <string-array name="hab_levels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+
+    <string name="pits_hab_start_level">Hab Start Level</string>
+
+    <string name="pits_can_preload">Preload:</string>
+    <string name="pits_can_preload_cargo">Cargo</string>
+    <string name="pits_can_preload_hatch">Hatch</string>
+
+    <string name="pits_floor_pickup">Can Pickup Floor:</string>
+    <string name="pits_floor_pickup_cargo">Cargo</string>
+    <string name="pits_floor_pickup_hatch">Hatch</string>
+
+
+    <string name="pits_sandstorm_bonus">Can get Sandstorm Bonus</string>
+
+    <string name="pits_sandstorm_rocket_hatch">Rocket Hatch:</string>
+    <string name="pits_sandstorm_rocket_cargo">Rocket Cargo:</string>
+    <string name="pits_sandstorm_ship">Ship:</string>
+
+    <string name="pits_sandstorm_ship_cargo">Cargo</string>
+    <string name="pits_sandstorm_ship_hatch_front">Front Hatch</string>
+    <string name="pits_sandstorm_ship_hatch_side">Side Hatch</string>
+
+    <string name="pits_sandstorm_count_hatch">Hatch Count:</string>
+    <string name="pits_sandstorm_count_hatch_hint"># of hatches can score</string>
+    <string name="pits_sandstorm_count_cargo">Cargo Count:</string>
+    <string name="pits_sandstorm_count_cargo_hint"># of cargo can score</string>
+
+
+    <string name="pits_rocket_hatch">Hatch:</string>
+    <string name="pits_rocket_cargo">Cargo:</string>
+
+    <string name="pits_climb_level">Can Climb To:</string>
+    <string name="pits_climb_level_2">lvl 2</string>
+    <string name="pits_climb_level_3">lvl 3</string>
+
+    <string name="pits_climb_time">Climb Time:</string>
+    <string name="pits_climb_time_2_hint">lvl 2 (in seconds)</string>
+    <string name="pits_climb_time_3_hint">lvl 3 (in seconds)</string>
 
 </resources>
