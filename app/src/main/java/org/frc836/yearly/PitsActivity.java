@@ -121,8 +121,8 @@ public class PitsActivity extends DBActivity {
         habStartLvlS = (Spinner)findViewById(R.id.pits_hab_start_level);
         canPreloadHatchC = (CheckBox)findViewById(R.id.pits_can_preload_hatch);
         canPreloadCargoC = (CheckBox)findViewById(R.id.pits_can_preload_cargo);
-        canFloorPickupHatchC = (CheckBox)findViewById(R.id.floor_pickup_hatch);
-        canFloorPickupCargoC = (CheckBox)findViewById(R.id.floor_pickup_cargo);
+        canFloorPickupHatchC = (CheckBox)findViewById(R.id.pits_floor_pickup_hatch);
+        canFloorPickupCargoC = (CheckBox)findViewById(R.id.pits_floor_pickup_cargo);
 
         sandstormBonusC = (CheckBox)findViewById(R.id.pits_sandstorm_bonus);
         sandstormRocketHatch1C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_hatch_1);
@@ -355,11 +355,11 @@ public class PitsActivity extends DBActivity {
         stats.sandstorm_hatch_ship_front = sandstormShipHatchFrontC.isChecked();
         stats.sandstorm_hatch_ship_side = sandstormShipHatchSideC.isChecked();
 
-        tstr = sandstormCountHatchC.toString().trim();
+        tstr = sandstormCountHatchC.getText().toString().trim();
         if (tstr.length() > 0) stats.sandstorm_hatch_count = Integer.valueOf(tstr);
         else stats.sandstorm_hatch_count = 0;
 
-        tstr = sandstormCountCargoC.toString().trim();
+        tstr = sandstormCountCargoC.getText().toString().trim();
         if (tstr.length() > 0) stats.sandstorm_cargo_count = Integer.valueOf(tstr);
         else stats.sandstorm_cargo_count = 0;
 
@@ -373,11 +373,11 @@ public class PitsActivity extends DBActivity {
         stats.hab_climb_2 = canClimbHab2C.isChecked();
         stats.hab_climb_3 = canClimbHab3C.isChecked();
 
-        tstr = climbSpeed2T.toString().trim();
+        tstr = climbSpeed2T.getText().toString().trim();
         if (tstr.length() > 0) stats.hab_climb_speed_lvl_2_sec = Integer.valueOf(tstr);
         else stats.hab_climb_speed_lvl_2_sec = 0;
 
-        tstr = climbSpeed3T.toString().trim();
+        tstr = climbSpeed3T.getText().toString().trim();
         if (tstr.length() > 0) stats.hab_climb_speed_lvl_3_sec = Integer.valueOf(tstr);
         else stats.hab_climb_speed_lvl_3_sec = 0;
         ////// 2019 END //////
