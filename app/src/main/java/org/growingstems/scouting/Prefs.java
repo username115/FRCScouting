@@ -54,7 +54,7 @@ public class Prefs extends PreferenceActivity {
 
     private ListPreference eventP;
 
-    private static final String URL = "https://robobees.org/scouting.php";
+    private static final String URL = "https://growingstems.org/scouting.php";
 
     private DB db;
 
