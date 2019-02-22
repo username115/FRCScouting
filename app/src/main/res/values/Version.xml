@@ -1,6 +1,6 @@
 <resources>
     <string name="VersionID">2.2018.0.2</string>
-    <string name="APKURL">http://robobees.org/android/FRCScouting_%s.apk</string>
+    <string name="APKURL">http://growingstems.org/android/FRCScouting_%s.apk</string>
     <string name="VersionDate">2018-04-24</string>
     <string name="dev_email">apps@growingstems.org</string>
     
