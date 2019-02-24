@@ -59,6 +59,7 @@ public class MatchStatsStruct {
 	public int cargo_rocket_3;
 	public int cargo_dropped;
 	public int hab_climb_level;
+	public int hab_climb_level_attempted;
 	public boolean hab_climb_2_left;
 	public boolean floor_pickup_cargo;
 	public boolean floor_pickup_hatch;
@@ -102,6 +103,7 @@ public class MatchStatsStruct {
 	public static final String COLUMN_NAME_CARGO_ROCKET_3 = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_CARGO_ROCKET_3;
 	public static final String COLUMN_NAME_CARGO_DROPPED = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_CARGO_DROPPED;
 	public static final String COLUMN_NAME_HAB_CLIMB_LEVEL = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_HAB_CLIMB_LEVEL;
+	public static final String COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED;
 	public static final String COLUMN_NAME_HAB_CLIMB_2_LEFT = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_HAB_CLIMB_2_LEFT;
 	public static final String COLUMN_NAME_FLOOR_PICKUP_CARGO = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_FLOOR_PICKUP_CARGO;
 	public static final String COLUMN_NAME_FLOOR_PICKUP_HATCH = FACT_MATCH_DATA_2019_Entry.COLUMN_NAME_FLOOR_PICKUP_HATCH;
@@ -150,6 +152,7 @@ public class MatchStatsStruct {
 		cargo_rocket_3 = 0;
 		cargo_dropped = 0;
 		hab_climb_level = 0;
+		hab_climb_level_attempted = 0;
 		hab_climb_2_left = false;
 		floor_pickup_cargo = false;
 		floor_pickup_hatch = false;
@@ -210,6 +213,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_CARGO_ROCKET_3, cargo_rocket_3);
 		vals.put(COLUMN_NAME_CARGO_DROPPED, cargo_dropped);
 		vals.put(COLUMN_NAME_HAB_CLIMB_LEVEL, hab_climb_level);
+		vals.put(COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED, hab_climb_level_attempted);
 		vals.put(COLUMN_NAME_HAB_CLIMB_2_LEFT, hab_climb_2_left ? 1 : 0);
 		vals.put(COLUMN_NAME_FLOOR_PICKUP_CARGO, floor_pickup_cargo ? 1 : 0);
 		vals.put(COLUMN_NAME_FLOOR_PICKUP_HATCH, floor_pickup_hatch ? 1 : 0);
@@ -260,6 +264,7 @@ public class MatchStatsStruct {
 		cargo_rocket_3 = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CARGO_ROCKET_3));
 		cargo_dropped = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_CARGO_DROPPED));
 		hab_climb_level = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_HAB_CLIMB_LEVEL));
+		hab_climb_level_attempted = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED));
 		hab_climb_2_left = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_HAB_CLIMB_2_LEFT)) != 0;
 		floor_pickup_cargo = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FLOOR_PICKUP_CARGO)) != 0;
 		floor_pickup_hatch = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FLOOR_PICKUP_HATCH)) != 0;
@@ -271,7 +276,7 @@ public class MatchStatsStruct {
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(39);
+		List<String> temp = new ArrayList<String>(40);
 		temp.add(COLUMN_NAME_EVENT_ID);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_MATCH_ID);
@@ -303,6 +308,7 @@ public class MatchStatsStruct {
 		temp.add(COLUMN_NAME_CARGO_ROCKET_3);
 		temp.add(COLUMN_NAME_CARGO_DROPPED);
 		temp.add(COLUMN_NAME_HAB_CLIMB_LEVEL);
+		temp.add(COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED);
 		temp.add(COLUMN_NAME_HAB_CLIMB_2_LEFT);
 		temp.add(COLUMN_NAME_FLOOR_PICKUP_CARGO);
 		temp.add(COLUMN_NAME_FLOOR_PICKUP_HATCH);
@@ -363,6 +369,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_CARGO_ROCKET_3, json.has(COLUMN_NAME_CARGO_ROCKET_3) ? json.getInt(COLUMN_NAME_CARGO_ROCKET_3) : 0);
 		vals.put(COLUMN_NAME_CARGO_DROPPED, json.has(COLUMN_NAME_CARGO_DROPPED) ? json.getInt(COLUMN_NAME_CARGO_DROPPED) : 0);
 		vals.put(COLUMN_NAME_HAB_CLIMB_LEVEL, json.has(COLUMN_NAME_HAB_CLIMB_LEVEL) ? json.getInt(COLUMN_NAME_HAB_CLIMB_LEVEL) : 0);
+		vals.put(COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED, json.has(COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED) ? json.getInt(COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED) : 0);
 		vals.put(COLUMN_NAME_HAB_CLIMB_2_LEFT, json.has(COLUMN_NAME_HAB_CLIMB_2_LEFT) ? json.getInt(COLUMN_NAME_HAB_CLIMB_2_LEFT) : 0);
 		vals.put(COLUMN_NAME_FLOOR_PICKUP_CARGO, json.has(COLUMN_NAME_FLOOR_PICKUP_CARGO) ? json.getInt(COLUMN_NAME_FLOOR_PICKUP_CARGO) : 0);
 		vals.put(COLUMN_NAME_FLOOR_PICKUP_HATCH, json.has(COLUMN_NAME_FLOOR_PICKUP_HATCH) ? json.getInt(COLUMN_NAME_FLOOR_PICKUP_HATCH) : 0);
@@ -409,6 +416,7 @@ public class MatchStatsStruct {
 		vals.put( COLUMN_NAME_CARGO_ROCKET_3, String.valueOf(cargo_rocket_3));
 		vals.put( COLUMN_NAME_CARGO_DROPPED, String.valueOf(cargo_dropped));
 		vals.put( COLUMN_NAME_HAB_CLIMB_LEVEL, String.valueOf(hab_climb_level));
+		vals.put( COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED, String.valueOf(hab_climb_level_attempted));
 		vals.put( COLUMN_NAME_HAB_CLIMB_2_LEFT, String.valueOf(hab_climb_2_left ? 1 : 0));
 		vals.put( COLUMN_NAME_FLOOR_PICKUP_CARGO, String.valueOf(floor_pickup_cargo ? 1 : 0));
 		vals.put( COLUMN_NAME_FLOOR_PICKUP_HATCH, String.valueOf(floor_pickup_hatch ? 1 : 0));

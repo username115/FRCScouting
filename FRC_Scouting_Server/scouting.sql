@@ -300,6 +300,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2019` (
   `cargo_rocket_3` int(2) unsigned NOT NULL,
   `cargo_dropped` int(2) unsigned NOT NULL,
   `hab_climb_level` int(2) unsigned NOT NULL,
+  `hab_climb_level_attempted` int(2) unsigned NOT NULL,
   `hab_climb_2_left` tinyint(1) unsigned NOT NULL,
   `floor_pickup_cargo` tinyint(1) unsigned NOT NULL,
   `floor_pickup_hatch` tinyint(1) unsigned NOT NULL,

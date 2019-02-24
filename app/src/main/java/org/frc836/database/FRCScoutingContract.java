@@ -71,6 +71,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_CARGO_ROCKET_3 = "cargo_rocket_3";
 		public static final String COLUMN_NAME_CARGO_DROPPED = "cargo_dropped";
 		public static final String COLUMN_NAME_HAB_CLIMB_LEVEL = "hab_climb_level";
+		public static final String COLUMN_NAME_HAB_CLIMB_LEVEL_ATTEMPTED = "hab_climb_level_attempted";
 		public static final String COLUMN_NAME_HAB_CLIMB_2_LEFT = "hab_climb_2_left";
 		public static final String COLUMN_NAME_FLOOR_PICKUP_CARGO = "floor_pickup_cargo";
 		public static final String COLUMN_NAME_FLOOR_PICKUP_HATCH = "floor_pickup_hatch";
@@ -441,6 +442,7 @@ public final class FRCScoutingContract {
 		"	cargo_rocket_3 unsigned int(2) NOT NULL,\n" +
 		"	cargo_dropped unsigned int(2) NOT NULL,\n" +
 		"	hab_climb_level unsigned int(2) NOT NULL,\n" +
+		"	hab_climb_level_attempted unsigned int(2) NOT NULL,\n" +
 		"	hab_climb_2_left unsigned tinyint(1) NOT NULL,\n" +
 		"	floor_pickup_cargo unsigned tinyint(1) NOT NULL,\n" +
 		"	floor_pickup_hatch unsigned tinyint(1) NOT NULL,\n" +
