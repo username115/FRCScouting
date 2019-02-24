@@ -1,11 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.0.10.14
--- http://www.phpmyadmin.net
---
--- Host: localhost:3306
--- Generation Time: Jan 08, 2018 at 07:42 PM
--- Server version: 5.6.33-log
--- PHP Version: 5.4.31
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +10,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `rbees_scouting`
+-- Database: `scouting`
 --
 
 -- --------------------------------------------------------
