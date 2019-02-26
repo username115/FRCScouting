@@ -35,7 +35,7 @@ public class MainMenuSelection {
 	
 	private static LocalBinder mBinder;
 
-	public static boolean onOptionsItemSelected(MenuItem item, Activity context) {
+	public static boolean onOptionsItemSelected(MenuItem item, ScoutingMenuActivity context) {
 		switch (item.getItemId()) {
 		case R.id.settingsitem:
 			openSettings(context);
@@ -94,7 +94,7 @@ public class MainMenuSelection {
 		i.setTitle(item);
 	}
 	
-	public static void exportDB(Activity context) {
+	public static void exportDB(ScoutingMenuActivity context) {
 		DB.exportToCSV(context);
 	}
 	
