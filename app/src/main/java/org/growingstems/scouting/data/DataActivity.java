@@ -24,18 +24,19 @@ import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 import org.growingstems.scouting.MenuSelections.Refreshable;
 
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.webkit.URLUtil;
@@ -75,7 +76,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
      * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
      * derivative, which will keep every loaded fragment in memory. If this
      * becomes too memory intensive, it may be best to switch to a
-     * {@link android.support.v13.app.FragmentStatePagerAdapter}.
+     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -117,12 +118,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
         }
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);

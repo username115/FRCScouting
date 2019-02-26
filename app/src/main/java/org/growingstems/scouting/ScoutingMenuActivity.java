@@ -16,12 +16,12 @@
 
 package org.growingstems.scouting;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public abstract class ScoutingMenuActivity extends Activity {
+public abstract class ScoutingMenuActivity extends AppCompatActivity {
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();

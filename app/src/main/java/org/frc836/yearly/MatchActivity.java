@@ -19,14 +19,14 @@ package org.frc836.yearly;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.util.SparseArray;
@@ -119,7 +119,7 @@ public class MatchActivity extends DBActivity {
         prac = intent.getBooleanExtra("practice", false);
         position = intent.getStringExtra("position");
 
-        mMatchViewAdapter = new MatchViewAdapter(getFragmentManager());
+        mMatchViewAdapter = new MatchViewAdapter(getSupportFragmentManager());
         mCurrentPage = PRE_MATCH_SCREEN;
 
         mViewPager = findViewById(R.id.matchPager);

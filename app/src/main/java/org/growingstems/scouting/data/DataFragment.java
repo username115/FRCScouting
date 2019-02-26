@@ -18,10 +18,9 @@ package org.growingstems.scouting.data;
 
 import java.util.Locale;
 
-import org.frc836.database.DBActivity;
 import org.growingstems.scouting.R;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
