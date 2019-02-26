@@ -170,9 +170,11 @@ public class EndMatchFragment extends MatchFragment {
             //if there is a hab level attempted/climbed other than current selection:
             if (tempData.hab_climb_level >= level) {
                 //Set this one to climbed if below or equal level to prior climb
-                //Set prior climb as attempt
-                tempData.hab_climb_level_attempted = tempData.hab_climb_level;
-                tempData.hab_climb_2_left_attempted = tempData.hab_climb_2_left;
+                //Set prior climb as attempt if previous attempt was below prior climb
+                if (tempData.hab_climb_level > tempData.hab_climb_level_attempted) {
+                    tempData.hab_climb_level_attempted = tempData.hab_climb_level;
+                    tempData.hab_climb_2_left_attempted = tempData.hab_climb_2_left;
+                }
                 tempData.hab_climb_level = level;
                 tempData.hab_climb_2_left = left2;
             } else if (tempData.hab_climb_level_attempted >= level) {
@@ -271,10 +273,10 @@ public class EndMatchFragment extends MatchFragment {
         boolean blue = pos.contains("Blue");
 
         //set colors based on side;
-        hab1.setBackgroundResource(blue ? R.drawable.blue_hab_1 : R.drawable.red_hab_1);
-        hab2L.setBackgroundResource(blue ? R.drawable.blue_hab_2_left : R.drawable.red_hab_2_left);
-        hab2R.setBackgroundResource(blue ? R.drawable.blue_hab_2_right : R.drawable.red_hab_2_right);
-        hab3.setBackgroundResource(blue ? R.drawable.blue_hab_3 : R.drawable.red_hab_3);
+        hab1.setImageResource(blue ? R.drawable.blue_hab_1 : R.drawable.red_hab_1);
+        hab2L.setImageResource(blue ? R.drawable.blue_hab_2_left : R.drawable.red_hab_2_left);
+        hab2R.setImageResource(blue ? R.drawable.blue_hab_2_right : R.drawable.red_hab_2_right);
+        hab3.setImageResource(blue ? R.drawable.blue_hab_3 : R.drawable.red_hab_3);
 
 
         Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);

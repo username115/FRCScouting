@@ -142,10 +142,10 @@ public class PreMatchFragment extends MatchFragment {
         boolean blue = pos.contains("Blue");
 
         //set colors based on side;
-        hab1.setBackgroundResource(blue ? R.drawable.blue_hab_1 : R.drawable.red_hab_1);
-        hab2L.setBackgroundResource(blue ? R.drawable.blue_hab_2_left : R.drawable.red_hab_2_left);
-        hab2R.setBackgroundResource(blue ? R.drawable.blue_hab_2_right : R.drawable.red_hab_2_right);
-        hab3.setBackgroundResource(blue ? R.drawable.blue_hab_3 : R.drawable.red_hab_3);
+        hab1.setImageResource(blue ? R.drawable.blue_hab_1 : R.drawable.red_hab_1);
+        hab2L.setImageResource(blue ? R.drawable.blue_hab_2_left : R.drawable.red_hab_2_left);
+        hab2R.setImageResource(blue ? R.drawable.blue_hab_2_right : R.drawable.red_hab_2_right);
+        hab3.setImageResource(blue ? R.drawable.blue_hab_3 : R.drawable.red_hab_3);
 
 
         Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);
