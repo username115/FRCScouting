@@ -144,14 +144,48 @@ public class EndMatchFragment extends MatchFragment {
 
 
     private void toggleHabLevel(int level, boolean left2) {
-        if (tempData.hab_climb_level == level && (tempData.hab_climb_2_left == left2 || level != 2)) {
-            //selected already selected level, deselect
+        //if no climb level attempted yet, set attempted to this level.
+        //if this particular hab position is currently set to attempted, set to climbed.
+        //if this particular hab position is currently climbed, set climbed to none
+        //if there is a hab level attempted/climbed other than current selection:
+        //  Set this one to climbed if below or equal level to prior attempt
+        //  Change attempted to this one if it is above prior attempt
+
+
+        if (tempData.hab_climb_level == 0 && tempData.hab_climb_level_attempted == 0) {
+            //if no climb level attempted yet, set attempted to this level.
+            tempData.hab_climb_level_attempted = level;
+            tempData.hab_climb_2_left_attempted = left2;
+        } else if (tempData.hab_climb_level_attempted == level && (tempData.hab_climb_2_left_attempted == left2 || level != 2)) {
+            //if this particular hab position is currently set to attempted, set to climbed.
+            tempData.hab_climb_level = level;
+            tempData.hab_climb_2_left = left2;
+            tempData.hab_climb_level_attempted = 0;
+            tempData.hab_climb_2_left_attempted = false;
+        } else if (tempData.hab_climb_level == level && (tempData.hab_climb_2_left == left2 || level != 2)) {
+            //if this particular hab position is currently climbed, set climbed to none
             tempData.hab_climb_level = 0;
             tempData.hab_climb_2_left = false;
         } else {
-            tempData.hab_climb_level = level;
-            tempData.hab_climb_2_left = (level == 2 && left2);
+            //if there is a hab level attempted/climbed other than current selection:
+            if (tempData.hab_climb_level >= level) {
+                //Set this one to climbed if below or equal level to prior climb
+                //Set prior climb as attempt
+                tempData.hab_climb_level_attempted = tempData.hab_climb_level;
+                tempData.hab_climb_2_left_attempted = tempData.hab_climb_2_left;
+                tempData.hab_climb_level = level;
+                tempData.hab_climb_2_left = left2;
+            } else if (tempData.hab_climb_level_attempted >= level) {
+                //Set this one to climbed if below or equal level to prior attempt
+                tempData.hab_climb_level = level;
+                tempData.hab_climb_2_left = left2;
+            } else {
+                //Change attempted to this one if it is above prior attempt
+                tempData.hab_climb_level_attempted = level;
+                tempData.hab_climb_2_left_attempted = left2;
+            }
         }
+
         loadData(tempData); //apply to UI
     }
 
@@ -196,16 +230,19 @@ public class EndMatchFragment extends MatchFragment {
     public void saveData(MatchStatsStruct data) {
         if (getView() == null || data == null || !displayed)
             return;
-        data.floor_pickup_cargo = ((CheckBox)getView().findViewById(R.id.floor_pickup_cargo)).isChecked();
-        data.floor_pickup_hatch = ((CheckBox)getView().findViewById(R.id.floor_pickup_hatch)).isChecked();
-        data.notes = ((EditText)getView().findViewById(R.id.notes)).getText().toString();
-        data.tip_over = ((CheckBox)getView().findViewById(R.id.botTip)).isChecked();
-        data.foul = ((CheckBox)getView().findViewById(R.id.foul)).isChecked();
-        data.yellow_card = ((CheckBox)getView().findViewById(R.id.yellow_card)).isChecked();
-        data.red_card = ((CheckBox)getView().findViewById(R.id.red_card)).isChecked();
+        data.floor_pickup_cargo = ((CheckBox) getView().findViewById(R.id.floor_pickup_cargo)).isChecked();
+        data.floor_pickup_hatch = ((CheckBox) getView().findViewById(R.id.floor_pickup_hatch)).isChecked();
+        data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
+        data.tip_over = ((CheckBox) getView().findViewById(R.id.botTip)).isChecked();
+        data.foul = ((CheckBox) getView().findViewById(R.id.foul)).isChecked();
+        data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
+        data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
 
         data.hab_climb_level = tempData.hab_climb_level;
         data.hab_climb_2_left = tempData.hab_climb_2_left;
+
+        data.hab_climb_level_attempted = tempData.hab_climb_level_attempted;
+        data.hab_climb_2_left_attempted = tempData.hab_climb_2_left_attempted;
 
         tempData = data;
     }
@@ -215,14 +252,14 @@ public class EndMatchFragment extends MatchFragment {
         tempData = data;
         if (getView() == null || data == null || !displayed)
             return;
-        ((CheckBox)getView().findViewById(R.id.floor_pickup_cargo)).setChecked(data.floor_pickup_cargo);
-        ((CheckBox)getView().findViewById(R.id.floor_pickup_hatch)).setChecked(data.floor_pickup_hatch);
+        ((CheckBox) getView().findViewById(R.id.floor_pickup_cargo)).setChecked(data.floor_pickup_cargo);
+        ((CheckBox) getView().findViewById(R.id.floor_pickup_hatch)).setChecked(data.floor_pickup_hatch);
 
-        ((EditText)getView().findViewById(R.id.notes)).setText(data.notes);
-        ((CheckBox)getView().findViewById(R.id.botTip)).setChecked(data.tip_over);
-        ((CheckBox)getView().findViewById(R.id.foul)).setChecked(data.foul);
-        ((CheckBox)getView().findViewById(R.id.red_card)).setChecked(data.red_card);
-        ((CheckBox)getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
+        ((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
+        ((CheckBox) getView().findViewById(R.id.botTip)).setChecked(data.tip_over);
+        ((CheckBox) getView().findViewById(R.id.foul)).setChecked(data.foul);
+        ((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
+        ((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
 
         Activity act = getActivity();
         String pos;
@@ -241,24 +278,41 @@ public class EndMatchFragment extends MatchFragment {
 
 
         Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);
-        Drawable yellowBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.yellowborder);
+        Drawable attemptBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.yellowborder);
+        Drawable climbBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.greenborder);
         //set current selections from load
         Lhab1.setForeground(blackBorder);
         Lhab2L.setForeground(blackBorder);
         Lhab2R.setForeground(blackBorder);
         Lhab3.setForeground(blackBorder);
+        switch (data.hab_climb_level_attempted) {
+            case 1:
+                Lhab1.setForeground(attemptBorder);
+                break;
+            case 2:
+                if (data.hab_climb_2_left_attempted)
+                    Lhab2L.setForeground(attemptBorder);
+                else
+                    Lhab2R.setForeground(attemptBorder);
+                break;
+            case 3:
+                Lhab3.setForeground(attemptBorder);
+                break;
+            default:
+                break;
+        }
         switch (data.hab_climb_level) {
             case 1:
-                Lhab1.setForeground(yellowBorder);
+                Lhab1.setForeground(climbBorder);
                 break;
             case 2:
                 if (data.hab_climb_2_left)
-                    Lhab2L.setForeground(yellowBorder);
+                    Lhab2L.setForeground(climbBorder);
                 else
-                    Lhab2R.setForeground(yellowBorder);
+                    Lhab2R.setForeground(climbBorder);
                 break;
             case 3:
-                Lhab3.setForeground(yellowBorder);
+                Lhab3.setForeground(climbBorder);
                 break;
             default:
                 break;

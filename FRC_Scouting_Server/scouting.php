@@ -108,22 +108,10 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "configuration_lu") . ",";
 		mysql_free_result($result);
 
-		//event_lu
-		$query = "SELECT * FROM event_lu" . $suffix;
+		//picklist
+		$query = "SELECT * FROM picklist" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "event_lu") . ",";
-		mysql_free_result($result);
-
-		//fact_match_data_2019
-		$query = "SELECT * FROM fact_match_data_2019" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "fact_match_data_2019") . ",";
-		mysql_free_result($result);
-
-		//game_info
-		$query = "SELECT * FROM game_info" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "game_info") . ",";
+		$json .= genJSON($result, "picklist") . ",";
 		mysql_free_result($result);
 
 		//notes_options
@@ -132,16 +120,10 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "notes_options") . ",";
 		mysql_free_result($result);
 
-		//picklist
-		$query = "SELECT * FROM picklist" . $suffix;
+		//fact_match_data_2019
+		$query = "SELECT * FROM fact_match_data_2019" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "picklist") . ",";
-		mysql_free_result($result);
-
-		//position_lu
-		$query = "SELECT * FROM position_lu" . $suffix;
-		$result = mysql_query($query);
-		$json .= genJSON($result, "position_lu") . ",";
+		$json .= genJSON($result, "fact_match_data_2019") . ",";
 		mysql_free_result($result);
 
 		//robot_lu
@@ -150,10 +132,22 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "robot_lu") . ",";
 		mysql_free_result($result);
 
-		//scout_pit_data_2019
-		$query = "SELECT * FROM scout_pit_data_2019" . $suffix;
+		//position_lu
+		$query = "SELECT * FROM position_lu" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "scout_pit_data_2019") . ",";
+		$json .= genJSON($result, "position_lu") . ",";
+		mysql_free_result($result);
+
+		//wheel_type_lu
+		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "wheel_type_lu") . ",";
+		mysql_free_result($result);
+
+		//event_lu
+		$query = "SELECT * FROM event_lu" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "event_lu") . ",";
 		mysql_free_result($result);
 
 		//wheel_base_lu
@@ -162,10 +156,16 @@ elseif ($_POST['password'] == $pass) {
 		$json .= genJSON($result, "wheel_base_lu") . ",";
 		mysql_free_result($result);
 
-		//wheel_type_lu
-		$query = "SELECT * FROM wheel_type_lu" . $suffix;
+		//game_info
+		$query = "SELECT * FROM game_info" . $suffix;
 		$result = mysql_query($query);
-		$json .= genJSON($result, "wheel_type_lu") . "}";
+		$json .= genJSON($result, "game_info") . ",";
+		mysql_free_result($result);
+
+		//scout_pit_data_2019
+		$query = "SELECT * FROM scout_pit_data_2019" . $suffix;
+		$result = mysql_query($query);
+		$json .= genJSON($result, "scout_pit_data_2019") . "}";
 		mysql_free_result($result);
 
 		$resp = $json;
@@ -205,8 +205,9 @@ elseif ($_POST['password'] == $pass) {
 		$cargo_rocket_3 = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_rocket_3']) ? $_POST['cargo_rocket_3'] : '0')));
 		$cargo_dropped = mysql_real_escape_string(stripslashes(trim(isset($_POST['cargo_dropped']) ? $_POST['cargo_dropped'] : '0')));
 		$hab_climb_level = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_level']) ? $_POST['hab_climb_level'] : '0')));
-		$hab_climb_level_attempted = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_level_attempted']) ? $_POST['hab_climb_level_attempted'] : '0')));
 		$hab_climb_2_left = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_2_left']) ? $_POST['hab_climb_2_left'] : '0')));
+		$hab_climb_level_attempted = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_level_attempted']) ? $_POST['hab_climb_level_attempted'] : '0')));
+		$hab_climb_2_left_attempted = mysql_real_escape_string(stripslashes(trim(isset($_POST['hab_climb_2_left_attempted']) ? $_POST['hab_climb_2_left_attempted'] : '0')));
 		$floor_pickup_cargo = mysql_real_escape_string(stripslashes(trim(isset($_POST['floor_pickup_cargo']) ? $_POST['floor_pickup_cargo'] : '0')));
 		$floor_pickup_hatch = mysql_real_escape_string(stripslashes(trim(isset($_POST['floor_pickup_hatch']) ? $_POST['floor_pickup_hatch'] : '0')));
 		$foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['foul']) ? $_POST['foul'] : '0')));
@@ -222,7 +223,7 @@ elseif ($_POST['password'] == $pass) {
 
 		if (mysql_num_rows($result) == 0) {
 
-			$query = "INSERT INTO fact_match_data_2019(event_id,team_id,match_id,practice_match,position_id,prematch_robot_cargo,prematch_robot_hatch,prematch_hab2_left,prematch_hab_level,sandstorm_bonus,sandstorm_hatch_ship,sandstorm_hatch_rocket_1,sandstorm_hatch_rocket_2,sandstorm_hatch_rocket_3,sandstorm_hatch_dropped,sandstorm_cargo_ship,sandstorm_cargo_rocket_1,sandstorm_cargo_rocket_2,sandstorm_cargo_rocket_3,sandstorm_cargo_dropped,hatch_ship,hatch_rocket_1,hatch_rocket_2,hatch_rocket_3,hatch_dropped,cargo_ship,cargo_rocket_1,cargo_rocket_2,cargo_rocket_3,cargo_dropped,hab_climb_level,hab_climb_level_attempted,hab_climb_2_left,floor_pickup_cargo,floor_pickup_hatch,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
+			$query = "INSERT INTO fact_match_data_2019(event_id,team_id,match_id,practice_match,position_id,prematch_robot_cargo,prematch_robot_hatch,prematch_hab2_left,prematch_hab_level,sandstorm_bonus,sandstorm_hatch_ship,sandstorm_hatch_rocket_1,sandstorm_hatch_rocket_2,sandstorm_hatch_rocket_3,sandstorm_hatch_dropped,sandstorm_cargo_ship,sandstorm_cargo_rocket_1,sandstorm_cargo_rocket_2,sandstorm_cargo_rocket_3,sandstorm_cargo_dropped,hatch_ship,hatch_rocket_1,hatch_rocket_2,hatch_rocket_3,hatch_dropped,cargo_ship,cargo_rocket_1,cargo_rocket_2,cargo_rocket_3,cargo_dropped,hab_climb_level,hab_climb_2_left,hab_climb_level_attempted,hab_climb_2_left_attempted,floor_pickup_cargo,floor_pickup_hatch,foul,yellow_card,red_card,tip_over,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
@@ -254,8 +255,9 @@ elseif ($_POST['password'] == $pass) {
 				. $cargo_rocket_3 . ","
 				. $cargo_dropped . ","
 				. $hab_climb_level . ","
-				. $hab_climb_level_attempted . ","
 				. $hab_climb_2_left . ","
+				. $hab_climb_level_attempted . ","
+				. $hab_climb_2_left_attempted . ","
 				. $floor_pickup_cargo . ","
 				. $floor_pickup_hatch . ","
 				. $foul . ","
@@ -299,8 +301,9 @@ elseif ($_POST['password'] == $pass) {
 				. "cargo_rocket_3=" . $cargo_rocket_3 . ","
 				. "cargo_dropped=" . $cargo_dropped . ","
 				. "hab_climb_level=" . $hab_climb_level . ","
-				. "hab_climb_level_attempted=" . $hab_climb_level_attempted . ","
 				. "hab_climb_2_left=" . $hab_climb_2_left . ","
+				. "hab_climb_level_attempted=" . $hab_climb_level_attempted . ","
+				. "hab_climb_2_left_attempted=" . $hab_climb_2_left_attempted . ","
 				. "floor_pickup_cargo=" . $floor_pickup_cargo . ","
 				. "floor_pickup_hatch=" . $floor_pickup_hatch . ","
 				. "foul=" . $foul . ","

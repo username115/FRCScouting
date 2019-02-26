@@ -149,7 +149,7 @@ public class PreMatchFragment extends MatchFragment {
 
 
         Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);
-        Drawable yellowBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.yellowborder);
+        Drawable selectBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.greenborder);
         //set current selections from load
         Lhab1.setForeground(blackBorder);
         Lhab2L.setForeground(blackBorder);
@@ -157,23 +157,23 @@ public class PreMatchFragment extends MatchFragment {
         Lhab3.setForeground(blackBorder);
         switch (data.prematch_hab_level) {
             case 1:
-                Lhab1.setForeground(yellowBorder);
+                Lhab1.setForeground(selectBorder);
                 break;
             case 2:
                 if (data.prematch_hab2_left)
-                    Lhab2L.setForeground(yellowBorder);
+                    Lhab2L.setForeground(selectBorder);
                 else
-                    Lhab2R.setForeground(yellowBorder);
+                    Lhab2R.setForeground(selectBorder);
                 break;
             case 3:
-                Lhab3.setForeground(yellowBorder);
+                Lhab3.setForeground(selectBorder);
                 break;
             default:
                 break;
         }
 
-        Lcargo_preload.setForeground(data.prematch_robot_cargo ? yellowBorder : blackBorder);
-        Lhatch_preload.setForeground(data.prematch_robot_hatch ? yellowBorder : blackBorder);
+        Lcargo_preload.setForeground(data.prematch_robot_cargo ? selectBorder : blackBorder);
+        Lhatch_preload.setForeground(data.prematch_robot_hatch ? selectBorder : blackBorder);
 
         //scale.setScaleY((data.scale_right == redLeft) ? -1f : 1f);
 
