@@ -101,11 +101,12 @@ public class MatchActivity extends DBActivity {
                 "Record where the robot starts and what game piece is pre-loaded.\n" +
                 "Sandstorm:\n" +
                 "Record if the robot left the HAB.\n" +
-                "Record Hatches and cargo placed in/on the ship and rockets.\n" +
+                "Record Hatches and cargo placed in/on the ship and rockets as well as dropped game pieces.\n" +
                 "Tele-Op:\n" +
-                "Record Hatches and cargo placed in/on the ship and rockets.\n" +
+                "Record Hatches and cargo placed in/on the ship and rockets as well as dropped game pieces.\n" +
                 "End game:\n" +
-                "Record fouls, cards, and if a robot parked, climbed, or attmpted to climb.\n" +
+                "Record fouls, cards, and if a robot climbed, or attempted to climb. Climb indicated with green, attempt with yellow.\n" +
+                "Only mark highest attempted level and successfully climbed level.\n" +
                 "Record if a robot picked up cargo or hatches from the floor during the match.\n" +
                 "Record any pertinent notes. Two drop-downs are provided for common notes.";
 
