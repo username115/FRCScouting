@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.growingstems.scouting"
-    android:versionCode="43"
-    android:versionName="2.2018.0.2">
-
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="19" />
+    android:versionCode="44"
+    android:versionName="2.2019.0.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,7 +12,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.DeviceDefault">
+        android:theme="@style/Theme.AppCompat">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <activity
             android:name=".MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -41,11 +38,6 @@
 
         <activity
             android:name="org.frc836.yearly.MatchActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/match_label"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="org.frc836.yearly.PilotActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/match_label"
             android:windowSoftInputMode="stateHidden" />

@@ -16,11 +16,13 @@
 package org.frc836.yearly;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import org.frc836.database.MatchStatsStruct;
@@ -32,20 +34,28 @@ import org.growingstems.scouting.R;
 public class PreMatchFragment extends MatchFragment {
 
 
-    private static final int LEFT = 0;
-    private static final int RIGHT = 1;
-    private static final int SCALE = 2;
-
     private boolean displayed = false;
 
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
-    private Button swap_sides;
+    //private Button swap_sides;
 
-    private ImageButton left_switch;
-    private ImageButton scale;
-    private ImageButton right_switch;
+    private ImageButton hab1;
+    private ImageButton hab2L;
+    private ImageButton hab2R;
+    private ImageButton hab3;
+    private ImageButton cargo_preload;
+    private ImageButton hatch_preload;
 
+    private FrameLayout Lhab1;
+    private FrameLayout Lhab2L;
+    private FrameLayout Lhab2R;
+    private FrameLayout Lhab3;
+    private FrameLayout Lcargo_preload;
+    private FrameLayout Lhatch_preload;
+
+
+    private View mainView;
 
     public PreMatchFragment() {
         // Required empty public constructor
@@ -75,14 +85,13 @@ public class PreMatchFragment extends MatchFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mainView = view;
         getGUIRefs(view);
-
-
-        if (!Prefs.getRedLeft(getActivity(), true)) {
-            tempData.scale_right = true;
-            tempData.near_switch_right = true;
-            tempData.far_switch_right = true;
-        }
+        //if (!Prefs.getRedLeft(getActivity(), true)) {
+        //    tempData.scale_right = true;
+        //    tempData.near_switch_right = true;
+        //    tempData.far_switch_right = true;
+        //}
         setListeners();
         displayed = true;
     }
@@ -103,9 +112,9 @@ public class PreMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-        data.far_switch_right = tempData.far_switch_right;
-        data.near_switch_right = tempData.near_switch_right;
-        data.scale_right = tempData.scale_right;
+        data.prematch_hab_level = tempData.prematch_hab_level;
+        data.prematch_robot_cargo = tempData.prematch_robot_cargo;
+        data.prematch_robot_hatch = tempData.prematch_robot_hatch;
 
     }
 
@@ -115,12 +124,12 @@ public class PreMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
         // which side are we using
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
+        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
 
-        if (!redLeft)
-            scale.setScaleX(-1f);
-        else
-            scale.setScaleX(1f);
+        //if (!redLeft)
+        //    scale.setScaleX(-1f);
+        //else
+        //    scale.setScaleX(1f);
 
 
         Activity act = getActivity();
@@ -130,97 +139,149 @@ public class PreMatchFragment extends MatchFragment {
         else
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
-        scale.setScaleY((data.scale_right == redLeft) ? -1f : 1f);
+        boolean blue = pos.contains("Blue");
 
-        if (pos.contains("Blue") != redLeft) {
-            left_switch.setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
-            right_switch.setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+        //set colors based on side;
+        hab1.setImageResource(blue ? R.drawable.blue_hab_1 : R.drawable.red_hab_1);
+        hab2L.setImageResource(blue ? R.drawable.blue_hab_2_left : R.drawable.red_hab_2_left);
+        hab2R.setImageResource(blue ? R.drawable.blue_hab_2_right : R.drawable.red_hab_2_right);
+        hab3.setImageResource(blue ? R.drawable.blue_hab_3 : R.drawable.red_hab_3);
 
-            /*left_switch.setScaleY(data.near_switch_right ? -1f : 1f);
-            scale.setScaleY(data.scale_right ? -1f : 1f);
-            right_switch.setScaleY(data.far_switch_right ? -1f : 1f);*/
-        } else {
-            left_switch.setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
-            right_switch.setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
 
-            /*left_switch.setScaleY(data.far_switch_right ? 1f : -1f);
-            scale.setScaleY(data.scale_right ? 1f : -1f);
-            right_switch.setScaleY(data.near_switch_right ? 1f : -1f);*/
+        Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);
+        Drawable selectBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.greenborder);
+        //set current selections from load
+        Lhab1.setForeground(blackBorder);
+        Lhab2L.setForeground(blackBorder);
+        Lhab2R.setForeground(blackBorder);
+        Lhab3.setForeground(blackBorder);
+        switch (data.prematch_hab_level) {
+            case 1:
+                Lhab1.setForeground(selectBorder);
+                break;
+            case 2:
+                if (data.prematch_hab2_left)
+                    Lhab2L.setForeground(selectBorder);
+                else
+                    Lhab2R.setForeground(selectBorder);
+                break;
+            case 3:
+                Lhab3.setForeground(selectBorder);
+                break;
+            default:
+                break;
         }
+
+        Lcargo_preload.setForeground(data.prematch_robot_cargo ? selectBorder : blackBorder);
+        Lhatch_preload.setForeground(data.prematch_robot_hatch ? selectBorder : blackBorder);
+
+        //scale.setScaleY((data.scale_right == redLeft) ? -1f : 1f);
+
+        //if (pos.contains("Blue") != redLeft) {
+        //    left_switch.setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
+        //    right_switch.setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+        //} else {
+        //    left_switch.setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
+        //    right_switch.setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
+        //}
 
 
     }
 
     private void getGUIRefs(View view) {
-        left_switch = (ImageButton) view.findViewById(R.id.leftSwitchB);
-        scale = (ImageButton) view.findViewById(R.id.scaleB);
-        right_switch = (ImageButton) view.findViewById(R.id.rightSwitchB);
-        swap_sides = (Button) view.findViewById(R.id.switchSidesB);
+        hab1 = view.findViewById(R.id.hab1);
+        hab2L = view.findViewById(R.id.hab2Left);
+        hab2R = view.findViewById(R.id.hab2Right);
+        hab3 = view.findViewById(R.id.hab3);
+        cargo_preload = view.findViewById(R.id.cargoB);
+        hatch_preload = view.findViewById(R.id.hatchB);
+
+        Lhab1 = view.findViewById(R.id.hab1L);
+        Lhab2L = view.findViewById(R.id.hab2LeftL);
+        Lhab2R = view.findViewById(R.id.hab2RightL);
+        Lhab3 = view.findViewById(R.id.hab3L);
+        Lcargo_preload = view.findViewById(R.id.cargoL);
+        Lhatch_preload = view.findViewById(R.id.hatchL);
     }
 
     private void setListeners() {
-        swap_sides.setOnClickListener(new View.OnClickListener() {
+        //swap_sides.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        switchSides();
+        //    }
+        //});
+        hab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchSides();
+                toggleHabLevel(1, false);
             }
         });
-        left_switch.setOnClickListener(new View.OnClickListener() {
+        hab2R.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flipResource(left_switch, LEFT);
+                toggleHabLevel(2, false);
             }
         });
-        right_switch.setOnClickListener(new View.OnClickListener() {
+        hab2L.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flipResource(right_switch, RIGHT);
+                toggleHabLevel(2, true);
             }
         });
-        scale.setOnClickListener(new View.OnClickListener() {
+        hab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flipResource(scale, SCALE);
+                toggleHabLevel(3, false);
+            }
+        });
+
+
+        cargo_preload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleCargoHatch(false);
+            }
+        });
+        hatch_preload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleCargoHatch(true);
             }
         });
 
     }
 
-    private void switchSides() {
-        saveData(tempData);
-        tempData.scale_right = !tempData.scale_right;
-        tempData.near_switch_right = !tempData.near_switch_right;
-        tempData.far_switch_right = !tempData.far_switch_right;
-        Prefs.setRedLeft(getActivity(), !(Prefs.getRedLeft(getActivity(), true)));
+    private void toggleHabLevel(int level, boolean left2) {
+        if (tempData.prematch_hab_level == level && (tempData.prematch_hab2_left == left2 || level != 2)) {
+            //selected already selected level, deselect
+            tempData.prematch_hab_level = 0;
+            tempData.prematch_hab2_left = false;
+        } else {
+            tempData.prematch_hab_level = level;
+            tempData.prematch_hab2_left = (level == 2 && left2);
+        }
+        loadData(tempData); //apply to UI
+    }
+
+    private void toggleCargoHatch(boolean hatch) {
+        if (hatch) {
+            tempData.prematch_robot_hatch = !tempData.prematch_robot_hatch;
+            tempData.prematch_robot_cargo = false;
+        } else {
+            tempData.prematch_robot_cargo = !tempData.prematch_robot_cargo;
+            tempData.prematch_robot_hatch = false;
+        }
         loadData(tempData);
     }
 
-    private void flipResource(ImageButton resource, int side) {
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        Activity act = getActivity();
-        String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity) act).getPosition();
-        else
-            pos = Prefs.getPosition(getActivity(), "Red 1");
-        boolean isRed = pos.contains("Red");
-
-        if ((side == RIGHT && ((!redLeft && isRed) || (redLeft && !isRed)))
-                || (side == LEFT && ((!redLeft && !isRed) || (redLeft && isRed)))) {
-            tempData.near_switch_right = !tempData.near_switch_right;
-            tempData.far_switch_right = !tempData.far_switch_right;
-            left_switch.setScaleY(-1 * left_switch.getScaleY());
-            right_switch.setScaleY(-1 * right_switch.getScaleY());
-        } else if (side != SCALE) {
-            tempData.far_switch_right = !tempData.far_switch_right;
-            tempData.near_switch_right = !tempData.near_switch_right;
-            left_switch.setScaleY(-1 * left_switch.getScaleY());
-            right_switch.setScaleY(-1 * right_switch.getScaleY());
-        } else {
-            tempData.scale_right = !tempData.scale_right;
-            resource.setScaleY(-1 * resource.getScaleY());
-        }
-
-    }
+    //private void switchSides() {
+    //    saveData(tempData);
+    //    tempData.scale_right = !tempData.scale_right;
+    //    tempData.near_switch_right = !tempData.near_switch_right;
+    //    tempData.far_switch_right = !tempData.far_switch_right;
+    //    Prefs.setRedLeft(getActivity(), !(Prefs.getRedLeft(getActivity(), true)));
+    //    loadData(tempData);
+    //}
 
 }

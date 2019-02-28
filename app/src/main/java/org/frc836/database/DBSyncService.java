@@ -37,6 +37,7 @@ import org.sigmond.net.HttpUtils;
 import org.growingstems.scouting.R;
 
 import android.app.NotificationManager;
+import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentValues;
@@ -46,9 +47,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
@@ -80,6 +83,7 @@ public class DBSyncService extends Service {
     private String dbVersion;
 
     private static final int notifyID = 74392;
+    private static final String CHANNEL_ID = "FRC_SCOUTING_SYNC_NOTIFICATION";
 
     private static volatile boolean syncInProgress = false;
     private static volatile boolean notify = true;
@@ -116,8 +120,9 @@ public class DBSyncService extends Service {
         DBSyncService.version = getString(R.string.VersionID);
 
         //mTimerTask.post(dataTask);
+        createNotificationChannel();
 
-        mBuilder = new NotificationCompat.Builder(this)
+        mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(getString(R.string.service_notify_title))
                 .setContentText(getString(R.string.service_notify_text))
@@ -135,10 +140,27 @@ public class DBSyncService extends Service {
 
         if (url.length() > 1 && URLUtil.isValidUrl(url)) {
             notify = true;
-            ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
-                    .notify(notifyID, mBuilder.build());
+
+            NotificationManagerCompat.from(this).notify(notifyID, mBuilder.build());
         } else
             notify = false;
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "FRCScouting Sync Service";
+            String description = "Synchronization Service";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.setSound(null, null);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private boolean loadTimestamp() {
@@ -183,8 +205,7 @@ public class DBSyncService extends Service {
 
         mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
         if (notify)
-            ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
-                    .notify(notifyID, mBuilder.build());
+            NotificationManagerCompat.from(this).notify(notifyID, mBuilder.build());
     }
 
     @Override
@@ -203,8 +224,7 @@ public class DBSyncService extends Service {
         mTimerTask.removeCallbacks(dataTask);
         running = false;
         notify = false;
-        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
-                .cancel(notifyID);
+        NotificationManagerCompat.from(this).cancel(notifyID);
         syncInProgress = false;
         super.onDestroy();
     }
@@ -248,8 +268,7 @@ public class DBSyncService extends Service {
 
         public void refreshNotification(String url) {
             if (url.length() > 1 && URLUtil.isValidUrl(url)) {
-                ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
-                        .notify(notifyID, DBSyncService.this.mBuilder.build());
+                NotificationManagerCompat.from(DBSyncService.this).notify(notifyID, DBSyncService.this.mBuilder.build());
                 notify = true;
                 if (!syncInProgress) {
                     mTimerTask.removeCallbacks(dataTask);
@@ -259,8 +278,7 @@ public class DBSyncService extends Service {
                 }
             } else {
                 notify = false;
-                ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
-                        .cancel(notifyID);
+                NotificationManagerCompat.from(DBSyncService.this).cancel(notifyID);
             }
         }
     }

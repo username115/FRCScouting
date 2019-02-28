@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "org.growingstems.scouting"
-        minSdkVersion 15
-        targetSdkVersion 19
+        minSdkVersion 21
+        targetSdkVersion 28
     }
 
     buildTypes {
@@ -19,8 +19,11 @@ android {
 }
 
 dependencies {
-    compile files('libs/achartengine-1.2.0.jar')
-    compile files('libs/android-support-v13.jar')
+    implementation files('libs/achartengine-1.2.0.jar')
+    //implementation files('libs/android-support-v13.jar')
+    //implementation files('libs/android-appcompat-v7.jar')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    //implementation 'com.android.support:support-fragment:28.0.0'
     //compile 'com.android.support:appcompat-v7:19.1.0'
     //compile 'com.android.support:support-v4:19.1.0'
 }

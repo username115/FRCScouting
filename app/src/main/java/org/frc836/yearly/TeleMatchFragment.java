@@ -21,9 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import org.frc836.database.MatchStatsStruct;
@@ -35,16 +33,32 @@ import org.growingstems.scouting.R;
 public class TeleMatchFragment extends MatchFragment {
 
 
-    private Spinner exchangeS;
-    private Spinner switchS;
-    private Spinner wrongSwitchS;
-    private Spinner scaleS;
-    private Spinner wrongScaleS;
-    private Spinner oppositeSwitchS;
-    private Spinner wrongOppositeSwitchS;
+    private Button shipCargoB;
+    private Spinner shipCargoS;
+    private Button shipHatchB;
+    private Spinner shipHatchS;
 
-    private View mainView;
+    private Button rocketL1CargoB;
+    private Spinner rocketL1CargoS;
+    private Button rocketL1HatchB;
+    private Spinner rocketL1HatchS;
 
+    private Button rocketL2CargoB;
+    private Spinner rocketL2CargoS;
+    private Button rocketL2HatchB;
+    private Spinner rocketL2HatchS;
+
+    private Button rocketL3CargoB;
+    private Spinner rocketL3CargoS;
+    private Button rocketL3HatchB;
+    private Spinner rocketL3HatchS;
+
+    private Button droppedCargoB;
+    private Spinner droppedCargoS;
+    private Button droppedHatchB;
+    private Spinner droppedHatchS;
+
+    private ImageView cargoShip;
 
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
@@ -79,7 +93,7 @@ public class TeleMatchFragment extends MatchFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mainView = view;
+        getGUIRefs(view);
         setListeners();
         displayed = true;
     }
@@ -102,13 +116,16 @@ public class TeleMatchFragment extends MatchFragment {
 
         MatchStatsYearly.clearTele(data);
 
-        data.exchange_count = exchangeS.getSelectedItemPosition();
-        data.scale_count = scaleS.getSelectedItemPosition();
-        data.scale_wrong_side_count = wrongScaleS.getSelectedItemPosition();
-        data.switch_count = switchS.getSelectedItemPosition();
-        data.switch_wrong_side_count = wrongSwitchS.getSelectedItemPosition();
-        data.opposite_switch_count = oppositeSwitchS.getSelectedItemPosition();
-        data.opposite_switch_wrong_side_count = wrongOppositeSwitchS.getSelectedItemPosition();
+        data.cargo_ship = shipCargoS.getSelectedItemPosition();
+        data.hatch_ship = shipHatchS.getSelectedItemPosition();
+        data.cargo_rocket_1 = rocketL1CargoS.getSelectedItemPosition();
+        data.hatch_rocket_1 = rocketL1HatchS.getSelectedItemPosition();
+        data.cargo_rocket_2 = rocketL2CargoS.getSelectedItemPosition();
+        data.hatch_rocket_2 = rocketL2HatchS.getSelectedItemPosition();
+        data.cargo_rocket_3 = rocketL3CargoS.getSelectedItemPosition();
+        data.hatch_rocket_3 = rocketL3HatchS.getSelectedItemPosition();
+        data.cargo_dropped = droppedCargoS.getSelectedItemPosition();
+        data.hatch_dropped = droppedHatchS.getSelectedItemPosition();
     }
 
     @Override
@@ -117,12 +134,12 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
         // which side are we using
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        if (redLeft) {
-            mainView.findViewById(R.id.scaleBTele).setScaleX(1.0f);
-        } else {
-            mainView.findViewById(R.id.scaleBTele).setScaleX(-1.0f);
-        }
+        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
+        //if (redLeft) {
+        //    mainView.findViewById(R.id.scaleBTele).setScaleX(1.0f);
+        //} else {
+        //    mainView.findViewById(R.id.scaleBTele).setScaleX(-1.0f);
+        //}
 
         Activity act = getActivity();
         String pos;
@@ -131,100 +148,68 @@ public class TeleMatchFragment extends MatchFragment {
         else
             pos = Prefs.getPosition(getActivity(), "Red 1");
 
-        mainView.findViewById(R.id.scaleBTele).setScaleY((data.scale_right == redLeft) ? -1f : 1f);
-        if (pos.contains("Blue") != redLeft) { //LEFT
-            mainView.findViewById(R.id.leftSwitchBTele).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
-            mainView.findViewById(R.id.rightSwitchBTele).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
-
-            //scaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleBotCountBTele : R.id.ScaleTopCountBTele);
-            //wrongScaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleTopCountBTele : R.id.ScaleBotCountBTele);
-            scaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleBotCountSTele : R.id.ScaleTopCountSTele);
-            wrongScaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleTopCountSTele : R.id.ScaleBotCountSTele);
-
-            //switchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountBTele : R.id.leftSwitchTopCountBTele);
-            //wrongSwitchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountBTele : R.id.leftSwitchBotCountBTele);
-            switchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountSTele : R.id.leftSwitchTopCountSTele);
-            wrongSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountSTele : R.id.leftSwitchBotCountSTele);
-
-            oppositeSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountSTele : R.id.rightSwitchTopCountSTele);
-            wrongOppositeSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountSTele : R.id.rightSwitchBotCountSTele);
-
-            //exchangeB = (Button)mainView.findViewById(R.id.leftExchangeCountBTele);
-            exchangeS = (Spinner) mainView.findViewById(R.id.leftExchangeCountSTele);
-
-            mainView.findViewById(R.id.leftExchangeLayoutTele).setVisibility(View.VISIBLE);
-            mainView.findViewById(R.id.rightExchangeLayoutTele).setVisibility(View.GONE);
-
-
-        } else { //RIGHT
-            mainView.findViewById(R.id.leftSwitchBTele).setScaleY((data.far_switch_right == redLeft) ? -1f : 1f);
-            mainView.findViewById(R.id.rightSwitchBTele).setScaleY((data.near_switch_right == redLeft) ? -1f : 1f);
-
-            //wrongScaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleBotCountBTele : R.id.ScaleTopCountBTele);
-            //scaleB = (Button)mainView.findViewById(data.scale_right ? R.id.ScaleTopCountBTele : R.id.ScaleBotCountBTele);
-            wrongScaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleBotCountSTele : R.id.ScaleTopCountSTele);
-            scaleS = (Spinner) mainView.findViewById(data.scale_right ? R.id.ScaleTopCountSTele : R.id.ScaleBotCountSTele);
-
-            //wrongSwitchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountBTele : R.id.rightSwitchTopCountBTele);
-            //switchB = (Button) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountBTele : R.id.rightSwitchBotCountBTele);
-            wrongSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchBotCountSTele : R.id.rightSwitchTopCountSTele);
-            switchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.rightSwitchTopCountSTele : R.id.rightSwitchBotCountSTele);
-
-            wrongOppositeSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchBotCountSTele : R.id.leftSwitchTopCountSTele);
-            oppositeSwitchS = (Spinner) mainView.findViewById(data.near_switch_right ? R.id.leftSwitchTopCountSTele : R.id.leftSwitchBotCountSTele);
-
-            //exchangeB = (Button)mainView.findViewById(R.id.rightExchangeCountBTele);
-            exchangeS = (Spinner) mainView.findViewById(R.id.rightExchangeCountSTele);
-
-            mainView.findViewById(R.id.rightExchangeLayoutTele).setVisibility(View.VISIBLE);
-            mainView.findViewById(R.id.leftExchangeLayoutTele).setVisibility(View.GONE);
-        }
 
         if (pos.contains("Blue")) {
-            ((ImageView) mainView.findViewById(R.id.leftExchangeTele)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.blue_exchange));
-            ((ImageView) mainView.findViewById(R.id.rightExchangeTele)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.blue_exchange));
+            cargoShip.setImageResource(R.drawable.blue_ship);
         } else {
-
-            ((ImageView) mainView.findViewById(R.id.leftExchangeTele)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.red_exchange));
-            ((ImageView) mainView.findViewById(R.id.rightExchangeTele)).setImageDrawable(
-                    act.getResources().getDrawable(R.drawable.red_exchange));
+            cargoShip.setImageResource(R.drawable.red_ship);
         }
 
-        exchangeS.setSelection(data.exchange_count);
-        scaleS.setSelection(data.scale_count);
-        wrongScaleS.setSelection(data.scale_wrong_side_count);
-        switchS.setSelection(data.switch_count);
-        wrongSwitchS.setSelection(data.switch_wrong_side_count);
-        oppositeSwitchS.setSelection(data.opposite_switch_count);
-        wrongOppositeSwitchS.setSelection(data.opposite_switch_wrong_side_count);
+        shipCargoS.setSelection(data.cargo_ship);
+        shipHatchS.setSelection(data.hatch_ship);
+        rocketL1CargoS.setSelection(data.cargo_rocket_1);
+        rocketL1HatchS.setSelection(data.hatch_rocket_1);
+        rocketL2CargoS.setSelection(data.cargo_rocket_2);
+        rocketL2HatchS.setSelection(data.hatch_rocket_2);
+        rocketL3CargoS.setSelection(data.cargo_rocket_3);
+        rocketL3HatchS.setSelection(data.hatch_rocket_3);
+        droppedCargoS.setSelection(data.cargo_dropped);
+        droppedHatchS.setSelection(data.hatch_dropped);
+    }
+
+    private void getGUIRefs(View view) {
+        shipCargoB = view.findViewById(R.id.shipCargoB);
+        shipCargoS = view.findViewById(R.id.shipCargoCount);
+        shipHatchB = view.findViewById(R.id.shipHatchB);
+        shipHatchS = view.findViewById(R.id.shipHatchCount);
+        rocketL1CargoB = view.findViewById(R.id.rocketL1CargoB);
+        rocketL1CargoS = view.findViewById(R.id.rocketL1CargoCount);
+        rocketL1HatchB = view.findViewById(R.id.rocketL1HatchB);
+        rocketL1HatchS = view.findViewById(R.id.rocketL1HatchCount);
+        rocketL2CargoB = view.findViewById(R.id.rocketL2CargoB);
+        rocketL2CargoS = view.findViewById(R.id.rocketL2CargoCount);
+        rocketL2HatchB = view.findViewById(R.id.rocketL2HatchB);
+        rocketL2HatchS = view.findViewById(R.id.rocketL2HatchCount);
+        rocketL3CargoB = view.findViewById(R.id.rocketL3CargoB);
+        rocketL3CargoS = view.findViewById(R.id.rocketL3CargoCount);
+        rocketL3HatchB = view.findViewById(R.id.rocketL3HatchB);
+        rocketL3HatchS = view.findViewById(R.id.rocketL3HatchCount);
+        droppedCargoB = view.findViewById(R.id.cargoDroppedB);
+        droppedCargoS = view.findViewById(R.id.cargoDroppedCount);
+        droppedHatchB = view.findViewById(R.id.hatchDroppedB);
+        droppedHatchS = view.findViewById(R.id.hatchDroppedCount);
+
+
+        cargoShip = view.findViewById(R.id.cargoShip);
     }
 
     private void setListeners() {
 
-        mainView.findViewById(R.id.rightExchangeCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightExchangeCountSTele), 1));
-        mainView.findViewById(R.id.leftExchangeCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftExchangeCountSTele), 1));
-        mainView.findViewById(R.id.rightSwitchBotCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightSwitchBotCountSTele), 1));
-        mainView.findViewById(R.id.rightSwitchTopCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.rightSwitchTopCountSTele), 1));
-        mainView.findViewById(R.id.leftSwitchBotCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftSwitchBotCountSTele), 1));
-        mainView.findViewById(R.id.leftSwitchTopCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.leftSwitchTopCountSTele), 1));
-        mainView.findViewById(R.id.ScaleBotCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.ScaleBotCountSTele), 1));
-        mainView.findViewById(R.id.ScaleTopCountBTele)
-                .setOnClickListener(new OnIncrementListener((Spinner) mainView.findViewById(R.id.ScaleTopCountSTele), 1));
+        shipCargoB.setOnClickListener(new OnIncrementListener(shipCargoS, 1));
+        shipHatchB.setOnClickListener(new OnIncrementListener(shipHatchS, 1));
+        rocketL1CargoB.setOnClickListener(new OnIncrementListener(rocketL1CargoS, 1));
+        rocketL1HatchB.setOnClickListener(new OnIncrementListener(rocketL1HatchS, 1));
+        rocketL2CargoB.setOnClickListener(new OnIncrementListener(rocketL2CargoS, 1));
+        rocketL2HatchB.setOnClickListener(new OnIncrementListener(rocketL2HatchS, 1));
+        rocketL3CargoB.setOnClickListener(new OnIncrementListener(rocketL3CargoS, 1));
+        rocketL3HatchB.setOnClickListener(new OnIncrementListener(rocketL3HatchS, 1));
+        droppedCargoB.setOnClickListener(new OnIncrementListener(droppedCargoS, 1));
+        droppedHatchB.setOnClickListener(new OnIncrementListener(droppedHatchS, 1));
     }
 
     private class OnIncrementListener implements View.OnClickListener {
 
-        int m_increment = 1;
+        int m_increment;
         Spinner m_spinner;
 
         OnIncrementListener(Spinner view, int inc) {

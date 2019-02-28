@@ -8,12 +8,10 @@ import java.util.List;
 
 public abstract class MatchStatsYearly {
 
-    public static final int NUM_GRAPHS = 5;
-    public static final int TOTAL_CUBES = 0;
-    public static final int AUTO_CUBES = 1;
-    public static final int SCALE_ONLY = 2;
-    public static final int EXCHANGE_CUBES = 3;
-    public static final int PARK_CLIMB_POINTS = 4;
+    public static final int NUM_GRAPHS = 3;
+    public static final int TOTAL_CARGO = 0;
+    public static final int TOTAL_HATCHES = 1;
+    public static final int HAB_CLIMB = 2;
 
 
     public static int getTotalScore(final MatchStatsStruct stats) {
@@ -22,67 +20,77 @@ public abstract class MatchStatsYearly {
 
     public static List<String> getGraphNames() {
         List<String> ret = new ArrayList<String>(NUM_GRAPHS);
-        ret.add(TOTAL_CUBES, "Total Cubes Scored");
-        ret.add(AUTO_CUBES, "Auto Cubes");
-        ret.add(SCALE_ONLY, "Cubes on Scale");
-        ret.add(EXCHANGE_CUBES, "Cubes in Exchange");
-        ret.add(PARK_CLIMB_POINTS, "Park/Climb Points");
+        ret.add(TOTAL_CARGO, "Total Cargo Scored");
+        ret.add(TOTAL_HATCHES, "Total Hatches Scored");
+        ret.add(HAB_CLIMB, "HAB Climb Points");
 
         return ret;
     }
 
     public static int getStat(final int statNum, final MatchStatsStruct stats) {
         switch (statNum) {
-            case TOTAL_CUBES:
-                return getTotalCubesScored(stats);
-            case AUTO_CUBES:
-                return getAutoCubes(stats);
-            case SCALE_ONLY:
-                return getScaleCubes(stats);
-            case EXCHANGE_CUBES:
-                return getExchangeCount(stats);
-            case PARK_CLIMB_POINTS:
+            case TOTAL_CARGO:
+                return getTotalCargoScored(stats);
+            case TOTAL_HATCHES:
+                return getTotalHatchesScored(stats);
+            case HAB_CLIMB:
+                return getHabClimbPoints(stats);
             default:
-                return getPnCPoints(stats);
+                return getHabClimbPoints(stats);
         }
     }
 
-    public static int getTotalCubesScored(final MatchStatsStruct stats) {
-        return stats.auto_switch_count + stats.auto_scale_count + stats.switch_count
-                + stats.scale_count + stats.opposite_switch_count;
+    public static int getTotalCargoScored(final MatchStatsStruct stats) {
+        return stats.sandstorm_cargo_ship
+                + stats.sandstorm_cargo_rocket_1
+                + stats.sandstorm_cargo_rocket_2
+                + stats.sandstorm_cargo_rocket_3
+                + stats.cargo_ship
+                + stats.cargo_rocket_1
+                + stats.cargo_rocket_2
+                + stats.cargo_rocket_3;
     }
 
-    public static int getAutoCubes(final MatchStatsStruct stats) {
-        return stats.auto_switch_count + stats.auto_scale_count;
+    public static int getTotalHatchesScored(final MatchStatsStruct stats) {
+        return stats.sandstorm_hatch_ship
+                + stats.sandstorm_hatch_rocket_1
+                + stats.sandstorm_hatch_rocket_2
+                + stats.sandstorm_hatch_rocket_3
+                + stats.hatch_ship
+                + stats.hatch_rocket_1
+                + stats.hatch_rocket_2
+                + stats.hatch_rocket_3;
     }
 
-    public static int getScaleCubes(final MatchStatsStruct stats) {
-        return stats.auto_scale_count + stats.scale_count;
+    public static int getHabClimbPoints(final MatchStatsStruct stats) {
+        return stats.hab_climb_level < 3 ? stats.hab_climb_level * 3 : 12;
     }
 
-    public static int getExchangeCount(final MatchStatsStruct stats) {
-        return stats.auto_exchange_count + stats.exchange_count;
-    }
-
-    public static int getPnCPoints(final MatchStatsStruct stats) {
-        return (stats.parked ? 5 : 0) + (stats.climbed ? 30 : 0) + (stats.supported_others ? 30 : 0);
-    }
 
     public static void clearAuto(MatchStatsStruct stats) {
-        stats.auto_switch_count = 0;
-        stats.auto_switch_wrong_side_count = 0;
-        stats.auto_scale_count = 0;
-        stats.auto_scale_wrong_side_count = 0;
-        stats.auto_exchange_count = 0;
-        stats.auto_run = false;
+        stats.sandstorm_bonus = false;
+        stats.sandstorm_cargo_ship = 0;
+        stats.sandstorm_hatch_ship = 0;
+        stats.sandstorm_cargo_rocket_1 = 0;
+        stats.sandstorm_hatch_rocket_1 = 0;
+        stats.sandstorm_cargo_rocket_2 = 0;
+        stats.sandstorm_hatch_rocket_2 = 0;
+        stats.sandstorm_cargo_rocket_3 = 0;
+        stats.sandstorm_hatch_rocket_3 = 0;
+        stats.sandstorm_cargo_dropped = 0;
+        stats.sandstorm_hatch_dropped = 0;
     }
 
     public static void clearTele(MatchStatsStruct stats) {
-        stats.switch_count = 0;
-        stats.switch_wrong_side_count = 0;
-        stats.scale_count = 0;
-        stats.scale_wrong_side_count = 0;
-        stats.opposite_switch_count = 0;
-        stats.opposite_switch_wrong_side_count = 0;
+        stats.cargo_ship = 0;
+        stats.hatch_ship = 0;
+        stats.cargo_rocket_1 = 0;
+        stats.hatch_rocket_1 = 0;
+        stats.cargo_rocket_2 = 0;
+        stats.hatch_rocket_2 = 0;
+        stats.cargo_rocket_3 = 0;
+        stats.hatch_rocket_3 = 0;
+        stats.cargo_dropped = 0;
+        stats.hatch_dropped = 0;
     }
 }

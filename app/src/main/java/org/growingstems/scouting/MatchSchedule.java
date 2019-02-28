@@ -34,7 +34,7 @@ import android.widget.Toast;
 public class MatchSchedule implements HttpCallback {
 
 	private static final String FILENAME = "FRCscoutingschedule";
-	private static final String SCHEDULE_URL = "https://robobees.org/schedule.php?request=schedule";
+	private static final String SCHEDULE_URL = "https://growingstems.org/schedule.php?request=schedule";
 
 	private boolean offseason = false;
 	private boolean toastComplete;

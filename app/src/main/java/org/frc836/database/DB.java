@@ -41,6 +41,7 @@ import org.frc836.samsung.fileselector.FileSelector;
 import org.frc836.samsung.fileselector.OnHandleFileListener;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
+import org.growingstems.scouting.ScoutingMenuActivity;
 import org.sigmond.net.*;
 
 import android.app.NotificationManager;
@@ -1695,7 +1696,7 @@ public class DB {
 
     private static final String FILENAME = "ScoutingDefaultExportLocation";
 
-    public static void exportToCSV(Context context) {
+    public static void exportToCSV(ScoutingMenuActivity context) {
         try {
             cb = new ExportCallback();
             String filename;

@@ -46,27 +46,39 @@ public class PitsActivity extends DBActivity {
     private EditText weightT;
 
 
-    //2018 start
-    private CheckBox scoreSwitchC;
-    private CheckBox scoreScaleC;
+    // TODO - define
+    ////// 2019 Game Specifics //////
+    private Spinner habStartLvlS;
+    private CheckBox canPreloadHatchC;
+    private CheckBox canPreloadCargoC;
+    private CheckBox canFloorPickupHatchC;
+    private CheckBox canFloorPickupCargoC;
 
-    //autonomous mode
-    private CheckBox autoRunC;
-    private EditText autoScoreSwitchT;
-    private EditText autoScoreScaleT;
+    private CheckBox sandstormBonusC;
+    private CheckBox sandstormRocketHatch1C;
+    private CheckBox sandstormRocketHatch2C;
+    private CheckBox sandstormRocketHatch3C;
+    private CheckBox sandstormRocketCargo1C;
+    private CheckBox sandstormRocketCargo2C;
+    private CheckBox sandstormRocketCargo3C;
+    private CheckBox sandstormShipCargoC;
+    private CheckBox sandstormShipHatchFrontC;
+    private CheckBox sandstormShipHatchSideC;
+    private EditText sandstormCountHatchC;
+    private EditText sandstormCountCargoC;
 
-    //tele-op
-    private CheckBox exchangeDepositC;
-    private CheckBox exchangeAcquireC;
-    private CheckBox portalAcquireC;
-    private CheckBox floorAcquireC;
+    private CheckBox rocketHatch1C;
+    private CheckBox rocketHatch2C;
+    private CheckBox rocketHatch3C;
+    private CheckBox rocketCargo1C;
+    private CheckBox rocketCargo2C;
+    private CheckBox rocketCargo3C;
+    private CheckBox canClimbHab2C;
+    private CheckBox canClimbHab3C;
+    private EditText climbSpeed2T;
+    private EditText climbSpeed3T;
+    ////// 2019 END //////
 
-    //End game
-    private CheckBox canClimbC;
-    private CheckBox supportOthersC;
-
-
-    //2018 end
 
     private Handler timer = new Handler();
     private static final int DELAY = 500;
@@ -96,33 +108,47 @@ public class PitsActivity extends DBActivity {
         drivetrainS = (Spinner) findViewById(R.id.pits_drivetrainS);
         wheeltypeS = (Spinner) findViewById(R.id.pits_wheeltypeS);
 
-        //2018 start
-        scoreSwitchC = (CheckBox) findViewById(R.id.pits_can_score_switch);
-        scoreScaleC = (CheckBox) findViewById(R.id.pits_can_score_scale);
-
-        //autonomous mode
-        autoRunC = (CheckBox) findViewById(R.id.auto_run_pit);
-        autoScoreSwitchT = (EditText) findViewById(R.id.auto_score_switch_pit);
-        autoScoreScaleT = (EditText) findViewById(R.id.auto_score_scale_pit);
-
-
-        //tele-op mode
-        exchangeDepositC = (CheckBox) findViewById(R.id.pits_can_deposit_exchange);
-        exchangeAcquireC = (CheckBox) findViewById(R.id.pits_can_receive_exchange);
-        portalAcquireC = (CheckBox) findViewById(R.id.pits_can_receive_portal);
-        floorAcquireC = (CheckBox) findViewById(R.id.pits_can_acquire_floor);
-
-
-        canClimbC = (CheckBox) findViewById(R.id.can_climb_pit);
-        supportOthersC = (CheckBox) findViewById(R.id.support_others_pit);
-        //2018 end
-
         maxSpeedT = (EditText) findViewById(R.id.robot_speed_fps_pit);
         weightT = (EditText) findViewById(R.id.robot_gross_weightT);
 
         commentsT = (EditText) findViewById(R.id.pits_commentsT);
         Button submitB = (Button) findViewById(R.id.pits_submitB);
         teamInfoT = (TextView) findViewById(R.id.pits_teamInfo);
+
+
+        // TODO - map
+        ////// 2019 Game Specifics //////
+        habStartLvlS = (Spinner)findViewById(R.id.pits_hab_start_level);
+        canPreloadHatchC = (CheckBox)findViewById(R.id.pits_can_preload_hatch);
+        canPreloadCargoC = (CheckBox)findViewById(R.id.pits_can_preload_cargo);
+        canFloorPickupHatchC = (CheckBox)findViewById(R.id.pits_floor_pickup_hatch);
+        canFloorPickupCargoC = (CheckBox)findViewById(R.id.pits_floor_pickup_cargo);
+
+        sandstormBonusC = (CheckBox)findViewById(R.id.pits_sandstorm_bonus);
+        sandstormRocketHatch1C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_hatch_1);
+        sandstormRocketHatch2C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_hatch_2);
+        sandstormRocketHatch3C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_hatch_3);
+        sandstormRocketCargo1C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_cargo_1);
+        sandstormRocketCargo2C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_cargo_2);
+        sandstormRocketCargo3C = (CheckBox)findViewById(R.id.pits_sandstorm_rocket_cargo_3);
+        sandstormShipCargoC = (CheckBox)findViewById(R.id.pits_sandstorm_ship_cargo);
+        sandstormShipHatchFrontC = (CheckBox)findViewById(R.id.pits_sandstorm_ship_hatch_front);
+        sandstormShipHatchSideC = (CheckBox)findViewById(R.id.pits_sandstorm_ship_hatch_side);
+        sandstormCountHatchC = (EditText)findViewById(R.id.pits_sandstorm_count_hatch);
+        sandstormCountCargoC = (EditText)findViewById(R.id.pits_sandstorm_count_cargo);
+
+        rocketHatch1C = (CheckBox)findViewById(R.id.pits_rocket_hatch_1);
+        rocketHatch2C = (CheckBox)findViewById(R.id.pits_rocket_hatch_2);
+        rocketHatch3C = (CheckBox)findViewById(R.id.pits_rocket_hatch_3);
+        rocketCargo1C = (CheckBox)findViewById(R.id.pits_rocket_cargo_1);
+        rocketCargo2C = (CheckBox)findViewById(R.id.pits_rocket_cargo_2);
+        rocketCargo3C = (CheckBox)findViewById(R.id.pits_rocket_cargo_3);
+        canClimbHab2C = (CheckBox)findViewById(R.id.pits_climb_level_2);
+        canClimbHab3C = (CheckBox)findViewById(R.id.pits_climb_level_3);
+        climbSpeed2T = (EditText)findViewById(R.id.pits_climb_time_2);
+        climbSpeed3T = (EditText)findViewById(R.id.pits_climb_time_3);
+        ////// 2019 END //////
+
 
         teamT.addTextChangedListener(new teamTextListener());
         submitB.setOnClickListener(new SubmitListener());
@@ -296,34 +322,6 @@ public class PitsActivity extends DBActivity {
 
         stats.notes = commentsT.getText().toString();
 
-
-
-        stats.switch_score = scoreSwitchC.isChecked();
-        stats.scale_score = scoreScaleC.isChecked();
-
-
-
-        stats.auto_run = autoRunC.isChecked();
-        stats.exchange = exchangeDepositC.isChecked();
-        stats.exchange_acquire = exchangeAcquireC.isChecked();
-        stats.portal_acquire = portalAcquireC.isChecked();
-        stats.floor_acquire = floorAcquireC.isChecked();
-
-
-        stats.climb = canClimbC.isChecked();
-        stats.supports_others = supportOthersC.isChecked();
-
-        tstr = autoScoreSwitchT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.auto_switch_count = Integer.valueOf(tstr);
-        else
-            stats.auto_switch_count = 0;
-        tstr = autoScoreScaleT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.auto_scale_count = Integer.valueOf(tstr);
-        else
-            stats.auto_scale_count = 0;
-
         tstr = maxSpeedT.getText().toString().trim();
         if (tstr.length() > 0)
             stats.max_robot_speed_fts = Integer.valueOf(tstr);
@@ -336,6 +334,53 @@ public class PitsActivity extends DBActivity {
             stats.robot_gross_weight_lbs = 0;
 
 
+        // TODO - submit
+        ////// 2019 START //////
+        tstr = habStartLvlS.getSelectedItem().toString();
+        stats.start_hab_level = Integer.valueOf(tstr);
+        stats.preload_hatch = canPreloadHatchC.isChecked();
+        stats.preload_cargo = canPreloadCargoC.isChecked();
+        stats.floor_pickup_hatch = canFloorPickupHatchC.isChecked();
+        stats.floor_pickup_cargo = canFloorPickupCargoC.isChecked();
+
+        // Sandstorm
+        stats.sandstorm_bonus = sandstormBonusC.isChecked();
+        stats.sandstorm_hatch_rocket_1 = sandstormRocketHatch1C.isChecked();
+        stats.sandstorm_hatch_rocket_2 = sandstormRocketHatch2C.isChecked();
+        stats.sandstorm_hatch_rocket_3 = sandstormRocketHatch3C.isChecked();
+        stats.sandstorm_cargo_rocket_1 = sandstormRocketCargo1C.isChecked();
+        stats.sandstorm_cargo_rocket_2 = sandstormRocketCargo2C.isChecked();
+        stats.sandstorm_cargo_rocket_3 = sandstormRocketCargo3C.isChecked();
+        stats.sandstorm_cargo_ship = sandstormShipCargoC.isChecked();
+        stats.sandstorm_hatch_ship_front = sandstormShipHatchFrontC.isChecked();
+        stats.sandstorm_hatch_ship_side = sandstormShipHatchSideC.isChecked();
+
+        tstr = sandstormCountHatchC.getText().toString().trim();
+        if (tstr.length() > 0) stats.sandstorm_hatch_count = Integer.valueOf(tstr);
+        else stats.sandstorm_hatch_count = 0;
+
+        tstr = sandstormCountCargoC.getText().toString().trim();
+        if (tstr.length() > 0) stats.sandstorm_cargo_count = Integer.valueOf(tstr);
+        else stats.sandstorm_cargo_count = 0;
+
+        // TeleOp
+        stats.hatch_1 = rocketHatch1C.isChecked();
+        stats.hatch_2 = rocketHatch2C.isChecked();
+        stats.hatch_3 = rocketHatch3C.isChecked();
+        stats.cargo_1 = rocketCargo1C.isChecked();
+        stats.cargo_2 = rocketCargo2C.isChecked();
+        stats.cargo_3 = rocketCargo3C.isChecked();
+        stats.hab_climb_2 = canClimbHab2C.isChecked();
+        stats.hab_climb_3 = canClimbHab3C.isChecked();
+
+        tstr = climbSpeed2T.getText().toString().trim();
+        if (tstr.length() > 0) stats.hab_climb_speed_lvl_2_sec = Integer.valueOf(tstr);
+        else stats.hab_climb_speed_lvl_2_sec = 0;
+
+        tstr = climbSpeed3T.getText().toString().trim();
+        if (tstr.length() > 0) stats.hab_climb_speed_lvl_3_sec = Integer.valueOf(tstr);
+        else stats.hab_climb_speed_lvl_3_sec = 0;
+        ////// 2019 END //////
 
 
         if (db.submitPits(stats))
@@ -360,27 +405,42 @@ public class PitsActivity extends DBActivity {
         drivetrainS.setSelection(0);
         wheeltypeS.setSelection(0);
 
-
-        //2018
-        scoreSwitchC.setChecked(false);
-        scoreScaleC.setChecked(false);
-
-        //autonomous mode
-        autoRunC.setChecked(false);
-        autoScoreSwitchT.setText("");
-        autoScoreScaleT.setText("");
-
-        //tele-op
-        exchangeDepositC.setChecked(false);
-        exchangeAcquireC.setChecked(false);
-        portalAcquireC.setChecked(false);
-        floorAcquireC.setChecked(false);
-
-        canClimbC.setChecked(false);
-        supportOthersC.setChecked(false);
-
         maxSpeedT.setText("");
         weightT.setText("");
+
+
+        // TODO - clear
+        ////// 2019 START //////
+        habStartLvlS.setSelection(0);
+        canPreloadHatchC.setChecked(false);
+        canPreloadCargoC.setChecked(false);
+        canFloorPickupHatchC.setChecked(false);
+        canFloorPickupCargoC.setChecked(false);
+
+        sandstormBonusC.setChecked(false);
+        sandstormRocketHatch1C.setChecked(false);
+        sandstormRocketHatch2C.setChecked(false);
+        sandstormRocketHatch3C.setChecked(false);
+        sandstormRocketCargo1C.setChecked(false);
+        sandstormRocketCargo2C.setChecked(false);
+        sandstormRocketCargo3C.setChecked(false);
+        sandstormShipCargoC.setChecked(false);
+        sandstormShipHatchFrontC.setChecked(false);
+        sandstormShipHatchSideC.setChecked(false);
+        sandstormCountHatchC.setText("");
+        sandstormCountCargoC.setText("");
+
+        rocketHatch1C.setChecked(false);
+        rocketHatch2C.setChecked(false);
+        rocketHatch3C.setChecked(false);
+        rocketCargo1C.setChecked(false);
+        rocketCargo2C.setChecked(false);
+        rocketCargo3C.setChecked(false);
+        canClimbHab2C.setChecked(false);
+        canClimbHab3C.setChecked(false);
+        climbSpeed2T.setText("");
+        climbSpeed3T.setText("");
+        ////// 2019 END //////
     }
 
     private class teamTextListener implements TextWatcher {
@@ -465,26 +525,44 @@ public class PitsActivity extends DBActivity {
 
         commentsT.setText(stats.notes);
 
-        scoreSwitchC.setChecked(stats.switch_score);
-        scoreScaleC.setChecked(stats.scale_score);
-
-        //autonomous mode
-        autoRunC.setChecked(stats.auto_run);
-        autoScoreSwitchT.setText(String.valueOf(stats.auto_switch_count));
-        autoScoreScaleT.setText(String.valueOf(stats.auto_scale_count));
-
-        //tele-op
-        exchangeDepositC.setChecked(stats.exchange);
-        exchangeAcquireC.setChecked(stats.exchange_acquire);
-        portalAcquireC.setChecked(stats.portal_acquire);
-        floorAcquireC.setChecked(stats.floor_acquire);
-
-        canClimbC.setChecked(stats.climb);
-        supportOthersC.setChecked(stats.supports_others);
-
         maxSpeedT.setText(String.valueOf(stats.max_robot_speed_fts));
         weightT.setText(String.valueOf(stats.robot_gross_weight_lbs));
 
+
+        // TODO - populate
+        ////// 2019 START //////
+        index = ((ArrayAdapter) habStartLvlS.getAdapter())
+                .getPosition(stats.start_hab_level);
+        habStartLvlS.setSelection(index);
+        canPreloadHatchC.setChecked(stats.preload_hatch);
+        canPreloadCargoC.setChecked(stats.preload_cargo);
+        canFloorPickupHatchC.setChecked(stats.floor_pickup_hatch);
+        canFloorPickupCargoC.setChecked(stats.floor_pickup_cargo);
+
+        sandstormBonusC.setChecked(stats.sandstorm_bonus);
+        sandstormRocketHatch1C.setChecked(stats.sandstorm_hatch_rocket_1);
+        sandstormRocketHatch2C.setChecked(stats.sandstorm_hatch_rocket_2);
+        sandstormRocketHatch3C.setChecked(stats.sandstorm_hatch_rocket_3);
+        sandstormRocketCargo1C.setChecked(stats.sandstorm_cargo_rocket_1);
+        sandstormRocketCargo2C.setChecked(stats.sandstorm_cargo_rocket_2);
+        sandstormRocketCargo3C.setChecked(stats.sandstorm_cargo_rocket_3);
+        sandstormShipCargoC.setChecked(stats.sandstorm_cargo_ship);
+        sandstormShipHatchFrontC.setChecked(stats.sandstorm_hatch_ship_front);
+        sandstormShipHatchSideC.setChecked(stats.sandstorm_hatch_ship_side);
+        sandstormCountHatchC.setText(String.valueOf(stats.sandstorm_hatch_count));
+        sandstormCountCargoC.setText(String.valueOf(stats.sandstorm_cargo_count));
+
+        rocketHatch1C.setChecked(stats.hatch_1);
+        rocketHatch2C.setChecked(stats.hatch_2);
+        rocketHatch3C.setChecked(stats.hatch_3);
+        rocketCargo1C.setChecked(stats.cargo_1);
+        rocketCargo2C.setChecked(stats.cargo_2);
+        rocketCargo3C.setChecked(stats.cargo_3);
+        canClimbHab2C.setChecked(stats.hab_climb_2);
+        canClimbHab3C.setChecked(stats.hab_climb_3);
+        climbSpeed2T.setText(String.valueOf(stats.hab_climb_speed_lvl_2_sec));
+        climbSpeed3T.setText(String.valueOf(stats.hab_climb_speed_lvl_3_sec));
+        ////// 2019 END //////
     }
 
     private boolean dataClear() {
@@ -492,19 +570,41 @@ public class PitsActivity extends DBActivity {
                 || configS.getSelectedItemPosition() != 0
                 || drivetrainS.getSelectedItemPosition() != 0
                 || wheeltypeS.getSelectedItemPosition() != 0
-                || scoreSwitchC.isChecked()
-                || scoreScaleC.isChecked()
-                || autoRunC.isChecked()
-                || autoScoreSwitchT.getText().toString().length() > 0
-                || autoScoreScaleT.getText().toString().length() > 0
-                || exchangeDepositC.isChecked()
-                || exchangeAcquireC.isChecked()
-                || portalAcquireC.isChecked()
-                || floorAcquireC.isChecked()
-                || canClimbC.isChecked()
-                || supportOthersC.isChecked()
                 || maxSpeedT.getText().toString().length() > 0
                 || weightT.getText().toString().length() > 0
+
+                // TODO - isCleared
+                ////// 2019 START //////
+                || habStartLvlS.getSelectedItemPosition() != 0
+                || canPreloadHatchC.isChecked()
+                || canPreloadCargoC.isChecked()
+                || canFloorPickupHatchC.isChecked()
+                || canFloorPickupCargoC.isChecked()
+
+                || sandstormBonusC.isChecked()
+                || sandstormRocketHatch1C.isChecked()
+                || sandstormRocketHatch2C.isChecked()
+                || sandstormRocketHatch3C.isChecked()
+                || sandstormRocketCargo1C.isChecked()
+                || sandstormRocketCargo2C.isChecked()
+                || sandstormRocketCargo3C.isChecked()
+                || sandstormShipCargoC.isChecked()
+                || sandstormShipHatchFrontC.isChecked()
+                || sandstormShipHatchSideC.isChecked()
+                || sandstormCountHatchC.getText().toString().length() > 0
+                || sandstormCountCargoC.getText().toString().length() > 0
+
+                || rocketHatch1C.isChecked()
+                || rocketHatch2C.isChecked()
+                || rocketHatch3C.isChecked()
+                || rocketCargo1C.isChecked()
+                || rocketCargo2C.isChecked()
+                || rocketCargo3C.isChecked()
+                || canClimbHab2C.isChecked()
+                || canClimbHab3C.isChecked()
+                || climbSpeed2T.getText().toString().length() > 0
+                || climbSpeed3T.getText().toString().length() > 0
+                ////// 2019 END //////
                 );
     }
 
