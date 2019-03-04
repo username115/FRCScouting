@@ -49,6 +49,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
@@ -1969,6 +1970,12 @@ public class DB {
                     } catch (Exception e) {
 
                     }
+                    try {
+                        MediaScannerConnection.scanFile(callback.context, new String[]{match.getPath(), pits.getPath()}, null, null );
+                    }
+                    catch (Exception e) {
+
+                    }
                     mBuilder.setProgress(0, 0, false)
                             .setContentTitle("Export Complete")
                             .setContentText(callback.filename);
@@ -1983,6 +1990,7 @@ public class DB {
 
         protected void onPostExecute(String result) {
             callback.finish(result);
+            callback = null;
         }
 
     }
