@@ -49,6 +49,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
@@ -1948,8 +1949,11 @@ public class DB {
                     }
 
                     File sd = new File(callback.filename);
-                    File match = new File(sd, "matches.csv");
-                    File pits = new File(sd, "pits.csv");
+                    String filename_append = Prefs.getDeviceName(callback.context, "");
+                    if (filename_append.length() > 0)
+                        filename_append = "_" + filename_append;
+                    File match = new File(sd, "matches" + filename_append + ".csv");
+                    File pits = new File(sd, "pits" + filename_append + ".csv");
                     FileOutputStream destination;
                     if (match_data != null) {
                         destination = new FileOutputStream(match);
@@ -1969,6 +1973,12 @@ public class DB {
                     } catch (Exception e) {
 
                     }
+                    try {
+                        MediaScannerConnection.scanFile(callback.context, new String[]{match.getPath(), pits.getPath()}, null, null );
+                    }
+                    catch (Exception e) {
+
+                    }
                     mBuilder.setProgress(0, 0, false)
                             .setContentTitle("Export Complete")
                             .setContentText(callback.filename);
@@ -1983,6 +1993,7 @@ public class DB {
 
         protected void onPostExecute(String result) {
             callback.finish(result);
+            callback = null;
         }
 
     }
