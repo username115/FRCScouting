@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
@@ -63,6 +64,12 @@ public class EndMatchFragment extends MatchFragment {
     private FrameLayout Lhab2L;
     private FrameLayout Lhab2R;
     private FrameLayout Lhab3;
+
+
+    private TextView hab1T;
+    private TextView hab2LT;
+    private TextView hab2RT;
+    private TextView hab3T;
 
     private View mainView;
 
@@ -106,6 +113,11 @@ public class EndMatchFragment extends MatchFragment {
         Lhab2L = view.findViewById(R.id.hab2LeftL);
         Lhab2R = view.findViewById(R.id.hab2RightL);
         Lhab3 = view.findViewById(R.id.hab3L);
+
+        hab1T = view.findViewById(R.id.hab1T);
+        hab2LT = view.findViewById(R.id.hab2LeftT);
+        hab2RT = view.findViewById(R.id.hab2RightT);
+        hab3T = view.findViewById(R.id.hab3T);
 
 
         displayed = true;
@@ -287,18 +299,39 @@ public class EndMatchFragment extends MatchFragment {
         Lhab2L.setForeground(blackBorder);
         Lhab2R.setForeground(blackBorder);
         Lhab3.setForeground(blackBorder);
+        String climbText = getContext().getString(R.string.climb);
+        String attemptText = getContext().getString(R.string.climb_attempt);
+
+        hab1T.setText("");
+        hab2LT.setText("");
+        hab2RT.setText("");
+        hab3T.setText("");
+
+        int yellow = ContextCompat.getColor(getContext(), R.color.yellow);
+        int green = ContextCompat.getColor(getContext(), R.color.green);
+
+
         switch (data.hab_climb_level_attempted) {
             case 1:
                 Lhab1.setForeground(attemptBorder);
+                hab1T.setText(attemptText);
+                hab1T.setTextColor(yellow);
                 break;
             case 2:
-                if (data.hab_climb_2_left_attempted)
+                if (data.hab_climb_2_left_attempted) {
                     Lhab2L.setForeground(attemptBorder);
-                else
+                    hab2LT.setText(attemptText);
+                    hab2LT.setTextColor(yellow);
+                } else {
                     Lhab2R.setForeground(attemptBorder);
+                    hab2RT.setText(attemptText);
+                    hab2RT.setTextColor(yellow);
+                }
                 break;
             case 3:
                 Lhab3.setForeground(attemptBorder);
+                hab3T.setText(attemptText);
+                hab3T.setTextColor(yellow);
                 break;
             default:
                 break;
@@ -306,15 +339,24 @@ public class EndMatchFragment extends MatchFragment {
         switch (data.hab_climb_level) {
             case 1:
                 Lhab1.setForeground(climbBorder);
+                hab1T.setText(climbText);
+                hab1T.setTextColor(green);
                 break;
             case 2:
-                if (data.hab_climb_2_left)
+                if (data.hab_climb_2_left) {
                     Lhab2L.setForeground(climbBorder);
-                else
+                    hab2LT.setText(climbText);
+                    hab2LT.setTextColor(green);
+                } else {
                     Lhab2R.setForeground(climbBorder);
+                    hab2RT.setText(climbText);
+                    hab2RT.setTextColor(green);
+                }
                 break;
             case 3:
                 Lhab3.setForeground(climbBorder);
+                hab3T.setText(climbText);
+                hab3T.setTextColor(green);
                 break;
             default:
                 break;

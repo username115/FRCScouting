@@ -48,6 +48,16 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/red_hab_2_left" />
 
+                    <TextView
+                        android:id="@+id/hab2LeftT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:clickable="false"
+                        android:text=""
+                        android:textColor="@color/yellow" />
+
 
                 </FrameLayout>
 
@@ -65,6 +75,16 @@
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/red_hab_3" />
+
+                    <TextView
+                        android:id="@+id/hab3T"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:clickable="false"
+                        android:text=""
+                        android:textColor="@color/yellow" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -81,6 +101,16 @@
                         android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         android:src="@drawable/red_hab_2_right" />
+
+                    <TextView
+                        android:id="@+id/hab2RightT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:clickable="false"
+                        android:text=""
+                        android:textColor="@color/yellow" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -100,6 +130,16 @@
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/red_hab_1" />
+
+                <TextView
+                    android:id="@+id/hab1T"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:clickable="false"
+                    android:text=""
+                    android:textColor="@color/yellow" />
             </FrameLayout>
 
             <LinearLayout
