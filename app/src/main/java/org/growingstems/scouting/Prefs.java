@@ -329,4 +329,16 @@ public class Prefs extends PreferenceActivity {
         editor.putBoolean("doNotAskURL", dontPrompt);
         editor.apply();
     }
+
+
+    public static String getDeviceName(Context context,
+                                              String defaultValue) {
+        try {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString("deviceName", defaultValue);
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
+    }
+
 }

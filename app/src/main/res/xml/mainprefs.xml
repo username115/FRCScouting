@@ -27,6 +27,12 @@
         android:key="passPref"
         android:summary="Enter the password for the server"
         android:title="Password" />
+    <EditTextPreference
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+        android:inputType="textFilter"
+        android:key="deviceName"
+        android:summary="(Optional) name of this device"
+        android:title="Device Name" />
 
     <CheckBoxPreference
         android:defaultValue="true"

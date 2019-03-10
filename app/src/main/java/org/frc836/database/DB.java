@@ -1949,8 +1949,11 @@ public class DB {
                     }
 
                     File sd = new File(callback.filename);
-                    File match = new File(sd, "matches.csv");
-                    File pits = new File(sd, "pits.csv");
+                    String filename_append = Prefs.getDeviceName(callback.context, "");
+                    if (filename_append.length() > 0)
+                        filename_append = "_" + filename_append;
+                    File match = new File(sd, "matches" + filename_append + ".csv");
+                    File pits = new File(sd, "pits" + filename_append + ".csv");
                     FileOutputStream destination;
                     if (match_data != null) {
                         destination = new FileOutputStream(match);
