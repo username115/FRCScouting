@@ -136,6 +136,7 @@ public class MatchActivity extends DBActivity {
             posT.setOnClickListener(new positionClickListener());
 
         loadData();
+        loadPreMatch();
     }
 
     protected void onResume() {
