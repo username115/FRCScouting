@@ -17,9 +17,11 @@
 package org.growingstems.scouting.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.growingstems.scouting.MatchSchedule;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 import org.frc836.yearly.MatchActivity;
@@ -45,20 +47,27 @@ public class MatchListFragment extends DataFragment {
     private int teamNum = -1;
     private String eventName = null;
 
+    private boolean futureMatches = false;
+
     private List<String> matchList;
 
     public static MatchListFragment getInstance(String event_name) {
-        return getInstance(event_name, -1);
+        return getInstance(event_name, -1, false);
     }
 
     public static MatchListFragment getInstance(int team_num) {
-        return getInstance(null, team_num);
+        return getInstance(null, team_num, false);
     }
 
     public static MatchListFragment getInstance(String event_name, int team_num) {
+        return getInstance(event_name, team_num, false);
+    }
+
+    public static MatchListFragment getInstance(String event_name, int team_num, boolean future_matches) {
         MatchListFragment fragment = new MatchListFragment();
         fragment.setEvent(event_name);
         fragment.setTeamNum(team_num);
+        fragment.setFutureMatches(future_matches);
         return fragment;
     }
 
@@ -71,6 +80,10 @@ public class MatchListFragment extends DataFragment {
 
     public void setTeamNum(int team_num) {
         teamNum = team_num;
+    }
+
+    public void setFutureMatches(boolean future_matches) {
+        futureMatches = future_matches;
     }
 
     @Override
@@ -89,8 +102,10 @@ public class MatchListFragment extends DataFragment {
             return;
 
         List<String> matches = null;
-        if (eventName != null)
+        if (eventName != null && !futureMatches)
             matches = getMatchesForEvent(eventName, teamNum);
+        else if (eventName != null)
+            matches = getFutureMatchesForEvent(eventName, teamNum);
         else {
             matches = getMatchesForTeam(teamNum);
         }
@@ -163,6 +178,40 @@ public class MatchListFragment extends DataFragment {
             matches.add(0, prac ? PRACTICE : QUALIFICATION);
         }
 
+        return matches;
+    }
+
+    private List<String> getFutureMatchesForEvent(String eventName, int teamNum) {
+        if(eventName == null || !eventName.equals(Prefs.getEvent(mParent, "")))
+            return null;
+
+        List<String> matches = getMatchesForEvent(eventName, false, teamNum);
+        int lastmatch = 0;
+        if (matches != null && !matches.isEmpty())
+        {
+            //match list is guaranteed sorted from previous call
+            lastmatch = Integer.valueOf(matches.get(matches.size()-1));
+        }
+        MatchSchedule schedule = new MatchSchedule();
+        if (!schedule.isValid(mParent)) {
+            schedule.updateSchedule(eventName, mParent,
+                    false);
+        }
+
+        List<Integer> matchNums = schedule.getMatchesForTeam(teamNum, mParent);
+        if (matches == null || matches.isEmpty())
+            return null;
+
+        Collections.sort(matchNums);
+
+        matches.clear();
+        for (Integer mat : matchNums)
+        {
+            if (mat > lastmatch)
+            {
+                matches.add(String.valueOf(mat));
+            }
+        }
         return matches;
     }
 

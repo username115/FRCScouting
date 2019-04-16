@@ -18,7 +18,9 @@ package org.growingstems.scouting;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.frc836.database.DB;
@@ -146,6 +148,30 @@ public class MatchSchedule implements HttpCallback {
 			return defaultVal;
 		}
 	}
+
+	public List<Integer> getMatchesForTeam(int team, Context parent) {
+        try {
+            String schedule = getSchedule(parent);
+            if (schedule.compareTo("No Schedule") == 0)
+                return null;
+            List<Integer> matches = new ArrayList<>(16);
+
+            JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
+
+            for (int i = 0; i < sched.length(); i++) {
+                JSONArray teams = sched.getJSONObject(i).getJSONArray(
+                        "Teams");
+                for (int j = 0; j < teams.length(); j++) {
+                    if (teams.getJSONObject(j).getInt("number") == team)
+                        matches.add(sched.getJSONObject(i).getInt("matchNumber"));
+                }
+            }
+            return matches;
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 	private String getSchedule(Context parent) {
 		try {
