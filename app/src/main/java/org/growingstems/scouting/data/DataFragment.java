@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TableLayout;
 
 public abstract class DataFragment extends Fragment {
     public static final int PT_EVENTS = 0;
@@ -36,10 +37,13 @@ public abstract class DataFragment extends Fragment {
     public static final int PT_MATCHES = 2;
     public static final int PT_PITS = 3;
     public static final int PT_MATCHLINEGRAPH = 4;
+    public static final int PT_FUTUREMATCHES = 5;
+    public static final int PT_MATCHINFO = 6;
 
     protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
     protected ListView dataList;
+    protected TableLayout dataTable;
     protected AutoCompleteTextView autoText;
     protected Button loadB;
     protected boolean displayed = false;
@@ -53,21 +57,33 @@ public abstract class DataFragment extends Fragment {
     protected int default_layout_resource = R.layout.fragment_data;
 
     public static DataFragment newInstance(int section_title, DataActivity parent) {
-        return newInstance(section_title, parent, -1, null);
+        return newInstance(section_title, parent, -1, null, -1);
     }
 
     public static DataFragment newInstance(int section_title,
                                            DataActivity parent, int teamNumber) {
-        return newInstance(section_title, parent, teamNumber, null);
+        return newInstance(section_title, parent, teamNumber, null, -1);
     }
 
     public static DataFragment newInstance(int section_title,
                                            DataActivity parent, String event_name) {
-        return newInstance(section_title, parent, -1, event_name);
+        return newInstance(section_title, parent, -1, event_name, -1);
     }
 
     public static DataFragment newInstance(int section_title,
-                                           DataActivity parent, int teamNumber, String event_name) {
+                                           DataActivity parent, String event_name, int matchNumber) {
+        return newInstance(section_title, parent, -1, event_name, matchNumber);
+    }
+
+
+    public static DataFragment newInstance(int section_title,
+                                           DataActivity parent, int teamNumber, String event_name)
+    {
+        return newInstance(section_title, parent, teamNumber, event_name, -1);
+    }
+
+    public static DataFragment newInstance(int section_title,
+                                           DataActivity parent, int teamNumber, String event_name, int matchNumber) {
         DataFragment fragment;
         switch (section_title) {
             case PT_EVENTS:
@@ -84,6 +100,12 @@ public abstract class DataFragment extends Fragment {
                 break;
             case PT_MATCHLINEGRAPH:
                 fragment = MatchLineGraphFragment.getInstance(teamNumber, event_name);
+                break;
+            case PT_FUTUREMATCHES:
+                fragment = MatchListFragment.getInstance(event_name, teamNumber, true);
+                break;
+            case PT_MATCHINFO:
+                fragment = MatchInfoFragment.getInstance(event_name, matchNumber);
                 break;
             default:
                 return null;
@@ -109,7 +131,11 @@ public abstract class DataFragment extends Fragment {
                 return context.getString(R.string.title_pits_section)
                         .toUpperCase(l);
             case PT_MATCHLINEGRAPH:
-                return "Match Graph".toUpperCase(l);
+                return context.getString(R.string.title_match_graphs_section).toUpperCase(l);
+            case PT_FUTUREMATCHES:
+                return context.getString(R.string.title_future_match_section).toUpperCase(l);
+            case PT_MATCHINFO:
+                return context.getString(R.string.title_match_summary_section).toUpperCase(l);
         }
         return null;
     }
@@ -121,7 +147,7 @@ public abstract class DataFragment extends Fragment {
         rootView = inflater.inflate(default_layout_resource, container, false);
         if (default_layout_resource == R.layout.fragment_data) {
             dataList = (ListView) rootView.findViewById(R.id.dataList);
-
+            dataTable = (TableLayout) rootView.findViewById(R.id.dataTable);
             autoText = (AutoCompleteTextView) rootView
                     .findViewById(R.id.data_team_id);
             loadB = (Button) rootView.findViewById(R.id.data_teamB);

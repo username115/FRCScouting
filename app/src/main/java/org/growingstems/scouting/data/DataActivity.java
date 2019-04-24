@@ -49,17 +49,20 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
     public static final String ACTIVITY_TYPE_STRING = "ACTIVITY_TYPE";
     public static final String EVENT_ARG = "EVENT_NAME";
     public static final String TEAM_ARG = "TEAM_NUM";
+    public static final String MATCH_ARG = "MATCH_NUM";
     public static final int ACTIVITY_TYPE_DEFAULT = 0;
     public static final int ACTIVITY_TYPE_EVENT = 1;
     public static final int ACTIVITY_TYPE_TEAM = 2;
+    public static final int ACTIVITY_TYPE_FUTUREMATCH = 3;
 
     protected enum DataType {
-        dt_Default, dt_Event, dt_Team
+        dt_Default, dt_Event, dt_Team, dt_FutureMatch
     }
 
     protected DataType dataType = DataType.dt_Default;
     protected String eventName = null;
     protected int teamNum = -1;
+    protected int matchNum = -1;
 
     protected boolean isDisplayed = false;
 
@@ -70,6 +73,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
     protected static final int[] TEAM_TABS = {DataFragment.PT_MATCHES,
             DataFragment.PT_MATCHLINEGRAPH,
             DataFragment.PT_PITS}; // TODO
+    protected static final int[] CURRENT_TEAM_TABS = {DataFragment.PT_MATCHES,
+            DataFragment.PT_FUTUREMATCHES,
+            DataFragment.PT_MATCHLINEGRAPH,
+            DataFragment.PT_PITS}; // TODO
+    protected static final int[] FUTURE_MATCH_TABS = {DataFragment.PT_MATCHINFO
+    };
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -110,6 +119,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                 } else if (teamNum > 0) {
                     setTitle("Team " + String.valueOf(teamNum));
                 }
+                break;
+            case ACTIVITY_TYPE_FUTUREMATCH:
+                dataType = DataType.dt_FutureMatch;
+                matchNum = intent.getIntExtra(MATCH_ARG, -1);
+                eventName = intent.getStringExtra(EVENT_ARG);
+                setTitle("Match " + String.valueOf(matchNum));
                 break;
             case ACTIVITY_TYPE_DEFAULT:
             default:
@@ -219,9 +234,16 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                                 DataActivity.this, eventName));
                         break;
                     case dt_Team:
-                        tab = TEAM_TABS[position];
+                        if (Prefs.getEvent(DataActivity.this, "").equals(eventName))
+                            tab = CURRENT_TEAM_TABS[position];
+                        else
+                            tab = TEAM_TABS[position];
                         tabs.put(position, DataFragment.newInstance(tab,
                                 DataActivity.this, teamNum, eventName));
+                        break;
+                    case dt_FutureMatch:
+                        tab = FUTURE_MATCH_TABS[position];
+                        tabs.put(position, DataFragment.newInstance(tab, DataActivity.this, eventName, matchNum));
                         break;
                     case dt_Default:
                     default:
@@ -242,7 +264,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                 case dt_Event:
                     return EVENT_TABS.length;
                 case dt_Team:
-                    return TEAM_TABS.length;
+                    if (Prefs.getEvent(DataActivity.this, "").equals(eventName))
+                        return CURRENT_TEAM_TABS.length;
+                    else
+                        return TEAM_TABS.length;
+                case dt_FutureMatch:
+                    return FUTURE_MATCH_TABS.length;
                 case dt_Default:
                 default:
                     return DEFAULT_TABS.length;
@@ -258,8 +285,13 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                     tab = EVENT_TABS[position];
                     break;
                 case dt_Team:
-                    tab = TEAM_TABS[position];
+                    if (Prefs.getEvent(DataActivity.this, "").equals(eventName))
+                        tab = CURRENT_TEAM_TABS[position];
+                    else
+                        tab = TEAM_TABS[position];
                     break;
+                case dt_FutureMatch:
+                    tab = FUTURE_MATCH_TABS[position];
                 case dt_Default:
                 default:
                     tab = DEFAULT_TABS[position];

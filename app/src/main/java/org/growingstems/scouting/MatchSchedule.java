@@ -162,7 +162,7 @@ public class MatchSchedule implements HttpCallback {
                 JSONArray teams = sched.getJSONObject(i).getJSONArray(
                         "Teams");
                 for (int j = 0; j < teams.length(); j++) {
-                    if (teams.getJSONObject(j).getInt("number") == team)
+                    if (teams.getJSONObject(j).getInt("teamNumber") == team)
                         matches.add(sched.getJSONObject(i).getInt("matchNumber"));
                 }
             }
@@ -172,6 +172,30 @@ public class MatchSchedule implements HttpCallback {
             return null;
         }
     }
+
+    public List<Integer> getTeamList(Context parent) {
+		try {
+			String schedule = getSchedule(parent);
+			if (schedule.compareTo("No Schedule") == 0)
+				return null;
+			List<Integer> teamList = new ArrayList<>(16);
+
+			JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
+
+			for (int i = 0; i < sched.length(); i++) {
+				JSONArray teams = sched.getJSONObject(i).getJSONArray(
+						"Teams");
+				for (int j = 0; j < teams.length(); j++) {
+					if (!teamList.contains(teams.getJSONObject(j).getInt("number")))
+						teamList.add(teams.getJSONObject(j).getInt("number"));
+				}
+			}
+			return teamList;
+
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	private String getSchedule(Context parent) {
 		try {

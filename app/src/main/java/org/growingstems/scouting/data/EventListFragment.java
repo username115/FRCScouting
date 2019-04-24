@@ -51,10 +51,9 @@ public class EventListFragment extends DataFragment {
 		if (events == null) {
 			events = new ArrayList<String>(1);
 		}
-		if (events.isEmpty()) {
-			events.add("No Data for any Event");
-		} else if (curEvent.length() > 0 && events.contains(curEvent)) {
-			events.remove(curEvent);
+		if (curEvent.length() > 0) {
+			if (events.contains(curEvent))
+				events.remove(curEvent);
 			events.add(0, curEvent);
 		}
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(

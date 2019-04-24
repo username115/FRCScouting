@@ -51,6 +51,8 @@ public class MatchListFragment extends DataFragment {
 
     private List<String> matchList;
 
+    MatchSchedule schedule = new MatchSchedule();
+
     public static MatchListFragment getInstance(String event_name) {
         return getInstance(event_name, -1, false);
     }
@@ -122,6 +124,8 @@ public class MatchListFragment extends DataFragment {
             } else {
                 message = new StringBuilder("Invalid Event or Team Selected");
             }
+            if (matches == null)
+                matches = new ArrayList<>();
             matches.add(message.toString());
         }
 
@@ -192,14 +196,14 @@ public class MatchListFragment extends DataFragment {
             //match list is guaranteed sorted from previous call
             lastmatch = Integer.valueOf(matches.get(matches.size()-1));
         }
-        MatchSchedule schedule = new MatchSchedule();
+
         if (!schedule.isValid(mParent)) {
             schedule.updateSchedule(eventName, mParent,
                     false);
         }
 
         List<Integer> matchNums = schedule.getMatchesForTeam(teamNum, mParent);
-        if (matches == null || matches.isEmpty())
+        if (matchNums == null || matchNums.isEmpty())
             return null;
 
         Collections.sort(matchNums);
@@ -226,26 +230,31 @@ public class MatchListFragment extends DataFragment {
                     final String event = eventName == null ? getEvent(position) : eventName;
                     final boolean prac = getPractice(position);
                     final int mat = Integer.valueOf(match);
-                    if (teamNum > 0)
-                        loadMatch(mat, event, prac, teamNum, mParent.getDB().getPosition(event, mat, prac, teamNum));
-                    else {
-                        PopupMenu popup = new PopupMenu(getActivity(), view);
-                        List<String> teams = mParent.getDB().getTeamsForMatch(event, mat, prac);
-                        for (String team : teams)
-                            try {
-                                popup.getMenu().add(mParent.getDB().getPosition(event, mat, prac, Integer.valueOf(team)) + ":" + team);
-                            } catch (NumberFormatException e) {
-                                //TODO handle this
-                            }
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                int team = Integer.valueOf(item.getTitle().toString().split(":")[1]);
-                                loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
-                                return true;
-                            }
-                        });
-                        popup.show();
+                    if (!futureMatches) {
+                        if (teamNum > 0)
+                            loadMatch(mat, event, prac, teamNum, mParent.getDB().getPosition(event, mat, prac, teamNum));
+                        else {
+                            PopupMenu popup = new PopupMenu(getActivity(), view);
+                            List<String> teams = mParent.getDB().getTeamsForMatch(event, mat, prac);
+                            for (String team : teams)
+                                try {
+                                    popup.getMenu().add(mParent.getDB().getPosition(event, mat, prac, Integer.valueOf(team)) + ":" + team);
+                                } catch (NumberFormatException e) {
+                                    //TODO handle this
+                                }
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem item) {
+                                    int team = Integer.valueOf(item.getTitle().toString().split(":")[1]);
+                                    loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
+                                    return true;
+                                }
+                            });
+                            popup.show();
+                        }
+                    } else {
+                        //open future match info activity
+                        loadMatchInfo(mat, event);
                     }
                 }
             }
@@ -296,6 +305,15 @@ public class MatchListFragment extends DataFragment {
         } else {
             Toast.makeText(getActivity(), "Select a team first", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void loadMatchInfo(int match, String event) {
+        Intent intent = new Intent(mParent, DataActivity.class);
+        intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
+                DataActivity.ACTIVITY_TYPE_FUTUREMATCH);
+        intent.putExtra(DataActivity.EVENT_ARG, event);
+        intent.putExtra(DataActivity.MATCH_ARG, match);
+        mParent.startActivity(intent);
     }
 
 }

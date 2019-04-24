@@ -8,10 +8,11 @@ import java.util.List;
 
 public abstract class MatchStatsYearly {
 
-    public static final int NUM_GRAPHS = 3;
-    public static final int TOTAL_CARGO = 0;
-    public static final int TOTAL_HATCHES = 1;
-    public static final int HAB_CLIMB = 2;
+    public static final int NUM_GRAPHS = 4;
+    public static final int SANDSTORM = 0;
+    public static final int TOTAL_CARGO = 1;
+    public static final int TOTAL_HATCHES = 2;
+    public static final int HAB_CLIMB = 3;
 
 
     public static int getTotalScore(final MatchStatsStruct stats) {
@@ -20,6 +21,7 @@ public abstract class MatchStatsYearly {
 
     public static List<String> getGraphNames() {
         List<String> ret = new ArrayList<String>(NUM_GRAPHS);
+        ret.add(SANDSTORM, "Total Sandstorm Points");
         ret.add(TOTAL_CARGO, "Total Cargo Scored");
         ret.add(TOTAL_HATCHES, "Total Hatches Scored");
         ret.add(HAB_CLIMB, "HAB Climb Points");
@@ -27,8 +29,20 @@ public abstract class MatchStatsYearly {
         return ret;
     }
 
+    public static List<String> getGraphShortNames() {
+        List<String> ret = new ArrayList<String>(NUM_GRAPHS);
+        ret.add(SANDSTORM, "SS");
+        ret.add(TOTAL_CARGO, "Cargo");
+        ret.add(TOTAL_HATCHES, "Hatches");
+        ret.add(HAB_CLIMB, "HAB Pts");
+
+        return ret;
+    }
+
     public static int getStat(final int statNum, final MatchStatsStruct stats) {
         switch (statNum) {
+            case SANDSTORM:
+                return getSandstormPoints(stats);
             case TOTAL_CARGO:
                 return getTotalCargoScored(stats);
             case TOTAL_HATCHES:
@@ -38,6 +52,26 @@ public abstract class MatchStatsYearly {
             default:
                 return getHabClimbPoints(stats);
         }
+    }
+
+    public static int getSandstormPoints(final MatchStatsStruct stats) {
+        int cargo = stats.sandstorm_cargo_ship
+                + stats.sandstorm_cargo_rocket_1
+                + stats.sandstorm_cargo_rocket_2
+                + stats.sandstorm_cargo_rocket_3;
+        int hatch = stats.sandstorm_hatch_ship
+                + stats.sandstorm_hatch_rocket_1
+                + stats.sandstorm_hatch_rocket_2
+                + stats.sandstorm_hatch_rocket_3;
+        int bonus = 0;
+        if (stats.sandstorm_bonus)
+        {
+            if (stats.prematch_hab_level == 1)
+                bonus = 3;
+            else if (stats.prematch_hab_level > 1)
+                bonus = 6;
+        }
+        return (cargo*3) + (hatch*2) + bonus;
     }
 
     public static int getTotalCargoScored(final MatchStatsStruct stats) {
