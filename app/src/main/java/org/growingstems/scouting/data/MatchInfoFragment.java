@@ -11,9 +11,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.frc836.database.MatchStatsStruct;
 import org.frc836.yearly.MatchStatsYearly;
 import org.growingstems.scouting.MatchSchedule;
+import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 import java.util.ArrayList;
@@ -25,18 +25,24 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
     private String eventName = null;
     private int matchNum = -1;
 
-    MatchSchedule schedule = new MatchSchedule();
+    private MatchSchedule schedule = new MatchSchedule();
 
     private DataSource dataSource;
 
-    int numTeams = 0;
-    int teamsProcessed = 0;
-    List<DataSource.Data> data = new ArrayList<>(6);
+    private int numTeams = 0;
+    private int teamsProcessed = 0;
+    private boolean allEvents = false;
+    private List<DataSource.Data> data = new ArrayList<>(6);
 
     public static MatchInfoFragment getInstance(String event_name, int match_num) {
+        return getInstance(event_name, match_num, false);
+    }
+
+    public static MatchInfoFragment getInstance(String event_name, int match_num, boolean all_events) {
         MatchInfoFragment fragment = new MatchInfoFragment();
         fragment.setEvent(event_name);
         fragment.setMatch(match_num);
+        fragment.setAllEvents(all_events);
         return fragment;
     }
 
@@ -51,11 +57,16 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
         matchNum = match_num;
     }
 
+    public void setAllEvents(boolean all_events) {
+        allEvents = all_events;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        if (eventName == null)
+            eventName = Prefs.getEvent(mParent, null);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
                 View.GONE);
         dataList.setVisibility(View.GONE);
@@ -132,7 +143,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
         dataTable.addView(titles, rowParams);
 
         for (DataSource.Data dat : data) {
-            Map<String, Double> avgs = dat.getAVGs(eventName);
+            Map<String, Double> avgs = dat.getEventAVGs(eventName);
             if (avgs != null && !avgs.isEmpty()) {
                 id++;
                 TableRow row = new TableRow(mParent);

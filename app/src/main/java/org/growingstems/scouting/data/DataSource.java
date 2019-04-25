@@ -137,7 +137,11 @@ public class DataSource {
             return _graphs.keySet();
         }
 
-        public Map<String, Double> getAVGs(String eventName) {
+        public Map<String, Map<String, Double>> getAVGs() {
+            return _avgs;
+        }
+
+        public Map<String, Double> getEventAVGs(String eventName) {
             if (_dataType != DataType.AVG) {
                 return null;
             }

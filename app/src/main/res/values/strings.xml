@@ -171,7 +171,8 @@
     <string name="title_pits_section">Pits</string>
     <string name="title_match_graphs_section">Match Graph</string>
     <string name="title_future_match_section">Upcoming</string>
-    <string name="title_match_summary_section">Summary</string>
+    <string name="title_match_current_event_section">Current</string>
+    <string name="title_match_all_events_section">All Events</string>
 
     <string name="title_activity_event_data">Event Name Here</string>
     <string name="score_for">F</string>

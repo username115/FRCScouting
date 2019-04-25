@@ -92,6 +92,8 @@ public class MatchListFragment extends DataFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        if (futureMatches && eventName == null)
+            eventName = Prefs.getEvent(mParent, null);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
                 View.GONE);
 

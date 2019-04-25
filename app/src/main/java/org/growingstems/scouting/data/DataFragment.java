@@ -38,7 +38,8 @@ public abstract class DataFragment extends Fragment {
     public static final int PT_PITS = 3;
     public static final int PT_MATCHLINEGRAPH = 4;
     public static final int PT_FUTUREMATCHES = 5;
-    public static final int PT_MATCHINFO = 6;
+    public static final int PT_MATCHINFOCURRENTEVENT = 6;
+    public static final int PT_MATCHINFOALLEVENTS = 7;
 
     protected static final int defaultListResource = android.R.layout.simple_list_item_1;
 
@@ -104,8 +105,11 @@ public abstract class DataFragment extends Fragment {
             case PT_FUTUREMATCHES:
                 fragment = MatchListFragment.getInstance(event_name, teamNumber, true);
                 break;
-            case PT_MATCHINFO:
+            case PT_MATCHINFOCURRENTEVENT:
                 fragment = MatchInfoFragment.getInstance(event_name, matchNumber);
+                break;
+            case PT_MATCHINFOALLEVENTS:
+                fragment = MatchInfoFragment.getInstance(event_name, matchNumber, true);
                 break;
             default:
                 return null;
@@ -134,8 +138,10 @@ public abstract class DataFragment extends Fragment {
                 return context.getString(R.string.title_match_graphs_section).toUpperCase(l);
             case PT_FUTUREMATCHES:
                 return context.getString(R.string.title_future_match_section).toUpperCase(l);
-            case PT_MATCHINFO:
-                return context.getString(R.string.title_match_summary_section).toUpperCase(l);
+            case PT_MATCHINFOCURRENTEVENT:
+                return context.getString(R.string.title_match_current_event_section).toUpperCase(l);
+            case PT_MATCHINFOALLEVENTS:
+                return context.getString(R.string.title_match_all_events_section).toUpperCase(l);
         }
         return null;
     }

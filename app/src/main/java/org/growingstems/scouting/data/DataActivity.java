@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -77,7 +77,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
             DataFragment.PT_FUTUREMATCHES,
             DataFragment.PT_MATCHLINEGRAPH,
             DataFragment.PT_PITS}; // TODO
-    protected static final int[] FUTURE_MATCH_TABS = {DataFragment.PT_MATCHINFO
+    protected static final int[] FUTURE_MATCH_TABS = {DataFragment.PT_MATCHINFOCURRENTEVENT
     };
 
     /**
@@ -234,7 +234,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                                 DataActivity.this, eventName));
                         break;
                     case dt_Team:
-                        if (Prefs.getEvent(DataActivity.this, "").equals(eventName))
+                        if (eventName == null || Prefs.getEvent(DataActivity.this, "").equals(eventName))
                             tab = CURRENT_TEAM_TABS[position];
                         else
                             tab = TEAM_TABS[position];
@@ -264,7 +264,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                 case dt_Event:
                     return EVENT_TABS.length;
                 case dt_Team:
-                    if (Prefs.getEvent(DataActivity.this, "").equals(eventName))
+                    if (eventName == null || Prefs.getEvent(DataActivity.this, "").equals(eventName))
                         return CURRENT_TEAM_TABS.length;
                     else
                         return TEAM_TABS.length;
@@ -285,13 +285,14 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                     tab = EVENT_TABS[position];
                     break;
                 case dt_Team:
-                    if (Prefs.getEvent(DataActivity.this, "").equals(eventName))
+                    if (eventName == null || Prefs.getEvent(DataActivity.this, "").equals(eventName))
                         tab = CURRENT_TEAM_TABS[position];
                     else
                         tab = TEAM_TABS[position];
                     break;
                 case dt_FutureMatch:
                     tab = FUTURE_MATCH_TABS[position];
+                    break;
                 case dt_Default:
                 default:
                     tab = DEFAULT_TABS[position];
