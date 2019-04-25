@@ -36,5 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/data_team_input_layout" />
+    <TableLayout
+        android:id="@+id/dataTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/data_team_input_layout"
+        android:stretchColumns="*"
+        android:visibility="gone" />
 
 </RelativeLayout>

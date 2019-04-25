@@ -17,9 +17,11 @@
 package org.growingstems.scouting.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.growingstems.scouting.MatchSchedule;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 import org.frc836.yearly.MatchActivity;
@@ -45,20 +47,29 @@ public class MatchListFragment extends DataFragment {
     private int teamNum = -1;
     private String eventName = null;
 
+    private boolean futureMatches = false;
+
     private List<String> matchList;
 
+    MatchSchedule schedule = new MatchSchedule();
+
     public static MatchListFragment getInstance(String event_name) {
-        return getInstance(event_name, -1);
+        return getInstance(event_name, -1, false);
     }
 
     public static MatchListFragment getInstance(int team_num) {
-        return getInstance(null, team_num);
+        return getInstance(null, team_num, false);
     }
 
     public static MatchListFragment getInstance(String event_name, int team_num) {
+        return getInstance(event_name, team_num, false);
+    }
+
+    public static MatchListFragment getInstance(String event_name, int team_num, boolean future_matches) {
         MatchListFragment fragment = new MatchListFragment();
         fragment.setEvent(event_name);
         fragment.setTeamNum(team_num);
+        fragment.setFutureMatches(future_matches);
         return fragment;
     }
 
@@ -73,10 +84,16 @@ public class MatchListFragment extends DataFragment {
         teamNum = team_num;
     }
 
+    public void setFutureMatches(boolean future_matches) {
+        futureMatches = future_matches;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        if (futureMatches && eventName == null)
+            eventName = Prefs.getEvent(mParent, null);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
                 View.GONE);
 
@@ -89,8 +106,10 @@ public class MatchListFragment extends DataFragment {
             return;
 
         List<String> matches = null;
-        if (eventName != null)
+        if (eventName != null && !futureMatches)
             matches = getMatchesForEvent(eventName, teamNum);
+        else if (eventName != null)
+            matches = getFutureMatchesForEvent(eventName, teamNum);
         else {
             matches = getMatchesForTeam(teamNum);
         }
@@ -107,6 +126,8 @@ public class MatchListFragment extends DataFragment {
             } else {
                 message = new StringBuilder("Invalid Event or Team Selected");
             }
+            if (matches == null)
+                matches = new ArrayList<>();
             matches.add(message.toString());
         }
 
@@ -166,6 +187,40 @@ public class MatchListFragment extends DataFragment {
         return matches;
     }
 
+    private List<String> getFutureMatchesForEvent(String eventName, int teamNum) {
+        if(eventName == null || !eventName.equals(Prefs.getEvent(mParent, "")))
+            return null;
+
+        List<String> matches = getMatchesForEvent(eventName, false, teamNum);
+        int lastmatch = 0;
+        if (matches != null && !matches.isEmpty())
+        {
+            //match list is guaranteed sorted from previous call
+            lastmatch = Integer.valueOf(matches.get(matches.size()-1));
+        }
+
+        if (!schedule.isValid(mParent)) {
+            schedule.updateSchedule(eventName, mParent,
+                    false);
+        }
+
+        List<Integer> matchNums = schedule.getMatchesForTeam(teamNum, mParent);
+        if (matchNums == null || matchNums.isEmpty())
+            return null;
+
+        Collections.sort(matchNums);
+
+        matches.clear();
+        for (Integer mat : matchNums)
+        {
+            if (mat > lastmatch)
+            {
+                matches.add(String.valueOf(mat));
+            }
+        }
+        return matches;
+    }
+
     private class MatchClick implements AdapterView.OnItemClickListener {
 
         @Override
@@ -177,26 +232,31 @@ public class MatchListFragment extends DataFragment {
                     final String event = eventName == null ? getEvent(position) : eventName;
                     final boolean prac = getPractice(position);
                     final int mat = Integer.valueOf(match);
-                    if (teamNum > 0)
-                        loadMatch(mat, event, prac, teamNum, mParent.getDB().getPosition(event, mat, prac, teamNum));
-                    else {
-                        PopupMenu popup = new PopupMenu(getActivity(), view);
-                        List<String> teams = mParent.getDB().getTeamsForMatch(event, mat, prac);
-                        for (String team : teams)
-                            try {
-                                popup.getMenu().add(mParent.getDB().getPosition(event, mat, prac, Integer.valueOf(team)) + ":" + team);
-                            } catch (NumberFormatException e) {
-                                //TODO handle this
-                            }
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                int team = Integer.valueOf(item.getTitle().toString().split(":")[1]);
-                                loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
-                                return true;
-                            }
-                        });
-                        popup.show();
+                    if (!futureMatches) {
+                        if (teamNum > 0)
+                            loadMatch(mat, event, prac, teamNum, mParent.getDB().getPosition(event, mat, prac, teamNum));
+                        else {
+                            PopupMenu popup = new PopupMenu(getActivity(), view);
+                            List<String> teams = mParent.getDB().getTeamsForMatch(event, mat, prac);
+                            for (String team : teams)
+                                try {
+                                    popup.getMenu().add(mParent.getDB().getPosition(event, mat, prac, Integer.valueOf(team)) + ":" + team);
+                                } catch (NumberFormatException e) {
+                                    //TODO handle this
+                                }
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem item) {
+                                    int team = Integer.valueOf(item.getTitle().toString().split(":")[1]);
+                                    loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
+                                    return true;
+                                }
+                            });
+                            popup.show();
+                        }
+                    } else {
+                        //open future match info activity
+                        loadMatchInfo(mat, event);
                     }
                 }
             }
@@ -247,6 +307,15 @@ public class MatchListFragment extends DataFragment {
         } else {
             Toast.makeText(getActivity(), "Select a team first", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void loadMatchInfo(int match, String event) {
+        Intent intent = new Intent(mParent, DataActivity.class);
+        intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
+                DataActivity.ACTIVITY_TYPE_FUTUREMATCH);
+        intent.putExtra(DataActivity.EVENT_ARG, event);
+        intent.putExtra(DataActivity.MATCH_ARG, match);
+        mParent.startActivity(intent);
     }
 
 }

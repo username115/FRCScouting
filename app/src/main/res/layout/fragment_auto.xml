@@ -100,14 +100,14 @@
                                     <Spinner
                                         android:id="@+id/shipCargoCount"
                                         style="@style/SpinnerAsEditTextHalfAlpha"
-                                        android:layout_width="40sp"
-                                        android:layout_height="40sp"
+                                        android:layout_width="60sp"
+                                        android:layout_height="60sp"
                                         android:entries="@array/numbers" />
 
                                     <Button
                                         android:id="@+id/shipCargoB"
-                                        android:layout_width="40sp"
-                                        android:layout_height="40sp"
+                                        android:layout_width="60sp"
+                                        android:layout_height="60sp"
                                         android:text="@string/normal_plus" />
                                 </LinearLayout>
                             </RelativeLayout>
@@ -154,14 +154,14 @@
                                     <Spinner
                                         android:id="@+id/shipHatchCount"
                                         style="@style/SpinnerAsEditTextHalfAlpha"
-                                        android:layout_width="40sp"
-                                        android:layout_height="40sp"
+                                        android:layout_width="60sp"
+                                        android:layout_height="60sp"
                                         android:entries="@array/numbers" />
 
                                     <Button
                                         android:id="@+id/shipHatchB"
-                                        android:layout_width="40sp"
-                                        android:layout_height="40sp"
+                                        android:layout_width="60sp"
+                                        android:layout_height="60sp"
                                         android:text="@string/normal_plus" />
                                 </LinearLayout>
                             </RelativeLayout>
@@ -208,14 +208,14 @@
                             <Spinner
                                 android:id="@+id/rocketL3CargoCount"
                                 style="@style/SpinnerAsEditTextHalfAlpha"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:entries="@array/numbers" />
 
                             <Button
                                 android:id="@+id/rocketL3CargoB"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:text="@string/normal_plus" />
                         </LinearLayout>
 
@@ -233,14 +233,14 @@
                             <Spinner
                                 android:id="@+id/rocketL3HatchCount"
                                 style="@style/SpinnerAsEditTextHalfAlpha"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:entries="@array/numbers" />
 
                             <Button
                                 android:id="@+id/rocketL3HatchB"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:text="@string/normal_plus" />
                         </LinearLayout>
                     </LinearLayout>
@@ -260,14 +260,14 @@
                             <Spinner
                                 android:id="@+id/rocketL2CargoCount"
                                 style="@style/SpinnerAsEditTextHalfAlpha"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:entries="@array/numbers" />
 
                             <Button
                                 android:id="@+id/rocketL2CargoB"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:text="@string/normal_plus" />
                         </LinearLayout>
 
@@ -285,14 +285,14 @@
                             <Spinner
                                 android:id="@+id/rocketL2HatchCount"
                                 style="@style/SpinnerAsEditTextHalfAlpha"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:entries="@array/numbers" />
 
                             <Button
                                 android:id="@+id/rocketL2HatchB"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:text="@string/normal_plus" />
                         </LinearLayout>
                     </LinearLayout>
@@ -313,14 +313,14 @@
                             <Spinner
                                 android:id="@+id/rocketL1CargoCount"
                                 style="@style/SpinnerAsEditTextHalfAlpha"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:entries="@array/numbers" />
 
                             <Button
                                 android:id="@+id/rocketL1CargoB"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:text="@string/normal_plus" />
                         </LinearLayout>
 
@@ -338,14 +338,14 @@
                             <Spinner
                                 android:id="@+id/rocketL1HatchCount"
                                 style="@style/SpinnerAsEditTextHalfAlpha"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:entries="@array/numbers" />
 
                             <Button
                                 android:id="@+id/rocketL1HatchB"
-                                android:layout_width="40sp"
-                                android:layout_height="40sp"
+                                android:layout_width="60sp"
+                                android:layout_height="60sp"
                                 android:text="@string/normal_plus" />
                         </LinearLayout>
                     </LinearLayout>
@@ -389,14 +389,14 @@
                         <Spinner
                             android:id="@+id/cargoDroppedCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40sp"
-                            android:layout_height="40sp"
+                            android:layout_width="60sp"
+                            android:layout_height="60sp"
                             android:entries="@array/numbers" />
 
                         <Button
                             android:id="@+id/cargoDroppedB"
-                            android:layout_width="40sp"
-                            android:layout_height="40sp"
+                            android:layout_width="60sp"
+                            android:layout_height="60sp"
                             android:text="@string/normal_plus" />
                     </LinearLayout>
 
@@ -426,14 +426,14 @@
                         <Spinner
                             android:id="@+id/hatchDroppedCount"
                             style="@style/SpinnerAsEditTextHalfAlpha"
-                            android:layout_width="40sp"
-                            android:layout_height="40sp"
+                            android:layout_width="60sp"
+                            android:layout_height="60sp"
                             android:entries="@array/numbers" />
 
                         <Button
                             android:id="@+id/hatchDroppedB"
-                            android:layout_width="40sp"
-                            android:layout_height="40sp"
+                            android:layout_width="60sp"
+                            android:layout_height="60sp"
                             android:text="@string/normal_plus" />
                     </LinearLayout>
 
