@@ -1,7 +1,14 @@
 from sqlparser import SqlColumn, SqlTable
 
 
-def _post_msg(io, post_type, table, querylist=set()):
+def _post_msg(io, post_type, table, mysqli=True, querylist=set()):
+	if mysqli:
+		mysql_prefix = "mysqli"
+		mysql_first_arg = "$link,"
+	else:
+		mysql_prefix = "mysql"
+		mysql_first_arg = ""
+
 	columns = table.columns
 
 	cols2update = [v for k,v in columns.items() if k not in ['id','timestamp'] ]
@@ -10,23 +17,18 @@ def _post_msg(io, post_type, table, querylist=set()):
 
 	# Define the variables that we will be using
 	for col in filter(lambda x: x not in ['id','timestamp','invalid'], columns.keys()):
-		io.write("\t\t${0} = mysql_real_escape_string(stripslashes(trim(isset($_POST['{0}']) ? $_POST['{0}'] : '0')));\n".format(col))
+		io.write("\t\t${0} = " + mysql_prefix + "_real_escape_string(" + mysql_first_arg + "stripslashes(trim(isset($_POST['{0}']) ? $_POST['{0}'] : '0')));\n".format(col))
 
-	io.write('\n\t\t$result = mysql_query("SELECT id FROM {0}'.format(table.name))
+	io.write('\n\t\t$result = ' + mysql_prefix + '_query(' + mysql_first_arg + '"SELECT id FROM {0}'.format(table.name))
 	if querylist:
 		itr = iter(querylist)
 		io.write(' WHERE {0}=" . ${0}'.format(next(itr)) )
 		for col in itr: io.write(' . " AND {0}=" . ${0}'.format(col))
 	io.write(');\n')
 
-	io.write(
-r'''
-		$row = mysql_fetch_array($result);
-		$match_row_id = $row["id"];
-
-		if (mysql_num_rows($result) == 0) {
-
-''')
+	io.write("\t\t$row = " + mysql_prefix + "_fetch_array($result);\n")
+	io.write('\t\t$match_row_id = $row["id"];\n')
+	io.write("\t\tif (" + mysql_prefix + "_num_rows($result) == 0) {")
 
 	io.write('\t\t\t$query = "INSERT INTO {}({}) VALUES("\n'.format(table.name, ','.join([x.name for x in cols2update])) )
 
@@ -40,7 +42,7 @@ r'''
 		else:
 			io.write('{}. ${} . ","\n'.format('\t\t\t\t', col.name))
 
-	io.write('\n\t\t\t$success = mysql_query($query);\n\t\t}\n')
+	io.write('\n\t\t\t$success = ' + mysql_prefix + '_query(' + mysql_first_arg + '$query);\n\t\t}\n')
 
 	io.write('\t\telse {{\n\t\t\t$query = "UPDATE {} SET "\n'.format(table.name))
 
@@ -54,18 +56,18 @@ r'''
 			io.write( '\t\t\t\t. "{0}=" . ${0} . ","\n'.format(col.name) )
 
 	io.write('\t\t\t\t. " WHERE id=" . $match_row_id;\n\n')
-	io.write('\t\t\t$success = mysql_query($query);\n\t\t}\n')
+	io.write('\t\t\t$success = ' + mysql_prefix + '_query(' + mysql_first_arg + '$query);\n\t\t}\n')
 
 	io.write('\t\tif ($success) {\n')
 
-	io.write('\t\t\t$result = mysql_query("SELECT id, timestamp FROM {0}'.format(table.name))
+	io.write('\t\t\t$result = ' + mysql_prefix + '_query(' + mysql_first_arg + '"SELECT id, timestamp FROM {0}'.format(table.name))
 	if querylist:
 		itr = iter(querylist)
 		io.write(' WHERE {0}=" . ${0}'.format(next(itr)) )
 		for col in itr: io.write(' . " AND {0}=" . ${0}'.format(col))
 	io.write(');\n')
 
-	io.write('\t\t\t$row = mysql_fetch_array($result);\n')
+	io.write('\t\t\t$row = ' + mysql_prefix + '_fetch_array($result);\n')
 	io.write('\t\t\t$resp = $row["id"] . "," . strtotime($row["timestamp"]);\n')
 
 	io.write('\t\t} else {\n')
@@ -76,12 +78,17 @@ r'''
 
 
 
-def write_php(io, tables = {}, post_tables=[]):
-
+def write_php(io, mysqli=True, tables = {}, post_tables=[]):
+	if mysqli:
+		mysql_prefix = "mysqli"
+		mysql_first_arg = "$link,"
+	else:
+		mysql_prefix = "mysql"
+		mysql_first_arg = ""
 	io.write(
 r'''<?php
 
-/* 
+/*
  * Copyright 2016 Daniel Logan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -120,8 +127,10 @@ function genJSON($sql_result, $tablename) {
 	$json = '"' . $tablename . '":[';
 
 	$firstrow = true;
-
-	while($row = mysql_fetch_array($sql_result, 1)) {
+''')
+	io.write("\twhile($row = " + mysql_prefix + "_fetch_array($sql_result, 1)) {\n")
+	io.write(
+r'''
 		if ($firstrow == false) {
 			$json .= ",";
 		}
@@ -141,9 +150,11 @@ function genJSON($sql_result, $tablename) {
 			$cell = str_replace("\n", "\\n", $cell);
 			$cell = str_replace("\r", "\\r", $cell);
 			$cell = str_replace("\t", "\\t", $cell);
-
-			$col_name = mysql_field_name($sql_result, $i);
-			$col_type = mysql_fetch_field($sql_result, $i);
+''')
+	io.write("\t\t\t$col_name = " + mysql_prefix + "_field_name($sql_result, $i);\n")
+	io.write("\t\t\t$col_type = " + mysql_prefix + "_fetch_field($sql_result, $i);\n")
+	io.write(
+r'''
 
 			$json .= '"' . $col_name . '":' ;
 
@@ -208,8 +219,9 @@ elseif ($_POST['password'] == $pass) {
 		io.write(
 r'''
 		//{0}
-		$query = "SELECT * FROM {0}" . $suffix;
-		$result = mysql_query($query);
+		$query = "SELECT * FROM {0}" . $suffix;''')
+		io.write("\t\t$result = " + mysql_prefix + "_query(" + mysql_first_arg + "$query);")
+		io.write(r'''
 		$json .= genJSON($result, "{0}") . "{1}";
 		mysql_free_result($result);
 '''.format(tablename, sep))
@@ -224,7 +236,7 @@ r'''
 ''')
 
 	for post,table,querylist in post_tables:
-		_post_msg(io, post, table, querylist)
+		_post_msg(io, post, table, mysqli, querylist)
 
 	io.write(
 '''
@@ -237,5 +249,5 @@ r'''
 ''')
 
 
-def write(io, tables, post_tables):
-	write_php(io, tables, post_tables)
+def write(io, mysqli, tables, post_tables):
+	write_php(io, mysqli, tables, post_tables)

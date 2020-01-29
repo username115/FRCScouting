@@ -11,12 +11,16 @@ $php_home       = ''; //set to your php (where the PEAR HTTP directory lies, onl
 
 /* End config */
 
+function mysqli_field_name($result, $field_offset)
+{
+	$properties = mysqli_fetch_field_direct($result, $field_offset);
+	return is_object($properties) ? $properties->name : null;
+}
 
 
-$link = mysql_connect($db_host,$db_user,$db_pass) or die('Unable to establish a DB connection');
+$link = mysqli_connect($db_host,$db_user,$db_pass, $db_database) or die('Unable to establish a DB connection');
 
-mysql_select_db($db_database,$link);
-mysql_query("SET names UTF8");
+mysqli_query($link,"SET names UTF8");
 
 $pass=''; //set to a password. It will be the same password for all of your users.
 //This is just a scouting app, and does not require high security. All inserted data is escaped, so nothing should get in.
