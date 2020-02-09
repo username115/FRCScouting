@@ -83,49 +83,18 @@
     <string name="miss_plus_5">M5</string>
     <string name="normal_plus">+</string>
 
-    <string-array name="configuration">
-        <item>Long</item>
-        <item>Wide</item>
-        <item>Square</item>
-        <item>Round</item>
-        <item>Hex</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="drivetrain">
-        <item>4 Wheel Drive</item>
-        <item>6 Wheel Drive</item>
-        <item>8 Wheel Drive (or more)</item>
-    </string-array>
-    <string-array name="wheels">
-        <item>Kit Wheels</item>
-        <item>Omni</item>
-        <item>Mecanum</item>
-        <item>Swerve</item>
-        <item>Pneumatic</item>
-        <item>Custom</item>
-    </string-array>
     <string-array name="cg">
         <item>High</item>
         <item>Medium</item>
         <item>Low</item>
     </string-array>
 
-    <string name="autonomous_mode_text">Sandstorm:</string>
-    <string name="operator_mode_text">Operator Mode:</string>
-
-    <string name="does_bot_have_mobility_text">Mobility</string>
 
     <string name="comments__text">"Comments: "</string>
-    <string name="configuration_text">Configuration</string>
-
-    <string name="drive_train_text">Drive Train</string>
 
     <string name="submit_text">Submit</string>
     <string name="team_text">"Team #: "</string>
     <string name="team_hint">Team #</string>
-    <string name="weight_text">"Weight: "</string>
-    <string name="weight_hint">Weight</string>
-    <string name="wheel_type_text">Wheel Type</string>
     <string name="yellow_card">YC</string>
     <string name="red_card">RC</string>
 
