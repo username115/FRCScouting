@@ -138,7 +138,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_TEAM_ID, team_id);
 		vals.put(COLUMN_NAME_MATCH_ID, match_id);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, practice_match ? 1 : 0);
-		vals.put(COLUMN_NAME_POSITION_ID, position_id);
+		vals.put(COLUMN_NAME_POSITION_ID, db.getPosIDFromName(position_id, database));
 		vals.put(COLUMN_NAME_START_POSITION, start_position);
 		vals.put(COLUMN_NAME_AUTO_INITIATION_MOVE, auto_initiation_move ? 1 : 0);
 		vals.put(COLUMN_NAME_AUTO_SCORE_LOW, auto_score_low);
@@ -148,7 +148,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_SCORE_HIGH, score_high);
 		vals.put(COLUMN_NAME_MISS, miss);
 		vals.put(COLUMN_NAME_ROTATION_CONTROL, rotation_control ? 1 : 0);
-		vals.put(COLUMN_NAME_POSITION_CONTROL, db.getPosIDFromName(position_control, database));
+		vals.put(COLUMN_NAME_POSITION_CONTROL, position_control ? 1 : 0);
 		vals.put(COLUMN_NAME_GENERATOR_PARK, generator_park ? 1 : 0);
 		vals.put(COLUMN_NAME_GENERATOR_HANG, generator_hang ? 1 : 0);
 		vals.put(COLUMN_NAME_GENERATOR_HANG_ATTEMPTED, generator_hang_attempted ? 1 : 0);
@@ -173,7 +173,7 @@ public class MatchStatsStruct {
 		team_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_ID));
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
 		practice_match = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_PRACTICE_MATCH)) != 0;
-		position_id = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_ID));
+		position_id = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_ID)), database);
 		start_position = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_START_POSITION));
 		auto_initiation_move = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_INITIATION_MOVE)) != 0;
 		auto_score_low = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_SCORE_LOW));
@@ -183,7 +183,7 @@ public class MatchStatsStruct {
 		score_high = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCORE_HIGH));
 		miss = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MISS));
 		rotation_control = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTATION_CONTROL)) != 0;
-		position_control = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_CONTROL)), database);
+		position_control = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_CONTROL)) != 0;
 		generator_park = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GENERATOR_PARK)) != 0;
 		generator_hang = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GENERATOR_HANG)) != 0;
 		generator_hang_attempted = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GENERATOR_HANG_ATTEMPTED)) != 0;
@@ -226,8 +226,6 @@ public class MatchStatsStruct {
 	}
 
 	public boolean isTextField(String column_name) {
-		if (COLUMN_NAME_POSITION_ID.equalsIgnoreCase(column_name)) return true;
-	
 		if (COLUMN_NAME_NOTES.equalsIgnoreCase(column_name)) return true;
 	
 		return false;
@@ -236,7 +234,7 @@ public class MatchStatsStruct {
 	public boolean needsConvertedToText(String column_name) {
 		if (COLUMN_NAME_EVENT_ID.equalsIgnoreCase(column_name)) return true;
 	
-		if (COLUMN_NAME_POSITION_CONTROL.equalsIgnoreCase(column_name)) return true;
+		if (COLUMN_NAME_POSITION_ID.equalsIgnoreCase(column_name)) return true;
 	
 		return false;
 	}
@@ -248,7 +246,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_TEAM_ID, json.has(COLUMN_NAME_TEAM_ID) ? json.getInt(COLUMN_NAME_TEAM_ID) : 0);
 		vals.put(COLUMN_NAME_MATCH_ID, json.has(COLUMN_NAME_MATCH_ID) ? json.getInt(COLUMN_NAME_MATCH_ID) : 0);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.has(COLUMN_NAME_PRACTICE_MATCH) ? json.getInt(COLUMN_NAME_PRACTICE_MATCH) : 0);
-		vals.put(COLUMN_NAME_POSITION_ID, json.has(COLUMN_NAME_POSITION_ID) ? json.getString(COLUMN_NAME_POSITION_ID) : "");
+		vals.put(COLUMN_NAME_POSITION_ID, json.has(COLUMN_NAME_POSITION_ID) ? json.getInt(COLUMN_NAME_POSITION_ID) : 0);
 		vals.put(COLUMN_NAME_START_POSITION, json.has(COLUMN_NAME_START_POSITION) ? json.getInt(COLUMN_NAME_START_POSITION) : 0);
 		vals.put(COLUMN_NAME_AUTO_INITIATION_MOVE, json.has(COLUMN_NAME_AUTO_INITIATION_MOVE) ? json.getInt(COLUMN_NAME_AUTO_INITIATION_MOVE) : 0);
 		vals.put(COLUMN_NAME_AUTO_SCORE_LOW, json.has(COLUMN_NAME_AUTO_SCORE_LOW) ? json.getInt(COLUMN_NAME_AUTO_SCORE_LOW) : 0);

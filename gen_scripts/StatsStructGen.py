@@ -69,7 +69,7 @@ class SqlToJavaStruct():
 		return None
 	def addTable(self, table):
 		self.tables.append(table)
-		
+
 	def createStr_Header(self):
 		_myscriptname = os.path.basename(__file__)
 		ret = "/*\n"
@@ -119,9 +119,7 @@ class SqlToJavaStruct():
 		self.match = None
 		self.practice = None
 		self.position = None
-		self.config = None
-		self.wheel_base = None
-		self.wheel_type = None
+		self.programming = None
 
 		ret = ""
 		ret += "public "+ self.className +"() {\n\tinit();\n}\n"
@@ -137,8 +135,8 @@ class SqlToJavaStruct():
 					elif (column.type == 'String'):
 						if re.search('position',column.name):
 							ret += '"Red 1";'
-						elif re.search('config',column.name) or re.search('wheel_base',column.name) or re.search('wheel_type',column.name):
-							ret += '"other";'
+						elif re.search('programming',column.name):
+							ret += '"Other";'
 						else:
 							ret += '"";'
 					else:
@@ -152,15 +150,11 @@ class SqlToJavaStruct():
 					self.event = column.name
 				elif (re.search('team',column.name)):
 					self.team = column.name
-				elif (re.search('position',column.name)):
+				elif (re.search('position_id',column.name)):
 					self.position = column.name
-				elif (re.search('config',column.name)):
-					self.config = column.name
-				elif (re.search('wheel_base',column.name)):
-					self.wheel_base = column.name
-				elif (re.search('wheel_type',column.name)):
-					self.wheel_type = column.name
-				
+				elif (re.search('programming',column.name)):
+					self.programming = column.name
+
 
 		ret += "}\n"
 
@@ -200,12 +194,8 @@ class SqlToJavaStruct():
 					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", ev);\n"
 				elif self.position==column.name:
 					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getPosIDFromName(" + column.name + ", database));\n"
-				elif self.config==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getConfigIDFromName(" + column.name + ", database));\n"
-				elif self.wheel_type==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getWheelTypeIDFromName(" + column.name + ", database));\n"
-				elif self.wheel_base==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getWheelBaseIDFromName(" + column.name + ", database));\n"
+				elif self.programming==column.name:
+					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getProgrammingIDFromName(" + column.name + ", database));\n"
 				elif "invalid"==column.name:
 					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", 1);\n"
 				elif not 'timestamp'==column.name:
@@ -231,12 +221,8 @@ class SqlToJavaStruct():
 					ret += "\t" + column.name + " = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
 				elif self.position==column.name:
 					ret += "\t" + column.name + " = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
-				elif self.config==column.name:
-					ret += "\t" + column.name + " = DB.getConfigNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
-				elif self.wheel_type==column.name:
-					ret += "\t" + column.name + " = DB.getWheelTypeNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
-				elif self.wheel_base==column.name:
-					ret += "\t" + column.name + " = DB.getWheelBaseNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+				elif self.programming==column.name:
+					ret += "\t" + column.name + " = DB.getProgrammingNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
 				elif not 'timestamp'==column.name and not 'id'==column.name and not 'invalid'==column.name:
 					if column.type== "String":
 						ret += "\t" + column.name + " = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "));\n"
@@ -270,7 +256,7 @@ class SqlToJavaStruct():
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			for column in self.tables[tableindex].columns:
-				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.config and not column.name == self.wheel_type and not column.name == self.wheel_base):
+				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.programming):
 					ret += "\tif (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
 		ret += "\treturn false;\n}"
 
@@ -282,7 +268,7 @@ class SqlToJavaStruct():
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			for column in self.tables[tableindex].columns:
-				if (column.name == self.event or column.name == self.position or column.name == self.config or column.name == self.wheel_type or column.name == self.wheel_base):
+				if (column.name == self.event or column.name == self.position or column.name == self.programming):
 					ret += "\tif (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
 		ret += "\treturn false;\n}"
 
@@ -295,7 +281,7 @@ class SqlToJavaStruct():
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			for column in self.tables[tableindex].columns:
-				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.config and not column.name == self.wheel_type and not column.name == self.wheel_base):
+				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.programming):
 					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getString(COLUMN_NAME_" + column.name.upper() + ') : "");\n'
 				elif column.name == "timestamp":
 					ret += "\tvals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));\n"
@@ -351,7 +337,7 @@ class SqlToJavaStruct():
 		s += "\n"
 		s += self.createStr_Footer()
 		return s
-		
+
 	def _parseStatement_Create(self, statement):
 		match = self.re_CreateStatement.search(statement)
 		if match:
@@ -361,31 +347,31 @@ class SqlToJavaStruct():
 				if match:
 					name = match.group('name')
 					type = match.group('type')
-					
+
 					if re.search("unsigned",ln): unsigned = True
 					else: unsigned = False
-						
+
 					if re.search("NOT NULL",ln): nullVal = False
 					else: nullVal = False
-						
+
 					if re.search("AUTO_INCREMENT",ln): autoInc = True
 					else: autoInc = False
-					
+
 					match = re.search("DEFAULT\s+(?P<val>\S+)",ln)
 					if match: default = match.group('val')
 					else: default=None
-					
+
 					table.addColumn( SQLHelper.SqlColumn(columnName=name, columnType=type,
 									isPrimary=False, defaultVal=default,
 									nullValid=nullVal, autoIncrement=autoInc,
 									isUnsigned=unsigned) )
-					
+
 				if re.search("PRIMARY\s+KEY",ln):
 					primaryKey = re.search("PRIMARY\s+KEY\s+[(][`](?P<key>\w+)[`][)]",ln).group('key')
 					for column in table.columns:
 						if column.name == primaryKey:
 							column.primary = True
-					
+
 			self.addTable(table)
 	def _parseStatement_Insert(self, statement):
 		match = self.re_InsertStatement.search(statement)
@@ -452,7 +438,7 @@ def init_args():
 
 if __name__ == "__main__":
 	args = init_args()
-	
+
 	SqlCreator = SqlToJavaStruct(packageName = args.packagename,
 							className = args.classname,
 							tableName = args.tablename

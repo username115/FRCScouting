@@ -51,7 +51,7 @@ public class PitStats {
 	public int team_batteries;
 	public int team_battery_chargers;
 	public int robot_gross_weight_lbs;
-	public int programming_id;
+	public String programming_id;
 	public int mechanical_appearance;
 	public int electrical_appearance;
 	public String notes;
@@ -118,7 +118,7 @@ public class PitStats {
 		team_batteries = 0;
 		team_battery_chargers = 0;
 		robot_gross_weight_lbs = 0;
-		programming_id = 0;
+		programming_id = "Other";
 		mechanical_appearance = 0;
 		electrical_appearance = 0;
 		notes = "";
@@ -136,7 +136,7 @@ public class PitStats {
 		vals.put(COLUMN_NAME_SCORE_LOW, score_low ? 1 : 0);
 		vals.put(COLUMN_NAME_SCORE_OUTER, score_outer ? 1 : 0);
 		vals.put(COLUMN_NAME_SCORE_INNER, score_inner ? 1 : 0);
-		vals.put(COLUMN_NAME_POSITION_CONTROL, db.getPosIDFromName(position_control, database));
+		vals.put(COLUMN_NAME_POSITION_CONTROL, position_control ? 1 : 0);
 		vals.put(COLUMN_NAME_ROTATION_CONTROL, rotation_control ? 1 : 0);
 		vals.put(COLUMN_NAME_GENERATOR_HANG, generator_hang ? 1 : 0);
 		vals.put(COLUMN_NAME_POWER_CELL_CAPACITY, power_cell_capacity);
@@ -151,7 +151,7 @@ public class PitStats {
 		vals.put(COLUMN_NAME_TEAM_BATTERIES, team_batteries);
 		vals.put(COLUMN_NAME_TEAM_BATTERY_CHARGERS, team_battery_chargers);
 		vals.put(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS, robot_gross_weight_lbs);
-		vals.put(COLUMN_NAME_PROGRAMMING_ID, programming_id);
+		vals.put(COLUMN_NAME_PROGRAMMING_ID, db.getProgrammingIDFromName(programming_id, database));
 		vals.put(COLUMN_NAME_MECHANICAL_APPEARANCE, mechanical_appearance);
 		vals.put(COLUMN_NAME_ELECTRICAL_APPEARANCE, electrical_appearance);
 		vals.put(COLUMN_NAME_NOTES, notes);
@@ -174,7 +174,7 @@ public class PitStats {
 		score_low = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCORE_LOW)) != 0;
 		score_outer = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCORE_OUTER)) != 0;
 		score_inner = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_SCORE_INNER)) != 0;
-		position_control = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_CONTROL)), database);
+		position_control = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_CONTROL)) != 0;
 		rotation_control = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROTATION_CONTROL)) != 0;
 		generator_hang = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_GENERATOR_HANG)) != 0;
 		power_cell_capacity = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POWER_CELL_CAPACITY));
@@ -189,7 +189,7 @@ public class PitStats {
 		team_batteries = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_BATTERIES));
 		team_battery_chargers = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TEAM_BATTERY_CHARGERS));
 		robot_gross_weight_lbs = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS));
-		programming_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_PROGRAMMING_ID));
+		programming_id = DB.getProgrammingNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_PROGRAMMING_ID)), database);
 		mechanical_appearance = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MECHANICAL_APPEARANCE));
 		electrical_appearance = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_ELECTRICAL_APPEARANCE));
 		notes = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_NOTES));
@@ -235,7 +235,7 @@ public class PitStats {
 	}
 
 	public boolean needsConvertedToText(String column_name) {
-		if (COLUMN_NAME_POSITION_CONTROL.equalsIgnoreCase(column_name)) return true;
+		if (COLUMN_NAME_PROGRAMMING_ID.equalsIgnoreCase(column_name)) return true;
 	
 		return false;
 	}
@@ -300,7 +300,7 @@ public class PitStats {
 		vals.put( COLUMN_NAME_TEAM_BATTERIES, String.valueOf(team_batteries));
 		vals.put( COLUMN_NAME_TEAM_BATTERY_CHARGERS, String.valueOf(team_battery_chargers));
 		vals.put( COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS, String.valueOf(robot_gross_weight_lbs));
-		vals.put( COLUMN_NAME_PROGRAMMING_ID, String.valueOf(programming_id));
+		vals.put( COLUMN_NAME_PROGRAMMING_ID, programming_id);
 		vals.put( COLUMN_NAME_MECHANICAL_APPEARANCE, String.valueOf(mechanical_appearance));
 		vals.put( COLUMN_NAME_ELECTRICAL_APPEARANCE, String.valueOf(electrical_appearance));
 		vals.put( COLUMN_NAME_NOTES, notes);
