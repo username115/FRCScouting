@@ -158,16 +158,13 @@
 
     <string name="match_change_button_cancel">Cancel</string>
     <string name="match_change_button_prematch">Pre-Match</string>
-    <string name="match_change_button_auto">Sandstorm</string>
+    <string name="match_change_button_auto">Autonomous</string>
     <string name="match_change_button_tele">Tele-Op</string>
     <string name="match_change_button_end">End Game</string>
     <string name="match_change_button_submit">Submit</string>
 
     <string name="prematch_input_text">Pre-Match</string>
-    <string name="start_hab_level_text">Starting HAB Level</string>
-    <string name="element_preload_text">Pre-loaded game element</string>
+	<string name="starting_position">Starting Position</string>
 
-
-    <string name="element_dropped_text">Dropped</string>
 
 </resources>

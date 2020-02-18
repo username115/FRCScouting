@@ -14,158 +14,120 @@
         android:layout_centerHorizontal="true"
         android:text="@string/prematch_input_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    <!--<Button
+    <Button
         android:id="@+id/switchSidesB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+		android:layout_below="@+id/PrematchText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/switch_sides" />-->
+        android:text="@string/switch_sides" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/PrematchText">
+        android:layout_below="@+id/switchSidesB">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
+			android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/start_hab_level_text"
+                android:text="@string/starting_position"
                 />
+			<FrameLayout
+				android:id="@+id/pos1L"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <FrameLayout
-                    android:id="@+id/hab2LeftL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/hab2Left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/red_hab_2_left" />
+				<ImageButton
+					android:id="@+id/pos1B"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					android:background="@android:color/transparent"
+					android:scaleType="fitXY"
+					android:src="@drawable/red_station_3" />
 
 
-                </FrameLayout>
+			</FrameLayout>
+			<FrameLayout
+				android:id="@+id/pos2L"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_height="wrap_content">
 
-                <FrameLayout
-                    android:id="@+id/hab3L"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/hab3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/red_hab_3" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/hab2RightL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/hab2Right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/red_hab_2_right" />
-                </FrameLayout>
-            </LinearLayout>
+				<ImageButton
+					android:id="@+id/pos2B"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					android:background="@android:color/transparent"
+					android:scaleType="fitXY"
+					android:src="@drawable/red_station_bay" />
 
 
-            <FrameLayout
-                android:id="@+id/hab1L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
+			</FrameLayout>
+			<FrameLayout
+				android:id="@+id/pos3L"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/hab1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/red_hab_1" />
-            </FrameLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/element_preload_text"
-                />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
+				<ImageButton
+					android:id="@+id/pos3B"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					android:background="@android:color/transparent"
+					android:scaleType="fitXY"
+					android:src="@drawable/red_station_2" />
 
 
-                <FrameLayout
-                    android:id="@+id/cargoL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+			</FrameLayout>
+			<FrameLayout
+				android:id="@+id/pos4L"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/cargoB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="2dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/cargo" />
-                </FrameLayout>
+				<ImageButton
+					android:id="@+id/pos4B"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					android:background="@android:color/transparent"
+					android:scaleType="fitXY"
+					android:src="@drawable/red_station_port" />
 
 
-                <FrameLayout
-                    android:id="@+id/hatchL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+			</FrameLayout>
+			<FrameLayout
+				android:id="@+id/pos5L"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/hatchB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="2dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/hatch" />
-                </FrameLayout>
-            </LinearLayout>
+				<ImageButton
+					android:id="@+id/pos5B"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					android:background="@android:color/transparent"
+					android:scaleType="fitXY"
+					android:src="@drawable/red_station_1" />
+
+
+			</FrameLayout>
+
 
         </LinearLayout>
     </ScrollView>
