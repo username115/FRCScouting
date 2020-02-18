@@ -27,148 +27,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
 
-                <FrameLayout
-                    android:id="@+id/hab2LeftL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:baselineAligned="false"
+			android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/hab2Left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/red_hab_2_left" />
+			<CheckBox
+				android:id="@+id/generator_park"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/park" />
+			<CheckBox
+				android:id="@+id/generator_hang"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/hang" />
+			<CheckBox
+				android:id="@+id/generator_hang_attempt"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/hang_attempt" />
+		</LinearLayout>
 
-                    <TextView
-                        android:id="@+id/hab2LeftT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:clickable="false"
-                        android:text=""
-                        android:textColor="@color/yellow" />
-
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/hab3L"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/hab3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/red_hab_3" />
-
-                    <TextView
-                        android:id="@+id/hab3T"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:clickable="false"
-                        android:text=""
-                        android:textColor="@color/yellow" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/hab2RightL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/hab2Right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/red_hab_2_right" />
-
-                    <TextView
-                        android:id="@+id/hab2RightT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:clickable="false"
-                        android:text=""
-                        android:textColor="@color/yellow" />
-                </FrameLayout>
-            </LinearLayout>
-
-
-            <FrameLayout
-                android:id="@+id/hab1L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <ImageButton
-                    android:id="@+id/hab1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/red_hab_1" />
-
-                <TextView
-                    android:id="@+id/hab1T"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:clickable="false"
-                    android:text=""
-                    android:textColor="@color/yellow" />
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/floor_pickup_cargo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/floor_cargo" />
-
-                <CheckBox
-                    android:id="@+id/floor_pickup_hatch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:text="@string/floor_hatch" />
-            </LinearLayout>
 
             <EditText
                 android:id="@+id/notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/notes"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+				android:importantForAutofill="no" />
 
             <Spinner
                 android:id="@+id/commonNotes"
