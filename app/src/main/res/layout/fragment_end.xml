@@ -41,17 +41,23 @@
 				android:layout_weight="1"
 				android:text="@string/park" />
 			<CheckBox
+				android:id="@+id/generator_hang_attempt"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/hang_attempt" />
+			<CheckBox
 				android:id="@+id/generator_hang"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:text="@string/hang" />
 			<CheckBox
-				android:id="@+id/generator_hang_attempt"
+				android:id="@+id/generator_level"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="@string/hang_attempt" />
+				android:text="@string/gen_level" />
 		</LinearLayout>
 
 

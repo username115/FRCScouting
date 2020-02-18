@@ -12,5 +12,6 @@
 	<string name="park">Park</string>
 	<string name="hang">Hang</string>
 	<string name="hang_attempt">Hang Attempt</string>
+	<string name="gen_level">Level</string>
 
 </resources>
