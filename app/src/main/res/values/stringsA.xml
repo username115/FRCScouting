@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="auto_input_text">Sandstorm</string>
-    <string name="auto_bonus">Bonus (left HAB)</string>
+    <string name="auto_input_text">Autonomous</string>
+    <string name="auto_bonus">Initiation</string>
 
 </resources>

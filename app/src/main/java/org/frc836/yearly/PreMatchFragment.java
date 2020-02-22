@@ -18,6 +18,7 @@ package org.frc836.yearly;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,7 @@ public class PreMatchFragment extends MatchFragment {
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 		mainView = view;
 		getGUIRefs(view);
 		setListeners();
@@ -148,6 +149,11 @@ public class PreMatchFragment extends MatchFragment {
 		pos3B.setScaleY(redLeft ? -1f : 1f);
 		pos4B.setScaleY(redLeft ? -1f : 1f);
 		pos5B.setScaleY(redLeft ? -1f : 1f);
+		pos1B.setScaleX(redLeft ? -1f : 1f);
+		pos2B.setScaleX(redLeft ? -1f : 1f);
+		pos3B.setScaleX(redLeft ? -1f : 1f);
+		pos4B.setScaleX(redLeft ? -1f : 1f);
+		pos5B.setScaleX(redLeft ? -1f : 1f);
 
 		Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);
 		Drawable selectBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.greenborder);

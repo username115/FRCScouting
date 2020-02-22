@@ -165,6 +165,9 @@
 
     <string name="prematch_input_text">Pre-Match</string>
 	<string name="starting_position">Starting Position</string>
+	<string name="high">high</string>
+	<string name="miss">miss</string>
+	<string name="low">low</string>
 
 
 </resources>
