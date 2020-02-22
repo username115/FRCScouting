@@ -34,7 +34,7 @@ def toJavaString( s, maxLnLen=40 ):
 		retStr += " +"
 		retStr += '\n'
 	return retStr[0:-6] + '\"' # removes the last newline and plus
-	
+
 class SqlColumn:
 	def __init__(self, columnName=None, columnType=None,
 						isPrimary=False, defaultVal=None,
@@ -73,11 +73,7 @@ class SqlColumn:
 			self.type = 'String'
 		if self.name == 'event_id':
 			self.type = 'String'
-		if self.name == 'config_id':
-			self.type = 'String'
-		if self.name == 'wheel_type_id':
-			self.type = 'String'
-		if self.name == 'wheel_base_id':
+		if self.name == 'programming_id':
 			self.type = 'String'
 
 	def toSqLite(self):
@@ -201,7 +197,7 @@ class SqlTable:
 			else:
 				s += " "+ val +" AS "+ column.name
 			s += ','
-		return s[0:-1]	
+		return s[0:-1]
 	def createStr_InsertStr(self):
 		s = ""
 		if (self.n_row > 0) and (self.checkNumRows()):
@@ -212,4 +208,3 @@ class SqlTable:
 				s += self._createStr_InsertStr_row(row) +'\n'
 			return s[0:-1] +';'
 		return None
-		

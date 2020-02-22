@@ -29,13 +29,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.frc836.database.DBSyncService.LocalBinder;
-import org.frc836.database.FRCScoutingContract.CONFIGURATION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
 import org.frc836.database.FRCScoutingContract.POSITION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.ROBOT_LU_Entry;
-import org.frc836.database.FRCScoutingContract.WHEEL_BASE_LU_Entry;
-import org.frc836.database.FRCScoutingContract.WHEEL_TYPE_LU_Entry;
+import org.frc836.database.FRCScoutingContract.PROGRAMMING_LU_Entry;
 import org.frc836.samsung.fileselector.FileOperation;
 import org.frc836.samsung.fileselector.FileSelector;
 import org.frc836.samsung.fileselector.OnHandleFileListener;
@@ -517,55 +515,18 @@ public class DB {
         }
     }
 
-    public List<String> getConfigList() {
+    public List<String> getProgrammingList() {
 
         synchronized (ScoutingDBHelper.lock) {
             try {
                 SQLiteDatabase db = ScoutingDBHelper.getInstance()
                         .getReadableDatabase();
 
-                String[] projection = {CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC};
+                String[] projection = {PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME};
 
-                Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME,
-                        projection, null, null, null, null,
-                        CONFIGURATION_LU_Entry.COLUMN_NAME_ID);
-                List<String> ret;
-                try {
-
-                    ret = new ArrayList<String>(c.getCount());
-
-                    if (c.moveToFirst())
-                        do {
-                            ret.add(c.getString(c
-                                    .getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC)));
-                        } while (c.moveToNext());
-                    else
-                        ret = null;
-                } finally {
-                    if (c != null)
-                        c.close();
-                    ScoutingDBHelper.getInstance().close();
-                }
-
-                return ret;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-    }
-
-    public List<String> getWheelBaseList() {
-
-        synchronized (ScoutingDBHelper.lock) {
-            try {
-                SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                        .getReadableDatabase();
-
-                String[] projection = {WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC};
-
-                Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME, projection,
+                Cursor c = db.query(PROGRAMMING_LU_Entry.TABLE_NAME, projection,
                         null, null, null, null,
-                        WHEEL_BASE_LU_Entry.COLUMN_NAME_ID);
+						PROGRAMMING_LU_Entry.COLUMN_NAME_ID);
                 List<String> ret;
 
                 try {
@@ -575,44 +536,7 @@ public class DB {
                     if (c.moveToFirst())
                         do {
                             ret.add(c.getString(c
-                                    .getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC)));
-                        } while (c.moveToNext());
-                    else
-                        ret = null;
-                } finally {
-                    if (c != null)
-                        c.close();
-                    ScoutingDBHelper.getInstance().close();
-                }
-
-                return ret;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-    }
-
-    public List<String> getWheelTypeList() {
-
-        synchronized (ScoutingDBHelper.lock) {
-            try {
-                SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                        .getReadableDatabase();
-
-                String[] projection = {WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC};
-
-                Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME, projection,
-                        null, null, null, null,
-                        WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID);
-                List<String> ret;
-                try {
-
-                    ret = new ArrayList<String>(c.getCount());
-
-                    if (c.moveToFirst())
-                        do {
-                            ret.add(c.getString(c
-                                    .getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC)));
+                                    .getColumnIndexOrThrow(PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME)));
                         } while (c.moveToNext());
                     else
                         ret = null;
@@ -1436,36 +1360,13 @@ public class DB {
         return ret;
     }
 
-    public long getConfigIDFromName(String config, SQLiteDatabase db) {
+    public long getProgrammingIDFromName(String language, SQLiteDatabase db) {
 
-        String[] projection = {CONFIGURATION_LU_Entry.COLUMN_NAME_ID};
-        String[] where = {config};
-        Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection, // select
-                CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC
-                        + " LIKE ?", where, // EventName
-                null, // don't group
-                null, // don't filter
-                null, // don't order
-                "0,1"); // limit to 1
-        long ret = -1;
-        try {
-            c.moveToFirst();
-            ret = c.getLong(c
-                    .getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_ID));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-        return ret;
-    }
-
-    public long getWheelBaseIDFromName(String base, SQLiteDatabase db) {
-
-        String[] projection = {WHEEL_BASE_LU_Entry.COLUMN_NAME_ID};
-        String[] where = {base};
-        Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME,
+        String[] projection = {PROGRAMMING_LU_Entry.COLUMN_NAME_ID};
+        String[] where = {language};
+        Cursor c = db.query(PROGRAMMING_LU_Entry.TABLE_NAME,
                 projection, // select
-                WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC + " LIKE ?",
+				PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME + " LIKE ?",
                 where, // EventName
                 null, // don't group
                 null, // don't filter
@@ -1475,7 +1376,7 @@ public class DB {
         try {
             c.moveToFirst();
             ret = c.getLong(c
-                    .getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID));
+                    .getColumnIndexOrThrow(PROGRAMMING_LU_Entry.COLUMN_NAME_ID));
         } finally {
             if (c != null)
                 c.close();
@@ -1483,36 +1384,12 @@ public class DB {
         return ret;
     }
 
-    public long getWheelTypeIDFromName(String type, SQLiteDatabase db) {
+    public static String getProgrammingNameFromID(int language, SQLiteDatabase db) {
 
-        String[] projection = {WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID};
-        String[] where = {type};
-        Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME,
-                projection, // select
-                WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC + " LIKE ?",
-                where, // EventName
-                null, // don't group
-                null, // don't filter
-                null, // don't order
-                "0,1"); // limit to 1
-        long ret = -1;
-        try {
-            c.moveToFirst();
-            ret = c.getLong(c
-                    .getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-        return ret;
-    }
-
-    public static String getConfigNameFromID(int config, SQLiteDatabase db) {
-
-        String[] projection = {CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC};
-        String[] where = {String.valueOf(config)};
-        Cursor c = db.query(CONFIGURATION_LU_Entry.TABLE_NAME, projection, // select
-                CONFIGURATION_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
+        String[] projection = {PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME};
+        String[] where = {String.valueOf(language)};
+        Cursor c = db.query(PROGRAMMING_LU_Entry.TABLE_NAME, projection, // select
+				PROGRAMMING_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
                 null, // don't group
                 null, // don't filter
                 null, // don't order
@@ -1521,51 +1398,7 @@ public class DB {
         try {
             c.moveToFirst();
             ret = c.getString(c
-                    .getColumnIndexOrThrow(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-        return ret;
-    }
-
-    public static String getWheelBaseNameFromID(int base, SQLiteDatabase db) {
-
-        String[] projection = {WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC};
-        String[] where = {String.valueOf(base)};
-        Cursor c = db.query(WHEEL_BASE_LU_Entry.TABLE_NAME, projection, // select
-                WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + "= ?", where, // EventName
-                null, // don't group
-                null, // don't filter
-                null, // don't order
-                "0,1"); // limit to 1
-        String ret = "";
-        try {
-            c.moveToFirst();
-            ret = c.getString(c
-                    .getColumnIndexOrThrow(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-        return ret;
-    }
-
-    public static String getWheelTypeNameFromID(int type, SQLiteDatabase db) {
-
-        String[] projection = {WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC};
-        String[] where = {String.valueOf(type)};
-        Cursor c = db.query(WHEEL_TYPE_LU_Entry.TABLE_NAME, projection, // select
-                WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " LIKE ?", where, // EventName
-                null, // don't group
-                null, // don't filter
-                null, // don't order
-                "0,1"); // limit to 1
-        String ret = "";
-        try {
-            c.moveToFirst();
-            ret = c.getString(c
-                    .getColumnIndexOrThrow(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
+                    .getColumnIndexOrThrow(PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME));
         } finally {
             if (c != null)
                 c.close();
@@ -1866,15 +1699,9 @@ public class DB {
                             if (PitStats.COLUMN_NAME_INVALID.equalsIgnoreCase(c
                                     .getColumnName(i)) && !debug)
                                 i++;
-                            if (PitStats.COLUMN_NAME_CONFIG_ID
+                            if (PitStats.COLUMN_NAME_PROGRAMMING_ID
                                     .equalsIgnoreCase(c.getColumnName(i)))
-                                pit_data.append("configuration");
-                            else if (PitStats.COLUMN_NAME_WHEEL_BASE_ID
-                                    .equalsIgnoreCase(c.getColumnName(i)))
-                                pit_data.append("wheel_base");
-                            else if (PitStats.COLUMN_NAME_WHEEL_TYPE_ID
-                                    .equalsIgnoreCase(c.getColumnName(i)))
-                                pit_data.append("wheel_type");
+                                pit_data.append("programming_language");
                             else
                                 pit_data.append(c.getColumnName(i));
                         }
@@ -1898,37 +1725,17 @@ public class DB {
                                                 .append("\"");
                                         // wanted to encapsulate the following, but
                                         // doing so would slow down the export.
-                                    else if (PitStats.COLUMN_NAME_CONFIG_ID
+                                    else if (PitStats.COLUMN_NAME_PROGRAMMING_ID
                                             .equalsIgnoreCase(c
                                                     .getColumnName(j))) {
                                         String config = configs
                                                 .get(c.getInt(j));
                                         if (config == null) {
-                                            config = getConfigNameFromID(
+                                            config = getProgrammingNameFromID(
                                                     c.getInt(j), db);
                                             configs.append(c.getInt(j), config);
                                         }
                                         pit_data.append(config);
-                                    } else if (PitStats.COLUMN_NAME_WHEEL_BASE_ID
-                                            .equalsIgnoreCase(c
-                                                    .getColumnName(j))) {
-                                        String base = bases.get(c.getInt(j));
-                                        if (base == null) {
-                                            base = getWheelBaseNameFromID(
-                                                    c.getInt(j), db);
-                                            bases.append(c.getInt(j), base);
-                                        }
-                                        pit_data.append(base);
-                                    } else if (PitStats.COLUMN_NAME_WHEEL_TYPE_ID
-                                            .equalsIgnoreCase(c
-                                                    .getColumnName(j))) {
-                                        String type = types.get(c.getInt(j));
-                                        if (type == null) {
-                                            type = getWheelTypeNameFromID(
-                                                    c.getInt(j), db);
-                                            types.append(c.getInt(j), type);
-                                        }
-                                        pit_data.append(type);
                                     } else
                                         pit_data.append(c.getString(j));
                                 }

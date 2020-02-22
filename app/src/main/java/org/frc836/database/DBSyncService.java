@@ -310,9 +310,6 @@ public class DBSyncService extends Service {
                     return -2;
                 }
 
-                processConfig(json
-                        .getJSONArray(CONFIGURATION_LU_Entry.TABLE_NAME));
-
                 processEvents(json.getJSONArray(EVENT_LU_Entry.TABLE_NAME));
 
                 if (!running)
@@ -327,11 +324,8 @@ public class DBSyncService extends Service {
                     return -1;
                 processPits(json.getJSONArray(PitStats.TABLE_NAME));
 
-                processWheelBase(json
-                        .getJSONArray(WHEEL_BASE_LU_Entry.TABLE_NAME));
-
-                processWheelType(json
-                        .getJSONArray(WHEEL_TYPE_LU_Entry.TABLE_NAME));
+                processProgramming(json
+                        .getJSONArray(PROGRAMMING_LU_Entry.TABLE_NAME));
 
                 processPositions(json
                         .getJSONArray(POSITION_LU_Entry.TABLE_NAME));
@@ -692,82 +686,6 @@ public class DBSyncService extends Service {
             args.put("timestamp", String.valueOf(lastSync.getTime()));
             args.put("version", version);
             utils.doPost(url, args, new SyncCallback());
-        }
-    }
-
-    private void processConfig(JSONArray config) {
-        try {
-            updateNotificationText(getString(R.string.notify_table) + " "
-                    + CONFIGURATION_LU_Entry.TABLE_NAME);
-            for (int i = 0; i < config.length(); i++) {
-                JSONObject row = config.getJSONObject(i);
-                Action action = Action.UPDATE;
-                if (row.getInt(CONFIGURATION_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-                    action = Action.DELETE;
-                }
-                ContentValues vals = new ContentValues();
-                vals.put(CONFIGURATION_LU_Entry.COLUMN_NAME_ID,
-                        row.getInt(CONFIGURATION_LU_Entry.COLUMN_NAME_ID));
-                vals.put(
-                        CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC,
-                        row.getString(CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC));
-                vals.put(
-                        CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP,
-                        DB.dateParser.format(new Date(
-                                row.getLong(CONFIGURATION_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-
-                // check if this entry exists already
-                String[] projection = {CONFIGURATION_LU_Entry.COLUMN_NAME_CONFIGURATION_DESC};
-                String[] where = {vals
-                        .getAsString(CONFIGURATION_LU_Entry.COLUMN_NAME_ID)};
-                synchronized (ScoutingDBHelper.lock) {
-
-                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                            .getWritableDatabase();
-
-                    Cursor c = db.query(
-                            CONFIGURATION_LU_Entry.TABLE_NAME,
-                            projection, // select
-                            CONFIGURATION_LU_Entry.COLUMN_NAME_ID + "=?",
-                            where, null, // don't
-                            // group
-                            null, // don't filter
-                            null, // don't order
-                            "0,1"); // limit to 1
-                    try {
-                        if (!c.moveToFirst()) {
-                            if (action == Action.UPDATE)
-                                action = Action.INSERT;
-                            else if (action == Action.DELETE)
-                                action = Action.NOTHING;
-                        }
-
-                        switch (action) {
-                            case UPDATE:
-                                db.update(CONFIGURATION_LU_Entry.TABLE_NAME, vals,
-                                        CONFIGURATION_LU_Entry.COLUMN_NAME_ID
-                                                + " = ?", where);
-                                break;
-                            case INSERT:
-                                db.insert(CONFIGURATION_LU_Entry.TABLE_NAME, null,
-                                        vals);
-                                break;
-                            case DELETE:
-                                db.delete(CONFIGURATION_LU_Entry.TABLE_NAME,
-                                        CONFIGURATION_LU_Entry.COLUMN_NAME_ID
-                                                + " = ?", where);
-                                break;
-                            default:
-                        }
-                    } finally {
-                        if (c != null)
-                            c.close();
-                        ScoutingDBHelper.getInstance().close();
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            // TODO handle error
         }
     }
 
@@ -1247,31 +1165,31 @@ public class DBSyncService extends Service {
         }
     }
 
-    private void processWheelBase(JSONArray wheelBase) {
+    private void processProgramming(JSONArray wheelBase) {
         updateNotificationText(getString(R.string.notify_table) + " "
-                + WHEEL_BASE_LU_Entry.TABLE_NAME);
+                + PROGRAMMING_LU_Entry.TABLE_NAME);
         try {
             for (int i = 0; i < wheelBase.length(); i++) {
                 JSONObject row = wheelBase.getJSONObject(i);
                 Action action = Action.UPDATE;
-                if (row.getInt(WHEEL_BASE_LU_Entry.COLUMN_NAME_INVALID) != 0) {
+                if (row.getInt(PROGRAMMING_LU_Entry.COLUMN_NAME_INVALID) != 0) {
                     action = Action.DELETE;
                 }
                 ContentValues vals = new ContentValues();
-                vals.put(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID,
-                        row.getInt(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID));
+                vals.put(PROGRAMMING_LU_Entry.COLUMN_NAME_ID,
+                        row.getInt(PROGRAMMING_LU_Entry.COLUMN_NAME_ID));
                 vals.put(
-                        WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC,
-                        row.getString(WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC));
+						PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME,
+                        row.getString(PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME));
                 vals.put(
-                        WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP,
+						PROGRAMMING_LU_Entry.COLUMN_NAME_TIMESTAMP,
                         DB.dateParser.format(new Date(
-                                row.getLong(WHEEL_BASE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
+                                row.getLong(PROGRAMMING_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
 
                 // check if this entry exists already
-                String[] projection = {WHEEL_BASE_LU_Entry.COLUMN_NAME_WHEEL_BASE_DESC};
+                String[] projection = {PROGRAMMING_LU_Entry.COLUMN_NAME_LANGUAGE_NAME};
                 String[] where = {vals
-                        .getAsString(WHEEL_BASE_LU_Entry.COLUMN_NAME_ID)};
+                        .getAsString(PROGRAMMING_LU_Entry.COLUMN_NAME_ID)};
 
                 synchronized (ScoutingDBHelper.lock) {
 
@@ -1279,9 +1197,9 @@ public class DBSyncService extends Service {
                             .getWritableDatabase();
 
                     Cursor c = db.query(
-                            WHEEL_BASE_LU_Entry.TABLE_NAME,
+							PROGRAMMING_LU_Entry.TABLE_NAME,
                             projection, // select
-                            WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + "=?", where,
+							PROGRAMMING_LU_Entry.COLUMN_NAME_ID + "=?", where,
                             null, // don't
                             // group
                             null, // don't filter
@@ -1298,99 +1216,19 @@ public class DBSyncService extends Service {
                         switch (action) {
                             case UPDATE:
                                 db.update(
-                                        WHEEL_BASE_LU_Entry.TABLE_NAME,
+									PROGRAMMING_LU_Entry.TABLE_NAME,
                                         vals,
-                                        WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									PROGRAMMING_LU_Entry.COLUMN_NAME_ID + " = ?",
                                         where);
                                 break;
                             case INSERT:
-                                db.insert(WHEEL_BASE_LU_Entry.TABLE_NAME, null,
+                                db.insert(PROGRAMMING_LU_Entry.TABLE_NAME, null,
                                         vals);
                                 break;
                             case DELETE:
                                 db.delete(
-                                        WHEEL_BASE_LU_Entry.TABLE_NAME,
-                                        WHEEL_BASE_LU_Entry.COLUMN_NAME_ID + " = ?",
-                                        where);
-                                break;
-                            default:
-                        }
-                    } finally {
-                        if (c != null)
-                            c.close();
-                        ScoutingDBHelper.getInstance().close();
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            // TODO handle error
-        }
-    }
-
-    private void processWheelType(JSONArray wheelType) {
-        updateNotificationText(getString(R.string.notify_table) + " "
-                + WHEEL_TYPE_LU_Entry.TABLE_NAME);
-        try {
-            for (int i = 0; i < wheelType.length(); i++) {
-                JSONObject row = wheelType.getJSONObject(i);
-                Action action = Action.UPDATE;
-                if (row.getInt(WHEEL_TYPE_LU_Entry.COLUMN_NAME_INVALID) != 0) {
-                    action = Action.DELETE;
-                }
-                ContentValues vals = new ContentValues();
-                vals.put(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID,
-                        row.getInt(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID));
-                vals.put(
-                        WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC,
-                        row.getString(WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC));
-                vals.put(
-                        WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP,
-                        DB.dateParser.format(new Date(
-                                row.getLong(WHEEL_TYPE_LU_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-
-                // check if this entry exists already
-                String[] projection = {WHEEL_TYPE_LU_Entry.COLUMN_NAME_WHEEL_TYPE_DESC};
-                String[] where = {vals
-                        .getAsString(WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID)};
-
-                synchronized (ScoutingDBHelper.lock) {
-
-                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                            .getWritableDatabase();
-
-                    Cursor c = db.query(
-                            WHEEL_TYPE_LU_Entry.TABLE_NAME,
-                            projection, // select
-                            WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + "=?", where,
-                            null, // don't
-                            // group
-                            null, // don't filter
-                            null, // don't order
-                            "0,1"); // limit to 1
-                    try {
-                        if (!c.moveToFirst()) {
-                            if (action == Action.UPDATE)
-                                action = Action.INSERT;
-                            else if (action == Action.DELETE)
-                                action = Action.NOTHING;
-                        }
-
-                        switch (action) {
-                            case UPDATE:
-                                db.update(
-                                        WHEEL_TYPE_LU_Entry.TABLE_NAME,
-                                        vals,
-                                        WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
-                                        where);
-                                break;
-                            case INSERT:
-                                db.insert(WHEEL_TYPE_LU_Entry.TABLE_NAME, null,
-                                        vals);
-                                break;
-                            case DELETE:
-                                db.delete(
-                                        WHEEL_TYPE_LU_Entry.TABLE_NAME,
-                                        WHEEL_TYPE_LU_Entry.COLUMN_NAME_ID + " = ?",
+									PROGRAMMING_LU_Entry.TABLE_NAME,
+									PROGRAMMING_LU_Entry.COLUMN_NAME_ID + " = ?",
                                         where);
                                 break;
                             default:

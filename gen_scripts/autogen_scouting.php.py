@@ -2,6 +2,19 @@ if __name__ != '__main__':
 	print("Must run '{}' as '__main__'. Tried to run as '{}'. ..exiting..".format(__file__, __name__))
 	exit()
 
+import argparse
+parser = argparse.ArgumentParser(description='Output server files based on sql')
+parser.add_argument("-l", "--legacy", help="use legacy mysql syntax", action="store_true")
+parser.add_argument("-m", "--match_table", help="match table name", required=True)
+parser.add_argument("-p", "--pit_table", help="Pits table name", required=True)
+parser.add_argument("-o", "--out", help="Output folder relative to project root", required=True)
+
+args = parser.parse_args()
+if args.legacy:
+	mysqli = False
+else:
+	mysqli = True
+
 # Setup a logger
 import logging
 log = logging.getLogger('autogenerator')
@@ -28,13 +41,13 @@ with open(mysqlfile, 'r') as fin:
 
 
 from scouting_php__writer import write_php
-outfile = normpath("{}/FRC_Scouting_Server/scouting.php".format(ProjRootPath))
+outfile = normpath("{}/{}/scouting.php".format(ProjRootPath, args.out))
 post_tables = [
-	('match', tables['fact_match_data_2019'], ['event_id','match_id','team_id','practice_match']),
-	('pits', tables['scout_pit_data_2019'], ['team_id']),
+	('match', tables[args.match_table], ['event_id','match_id','team_id','practice_match']),
+	('pits', tables[args.pit_table], ['team_id']),
 	('picklist', tables['picklist'], ['event_id','team_id'])
 ]
 
 with open(outfile, 'w') as f:
-	write_php(f, tables, post_tables)
+	write_php(f, mysqli, tables, post_tables)
 	log.info("Wrote file '{}'".format(outfile))

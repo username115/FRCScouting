@@ -3,63 +3,47 @@
 
     <color name="pits_seperator_color">#ff777777</color>
 
-    <string name="header_text_auto">Sandstorm</string>
+    <string name="header_text_auto">Autonomous Mode</string>
     <string name="header_text_teleop">Tele-Op Mode</string>
 
     <string name="robot_speed_text">Max Speed</string>
     <string name="robot_speed_hint">ft/s</string>
 
+	<string name="programming_text">Language</string>
+	<string name="pits_batteries_text">Team Batteries</string>
+	<string name="pits_batteries_hint"># of Batteries</string>
+	<string name="team_chargers">Team Chargers</string>
+	<string name="battery_chargers_hint">Battery Chargers</string>
+	<string name="capacity_text">Capacity</string>
+	<string name="power_cells_hint"># of Power Cells (Game Pieces)</string>
+	<string name="pits_drive_train">Drive Train</string>
+	<string name="traction_name">Traction</string>
+	<string name="pneumatic_name">Pneumatic</string>
+	<string name="tank_name">Tank</string>
+	<string name="omni_name">Omni</string>
+	<string name="mecanum_name">Mecanum</string>
+	<string name="swerve_name">Swerve</string>
+	<string name="other_text">Other</string>
+	<string name="pits_auto_move">Moves in Autonomous</string>
+	<string name="pits_power_cells">Power Cells:</string>
+	<string name="pits_low">Low</string>
+	<string name="pits_outer">Outer</string>
+	<string name="pits_inner">Inner</string>
+	<string name="pits_control">Control:</string>
+	<string name="pits_position">Position</string>
+	<string name="pits_rotation">Rotation</string>
+	<string name="can_hang_from_generator">Can Hang From Generator</string>
+	<string name="pits_trench">Can Make Trench Run</string>
+	<string name="pits_appearance_text">Appearance (Scout\'s opinion)</string>
+	<string name="pits_mechanical">Mechanical:</string>
+	<string name="pits_electrical">Electrical:</string>
 
-    <string name="pits_cargo">Cargo</string>
-    <string name="pits_hatch">Hatch</string>
-
-    <string name="pits_rocket_lvl_1">lvl 1</string>
-    <string name="pits_rocket_lvl_2">lvl 2</string>
-    <string name="pits_rocket_lvl_3">lvl 3</string>
-
-    <string-array name="hab_levels">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-
-    <string name="pits_hab_start_level">Hab Start Level</string>
-
-    <string name="pits_can_preload">Preload:</string>
-    <string name="pits_can_preload_cargo">Cargo</string>
-    <string name="pits_can_preload_hatch">Hatch</string>
-
-    <string name="pits_floor_pickup">Can Pickup Floor:</string>
-    <string name="pits_floor_pickup_cargo">Cargo</string>
-    <string name="pits_floor_pickup_hatch">Hatch</string>
-
-
-    <string name="pits_sandstorm_bonus">Can get Sandstorm Bonus</string>
-
-    <string name="pits_sandstorm_rocket_hatch">Rocket Hatch:</string>
-    <string name="pits_sandstorm_rocket_cargo">Rocket Cargo:</string>
-    <string name="pits_sandstorm_ship">Ship:</string>
-
-    <string name="pits_sandstorm_ship_cargo">Cargo</string>
-    <string name="pits_sandstorm_ship_hatch_front">Front Hatch</string>
-    <string name="pits_sandstorm_ship_hatch_side">Side Hatch</string>
-
-    <string name="pits_sandstorm_count_hatch">Hatch Count:</string>
-    <string name="pits_sandstorm_count_hatch_hint"># of hatches can score</string>
-    <string name="pits_sandstorm_count_cargo">Cargo Count:</string>
-    <string name="pits_sandstorm_count_cargo_hint"># of cargo can score</string>
-
-
-    <string name="pits_rocket_hatch">Hatch:</string>
-    <string name="pits_rocket_cargo">Cargo:</string>
-
-    <string name="pits_climb_level">Can Climb To:</string>
-    <string name="pits_climb_level_2">lvl 2</string>
-    <string name="pits_climb_level_3">lvl 3</string>
-
-    <string name="pits_climb_time">Climb Time:</string>
-    <string name="pits_climb_time_2_hint">lvl 2 (in seconds)</string>
-    <string name="pits_climb_time_3_hint">lvl 3 (in seconds)</string>
+	<string-array name="programming">
+		<item>LabView</item>
+		<item>Java</item>
+		<item>C++</item>
+		<item>Python</item>
+		<item>Other</item>
+	</string-array>
 
 </resources>

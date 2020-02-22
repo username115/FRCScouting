@@ -17,12 +17,12 @@ package org.frc836.yearly;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import org.frc836.database.MatchStatsStruct;
@@ -33,203 +33,145 @@ import org.growingstems.scouting.R;
 
 public class AutoMatchFragment extends MatchFragment {
 
-    private CheckBox bonusC;
+	private CheckBox bonusC;
 
-    private Button shipCargoB;
-    private Spinner shipCargoS;
-    private Button shipHatchB;
-    private Spinner shipHatchS;
+	private ImageButton highB;
+	private ImageButton missB;
+	private ImageButton lowB;
 
-    private Button rocketL1CargoB;
-    private Spinner rocketL1CargoS;
-    private Button rocketL1HatchB;
-    private Spinner rocketL1HatchS;
+	private Spinner highS;
+	private Spinner missS;
+	private Spinner lowS;
 
-    private Button rocketL2CargoB;
-    private Spinner rocketL2CargoS;
-    private Button rocketL2HatchB;
-    private Spinner rocketL2HatchS;
+	private MatchStatsStruct tempData = new MatchStatsStruct();
 
-    private Button rocketL3CargoB;
-    private Spinner rocketL3CargoS;
-    private Button rocketL3HatchB;
-    private Spinner rocketL3HatchS;
-
-    private Button droppedCargoB;
-    private Spinner droppedCargoS;
-    private Button droppedHatchB;
-    private Spinner droppedHatchS;
-
-    private ImageView cargoShip;
-
-    private MatchStatsStruct tempData = new MatchStatsStruct();
-
-    private boolean displayed = false;
+	private boolean displayed = false;
 
 
-    public AutoMatchFragment() {
-        // Required empty public constructor
-    }
+	public AutoMatchFragment() {
+		// Required empty public constructor
+	}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment PreMatch.
-     */
-    public static AutoMatchFragment newInstance() {
-        return new AutoMatchFragment();
-    }
+	/**
+	 * Use this factory method to create a new instance of
+	 * this fragment using the provided parameters.
+	 *
+	 * @return A new instance of fragment PreMatch.
+	 */
+	public static AutoMatchFragment newInstance() {
+		return new AutoMatchFragment();
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_auto, container, false);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.fragment_auto, container, false);
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        getGUIRefs(view);
-        setListeners();
-        displayed = true;
-    }
+	@Override
+	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+		getGUIRefs(view);
+		setListeners();
+		displayed = true;
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadData(tempData);
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		loadData(tempData);
+	}
 
-    public void onPause() {
-        super.onPause();
-        saveData(tempData);
-    }
+	public void onPause() {
+		super.onPause();
+		saveData(tempData);
+	}
 
-    @Override
-    public void saveData(MatchStatsStruct data) {
-        if (getView() == null || data == null || !displayed)
-            return;
+	@Override
+	public void saveData(MatchStatsStruct data) {
+		if (getView() == null || data == null || !displayed)
+			return;
 
-        MatchStatsYearly.clearAuto(data);
+		MatchStatsYearly.clearAuto(data);
 
-        data.sandstorm_bonus = bonusC.isChecked();
-        data.sandstorm_cargo_ship = shipCargoS.getSelectedItemPosition();
-        data.sandstorm_hatch_ship = shipHatchS.getSelectedItemPosition();
-        data.sandstorm_cargo_rocket_1 = rocketL1CargoS.getSelectedItemPosition();
-        data.sandstorm_hatch_rocket_1 = rocketL1HatchS.getSelectedItemPosition();
-        data.sandstorm_cargo_rocket_2 = rocketL2CargoS.getSelectedItemPosition();
-        data.sandstorm_hatch_rocket_2 = rocketL2HatchS.getSelectedItemPosition();
-        data.sandstorm_cargo_rocket_3 = rocketL3CargoS.getSelectedItemPosition();
-        data.sandstorm_hatch_rocket_3 = rocketL3HatchS.getSelectedItemPosition();
-        data.sandstorm_cargo_dropped = droppedCargoS.getSelectedItemPosition();
-        data.sandstorm_hatch_dropped = droppedHatchS.getSelectedItemPosition();
+		data.auto_initiation_move = bonusC.isChecked();
 
-    }
+		data.auto_score_high = highS.getSelectedItemPosition();
+		data.auto_miss = missS.getSelectedItemPosition();
+		data.auto_score_low = lowS.getSelectedItemPosition();
 
-    @Override
-    public void loadData(MatchStatsStruct data) {
-        tempData = data;
-        if (getView() == null || data == null || !displayed)
-            return;
-        // which side are we using
-        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        //if (redLeft) {
-        //    mainView.findViewById(R.id.scaleBAuto).setScaleX(1.0f);
-        //} else {
-        //    mainView.findViewById(R.id.scaleBAuto).setScaleX(-1.0f);
-        //}
+	}
 
-        Activity act = getActivity();
-        String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity) act).getPosition();
-        else
-            pos = Prefs.getPosition(getActivity(), "Red 1");
+	@Override
+	public void loadData(MatchStatsStruct data) {
+		tempData = data;
+		if (getView() == null || data == null || !displayed)
+			return;
+
+		Activity act = getActivity();
+		String pos;
+		if (act instanceof MatchActivity)
+			pos = ((MatchActivity) act).getPosition();
+		else
+			pos = Prefs.getPosition(getActivity(), "Red 1");
 
 
-        if (pos.contains("Blue")) {
-            cargoShip.setImageResource(R.drawable.blue_ship);
-        } else {
-            cargoShip.setImageResource(R.drawable.red_ship);
-        }
+		if (pos.contains("Blue")) {
+			highB.setImageResource(R.drawable.blue_port_high);
+			missB.setImageResource(R.drawable.blue_port_miss);
+			lowB.setImageResource(R.drawable.blue_port_low);
+		} else {
+			highB.setImageResource(R.drawable.red_port_high);
+			missB.setImageResource(R.drawable.red_port_miss);
+			lowB.setImageResource(R.drawable.red_port_low);
+		}
 
-        bonusC.setChecked(data.sandstorm_bonus);
+		bonusC.setChecked(data.auto_initiation_move);
 
-        shipCargoS.setSelection(data.sandstorm_cargo_ship);
-        shipHatchS.setSelection(data.sandstorm_hatch_ship);
-        rocketL1CargoS.setSelection(data.sandstorm_cargo_rocket_1);
-        rocketL1HatchS.setSelection(data.sandstorm_hatch_rocket_1);
-        rocketL2CargoS.setSelection(data.sandstorm_cargo_rocket_2);
-        rocketL2HatchS.setSelection(data.sandstorm_hatch_rocket_2);
-        rocketL3CargoS.setSelection(data.sandstorm_cargo_rocket_3);
-        rocketL3HatchS.setSelection(data.sandstorm_hatch_rocket_3);
-        droppedCargoS.setSelection(data.sandstorm_cargo_dropped);
-        droppedHatchS.setSelection(data.sandstorm_hatch_dropped);
+		highS.setSelection(data.auto_score_high);
+		missS.setSelection(data.auto_miss);
+		lowS.setSelection(data.auto_score_low);
 
-    }
+	}
 
-    private void getGUIRefs(View view) {
-        bonusC = view.findViewById(R.id.autoBonusC);
+	private void getGUIRefs(View view) {
+		bonusC = view.findViewById(R.id.autoBonusC);
 
-        shipCargoB = view.findViewById(R.id.shipCargoB);
-        shipCargoS = view.findViewById(R.id.shipCargoCount);
-        shipHatchB = view.findViewById(R.id.shipHatchB);
-        shipHatchS = view.findViewById(R.id.shipHatchCount);
-        rocketL1CargoB = view.findViewById(R.id.rocketL1CargoB);
-        rocketL1CargoS = view.findViewById(R.id.rocketL1CargoCount);
-        rocketL1HatchB = view.findViewById(R.id.rocketL1HatchB);
-        rocketL1HatchS = view.findViewById(R.id.rocketL1HatchCount);
-        rocketL2CargoB = view.findViewById(R.id.rocketL2CargoB);
-        rocketL2CargoS = view.findViewById(R.id.rocketL2CargoCount);
-        rocketL2HatchB = view.findViewById(R.id.rocketL2HatchB);
-        rocketL2HatchS = view.findViewById(R.id.rocketL2HatchCount);
-        rocketL3CargoB = view.findViewById(R.id.rocketL3CargoB);
-        rocketL3CargoS = view.findViewById(R.id.rocketL3CargoCount);
-        rocketL3HatchB = view.findViewById(R.id.rocketL3HatchB);
-        rocketL3HatchS = view.findViewById(R.id.rocketL3HatchCount);
-        droppedCargoB = view.findViewById(R.id.cargoDroppedB);
-        droppedCargoS = view.findViewById(R.id.cargoDroppedCount);
-        droppedHatchB = view.findViewById(R.id.hatchDroppedB);
-        droppedHatchS = view.findViewById(R.id.hatchDroppedCount);
+		highB = view.findViewById(R.id.auto_port_highB);
+		missB = view.findViewById(R.id.auto_port_missB);
+		lowB = view.findViewById(R.id.auto_port_lowB);
 
+		highS = view.findViewById(R.id.auto_port_highS);
+		missS = view.findViewById(R.id.auto_port_missS);
+		lowS = view.findViewById(R.id.auto_port_lowS);
+	}
 
-        cargoShip = view.findViewById(R.id.cargoShip);
-    }
+	private void setListeners() {
+		highB.setOnClickListener(new OnIncrementListener(highS, 1));
+		missB.setOnClickListener(new OnIncrementListener(missS, 1));
+		lowB.setOnClickListener(new OnIncrementListener(lowS, 1));
 
-    private void setListeners() {
-        shipCargoB.setOnClickListener(new OnIncrementListener(shipCargoS, 1));
-        shipHatchB.setOnClickListener(new OnIncrementListener(shipHatchS, 1));
-        rocketL1CargoB.setOnClickListener(new OnIncrementListener(rocketL1CargoS, 1));
-        rocketL1HatchB.setOnClickListener(new OnIncrementListener(rocketL1HatchS, 1));
-        rocketL2CargoB.setOnClickListener(new OnIncrementListener(rocketL2CargoS, 1));
-        rocketL2HatchB.setOnClickListener(new OnIncrementListener(rocketL2HatchS, 1));
-        rocketL3CargoB.setOnClickListener(new OnIncrementListener(rocketL3CargoS, 1));
-        rocketL3HatchB.setOnClickListener(new OnIncrementListener(rocketL3HatchS, 1));
-        droppedCargoB.setOnClickListener(new OnIncrementListener(droppedCargoS, 1));
-        droppedHatchB.setOnClickListener(new OnIncrementListener(droppedHatchS, 1));
+	}
 
-    }
+	private class OnIncrementListener implements View.OnClickListener {
 
-    private class OnIncrementListener implements View.OnClickListener {
+		int m_increment;
+		Spinner m_spinner;
 
-        int m_increment;
-        Spinner m_spinner;
+		OnIncrementListener(Spinner view, int inc) {
+			super();
+			m_increment = inc;
+			m_spinner = view;
+		}
 
-        OnIncrementListener(Spinner view, int inc) {
-            super();
-            m_increment = inc;
-            m_spinner = view;
-        }
-
-        @Override
-        public void onClick(View v) {
-            m_spinner.setSelection(m_spinner.getSelectedItemPosition() + m_increment);
-        }
-    }
+		@Override
+		public void onClick(View v) {
+			m_spinner.setSelection(m_spinner.getSelectedItemPosition() + m_increment);
+		}
+	}
 }

@@ -16,12 +16,15 @@
 package org.frc836.yearly;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import org.frc836.database.MatchStatsStruct;
@@ -32,33 +35,19 @@ import org.growingstems.scouting.R;
 
 public class TeleMatchFragment extends MatchFragment {
 
+	private ImageButton highB;
+	private ImageButton missB;
+	private ImageButton lowB;
 
-    private Button shipCargoB;
-    private Spinner shipCargoS;
-    private Button shipHatchB;
-    private Spinner shipHatchS;
+	private Spinner highS;
+	private Spinner missS;
+	private Spinner lowS;
 
-    private Button rocketL1CargoB;
-    private Spinner rocketL1CargoS;
-    private Button rocketL1HatchB;
-    private Spinner rocketL1HatchS;
+	private ImageButton rotB;
+	private ImageButton posB;
 
-    private Button rocketL2CargoB;
-    private Spinner rocketL2CargoS;
-    private Button rocketL2HatchB;
-    private Spinner rocketL2HatchS;
-
-    private Button rocketL3CargoB;
-    private Spinner rocketL3CargoS;
-    private Button rocketL3HatchB;
-    private Spinner rocketL3HatchS;
-
-    private Button droppedCargoB;
-    private Spinner droppedCargoS;
-    private Button droppedHatchB;
-    private Spinner droppedHatchS;
-
-    private ImageView cargoShip;
+	private FrameLayout rotL;
+	private FrameLayout posL;
 
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
@@ -92,7 +81,7 @@ public class TeleMatchFragment extends MatchFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         getGUIRefs(view);
         setListeners();
         displayed = true;
@@ -114,18 +103,14 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-        MatchStatsYearly.clearTele(data);
+        //MatchStatsYearly.clearTele(data); //need to not clear for control inputs
 
-        data.cargo_ship = shipCargoS.getSelectedItemPosition();
-        data.hatch_ship = shipHatchS.getSelectedItemPosition();
-        data.cargo_rocket_1 = rocketL1CargoS.getSelectedItemPosition();
-        data.hatch_rocket_1 = rocketL1HatchS.getSelectedItemPosition();
-        data.cargo_rocket_2 = rocketL2CargoS.getSelectedItemPosition();
-        data.hatch_rocket_2 = rocketL2HatchS.getSelectedItemPosition();
-        data.cargo_rocket_3 = rocketL3CargoS.getSelectedItemPosition();
-        data.hatch_rocket_3 = rocketL3HatchS.getSelectedItemPosition();
-        data.cargo_dropped = droppedCargoS.getSelectedItemPosition();
-        data.hatch_dropped = droppedHatchS.getSelectedItemPosition();
+		data.score_high = highS.getSelectedItemPosition();
+		data.miss = missS.getSelectedItemPosition();
+		data.score_low = lowS.getSelectedItemPosition();
+		data.rotation_control = tempData.rotation_control;
+		data.position_control = tempData.position_control;
+
     }
 
     @Override
@@ -133,78 +118,69 @@ public class TeleMatchFragment extends MatchFragment {
         tempData = data;
         if (getView() == null || data == null || !displayed)
             return;
-        // which side are we using
-        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
-        //if (redLeft) {
-        //    mainView.findViewById(R.id.scaleBTele).setScaleX(1.0f);
-        //} else {
-        //    mainView.findViewById(R.id.scaleBTele).setScaleX(-1.0f);
-        //}
 
-        Activity act = getActivity();
-        String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity) act).getPosition();
-        else
-            pos = Prefs.getPosition(getActivity(), "Red 1");
+		Activity act = getActivity();
+		String pos;
+		if (act instanceof MatchActivity)
+			pos = ((MatchActivity) act).getPosition();
+		else
+			pos = Prefs.getPosition(getActivity(), "Red 1");
 
 
-        if (pos.contains("Blue")) {
-            cargoShip.setImageResource(R.drawable.blue_ship);
-        } else {
-            cargoShip.setImageResource(R.drawable.red_ship);
-        }
+		if (pos.contains("Blue")) {
+			highB.setImageResource(R.drawable.blue_port_high);
+			missB.setImageResource(R.drawable.blue_port_miss);
+			lowB.setImageResource(R.drawable.blue_port_low);
+		} else {
+			highB.setImageResource(R.drawable.red_port_high);
+			missB.setImageResource(R.drawable.red_port_miss);
+			lowB.setImageResource(R.drawable.red_port_low);
+		}
 
-        shipCargoS.setSelection(data.cargo_ship);
-        shipHatchS.setSelection(data.hatch_ship);
-        rocketL1CargoS.setSelection(data.cargo_rocket_1);
-        rocketL1HatchS.setSelection(data.hatch_rocket_1);
-        rocketL2CargoS.setSelection(data.cargo_rocket_2);
-        rocketL2HatchS.setSelection(data.hatch_rocket_2);
-        rocketL3CargoS.setSelection(data.cargo_rocket_3);
-        rocketL3HatchS.setSelection(data.hatch_rocket_3);
-        droppedCargoS.setSelection(data.cargo_dropped);
-        droppedHatchS.setSelection(data.hatch_dropped);
+
+		highS.setSelection(data.score_high);
+		missS.setSelection(data.miss);
+		lowS.setSelection(data.score_low);
+
+		Drawable blackBorder = ContextCompat.getDrawable(getView().getContext(), R.drawable.blackborder);
+		Drawable selectBorder = ContextCompat.getDrawable(getView().getContext(), R.drawable.greenborder);
+		rotL.setForeground(data.rotation_control ? selectBorder : blackBorder);
+		posL.setForeground(data.position_control ? selectBorder : blackBorder);
     }
 
     private void getGUIRefs(View view) {
-        shipCargoB = view.findViewById(R.id.shipCargoB);
-        shipCargoS = view.findViewById(R.id.shipCargoCount);
-        shipHatchB = view.findViewById(R.id.shipHatchB);
-        shipHatchS = view.findViewById(R.id.shipHatchCount);
-        rocketL1CargoB = view.findViewById(R.id.rocketL1CargoB);
-        rocketL1CargoS = view.findViewById(R.id.rocketL1CargoCount);
-        rocketL1HatchB = view.findViewById(R.id.rocketL1HatchB);
-        rocketL1HatchS = view.findViewById(R.id.rocketL1HatchCount);
-        rocketL2CargoB = view.findViewById(R.id.rocketL2CargoB);
-        rocketL2CargoS = view.findViewById(R.id.rocketL2CargoCount);
-        rocketL2HatchB = view.findViewById(R.id.rocketL2HatchB);
-        rocketL2HatchS = view.findViewById(R.id.rocketL2HatchCount);
-        rocketL3CargoB = view.findViewById(R.id.rocketL3CargoB);
-        rocketL3CargoS = view.findViewById(R.id.rocketL3CargoCount);
-        rocketL3HatchB = view.findViewById(R.id.rocketL3HatchB);
-        rocketL3HatchS = view.findViewById(R.id.rocketL3HatchCount);
-        droppedCargoB = view.findViewById(R.id.cargoDroppedB);
-        droppedCargoS = view.findViewById(R.id.cargoDroppedCount);
-        droppedHatchB = view.findViewById(R.id.hatchDroppedB);
-        droppedHatchS = view.findViewById(R.id.hatchDroppedCount);
+		highB = view.findViewById(R.id.port_highB);
+		missB = view.findViewById(R.id.port_missB);
+		lowB = view.findViewById(R.id.port_lowB);
 
+		highS = view.findViewById(R.id.port_highS);
+		missS = view.findViewById(R.id.port_missS);
+		lowS = view.findViewById(R.id.port_lowS);
 
-        cargoShip = view.findViewById(R.id.cargoShip);
+		rotB = view.findViewById(R.id.control_rotationB);
+		posB = view.findViewById(R.id.control_positionB);
+		rotL = view.findViewById(R.id.control_rotationL);
+		posL = view.findViewById(R.id.control_positionL);
     }
 
     private void setListeners() {
 
-        shipCargoB.setOnClickListener(new OnIncrementListener(shipCargoS, 1));
-        shipHatchB.setOnClickListener(new OnIncrementListener(shipHatchS, 1));
-        rocketL1CargoB.setOnClickListener(new OnIncrementListener(rocketL1CargoS, 1));
-        rocketL1HatchB.setOnClickListener(new OnIncrementListener(rocketL1HatchS, 1));
-        rocketL2CargoB.setOnClickListener(new OnIncrementListener(rocketL2CargoS, 1));
-        rocketL2HatchB.setOnClickListener(new OnIncrementListener(rocketL2HatchS, 1));
-        rocketL3CargoB.setOnClickListener(new OnIncrementListener(rocketL3CargoS, 1));
-        rocketL3HatchB.setOnClickListener(new OnIncrementListener(rocketL3HatchS, 1));
-        droppedCargoB.setOnClickListener(new OnIncrementListener(droppedCargoS, 1));
-        droppedHatchB.setOnClickListener(new OnIncrementListener(droppedHatchS, 1));
+		highB.setOnClickListener(new OnIncrementListener(highS, 1));
+		missB.setOnClickListener(new OnIncrementListener(missS, 1));
+		lowB.setOnClickListener(new OnIncrementListener(lowS, 1));
+		posB.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toggleControl(true);
+			}
+		});
+		rotB.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toggleControl(false);
+			}
+		});
+
     }
 
     private class OnIncrementListener implements View.OnClickListener {
@@ -223,4 +199,12 @@ public class TeleMatchFragment extends MatchFragment {
             m_spinner.setSelection(m_spinner.getSelectedItemPosition() + m_increment);
         }
     }
+	private void toggleControl(boolean pos) {
+		if (pos) {
+			tempData.position_control = !tempData.position_control;
+		} else {
+			tempData.rotation_control = !tempData.rotation_control;
+		}
+		loadData(tempData);
+	}
 }
