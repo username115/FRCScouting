@@ -550,7 +550,7 @@ public class PitsActivity extends DBActivity {
 			|| mecanumC.isChecked()
 			|| swerveC.isChecked()
 			|| otherDriveC.isChecked()
-			|| ratingClear
+			|| !ratingClear
 
 			////// 2020 START //////
 			|| capacityT.getText().toString().length() > 0

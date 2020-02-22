@@ -17,7 +17,7 @@ def _post_msg(io, post_type, table, mysqli=True, querylist=set()):
 
 	# Define the variables that we will be using
 	for col in filter(lambda x: x not in ['id','timestamp','invalid'], columns.keys()):
-		io.write("\t\t${0} = " + mysql_prefix + "_real_escape_string(" + mysql_first_arg + "stripslashes(trim(isset($_POST['{0}']) ? $_POST['{0}'] : '0')));\n".format(col))
+		io.write("\t\t${0} = {1}_real_escape_string({2}stripslashes(trim(isset($_POST['{0}']) ? $_POST['{0}'] : '0')));\n".format(col, mysql_prefix, mysql_first_arg))
 
 	io.write('\n\t\t$result = ' + mysql_prefix + '_query(' + mysql_first_arg + '"SELECT id FROM {0}'.format(table.name))
 	if querylist:
@@ -219,12 +219,13 @@ elseif ($_POST['password'] == $pass) {
 		io.write(
 r'''
 		//{0}
-		$query = "SELECT * FROM {0}" . $suffix;''')
+		$query = "SELECT * FROM {0}" . $suffix;
+'''.format(tablename))
 		io.write("\t\t$result = " + mysql_prefix + "_query(" + mysql_first_arg + "$query);")
 		io.write(r'''
 		$json .= genJSON($result, "{0}") . "{1}";
-		mysql_free_result($result);
-'''.format(tablename, sep))
+		{2}_free_result($result);
+'''.format(tablename, sep, mysql_prefix))
 
 	io.write(
 r'''
