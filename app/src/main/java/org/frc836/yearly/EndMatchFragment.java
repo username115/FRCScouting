@@ -136,6 +136,7 @@ public class EndMatchFragment extends MatchFragment {
 					if (isChecked) {
 						attempt.setChecked(false);
 						park.setChecked(false);
+						hang.setChecked(true);
 					}
 				}
 			});

@@ -103,7 +103,7 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-        MatchStatsYearly.clearTele(data);
+        //MatchStatsYearly.clearTele(data); //need to not clear for control inputs
 
 		data.score_high = highS.getSelectedItemPosition();
 		data.miss = missS.getSelectedItemPosition();

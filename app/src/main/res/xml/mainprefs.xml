@@ -77,7 +77,7 @@
         android:title="Don't Prompt for URL" />
 
     <CheckBoxPreference android:defaultValue="true"
-        android:enabled="false"
+        android:enabled="true"
         android:visibility="gone"
         android:key="redLeft"
         android:summary="Red on left, Blue on right"
