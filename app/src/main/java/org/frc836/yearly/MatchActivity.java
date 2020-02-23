@@ -98,16 +98,16 @@ public class MatchActivity extends DBActivity {
 
         HELPMESSAGE = "Record Match Data here.\n" +
                 "Pre-match:\n" +
-                "Record where the robot starts and what game piece is pre-loaded.\n" +
-                "Sandstorm:\n" +
-                "Record if the robot left the HAB.\n" +
-                "Record Hatches and cargo placed in/on the ship and rockets as well as dropped game pieces.\n" +
+                "Record which section of the player station the robot starts in front of.\n" +
+                "Autonomous:\n" +
+                "Record if the robot moved off the initiation line.\n" +
+                "Record Power Cells scored and missed.\n" +
                 "Tele-Op:\n" +
-                "Record Hatches and cargo placed in/on the ship and rockets as well as dropped game pieces.\n" +
+                "Record Power Cells scored and missed.\n" +
+				"Record if the robot performed position or rotation control.\n" +
                 "End game:\n" +
                 "Record fouls, cards, and if a robot climbed, or attempted to climb. Climb indicated with green, attempt with yellow.\n" +
-                "Only mark highest attempted level and successfully climbed level.\n" +
-                "Record if a robot picked up cargo or hatches from the floor during the match.\n" +
+                "Record if the robot climbed and the generator was level at the end of the match.\n" +
                 "Record any pertinent notes. Two drop-downs are provided for common notes.";
 
         getGUIRefs();
