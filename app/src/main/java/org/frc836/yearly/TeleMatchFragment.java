@@ -200,6 +200,7 @@ public class TeleMatchFragment extends MatchFragment {
         }
     }
 	private void toggleControl(boolean pos) {
+		saveData(tempData);
 		if (pos) {
 			tempData.position_control = !tempData.position_control;
 		} else {
