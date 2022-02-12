@@ -1,7 +1,7 @@
 <resources>
-    <string name="VersionID">2.2020.1.1</string>
+    <string name="VersionID">2.2022.1.0</string>
     <string name="APKURL">http://growingstems.org/android/FRCScouting_%s.apk</string>
-    <string name="VersionDate">2020-02-22</string>
+    <string name="VersionDate">2022-02-12</string>
     <string name="dev_email">apps@growingstems.org</string>
     
 </resources>
