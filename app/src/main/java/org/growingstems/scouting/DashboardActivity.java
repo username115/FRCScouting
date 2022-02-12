@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,6 +44,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class DashboardActivity extends DBActivity {
 
@@ -53,6 +54,8 @@ public class DashboardActivity extends DBActivity {
 	private Button picklist;
 	private ImageView beeLogo;
 	private ImageView stemsLogo;
+
+	private TextView fmsApiLink;
 
 	/*private LocalBinder binder;
 	private ServiceWatcher watcher = new ServiceWatcher();*/
@@ -92,6 +95,7 @@ public class DashboardActivity extends DBActivity {
 		picklist = (Button) findViewById(R.id.picklistB);
 		beeLogo = (ImageView) findViewById(R.id.beeLogo);
 		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
+		fmsApiLink = (TextView) findViewById(R.id.fmsApiLink);
 
 		//Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
 		// intent.setPackage("org.frc836.database");
@@ -147,6 +151,15 @@ public class DashboardActivity extends DBActivity {
 
 			public void onClick(View v) {
 				Uri uri = Uri.parse("http://growingstems.org");
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+		});
+
+		fmsApiLink.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Uri uri = Uri.parse("https://frc-events.firstinspires.org/services/API");
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
