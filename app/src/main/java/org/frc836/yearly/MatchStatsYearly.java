@@ -58,17 +58,17 @@ public abstract class MatchStatsYearly {
 
 
     public static void clearAuto(MatchStatsStruct stats) {
-        stats.auto_miss = 0;
-        stats.auto_score_high = 0;
-        stats.auto_score_low = 0;
-        stats.auto_initiation_move = false;
+		stats.auto_taxi = false;
+		stats.auto_low_score = 0;
+		stats.auto_low_miss = 0;
+		stats.auto_high_score = 0;
+		stats.auto_high_miss = 0;
     }
 
     public static void clearTele(MatchStatsStruct stats) {
-		stats.miss = 0;
-		stats.score_high = 0;
-		stats.score_low = 0;
-		stats.rotation_control = false;
-		stats.position_control = false;
+		stats.low_score = 0;
+		stats.low_miss = 0;
+		stats.high_score = 0;
+		stats.high_miss = 0;
     }
 }
