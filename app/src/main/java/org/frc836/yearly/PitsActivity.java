@@ -59,19 +59,6 @@ public class PitsActivity extends DBActivity {
 	private EditText commentsT;
 
 	////// 2020 Game Specifics //////
-	private EditText capacityT;
-	private CheckBox autoMoveC;
-	private CheckBox autoLowC;
-	private CheckBox autoOuterC;
-	private CheckBox autoInnerC;
-
-	private CheckBox lowC;
-	private CheckBox outerC;
-	private CheckBox innerC;
-	private CheckBox posControlC;
-	private CheckBox rotControlC;
-	private CheckBox genHangC;
-	private CheckBox trenchC;
 	////// 2020 END //////
 
 
@@ -132,19 +119,6 @@ public class PitsActivity extends DBActivity {
 
 
 		////// 2020 Game Specifics //////
-		capacityT = findViewById(R.id.team_capacityT);
-		autoMoveC = findViewById(R.id.pits_auto_move);
-		autoLowC = findViewById(R.id.pits_auto_score_low);
-		autoOuterC = findViewById(R.id.pits_auto_score_outer);
-		autoInnerC = findViewById(R.id.pits_auto_score_inner);
-
-		lowC = findViewById(R.id.pits_score_low);
-		outerC = findViewById(R.id.pits_score_outer);
-		innerC = findViewById(R.id.pits_score_inner);
-		posControlC = findViewById(R.id.pits_pos_control);
-		rotControlC = findViewById(R.id.pits_rot_control);
-		genHangC = findViewById(R.id.pits_generator_hang);
-		trenchC = findViewById(R.id.pits_trench_run);
 		////// 2020 END //////
 
 
@@ -344,23 +318,6 @@ public class PitsActivity extends DBActivity {
 
 
 		////// 2020 START //////
-		tstr = capacityT.getText().toString().trim();
-		if (tstr.length() > 0)
-			stats.power_cell_capacity = Integer.valueOf(tstr);
-		else
-			stats.power_cell_capacity = 0;
-		stats.auto_move = autoMoveC.isChecked();
-		stats.auto_score_low = autoLowC.isChecked();
-		stats.auto_score_outer = autoOuterC.isChecked();
-		stats.auto_score_inner = autoInnerC.isChecked();
-
-		stats.score_low = lowC.isChecked();
-		stats.score_outer = outerC.isChecked();
-		stats.score_inner = innerC.isChecked();
-		stats.position_control = posControlC.isChecked();
-		stats.rotation_control = rotControlC.isChecked();
-		stats.generator_hang = genHangC.isChecked();
-		stats.trench_run = trenchC.isChecked();
 		////// 2020 END //////
 
 
@@ -402,19 +359,6 @@ public class PitsActivity extends DBActivity {
 
 
 		////// 2020 START //////
-		capacityT.setText("");
-		autoMoveC.setChecked(false);
-		autoLowC.setChecked(false);
-		autoOuterC.setChecked(false);
-		autoInnerC.setChecked(false);
-
-		lowC.setChecked(false);
-		outerC.setChecked(false);
-		innerC.setChecked(false);
-		posControlC.setChecked(false);
-		rotControlC.setChecked(false);
-		genHangC.setChecked(false);
-		trenchC.setChecked(false);
 		////// 2020 END //////
 	}
 
@@ -514,19 +458,6 @@ public class PitsActivity extends DBActivity {
 			elecC[stats.electrical_appearance-1].setChecked(true);
 
 		////// 2020 START //////
-		capacityT.setText(String.valueOf(stats.power_cell_capacity));
-		autoMoveC.setChecked(stats.auto_move);
-		autoLowC.setChecked(stats.auto_score_low);
-		autoOuterC.setChecked(stats.auto_score_outer);
-		autoInnerC.setChecked(stats.auto_score_inner);
-
-		lowC.setChecked(stats.score_low);
-		outerC.setChecked(stats.score_outer);
-		innerC.setChecked(stats.score_inner);
-		posControlC.setChecked(stats.position_control);
-		rotControlC.setChecked(stats.rotation_control);
-		genHangC.setChecked(stats.generator_hang);
-		trenchC.setChecked(stats.trench_run);
 		////// 2020 END //////
 	}
 
@@ -553,18 +484,6 @@ public class PitsActivity extends DBActivity {
 			|| !ratingClear
 
 			////// 2020 START //////
-			|| capacityT.getText().toString().length() > 0
-			|| autoMoveC.isChecked()
-			|| autoLowC.isChecked()
-			|| autoOuterC.isChecked()
-			|| autoInnerC.isChecked()
-			|| lowC.isChecked()
-			|| outerC.isChecked()
-			|| innerC.isChecked()
-			|| posControlC.isChecked()
-			|| rotControlC.isChecked()
-			|| genHangC.isChecked()
-			|| trenchC.isChecked()
 			////// 2020 END //////
 		);
 	}
