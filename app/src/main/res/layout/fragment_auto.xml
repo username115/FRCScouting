@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -14,116 +15,275 @@
 		android:text="@string/auto_input_text"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
 
-	<CheckBox
-		android:id="@+id/autoBonusC"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/AutoText"
-		android:layout_centerHorizontal="true"
-		android:text="@string/auto_bonus" />
-
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/autoBonusC">
+		android:layout_below="@+id/TeleText">
 
-		<TableLayout
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
 			<TableRow
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 
-				<ImageButton
-					android:id="@+id/auto_port_highB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_high"
-					tools:ignore="ContentDescription" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/high" />
-
-				<Spinner
-					android:id="@+id/auto_port_highS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
-
+				<Space
+					android:layout_width="match_parent"
+					android:layout_height="50dp" />
 			</TableRow>
 
 			<TableRow
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 
-				<ImageButton
-					android:id="@+id/auto_port_missB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_miss"
-					tools:ignore="ContentDescription" />
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/miss" />
+					<Space
+						android:layout_width="132dp"
+						android:layout_height="wrap_content" />
 
-				<Spinner
-					android:id="@+id/auto_port_missS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
+					<ToggleButton
+						android:id="@+id/toggleAuto"
+						android:layout_width="75dp"
+						android:layout_height="75dp"
+						android:background="@drawable/toggleAutoButton"
+						android:textOff=""
+						android:textOn="" />
+
+					<Space
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content" />
+
+				</LinearLayout>
 
 			</TableRow>
 
-			<TableRow
+			<TableLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 
-				<ImageButton
-					android:id="@+id/auto_port_lowB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_low"
-					tools:ignore="ContentDescription" />
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/low" />
+					<Space
+						android:layout_width="match_parent"
+						android:layout_height="25dp" />
+				</TableRow>
 
-				<Spinner
-					android:id="@+id/auto_port_lowS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 
-			</TableRow>
-		</TableLayout>
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:orientation="horizontal">
+
+						<Space
+							android:layout_width="50dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+						<Button
+							android:id="@+id/decrement_auto_high_failures"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Button" />
+
+						<Spinner
+							android:id="@+id/auto_low_score_spinner"
+							style="@style/SpinnerAsEditTextHalfAlpha"
+							android:layout_width="60sp"
+							android:layout_height="60sp"
+							android:layout_gravity="center"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center" />
+
+						<Button
+							android:id="@+id/button4"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:text="Button" />
+
+						<Space
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+					</LinearLayout>
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
+
+						<Space
+							android:layout_width="50dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+						<Button
+							android:id="@+id/decrement_auto_high_failures"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Button" />
+
+						<Spinner
+							android:id="@+id/auto_low_score_spinner"
+							style="@style/SpinnerAsEditTextHalfAlpha"
+							android:layout_width="60sp"
+							android:layout_height="60sp"
+							android:layout_gravity="center"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center" />
+
+						<Button
+							android:id="@+id/button4"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:text="Button" />
+
+						<Space
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+					</LinearLayout>
+
+				</TableRow>
+
+			</TableLayout>
+
+			<ImageView
+				android:id="@+id/imageView4"
+				android:layout_width="300dp"
+				android:layout_height="300dp"
+				android:src="@drawable/hub_side" />
+
+			<TableLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<Space
+						android:layout_width="match_parent"
+						android:layout_height="25dp" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:orientation="horizontal">
+
+						<Space
+							android:layout_width="50dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+						<Button
+							android:id="@+id/decrement_auto_high_failures"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Button" />
+
+						<Spinner
+							android:id="@+id/auto_low_score_spinner"
+							style="@style/SpinnerAsEditTextHalfAlpha"
+							android:layout_width="60sp"
+							android:layout_height="60sp"
+							android:layout_gravity="center"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center" />
+
+						<Button
+							android:id="@+id/button4"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:text="Button" />
+
+						<Space
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+					</LinearLayout>
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
+
+						<Space
+							android:layout_width="50dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+						<Button
+							android:id="@+id/decrement_auto_high_failures"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Button" />
+
+						<Spinner
+							android:id="@+id/auto_low_score_spinner"
+							style="@style/SpinnerAsEditTextHalfAlpha"
+							android:layout_width="60sp"
+							android:layout_height="60sp"
+							android:layout_gravity="center"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center" />
+
+						<Button
+							android:id="@+id/button4"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:text="Button" />
+
+						<Space
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1" />
+
+					</LinearLayout>
+
+				</TableRow>
+
+			</TableLayout>
+
+		</LinearLayout>
 	</ScrollView>
 
 </RelativeLayout>
