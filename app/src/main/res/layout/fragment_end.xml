@@ -28,38 +28,6 @@
             android:orientation="vertical">
 
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:baselineAligned="false"
-			android:orientation="horizontal">
-
-			<CheckBox
-				android:id="@+id/generator_park"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/park" />
-			<CheckBox
-				android:id="@+id/generator_hang_attempt"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/hang_attempt" />
-			<CheckBox
-				android:id="@+id/generator_hang"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/hang" />
-			<CheckBox
-				android:id="@+id/generator_level"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/gen_level" />
-		</LinearLayout>
-
 
             <EditText
                 android:id="@+id/notes"
@@ -90,26 +58,6 @@
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/botTip"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/tipped" />
-
-                    <CheckBox
-                        android:id="@+id/foul"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/foul" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

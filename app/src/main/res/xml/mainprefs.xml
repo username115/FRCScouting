@@ -40,7 +40,7 @@
         android:key="robotPicPref"
         android:summary="Automatically download pictures of robots?"
         android:title="Download Pictures" />
-    
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:enabled="true"
@@ -69,7 +69,7 @@
         android:key="syncFreqPref"
         android:summary="Select how often the app should sync"
         android:title="Auto Sync Frequency" />
-    
+
     <CheckBoxPreference android:defaultValue="false"
         android:enabled="true"
         android:key="doNotAskURL"
@@ -77,11 +77,11 @@
         android:title="Don't Prompt for URL" />
 
     <CheckBoxPreference android:defaultValue="true"
-        android:enabled="true"
+        android:enabled="false"
         android:visibility="gone"
         android:key="redLeft"
         android:summary="Red on left, Blue on right"
         android:title="Red on Left" />
-    
+
 
 </PreferenceScreen>

@@ -33,16 +33,6 @@ import org.growingstems.scouting.R;
 
 public class AutoMatchFragment extends MatchFragment {
 
-	private CheckBox bonusC;
-
-	private ImageButton highB;
-	private ImageButton missB;
-	private ImageButton lowB;
-
-	private Spinner highS;
-	private Spinner missS;
-	private Spinner lowS;
-
 	private MatchStatsStruct tempData = new MatchStatsStruct();
 
 	private boolean displayed = false;
@@ -99,11 +89,7 @@ public class AutoMatchFragment extends MatchFragment {
 
 		MatchStatsYearly.clearAuto(data);
 
-		data.auto_initiation_move = bonusC.isChecked();
-
-		data.auto_score_high = highS.getSelectedItemPosition();
-		data.auto_miss = missS.getSelectedItemPosition();
-		data.auto_score_low = lowS.getSelectedItemPosition();
+		//TODO save data
 
 	}
 
@@ -121,40 +107,15 @@ public class AutoMatchFragment extends MatchFragment {
 			pos = Prefs.getPosition(getActivity(), "Red 1");
 
 
-		if (pos.contains("Blue")) {
-			highB.setImageResource(R.drawable.blue_port_high);
-			missB.setImageResource(R.drawable.blue_port_miss);
-			lowB.setImageResource(R.drawable.blue_port_low);
-		} else {
-			highB.setImageResource(R.drawable.red_port_high);
-			missB.setImageResource(R.drawable.red_port_miss);
-			lowB.setImageResource(R.drawable.red_port_low);
-		}
-
-		bonusC.setChecked(data.auto_initiation_move);
-
-		highS.setSelection(data.auto_score_high);
-		missS.setSelection(data.auto_miss);
-		lowS.setSelection(data.auto_score_low);
-
+		//TODO load data
 	}
 
 	private void getGUIRefs(View view) {
-		bonusC = view.findViewById(R.id.autoBonusC);
-
-		highB = view.findViewById(R.id.auto_port_highB);
-		missB = view.findViewById(R.id.auto_port_missB);
-		lowB = view.findViewById(R.id.auto_port_lowB);
-
-		highS = view.findViewById(R.id.auto_port_highS);
-		missS = view.findViewById(R.id.auto_port_missS);
-		lowS = view.findViewById(R.id.auto_port_lowS);
+		//TODO get GUI refs
 	}
 
 	private void setListeners() {
-		highB.setOnClickListener(new OnIncrementListener(highS, 1));
-		missB.setOnClickListener(new OnIncrementListener(missS, 1));
-		lowB.setOnClickListener(new OnIncrementListener(lowS, 1));
+		//TODO (use OnIncrementListener where appropriate)
 
 	}
 
