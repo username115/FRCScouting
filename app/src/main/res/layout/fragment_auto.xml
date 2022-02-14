@@ -14,115 +14,15 @@
 		android:text="@string/auto_input_text"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
 
-	<CheckBox
-		android:id="@+id/autoBonusC"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/AutoText"
-		android:layout_centerHorizontal="true"
-		android:text="@string/auto_bonus" />
-
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/autoBonusC">
+		android:layout_below="@+id/AutoText">
 
 		<TableLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<ImageButton
-					android:id="@+id/auto_port_highB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_high"
-					tools:ignore="ContentDescription" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/high" />
-
-				<Spinner
-					android:id="@+id/auto_port_highS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
-
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<ImageButton
-					android:id="@+id/auto_port_missB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_miss"
-					tools:ignore="ContentDescription" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/miss" />
-
-				<Spinner
-					android:id="@+id/auto_port_missS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
-
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<ImageButton
-					android:id="@+id/auto_port_lowB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_low"
-					tools:ignore="ContentDescription" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/low" />
-
-				<Spinner
-					android:id="@+id/auto_port_lowS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
-
-			</TableRow>
 		</TableLayout>
 	</ScrollView>
 

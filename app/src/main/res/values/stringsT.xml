@@ -2,7 +2,5 @@
 <resources>
 
     <string name="tele_input_text">Tele-op Mode</string>
-	<string name="rotation">rotation</string>
-	<string name="position">position</string>
 
 </resources>

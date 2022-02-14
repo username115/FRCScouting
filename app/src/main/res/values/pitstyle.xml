@@ -24,16 +24,6 @@
 	<string name="mecanum_name">Mecanum</string>
 	<string name="swerve_name">Swerve</string>
 	<string name="other_text">Other</string>
-	<string name="pits_auto_move">Moves in Autonomous</string>
-	<string name="pits_power_cells">Power Cells:</string>
-	<string name="pits_low">Low</string>
-	<string name="pits_outer">Outer</string>
-	<string name="pits_inner">Inner</string>
-	<string name="pits_control">Control:</string>
-	<string name="pits_position">Position</string>
-	<string name="pits_rotation">Rotation</string>
-	<string name="can_hang_from_generator">Can Hang From Generator</string>
-	<string name="pits_trench">Can Make Trench Run</string>
 	<string name="pits_appearance_text">Appearance (Scout\'s opinion)</string>
 	<string name="pits_mechanical">Mechanical:</string>
 	<string name="pits_electrical">Electrical:</string>
