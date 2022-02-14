@@ -40,21 +40,6 @@ public class PreMatchFragment extends MatchFragment {
 
 	private MatchStatsStruct tempData = new MatchStatsStruct();
 
-	//these are in order, starting with player station number 1
-	//not the order that they appear in the layout
-	//getGUIRefs performs this mapping
-	private ImageButton pos1B;
-	private ImageButton pos2B;
-	private ImageButton pos3B;
-	private ImageButton pos4B;
-	private ImageButton pos5B;
-
-	private FrameLayout pos1L;
-	private FrameLayout pos2L;
-	private FrameLayout pos3L;
-	private FrameLayout pos4L;
-	private FrameLayout pos5L;
-
 
 	private View mainView;
 
@@ -89,13 +74,6 @@ public class PreMatchFragment extends MatchFragment {
 		mainView = view;
 		getGUIRefs(view);
 		setListeners();
-		Button swap_sides = view.findViewById(R.id.switchSidesB);
-		swap_sides.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				switchSides();
-			}
-		});
 		displayed = true;
 	}
 
@@ -117,7 +95,7 @@ public class PreMatchFragment extends MatchFragment {
 	public void saveData(MatchStatsStruct data) {
 		if (getView() == null || data == null || !displayed)
 			return;
-		data.start_position = tempData.start_position;
+		//TODO save data for pre-match
 	}
 
 	@Override
@@ -137,51 +115,7 @@ public class PreMatchFragment extends MatchFragment {
 
 		boolean blue = pos.contains("Blue");
 
-		pos1B.setImageResource(blue ? R.drawable.blue_station_1 : R.drawable.red_station_1);
-		pos2B.setImageResource(blue ? R.drawable.blue_station_port : R.drawable.red_station_port);
-		pos3B.setImageResource(blue ? R.drawable.blue_station_2 : R.drawable.red_station_2);
-		pos4B.setImageResource(blue ? R.drawable.blue_station_bay : R.drawable.red_station_bay);
-		pos5B.setImageResource(blue ? R.drawable.blue_station_3 : R.drawable.red_station_3);
-
-		//if red is on left, flip all resources.
-		pos1B.setScaleY(redLeft ? -1f : 1f);
-		pos2B.setScaleY(redLeft ? -1f : 1f);
-		pos3B.setScaleY(redLeft ? -1f : 1f);
-		pos4B.setScaleY(redLeft ? -1f : 1f);
-		pos5B.setScaleY(redLeft ? -1f : 1f);
-		pos1B.setScaleX(redLeft ? -1f : 1f);
-		pos2B.setScaleX(redLeft ? -1f : 1f);
-		pos3B.setScaleX(redLeft ? -1f : 1f);
-		pos4B.setScaleX(redLeft ? -1f : 1f);
-		pos5B.setScaleX(redLeft ? -1f : 1f);
-
-		Drawable blackBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.blackborder);
-		Drawable selectBorder = ContextCompat.getDrawable(mainView.getContext(), R.drawable.greenborder);
-		//set current selections from load
-		pos1L.setForeground(blackBorder);
-		pos2L.setForeground(blackBorder);
-		pos3L.setForeground(blackBorder);
-		pos4L.setForeground(blackBorder);
-		pos5L.setForeground(blackBorder);
-		switch (data.start_position) {
-			case 1:
-				pos1L.setForeground(selectBorder);
-				break;
-			case 2:
-				pos2L.setForeground(selectBorder);
-				break;
-			case 3:
-				pos3L.setForeground(selectBorder);
-				break;
-			case 4:
-				pos4L.setForeground(selectBorder);
-				break;
-			case 5:
-				pos5L.setForeground(selectBorder);
-				break;
-			default:
-				break;
-		}
+		//TODO load data
 
 	}
 
@@ -198,84 +132,12 @@ public class PreMatchFragment extends MatchFragment {
 
 		boolean blue = pos.contains("Blue");
 
-		if (blue ^ redLeft) {
-			//pos 1 is top
-			pos1L = view.findViewById(R.id.pos1L);
-			pos1B = view.findViewById(R.id.pos1B);
-			pos2L = view.findViewById(R.id.pos2L);
-			pos2B = view.findViewById(R.id.pos2B);
-			pos3L = view.findViewById(R.id.pos3L);
-			pos3B = view.findViewById(R.id.pos3B);
-			pos4L = view.findViewById(R.id.pos4L);
-			pos4B = view.findViewById(R.id.pos4B);
-			pos5L = view.findViewById(R.id.pos5L);
-			pos5B = view.findViewById(R.id.pos5B);
-
-		} else {
-			//pos 1 is bottom
-			pos1L = view.findViewById(R.id.pos5L);
-			pos1B = view.findViewById(R.id.pos5B);
-			pos2L = view.findViewById(R.id.pos4L);
-			pos2B = view.findViewById(R.id.pos4B);
-			pos3L = view.findViewById(R.id.pos3L);
-			pos3B = view.findViewById(R.id.pos3B);
-			pos4L = view.findViewById(R.id.pos2L);
-			pos4B = view.findViewById(R.id.pos2B);
-			pos5L = view.findViewById(R.id.pos1L);
-			pos5B = view.findViewById(R.id.pos1B);
-
-		}
+		//TODO get references to GUI items
 	}
 
 	private void setListeners() {
-		pos1B.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleStartPos(1);
-			}
-		});
-		pos2B.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleStartPos(2);
-			}
-		});
-		pos3B.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleStartPos(3);
-			}
-		});
-		pos4B.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleStartPos(4);
-			}
-		});
-		pos5B.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleStartPos(5);
-			}
-		});
+		//TODO set up listeners
 	}
 
-	private void toggleStartPos(int level) {
-		if (tempData.start_position == level)
-			tempData.start_position = 0;
-		else
-			tempData.start_position = level;
-		loadData(tempData); //apply to UI
-	}
-
-
-	private void switchSides() {
-		saveData(tempData);
-		Prefs.setRedLeft(getActivity(), !(Prefs.getRedLeft(getActivity(), true)));
-		//need to remap view when side changes
-		getGUIRefs(mainView);
-		setListeners();
-		loadData(tempData);
-	}
 
 }

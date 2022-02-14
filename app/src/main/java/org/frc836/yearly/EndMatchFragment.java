@@ -45,12 +45,6 @@ public class EndMatchFragment extends MatchFragment {
 
 	private EditText teamNotes;
 
-	private MatchStatsStruct tempData = new MatchStatsStruct();
-	CheckBox park;
-	CheckBox hang;
-	CheckBox attempt;
-	CheckBox level;
-
 	public EndMatchFragment() {
 		// Required empty public constructor
 	}
@@ -88,59 +82,6 @@ public class EndMatchFragment extends MatchFragment {
 		pastNotes = view.findViewById(R.id.previousNotes);
 		commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
 		pastNotes.setOnItemSelectedListener(new NotesSelectedListener());
-
-		park = view.findViewById(R.id.generator_park);
-		hang = view.findViewById(R.id.generator_hang);
-		attempt = view.findViewById(R.id.generator_hang_attempt);
-		level = view.findViewById(R.id.generator_level);
-		if (park != null) {
-			park.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						if (hang.isChecked()) {
-							hang.setChecked(false);
-							attempt.setChecked(true);
-						}
-						level.setChecked(false);
-					}
-				}
-			});
-		}
-		if (hang != null) {
-			hang.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						attempt.setChecked(false);
-						park.setChecked(false);
-					}
-				}
-			});
-		}
-		if (attempt != null) {
-			attempt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						hang.setChecked(false);
-						level.setChecked(false);
-					}
-				}
-			});
-		}
-		if (level != null) {
-			level.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						attempt.setChecked(false);
-						park.setChecked(false);
-						hang.setChecked(true);
-					}
-				}
-			});
-		}
 
 	}
 
@@ -187,33 +128,17 @@ public class EndMatchFragment extends MatchFragment {
 		if (getView() == null || data == null || !displayed)
 			return;
 		data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
-		data.tip_over = ((CheckBox) getView().findViewById(R.id.botTip)).isChecked();
-		data.foul = ((CheckBox) getView().findViewById(R.id.foul)).isChecked();
 		data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
 		data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
-		data.generator_park = park.isChecked();
-		data.generator_hang = hang.isChecked();
-		data.generator_hang_attempted = attempt.isChecked();
-		data.generator_level = level.isChecked();
-
-		tempData = data;
 	}
 
 	@Override
 	public void loadData(MatchStatsStruct data) {
-		tempData = data;
 		if (getView() == null || data == null || !displayed)
 			return;
 		((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
-		((CheckBox) getView().findViewById(R.id.botTip)).setChecked(data.tip_over);
-		((CheckBox) getView().findViewById(R.id.foul)).setChecked(data.foul);
 		((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
 		((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
-
-		park.setChecked(data.generator_park);
-		hang.setChecked(data.generator_hang);
-		attempt.setChecked(data.generator_hang_attempted);
-		level.setChecked(data.generator_level);
 
 	}
 
