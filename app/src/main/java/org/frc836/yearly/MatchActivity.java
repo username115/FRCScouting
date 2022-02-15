@@ -58,10 +58,6 @@ public class MatchActivity extends DBActivity {
 
     private ViewPager mViewPager;
 
-    private static final int CANCEL_DIALOG = 0;
-    private static final int LOAD_DIALOG = 353563;
-    private static final int TIME_DIALOG = 2;
-
     private String HELPMESSAGE;
 
     private MatchStatsStruct teamData;
@@ -80,12 +76,27 @@ public class MatchActivity extends DBActivity {
     private boolean prac = false;
     private String position = null;
 
-    private Handler timer = new Handler();
+    private final Handler timer = new Handler();
     private static final int DELAY = 16000;
 
-    private Runnable mUpdateTimeTask = new Runnable() {
+    private final Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
-            showDialog(TIME_DIALOG);
+			AlertDialog.Builder builder = new AlertDialog.Builder(MatchActivity.this);
+			builder.setMessage("Continue to Tele-Op?")
+					.setCancelable(true)
+					.setPositiveButton("Yes",
+							(dialog, id) -> {
+								if (mCurrentPage == AUTO_SCREEN)
+									onNext(nextB);
+							})
+					.setNegativeButton("No",
+							(dialog, id) -> {
+								timer.removeCallbacks(mUpdateTimeTask);
+								if (!readOnly && mCurrentPage == AUTO_SCREEN)
+									timer.postDelayed(mUpdateTimeTask, DELAY);
+								dialog.cancel();
+							});
+			builder.show();
         }
     };
 
@@ -176,111 +187,15 @@ public class MatchActivity extends DBActivity {
         }
     }
 
-    private class positionClickListener implements View.OnClickListener {
+	@Override
+	public String getHelpMessage() {
+		return HELPMESSAGE;
+	}
+
+	private class positionClickListener implements View.OnClickListener {
         public void onClick(View v) {
             MainMenuSelection.openSettings(MatchActivity.this);
         }
-    }
-
-
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        switch (id) {
-            case CANCEL_DIALOG:
-                builder.setMessage(
-                        "Cancel Match Entry?\nChanges will not be saved.")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        MatchActivity.this.finish();
-                                    }
-                                })
-                        .setNegativeButton("No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                dialog = builder.create();
-                break;
-            case LOAD_DIALOG:
-                builder.setMessage("Data for this match exists.\nLoad old match?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        dialog.cancel();
-                                    }
-                                })
-                        .setNegativeButton("No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        if (teamText.getText().toString().length() > 0
-                                                && matchT.getText().toString()
-                                                .length() > 0) {
-                                            teamData = new MatchStatsStruct(
-                                                    Integer.valueOf(teamText
-                                                            .getText().toString()),
-                                                    event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event,
-                                                    Integer.valueOf(matchT
-                                                            .getText().toString()));
-                                        } else
-                                            teamData = new MatchStatsStruct();
-
-                                        loadAuto();
-                                        loadTele();
-                                        loadEnd();
-                                    }
-                                });
-                dialog = builder.create();
-                break;
-            case MainMenuSelection.HELPDIALOG:
-                builder.setMessage(HELPMESSAGE)
-                        .setCancelable(true)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        dialog.cancel();
-
-                                    }
-                                });
-                dialog = builder.create();
-                break;
-            case TIME_DIALOG:
-                builder.setMessage("Continue to Tele-Op?")
-                        .setCancelable(true)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        if (mCurrentPage == AUTO_SCREEN)
-                                            onNext(nextB);
-                                    }
-                                })
-                        .setNegativeButton("No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        timer.removeCallbacks(mUpdateTimeTask);
-                                        if (!readOnly && mCurrentPage == AUTO_SCREEN)
-                                            timer.postDelayed(mUpdateTimeTask, DELAY);
-                                        dialog.cancel();
-                                    }
-                                });
-                dialog = builder.create();
-                break;
-            default:
-                dialog = null;
-        }
-        return dialog;
     }
 
     private void loadData() {
@@ -293,10 +208,10 @@ public class MatchActivity extends DBActivity {
             String team = teamE.toString();
             String match = matchE.toString();
             teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer
-                    .valueOf(match), Integer.valueOf(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                    .parseInt(match), Integer.parseInt(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
-                teamData = new MatchStatsStruct(Integer.valueOf(team),
-                        event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer.valueOf(match),
+                teamData = new MatchStatsStruct(Integer.parseInt(team),
+                        event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer.parseInt(match),
                         readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
@@ -304,7 +219,30 @@ public class MatchActivity extends DBActivity {
             teamData = new MatchStatsStruct();
 
         if (loadData && !readOnly) {
-            showDialog(LOAD_DIALOG);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Data for this match exists.\nLoad old match?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							(dialog, id) -> dialog.cancel())
+					.setNegativeButton("No",
+							(dialog, id) -> {
+								if (teamText.getText().toString().length() > 0
+										&& matchT.getText().toString()
+										.length() > 0) {
+									teamData = new MatchStatsStruct(
+											Integer.parseInt(teamText
+													.getText().toString()),
+											event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event,
+											Integer.parseInt(matchT
+													.getText().toString()));
+								} else
+									teamData = new MatchStatsStruct();
+
+								loadAuto();
+								loadTele();
+								loadEnd();
+							});
+			builder.show();
         }
         mViewPager.setCurrentItem(0, true);
         loadAll();
@@ -369,8 +307,17 @@ public class MatchActivity extends DBActivity {
 
     public void onBack(View v) {
         if (mCurrentPage == 0 || mCurrentPage >= NUM_SCREENS) {
-            if (!readOnly)
-                showDialog(CANCEL_DIALOG);
+            if (!readOnly) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(
+						"Cancel Match Entry?\nChanges will not be saved.")
+						.setCancelable(false)
+						.setPositiveButton("Yes",
+								(dialog, id) -> MatchActivity.this.finish())
+						.setNegativeButton("No",
+								(dialog, id) -> dialog.cancel());
+				builder.show();
+			}
             else
                 finish();
         }
@@ -498,10 +445,10 @@ public class MatchActivity extends DBActivity {
     private void saveTeamInfo() {
         Editable team = teamText.getText();
         if (team != null && team.length() > 0)
-            teamData.team_id = Integer.valueOf(team.toString());
+            teamData.team_id = Integer.parseInt(team.toString());
         Editable match = matchT.getText();
         if (match != null && match.length() > 0) {
-            teamData.match_id = Integer.valueOf(match.toString());
+            teamData.match_id = Integer.parseInt(match.toString());
         }
         teamData.position_id = posT.getText().toString();
     }
@@ -513,7 +460,7 @@ public class MatchActivity extends DBActivity {
                 db.submitMatch(teamData);
                 nextB.setEnabled(false);
                 if (matchT.getText().length() > 0)
-                    setResult(Integer.valueOf(matchT.getText().toString()) + 1);
+                    setResult(Integer.parseInt(matchT.getText().toString()) + 1);
             } else if (teamData.match_id <= 0) {
                 Toast.makeText(this, "Please enter a match number", Toast.LENGTH_SHORT).show();
                 return;

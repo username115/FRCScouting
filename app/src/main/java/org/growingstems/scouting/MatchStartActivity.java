@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 
 package org.growingstems.scouting;
 
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.frc836.database.DBActivity;
 import org.frc836.yearly.MatchActivity;
 import org.sigmond.net.AsyncPictureRequest;
@@ -74,13 +73,13 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
                 + "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
                 + "Match number and team number will automatically update upon successful submission of match data.";
 
-        teamNum = (EditText) findViewById(R.id.startTeamNum);
-        position = (TextView) findViewById(R.id.startPos);
-        matchNum = (EditText) findViewById(R.id.startMatchNum);
-        startB = (Button) findViewById(R.id.startMatchB);
-        robotPic = (ImageView) findViewById(R.id.robotPic);
+        teamNum = findViewById(R.id.startTeamNum);
+        position = findViewById(R.id.startPos);
+        matchNum = findViewById(R.id.startMatchNum);
+        startB = findViewById(R.id.startMatchB);
+        robotPic = findViewById(R.id.robotPic);
 
-        teamText = (TextView) findViewById(R.id.startMatchTeamT);
+        teamText = findViewById(R.id.startMatchTeamT);
 
         position.setOnClickListener(new positionClickListener());
         startB.setOnClickListener(new StartClickListener());
@@ -107,7 +106,12 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
     }
 
-    private class positionClickListener implements OnClickListener {
+	@Override
+	public String getHelpMessage() {
+		return HELPMESSAGE;
+	}
+
+	private class positionClickListener implements OnClickListener {
 
         public void onClick(View v) {
             MainMenuSelection.openSettings(MatchStartActivity.this);
@@ -137,7 +141,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
         public void afterTextChanged(Editable s) {
             if (s.length() > 0)
-                setMatch(Integer.valueOf(s.toString()));
+                setMatch(Integer.parseInt(s.toString()));
 
         }
 
@@ -173,6 +177,9 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
                 .getDefaultSharedPreferences(getBaseContext());
         String pos = prefs.getString("positionPref", "Red 1");
 
+        if (pos == null)
+        	return;
+
         position.setText(pos);
         if (pos.contains("Blue"))
             position.setTextColor(Color.BLUE);
@@ -193,7 +200,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             updatePosition();
 
             if (matchNum.getText().length() > 0)
-                setMatch(Integer.valueOf(matchNum.getText().toString()));
+                setMatch(Integer.parseInt(matchNum.getText().toString()));
         }
         if (requestCode == MATCH_ACTIVITY_REQUEST && resultCode > 0) {
             matchNum.setText(String.valueOf(resultCode));
@@ -204,7 +211,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
         String def = teamNum.getText().toString().trim();
         try {
-            if (def.length() > 9 || Integer.valueOf(def) <= 0)
+            if (def.length() > 9 || Integer.parseInt(def) <= 0)
                 def = "";
         } catch (Exception e) {
             def = "";
@@ -233,7 +240,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
                 pd.dismiss();
             return;
         }
-        String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText()
+        String pictureURL = db.getPictureURL(Integer.parseInt(teamNum.getText()
                 .toString()));
         if (pictureURL.length() < 5) {
             if (pd != null)
@@ -259,9 +266,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             robotPic.setVisibility(View.VISIBLE);
             teamText.setVisibility(View.GONE);
             scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, drawable);
-            // robotPic.setImageDrawable(drawable);
-            // robotPic.setScaleType(ScaleType.FIT_XY);
-            // robotPic.setAdjustViewBounds(true);
         }
     }
 
@@ -307,30 +311,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         params.width = width;
         params.height = height;
         view.setLayoutParams(params);
-    }
-
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        switch (id) {
-            case MainMenuSelection.HELPDIALOG:
-                builder.setMessage(HELPMESSAGE)
-                        .setCancelable(true)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        dialog.cancel();
-
-                                    }
-                                });
-                dialog = builder.create();
-                break;
-            default:
-                dialog = null;
-        }
-        return dialog;
     }
 
 }
