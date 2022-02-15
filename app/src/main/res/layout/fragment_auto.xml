@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
 	tools:context="org.frc836.yearly.AutoMatchFragment">
 
 	<TextView
@@ -38,28 +38,29 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<LinearLayout
+				<RelativeLayout
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="horizontal">
+					android:layout_height="match_parent">
 
 					<Space
-						android:layout_width="132dp"
+						android:layout_width="wrap_content"
 						android:layout_height="wrap_content" />
 
 					<ToggleButton
 						android:id="@+id/toggleAuto"
 						android:layout_width="75dp"
 						android:layout_height="75dp"
+						android:layout_centerInParent="false"
 						android:background="@drawable/toggleAutoButton"
+						android:gravity="center"
 						android:textOff=""
-						android:textOn="" />
+						android:textOn=""
+						tools:layout_centerHorizontal="true" />
 
 					<Space
-						android:layout_width="wrap_content"
+						android:layout_width="132dp"
 						android:layout_height="wrap_content" />
-
-				</LinearLayout>
+				</RelativeLayout>
 
 			</TableRow>
 
@@ -83,86 +84,90 @@
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
+						android:layout_weight="1"
 						android:orientation="horizontal">
 
-						<Space
-							android:layout_width="50dp"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
+						<ImageView
+							android:id="@+id/imageView6"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
 						<Button
-							android:id="@+id/decrement_auto_high_failures"
+							android:id="@+id/decrement_auto_high_success"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Button" />
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
 
 						<Spinner
-							android:id="@+id/auto_low_score_spinner"
-							style="@style/SpinnerAsEditTextHalfAlpha"
-							android:layout_width="60sp"
-							android:layout_height="60sp"
-							android:layout_gravity="center"
-							android:layout_weight="1"
-							android:entries="@array/numbers"
-							android:gravity="center" />
-
-						<Button
-							android:id="@+id/button4"
+							android:id="@+id/auto_high_success_spinner"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_weight="1"
-							android:text="Button" />
-
-						<Space
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
+							android:layout_height="match_parent"
 							android:layout_weight="1" />
 
+						<Button
+							android:id="@+id/increment_auto_high_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/imageView7"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 					</LinearLayout>
 				</TableRow>
 
 				<TableRow
 					android:layout_width="match_parent"
-					android:layout_height="match_parent">
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					tools:orientation="horizontal">
 
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:orientation="horizontal">
+						android:orientation="horizontal"
+						tools:layout_weight="1">
 
-						<Space
-							android:layout_width="50dp"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
-
-						<Button
-							android:id="@+id/decrement_auto_high_failures"
+						<ImageView
+							android:id="@+id/imageView10"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="Button" />
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+						<Button
+							android:id="@+id/decrement_auto_high_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
 
 						<Spinner
-							android:id="@+id/auto_low_score_spinner"
-							style="@style/SpinnerAsEditTextHalfAlpha"
-							android:layout_width="60sp"
-							android:layout_height="60sp"
-							android:layout_gravity="center"
-							android:layout_weight="1"
-							android:entries="@array/numbers"
-							android:gravity="center" />
+							android:id="@+id/auto_high_failure_spinner"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1" />
 
 						<Button
-							android:id="@+id/button4"
+							android:id="@+id/increment_auto_high_failure"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
+							android:layout_height="match_parent"
 							android:layout_weight="1"
-							android:text="Button" />
+							android:text="+" />
 
-						<Space
+						<ImageView
+							android:id="@+id/imageView9"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
 
 					</LinearLayout>
 
@@ -170,11 +175,17 @@
 
 			</TableLayout>
 
-			<ImageView
-				android:id="@+id/imageView4"
-				android:layout_width="300dp"
-				android:layout_height="300dp"
-				android:src="@drawable/hub_side" />
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<ImageView
+					android:id="@+id/imageView4"
+					android:layout_width="300dp"
+					android:layout_height="300dp"
+					android:layout_centerHorizontal="true"
+					android:src="@drawable/hub_side" />
+			</RelativeLayout>
 
 			<TableLayout
 				android:layout_width="match_parent"
@@ -184,52 +195,45 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent">
 
-					<Space
-						android:layout_width="match_parent"
-						android:layout_height="25dp" />
-				</TableRow>
-
-				<TableRow
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
+						android:layout_weight="1"
 						android:orientation="horizontal">
 
-						<Space
-							android:layout_width="50dp"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
+						<ImageView
+							android:id="@+id/imageView"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
 						<Button
-							android:id="@+id/decrement_auto_high_failures"
+							android:id="@+id/decrement_auto_low_success"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Button" />
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
 
 						<Spinner
-							android:id="@+id/auto_low_score_spinner"
-							style="@style/SpinnerAsEditTextHalfAlpha"
-							android:layout_width="60sp"
-							android:layout_height="60sp"
-							android:layout_gravity="center"
-							android:layout_weight="1"
-							android:entries="@array/numbers"
-							android:gravity="center" />
+							android:id="@+id/spinner2"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1" />
 
 						<Button
-							android:id="@+id/button4"
+							android:id="@+id/increment_auto_low_success"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
+							android:layout_height="match_parent"
 							android:layout_weight="1"
-							android:text="Button" />
+							android:text="+" />
 
-						<Space
+						<ImageView
+							android:id="@+id/imageView2"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
 					</LinearLayout>
 				</TableRow>
@@ -244,38 +248,39 @@
 						android:layout_weight="1"
 						android:orientation="horizontal">
 
-						<Space
-							android:layout_width="50dp"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
+						<ImageView
+							android:id="@+id/imageView3"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
 
 						<Button
-							android:id="@+id/decrement_auto_high_failures"
+							android:id="@+id/decrement_auto_low_failure"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Button" />
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
 
 						<Spinner
-							android:id="@+id/auto_low_score_spinner"
-							style="@style/SpinnerAsEditTextHalfAlpha"
-							android:layout_width="60sp"
-							android:layout_height="60sp"
-							android:layout_gravity="center"
-							android:layout_weight="1"
-							android:entries="@array/numbers"
-							android:gravity="center" />
+							android:id="@+id/spinner3"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1" />
 
 						<Button
-							android:id="@+id/button4"
+							android:id="@+id/iccrement_auto_low_failure"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
+							android:layout_height="match_parent"
 							android:layout_weight="1"
-							android:text="Button" />
+							android:text="+" />
 
-						<Space
+						<ImageView
+							android:id="@+id/imageView5"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_weight="1" />
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
 
 					</LinearLayout>
 
