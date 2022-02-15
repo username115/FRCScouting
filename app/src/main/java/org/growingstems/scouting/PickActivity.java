@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
@@ -18,8 +16,6 @@ import org.frc836.database.DBActivity;
 import org.frc836.database.FRCScoutingContract;
 import org.frc836.database.ScoutingDBHelper;
 
-import java.sql.Ref;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +29,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick);
 
-        mPickList = (TouchInterceptor) findViewById(R.id.PickList);
+        mPickList = findViewById(R.id.PickList);
         ensureList();
 
         mPickList.setOnCreateContextMenuListener(this);
@@ -72,27 +68,23 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
     }
 
 
-    private TouchInterceptor.DropListener mDropListener =
-            new TouchInterceptor.DropListener() {
-                public void drop(int from, int to) {
-                    boolean fromFirst = from < to;
-                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
-                    List<String> teams = db.getPickList(eventName);
-                    Collections.rotate(teams.subList(fromFirst ? from : to, (fromFirst ? to : from) + 1), to - from);
-                    db.updateSort(teams, eventName);
-                    RefreshData();
-                }
-            };
+    private final TouchInterceptor.DropListener mDropListener =
+			(from, to) -> {
+				boolean fromFirst = from < to;
+				String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
+				List<String> teams = db.getPickList(eventName);
+				Collections.rotate(teams.subList(fromFirst ? from : to, (fromFirst ? to : from) + 1), to - from);
+				db.updateSort(teams, eventName);
+				RefreshData();
+			};
 
-    private TouchInterceptor.RemoveListener mRemoveListener =
-            new TouchInterceptor.RemoveListener() {
-                public void remove(int which) {
-                    String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
-                    List<String> teams = db.getPickList(eventName);
-                    db.removeTeamFromPickList(Integer.valueOf(teams.get(which)), eventName);
-                    RefreshData();
-                }
-            };
+    private final TouchInterceptor.RemoveListener mRemoveListener =
+			which -> {
+				String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
+				List<String> teams = db.getPickList(eventName);
+				db.removeTeamFromPickList(Integer.parseInt(teams.get(which)), eventName);
+				RefreshData();
+			};
 
     public void setListAdapter(SimpleCursorAdapter adapter) {
         synchronized (this) {
@@ -104,7 +96,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
 
     private void ensureList() {
         if (mPickList != null) {
-            return;
+            //TODO
         }
         //setContentView(com.android.internal.R.layout.list_content_simple); //do I need this?
 
@@ -115,7 +107,12 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
         return mPickList;
     }
 
-    private class PickLongClick implements AdapterView.OnItemLongClickListener {
+	@Override
+	public String getHelpMessage() {
+		return "";
+	}
+
+	private class PickLongClick implements AdapterView.OnItemLongClickListener {
 
         /**
          * Callback method to be invoked when an item in this view has been
@@ -166,10 +163,10 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
             String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
             List<String> teams = db.getPickList(eventName);
             if (item.getTitle().toString().equalsIgnoreCase(REMOVETEXT)) {
-                db.removeTeamFromPickList(Integer.valueOf(teams.get(mPosition)), eventName);
+                db.removeTeamFromPickList(Integer.parseInt(teams.get(mPosition)), eventName);
                 RefreshData();
             } else if (item.getTitle().toString().equalsIgnoreCase(OTHERPICKED)) {
-                db.teamPickToggle(Integer.valueOf(teams.get(mPosition)), eventName);
+                db.teamPickToggle(Integer.parseInt(teams.get(mPosition)), eventName);
                 RefreshData();
             }
             return true;

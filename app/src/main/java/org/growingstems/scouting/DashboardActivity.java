@@ -18,25 +18,17 @@ package org.growingstems.scouting;
 
 import org.frc836.database.DB;
 import org.frc836.database.DBActivity;
-import org.frc836.database.DBSyncService;
-import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.data.DataActivity;
 import org.frc836.yearly.PitsActivity;
 import org.sigmond.net.HttpCallback;
 import org.sigmond.net.HttpRequestInfo;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,11 +49,6 @@ public class DashboardActivity extends DBActivity {
 
 	private TextView fmsApiLink;
 
-	/*private LocalBinder binder;
-	private ServiceWatcher watcher = new ServiceWatcher();*/
-
-	private static final int VERSION_DIALOG = 7;
-	private static final int URL_DIALOG = 39382;
 	private static final int PITS_ACTIVITY_CODE = 4639;
 	private static final int MATCH_ACTIVITY_CODE = 4640;
 	private static final int DATA_ACTIVITY_CODE = 4641;
@@ -89,80 +76,56 @@ public class DashboardActivity extends DBActivity {
 				+ "\nRefer all questions or comments to "
 				+ getString(R.string.dev_email);
 
-		match = (Button) findViewById(R.id.matchB);
-		pits = (Button) findViewById(R.id.pitB);
-		data = (Button) findViewById(R.id.dataB);
-		picklist = (Button) findViewById(R.id.picklistB);
-		beeLogo = (ImageView) findViewById(R.id.beeLogo);
-		stemsLogo = (ImageView) findViewById(R.id.stemsLogo);
-		fmsApiLink = (TextView) findViewById(R.id.fmsApiLink);
+		match = findViewById(R.id.matchB);
+		pits = findViewById(R.id.pitB);
+		data = findViewById(R.id.dataB);
+		picklist = findViewById(R.id.picklistB);
+		beeLogo = findViewById(R.id.beeLogo);
+		stemsLogo = findViewById(R.id.stemsLogo);
+		fmsApiLink = findViewById(R.id.fmsApiLink);
 
-		//Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
-		// intent.setPackage("org.frc836.database");
-		//bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
-		match.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(),
-						MatchStartActivity.class);
-				startActivityForResult(intent, MATCH_ACTIVITY_CODE);
-			}
+		match.setOnClickListener(v -> {
+			Intent intent = new Intent(getBaseContext(),
+					MatchStartActivity.class);
+			startActivityForResult(intent, MATCH_ACTIVITY_CODE);
 		});
 
-		pits.setOnClickListener(new OnClickListener() {
+		pits.setOnClickListener(v -> {
 
-			public void onClick(View v) {
-
-				Intent intent = new Intent(getBaseContext(),
-						PitsActivity.class);
-				startActivityForResult(intent, PITS_ACTIVITY_CODE);
-			}
+			Intent intent = new Intent(getBaseContext(),
+					PitsActivity.class);
+			startActivityForResult(intent, PITS_ACTIVITY_CODE);
 		});
 
-		data.setOnClickListener(new OnClickListener() {
+		data.setOnClickListener(v -> {
 
-			public void onClick(View v) {
+			Intent intent = new Intent(getBaseContext(), DataActivity.class);
+			startActivityForResult(intent, DATA_ACTIVITY_CODE);
 
-				Intent intent = new Intent(getBaseContext(), DataActivity.class);
-				startActivityForResult(intent, DATA_ACTIVITY_CODE);
-
-			}
 		});
 
-		picklist.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), PickActivity.class);
-				startActivityForResult(intent, PICK_ACTIVITY_CODE);
-			}
+		picklist.setOnClickListener(v -> {
+			Intent intent = new Intent(getBaseContext(), PickActivity.class);
+			startActivityForResult(intent, PICK_ACTIVITY_CODE);
 		});
 
-		beeLogo.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				Uri uri = Uri.parse("http://robobees.org");
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
-			}
+		beeLogo.setOnClickListener(v -> {
+			Uri uri = Uri.parse("http://robobees.org");
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
 		});
 
-		stemsLogo.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				Uri uri = Uri.parse("http://growingstems.org");
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
-			}
+		stemsLogo.setOnClickListener(v -> {
+			Uri uri = Uri.parse("http://growingstems.org");
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
 		});
 
-		fmsApiLink.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Uri uri = Uri.parse("https://frc-events.firstinspires.org/services/API");
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
-			}
+		fmsApiLink.setOnClickListener(view -> {
+			Uri uri = Uri.parse("https://frc-events.firstinspires.org/services/API");
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
 		});
 
 		DB db = new DB(getBaseContext(), binder);
@@ -171,7 +134,31 @@ public class DashboardActivity extends DBActivity {
 		if (url.length() > 0) {
 			db.checkVersion(new VersionCallback());
 		} else if (!Prefs.getDontPrompt(getApplicationContext(), false)) {
-			showDialog(URL_DIALOG);
+			View doNotAskView = LayoutInflater.from(this).inflate(
+					R.layout.donotaskagaincheckbox, null);
+			doNotAskAgainC = doNotAskView
+					.findViewById(R.id.donotaskagainC);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(URL_MESSAGE)
+					.setCancelable(true)
+					.setView(doNotAskView)
+					.setPositiveButton("Yes",
+							(dialog, which) -> {
+								Prefs.setDontPrompt(
+										getApplicationContext(),
+										doNotAskAgainC.isChecked());
+								MainMenuSelection
+										.openSettings(DashboardActivity.this);
+								dialog.cancel();
+							})
+					.setNegativeButton("No",
+							(dialog, which) -> {
+								Prefs.setDontPrompt(
+										getApplicationContext(),
+										doNotAskAgainC.isChecked());
+								dialog.cancel();
+							});
+			builder.show();
 		}
 
 	}
@@ -181,7 +168,6 @@ public class DashboardActivity extends DBActivity {
 		super.onNewIntent(intent);
 		if (intent.getBooleanExtra("ExitApp", false)) {
 			finish();
-			return;
 		}
 	}
 
@@ -192,35 +178,17 @@ public class DashboardActivity extends DBActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		if (binder == null) {
-
-		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		/*if (watcher != null && watcher.serviceRegistered)
-			unbindService(watcher);*/
 	}
 
-	/*protected class ServiceWatcher implements ServiceConnection {
-
-		boolean serviceRegistered = false;
-
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			if (service instanceof LocalBinder) {
-				binder = (LocalBinder) service;
-				serviceRegistered = true;
-				MainMenuSelection.setBinder(binder);
-			}
-		}
-
-		public void onServiceDisconnected(ComponentName name) {
-			serviceRegistered = false;
-		}
-
-	}*/
+	@Override
+	public String getHelpMessage() {
+		return HELPMESSAGE;
+	}
 
 	protected class VersionCallback implements HttpCallback {
 
@@ -238,99 +206,30 @@ public class DashboardActivity extends DBActivity {
 				localVersion = localVersion.substring(0,
 						localVersion.lastIndexOf("."));
 				if (!verCode.equals(localVersion)) {
-					showDialog(VERSION_DIALOG);
+					AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+					builder.setMessage(VERSION_MESSAGE)
+							.setCancelable(true)
+							.setPositiveButton("Yes",
+									(dialog, id) -> {
+										Uri uri = Uri.parse(getString(
+												R.string.APKURL, versionCode));
+										Intent intent = new Intent(
+												Intent.ACTION_VIEW, uri);
+										startActivity(intent);
+										finish();
+									})
+							.setNegativeButton("No",
+									(dialog, id) -> dialog.cancel());
+					builder.show();
 				}
 			} catch (Exception e) {
-
+				//TODO
 			}
 		}
 
 		public void onError(Exception e) {
 		}
 
-	}
-
-	@SuppressLint("InflateParams")
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		switch (id) {
-		case VERSION_DIALOG:
-			builder.setMessage(VERSION_MESSAGE)
-					.setCancelable(true)
-					.setPositiveButton("Yes",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									Uri uri = Uri.parse(getString(
-											R.string.APKURL, versionCode));
-									Intent intent = new Intent(
-											Intent.ACTION_VIEW, uri);
-									startActivity(intent);
-									finish();
-								}
-							})
-					.setNegativeButton("No",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-								}
-							});
-			dialog = builder.create();
-			break;
-		case MainMenuSelection.HELPDIALOG:
-			builder.setMessage(HELPMESSAGE)
-					.setCancelable(true)
-					.setPositiveButton("OK",
-							new DialogInterface.OnClickListener() {
-
-								public void onClick(DialogInterface dialog,
-										int which) {
-									dialog.cancel();
-
-								}
-							});
-			dialog = builder.create();
-			break;
-		case URL_DIALOG:
-			View doNotAskView = LayoutInflater.from(this).inflate(
-					R.layout.donotaskagaincheckbox, null);
-			doNotAskAgainC = (CheckBox) doNotAskView
-					.findViewById(R.id.donotaskagainC);
-			builder.setMessage(URL_MESSAGE)
-					.setCancelable(true)
-					.setView(doNotAskView)
-					.setPositiveButton("Yes",
-							new DialogInterface.OnClickListener() {
-
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Prefs.setDontPrompt(
-											getApplicationContext(),
-											doNotAskAgainC.isChecked());
-									MainMenuSelection
-											.openSettings(DashboardActivity.this);
-									dialog.cancel();
-								}
-							})
-					.setNegativeButton("No",
-							new DialogInterface.OnClickListener() {
-
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Prefs.setDontPrompt(
-											getApplicationContext(),
-											doNotAskAgainC.isChecked());
-									dialog.cancel();
-								}
-							});
-			dialog = builder.create();
-			break;
-		default:
-			dialog = null;
-		}
-		return dialog;
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

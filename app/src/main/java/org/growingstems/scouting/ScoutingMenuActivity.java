@@ -36,8 +36,7 @@ public abstract class ScoutingMenuActivity extends AppCompatActivity implements 
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MainMenuSelection.onOptionsItemSelected(item, this) ? true
-                : super.onOptionsItemSelected(item);
+        return MainMenuSelection.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -49,13 +48,15 @@ public abstract class ScoutingMenuActivity extends AppCompatActivity implements 
                     // permission was granted, yay!
                     MainMenuSelection.exportDB(this);
                 }
-                return;
+                break;
             }
 
             // other 'case' lines to check for other
             // permissions this app might request.
         }
     }
+
+    public abstract String getHelpMessage();
 
 
 }

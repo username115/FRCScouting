@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,8 @@ package org.growingstems.scouting;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -31,8 +33,6 @@ import org.growingstems.scouting.MenuSelections.Refreshable;
 
 public class MainMenuSelection {
 
-	public static final int HELPDIALOG = 74920442;
-	
 	private static LocalBinder mBinder;
 
 	public static boolean onOptionsItemSelected(MenuItem item, ScoutingMenuActivity context) {
@@ -65,7 +65,7 @@ public class MainMenuSelection {
 	}
 
 	public static void refresh(Activity context) {
-		
+
 		/*if (context instanceof DataActivity) {
 			DataActivity act = (DataActivity) context;
 			act.refreshCurrentTab();
@@ -85,19 +85,24 @@ public class MainMenuSelection {
 		}
 	}
 
-	public static void showHelp(Activity context) {
-		context.showDialog(HELPDIALOG);
+	public static void showHelp(ScoutingMenuActivity context) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(context.getHelpMessage())
+				.setCancelable(true)
+				.setPositiveButton("OK",
+						(dialog, which) -> dialog.cancel());
+		builder.show();
 	}
 
 	public static void setRefreshItem(Menu menu, int item) {
 		MenuItem i = menu.findItem(R.id.refreshMatchesItem);
 		i.setTitle(item);
 	}
-	
+
 	public static void exportDB(ScoutingMenuActivity context) {
 		DB.exportToCSV(context);
 	}
-	
+
 	public static void exit(Activity context) {
 		if (context instanceof DashboardActivity)
 			context.finish();
@@ -109,11 +114,11 @@ public class MainMenuSelection {
 			context.finish();
 		}
 	}
-	
+
 	public static void setBinder(LocalBinder binder) {
 		mBinder = binder;
 	}
-	
+
 	public static boolean forceSync(Activity context) {
 		if (mBinder != null) {
 			mBinder.forceSync();

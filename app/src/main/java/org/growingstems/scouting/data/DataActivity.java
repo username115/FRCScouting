@@ -115,16 +115,16 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                 teamNum = intent.getIntExtra(TEAM_ARG, -1);
                 eventName = intent.getStringExtra(EVENT_ARG);
                 if (teamNum > 0 && eventName != null) {
-                    setTitle(String.valueOf(teamNum) + " at " + eventName);
+                    setTitle(teamNum + " at " + eventName);
                 } else if (teamNum > 0) {
-                    setTitle("Team " + String.valueOf(teamNum));
+                    setTitle("Team " + teamNum);
                 }
                 break;
             case ACTIVITY_TYPE_FUTUREMATCH:
                 dataType = DataType.dt_FutureMatch;
                 matchNum = intent.getIntExtra(MATCH_ARG, -1);
                 eventName = intent.getStringExtra(EVENT_ARG);
-                setTitle("Match " + String.valueOf(matchNum));
+                setTitle("Match " + matchNum);
                 break;
             case ACTIVITY_TYPE_DEFAULT:
             default:
@@ -141,7 +141,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
@@ -191,7 +191,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
         return true;
     }
 
-    @Override
+	@Override
+	public String getHelpMessage() {
+		return "";
+	}
+
+	@Override
     public void onTabSelected(ActionBar.Tab tab,
                               FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
@@ -219,7 +224,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            tabs = new SparseArray<Fragment>(getCount());
+            tabs = new SparseArray<>(getCount());
         }
 
         @Override
@@ -328,9 +333,9 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
             reloadData();
     }
 
-    private class RefreshCallback implements SyncCallback {
+    private static class RefreshCallback implements SyncCallback {
 
-        private DataActivity parent;
+        private final DataActivity parent;
 
         public RefreshCallback(DataActivity parent) {
             this.parent = parent;
