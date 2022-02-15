@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+	android:layout_height="match_parent"
 	tools:context="org.frc836.yearly.AutoMatchFragment">
 
 	<TextView
@@ -17,65 +17,34 @@
 
 	<ScrollView
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/TeleText">
+		android:layout_height="match_parent"
+		android:layout_below="@id/AutoText">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
 
-			<TableRow
+			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<Space
-					android:layout_width="match_parent"
-					android:layout_height="50dp" />
-			</TableRow>
+				<ToggleButton
+					android:id="@+id/toggleAuto"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginTop="25dp"
+					android:layout_marginBottom="25dp"
+					android:background="@drawable/toggleAutoButton"
+					android:textOff=""
+					android:textOn=""
+					tools:layout_centerHorizontal="true" />
 
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-
-				<RelativeLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-
-					<Space
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content" />
-
-					<ToggleButton
-						android:id="@+id/toggleAuto"
-						android:layout_width="75dp"
-						android:layout_height="75dp"
-						android:layout_centerInParent="false"
-						android:background="@drawable/toggleAutoButton"
-						android:gravity="center"
-						android:textOff=""
-						android:textOn=""
-						tools:layout_centerHorizontal="true" />
-
-					<Space
-						android:layout_width="132dp"
-						android:layout_height="wrap_content" />
-				</RelativeLayout>
-
-			</TableRow>
+			</RelativeLayout>
 
 			<TableLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
-
-				<TableRow
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-
-					<Space
-						android:layout_width="match_parent"
-						android:layout_height="25dp" />
-				</TableRow>
 
 				<TableRow
 					android:layout_width="match_parent"
@@ -269,7 +238,7 @@
 							android:layout_weight="1" />
 
 						<Button
-							android:id="@+id/iccrement_auto_low_failure"
+							android:id="@+id/increment_auto_low_failure"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
