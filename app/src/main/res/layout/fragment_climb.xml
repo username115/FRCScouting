@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.frc836.yearly.PreMatchFragment">
+
+
+    <TextView
+        android:id="@+id/PrematchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/prematch_input_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	<ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/PrematchText">
+
+        <LinearLayout
+			android:id="@+id/starting_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+			android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+
+			<TableLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent" >
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:orientation="horizontal">
+
+						<CheckBox
+							android:id="@+id/checkBox"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:checked="false"
+							android:clickable="true"
+							android:focusable="true"
+							android:text="Attempted Hang" />
+
+					</LinearLayout>
+
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent" >
+
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent" >
+
+				</TableRow>
+			</TableLayout>
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:cropToPadding="false">
+
+				<ImageView
+					android:id="@+id/fieldimage"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:contentDescription="Side view of field"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_raster" />
+
+				<ToggleButton
+					android:id="@+id/toggleLowBar"
+					android:layout_width="75dp"
+					android:layout_height="75dp"
+					android:layout_alignParentEnd="true"
+					android:layout_marginTop="250dp"
+					android:background="@drawable/icon_toggleredgreenselector"
+					android:textOff=""
+					android:textOn=""
+					tools:ignore="DuplicateSpeakableTextCheck" />
+
+				<ToggleButton
+					android:id="@+id/toggleMidBar"
+					android:layout_width="75dp"
+					android:layout_height="75dp"
+					android:layout_marginTop="150dp"
+					android:layout_marginEnd="150dp"
+					android:background="@drawable/icon_toggleredgreenselector"
+					android:textOff=""
+					android:textOn=""
+					tools:layout_centerHorizontal="true"
+					tools:layout_toStartOf="@id/toggleLowBar" />
+
+				<ToggleButton
+					android:id="@+id/toggleHighBar"
+					android:layout_width="75dp"
+					android:layout_height="75dp"
+					android:layout_marginTop="25dp"
+					android:layout_marginBottom="25dp"
+					android:background="@drawable/icon_toggleredgreenselector"
+					android:textOff=""
+					android:textOn=""
+					tools:layout_centerHorizontal="true" />
+
+				<ToggleButton
+					android:id="@+id/toggleTransversal"
+					android:layout_width="75dp"
+					android:layout_height="75dp"
+					android:layout_marginTop="0dp"
+					android:layout_marginEnd="80dp"
+					android:layout_toStartOf="@id/toggleHighBar"
+					android:background="@drawable/icon_toggleredgreenselector"
+					android:textOff=""
+					android:textOn=""
+					tools:layout_centerHorizontal="true" />
+
+			</RelativeLayout>
+		</LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

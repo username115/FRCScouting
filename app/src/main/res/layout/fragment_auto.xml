@@ -26,9 +26,9 @@
 			android:orientation="vertical">
 
 			<ToggleButton
-				android:id="@+id/toggleAuto"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
+				android:id="@+id/toggleLowBar"
+				android:layout_width="94dp"
+				android:layout_height="74dp"
 				android:layout_marginTop="25dp"
 				android:layout_marginBottom="25dp"
 				android:background="@drawable/icon_toggleautobutton"
