@@ -26,7 +26,7 @@
 			android:orientation="vertical">
 
 			<ToggleButton
-				android:id="@+id/toggleLowBar"
+				android:id="@+id/taxiToggle"
 				android:layout_width="94dp"
 				android:layout_height="74dp"
 				android:layout_marginTop="25dp"
@@ -52,7 +52,7 @@
 						android:orientation="horizontal">
 
 						<ImageView
-							android:id="@+id/imageView6"
+							android:id="@+id/decrement_auto_high_success_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
@@ -83,7 +83,7 @@
 							android:text="+" />
 
 						<ImageView
-							android:id="@+id/imageView7"
+							android:id="@+id/increment_auto_high_success_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
@@ -102,7 +102,7 @@
 						android:orientation="horizontal">
 
 						<ImageView
-							android:id="@+id/imageView10"
+							android:id="@+id/decrement_auto_high_failure_image"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_weight="1"
@@ -133,7 +133,7 @@
 							android:text="+" />
 
 						<ImageView
-							android:id="@+id/imageView9"
+							android:id="@+id/increment_auto_high_failure_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
@@ -150,7 +150,7 @@
 				android:layout_height="match_parent">
 
 				<ImageView
-					android:id="@+id/imageView4"
+					android:id="@+id/hub_image_auto"
 					android:layout_width="300dp"
 					android:layout_height="300dp"
 					android:layout_centerHorizontal="true"
@@ -172,7 +172,7 @@
 						android:orientation="horizontal">
 
 						<ImageView
-							android:id="@+id/imageView"
+							android:id="@+id/decrement_auto_low_success_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
@@ -186,7 +186,7 @@
 							android:text="-" />
 
 						<Spinner
-							android:id="@+id/spinner2"
+							android:id="@+id/auto_low_success_spinner"
 							style="@style/SpinnerAsEditText"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
@@ -203,7 +203,7 @@
 							android:text="+" />
 
 						<ImageView
-							android:id="@+id/imageView2"
+							android:id="@+id/increment_auto_low_success_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
@@ -223,7 +223,7 @@
 						android:orientation="horizontal">
 
 						<ImageView
-							android:id="@+id/imageView3"
+							android:id="@+id/decrement_auto_low_failure_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
@@ -237,7 +237,7 @@
 							android:text="-" />
 
 						<Spinner
-							android:id="@+id/spinner3"
+							android:id="@+id/auto_low_failure_spinner"
 							style="@style/SpinnerAsEditText"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
@@ -254,7 +254,7 @@
 							android:text="+" />
 
 						<ImageView
-							android:id="@+id/imageView5"
+							android:id="@+id/increment_auto_low_failure_image"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_weight="1"
