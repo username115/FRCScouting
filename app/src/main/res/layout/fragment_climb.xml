@@ -7,20 +7,20 @@
     tools:context="org.frc836.yearly.PreMatchFragment">
 
 
-    <TextView
-        android:id="@+id/PrematchText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/prematch_input_text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+	<TextView
+		android:id="@+id/ClimbText"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:text="Climb"
+		android:textAppearance="?android:attr/textAppearanceLarge" />
 
 	<ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/PrematchText">
+        android:layout_below="@+id/ClimbText">
 
         <LinearLayout
 			android:id="@+id/starting_layout"
@@ -39,22 +39,14 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent" >
 
-					<LinearLayout
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:orientation="horizontal">
-
 						<CheckBox
-							android:id="@+id/checkBox"
-							android:layout_width="0dp"
+							android:id="@+id/hangAttempt"
+							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_weight="1"
 							android:checked="false"
 							android:clickable="true"
 							android:focusable="true"
 							android:text="Attempted Hang" />
-
-					</LinearLayout>
 
 				</TableRow>
 
