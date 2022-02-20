@@ -33,7 +33,7 @@ import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 
-public class PreMatchFragment extends MatchFragment {
+public class ClimbFragment extends MatchFragment {
 
 
 	private boolean displayed = false;
@@ -43,7 +43,7 @@ public class PreMatchFragment extends MatchFragment {
 
 	private View mainView;
 
-	public PreMatchFragment() {
+	public ClimbFragment() {
 		// Required empty public constructor
 	}
 
@@ -53,8 +53,8 @@ public class PreMatchFragment extends MatchFragment {
 	 *
 	 * @return A new instance of fragment PreMatch.
 	 */
-	public static PreMatchFragment newInstance() {
-		return new PreMatchFragment();
+	public static ClimbFragment newInstance() {
+		return new ClimbFragment();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class PreMatchFragment extends MatchFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_pre_match, container, false);
+		return inflater.inflate(R.layout.fragment_climb, container, false);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class PreMatchFragment extends MatchFragment {
 	public void saveData(MatchStatsStruct data) {
 		if (getView() == null || data == null || !displayed)
 			return;
-		//TODO save data for pre-match
+		//TODO save data for climb
 	}
 
 	@Override

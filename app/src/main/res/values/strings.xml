@@ -160,6 +160,7 @@
     <string name="match_change_button_prematch">Pre-Match</string>
     <string name="match_change_button_auto">Autonomous</string>
     <string name="match_change_button_tele">Tele-Op</string>
+	<string name="match_change_button_climb">Climb</string>
     <string name="match_change_button_end">End Game</string>
     <string name="match_change_button_submit">Submit</string>
 
