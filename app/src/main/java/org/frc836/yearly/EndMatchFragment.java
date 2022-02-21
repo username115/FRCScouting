@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -56,8 +55,7 @@ public class EndMatchFragment extends MatchFragment {
 	 * @return A new instance of fragment EndMatch.
 	 */
 	public static EndMatchFragment newInstance() {
-		EndMatchFragment fragment = new EndMatchFragment();
-		return fragment;
+		return new EndMatchFragment();
 	}
 
 	@Override

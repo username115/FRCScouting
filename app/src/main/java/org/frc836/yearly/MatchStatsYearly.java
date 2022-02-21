@@ -48,7 +48,7 @@ public abstract class MatchStatsYearly {
 	}
 
     public static List<String> getGraphNames() {
-        List<String> ret = new ArrayList<String>(NUM_GRAPHS);
+        List<String> ret = new ArrayList<>(NUM_GRAPHS);
         ret.add(TOTAL_SCORE, "Total Score");
         ret.add(AUTO, "Total Autonomous Score");
         ret.add(TOTAL_HIGH, "Total High Goals Scored");
@@ -59,7 +59,7 @@ public abstract class MatchStatsYearly {
     }
 
     public static List<String> getGraphShortNames() {
-        List<String> ret = new ArrayList<String>(NUM_GRAPHS);
+        List<String> ret = new ArrayList<>(NUM_GRAPHS);
 		ret.add(TOTAL_SCORE, "TS");
 		ret.add(AUTO, "AS");
 		ret.add(TOTAL_HIGH, "HG");

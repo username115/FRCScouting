@@ -35,9 +35,11 @@ import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 public class TeamListFragment extends DataFragment {
 
-    private String eventName = null;
+    private String eventName;
 
     public static TeamListFragment getInstance(String event_name) {
         TeamListFragment fragment = new TeamListFragment();
@@ -54,7 +56,7 @@ public class TeamListFragment extends DataFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
@@ -82,7 +84,7 @@ public class TeamListFragment extends DataFragment {
 
         String ourTeam = Prefs.getDefaultTeamNumber(getActivity(), "").trim();
         if (teams == null) {
-            teams = new ArrayList<String>(1);
+            teams = new ArrayList<>(1);
         }
         if (teams.isEmpty()) {
             teams.add("No Data for any Team");
@@ -94,8 +96,8 @@ public class TeamListFragment extends DataFragment {
             }
             setTeamList(teams);
         }
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getActivity(), defaultListResource, teams);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
+				getActivity(), defaultListResource, teams);
         dataList.setAdapter(adapter);
         dataList.setOnItemClickListener(new TeamClick());
         dataList.setOnItemLongClickListener(new TeamLongClick());
@@ -104,8 +106,8 @@ public class TeamListFragment extends DataFragment {
     private void setTeamList(List<String> teams) {
         if (teams.isEmpty() || getActivity() == null)
             return;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, teams);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+				android.R.layout.simple_dropdown_item_1line, teams);
 
         autoText.setAdapter(adapter);
     }
@@ -118,9 +120,9 @@ public class TeamListFragment extends DataFragment {
             if (view instanceof TextView) {
                 String team = ((TextView) view).getText().toString();
                 try {
-                    loadTeam(Integer.valueOf(team));
+                    loadTeam(Integer.parseInt(team));
                 } catch (NumberFormatException e) {
-
+					//TODO
                 }
             }
         }
@@ -166,9 +168,9 @@ public class TeamListFragment extends DataFragment {
         public boolean onMenuItemClick(MenuItem item) {
             try {
                 if (item.getTitle().toString().compareTo(PICKLISTITEM) == 0)
-                    mParent.getDB().addTeamToPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
+                    mParent.getDB().addTeamToPickList(Integer.parseInt(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
                 else if (item.getTitle().toString().compareTo(REMOVETEAMPICK) == 0)
-                    mParent.getDB().removeTeamFromPickList(Integer.valueOf(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
+                    mParent.getDB().removeTeamFromPickList(Integer.parseInt(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -181,7 +183,7 @@ public class TeamListFragment extends DataFragment {
         @Override
         public void onClick(View v) {
             if (autoText.getText().toString().length() > 0)
-                loadTeam(Integer.valueOf(autoText.getText().toString()));
+                loadTeam(Integer.parseInt(autoText.getText().toString()));
         }
 
     }

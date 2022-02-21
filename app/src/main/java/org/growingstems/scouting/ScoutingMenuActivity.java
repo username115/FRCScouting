@@ -40,7 +40,9 @@ public abstract class ScoutingMenuActivity extends AppCompatActivity implements 
         return MainMenuSelection.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    	super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_FILE_REQUEST: {
                 // If request is cancelled, the result arrays are empty.

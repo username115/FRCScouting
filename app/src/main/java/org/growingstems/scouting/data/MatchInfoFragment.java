@@ -11,6 +11,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import org.frc836.yearly.MatchStatsYearly;
 import org.growingstems.scouting.MatchSchedule;
 import org.growingstems.scouting.Prefs;
@@ -25,14 +27,14 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
     private String eventName = null;
     private int matchNum = -1;
 
-    private MatchSchedule schedule = new MatchSchedule();
+    private final MatchSchedule schedule = new MatchSchedule();
 
     private DataSource dataSource;
 
     private int numTeams = 0;
     private int teamsProcessed = 0;
     private boolean allEvents = false;
-    private List<DataSource.Data> data = new ArrayList<>(6);
+    private final List<DataSource.Data> data = new ArrayList<>(6);
 
     public static MatchInfoFragment getInstance(String event_name, int match_num) {
         return getInstance(event_name, match_num, false);
@@ -62,7 +64,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         if (eventName == null)
@@ -92,7 +94,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
                 for (String pos : getResources().getStringArray(R.array.positions)) {
                     String team = schedule.getTeam(matchNum, pos, mParent);
                     if (team != null && TextUtils.isDigitsOnly(team)) {
-                        int teamNum = Integer.valueOf(team);
+                        int teamNum = Integer.parseInt(team);
                         if (teamNum > 0) {
                             numTeams++;
                             dataSource.getAVGData(teamNum, eventName, this);
@@ -121,8 +123,8 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
 
         int id = 0;
 
-        tv.setText("Team #");
-        tv.setGravity(Gravity.LEFT);
+        tv.setText(R.string.team_num_short);
+        tv.setGravity(Gravity.START);
         TableRow titles = new TableRow(mParent);
         titles.setId(id);
         TableLayout.LayoutParams rowParams =
@@ -135,7 +137,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
         titles.addView(tv);
         for (String name : MatchStatsYearly.getGraphShortNames()) {
             final TextView col = new TextView(mParent);
-            col.setGravity(Gravity.LEFT);
+            col.setGravity(Gravity.START);
             col.setText(name);
             titles.addView(col);
         }
@@ -154,7 +156,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
 
                 TextView tm = new TextView(mParent);
                 tm.setText(String.valueOf(dat.getTeamNum()));
-                tm.setGravity(Gravity.LEFT);
+                tm.setGravity(Gravity.START);
                 row.addView(tm);
                 for (String name : MatchStatsYearly.getGraphNames()) {
                     Double num = avgs.get(name);
@@ -165,7 +167,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
                     } else {
                         datum.setText("");
                     }
-                    tm.setGravity(Gravity.LEFT);
+                    tm.setGravity(Gravity.START);
                     row.addView(datum);
                 }
                 row.setOnClickListener(new OnTeamClickListener(dat.getTeamNum()));
@@ -177,7 +179,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
 
     private class OnTeamClickListener implements View.OnClickListener {
 
-        private int teamId;
+        private final int teamId;
 
         public OnTeamClickListener(int team) { teamId = team; }
 

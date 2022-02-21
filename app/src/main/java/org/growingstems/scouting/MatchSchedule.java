@@ -16,26 +16,12 @@
 
 package org.growingstems.scouting;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.frc836.database.DB;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,27 +30,39 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
 
+import org.frc836.database.DB;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class MatchSchedule {
 
 	private static final String FILENAME = "FRCscoutingschedule";
 	private static final String SCHEDULE_URL = "https://growingstems.org/schedule.php?request=schedule";
 
-	private boolean offseason = false;
+	private final boolean offseason = false;
 	private boolean toastComplete;
 
-	private DB db;
+	private DB db = null;
 
 	private Context _parent;
 
 	private RequestQueue reqQueue = null;
 
-	private class ScheduleResponse {
+	private static class ScheduleResponse {
 		String resp;
 		int statusCode;
 
 	}
 
-	private class ScheduleRequest extends Request<ScheduleResponse> {
+	private static class ScheduleRequest extends Request<ScheduleResponse> {
 
 		private final Object mLock = new Object();
 
@@ -111,7 +109,7 @@ public class MatchSchedule {
 
 		@Override
 		public Map<String, String> getHeaders() {
-			Map<String, String> headers = new HashMap<String, String>(1);
+			Map<String, String> headers = new HashMap<>(1);
 			headers.put("Accept", "application/json");
 			return headers;
 		}
@@ -127,7 +125,8 @@ public class MatchSchedule {
 		_parent = parent;
 		toastComplete = toastWhenComplete;
 
-		db = new DB(_parent, null);
+		if (db == null)
+			db = new DB(_parent, null);
 
 		reqQueue.add(new ScheduleRequest(db.getCodeFromEventName(event), Prefs.getPracticeMatch(parent, false), this::onResponse, this::onError));
 
@@ -174,7 +173,7 @@ public class MatchSchedule {
 				fos.close();
 			}
 		} catch (Exception es) {
-
+			//TODO
 		}
 
 	}
@@ -207,7 +206,7 @@ public class MatchSchedule {
 					}
 				}
 			}
-			if (ret.length() < 10 && Integer.valueOf(ret) > 0)
+			if (ret.length() < 10 && Integer.parseInt(ret) > 0)
 				return ret;
 			else
 				return defaultVal;
@@ -270,6 +269,7 @@ public class MatchSchedule {
 			BufferedInputStream bis = new BufferedInputStream(
 					parent.openFileInput(FILENAME));
 			byte[] buffer = new byte[bis.available()];
+			//noinspection ResultOfMethodCallIgnored
 			bis.read(buffer, 0, buffer.length);
 			return new String(buffer);
 		} catch (Exception e) {
@@ -281,10 +281,7 @@ public class MatchSchedule {
 		String schedule = getSchedule(parent);
 		// if there is no schedule released yet, will still have valid json, but
 		// not any entries
-		if (schedule.contains("\"level\""))
-			return true;
-		else
-			return false;
+		return schedule.contains("\"level\"");
 	}
 
 }

@@ -274,7 +274,7 @@ public class MatchStartActivity extends DBActivity {
 
             robotPic.setVisibility(View.VISIBLE);
             teamText.setVisibility(View.GONE);
-            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, bitmap);
+            scaleImage(robotPic, bitmap);
         }
     }
 
@@ -284,12 +284,12 @@ public class MatchStartActivity extends DBActivity {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation != orient)
-            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, ((BitmapDrawable)robotPic.getDrawable()).getBitmap());
+            scaleImage(robotPic, ((BitmapDrawable)robotPic.getDrawable()).getBitmap());
         orient = newConfig.orientation;
     }
 
 
-    private void scaleImage(ImageView view, int widthInDp, Bitmap bitmap) {
+    private void scaleImage(ImageView view, Bitmap bitmap) {
 
         BitmapDrawable result = new BitmapDrawable(Resources.getSystem(), bitmap);
         int width = bitmap.getWidth();

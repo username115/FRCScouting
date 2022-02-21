@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TableLayout;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public abstract class DataFragment extends Fragment {
@@ -148,8 +149,8 @@ public abstract class DataFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         rootView = inflater.inflate(default_layout_resource, container, false);
         if (default_layout_resource == R.layout.fragment_data) {
