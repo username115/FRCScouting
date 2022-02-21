@@ -44,6 +44,42 @@
 				android:layout_height="match_parent"
 				android:cropToPadding="false">
 
+				<ImageButton
+					android:id="@+id/imageButtonTraverse"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_traverse_toggle" />
+
+				<ImageButton
+					android:id="@+id/imageButtonHigh"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:background="#00000000"
+					android:src="@drawable/fieldimage_hanger_side_high_toggle" />
+
+				<ImageButton
+					android:id="@+id/imageButtonMiddle"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:background="#00000000"
+					android:src="@drawable/fieldimage_hanger_side_middle_toggle" />
+
+				<ImageButton
+					android:id="@+id/imageButtonLow"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:background="#00000000"
+					android:src="@drawable/fieldimage_hanger_side_low_toggle" />
+
 				<ImageView
 					android:id="@+id/fieldimage"
 					android:layout_width="match_parent"
@@ -51,53 +87,7 @@
 					android:adjustViewBounds="true"
 					android:contentDescription="Side view of field"
 					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_hanger_side_raster" />
-
-				<ToggleButton
-					android:id="@+id/toggleLowBar"
-					android:layout_width="75dp"
-					android:layout_height="75dp"
-					android:layout_alignParentEnd="true"
-					android:layout_marginTop="250dp"
-					android:background="@drawable/icon_toggleredgreenselector"
-					android:textOff=""
-					android:textOn=""
-					tools:ignore="DuplicateSpeakableTextCheck" />
-
-				<ToggleButton
-					android:id="@+id/toggleMidBar"
-					android:layout_width="75dp"
-					android:layout_height="75dp"
-					android:layout_marginTop="150dp"
-					android:layout_marginEnd="150dp"
-					android:background="@drawable/icon_toggleredgreenselector"
-					android:textOff=""
-					android:textOn=""
-					tools:layout_centerHorizontal="true"
-					tools:layout_toStartOf="@id/toggleLowBar" />
-
-				<ToggleButton
-					android:id="@+id/toggleHighBar"
-					android:layout_width="75dp"
-					android:layout_height="75dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginBottom="25dp"
-					android:background="@drawable/icon_toggleredgreenselector"
-					android:textOff=""
-					android:textOn=""
-					tools:layout_centerHorizontal="true" />
-
-				<ToggleButton
-					android:id="@+id/toggleTransversal"
-					android:layout_width="75dp"
-					android:layout_height="75dp"
-					android:layout_marginTop="0dp"
-					android:layout_marginEnd="80dp"
-					android:layout_toStartOf="@id/toggleHighBar"
-					android:background="@drawable/icon_toggleredgreenselector"
-					android:textOff=""
-					android:textOn=""
-					tools:layout_centerHorizontal="true" />
+					android:src="@drawable/fieldimage_hanger_side_base" />
 
 			</RelativeLayout>
 		</LinearLayout>
