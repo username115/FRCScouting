@@ -1,7 +1,7 @@
 package org.growingstems.scouting;
 
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import org.frc836.database.MatchStatsStruct;
 

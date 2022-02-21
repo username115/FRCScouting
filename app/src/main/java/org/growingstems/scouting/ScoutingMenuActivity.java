@@ -17,12 +17,13 @@
 package org.growingstems.scouting;
 
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public abstract class ScoutingMenuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 

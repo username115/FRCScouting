@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,10 +50,11 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.webkit.URLUtil;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class DBSyncService extends Service {
 
@@ -132,7 +133,7 @@ public class DBSyncService extends Service {
         notifyIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(this, 0, notifyIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         mBuilder.setContentIntent(intent);
 
@@ -1430,10 +1431,11 @@ public class DBSyncService extends Service {
                             args.put("password", password);
                             args.put("type", "match");
                             args.put("version", version);
-                            for (int i = 0; i < matchProjection.length; i++) {
-                                args.put(matchProjection[i], c.getString(c
-                                        .getColumnIndex(matchProjection[i])));
-                            }
+							for (String colName: matchProjection) {
+								int col = c.getColumnIndex(colName);
+								if (col >= 0)
+									args.put(colName, c.getString(col));
+							}
                             outgoing.add(args);
                         } while (c.moveToNext());
                 }
@@ -1467,10 +1469,11 @@ public class DBSyncService extends Service {
                             args.put("password", password);
                             args.put("type", "pits");
                             args.put("version", version);
-                            for (int i = 0; i < pitProjection.length; i++) {
-                                args.put(pitProjection[i], c.getString(c
-                                        .getColumnIndex(pitProjection[i])));
-                            }
+							for (String colName: pitProjection) {
+								int col = c.getColumnIndex(colName);
+								if (col >= 0)
+									args.put(colName, c.getString(col));
+							}
                             outgoing.add(args);
                         } while (c.moveToNext());
                 }
@@ -1508,10 +1511,11 @@ public class DBSyncService extends Service {
                             args.put("password", password);
                             args.put("type", "picklist");
                             args.put("version", version);
-                            for (int i = 0; i < pickProjection.length; i++) {
-                                args.put(pickProjection[i], c.getString(c
-                                        .getColumnIndex(pickProjection[i])));
-                            }
+							for (String colName: pickProjection) {
+								int col = c.getColumnIndex(colName);
+								if (col >= 0)
+									args.put(colName, c.getString(col));
+							}
                             outgoing.add(args);
                         } while (c.moveToNext());
                 }

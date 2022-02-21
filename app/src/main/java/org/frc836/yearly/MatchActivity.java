@@ -18,16 +18,10 @@ package org.frc836.yearly;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.util.SparseArray;
 import android.view.View;
@@ -35,6 +29,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.MatchStatsStruct;
