@@ -8,51 +8,81 @@ import java.util.List;
 
 public abstract class MatchStatsYearly {
 
-    public static final int NUM_GRAPHS = 0;
-    //public static final int AUTO = 0;
-    //public static final int TOTAL_CARGO = 1;
-    //public static final int TOTAL_HATCHES = 2;
-    //public static final int HAB_CLIMB = 3;
+    public static final int NUM_GRAPHS = 5;
+	public static final int TOTAL_SCORE = 0;
+    public static final int AUTO = 1;
+    public static final int TOTAL_HIGH = 2;
+    public static final int TOTAL_LOW = 3;
+    public static final int CLIMB_LEVEL = 4;
 
 
     public static int getTotalScore(final MatchStatsStruct stats) {
-        return 0; //no easy way to calculate score from stats this year, can't differentiate between inner and outer
+		return getAutoScore(stats) + getTeleScore(stats) + getClimbScore(stats);
     }
+
+    public static int getAutoScore(final MatchStatsStruct stats) {
+		return (stats.auto_taxi ? 2 : 0)
+				+ (stats.auto_high_score * 4)
+				+ (stats.auto_low_score * 4);
+	}
+
+	public static int getTeleScore(final MatchStatsStruct stats) {
+    	return (stats.high_score * 4)
+				+ (stats.low_score * 4);
+	}
+
+	public static int getClimbScore(final MatchStatsStruct stats) {
+    	switch (stats.hang_level) {
+			case 1:
+				return 4;
+			case 2:
+				return 6;
+			case 3:
+				return 10;
+			case 4:
+				return 16;
+			case 0:
+			default:
+				return 0;
+		}
+	}
 
     public static List<String> getGraphNames() {
         List<String> ret = new ArrayList<String>(NUM_GRAPHS);
-        //ret.add(SANDSTORM, "Total Sandstorm Points");
-        //ret.add(TOTAL_CARGO, "Total Cargo Scored");
-        //ret.add(TOTAL_HATCHES, "Total Hatches Scored");
-        //ret.add(HAB_CLIMB, "HAB Climb Points");
+        ret.add(TOTAL_SCORE, "Total Score");
+        ret.add(AUTO, "Total Autonomous Score");
+        ret.add(TOTAL_HIGH, "Total High Goals Scored");
+        ret.add(TOTAL_LOW, "Total High Goals Scored");
+		ret.add(CLIMB_LEVEL, "Hang Level");
 
         return ret;
     }
 
     public static List<String> getGraphShortNames() {
         List<String> ret = new ArrayList<String>(NUM_GRAPHS);
-        //ret.add(SANDSTORM, "SS");
-        //ret.add(TOTAL_CARGO, "Cargo");
-        //ret.add(TOTAL_HATCHES, "Hatches");
-        //ret.add(HAB_CLIMB, "HAB Pts");
+		ret.add(TOTAL_SCORE, "TS");
+		ret.add(AUTO, "AS");
+		ret.add(TOTAL_HIGH, "HG");
+		ret.add(TOTAL_LOW, "LG");
+		ret.add(CLIMB_LEVEL, "HL");
 
         return ret;
     }
 
     public static int getStat(final int statNum, final MatchStatsStruct stats) {
-        //switch (statNum) {
-        //    case SANDSTORM:
-        //        return getSandstormPoints(stats);
-        //    case TOTAL_CARGO:
-        //        return getTotalCargoScored(stats);
-        //    case TOTAL_HATCHES:
-        //        return getTotalHatchesScored(stats);
-        //    case HAB_CLIMB:
-        //        return getHabClimbPoints(stats);
-        //    default:
-        //        return getHabClimbPoints(stats);
-        //}
-		return 0;
+    	switch (statNum) {
+			case TOTAL_SCORE:
+				return getTotalScore(stats);
+			case AUTO:
+				return getAutoScore(stats);
+			case TOTAL_HIGH:
+				return stats.auto_high_score + stats.high_score;
+			case TOTAL_LOW:
+				return stats.auto_low_score + stats.low_score;
+			case CLIMB_LEVEL:
+			default:
+				return stats.hang_level;
+		}
     }
 
 
