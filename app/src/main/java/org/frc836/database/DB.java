@@ -40,7 +40,6 @@ import org.frc836.samsung.fileselector.OnHandleFileListener;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 import org.growingstems.scouting.ScoutingMenuActivity;
-import org.sigmond.net.*;
 
 import android.app.NotificationManager;
 import android.content.ContentValues;
@@ -54,6 +53,11 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 public class DB {
 
     public static final boolean debug = false;
@@ -61,7 +65,7 @@ public class DB {
     // have the same name for all tables
     public static final String COLUMN_NAME_TIMESTAMP = PitStats.COLUMN_NAME_TIMESTAMP;
 
-    private HttpUtils utils;
+    private RequestQueue reqQueue = null;
     private String password;
     private Context context;
     private LocalBinder binder;
@@ -76,9 +80,10 @@ public class DB {
     }
 
     public DB(Context context, String pass, LocalBinder binder) {
-        utils = new HttpUtils();
         password = pass;
         this.context = context;
+		reqQueue = Volley.newRequestQueue(context);
+		reqQueue.start();
         //initialize the database if it isn't created already
         SQLiteDatabase tmp = ScoutingDBHelper.getInstance(context.getApplicationContext()).getReadableDatabase();
         tmp.close();
@@ -87,7 +92,8 @@ public class DB {
 
     public DB(Context context, LocalBinder binder) {
         this.context = context;
-        utils = new HttpUtils();
+		reqQueue = Volley.newRequestQueue(context);
+		reqQueue.start();
         password = Prefs.getSavedPassword(context);
         //initialize the database if it isn't created already
         SQLiteDatabase tmp = ScoutingDBHelper.getInstance(context.getApplicationContext()).getReadableDatabase();
@@ -427,13 +433,23 @@ public class DB {
         params.put("password", pass);
         params.put("type", "passConfirm");
 
-        utils.doPost(Prefs.getScoutingURL(context), params, callback);
+		reqQueue.add(new StringRequest(Request.Method.POST, Prefs.getScoutingURL(context), callback::onResponse, callback::onError) {
+			@Override
+			protected Map<String, String> getParams() {
+				return params;
+			}
+		});
     }
 
     public void checkVersion(HttpCallback callback) {
         Map<String, String> args = new HashMap<String, String>();
         args.put("type", "versioncheck");
-        utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		reqQueue.add(new StringRequest(Request.Method.POST, Prefs.getScoutingURL(context), callback::onResponse, callback::onError) {
+			@Override
+			protected Map<String, String> getParams() {
+				return args;
+			}
+		});
     }
 
     public String getTeamPitInfo(String teamNum) {

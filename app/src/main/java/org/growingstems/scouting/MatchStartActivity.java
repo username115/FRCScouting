@@ -18,23 +18,15 @@ package org.growingstems.scouting;
 
 import org.frc836.database.DBActivity;
 import org.frc836.yearly.MatchActivity;
-import org.sigmond.net.AsyncPictureRequest;
-import org.sigmond.net.PicCallback;
-import org.sigmond.net.PicRequestInfo;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -47,7 +39,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MatchStartActivity extends DBActivity implements PicCallback {
+import androidx.annotation.NonNull;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
+
+
+public class MatchStartActivity extends DBActivity {
 
     private EditText teamNum;
     private TextView position;
@@ -65,9 +64,15 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
     private ProgressDialog pd;
 
+	private RequestQueue reqQueue = null;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.matchstart);
+        if (reqQueue == null) {
+			reqQueue = Volley.newRequestQueue(this);
+			reqQueue.start();
+		}
 
         HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
                 + "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
@@ -249,58 +254,46 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             teamText.setVisibility(View.VISIBLE);
             return;
         }
-        PicRequestInfo info = new PicRequestInfo(pictureURL,
-                MatchStartActivity.this);
-        AsyncPictureRequest req = new AsyncPictureRequest();
-        req.execute(info);
+
+		reqQueue.add(new ImageRequest(pictureURL,
+				this::onFinished,
+				Resources.getSystem().getDisplayMetrics().widthPixels,
+				0,
+				ImageView.ScaleType.FIT_XY,
+				Bitmap.Config.ARGB_8888,
+				null));
     }
 
-    public void onFinished(Drawable drawable) {
+    public void onFinished(Bitmap bitmap) {
         if (pd != null)
             pd.dismiss();
-        if (drawable == null) {
+        if (bitmap == null) {
             robotPic.setVisibility(View.GONE);
             teamText.setVisibility(View.VISIBLE);
         } else {
 
             robotPic.setVisibility(View.VISIBLE);
             teamText.setVisibility(View.GONE);
-            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, drawable);
+            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, bitmap);
         }
     }
 
     private int orient = Configuration.ORIENTATION_UNDEFINED;
 
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation != orient)
-            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, robotPic.getDrawable());
+            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, ((BitmapDrawable)robotPic.getDrawable()).getBitmap());
         orient = newConfig.orientation;
     }
 
 
-    private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
+    private void scaleImage(ImageView view, int widthInDp, Bitmap bitmap) {
 
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-
-        // Get current dimensions
+        BitmapDrawable result = new BitmapDrawable(Resources.getSystem(), bitmap);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-
-        float scale = ((float) widthInDp) / width;
-
-        // Create a matrix for the scaling and add the scaling data
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale);
-
-        // Create a new bitmap and convert it to a format understood by the
-        // ImageView
-        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
-                matrix, true);
-        BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-        width = scaledBitmap.getWidth();
-        height = scaledBitmap.getHeight();
 
         // Apply the scaled bitmap
         view.setImageDrawable(result);
