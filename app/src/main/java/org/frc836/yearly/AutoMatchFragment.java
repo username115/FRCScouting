@@ -108,7 +108,7 @@ public class AutoMatchFragment extends MatchFragment {
 		data.auto_high_score = highSuccess.getSelectedItemPosition();
 		data.auto_high_miss = highFailure.getSelectedItemPosition();
 		data.auto_low_score = lowSuccess.getSelectedItemPosition();
-		data.auto_low_miss = lowSuccess.getSelectedItemPosition();
+		data.auto_low_miss = lowFailure.getSelectedItemPosition();
 	}
 
 	@Override

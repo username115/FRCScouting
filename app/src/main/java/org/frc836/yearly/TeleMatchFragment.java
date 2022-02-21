@@ -103,7 +103,7 @@ public class TeleMatchFragment extends MatchFragment {
 		data.high_score = highSuccess.getSelectedItemPosition();
 		data.high_miss = highFailure.getSelectedItemPosition();
 		data.low_score = lowSuccess.getSelectedItemPosition();
-		data.low_miss = lowSuccess.getSelectedItemPosition();
+		data.low_miss = lowFailure.getSelectedItemPosition();
 
     }
 
