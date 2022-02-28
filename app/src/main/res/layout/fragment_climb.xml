@@ -76,8 +76,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:adjustViewBounds="true"
-					android:scaleType="fitXY"
 					android:background="#00000000"
+					android:scaleType="fitXY"
 					android:src="@drawable/fieldimage_hanger_side_low_toggle" />
 
 				<ImageView
@@ -90,6 +90,114 @@
 					android:src="@drawable/fieldimage_hanger_side_base" />
 
 			</RelativeLayout>
+
+			<RadioGroup
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<RadioButton
+					android:id="@+id/radioButton"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="No Hang" />
+
+				<RadioButton
+					android:id="@+id/radioButton2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Low hang" />
+
+				<RadioButton
+					android:id="@+id/radioButton3"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Mid hang" />
+
+				<RadioButton
+					android:id="@+id/radioButton4"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="High hang" />
+
+				<RadioButton
+					android:id="@+id/radioButton5"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Traverse hang" />
+			</RadioGroup>
+
+			<TableLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center_horizontal">
+
+					<TextView
+						android:id="@+id/textView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Time to Hang" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center_horizontal">
+
+					<TextView
+						android:id="@+id/textView2"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal"
+						android:text="Minutes" />
+
+					<TextView
+						android:id="@+id/textView3"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal"
+						android:text="Seconds" />
+
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center_horizontal">
+
+					<Spinner
+						android:id="@+id/hangMinutes"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal" />
+
+					<Spinner
+						android:id="@+id/hangSeconds"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal" />
+
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_gravity="center_horizontal|center_vertical"
+					android:gravity="center_horizontal">
+
+					<Button
+						android:id="@+id/triggerHangTimer"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal|center_vertical"
+						android:text="Start/Stop" />
+				</TableRow>
+
+			</TableLayout>
+
 		</LinearLayout>
     </ScrollView>
 

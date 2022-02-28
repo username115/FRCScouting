@@ -37,7 +37,7 @@
 
 			<LinearLayout
 				android:layout_width="match_parent"
-				android:layout_height="84dp">
+				android:layout_height="match_parent">
 
 				<CheckBox
 					android:id="@+id/yellow_card"
@@ -62,6 +62,72 @@
 					android:layout_weight="1"
 					android:gravity="center_vertical"
 					android:text="@string/redcard" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/opp_tarmac"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Scored from tarmac on opponent alliances side of field" />
+
+				<CheckBox
+					android:id="@+id/ally_tarmac"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Scored from tarmac on own alliances side of field" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/ally_outfield"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Scored from outfield on own alliances side of field" />
+
+				<CheckBox
+					android:id="@+id/opp_outfield"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Scored from outfield on opponent alliances side of field" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/fender_usage"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Robot tended to line up on the fender" />
+
+				<CheckBox
+					android:id="@+id/launchpad_usage"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="Robot utilized the alliance launchpad" />
 			</LinearLayout>
 
 			<EditText
