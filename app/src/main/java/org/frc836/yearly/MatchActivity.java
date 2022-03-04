@@ -106,7 +106,11 @@ public class MatchActivity extends DBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match);
 
-        HELPMESSAGE = "Record Match Data here.\n";
+        HELPMESSAGE = "Record Match Data here.\n" +
+				"Input number of cargo scored in both Autonomous and Tele-op periods.\n" +
+				"Input hang location, and how long it took to reach final hang position.\n" +
+				"A timer has been provided to assist with this.\n" +
+				"During the match, observe where cargo was scored from, and mark the locations the robot tended to use.";
 
         getGUIRefs();
 
