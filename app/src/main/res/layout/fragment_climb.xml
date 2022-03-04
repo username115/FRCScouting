@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="org.frc836.yearly.PreMatchFragment">
+	android:layout_width="wrap_content"
+	android:layout_height="match_parent"
+	tools:context="org.frc836.yearly.ClimbFragment">
 
 
 	<TextView
@@ -13,31 +12,20 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentTop="true"
 		android:layout_centerHorizontal="true"
-		android:text="Climb"
+		android:text="@string/climb"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
 
 	<ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ClimbText">
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/ClimbText">
 
-        <LinearLayout
-			android:id="@+id/starting_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-			android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:orientation="vertical">
 
-			<CheckBox
-				android:id="@+id/hangAttempt"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:checked="false"
-				android:clickable="true"
-				android:focusable="true"
-				android:text="Attempted Hang" />
 
 			<RelativeLayout
 				android:layout_width="match_parent"
@@ -58,8 +46,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:adjustViewBounds="true"
-					android:scaleType="fitXY"
 					android:background="#00000000"
+					android:scaleType="fitXY"
 					android:src="@drawable/fieldimage_hanger_side_high_toggle" />
 
 				<ImageButton
@@ -67,8 +55,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:adjustViewBounds="true"
-					android:scaleType="fitXY"
 					android:background="#00000000"
+					android:scaleType="fitXY"
 					android:src="@drawable/fieldimage_hanger_side_middle_toggle" />
 
 				<ImageButton
@@ -85,45 +73,53 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:adjustViewBounds="true"
-					android:contentDescription="Side view of field"
+					android:contentDescription="@string/side_view_of_field"
 					android:scaleType="fitXY"
 					android:src="@drawable/fieldimage_hanger_side_base" />
 
 			</RelativeLayout>
 
 			<RadioGroup
+				android:id="@+id/hangRadioGroup"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
 				<RadioButton
-					android:id="@+id/radioButton"
+					android:id="@+id/hangNone"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="No Hang" />
+					android:checked="true"
+					android:text="@string/no_hang" />
 
 				<RadioButton
-					android:id="@+id/radioButton2"
+					android:id="@+id/hangAttempt"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="Low hang" />
+					android:text="@string/attempted_hang" />
 
 				<RadioButton
-					android:id="@+id/radioButton3"
+					android:id="@+id/hangLow"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="Mid hang" />
+					android:text="@string/low_hang" />
 
 				<RadioButton
-					android:id="@+id/radioButton4"
+					android:id="@+id/hangMid"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="High hang" />
+					android:text="@string/mid_hang" />
 
 				<RadioButton
-					android:id="@+id/radioButton5"
+					android:id="@+id/hangHigh"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="Traverse hang" />
+					android:text="@string/high_hang" />
+
+				<RadioButton
+					android:id="@+id/hangTraverse"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/traverse_hang" />
 			</RadioGroup>
 
 			<TableLayout
@@ -139,27 +135,20 @@
 						android:id="@+id/textView"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="Time to Hang" />
+						android:text="@string/time_to_hang" />
 				</TableRow>
 
 				<TableRow
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:gravity="center_horizontal">
-
-					<TextView
-						android:id="@+id/textView2"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:gravity="center_horizontal"
-						android:text="Minutes" />
 
 					<TextView
 						android:id="@+id/textView3"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:gravity="center_horizontal"
-						android:text="Seconds" />
+						android:text="@string/seconds" />
 
 				</TableRow>
 
@@ -168,17 +157,15 @@
 					android:layout_height="match_parent"
 					android:gravity="center_horizontal">
 
-					<Spinner
-						android:id="@+id/hangMinutes"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center_horizontal" />
-
-					<Spinner
+					<EditText
 						android:id="@+id/hangSeconds"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:gravity="center_horizontal" />
+						android:gravity="center_horizontal"
+						android:hint="0"
+						android:inputType="number"
+						android:selectAllOnFocus="true"
+						android:singleLine="true" />
 
 				</TableRow>
 
@@ -189,16 +176,24 @@
 					android:gravity="center_horizontal">
 
 					<Button
-						android:id="@+id/triggerHangTimer"
+						android:id="@+id/triggerHangTimerStartStop"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:gravity="center_horizontal|center_vertical"
-						android:text="Start/Stop" />
+						android:text="@string/start" />
+
+					<Button
+						android:id="@+id/triggerHangTimerReset"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:enabled="false"
+						android:gravity="center_horizontal|center_vertical"
+						android:text="@string/reset" />
 				</TableRow>
 
 			</TableLayout>
 
 		</LinearLayout>
-    </ScrollView>
+	</ScrollView>
 
 </RelativeLayout>
