@@ -52,16 +52,23 @@ function genJSON($sql_result, $tablename) {
 			$cell = str_replace("\r", "\\r", $cell);
 			$cell = str_replace("\t", "\\t", $cell);
 			$col_name = mysqli_field_name($sql_result, $i);
-			$col_type = mysqli_fetch_field($sql_result, $i);
+			$col_type = mysqli_fetch_field_direct($sql_result, $i);
 
 
 			$json .= '"' . $col_name . '":' ;
 
 			//echo $col_name . ": " . $col_type->type . "\n";
-			if ($col_type->type == 'timestamp') {
+			if ($col_type->type == 7) { //timestamp
 				$json .= strtotime($cell);
 			}
-			elseif ($col_type->numeric == 1 ) {
+			elseif ($col_type->type == 1
+					|| $col_type->type == 2
+					|| $col_type->type == 3
+					|| $col_type->type == 4
+					|| $col_type->type == 5
+					|| $col_type->type == 8
+					|| $col_type->type == 9
+					|| $col_type->type == 246 ) { //is numeric
 				$json .= $cell;
 			} else {
 				$json .= '"' . $cell . '"';

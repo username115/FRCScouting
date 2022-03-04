@@ -152,17 +152,42 @@ r'''
 			$cell = str_replace("\t", "\\t", $cell);
 ''')
 	io.write("\t\t\t$col_name = " + mysql_prefix + "_field_name($sql_result, $i);\n")
-	io.write("\t\t\t$col_type = " + mysql_prefix + "_fetch_field($sql_result, $i);\n")
+	if mysqli:
+		io.write("\t\t\t$col_type = " + mysql_prefix + "_fetch_field_direct($sql_result, $i);\n")
+	else:
+		io.write("\t\t\t$col_type = " + mysql_prefix + "_fetch_field($sql_result, $i);\n")
 	io.write(
 r'''
 
 			$json .= '"' . $col_name . '":' ;
 
 			//echo $col_name . ": " . $col_type->type . "\n";
-			if ($col_type->type == 'timestamp') {
+''')
+	if mysqli:
+		io.write("\t\t\tif ($col_type->type == 7) { //timestamp")
+	else:
+		io.write("\t\t\tif ($col_type->type == 'timestamp') {")
+	io.write(
+r'''
 				$json .= strtotime($cell);
-			}
-			elseif ($col_type->numeric == 1 ) {
+			}''')
+	if mysqli:
+		io.write(
+r'''
+			elseif ($col_type->type == 1
+					|| $col_type->type == 2
+					|| $col_type->type == 3
+					|| $col_type->type == 4
+					|| $col_type->type == 5
+					|| $col_type->type == 8
+					|| $col_type->type == 9
+					|| $col_type->type == 246 ) { //is numeric''')
+	else:
+		io.write(
+r'''
+			elseif ($col_type->numeric == 1 ) {''')
+	io.write(
+r'''
 				$json .= $cell;
 			} else {
 				$json .= '"' . $cell . '"';
