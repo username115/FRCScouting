@@ -233,6 +233,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2022` (
   `fender_usage` tinyint(1) UNSIGNED NOT NULL,
   `launchpad_usage` tinyint(1) UNSIGNED NOT NULL,
   `time_to_hang_s` int(3) UNSIGNED NOT NULL,
+  `tech_foul` tinyint(1) NOT NULL,
   `yellow_card` tinyint(1) NOT NULL,
   `red_card` tinyint(1) NOT NULL,
   `notes` text COLLATE utf8_unicode_ci NOT NULL,

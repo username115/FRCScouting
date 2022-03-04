@@ -56,6 +56,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_FENDER_USAGE = "fender_usage";
 		public static final String COLUMN_NAME_LAUNCHPAD_USAGE = "launchpad_usage";
 		public static final String COLUMN_NAME_TIME_TO_HANG_S = "time_to_hang_s";
+		public static final String COLUMN_NAME_TECH_FOUL = "tech_foul";
 		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
 		public static final String COLUMN_NAME_RED_CARD = "red_card";
 		public static final String COLUMN_NAME_NOTES = "notes";
@@ -360,6 +361,7 @@ public final class FRCScoutingContract {
 		"	fender_usage tinyint(1) NOT NULL,\n" +
 		"	launchpad_usage tinyint(1) NOT NULL,\n" +
 		"	time_to_hang_s int(3) NOT NULL,\n" +
+		"	tech_foul tinyint(1) NOT NULL,\n" +
 		"	yellow_card tinyint(1) NOT NULL,\n" +
 		"	red_card tinyint(1) NOT NULL,\n" +
 		"	notes text NOT NULL,\n" +

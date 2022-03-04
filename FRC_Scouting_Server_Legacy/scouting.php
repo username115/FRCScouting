@@ -185,6 +185,7 @@ elseif ($_POST['password'] == $pass) {
 		$fender_usage = mysql_real_escape_string(stripslashes(trim(isset($_POST['fender_usage']) ? $_POST['fender_usage'] : '0')));
 		$launchpad_usage = mysql_real_escape_string(stripslashes(trim(isset($_POST['launchpad_usage']) ? $_POST['launchpad_usage'] : '0')));
 		$time_to_hang_s = mysql_real_escape_string(stripslashes(trim(isset($_POST['time_to_hang_s']) ? $_POST['time_to_hang_s'] : '0')));
+		$tech_foul = mysql_real_escape_string(stripslashes(trim(isset($_POST['tech_foul']) ? $_POST['tech_foul'] : '0')));
 		$yellow_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['yellow_card']) ? $_POST['yellow_card'] : '0')));
 		$red_card = mysql_real_escape_string(stripslashes(trim(isset($_POST['red_card']) ? $_POST['red_card'] : '0')));
 		$notes = mysql_real_escape_string(stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0')));
@@ -192,7 +193,7 @@ elseif ($_POST['password'] == $pass) {
 		$result = mysql_query("SELECT id FROM fact_match_data_2022 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
 		$row = mysql_fetch_array($result);
 		$match_row_id = $row["id"];
-		if (mysql_num_rows($result) == 0) {			$query = "INSERT INTO fact_match_data_2022(event_id,team_id,match_id,practice_match,position_id,auto_taxi,auto_low_score,auto_low_miss,auto_high_score,auto_high_miss,low_score,low_miss,high_score,high_miss,hang_attempt,hang_level,ally_tarmac,ally_outfield,opp_tarmac,opp_outfield,fender_usage,launchpad_usage,time_to_hang_s,yellow_card,red_card,notes,invalid) VALUES("
+		if (mysql_num_rows($result) == 0) {			$query = "INSERT INTO fact_match_data_2022(event_id,team_id,match_id,practice_match,position_id,auto_taxi,auto_low_score,auto_low_miss,auto_high_score,auto_high_miss,low_score,low_miss,high_score,high_miss,hang_attempt,hang_level,ally_tarmac,ally_outfield,opp_tarmac,opp_outfield,fender_usage,launchpad_usage,time_to_hang_s,tech_foul,yellow_card,red_card,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
@@ -216,6 +217,7 @@ elseif ($_POST['password'] == $pass) {
 				. $fender_usage . ","
 				. $launchpad_usage . ","
 				. $time_to_hang_s . ","
+				. $tech_foul . ","
 				. $yellow_card . ","
 				. $red_card . ","
 				. "'" . $notes . "',"
@@ -247,6 +249,7 @@ elseif ($_POST['password'] == $pass) {
 				. "fender_usage=" . $fender_usage . ","
 				. "launchpad_usage=" . $launchpad_usage . ","
 				. "time_to_hang_s=" . $time_to_hang_s . ","
+				. "tech_foul=" . $tech_foul . ","
 				. "yellow_card=" . $yellow_card . ","
 				. "red_card=" . $red_card . ","
 				. "notes='" . $notes . "',"
