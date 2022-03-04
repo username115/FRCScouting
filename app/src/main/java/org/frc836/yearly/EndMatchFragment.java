@@ -128,6 +128,15 @@ public class EndMatchFragment extends MatchFragment {
 		data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
 		data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
 		data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
+		data.tech_foul = ((CheckBox) getView().findViewById(R.id.tech_foul)).isChecked();
+
+		data.opp_tarmac = ((CheckBox) getView().findViewById(R.id.opp_tarmac)).isChecked();
+		data.opp_outfield = ((CheckBox) getView().findViewById(R.id.opp_outfield)).isChecked();
+		data.ally_tarmac = ((CheckBox) getView().findViewById(R.id.ally_tarmac)).isChecked();
+		data.ally_outfield = ((CheckBox) getView().findViewById(R.id.ally_outfield)).isChecked();
+
+		data.fender_usage = ((CheckBox) getView().findViewById(R.id.fender_usage)).isChecked();
+		data.launchpad_usage = ((CheckBox) getView().findViewById(R.id.launchpad_usage)).isChecked();
 	}
 
 	@Override
@@ -137,6 +146,15 @@ public class EndMatchFragment extends MatchFragment {
 		((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
 		((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
 		((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
+		((CheckBox) getView().findViewById(R.id.tech_foul)).setChecked(data.tech_foul);
+
+		((CheckBox) getView().findViewById(R.id.opp_tarmac)).setChecked(data.opp_tarmac);
+		((CheckBox) getView().findViewById(R.id.opp_outfield)).setChecked(data.opp_outfield);
+		((CheckBox) getView().findViewById(R.id.ally_tarmac)).setChecked(data.ally_tarmac);
+		((CheckBox) getView().findViewById(R.id.ally_outfield)).setChecked(data.ally_outfield);
+
+		((CheckBox) getView().findViewById(R.id.fender_usage)).setChecked(data.fender_usage);
+		((CheckBox) getView().findViewById(R.id.launchpad_usage)).setChecked(data.launchpad_usage);
 
 	}
 

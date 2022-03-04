@@ -75,7 +75,7 @@
 					android:layout_height="match_parent"
 					android:layout_weight="1"
 					android:gravity="center_vertical"
-					android:text="Scored from tarmac on opponent alliances side of field" />
+					android:text="@string/opp_tarmac_string" />
 
 				<CheckBox
 					android:id="@+id/ally_tarmac"
@@ -83,7 +83,7 @@
 					android:layout_height="match_parent"
 					android:layout_weight="1"
 					android:gravity="center_vertical"
-					android:text="Scored from tarmac on own alliances side of field" />
+					android:text="@string/ally_tarmac_string" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -97,7 +97,7 @@
 					android:layout_height="match_parent"
 					android:layout_weight="1"
 					android:gravity="center_vertical"
-					android:text="Scored from outfield on own alliances side of field" />
+					android:text="@string/ally_outfield_string" />
 
 				<CheckBox
 					android:id="@+id/opp_outfield"
@@ -105,7 +105,7 @@
 					android:layout_height="match_parent"
 					android:layout_weight="1"
 					android:gravity="center_vertical"
-					android:text="Scored from outfield on opponent alliances side of field" />
+					android:text="@string/opp_outfield_string" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -119,7 +119,7 @@
 					android:layout_height="match_parent"
 					android:layout_weight="1"
 					android:gravity="center_vertical"
-					android:text="Robot tended to line up on the fender" />
+					android:text="@string/fender_string" />
 
 				<CheckBox
 					android:id="@+id/launchpad_usage"
@@ -127,7 +127,7 @@
 					android:layout_height="match_parent"
 					android:layout_weight="1"
 					android:gravity="center_vertical"
-					android:text="Robot utilized the alliance launchpad" />
+					android:text="@string/launchpad_string" />
 			</LinearLayout>
 
 			<EditText
