@@ -52,6 +52,7 @@ public class MatchStatsStruct {
 	public boolean fender_usage;
 	public boolean launchpad_usage;
 	public int time_to_hang_s;
+	public boolean tech_foul;
 	public boolean yellow_card;
 	public boolean red_card;
 	public String notes;
@@ -82,6 +83,7 @@ public class MatchStatsStruct {
 	public static final String COLUMN_NAME_FENDER_USAGE = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_FENDER_USAGE;
 	public static final String COLUMN_NAME_LAUNCHPAD_USAGE = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_LAUNCHPAD_USAGE;
 	public static final String COLUMN_NAME_TIME_TO_HANG_S = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_TIME_TO_HANG_S;
+	public static final String COLUMN_NAME_TECH_FOUL = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_TECH_FOUL;
 	public static final String COLUMN_NAME_YELLOW_CARD = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_YELLOW_CARD;
 	public static final String COLUMN_NAME_RED_CARD = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_RED_CARD;
 	public static final String COLUMN_NAME_NOTES = FACT_MATCH_DATA_2022_Entry.COLUMN_NAME_NOTES;
@@ -117,6 +119,7 @@ public class MatchStatsStruct {
 		fender_usage = false;
 		launchpad_usage = false;
 		time_to_hang_s = 0;
+		tech_foul = false;
 		yellow_card = false;
 		red_card = false;
 		notes = "";
@@ -164,6 +167,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_FENDER_USAGE, fender_usage ? 1 : 0);
 		vals.put(COLUMN_NAME_LAUNCHPAD_USAGE, launchpad_usage ? 1 : 0);
 		vals.put(COLUMN_NAME_TIME_TO_HANG_S, time_to_hang_s);
+		vals.put(COLUMN_NAME_TECH_FOUL, tech_foul ? 1 : 0);
 		vals.put(COLUMN_NAME_YELLOW_CARD, yellow_card ? 1 : 0);
 		vals.put(COLUMN_NAME_RED_CARD, red_card ? 1 : 0);
 		vals.put(COLUMN_NAME_NOTES, notes);
@@ -201,13 +205,14 @@ public class MatchStatsStruct {
 		fender_usage = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_FENDER_USAGE)) != 0;
 		launchpad_usage = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_LAUNCHPAD_USAGE)) != 0;
 		time_to_hang_s = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TIME_TO_HANG_S));
+		tech_foul = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_TECH_FOUL)) != 0;
 		yellow_card = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_YELLOW_CARD)) != 0;
 		red_card = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_RED_CARD)) != 0;
 		notes = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_NOTES));
 	}
 
 	public String[] getProjection() {
-		List<String> temp = new ArrayList<String>(26);
+		List<String> temp = new ArrayList<String>(27);
 		temp.add(COLUMN_NAME_EVENT_ID);
 		temp.add(COLUMN_NAME_TEAM_ID);
 		temp.add(COLUMN_NAME_MATCH_ID);
@@ -231,6 +236,7 @@ public class MatchStatsStruct {
 		temp.add(COLUMN_NAME_FENDER_USAGE);
 		temp.add(COLUMN_NAME_LAUNCHPAD_USAGE);
 		temp.add(COLUMN_NAME_TIME_TO_HANG_S);
+		temp.add(COLUMN_NAME_TECH_FOUL);
 		temp.add(COLUMN_NAME_YELLOW_CARD);
 		temp.add(COLUMN_NAME_RED_CARD);
 		temp.add(COLUMN_NAME_NOTES);
@@ -278,6 +284,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_FENDER_USAGE, json.has(COLUMN_NAME_FENDER_USAGE) ? json.getInt(COLUMN_NAME_FENDER_USAGE) : 0);
 		vals.put(COLUMN_NAME_LAUNCHPAD_USAGE, json.has(COLUMN_NAME_LAUNCHPAD_USAGE) ? json.getInt(COLUMN_NAME_LAUNCHPAD_USAGE) : 0);
 		vals.put(COLUMN_NAME_TIME_TO_HANG_S, json.has(COLUMN_NAME_TIME_TO_HANG_S) ? json.getInt(COLUMN_NAME_TIME_TO_HANG_S) : 0);
+		vals.put(COLUMN_NAME_TECH_FOUL, json.has(COLUMN_NAME_TECH_FOUL) ? json.getInt(COLUMN_NAME_TECH_FOUL) : 0);
 		vals.put(COLUMN_NAME_YELLOW_CARD, json.has(COLUMN_NAME_YELLOW_CARD) ? json.getInt(COLUMN_NAME_YELLOW_CARD) : 0);
 		vals.put(COLUMN_NAME_RED_CARD, json.has(COLUMN_NAME_RED_CARD) ? json.getInt(COLUMN_NAME_RED_CARD) : 0);
 		vals.put(COLUMN_NAME_NOTES, json.has(COLUMN_NAME_NOTES) ? json.getString(COLUMN_NAME_NOTES) : "");
@@ -311,6 +318,7 @@ public class MatchStatsStruct {
 		vals.put( COLUMN_NAME_FENDER_USAGE, String.valueOf(fender_usage ? 1 : 0));
 		vals.put( COLUMN_NAME_LAUNCHPAD_USAGE, String.valueOf(launchpad_usage ? 1 : 0));
 		vals.put( COLUMN_NAME_TIME_TO_HANG_S, String.valueOf(time_to_hang_s));
+		vals.put( COLUMN_NAME_TECH_FOUL, String.valueOf(tech_foul ? 1 : 0));
 		vals.put( COLUMN_NAME_YELLOW_CARD, String.valueOf(yellow_card ? 1 : 0));
 		vals.put( COLUMN_NAME_RED_CARD, String.valueOf(red_card ? 1 : 0));
 		vals.put( COLUMN_NAME_NOTES, notes);

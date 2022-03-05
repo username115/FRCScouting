@@ -19,7 +19,6 @@ package org.growingstems.scouting;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -28,7 +27,6 @@ import android.view.MenuItem;
 
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService.LocalBinder;
-import org.growingstems.scouting.R;
 import org.growingstems.scouting.MenuSelections.Refreshable;
 
 public class MainMenuSelection {
@@ -104,15 +102,13 @@ public class MainMenuSelection {
 	}
 
 	public static void exit(Activity context) {
-		if (context instanceof DashboardActivity)
-			context.finish();
-		else {
+		if (!(context instanceof DashboardActivity)) {
 			Intent intent = new Intent(context, DashboardActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra("ExitApp", true);
 			context.startActivity(intent);
-			context.finish();
 		}
+		context.finish();
 	}
 
 	public static void setBinder(LocalBinder binder) {

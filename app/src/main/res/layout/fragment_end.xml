@@ -1,10 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.frc836.yearly.EndMatchFragment">
 
-    <TextView
+	<TextView
         android:id="@+id/endTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,74 +15,145 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
+	<ScrollView
+		android:id="@+id/scrollView"
+		android:layout_width="match_parent"
 
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endTextView">
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/endTextView">
 
-        <LinearLayout
-            android:id="@+id/endGameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-            <EditText
-                android:id="@+id/notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/notes"
-                android:inputType="textMultiLine"
-				android:importantForAutofill="no" />
-
-            <Spinner
-                android:id="@+id/commonNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/match_notes_options"
-                android:gravity="center" />
-
-            <Spinner
-                android:id="@+id/previousNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
-                android:entries="@array/match_prev_notes_options"
-                android:gravity="center" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+		<LinearLayout
+			android:id="@+id/endGameLayout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+			<ImageView
+				android:id="@+id/imageView8"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:src="@drawable/fieldimage_entire_field_raster" />
 
-                    <CheckBox
-                        android:id="@+id/yellow_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/yellowcard" />
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-                    <CheckBox
-                        android:id="@+id/red_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/redcard" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+				<CheckBox
+					android:id="@+id/yellow_card"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/yellowcard" />
 
-    </ScrollView>
+				<CheckBox
+					android:id="@+id/tech_foul"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="1"
+					android:text="@string/techfoul" />
+
+				<CheckBox
+					android:id="@+id/red_card"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/redcard" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/opp_tarmac"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/opp_tarmac_string" />
+
+				<CheckBox
+					android:id="@+id/ally_tarmac"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/ally_tarmac_string" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/ally_outfield"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/ally_outfield_string" />
+
+				<CheckBox
+					android:id="@+id/opp_outfield"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/opp_outfield_string" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/fender_usage"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/fender_string" />
+
+				<CheckBox
+					android:id="@+id/launchpad_usage"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:gravity="center_vertical"
+					android:text="@string/launchpad_string" />
+			</LinearLayout>
+
+			<EditText
+				android:id="@+id/notes"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/notes"
+				android:importantForAutofill="no"
+				android:inputType="textMultiLine" />
+
+			<Spinner
+				android:id="@+id/commonNotes"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:entries="@array/match_notes_options"
+				android:gravity="center" />
+
+			<Spinner
+				android:id="@+id/previousNotes"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10sp"
+				android:entries="@array/match_prev_notes_options"
+				android:gravity="center" />
+		</LinearLayout>
+
+	</ScrollView>
 
 </RelativeLayout>

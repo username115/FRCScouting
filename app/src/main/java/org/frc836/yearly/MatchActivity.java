@@ -18,16 +18,10 @@ package org.frc836.yearly;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.util.SparseArray;
 import android.view.View;
@@ -35,6 +29,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.MatchStatsStruct;
@@ -49,9 +48,9 @@ import java.util.List;
 public class MatchActivity extends DBActivity {
 
     public static final int NUM_SCREENS = 4;
-    public static final int PRE_MATCH_SCREEN = 0;
-    public static final int AUTO_SCREEN = 1;
-    public static final int TELE_SCREEN = 2;
+    public static final int AUTO_SCREEN = 0;
+    public static final int TELE_SCREEN = 1;
+	public static final int CLIMB_SCREEN = 2;
     public static final int END_SCREEN = 3;
 
     private MatchViewAdapter mMatchViewAdapter;
@@ -108,18 +107,10 @@ public class MatchActivity extends DBActivity {
         setContentView(R.layout.match);
 
         HELPMESSAGE = "Record Match Data here.\n" +
-                "Pre-match:\n" +
-                "Record which section of the player station the robot starts in front of.\n" +
-                "Autonomous:\n" +
-                "Record if the robot moved off the initiation line.\n" +
-                "Record Power Cells scored and missed.\n" +
-                "Tele-Op:\n" +
-                "Record Power Cells scored and missed.\n" +
-				"Record if the robot performed position or rotation control.\n" +
-                "End game:\n" +
-                "Record fouls, cards, and if a robot climbed, or attempted to climb. Climb indicated with green, attempt with yellow.\n" +
-                "Record if the robot climbed and the generator was level at the end of the match.\n" +
-                "Record any pertinent notes. Two drop-downs are provided for common notes.";
+				"Input number of cargo scored in both Autonomous and Tele-op periods.\n" +
+				"Input hang location, and how long it took to reach final hang position.\n" +
+				"A timer has been provided to assist with this.\n" +
+				"During the match, observe where cargo was scored from, and mark the locations the robot tended to use.";
 
         getGUIRefs();
 
@@ -132,7 +123,7 @@ public class MatchActivity extends DBActivity {
         position = intent.getStringExtra("position");
 
         mMatchViewAdapter = new MatchViewAdapter(getSupportFragmentManager());
-        mCurrentPage = PRE_MATCH_SCREEN;
+        mCurrentPage = AUTO_SCREEN;
 
         mViewPager = findViewById(R.id.matchPager);
         mViewPager.setAdapter(mMatchViewAdapter);
@@ -147,7 +138,7 @@ public class MatchActivity extends DBActivity {
             posT.setOnClickListener(new positionClickListener());
 
         loadData();
-        loadPreMatch();
+        loadAuto();
     }
 
     protected void onResume() {
@@ -247,35 +238,29 @@ public class MatchActivity extends DBActivity {
         mViewPager.setCurrentItem(0, true);
         loadAll();
         lastB.setText(getString(R.string.match_change_button_cancel));
-        nextB.setText(getString(R.string.match_change_button_auto));
+        nextB.setText(getString(R.string.match_change_button_tele));
     }
 
     public void pageSelected(int page) {
         switch (mCurrentPage) {
-            case PRE_MATCH_SCREEN:
-                savePreMatch();
-                break;
             case AUTO_SCREEN:
                 saveAuto();
                 break;
             case TELE_SCREEN:
                 saveTele();
                 break;
+			case CLIMB_SCREEN:
+				saveClimb();
+				break;
             case END_SCREEN:
                 saveEnd();
                 break;
         }
         mCurrentPage = page;
         switch (page) {
-            case PRE_MATCH_SCREEN:
-                loadPreMatch();
-                lastB.setText(getString(R.string.match_change_button_cancel));
-                nextB.setText(getString(R.string.match_change_button_auto));
-                timer.removeCallbacks(mUpdateTimeTask);
-                break;
             case AUTO_SCREEN:
                 loadAuto();
-                lastB.setText(getString(R.string.match_change_button_prematch));
+				lastB.setText(getString(R.string.match_change_button_cancel));
                 nextB.setText(getString(R.string.match_change_button_tele));
                 if (!readOnly)
                     timer.postDelayed(mUpdateTimeTask, DELAY);
@@ -283,19 +268,25 @@ public class MatchActivity extends DBActivity {
             case TELE_SCREEN:
                 loadTele();
                 lastB.setText(getString(R.string.match_change_button_auto));
-                nextB.setText(getString(R.string.match_change_button_end));
+                nextB.setText(getString(R.string.match_change_button_climb));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
+			case CLIMB_SCREEN:
+				loadClimb();
+				lastB.setText(getString(R.string.match_change_button_tele));
+				nextB.setText(getString(R.string.match_change_button_end));
+				timer.removeCallbacks(mUpdateTimeTask);
+				break;
             case END_SCREEN:
                 loadEnd();
-                lastB.setText(getString(R.string.match_change_button_tele));
+                lastB.setText(getString(R.string.match_change_button_climb));
                 nextB.setText(readOnly ? getString(R.string.match_change_button_cancel) : getString(R.string.match_change_button_submit));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             default:
                 loadAll();
                 lastB.setText(getString(R.string.match_change_button_cancel));
-                nextB.setText(getString(R.string.match_change_button_auto));
+                nextB.setText(getString(R.string.match_change_button_tele));
                 timer.removeCallbacks(mUpdateTimeTask);
         }
     }
@@ -355,10 +346,6 @@ public class MatchActivity extends DBActivity {
                 return fragments.get(i);
             }
             switch (i) {
-                case PRE_MATCH_SCREEN:
-                    fragment = PreMatchFragment.newInstance();
-                    fragments.put(i, fragment);
-                    return fragment;
                 case AUTO_SCREEN:
                     fragment = AutoMatchFragment.newInstance();
                     fragments.put(i, fragment);
@@ -367,6 +354,10 @@ public class MatchActivity extends DBActivity {
                     fragment = TeleMatchFragment.newInstance();
                     fragments.put(i, fragment);
                     return fragment;
+				case CLIMB_SCREEN:
+					fragment = ClimbFragment.newInstance();
+					fragments.put(i, fragment);
+					return fragment;
                 case END_SCREEN:
                 default:
                     fragment = EndMatchFragment.newInstance();
@@ -392,13 +383,13 @@ public class MatchActivity extends DBActivity {
 
     }
 
-    private void loadPreMatch() {
-        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).loadData(teamData);
+    private void loadClimb() {
+        mMatchViewAdapter.getMatchFragment(CLIMB_SCREEN).loadData(teamData);
     }
 
-    private void savePreMatch() {
+    private void saveClimb() {
         saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(PRE_MATCH_SCREEN).saveData(teamData);
+        mMatchViewAdapter.getMatchFragment(CLIMB_SCREEN).saveData(teamData);
     }
 
     private void loadAuto() {

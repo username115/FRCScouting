@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,11 +30,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+
 public class EventListFragment extends DataFragment {
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		rootView.findViewById(R.id.data_team_input_layout).setVisibility(
 				View.GONE);
@@ -49,14 +51,13 @@ public class EventListFragment extends DataFragment {
 		List<String> events = mParent.getDB().getEventsWithData();
 		String curEvent = Prefs.getEvent(getActivity(), "");
 		if (events == null) {
-			events = new ArrayList<String>(1);
+			events = new ArrayList<>(1);
 		}
 		if (curEvent.length() > 0) {
-			if (events.contains(curEvent))
-				events.remove(curEvent);
+			events.remove(curEvent);
 			events.add(0, curEvent);
 		}
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+		final ArrayAdapter<String> adapter = new ArrayAdapter<>(
 				getActivity(), defaultListResource, events);
 		dataList.setAdapter(adapter);
 		dataList.setOnItemClickListener(new EventClick());

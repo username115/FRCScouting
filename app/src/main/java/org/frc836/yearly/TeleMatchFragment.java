@@ -15,21 +15,17 @@
  */
 package org.frc836.yearly;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
 
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
-import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 
@@ -38,6 +34,20 @@ public class TeleMatchFragment extends MatchFragment {
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
     private boolean displayed = false;
+
+	private Button highSuccessIncrement;
+	private Button highSuccessDecrement;
+	private Button highFailureIncrement;
+	private Button highFailureDecrement;
+	private Button lowSuccessIncrement;
+	private Button lowSuccessDecrement;
+	private Button lowFailureIncrement;
+	private Button lowFailureDecrement;
+
+	private Spinner highSuccess;
+	private Spinner highFailure;
+	private Spinner lowSuccess;
+	private Spinner lowFailure;
 
 
     public TeleMatchFragment() {
@@ -91,7 +101,10 @@ public class TeleMatchFragment extends MatchFragment {
 
         MatchStatsYearly.clearTele(data);
 
-        //TODO save tele-op inputs
+		data.high_score = highSuccess.getSelectedItemPosition();
+		data.high_miss = highFailure.getSelectedItemPosition();
+		data.low_score = lowSuccess.getSelectedItemPosition();
+		data.low_miss = lowFailure.getSelectedItemPosition();
 
     }
 
@@ -101,28 +114,42 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-		Activity act = getActivity();
-		String pos;
-		if (act instanceof MatchActivity)
-			pos = ((MatchActivity) act).getPosition();
-		else
-			pos = Prefs.getPosition(getActivity(), "Red 1");
-
-
-		//TODO load tele-op data
+		highSuccess.setSelection(data.high_score);
+		highFailure.setSelection(data.high_miss);
+		lowSuccess.setSelection(data.low_score);
+		lowFailure.setSelection(data.low_miss);
     }
 
     private void getGUIRefs(View view) {
-    	//TODO save GUI references
+
+		highSuccessIncrement = view.findViewById(R.id.increment_tele_high_success);
+		highSuccessDecrement = view.findViewById(R.id.decrement_tele_high_success);
+		highFailureIncrement = view.findViewById(R.id.increment_tele_high_failure);
+		highFailureDecrement = view.findViewById(R.id.decrement_tele_high_failure);
+		lowSuccessIncrement = view.findViewById(R.id.increment_tele_low_success);
+		lowSuccessDecrement = view.findViewById(R.id.decrement_tele_low_success);
+		lowFailureIncrement = view.findViewById(R.id.increment_tele_low_failure);
+		lowFailureDecrement = view.findViewById(R.id.decrement_tele_low_failure);
+
+		highSuccess = view.findViewById(R.id.tele_high_success_spinner);
+		highFailure = view.findViewById(R.id.tele_high_failure_spinner);
+		lowSuccess = view.findViewById(R.id.tele_low_success_spinner);
+		lowFailure = view.findViewById(R.id.tele_low_failure_spinner);
     }
 
     private void setListeners() {
-
-    	//TODO set up listeners (use OnIncrementListener for incrementing buttons)
+		highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
+		highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
+		highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
+		highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
+		lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
+		lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
+		lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
+		lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
 
     }
 
-    private class OnIncrementListener implements View.OnClickListener {
+    private static class OnIncrementListener implements View.OnClickListener {
 
         int m_increment;
         Spinner m_spinner;

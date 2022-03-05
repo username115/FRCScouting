@@ -1,8 +1,6 @@
 package org.frc836.yearly;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +20,6 @@ import android.widget.Toast;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.PitStats;
-import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
@@ -52,8 +49,8 @@ public class PitsActivity extends DBActivity {
 	private CheckBox otherDriveC;
 
 	private static final int NUM_RATINGS = 5;
-	private CheckBox[] mechC = new CheckBox[NUM_RATINGS];
-	private CheckBox[] elecC = new CheckBox[NUM_RATINGS];
+	private final CheckBox[] mechC = new CheckBox[NUM_RATINGS];
+	private final CheckBox[] elecC = new CheckBox[NUM_RATINGS];
 
 	private EditText commentsT;
 
@@ -325,7 +322,7 @@ public class PitsActivity extends DBActivity {
 		String date = db.getTeamPitInfo(String.valueOf(teamNum));
 		if (date.length() > 0) {
 			if (dataClear()) {
-				teamInfoT.setText("Last Updated: " + date.trim());
+				teamInfoT.setText(getString(R.string.last_updated, date.trim()));
 				getTeamStats(teamNum);
 			} else {
 				teamLoad = teamNum;
@@ -335,21 +332,12 @@ public class PitsActivity extends DBActivity {
 						"Data for this team exists. Overwrite current form?")
 						.setCancelable(false)
 						.setPositiveButton("Yes",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-														int id) {
-										teamInfoT.setText("Last Updated: "
-												+ dateLoad.trim());
-										getTeamStats(teamLoad);
-									}
+								(dialog, id) -> {
+									teamInfoT.setText(getString(R.string.last_updated, dateLoad.trim()));
+									getTeamStats(teamLoad);
 								})
 						.setNegativeButton("No",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-														int id) {
-										dialog.cancel();
-									}
-								});
+								(dialog, id) -> dialog.cancel());
 				builder.show();
 			}
 		} else {

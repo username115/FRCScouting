@@ -25,21 +25,22 @@ import org.growingstems.scouting.R;
 import org.growingstems.scouting.MenuSelections.Refreshable;
 
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.webkit.URLUtil;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 public class DataActivity extends DBActivity implements ActionBar.TabListener,
         Refreshable {
@@ -80,18 +81,8 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
     protected static final int[] FUTURE_MATCH_TABS = {DataFragment.PT_MATCHINFOCURRENTEVENT
     };
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
-     * derivative, which will keep every loaded fragment in memory. If this
-     * becomes too memory intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     ViewPager mViewPager;
 
     @Override

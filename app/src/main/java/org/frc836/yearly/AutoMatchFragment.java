@@ -15,19 +15,18 @@
  */
 package org.frc836.yearly;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.ToggleButton;
+
+import androidx.annotation.NonNull;
 
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
-import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 
@@ -36,6 +35,22 @@ public class AutoMatchFragment extends MatchFragment {
 	private MatchStatsStruct tempData = new MatchStatsStruct();
 
 	private boolean displayed = false;
+
+	private ToggleButton taxi;
+
+	private Button highSuccessIncrement;
+	private Button highSuccessDecrement;
+	private Button highFailureIncrement;
+	private Button highFailureDecrement;
+	private Button lowSuccessIncrement;
+	private Button lowSuccessDecrement;
+	private Button lowFailureIncrement;
+	private Button lowFailureDecrement;
+
+	private Spinner highSuccess;
+	private Spinner highFailure;
+	private Spinner lowSuccess;
+	private Spinner lowFailure;
 
 
 	public AutoMatchFragment() {
@@ -89,8 +104,12 @@ public class AutoMatchFragment extends MatchFragment {
 
 		MatchStatsYearly.clearAuto(data);
 
-		//TODO save data
+		data.auto_taxi = taxi.isChecked();
 
+		data.auto_high_score = highSuccess.getSelectedItemPosition();
+		data.auto_high_miss = highFailure.getSelectedItemPosition();
+		data.auto_low_score = lowSuccess.getSelectedItemPosition();
+		data.auto_low_miss = lowFailure.getSelectedItemPosition();
 	}
 
 	@Override
@@ -99,27 +118,45 @@ public class AutoMatchFragment extends MatchFragment {
 		if (getView() == null || data == null || !displayed)
 			return;
 
-		Activity act = getActivity();
-		String pos;
-		if (act instanceof MatchActivity)
-			pos = ((MatchActivity) act).getPosition();
-		else
-			pos = Prefs.getPosition(getActivity(), "Red 1");
+		taxi.setChecked(data.auto_taxi);
 
-
-		//TODO load data
+		highSuccess.setSelection(data.auto_high_score);
+		highFailure.setSelection(data.auto_high_miss);
+		lowSuccess.setSelection(data.auto_low_score);
+		lowFailure.setSelection(data.auto_low_miss);
 	}
 
 	private void getGUIRefs(View view) {
-		//TODO get GUI refs
+
+		taxi = view.findViewById(R.id.taxiToggle);
+
+		highSuccessIncrement = view.findViewById(R.id.increment_auto_high_success);
+		highSuccessDecrement = view.findViewById(R.id.decrement_auto_high_success);
+		highFailureIncrement = view.findViewById(R.id.increment_auto_high_failure);
+		highFailureDecrement = view.findViewById(R.id.decrement_auto_high_failure);
+		lowSuccessIncrement = view.findViewById(R.id.increment_auto_low_success);
+		lowSuccessDecrement = view.findViewById(R.id.decrement_auto_low_success);
+		lowFailureIncrement = view.findViewById(R.id.increment_auto_low_failure);
+		lowFailureDecrement = view.findViewById(R.id.decrement_auto_low_failure);
+
+		highSuccess = view.findViewById(R.id.auto_high_success_spinner);
+		highFailure = view.findViewById(R.id.auto_high_failure_spinner);
+		lowSuccess = view.findViewById(R.id.auto_low_success_spinner);
+		lowFailure = view.findViewById(R.id.auto_low_failure_spinner);
 	}
 
 	private void setListeners() {
-		//TODO (use OnIncrementListener where appropriate)
-
+		highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
+		highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
+		highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
+		highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
+		lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
+		lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
+		lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
+		lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
 	}
 
-	private class OnIncrementListener implements View.OnClickListener {
+	private static class OnIncrementListener implements View.OnClickListener {
 
 		int m_increment;
 		Spinner m_spinner;

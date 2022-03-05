@@ -3,6 +3,8 @@
 
     <color name="pits_seperator_color">#ff777777</color>
 
+	<string name="last_updated">Last Updated: %1$s</string>
+
     <string name="header_text_auto">Autonomous Mode</string>
     <string name="header_text_teleop">Tele-Op Mode</string>
 

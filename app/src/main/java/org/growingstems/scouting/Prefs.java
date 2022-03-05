@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,7 @@ import java.util.List;
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService;
 import org.frc836.database.DBSyncService.LocalBinder;
-import org.growingstems.scouting.R;
-import org.sigmond.net.HttpCallback;
-import org.sigmond.net.HttpRequestInfo;
+import org.frc836.database.HttpCallback;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -41,6 +39,8 @@ import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.widget.Toast;
+
+import com.android.volley.VolleyError;
 
 public class Prefs extends PreferenceActivity {
 
@@ -171,10 +171,11 @@ public class Prefs extends PreferenceActivity {
             isPass = pass;
         }
 
-        public void onResponse(HttpRequestInfo resp) {
+        @Override
+        public void onResponse(String resp) {
             Toast toast;
             try {
-                if (resp.getResponseString().contains("success")) {
+                if (resp.contains("success")) {
                     toast = Toast.makeText(getBaseContext(),
                             "Password confirmed", Toast.LENGTH_SHORT);
                     if (binder != null) {
@@ -192,7 +193,8 @@ public class Prefs extends PreferenceActivity {
                 toast.show();
         }
 
-        public void onError(Exception e) {
+        @Override
+        public void onError(VolleyError e) {
             Toast toast = Toast.makeText(getBaseContext(),
                     "Cannot connect to Server", Toast.LENGTH_SHORT);
             toast.show();

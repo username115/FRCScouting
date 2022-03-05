@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,6 @@ import org.frc836.samsung.fileselector.OnHandleFileListener;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 import org.growingstems.scouting.ScoutingMenuActivity;
-import org.sigmond.net.*;
 
 import android.app.NotificationManager;
 import android.content.ContentValues;
@@ -49,11 +48,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
 import android.widget.Toast;
 
-import org.frc836.yearly.MatchStatsYearly;
+import androidx.core.app.NotificationCompat;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 public class DB {
 
@@ -62,7 +65,7 @@ public class DB {
     // have the same name for all tables
     public static final String COLUMN_NAME_TIMESTAMP = PitStats.COLUMN_NAME_TIMESTAMP;
 
-    private HttpUtils utils;
+    private RequestQueue reqQueue = null;
     private String password;
     private Context context;
     private LocalBinder binder;
@@ -77,9 +80,10 @@ public class DB {
     }
 
     public DB(Context context, String pass, LocalBinder binder) {
-        utils = new HttpUtils();
         password = pass;
         this.context = context;
+		reqQueue = Volley.newRequestQueue(context);
+		reqQueue.start();
         //initialize the database if it isn't created already
         SQLiteDatabase tmp = ScoutingDBHelper.getInstance(context.getApplicationContext()).getReadableDatabase();
         tmp.close();
@@ -88,7 +92,8 @@ public class DB {
 
     public DB(Context context, LocalBinder binder) {
         this.context = context;
-        utils = new HttpUtils();
+		reqQueue = Volley.newRequestQueue(context);
+		reqQueue.start();
         password = Prefs.getSavedPassword(context);
         //initialize the database if it isn't created already
         SQLiteDatabase tmp = ScoutingDBHelper.getInstance(context.getApplicationContext()).getReadableDatabase();
@@ -428,13 +433,23 @@ public class DB {
         params.put("password", pass);
         params.put("type", "passConfirm");
 
-        utils.doPost(Prefs.getScoutingURL(context), params, callback);
+		reqQueue.add(new StringRequest(Request.Method.POST, Prefs.getScoutingURL(context), callback::onResponse, callback::onError) {
+			@Override
+			protected Map<String, String> getParams() {
+				return params;
+			}
+		});
     }
 
     public void checkVersion(HttpCallback callback) {
         Map<String, String> args = new HashMap<String, String>();
         args.put("type", "versioncheck");
-        utils.doPost(Prefs.getScoutingURL(context), args, callback);
+		reqQueue.add(new StringRequest(Request.Method.POST, Prefs.getScoutingURL(context), callback::onResponse, callback::onError) {
+			@Override
+			protected Map<String, String> getParams() {
+				return args;
+			}
+		});
     }
 
     public String getTeamPitInfo(String teamNum) {

@@ -26,7 +26,7 @@ import android.widget.ArrayAdapter;
 
 public class PitsDataFragment extends DataFragment {
 
-    protected int teamNum = -1;
+    protected int teamNum;
 
     public static PitsDataFragment getInstance(int team_num) {
         PitsDataFragment fragment = new PitsDataFragment();
@@ -47,7 +47,7 @@ public class PitsDataFragment extends DataFragment {
         if (!isDisplayed())
             return;
 
-        List<String> data = null;
+        List<String> data;
 
         PitStats stat = mParent.getDB().getTeamPitStats(teamNum);
 
@@ -56,13 +56,13 @@ public class PitsDataFragment extends DataFragment {
         if (stat.team_id > 0) {
             Map<String, String> myData = stat.getDisplayData();
 
-            data = new ArrayList<String>(myData.size());
+            data = new ArrayList<>(myData.size());
 
             for (Map.Entry<String, String> line : myData.entrySet()) {
                 data.add(line.getKey() + ": " + line.getValue());
             }
         } else {
-            data = new ArrayList<String>(1);
+            data = new ArrayList<>(1);
             data.add("No Pit data available for team");
         }
         //} else {
@@ -70,8 +70,8 @@ public class PitsDataFragment extends DataFragment {
         //    data.add("Data gathered from wrong year.");
         //}
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getActivity(), defaultListResource, data);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
+				getActivity(), defaultListResource, data);
         dataList.setAdapter(adapter);
     }
 
