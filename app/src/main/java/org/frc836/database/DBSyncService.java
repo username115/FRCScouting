@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,9 +31,6 @@ import org.growingstems.scouting.Prefs;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sigmond.net.HttpCallback;
-import org.sigmond.net.HttpRequestInfo;
-import org.sigmond.net.HttpUtils;
 import org.growingstems.scouting.R;
 
 import android.app.NotificationManager;
@@ -50,10 +47,18 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.webkit.URLUtil;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 public class DBSyncService extends Service {
 
@@ -61,7 +66,7 @@ public class DBSyncService extends Service {
 
     private final IBinder mBinder = new LocalBinder();
 
-    private HttpUtils utils;
+    private RequestQueue reqQueue = null;
 
     private String password;
 
@@ -115,7 +120,10 @@ public class DBSyncService extends Service {
 
         password = Prefs.getSavedPassword(getApplicationContext());
 
-        utils = new HttpUtils();
+        if(reqQueue == null) {
+			reqQueue = Volley.newRequestQueue(this);
+			reqQueue.start();
+		}
 
         DBSyncService.version = getString(R.string.VersionID);
 
@@ -132,7 +140,7 @@ public class DBSyncService extends Service {
         notifyIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(this, 0, notifyIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         mBuilder.setContentIntent(intent);
 
@@ -291,8 +299,14 @@ public class DBSyncService extends Service {
         args.put("password", password);
         args.put("type", "fullsync");
         args.put("version", version);
-        utils.doPost(Prefs.getScoutingURLNoDefault(getApplicationContext()),
-                args, new SyncCallback());
+		reqQueue.add(new StringRequest(Request.Method.POST, Prefs
+				.getScoutingURLNoDefault(getApplicationContext()),
+				new SyncCallback(), new SyncErrorCallback()) {
+			@Override
+			protected Map<String, String> getParams() {
+				return args;
+			}
+		});
     }
 
     // task to process a sync response
@@ -371,9 +385,14 @@ public class DBSyncService extends Service {
                                 "Sending " + outgoing.size() + " records",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    utils.doPost(Prefs
-                                    .getScoutingURLNoDefault(getApplicationContext()),
-                            outgoing.get(0), new ChangeResponseCallback());
+                    reqQueue.add(new StringRequest(Request.Method.POST, Prefs
+							.getScoutingURLNoDefault(getApplicationContext()),
+							new ChangeResponseCallback(outgoing.get(0)), new ChangeErrorCallback()) {
+						@Override
+						protected Map<String, String> getParams() {
+							return outgoing.get(0);
+						}
+					});
                     updateNotificationText("Uploading " + outgoing.size()
                             + " records");
                 } else {
@@ -412,14 +431,19 @@ public class DBSyncService extends Service {
     }
 
     // callback for initial sync request. Expects JSON response
-    private class SyncCallback implements HttpCallback {
+    private class SyncCallback implements Response.Listener<String> {
 
-        public void onResponse(HttpRequestInfo resp) {
-            ProcessData dataProc = new ProcessData();
-            dataProc.execute(resp.getResponseString());
-        }
+		@Override
+		public void onResponse(String resp) {
+			ProcessData dataProc = new ProcessData();
+			dataProc.execute(resp);
+		}
+	}
 
-        public void onError(Exception e) {
+	private class SyncErrorCallback implements Response.ErrorListener {
+
+    	@Override
+        public void onErrorResponse(VolleyError e) {
             if (!running)
                 return;
             if (syncForced) {
@@ -440,19 +464,30 @@ public class DBSyncService extends Service {
     }
 
     // callback for updates sent to server
-    private class ChangeResponseCallback implements HttpCallback {
+    private class ChangeResponseCallback implements Response.Listener<String> {
 
-        public void onResponse(HttpRequestInfo resp) {
-            ChangeResponseProcess dataProc = new ChangeResponseProcess();
-            if (DB.debug) {
-                Toast.makeText(getApplicationContext(),
-                        "Response to submission:" + resp.getResponseString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-            dataProc.execute(resp);
-        }
+    	public Map<String, String> params;
 
-        public void onError(Exception e) {
+    	public ChangeResponseCallback(Map<String, String> p) {
+    		params = p;
+		}
+
+		@Override
+		public void onResponse(String resp) {
+			ChangeResponseProcess dataProc = new ChangeResponseProcess();
+			if (DB.debug) {
+				Toast.makeText(getApplicationContext(),
+						"Response to submission:" + resp,
+						Toast.LENGTH_SHORT).show();
+			}
+			dataProc.execute(new RequestInfo(resp, params));
+		}
+	}
+
+	private class ChangeErrorCallback implements Response.ErrorListener {
+
+    	@Override
+        public void onErrorResponse(VolleyError e) {
             if (!running)
                 return;
             if (syncForced) {
@@ -473,14 +508,34 @@ public class DBSyncService extends Service {
 
     }
 
+	private static class RequestInfo {
+		String resp;
+		Map<String, String> params;
+
+		RequestInfo(String r, Map<String, String> p) {
+			resp = r;
+			params = p;
+		}
+
+		String getResponseString() {
+			return resp;
+		}
+
+		Map<String, String> getParams() {
+			return params;
+		}
+
+	}
+
     // processes responses from server for updates sent
     private class ChangeResponseProcess extends
-            AsyncTask<HttpRequestInfo, Integer, Integer> {
+            AsyncTask<RequestInfo, Integer, Integer> {
+
 
         private Exception ex = null;
 
         @Override
-        protected Integer doInBackground(HttpRequestInfo... params) {
+        protected Integer doInBackground(RequestInfo... params) {
             if (!running)
                 return null;
             ex = null;
@@ -608,10 +663,16 @@ public class DBSyncService extends Service {
             else
                 lastSyncTimeForNotify = new Date();
             synchronized (outgoing) {
-                if (!outgoing.isEmpty() && ex == null)
-                    utils.doPost(Prefs
-                                    .getScoutingURLNoDefault(getApplicationContext()),
-                            outgoing.get(0), new ChangeResponseCallback());
+                if (!outgoing.isEmpty() && ex == null) {
+					reqQueue.add(new StringRequest(Request.Method.POST, Prefs
+							.getScoutingURLNoDefault(getApplicationContext()),
+							new ChangeResponseCallback(outgoing.get(0)), new ChangeErrorCallback()) {
+						@Override
+						protected Map<String, String> getParams() {
+							return outgoing.get(0);
+						}
+					});
+				}
                 else {
                     if (syncForced) {
                         syncForced = false;
@@ -685,7 +746,13 @@ public class DBSyncService extends Service {
             args.put("type", "sync");
             args.put("timestamp", String.valueOf(lastSync.getTime()));
             args.put("version", version);
-            utils.doPost(url, args, new SyncCallback());
+			reqQueue.add(new StringRequest(Request.Method.POST, url,
+					new SyncCallback(), new SyncErrorCallback()) {
+				@Override
+				protected Map<String, String> getParams() {
+					return args;
+				}
+			});
         }
     }
 
@@ -1430,10 +1497,11 @@ public class DBSyncService extends Service {
                             args.put("password", password);
                             args.put("type", "match");
                             args.put("version", version);
-                            for (int i = 0; i < matchProjection.length; i++) {
-                                args.put(matchProjection[i], c.getString(c
-                                        .getColumnIndex(matchProjection[i])));
-                            }
+							for (String colName: matchProjection) {
+								int col = c.getColumnIndex(colName);
+								if (col >= 0)
+									args.put(colName, c.getString(col));
+							}
                             outgoing.add(args);
                         } while (c.moveToNext());
                 }
@@ -1467,10 +1535,11 @@ public class DBSyncService extends Service {
                             args.put("password", password);
                             args.put("type", "pits");
                             args.put("version", version);
-                            for (int i = 0; i < pitProjection.length; i++) {
-                                args.put(pitProjection[i], c.getString(c
-                                        .getColumnIndex(pitProjection[i])));
-                            }
+							for (String colName: pitProjection) {
+								int col = c.getColumnIndex(colName);
+								if (col >= 0)
+									args.put(colName, c.getString(col));
+							}
                             outgoing.add(args);
                         } while (c.moveToNext());
                 }
@@ -1508,10 +1577,11 @@ public class DBSyncService extends Service {
                             args.put("password", password);
                             args.put("type", "picklist");
                             args.put("version", version);
-                            for (int i = 0; i < pickProjection.length; i++) {
-                                args.put(pickProjection[i], c.getString(c
-                                        .getColumnIndex(pickProjection[i])));
-                            }
+							for (String colName: pickProjection) {
+								int col = c.getColumnIndex(colName);
+								if (col >= 0)
+									args.put(colName, c.getString(col));
+							}
                             outgoing.add(args);
                         } while (c.moveToNext());
                 }

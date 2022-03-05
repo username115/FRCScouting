@@ -17,12 +17,13 @@
 package org.growingstems.scouting;
 
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public abstract class ScoutingMenuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -36,11 +37,12 @@ public abstract class ScoutingMenuActivity extends AppCompatActivity implements 
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MainMenuSelection.onOptionsItemSelected(item, this) ? true
-                : super.onOptionsItemSelected(item);
+        return MainMenuSelection.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    	super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_FILE_REQUEST: {
                 // If request is cancelled, the result arrays are empty.
@@ -49,13 +51,15 @@ public abstract class ScoutingMenuActivity extends AppCompatActivity implements 
                     // permission was granted, yay!
                     MainMenuSelection.exportDB(this);
                 }
-                return;
+                break;
             }
 
             // other 'case' lines to check for other
             // permissions this app might request.
         }
     }
+
+    public abstract String getHelpMessage();
 
 
 }

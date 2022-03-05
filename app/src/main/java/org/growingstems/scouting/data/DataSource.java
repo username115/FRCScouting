@@ -30,9 +30,9 @@ import java.util.Set;
 
 public class DataSource {
 
-    public enum DataType {None, Graphs, AVG}
+    public enum DataType {Graphs, AVG}
 
-    private DB db;
+    private final DB db;
 
     public DataSource(DB db) {
         this.db = db;
@@ -52,9 +52,9 @@ public class DataSource {
         db.getMatchesForTeam(team, event, new DBResp(data));
     }
 
-    private class DBResp implements DB.DBCallback {
+    private static class DBResp implements DB.DBCallback {
 
-        private Data _data;
+        private final Data _data;
 
         public DBResp(Data data) {
             _data = data;
@@ -74,10 +74,10 @@ public class DataSource {
         void onFinished(Data data);
     }
 
-    public class Data {
+    public static class Data {
         protected DataCallback _callback;
 
-        private DataType _dataType = DataType.None;
+        private final DataType _dataType;
 
         protected DB.DBData _input;
 
@@ -155,7 +155,7 @@ public class DataSource {
 
     }
 
-    private class GraphsAsync extends AsyncTask<Data, Integer, Data> {
+    private static class GraphsAsync extends AsyncTask<Data, Integer, Data> {
 
 
         @Override
@@ -163,13 +163,13 @@ public class DataSource {
 
             Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
 
-            params[0]._graphs = new HashMap<String, Map<String, SparseIntArray>>(eventMap.size());
+            params[0]._graphs = new HashMap<>(eventMap.size());
 
             int count = 0;
 
             for (Map.Entry<String, SparseArray<MatchStatsStruct>> event : eventMap.entrySet()) {
                 SparseArray<MatchStatsStruct> matches = event.getValue();
-                Map<String, SparseIntArray> graphs = new HashMap<String, SparseIntArray>(MatchStatsYearly.NUM_GRAPHS);
+                Map<String, SparseIntArray> graphs = new HashMap<>(MatchStatsYearly.NUM_GRAPHS);
 
                 for (int j = 0; j < MatchStatsYearly.NUM_GRAPHS; j++) {
                     SparseIntArray scores = new SparseIntArray(matches.size());
@@ -193,7 +193,7 @@ public class DataSource {
         }
     }
 
-    private class AVGAsync extends AsyncTask<Data, Integer, Data> {
+    private static class AVGAsync extends AsyncTask<Data, Integer, Data> {
 
 
         @Override
@@ -201,13 +201,13 @@ public class DataSource {
 
             Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
 
-            params[0]._avgs= new HashMap<String, Map<String, Double>>(eventMap.size());
+            params[0]._avgs= new HashMap<>(eventMap.size());
 
             int count = 0;
 
             for (Map.Entry<String, SparseArray<MatchStatsStruct>> event : eventMap.entrySet()) {
                 SparseArray<MatchStatsStruct> matches = event.getValue();
-                Map<String, Double> avgs = new HashMap<String, Double>(MatchStatsYearly.NUM_GRAPHS);
+                Map<String, Double> avgs = new HashMap<>(MatchStatsYearly.NUM_GRAPHS);
 
                 for (int j = 0; j < MatchStatsYearly.NUM_GRAPHS; j++) {
                     int avg = 0;

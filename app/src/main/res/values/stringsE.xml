@@ -2,16 +2,16 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name="notes">Notes</string>
     <string name="common_notes"/>
-    <string name="tipped">Bot tipped over</string>
-    <string name="foul">Foul</string>
+    <string name="techfoul">Tech Foul</string>
     <string name="yellowcard">Yellow Card</string>
     <string name="redcard">Red Card</string>
     <string name="end_input_text">End Game</string>
     <string name="climb_time_hint">seconds</string>
-    <string name="unknown">Unknown</string>
-	<string name="park">Park</string>
-	<string name="hang">Hang</string>
-	<string name="hang_attempt">Hang Attempt</string>
-	<string name="gen_level">Level</string>
+    <string name="opp_tarmac_string">Scored from tarmac on opponent alliances side of field</string>
+	<string name="ally_tarmac_string">Scored from tarmac on own alliances side of field</string>
+	<string name="ally_outfield_string">Scored from outfield on own alliances side of field</string>
+	<string name="opp_outfield_string">Scored from outfield on opponent alliances side of field</string>
+	<string name="fender_string">Robot tended to line up on the fender</string>
+	<string name="launchpad_string">Robot utilized the alliance launchpad</string>
 
 </resources>

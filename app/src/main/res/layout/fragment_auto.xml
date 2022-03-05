@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
+	android:layout_width="wrap_content"
 	android:layout_height="match_parent"
 	tools:context="org.frc836.yearly.AutoMatchFragment">
 
@@ -14,116 +14,259 @@
 		android:text="@string/auto_input_text"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
 
-	<CheckBox
-		android:id="@+id/autoBonusC"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/AutoText"
-		android:layout_centerHorizontal="true"
-		android:text="@string/auto_bonus" />
-
 	<ScrollView
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/autoBonusC">
+		android:layout_height="match_parent"
+		android:layout_below="@id/AutoText">
 
-		<TableLayout
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:orientation="vertical">
 
-			<TableRow
+			<ToggleButton
+				android:id="@+id/taxiToggle"
+				android:layout_width="94dp"
+				android:layout_height="74dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginBottom="25dp"
+				android:background="@drawable/icon_toggleautobutton"
+				android:textOff=""
+				android:textOn=""
+				tools:layout_centerHorizontal="true" />
+
+
+			<TableLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 
-				<ImageButton
-					android:id="@+id/auto_port_highB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_high"
-					tools:ignore="ContentDescription" />
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/high" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
 
-				<Spinner
-					android:id="@+id/auto_port_highS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
+						<ImageView
+							android:id="@+id/decrement_auto_high_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
-			</TableRow>
+						<Button
+							android:id="@+id/decrement_auto_high_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
 
-			<TableRow
+						<Spinner
+							android:id="@+id/auto_high_success_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_auto_high_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_auto_high_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
+					</LinearLayout>
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
+
+						<ImageView
+							android:id="@+id/decrement_auto_high_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+						<Button
+							android:id="@+id/decrement_auto_high_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
+
+						<Spinner
+							android:id="@+id/auto_high_failure_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_auto_high_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_auto_high_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+					</LinearLayout>
+
+				</TableRow>
+
+			</TableLayout>
+
+			<RelativeLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 
-				<ImageButton
-					android:id="@+id/auto_port_missB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_miss"
-					tools:ignore="ContentDescription" />
+				<ImageView
+					android:id="@+id/hub_image_auto"
+					android:layout_width="300dp"
+					android:layout_height="300dp"
+					android:layout_centerHorizontal="true"
+					android:src="@drawable/fieldimage_hub_side_raster" />
+			</RelativeLayout>
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/miss" />
-
-				<Spinner
-					android:id="@+id/auto_port_missS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
-
-			</TableRow>
-
-			<TableRow
+			<TableLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 
-				<ImageButton
-					android:id="@+id/auto_port_lowB"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:adjustViewBounds="true"
-					android:background="@android:color/transparent"
-					android:scaleType="fitXY"
-					android:src="@drawable/red_port_low"
-					tools:ignore="ContentDescription" />
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="@string/low" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
 
-				<Spinner
-					android:id="@+id/auto_port_lowS"
-					style="@style/SpinnerAsEditTextHalfAlpha"
-					android:layout_width="60sp"
-					android:layout_height="60sp"
-					android:layout_gravity="center"
-					android:entries="@array/numbers"
-					android:gravity="center" />
+						<ImageView
+							android:id="@+id/decrement_auto_low_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
-			</TableRow>
-		</TableLayout>
+						<Button
+							android:id="@+id/decrement_auto_low_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
+
+						<Spinner
+							android:id="@+id/auto_low_success_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_auto_low_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_auto_low_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
+
+					</LinearLayout>
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
+
+						<ImageView
+							android:id="@+id/decrement_auto_low_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+						<Button
+							android:id="@+id/decrement_auto_low_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
+
+						<Spinner
+							android:id="@+id/auto_low_failure_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_auto_low_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_auto_low_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+					</LinearLayout>
+
+				</TableRow>
+
+			</TableLayout>
+
+		</LinearLayout>
 	</ScrollView>
 
 </RelativeLayout>

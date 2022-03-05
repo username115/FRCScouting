@@ -15,43 +15,39 @@
  */
 package org.frc836.yearly;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
 
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
-import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
 
 public class TeleMatchFragment extends MatchFragment {
 
-	private ImageButton highB;
-	private ImageButton missB;
-	private ImageButton lowB;
-
-	private Spinner highS;
-	private Spinner missS;
-	private Spinner lowS;
-
-	private ImageButton rotB;
-	private ImageButton posB;
-
-	private FrameLayout rotL;
-	private FrameLayout posL;
-
     private MatchStatsStruct tempData = new MatchStatsStruct();
 
     private boolean displayed = false;
+
+	private Button highSuccessIncrement;
+	private Button highSuccessDecrement;
+	private Button highFailureIncrement;
+	private Button highFailureDecrement;
+	private Button lowSuccessIncrement;
+	private Button lowSuccessDecrement;
+	private Button lowFailureIncrement;
+	private Button lowFailureDecrement;
+
+	private Spinner highSuccess;
+	private Spinner highFailure;
+	private Spinner lowSuccess;
+	private Spinner lowFailure;
 
 
     public TeleMatchFragment() {
@@ -103,13 +99,12 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-        //MatchStatsYearly.clearTele(data); //need to not clear for control inputs
+        MatchStatsYearly.clearTele(data);
 
-		data.score_high = highS.getSelectedItemPosition();
-		data.miss = missS.getSelectedItemPosition();
-		data.score_low = lowS.getSelectedItemPosition();
-		data.rotation_control = tempData.rotation_control;
-		data.position_control = tempData.position_control;
+		data.high_score = highSuccess.getSelectedItemPosition();
+		data.high_miss = highFailure.getSelectedItemPosition();
+		data.low_score = lowSuccess.getSelectedItemPosition();
+		data.low_miss = lowFailure.getSelectedItemPosition();
 
     }
 
@@ -119,71 +114,42 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || data == null || !displayed)
             return;
 
-		Activity act = getActivity();
-		String pos;
-		if (act instanceof MatchActivity)
-			pos = ((MatchActivity) act).getPosition();
-		else
-			pos = Prefs.getPosition(getActivity(), "Red 1");
-
-
-		if (pos.contains("Blue")) {
-			highB.setImageResource(R.drawable.blue_port_high);
-			missB.setImageResource(R.drawable.blue_port_miss);
-			lowB.setImageResource(R.drawable.blue_port_low);
-		} else {
-			highB.setImageResource(R.drawable.red_port_high);
-			missB.setImageResource(R.drawable.red_port_miss);
-			lowB.setImageResource(R.drawable.red_port_low);
-		}
-
-
-		highS.setSelection(data.score_high);
-		missS.setSelection(data.miss);
-		lowS.setSelection(data.score_low);
-
-		Drawable blackBorder = ContextCompat.getDrawable(getView().getContext(), R.drawable.blackborder);
-		Drawable selectBorder = ContextCompat.getDrawable(getView().getContext(), R.drawable.greenborder);
-		rotL.setForeground(data.rotation_control ? selectBorder : blackBorder);
-		posL.setForeground(data.position_control ? selectBorder : blackBorder);
+		highSuccess.setSelection(data.high_score);
+		highFailure.setSelection(data.high_miss);
+		lowSuccess.setSelection(data.low_score);
+		lowFailure.setSelection(data.low_miss);
     }
 
     private void getGUIRefs(View view) {
-		highB = view.findViewById(R.id.port_highB);
-		missB = view.findViewById(R.id.port_missB);
-		lowB = view.findViewById(R.id.port_lowB);
 
-		highS = view.findViewById(R.id.port_highS);
-		missS = view.findViewById(R.id.port_missS);
-		lowS = view.findViewById(R.id.port_lowS);
+		highSuccessIncrement = view.findViewById(R.id.increment_tele_high_success);
+		highSuccessDecrement = view.findViewById(R.id.decrement_tele_high_success);
+		highFailureIncrement = view.findViewById(R.id.increment_tele_high_failure);
+		highFailureDecrement = view.findViewById(R.id.decrement_tele_high_failure);
+		lowSuccessIncrement = view.findViewById(R.id.increment_tele_low_success);
+		lowSuccessDecrement = view.findViewById(R.id.decrement_tele_low_success);
+		lowFailureIncrement = view.findViewById(R.id.increment_tele_low_failure);
+		lowFailureDecrement = view.findViewById(R.id.decrement_tele_low_failure);
 
-		rotB = view.findViewById(R.id.control_rotationB);
-		posB = view.findViewById(R.id.control_positionB);
-		rotL = view.findViewById(R.id.control_rotationL);
-		posL = view.findViewById(R.id.control_positionL);
+		highSuccess = view.findViewById(R.id.tele_high_success_spinner);
+		highFailure = view.findViewById(R.id.tele_high_failure_spinner);
+		lowSuccess = view.findViewById(R.id.tele_low_success_spinner);
+		lowFailure = view.findViewById(R.id.tele_low_failure_spinner);
     }
 
     private void setListeners() {
-
-		highB.setOnClickListener(new OnIncrementListener(highS, 1));
-		missB.setOnClickListener(new OnIncrementListener(missS, 1));
-		lowB.setOnClickListener(new OnIncrementListener(lowS, 1));
-		posB.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleControl(true);
-			}
-		});
-		rotB.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleControl(false);
-			}
-		});
+		highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
+		highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
+		highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
+		highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
+		lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
+		lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
+		lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
+		lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
 
     }
 
-    private class OnIncrementListener implements View.OnClickListener {
+    private static class OnIncrementListener implements View.OnClickListener {
 
         int m_increment;
         Spinner m_spinner;
@@ -199,13 +165,4 @@ public class TeleMatchFragment extends MatchFragment {
             m_spinner.setSelection(m_spinner.getSelectedItemPosition() + m_increment);
         }
     }
-	private void toggleControl(boolean pos) {
-		saveData(tempData);
-		if (pos) {
-			tempData.position_control = !tempData.position_control;
-		} else {
-			tempData.rotation_control = !tempData.rotation_control;
-		}
-		loadData(tempData);
-	}
 }

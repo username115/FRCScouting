@@ -1,23 +1,12 @@
-
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `scouting`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `event_lu`
---
+/*!40101 SET NAMES utf8mb4 */;
 
 
 CREATE TABLE IF NOT EXISTS `event_lu` (
@@ -32,259 +21,231 @@ CREATE TABLE IF NOT EXISTS `event_lu` (
   UNIQUE KEY `event_code_2` (`event_code`),
   KEY `timestamp` (`timestamp`),
   KEY `event_code` (`event_code`)
-) ENGINE=MyISAM AUTO_INCREMENT=194 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-
---
--- Dumping data for table `event_lu`
---
+) ENGINE=MyISAM AUTO_INCREMENT=184 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 INSERT INTO `event_lu` (`id`, `event_name`, `event_code`, `date_start`, `timestamp`, `invalid`) VALUES
-(1, 'Canadian Rockies Regional', 'ABCA', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(2, 'Rocket City Regional', 'ALHU', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(3, 'FIRST Championship - Detroit - FIRST Robotics Competition - Archimedes Division', 'ARCHIMEDES', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(4, 'Arkansas Regional', 'ARLI', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(5, 'Southern Cross Regional', 'AUSC', '2020-03-14 00:00:00', '2020-02-08 19:14:44', 0),
-(6, 'South Pacific Regional', 'AUSP', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(7, 'Arizona North Regional', 'AZFL', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(8, 'Arizona West Regional', 'AZPX', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(9, 'Canadian Pacific Regional', 'BCVI', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(10, 'Beijing Cultural Exchange Event #1', 'BEXI', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(11, 'Beijing Cultural Exchange Event #2', 'BEXI2', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(12, 'Aerospace Valley Regional', 'CAAV', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(13, 'Sacramento Regional', 'CADA', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(14, 'Del Mar Regional', 'CADM', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(15, 'Central Valley Regional', 'CAFR', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(16, 'Los Angeles Regional', 'CALA', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(17, 'Los Angeles North Regional', 'CALN', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(18, 'Monterey Bay Regional', 'CAMB', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(19, 'Orange County Regional', 'CAOC', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(20, 'FIRST Championship - Detroit - FIRST Robotics Competition - Carson Division', 'CARSON', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(21, 'FIRST Championship - Houston - FIRST Robotics Competition - Carver Division', 'CARVER', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(22, 'San Diego Regional presented by Qualcomm', 'CASD', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(23, 'San Francisco Regional', 'CASF', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(24, 'Silicon Valley Regional', 'CASJ', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(25, 'Ventura Regional', 'CAVE', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(26, 'FIRST Chesapeake District Championship sponsored by Newport News Shipbuilding', 'CHCMP', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(27, 'Science Park Taichung Regional', 'CHTA', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(28, 'FIRST Championship - Detroit - FIRST Robotics Competition', 'CMPMI', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(29, 'FIRST Championship - Houston - FIRST Robotics Competition', 'CMPTX', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(30, 'Colorado Regional', 'CODE', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(31, 'NE District Hartford Event', 'CTHAR', '2020-04-03 00:00:00', '2020-02-08 19:14:44', 0),
-(32, 'NE District Northern CT Event', 'CTNCT', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(33, 'NE District Waterbury Event', 'CTWAT', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(34, 'FIRST Championship - Detroit - FIRST Robotics Competition - Curie Division', 'CURIE', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(35, 'FIRST Championship - Detroit - FIRST Robotics Competition - Daly Division', 'DALY', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(36, 'FIRST Championship - Detroit - FIRST Robotics Competition - Darwin Division', 'DARWIN', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(37, 'Orlando Regional', 'FLOR', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(38, 'South Florida Regional', 'FLWP', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(39, 'FIRST In Texas District Championship', 'FTCMP', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(40, 'PCH District Albany Event presented by Procter & Gamble', 'GAALB', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(41, 'PCH District Carrollton Event', 'GACAR', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(42, 'Peachtree District State Championship', 'GACMP', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(43, 'PCH District Columbus Event', 'GACOL', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(44, 'PCH District Dalton Event', 'GADAL', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(45, 'PCH District Gainesville Event presented by Automation Direct', 'GAGAI', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(46, 'FIRST Championship - Houston - FIRST Robotics Competition - Galileo Division', 'GALILEO', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(47, 'Hawaii Regional', 'HIHO', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(48, 'FIRST Championship - Houston - FIRST Robotics Competition - Hopper Division', 'HOPPER', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(49, 'Iowa Regional', 'IACF', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(50, 'Idaho Regional', 'IDBO', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(51, 'Midwest Regional', 'ILCH', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(52, 'Central Illinois Regional', 'ILPE', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(53, 'IN District Bloomington Event', 'INBLO', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(54, 'Indiana State Championship', 'INCMP', '2020-04-03 00:00:00', '2020-02-08 19:14:44', 0),
-(55, 'IN District Columbus Event', 'INCOL', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(56, 'IN District St. Joseph Event', 'INMIS', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(57, 'IN District Perry Meridian Event', 'INPMH', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(58, 'FIRST Israel District Championship', 'ISCMP', '2020-03-30 00:00:00', '2020-02-08 19:14:44', 0),
-(59, 'ISR District Event #1', 'ISDE1', '2020-02-24 00:00:00', '2020-02-08 19:14:44', 0),
-(60, 'ISR District Event #2', 'ISDE2', '2020-02-26 00:00:00', '2020-02-08 19:14:44', 0),
-(61, 'ISR District Event #3', 'ISDE3', '2020-03-16 00:00:00', '2020-02-08 19:14:44', 0),
-(62, 'ISR District Event #4', 'ISDE4', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(63, 'Heartland Regional', 'KSLA', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(64, 'Bayou Regional', 'LAKE', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(65, 'NE District Greater Boston Event', 'MABOS', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(66, 'NE District SE Mass Event', 'MABRI', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(67, 'NE District North Shore Event', 'MAREA', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(68, 'NE District Western NE Event', 'MAWNE', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(69, 'NE District WPI Event', 'MAWOR', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(70, 'CHS District Bethesda MD Event', 'MDBET', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(71, 'CHS District Edgewater MD Event sponsored by Leidos', 'MDEDG', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(72, 'CHS District Owings Mills MD Event', 'MDOWI', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(73, 'NE District Pine Tree Event', 'MELEW', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(74, 'FIM District Alpena Event #2', 'MIAL2', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(75, 'FIM District Alpena Event #1', 'MIALP', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(76, 'FIM District Belleville Event', 'MIBEL', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(77, 'FIM District Center Line Event', 'MICEN', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(78, 'Michigan State Championship', 'MICMP', '2020-04-08 00:00:00', '2020-02-08 19:14:44', 0),
-(79, 'FIM District Detroit Event', 'MIDET', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(80, 'FIM District Escanaba Event', 'MIESC', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(81, 'FIM District Ferris State Event', 'MIFER', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(82, 'FIM District Gull Lake Event', 'MIGUL', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(83, 'FIM District Jackson Event', 'MIJAC', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(84, 'FIM District Kettering University Event #2', 'MIKE2', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(85, 'FIM District East Kentwood Event', 'MIKEN', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(86, 'FIM District Kettering University Event #1', 'MIKET', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(87, 'FIM District Kingsford Event', 'MIKNG', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(88, 'FIM District Lakeview Event', 'MILAK', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(89, 'FIM District Lansing Event', 'MILAN', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(90, 'FIM District Lincoln Event', 'MILIN', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(91, 'FIM District Livonia Event', 'MILIV', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(92, 'FIM District Marysville Event', 'MIMAR', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(93, 'FIM District Macomb Community College Event', 'MIMCC', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(94, 'FIM District Midland Event', 'MIMID', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(95, 'FIM District Milford Event', 'MIMIL', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(96, 'FIM District Muskegon Event', 'MIMUS', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(97, 'FIM District Shepherd Event', 'MISHE', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(98, 'FIM District St. Joseph Event', 'MISJO', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(99, 'FIM District Southfield Event', 'MISOU', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(100, 'FIM District Troy Event', 'MITRY', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(101, 'FIM District Traverse City Event', 'MITVC', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(102, 'FIM District West Michigan Event', 'MIWMI', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(103, 'FIM District Woodhaven Event', 'MIWOO', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(104, 'Lake Superior Regional', 'MNDU', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(105, 'Northern Lights Regional', 'MNDU2', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(106, 'Minnesota 10,000 Lakes Regional Presented by the Medtronic Foundation', 'MNMI', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(107, 'Minnesota North Star Regional', 'MNMI2', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(108, 'Greater Kansas City Regional', 'MOKC', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(109, 'Central Missouri Regional', 'MOKC3', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(110, 'St. Louis Regional', 'MOSL', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(111, 'FIRST Mid-Atlantic District Championship', 'MRCMP', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(112, 'Regional Monterrey', 'MXMO', '2020-02-26 00:00:00', '2020-02-08 19:14:44', 0),
-(113, 'Regional Laguna', 'MXTO', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(114, 'FNC District UNC Asheville Event', 'NCASH', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(115, 'FIRST North Carolina State Championship', 'NCCMP', '2020-04-03 00:00:00', '2020-02-08 19:14:44', 0),
-(116, 'FNC District ECU Event', 'NCGRE', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(117, 'FNC District Guilford County Event', 'NCGUI', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(118, 'FNC District UNC Pembroke Event', 'NCPEM', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(119, 'FNC District Wake County Event', 'NCWAK', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(120, 'Great Northern Regional', 'NDGF', '2020-02-26 00:00:00', '2020-02-08 19:14:44', 0),
-(121, 'New England District Championship', 'NECMP', '2020-04-08 00:00:00', '2020-02-08 19:14:44', 0),
-(122, 'FIRST Championship - Houston - FIRST Robotics Competition - Newton Division', 'NEWTON', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(123, 'NE District Granite State Event', 'NHGRS', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(124, 'NE District Southern NH Event', 'NHSNH', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(125, 'FMA District Bridgewater-Raritan Event', 'NJBRI', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(126, 'FMA District Mount Olive Event', 'NJFLA', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(127, 'FMA District Robbinsville Event', 'NJROB', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(128, 'FMA District Montgomery Event', 'NJSKI', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(129, 'FMA District Seneca Event', 'NJTAB', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(130, 'Las Vegas Regional', 'NVLV', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(131, 'SBPLI Long Island Regional #1', 'NYLI', '2020-03-22 00:00:00', '2020-02-08 19:14:44', 0),
-(132, 'SBPLI Long Island Regional #2', 'NYLI2', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(133, 'New York City Regional', 'NYNY', '2020-04-02 00:00:00', '2020-02-08 19:14:44', 0),
-(134, 'Finger Lakes Regional', 'NYRO', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(135, 'Hudson Valley Regional', 'NYSU', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(136, 'New York Tech Valley Regional', 'NYTR', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(137, 'Central New York Regional', 'NYUT', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(138, 'Buckeye Regional', 'OHCL', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(139, 'Miami Valley Regional', 'OHMV', '2020-02-26 00:00:00', '2020-02-08 19:14:44', 0),
-(140, 'Oklahoma Regional', 'OKOK', '2020-03-11 00:00:00', '2020-02-08 19:14:44', 0),
-(141, 'Green Country Regional', 'OKTU', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(142, 'ONT District Georgian College Event', 'ONBAR', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(143, 'FIRST Ontario Provincial Championship', 'ONCMP', '2020-04-08 00:00:00', '2020-02-08 19:14:44', 0),
-(144, 'ONT District McMaster University Event', 'ONHAM', '2020-04-03 00:00:00', '2020-02-08 19:14:44', 0),
-(145, 'ONT District Western University, Western Engineering Event', 'ONLON', '2020-04-03 00:00:00', '2020-02-08 19:14:44', 0),
-(146, 'ONT District North Bay Event', 'ONNOB', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(147, 'ONT District York University Event', 'ONNYO', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(148, 'ONT District Durham College Event', 'ONOSH', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(149, 'ONT District Carleton University Event', 'ONOTT', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(150, 'ONT District Ryerson University Event', 'ONTO1', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(151, 'ONT District Humber College Event', 'ONTO3', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(152, 'ONT District University of Waterloo Event', 'ONWAT', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(153, 'ONT District Windsor Essex Great Lakes Event', 'ONWIN', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(154, 'PNW District Clackamas Academy Event', 'ORORE', '2020-02-27 00:00:00', '2020-02-08 19:14:44', 0),
-(155, 'PNW District Oregon State Fairgrounds Event', 'ORSAL', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(156, 'PNW District Wilsonville Event', 'ORWIL', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(157, 'FMA District Bensalem Event', 'PABEN', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(158, 'Greater Pittsburgh Regional', 'PACA', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(159, 'FMA District Hatboro-Horsham Event', 'PAHAT', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(160, 'FMA District Springside Chestnut Hill Academy Event', 'PAPHI', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(161, 'Pacific Northwest FIRST District Championship', 'PNCMP', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(162, 'Festival de Robotique a Montreal Regional', 'QCMO', '2020-04-08 00:00:00', '2020-02-08 19:14:44', 0),
-(163, 'Festival de Robotique a Sherbrooke Regional', 'QCSH', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(164, 'FIRST Championship - Houston - FIRST Robotics Competition - Roebling Division', 'ROEBLING', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(165, 'Palmetto Regional', 'SCMB', '2020-02-26 00:00:00', '2020-02-08 19:14:44', 0),
-(166, 'FIRST Championship - Detroit - FIRST Robotics Competition - Tesla Division', 'TESLA', '2020-04-29 00:00:00', '2020-02-08 19:14:44', 0),
-(167, 'Smoky Mountains Regional', 'TNKN', '2020-03-25 00:00:00', '2020-02-08 19:14:44', 0),
-(168, 'Memphis Regional', 'TNME', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0),
-(169, 'Istanbul Regional', 'TUIS', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(170, 'Bosphorus Regional', 'TUIS2', '2020-03-09 00:00:00', '2020-02-08 19:14:44', 0),
-(171, 'FIRST Championship - Houston - FIRST Robotics Competition - Turing Division', 'TURING', '2020-04-15 00:00:00', '2020-02-08 19:14:44', 0),
-(172, 'FIT District Amarillo Event', 'TXAMA', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(173, 'FIT District Austin Event', 'TXAUS', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(174, 'FIT District Channelview Event', 'TXCHA', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(175, 'FIT District Del Rio Event', 'TXDEL', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(176, 'FIT District Dallas Event', 'TXDLS', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(177, 'FIT District Dripping Springs Event', 'TXDRI', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(178, 'FIT District El Paso Event', 'TXELP', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(179, 'FIT District Fort Worth Event', 'TXFOR', '2020-03-12 00:00:00', '2020-02-08 19:14:44', 0),
-(180, 'FIT District Greenville Event', 'TXGRE', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(181, 'FIT District Houston Event', 'TXHOU', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(182, 'FIT District New Braunfels Event', 'TXNEW', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(183, 'FIT District Pasadena Event', 'TXPAS', '2020-03-26 00:00:00', '2020-02-08 19:14:44', 0),
-(184, 'FIT District Plano Event', 'TXPLA', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(185, 'Utah Regional', 'UTWV', '2020-03-04 00:00:00', '2020-02-08 19:14:44', 0),
-(186, 'CHS District Blacksburg VA Event', 'VABLA', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(187, 'CHS District Richmond VA Event', 'VAGLE', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(188, 'CHS District Haymarket VA Event', 'VAHAY', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(189, 'CHS District Portsmouth VA Event', 'VAPOR', '2020-03-13 00:00:00', '2020-02-08 19:14:44', 0),
-(190, 'PNW District Auburn Event', 'WAAHS', '2020-03-27 00:00:00', '2020-02-08 19:14:44', 0),
-(191, 'PNW District Auburn Mountainview Event', 'WAAMV', '2020-03-06 00:00:00', '2020-02-08 19:14:44', 0),
-(192, 'PNW District Bellingham Event', 'WABEL', '2020-03-20 00:00:00', '2020-02-08 19:14:44', 0),
-(193, 'PNW District Glacier Peak Event', 'WASNO', '2020-02-28 00:00:00', '2020-02-08 19:14:44', 0),
-(194, 'PNW District West Valley Event', 'WASPO', '2020-03-05 00:00:00', '2020-02-08 19:14:44', 0),
-(195, 'PNW District SunDome Event', 'WAYAK', '2020-03-19 00:00:00', '2020-02-08 19:14:44', 0),
-(196, 'Week 0', 'WEEK0', '2020-02-15 00:00:00', '2020-02-08 19:14:44', 0),
-(197, 'Seven Rivers Regional', 'WILA', '2020-04-01 00:00:00', '2020-02-08 19:14:44', 0),
-(198, 'Wisconsin Regional', 'WIMI', '2020-03-18 00:00:00', '2020-02-08 19:14:44', 0);
+(1, 'Rocket City Regional', 'ALHU', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(2, 'Arkansas Regional', 'ARLI', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(3, 'Southern Cross Regional', 'AUSC', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(4, 'Arizona North Regional', 'AZFL', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(5, 'Arizona Valley Regional', 'AZVA', '2022-03-16 00:00:00', '2022-02-11 00:59:17', 0),
+(6, 'Canadian Pacific Regional', 'BCVI', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(7, 'Aerospace Valley Regional', 'CAAV', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(8, 'Sacramento Regional', 'CADA', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(9, 'Central Valley Regional', 'CAFR', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(10, 'Los Angeles Regional', 'CALA', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(11, 'Monterey Bay Regional', 'CAMB', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(12, 'Orange County Regional', 'CAOC', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(13, 'Hueneme Port Regional', 'CAPH', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(14, 'San Diego Regional presented by Qualcomm', 'CASD', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(15, 'San Francisco Regional', 'CASF', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(16, 'Silicon Valley Regional', 'CASJ', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(17, 'Ventura County Regional', 'CAVE', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(18, 'FIRST Chesapeake District Championship sponsored by Newport News Shipbuilding', 'CHCMP', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(19, 'FIRST Championship - FIRST Robotics Competition', 'CMPTX', '2022-04-20 00:00:00', '2022-02-11 00:59:17', 0),
+(20, 'Colorado Regional', 'CODE', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(21, 'NE District Hartford Event', 'CTHAR', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(22, 'NE District Waterbury Event', 'CTWAT', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(23, 'CHS District Greater DC Series #1', 'DC1SE', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(24, 'CHS District Greater DC Series #2', 'DC2SE', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(25, 'CHS District Greater DC Event #1 Day 1', 'DC305', '2022-03-05 00:00:00', '2022-02-11 00:59:17', 0),
+(26, 'CHS District Greater DC Event #1 Day 2', 'DC306', '2022-03-06 00:00:00', '2022-02-11 00:59:17', 0),
+(27, 'CHS District Greater DC Event #2 Day 1', 'DC312', '2022-03-12 00:00:00', '2022-02-11 00:59:17', 0),
+(28, 'CHS District Greater DC Event #2 Day 2', 'DC313', '2022-03-13 00:00:00', '2022-02-11 00:59:17', 0),
+(29, 'CHS District Greater DC Event #4 Day 1', 'DC319', '2022-03-19 00:00:00', '2022-02-11 00:59:17', 0),
+(30, 'CHS District Greater DC Event #4 Day 2', 'DC320', '2022-03-20 00:00:00', '2022-02-11 00:59:17', 0),
+(31, 'CHS District Greater DC Event #3 Day 1', 'DC326', '2022-03-26 00:00:00', '2022-02-11 00:59:17', 0),
+(32, 'CHS District Greater DC Event #3 Day 2', 'DC327', '2022-03-27 00:00:00', '2022-02-11 00:59:17', 0),
+(33, 'CHS District Greater DC Series #3', 'DC3SE', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(34, 'CHS District Greater DC Series #4', 'DC4SE', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(35, 'Orlando Regional', 'FLOR', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(36, 'Tallahassee Regional', 'FLTA', '2022-03-16 00:00:00', '2022-02-11 00:59:17', 0),
+(37, 'South Florida Regional', 'FLWP', '2022-03-02 00:00:00', '2022-02-11 00:59:17', 0),
+(38, 'PCH District Albany Event', 'GAALB', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(39, 'PCH District Carrollton Event', 'GACAR', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(40, 'Peachtree District State Championship', 'GACMP', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(41, 'PCH District Columbus Event', 'GACOL', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(42, 'PCH District Dalton Event', 'GADAL', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(43, 'Hawaii Regional', 'HIHO', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(44, 'Iowa Regional', 'IACF', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(45, 'Idaho Regional', 'IDBO', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(46, 'Midwest Regional', 'ILCH', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(47, 'Central Illinois Regional', 'ILPE', '2022-03-16 00:00:00', '2022-02-11 00:59:17', 0),
+(48, 'FIRST Indiana State Championship', 'INCMP', '2022-04-14 00:00:00', '2022-02-11 00:59:17', 0),
+(49, 'FIN District Columbus Event presented by Toyota', 'INCOL', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(50, 'FIN District Kokomo Event presented by AndyMark', 'INKOK', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(51, 'FIN District Tippecanoe Event', 'INWLA', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(52, 'FIRST Israel District Championship', 'ISCMP', '2022-03-27 00:00:00', '2022-02-11 00:59:17', 0),
+(53, 'ISR District Event #1', 'ISDE1', '2022-03-06 00:00:00', '2022-02-11 00:59:17', 0),
+(54, 'ISR District Event #2', 'ISDE2', '2022-03-08 00:00:00', '2022-02-11 00:59:17', 0),
+(55, 'ISR District Event #3', 'ISDE3', '2022-03-20 00:00:00', '2022-02-11 00:59:17', 0),
+(56, 'ISR District Event #4', 'ISDE4', '2022-03-22 00:00:00', '2022-02-11 00:59:17', 0),
+(57, 'Heartland Regional', 'KSLA', '2022-03-16 00:00:00', '2022-02-11 00:59:17', 0),
+(58, 'Bayou Regional', 'LAKE', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(59, 'NE District Greater Boston Event', 'MABOS', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(60, 'NE District Central Mass Event', 'MACMA', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(61, 'NE District North Shore Event', 'MAREA', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(62, 'NE District Western NE Event', 'MAWNE', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(63, 'NE District WPI Event', 'MAWOR', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(64, 'NE District Pine Tree Event', 'MELEW', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(65, 'FIM District Belleville Event', 'MIBEL', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(66, 'FIRST in Michigan State Championship', 'MICMP', '2022-04-13 00:00:00', '2022-02-11 00:59:17', 0),
+(67, 'FIM District Detroit Event', 'MIDET', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(68, 'FIM District Escanaba Event', 'MIESC', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(69, 'FIM District Calvin University Event', 'MIFOR', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(70, 'FIM District Gull Lake Event', 'MIGUL', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(71, 'FIM District Jackson Event', 'MIJAC', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(72, 'FIM District Kettering University Event #2', 'MIKE2', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(73, 'FIM District Kentwood Event', 'MIKEN', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(74, 'FIM District Kettering University Event #1', 'MIKET', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(75, 'FIM District Kingsford Event', 'MIKNG', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(76, 'FIM District Lakeview Event', 'MILAK', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(77, 'FIM District Lansing Event', 'MILAN', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(78, 'FIM District Livonia Event', 'MILIV', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(79, 'FIM District Macomb Community College Event', 'MIMCC', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(80, 'FIM District Midland Event', 'MIMID', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(81, 'FIM District Milford Event', 'MIMIL', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(82, 'FIM District Muskegon Event', 'MIMUS', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(83, 'FIM District Rochester Event', 'MIROC', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(84, 'FIM District Saline Event', 'MISAL', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(85, 'FIM District St. Joseph Event', 'MISJO', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(86, 'FIM District Troy Event', 'MITRY', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(87, 'FIM District Traverse City Event', 'MITVC', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(88, 'FIM District Walled Lake Event', 'MIWAL', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(89, 'FIM District West Michigan Event', 'MIWMI', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(90, 'FIM District Woodhaven Event', 'MIWOO', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(91, 'Lake Superior Regional', 'MNDU', '2022-03-02 00:00:00', '2022-02-11 00:59:17', 0),
+(92, 'Northern Lights Regional', 'MNDU2', '2022-03-02 00:00:00', '2022-02-11 00:59:17', 0),
+(93, 'Minnesota 10,000 Lakes Regional presented by Medtronic', 'MNMI', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(94, 'Minnesota North Star Regional', 'MNMI2', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(95, 'Greater Kansas City Regional', 'MOKC', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(96, 'Central Missouri Regional', 'MOKC3', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(97, 'St. Louis Regional', 'MOSL', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(98, 'FIRST Mid-Atlantic District Championship', 'MRCMP', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(99, 'Regional Monterrey', 'MXMO', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(100, 'Regional Laguna', 'MXTO', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(101, 'FNC District UNC Asheville Event', 'NCASH', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(102, 'FIRST North Carolina District State Championship', 'NCCMP', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(103, 'FNC District ECU Event', 'NCGRE', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(104, 'FNC District Guilford County Event', 'NCGUI', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(105, 'FNC District UNC Pembroke Event', 'NCPEM', '2022-04-01 00:00:00', '2022-02-11 00:59:17', 0),
+(106, 'Great Northern Regional', 'NDGF', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(107, 'New England FIRST District Championship', 'NECMP', '2022-04-13 00:00:00', '2022-02-11 00:59:17', 0),
+(108, 'NE District Granite State Event', 'NHGRS', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(109, 'NE District Pease ANG Event', 'NHSEA', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(110, 'FMA District Bridgewater-Raritan Event', 'NJBRI', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(111, 'FMA District Mount Olive Event', 'NJFLA', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(112, 'FMA District Montgomery Event', 'NJSKI', '2022-04-01 00:00:00', '2022-02-11 00:59:17', 0),
+(113, 'FMA District Seneca Event', 'NJTAB', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(114, 'Las Vegas Regional', 'NVLV', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(115, 'SBPLI Long Island Regional #1', 'NYLI', '2022-03-20 00:00:00', '2022-02-11 00:59:17', 0),
+(116, 'SBPLI Long Island Regional #2', 'NYLI2', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(117, 'New York City Regional', 'NYNY', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(118, 'Finger Lakes Regional', 'NYRO', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(119, 'New York Tech Valley Regional', 'NYTR', '2022-03-13 00:00:00', '2022-02-11 00:59:17', 0),
+(120, 'Buckeye Regional', 'OHCL', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(121, 'Oklahoma Regional', 'OKOK', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(122, 'Green Country Regional', 'OKTU', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(123, 'ONT District North Bay Event Day 2', 'ON034', '2022-04-03 00:00:00', '2022-02-11 00:59:17', 0),
+(124, 'ONT District Windsor Essex Great Lakes Event Day 2', 'ON204', '2022-04-02 00:00:00', '2022-02-11 00:59:17', 0),
+(125, 'ONT District York University Event Day 1', 'ON263', '2022-03-26 00:00:00', '2022-02-11 00:59:17', 0),
+(126, 'ONT District York University Event Day 2', 'ON273', '2022-03-27 00:00:00', '2022-02-11 00:59:17', 0),
+(127, 'ONT District Humber College Event Day 1', 'ON305', '2022-03-05 00:00:00', '2022-02-11 00:59:17', 0),
+(128, 'ONT District Humber College Event Day 2', 'ON306', '2022-03-06 00:00:00', '2022-02-11 00:59:17', 0),
+(129, 'ONT District University of Waterloo Event Day 1', 'ON325', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(130, 'ONT District University of Waterloo Event Day 2', 'ON326', '2022-03-26 00:00:00', '2022-02-11 00:59:17', 0),
+(131, 'ONT District St. Mary C.S.S. Event Day 1', 'ON409', '2022-04-09 00:00:00', '2022-02-11 00:59:17', 0),
+(132, 'ONT District St. Mary C.S.S. Event Day 2', 'ON410', '2022-04-10 00:00:00', '2022-02-11 00:59:17', 0),
+(133, 'FIRST Ontario Provincial Championship', 'ONCMP', '2022-04-14 00:00:00', '2022-02-11 00:59:17', 0),
+(134, 'ONT District Humber College Series', 'ONHCS', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(135, 'ONT District North Bay-Windor Essex Series', 'ONNBS', '2022-04-01 00:00:00', '2022-02-11 00:59:17', 0),
+(136, 'ONT District St. Mary C.S.S. Series', 'ONSMS', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(137, 'I choose not to attend a 2nd ONT District Competition', 'ONT0', '2022-01-01 00:00:00', '2022-02-11 00:59:17', 0),
+(138, 'ONT District University of Waterloo Series', 'ONUWS', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(139, 'ONT District York University Series', 'ONYUS', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(140, 'PNW District Clackamas Academy Event', 'ORORE', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(141, 'PNW District Oregon State Fairgrounds Event', 'ORSAL', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(142, 'PNW District Wilsonville Event', 'ORWIL', '2022-03-10 00:00:00', '2022-02-11 00:59:17', 0),
+(143, 'FMA District Bensalem Event', 'PABEN', '2022-04-01 00:00:00', '2022-02-11 00:59:17', 0),
+(144, 'Greater Pittsburgh Regional', 'PACA', '2022-03-16 00:00:00', '2022-02-11 00:59:17', 0),
+(145, 'FMA District Hatboro-Horsham Event', 'PAHAT', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(146, 'FMA District Springside Chestnut Hill Academy Event', 'PAPHI', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(147, 'Pacific Northwest FIRST District Championship', 'PNCMP', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(148, 'Festival de Robotique Regional Day 1', 'QCMO1', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(149, 'Festival de Robotique Regional Day 2', 'QCMO2', '2022-04-08 00:00:00', '2022-02-11 00:59:17', 0),
+(150, 'Festival de Robotique Regional Day 3', 'QCMO3', '2022-04-09 00:00:00', '2022-02-11 00:59:17', 0),
+(151, 'Festival de Robotique Series', 'QCMOS', '2022-04-07 00:00:00', '2022-02-11 00:59:17', 0),
+(152, 'Electric City Regional', 'SCAN', '2022-03-09 00:00:00', '2022-02-11 00:59:17', 0),
+(153, 'New Taipei City x Hon Hai Regional', 'TANT', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(154, 'Smoky Mountains Regional', 'TNKN', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(155, 'Istanbul Regional', 'TUIS', '2022-03-14 00:00:00', '2022-02-11 00:59:17', 0),
+(156, 'Bosphorus Regional', 'TUIS2', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(157, 'Izmir Regional', 'TUIS3', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(158, 'FIT District Amarillo Event', 'TXAMA', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(159, 'FIT District Austin Event', 'TXAUS', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(160, 'FIT District Channelview Event', 'TXCHA', '2022-03-11 00:00:00', '2022-02-11 00:59:17', 0),
+(161, 'FIRST In Texas District Championship', 'TXCMP', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(162, 'FIT District Dripping Springs Event', 'TXDRI', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(163, 'FIT District Fort Worth Event', 'TXFOR', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(164, 'FIT District Irving Event', 'TXIRV', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(165, 'FIT District Pasadena Event #2', 'TXPA2', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(166, 'FIT District Pasadena Event #1', 'TXPAS', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0),
+(167, 'FIT District Waco Event', 'TXWAC', '2022-03-03 00:00:00', '2022-02-11 00:59:17', 0),
+(168, 'Utah Regional', 'UTWV', '2022-04-06 00:00:00', '2022-02-11 00:59:17', 0),
+(169, 'CHS District Greater Richmond Series #1', 'VA1SE', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(170, 'CHS District Greater Richmond Series #2', 'VA2SE', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(171, 'CHS District Greater Richmond Event #1 Day 1', 'VA305', '2022-03-05 00:00:00', '2022-02-11 00:59:17', 0),
+(172, 'CHS District Greater Richmond Event #1 Day 2', 'VA306', '2022-03-06 00:00:00', '2022-02-11 00:59:17', 0),
+(173, 'CHS District Greater Richmond Event #2 Day 1', 'VA319', '2022-03-19 00:00:00', '2022-02-11 00:59:17', 0),
+(174, 'CHS District Greater Richmond Event #2 Day 2', 'VA320', '2022-03-20 00:00:00', '2022-02-11 00:59:17', 0),
+(175, 'PNW District Auburn Event', 'WAAHS', '2022-03-25 00:00:00', '2022-02-11 00:59:17', 0),
+(176, 'PNW District Bonney Lake Event', 'WABON', '2022-04-01 00:00:00', '2022-02-11 00:59:17', 0),
+(177, 'PNW District Sammamish Event', 'WASAM', '2022-03-18 00:00:00', '2022-02-11 00:59:17', 0),
+(178, 'PNW District Glacier Peak Event', 'WASNO', '2022-03-04 00:00:00', '2022-02-11 00:59:17', 0),
+(179, 'PNW District West Valley Event', 'WASPO', '2022-03-31 00:00:00', '2022-02-11 00:59:17', 0),
+(180, 'PNW District SunDome Event', 'WAYAK', '2022-03-17 00:00:00', '2022-02-11 00:59:17', 0),
+(181, 'Seven Rivers Regional', 'WILA', '2022-03-30 00:00:00', '2022-02-11 00:59:17', 0),
+(182, 'Wisconsin Regional', 'WIMI', '2022-03-23 00:00:00', '2022-02-11 00:59:17', 0),
+(183, 'Hangzhou Regional', 'ZHHA', '2022-03-24 00:00:00', '2022-02-11 00:59:17', 0);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `fact_match_data_2020`
---
-
-CREATE TABLE IF NOT EXISTS `fact_match_data_2020` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `event_id` int(4) unsigned NOT NULL,
-  `team_id` int(5) unsigned NOT NULL,
-  `match_id` int(4) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `fact_match_data_2022` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `event_id` int(4) UNSIGNED NOT NULL,
+  `team_id` int(5) UNSIGNED NOT NULL,
+  `match_id` int(4) UNSIGNED NOT NULL,
   `practice_match` tinyint(1) NOT NULL DEFAULT '0',
-  `position_id` int(3) unsigned NOT NULL,
-  `start_position` int(1) unsigned NOT NULL,
-  `auto_initiation_move` tinyint(1) unsigned NOT NULL,
-  `auto_score_low` int(3) unsigned NOT NULL,
-  `auto_score_high` int(3) unsigned NOT NULL,
-  `auto_miss` int(3) unsigned NOT NULL,
-  `score_low` int(3) unsigned NOT NULL,
-  `score_high` int(3) unsigned NOT NULL,
-  `miss` int(3) unsigned NOT NULL,
-  `rotation_control` tinyint(1) unsigned NOT NULL,
-  `position_control` tinyint(1) unsigned NOT NULL,
-  `generator_park` tinyint(1) unsigned NOT NULL,
-  `generator_hang` tinyint(1) unsigned NOT NULL,
-  `generator_hang_attempted` tinyint(1) unsigned NOT NULL,
-  `generator_level` tinyint(1) unsigned NOT NULL,
-  `foul` tinyint(1) NOT NULL,
+  `position_id` int(3) UNSIGNED NOT NULL,
+  `auto_taxi` tinyint(1) UNSIGNED NOT NULL,
+  `auto_low_score` int(4) UNSIGNED NOT NULL,
+  `auto_low_miss` int(4) UNSIGNED NOT NULL,
+  `auto_high_score` int(4) UNSIGNED NOT NULL,
+  `auto_high_miss` int(4) UNSIGNED NOT NULL,
+  `low_score` int(4) UNSIGNED NOT NULL,
+  `low_miss` int(4) UNSIGNED NOT NULL,
+  `high_score` int(4) UNSIGNED NOT NULL,
+  `high_miss` int(4) UNSIGNED NOT NULL,
+  `hang_attempt` tinyint(1) UNSIGNED NOT NULL,
+  `hang_level` int(1) UNSIGNED NOT NULL,
+  `ally_tarmac` tinyint(1) UNSIGNED NOT NULL,
+  `ally_outfield` tinyint(1) UNSIGNED NOT NULL,
+  `opp_tarmac` tinyint(1) UNSIGNED NOT NULL,
+  `opp_outfield` tinyint(1) UNSIGNED NOT NULL,
+  `fender_usage` tinyint(1) UNSIGNED NOT NULL,
+  `launchpad_usage` tinyint(1) UNSIGNED NOT NULL,
+  `time_to_hang_s` int(3) UNSIGNED NOT NULL,
+  `tech_foul` tinyint(1) NOT NULL,
   `yellow_card` tinyint(1) NOT NULL,
   `red_card` tinyint(1) NOT NULL,
-  `tip_over` tinyint(1) NOT NULL,
   `notes` text COLLATE utf8_unicode_ci NOT NULL,
   `invalid` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `event_id` (`event_id`,`team_id`,`match_id`,`practice_match`,`position_id`),
   KEY `invalid` (`invalid`,`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `game_info`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `game_info` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `keystring` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `intvalue` int(15) NOT NULL,
   `stringval` text COLLATE latin1_general_cs NOT NULL,
@@ -293,26 +254,23 @@ CREATE TABLE IF NOT EXISTS `game_info` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`keystring`),
   KEY `timestamp` (`timestamp`,`invalid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `notes_options`
---
+INSERT INTO `game_info` (`id`, `keystring`, `intvalue`, `stringval`, `timestamp`, `invalid`) VALUES
+(3, '2022_hang_none', 0, 'No Hang', '2022-02-12 17:03:03', 0),
+(4, '2022_hang_low', 1, 'Low Hang', '2022-02-12 17:03:03', 0),
+(5, '2022_hang_mid', 2, 'Mid Hang', '2022-02-12 17:03:03', 0),
+(6, '2022_hang_high', 3, 'High Hang', '2022-02-12 17:03:03', 0),
+(7, '2022_hang_traverse', 4, 'Traversal Hang', '2022-02-12 17:03:03', 0);
 
 CREATE TABLE IF NOT EXISTS `notes_options` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `option_text` text COLLATE latin1_general_cs NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `invalid` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=11 ;
-
---
--- Dumping data for table `notes_options`
---
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 (1, 'No Show', '2014-01-25 15:21:36', 0),
@@ -320,71 +278,29 @@ INSERT INTO `notes_options` (`id`, `option_text`, `timestamp`, `invalid`) VALUES
 (10, 'Stopped responding mid-match', '2016-03-17 23:53:21', 0),
 (3, 'Defender', '2016-01-15 16:30:02', 0);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `picklist`
---
-
 CREATE TABLE IF NOT EXISTS `picklist` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `event_id` int(10) unsigned NOT NULL,
-  `team_id` int(10) unsigned NOT NULL,
-  `sort` int(3) unsigned NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `event_id` int(10) UNSIGNED NOT NULL,
+  `team_id` int(10) UNSIGNED NOT NULL,
+  `sort` int(3) UNSIGNED NOT NULL,
   `picked` tinyint(1) NOT NULL DEFAULT '0',
-  `removed` tinyint(1) unsigned NOT NULL,
+  `removed` tinyint(1) UNSIGNED NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `invalid` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `event_id` (`event_id`,`team_id`,`picked`),
   KEY `removed` (`removed`),
   KEY `sort` (`sort`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=24 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `programming_lu`
---
-
-CREATE TABLE IF NOT EXISTS `programming_lu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `language_name` text COLLATE latin1_general_cs NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `notes_options`
---
-
-INSERT INTO `programming_lu` (`id`, `language_name`, `timestamp`, `invalid`) VALUES
-(1, 'LabView', '2020-01-20 15:21:36', 0),
-(2, 'Java', '2020-01-20 15:21:36', 0),
-(3, 'C++', '2020-01-20 15:53:21', 0),
-(4, 'Python', '2020-01-20 16:30:02', 0),
-(5, 'Other', '2020-01-20 16:30:02', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `position_lu`
---
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 CREATE TABLE IF NOT EXISTS `position_lu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `position` text COLLATE latin1_general_cs NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `invalid` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `timestamp` (`timestamp`,`invalid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=9 ;
-
---
--- Dumping data for table `position_lu`
---
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 INSERT INTO `position_lu` (`id`, `position`, `timestamp`, `invalid`) VALUES
 (1, 'Red 1', '2015-02-12 00:30:10', 0),
@@ -394,57 +310,49 @@ INSERT INTO `position_lu` (`id`, `position`, `timestamp`, `invalid`) VALUES
 (5, 'Blue 2', '2015-02-12 00:30:50', 0),
 (6, 'Blue 3', '2015-02-12 00:30:50', 0);
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `programming_lu` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `language_name` text COLLATE latin1_general_cs NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invalid` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Table structure for table `robot_lu`
---
+INSERT INTO `programming_lu` (`id`, `language_name`, `timestamp`, `invalid`) VALUES
+(1, 'LabView', '2020-01-20 15:21:36', 0),
+(2, 'Java', '2020-01-20 15:21:36', 0),
+(3, 'C++', '2020-01-20 15:53:21', 0),
+(4, 'Python', '2020-01-20 16:30:02', 0),
+(5, 'Other', '2020-01-20 16:30:02', 0);
 
 CREATE TABLE IF NOT EXISTS `robot_lu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `team_id` int(5) unsigned NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `team_id` int(5) UNSIGNED NOT NULL,
   `robot_photo` text COLLATE latin1_general_cs NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `invalid` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `invalid` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `team_id` (`team_id`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `scout_pit_data_2020`
---
-
-CREATE TABLE IF NOT EXISTS `scout_pit_data_2020` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `team_id` int(5) unsigned NOT NULL,
-  `auto_move` tinyint(1) unsigned NOT NULL,
-  `auto_score_low` tinyint(1) unsigned NOT NULL,
-  `auto_score_outer` tinyint(1) unsigned NOT NULL,
-  `auto_score_inner` tinyint(1) unsigned NOT NULL,
-  `score_low` tinyint(1) unsigned NOT NULL,
-  `score_outer` tinyint(1) unsigned NOT NULL,
-  `score_inner` tinyint(1) unsigned NOT NULL,
-  `position_control` tinyint(1) unsigned NOT NULL,
-  `rotation_control` tinyint(1) unsigned NOT NULL,
-  `generator_hang` tinyint(1) unsigned NOT NULL,
-  `power_cell_capacity` int(1) unsigned NOT NULL,
-  `trench_run` tinyint(1) unsigned NOT NULL,
-  `traction_wheels` tinyint(1) unsigned NOT NULL,
-  `pneumatic_wheels` tinyint(1) unsigned NOT NULL,
-  `omni_wheels` tinyint(1) unsigned NOT NULL,
-  `mecanum_wheels` tinyint(1) unsigned NOT NULL,
-  `swerve_drive` tinyint(1) unsigned NOT NULL,
-  `tank_drive` tinyint(1) unsigned NOT NULL,
-  `other_drive_wheels` tinyint(1) unsigned NOT NULL,
-  `team_batteries` int(3) unsigned NOT NULL,
-  `team_battery_chargers` int(3) unsigned NOT NULL,
-  `robot_gross_weight_lbs` int(4) unsigned NOT NULL,
-  `programming_id` int(2) unsigned NOT NULL,
-  `mechanical_appearance` int(1) unsigned NOT NULL,
-  `electrical_appearance` int(1) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `scout_pit_data_2022` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `team_id` int(5) UNSIGNED NOT NULL,
+  `traction_wheels` tinyint(1) UNSIGNED NOT NULL,
+  `pneumatic_wheels` tinyint(1) UNSIGNED NOT NULL,
+  `omni_wheels` tinyint(1) UNSIGNED NOT NULL,
+  `mecanum_wheels` tinyint(1) UNSIGNED NOT NULL,
+  `swerve_drive` tinyint(1) UNSIGNED NOT NULL,
+  `tank_drive` tinyint(1) UNSIGNED NOT NULL,
+  `other_drive_wheels` tinyint(1) UNSIGNED NOT NULL,
+  `team_batteries` int(3) UNSIGNED NOT NULL,
+  `team_battery_chargers` int(3) UNSIGNED NOT NULL,
+  `robot_gross_weight_lbs` int(4) UNSIGNED NOT NULL,
+  `programming_id` int(2) UNSIGNED NOT NULL,
+  `mechanical_appearance` int(1) UNSIGNED NOT NULL,
+  `electrical_appearance` int(1) UNSIGNED NOT NULL,
   `notes` text COLLATE utf8_unicode_ci NOT NULL,
   `invalid` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -452,8 +360,8 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2020` (
   UNIQUE KEY `team_id` (`team_id`),
   KEY `invalid` (`invalid`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

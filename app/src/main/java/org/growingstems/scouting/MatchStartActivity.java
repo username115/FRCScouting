@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,26 +16,17 @@
 
 package org.growingstems.scouting;
 
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.frc836.database.DBActivity;
 import org.frc836.yearly.MatchActivity;
-import org.sigmond.net.AsyncPictureRequest;
-import org.sigmond.net.PicCallback;
-import org.sigmond.net.PicRequestInfo;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -48,7 +39,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MatchStartActivity extends DBActivity implements PicCallback {
+import androidx.annotation.NonNull;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
+
+
+public class MatchStartActivity extends DBActivity {
 
     private EditText teamNum;
     private TextView position;
@@ -66,21 +64,27 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
     private ProgressDialog pd;
 
+	private RequestQueue reqQueue = null;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.matchstart);
+        if (reqQueue == null) {
+			reqQueue = Volley.newRequestQueue(this);
+			reqQueue.start();
+		}
 
         HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
                 + "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
                 + "Match number and team number will automatically update upon successful submission of match data.";
 
-        teamNum = (EditText) findViewById(R.id.startTeamNum);
-        position = (TextView) findViewById(R.id.startPos);
-        matchNum = (EditText) findViewById(R.id.startMatchNum);
-        startB = (Button) findViewById(R.id.startMatchB);
-        robotPic = (ImageView) findViewById(R.id.robotPic);
+        teamNum = findViewById(R.id.startTeamNum);
+        position = findViewById(R.id.startPos);
+        matchNum = findViewById(R.id.startMatchNum);
+        startB = findViewById(R.id.startMatchB);
+        robotPic = findViewById(R.id.robotPic);
 
-        teamText = (TextView) findViewById(R.id.startMatchTeamT);
+        teamText = findViewById(R.id.startMatchTeamT);
 
         position.setOnClickListener(new positionClickListener());
         startB.setOnClickListener(new StartClickListener());
@@ -107,7 +111,12 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
     }
 
-    private class positionClickListener implements OnClickListener {
+	@Override
+	public String getHelpMessage() {
+		return HELPMESSAGE;
+	}
+
+	private class positionClickListener implements OnClickListener {
 
         public void onClick(View v) {
             MainMenuSelection.openSettings(MatchStartActivity.this);
@@ -137,7 +146,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
         public void afterTextChanged(Editable s) {
             if (s.length() > 0)
-                setMatch(Integer.valueOf(s.toString()));
+                setMatch(Integer.parseInt(s.toString()));
 
         }
 
@@ -173,6 +182,9 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
                 .getDefaultSharedPreferences(getBaseContext());
         String pos = prefs.getString("positionPref", "Red 1");
 
+        if (pos == null)
+        	return;
+
         position.setText(pos);
         if (pos.contains("Blue"))
             position.setTextColor(Color.BLUE);
@@ -193,7 +205,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             updatePosition();
 
             if (matchNum.getText().length() > 0)
-                setMatch(Integer.valueOf(matchNum.getText().toString()));
+                setMatch(Integer.parseInt(matchNum.getText().toString()));
         }
         if (requestCode == MATCH_ACTIVITY_REQUEST && resultCode > 0) {
             matchNum.setText(String.valueOf(resultCode));
@@ -204,7 +216,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
 
         String def = teamNum.getText().toString().trim();
         try {
-            if (def.length() > 9 || Integer.valueOf(def) <= 0)
+            if (def.length() > 9 || Integer.parseInt(def) <= 0)
                 def = "";
         } catch (Exception e) {
             def = "";
@@ -233,7 +245,7 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
                 pd.dismiss();
             return;
         }
-        String pictureURL = db.getPictureURL(Integer.valueOf(teamNum.getText()
+        String pictureURL = db.getPictureURL(Integer.parseInt(teamNum.getText()
                 .toString()));
         if (pictureURL.length() < 5) {
             if (pd != null)
@@ -242,61 +254,46 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
             teamText.setVisibility(View.VISIBLE);
             return;
         }
-        PicRequestInfo info = new PicRequestInfo(pictureURL,
-                MatchStartActivity.this);
-        AsyncPictureRequest req = new AsyncPictureRequest();
-        req.execute(info);
+
+		reqQueue.add(new ImageRequest(pictureURL,
+				this::onFinished,
+				Resources.getSystem().getDisplayMetrics().widthPixels,
+				0,
+				ImageView.ScaleType.FIT_XY,
+				Bitmap.Config.ARGB_8888,
+				null));
     }
 
-    public void onFinished(Drawable drawable) {
+    public void onFinished(Bitmap bitmap) {
         if (pd != null)
             pd.dismiss();
-        if (drawable == null) {
+        if (bitmap == null) {
             robotPic.setVisibility(View.GONE);
             teamText.setVisibility(View.VISIBLE);
         } else {
 
             robotPic.setVisibility(View.VISIBLE);
             teamText.setVisibility(View.GONE);
-            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, drawable);
-            // robotPic.setImageDrawable(drawable);
-            // robotPic.setScaleType(ScaleType.FIT_XY);
-            // robotPic.setAdjustViewBounds(true);
+            scaleImage(robotPic, bitmap);
         }
     }
 
     private int orient = Configuration.ORIENTATION_UNDEFINED;
 
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation != orient)
-            scaleImage(robotPic, Resources.getSystem().getDisplayMetrics().widthPixels, robotPic.getDrawable());
+            scaleImage(robotPic, ((BitmapDrawable)robotPic.getDrawable()).getBitmap());
         orient = newConfig.orientation;
     }
 
 
-    private void scaleImage(ImageView view, int widthInDp, Drawable drawable) {
+    private void scaleImage(ImageView view, Bitmap bitmap) {
 
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-
-        // Get current dimensions
+        BitmapDrawable result = new BitmapDrawable(Resources.getSystem(), bitmap);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-
-        float scale = ((float) widthInDp) / width;
-
-        // Create a matrix for the scaling and add the scaling data
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale);
-
-        // Create a new bitmap and convert it to a format understood by the
-        // ImageView
-        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
-                matrix, true);
-        BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-        width = scaledBitmap.getWidth();
-        height = scaledBitmap.getHeight();
 
         // Apply the scaled bitmap
         view.setImageDrawable(result);
@@ -307,30 +304,6 @@ public class MatchStartActivity extends DBActivity implements PicCallback {
         params.width = width;
         params.height = height;
         view.setLayoutParams(params);
-    }
-
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        switch (id) {
-            case MainMenuSelection.HELPDIALOG:
-                builder.setMessage(HELPMESSAGE)
-                        .setCancelable(true)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        dialog.cancel();
-
-                                    }
-                                });
-                dialog = builder.create();
-                break;
-            default:
-                dialog = null;
-        }
-        return dialog;
     }
 
 }

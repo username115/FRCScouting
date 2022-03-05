@@ -28,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
@@ -35,7 +37,6 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYValueSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.frc836.yearly.MatchStatsYearly;
 import org.growingstems.scouting.R;
 
 import java.util.Map;
@@ -50,13 +51,13 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
 
     private DataSource dataSource;
 
-    private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
+    private final XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
 
-    private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
+    private final XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
 
-    private SparseArray<XYSeriesRenderer> mRenderers = new SparseArray<XYSeriesRenderer>(NUMGRAPHS);
+    private final SparseArray<XYSeriesRenderer> mRenderers = new SparseArray<>(NUMGRAPHS);
 
-    private SparseArray<XYValueSeries> mData = new SparseArray<XYValueSeries>(NUMGRAPHS);
+    private final SparseArray<XYValueSeries> mData = new SparseArray<>(NUMGRAPHS);
 
     private static final int NUMGRAPHS = 15;
 
@@ -80,7 +81,7 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
         teamNum = team_num;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         if (dataSource == null)
             dataSource = new DataSource(mParent.getDB());
@@ -96,11 +97,11 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
             dataSource = new DataSource(mParent.getDB());
 
         if (mChart == null) {
-            LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph);
+            LinearLayout layout = (LinearLayout) requireActivity().findViewById(R.id.graph);
             mRenderer.setYAxisMin(0);
             mRenderer.setXAxisMin(0);
             mRenderer.setXTitle("Match Number");
-            DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+            DisplayMetrics metrics = requireActivity().getResources().getDisplayMetrics();
             float val = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, metrics);
             mRenderer.setLabelsTextSize(val);
             mRenderer.setAxisTitleTextSize(val);

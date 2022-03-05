@@ -14,12 +14,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +34,9 @@ import android.widget.Toast;
 import org.growingstems.scouting.*;
 
 import static org.growingstems.scouting.ScoutingMenuActivity.MY_FILE_REQUEST;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * Create the file selection dialog. This class will create a custom dialog for

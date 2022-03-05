@@ -25,21 +25,22 @@ import org.growingstems.scouting.R;
 import org.growingstems.scouting.MenuSelections.Refreshable;
 
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.webkit.URLUtil;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 public class DataActivity extends DBActivity implements ActionBar.TabListener,
         Refreshable {
@@ -80,18 +81,8 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
     protected static final int[] FUTURE_MATCH_TABS = {DataFragment.PT_MATCHINFOCURRENTEVENT
     };
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
-     * derivative, which will keep every loaded fragment in memory. If this
-     * becomes too memory intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     ViewPager mViewPager;
 
     @Override
@@ -115,16 +106,16 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
                 teamNum = intent.getIntExtra(TEAM_ARG, -1);
                 eventName = intent.getStringExtra(EVENT_ARG);
                 if (teamNum > 0 && eventName != null) {
-                    setTitle(String.valueOf(teamNum) + " at " + eventName);
+                    setTitle(teamNum + " at " + eventName);
                 } else if (teamNum > 0) {
-                    setTitle("Team " + String.valueOf(teamNum));
+                    setTitle("Team " + teamNum);
                 }
                 break;
             case ACTIVITY_TYPE_FUTUREMATCH:
                 dataType = DataType.dt_FutureMatch;
                 matchNum = intent.getIntExtra(MATCH_ARG, -1);
                 eventName = intent.getStringExtra(EVENT_ARG);
-                setTitle("Match " + String.valueOf(matchNum));
+                setTitle("Match " + matchNum);
                 break;
             case ACTIVITY_TYPE_DEFAULT:
             default:
@@ -141,7 +132,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
@@ -191,7 +182,12 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
         return true;
     }
 
-    @Override
+	@Override
+	public String getHelpMessage() {
+		return "";
+	}
+
+	@Override
     public void onTabSelected(ActionBar.Tab tab,
                               FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
@@ -219,7 +215,7 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            tabs = new SparseArray<Fragment>(getCount());
+            tabs = new SparseArray<>(getCount());
         }
 
         @Override
@@ -328,9 +324,9 @@ public class DataActivity extends DBActivity implements ActionBar.TabListener,
             reloadData();
     }
 
-    private class RefreshCallback implements SyncCallback {
+    private static class RefreshCallback implements SyncCallback {
 
-        private DataActivity parent;
+        private final DataActivity parent;
 
         public RefreshCallback(DataActivity parent) {
             this.parent = parent;

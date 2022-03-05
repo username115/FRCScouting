@@ -19,145 +19,243 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/TeleText">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:orientation="vertical">
+
 
 			<TableLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
 				<TableRow
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+					android:layout_height="match_parent">
 
-					<ImageButton
-						android:id="@+id/port_highB"
-						android:layout_height="wrap_content"
-						android:layout_width="wrap_content"
-						android:adjustViewBounds="true"
-						android:background="@android:color/transparent"
-						android:scaleType="fitXY"
-						android:src="@drawable/red_port_high"
-						tools:ignore="ContentDescription" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
 
-					<Spinner
-						android:id="@+id/port_highS"
-						style="@style/SpinnerAsEditTextHalfAlpha"
-						android:layout_width="60sp"
-						android:layout_height="60sp"
-						android:layout_gravity="center"
-						android:entries="@array/numbers"
-						android:gravity="center" />
+						<ImageView
+							android:id="@+id/decrement_tele_high_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
+						<Button
+							android:id="@+id/decrement_tele_high_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
+
+						<Spinner
+							android:id="@+id/tele_high_success_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_tele_high_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_tele_high_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
+					</LinearLayout>
 				</TableRow>
 
 				<TableRow
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+					android:layout_height="match_parent">
 
-					<ImageButton
-						android:id="@+id/port_missB"
-						android:layout_height="wrap_content"
-						android:layout_width="wrap_content"
-						android:adjustViewBounds="true"
-						android:background="@android:color/transparent"
-						android:scaleType="fitXY"
-						android:src="@drawable/red_port_miss"
-						tools:ignore="ContentDescription" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
 
-					<Spinner
-						android:id="@+id/port_missS"
-						style="@style/SpinnerAsEditTextHalfAlpha"
-						android:layout_width="60sp"
-						android:layout_height="60sp"
-						android:layout_gravity="center"
-						android:entries="@array/numbers"
-						android:gravity="center" />
+						<ImageView
+							android:id="@+id/decrement_tele_high_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+						<Button
+							android:id="@+id/decrement_tele_high_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
+
+						<Spinner
+							android:id="@+id/tele_high_failure_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_tele_high_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_tele_high_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+					</LinearLayout>
 
 				</TableRow>
 
-				<TableRow
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
-
-					<ImageButton
-						android:id="@+id/port_lowB"
-						android:layout_height="wrap_content"
-						android:layout_width="wrap_content"
-						android:adjustViewBounds="true"
-						android:background="@android:color/transparent"
-						android:scaleType="fitXY"
-						android:src="@drawable/red_port_low"
-						tools:ignore="ContentDescription" />
-
-					<Spinner
-						android:id="@+id/port_lowS"
-						style="@style/SpinnerAsEditTextHalfAlpha"
-						android:layout_width="60sp"
-						android:layout_height="60sp"
-						android:layout_gravity="center"
-						android:entries="@array/numbers"
-						android:gravity="center" />
-
-				</TableRow>
 			</TableLayout>
-			<LinearLayout
-				android:layout_width="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_height="wrap_content"
-				android:orientation="vertical">
 
-				<TextView
-					android:layout_gravity="center_horizontal"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/rotation" />
-				<FrameLayout
-					android:id="@+id/control_rotationL"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content">
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-					<ImageButton
-						android:id="@+id/control_rotationB"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:adjustViewBounds="true"
-						android:background="@android:color/transparent"
-						android:scaleType="fitXY"
-						android:src="@drawable/control_panel_top"
-						tools:ignore="ContentDescription" />
+				<ImageView
+					android:id="@+id/hub_image_tele"
+					android:layout_width="300dp"
+					android:layout_height="300dp"
+					android:layout_centerHorizontal="true"
+					android:src="@drawable/fieldimage_hub_side_raster" />
+			</RelativeLayout>
 
+			<TableLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-				</FrameLayout>
-				<FrameLayout
-					android:id="@+id/control_positionL"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content">
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 
-					<ImageButton
-						android:id="@+id/control_positionB"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:adjustViewBounds="true"
-						android:background="@android:color/transparent"
-						android:scaleType="fitXY"
-						android:src="@drawable/control_panel_bottom"
-						tools:ignore="ContentDescription" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
 
+						<ImageView
+							android:id="@+id/decrement_tele_low_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
 
-				</FrameLayout>
-				<TextView
-					android:layout_gravity="center_horizontal"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/position" />
-			</LinearLayout>
+						<Button
+							android:id="@+id/decrement_tele_low_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
 
+						<Spinner
+							android:id="@+id/tele_low_success_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
 
-        </LinearLayout>
-    </ScrollView>
+						<Button
+							android:id="@+id/increment_tele_low_success"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_tele_low_success_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_awesome_check_double" />
+
+					</LinearLayout>
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:orientation="horizontal">
+
+						<ImageView
+							android:id="@+id/decrement_tele_low_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+						<Button
+							android:id="@+id/decrement_tele_low_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="-" />
+
+						<Spinner
+							android:id="@+id/tele_low_failure_spinner"
+							style="@style/SpinnerAsEditText"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:entries="@array/numbers"
+							android:gravity="center"
+							android:textAlignment="center" />
+
+						<Button
+							android:id="@+id/increment_tele_low_failure"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:text="+" />
+
+						<ImageView
+							android:id="@+id/increment_tele_low_failure_image"
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:src="@drawable/icon_metro_cross" />
+
+					</LinearLayout>
+
+				</TableRow>
+
+			</TableLayout>
+
+		</LinearLayout>
+	</ScrollView>
 
 </RelativeLayout>

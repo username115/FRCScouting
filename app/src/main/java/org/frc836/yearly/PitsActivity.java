@@ -1,8 +1,6 @@
 package org.frc836.yearly;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,11 +20,9 @@ import android.widget.Toast;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.PitStats;
-import org.growingstems.scouting.MainMenuSelection;
 import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,37 +49,19 @@ public class PitsActivity extends DBActivity {
 	private CheckBox otherDriveC;
 
 	private static final int NUM_RATINGS = 5;
-	private CheckBox[] mechC = new CheckBox[NUM_RATINGS];
-	private CheckBox[] elecC = new CheckBox[NUM_RATINGS];
+	private final CheckBox[] mechC = new CheckBox[NUM_RATINGS];
+	private final CheckBox[] elecC = new CheckBox[NUM_RATINGS];
 
 	private EditText commentsT;
 
 	////// 2020 Game Specifics //////
-	private EditText capacityT;
-	private CheckBox autoMoveC;
-	private CheckBox autoLowC;
-	private CheckBox autoOuterC;
-	private CheckBox autoInnerC;
-
-	private CheckBox lowC;
-	private CheckBox outerC;
-	private CheckBox innerC;
-	private CheckBox posControlC;
-	private CheckBox rotControlC;
-	private CheckBox genHangC;
-	private CheckBox trenchC;
 	////// 2020 END //////
 
 
-	private Handler timer = new Handler();
+	private final Handler timer = new Handler();
 	private static final int DELAY = 500;
 
-	private static final int CANCEL_DIALOG = 0;
-	private static final int NOTEAM_DIALOG = 24243;
-	private static final int CLEAR_DATA_DIALOG = 23930;
-	private static final int OVERWRITE_DATA_DIALOG = 59603;
-
-	private List<TeamNumTask> tasks = new ArrayList<>(3);
+	private final List<TeamNumTask> tasks = new ArrayList<>(3);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,19 +110,6 @@ public class PitsActivity extends DBActivity {
 
 
 		////// 2020 Game Specifics //////
-		capacityT = findViewById(R.id.team_capacityT);
-		autoMoveC = findViewById(R.id.pits_auto_move);
-		autoLowC = findViewById(R.id.pits_auto_score_low);
-		autoOuterC = findViewById(R.id.pits_auto_score_outer);
-		autoInnerC = findViewById(R.id.pits_auto_score_inner);
-
-		lowC = findViewById(R.id.pits_score_low);
-		outerC = findViewById(R.id.pits_score_outer);
-		innerC = findViewById(R.id.pits_score_inner);
-		posControlC = findViewById(R.id.pits_pos_control);
-		rotControlC = findViewById(R.id.pits_rot_control);
-		genHangC = findViewById(R.id.pits_generator_hang);
-		trenchC = findViewById(R.id.pits_trench_run);
 		////// 2020 END //////
 
 
@@ -179,108 +144,19 @@ public class PitsActivity extends DBActivity {
 	}
 
 	public void onBackPressed() {
-		showDialog(CANCEL_DIALOG);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Cancel Data Entry?\nChanges will not be saved.")
+				.setCancelable(false)
+				.setPositiveButton("Yes",
+						(dialog, id) -> PitsActivity.this.finish())
+				.setNegativeButton("No",
+						(dialog, id) -> dialog.cancel());
+		builder.show();
 	}
 
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-		switch (id) {
-
-			case CANCEL_DIALOG:
-				builder.setMessage("Cancel Data Entry?\nChanges will not be saved.")
-					.setCancelable(false)
-					.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int id) {
-								PitsActivity.this.finish();
-							}
-						})
-					.setNegativeButton("No",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int id) {
-								dialog.cancel();
-							}
-						});
-				dialog = builder.create();
-				break;
-
-			case MainMenuSelection.HELPDIALOG:
-				builder.setMessage(HELPMESSAGE)
-					.setCancelable(true)
-					.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int which) {
-								dialog.cancel();
-							}
-						});
-				dialog = builder.create();
-				break;
-			case NOTEAM_DIALOG:
-				builder.setMessage(
-					"No team number entered, please enter a team number")
-					.setCancelable(true)
-					.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int which) {
-								dialog.cancel();
-								teamT.requestFocus();
-							}
-						});
-				dialog = builder.create();
-				break;
-			case OVERWRITE_DATA_DIALOG:
-				builder.setMessage(
-					"Data for this team exists. Overwrite current form?")
-					.setCancelable(false)
-					.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int id) {
-								teamInfoT.setText("Last Updated: "
-									+ dateLoad.trim());
-								getTeamStats(teamLoad);
-							}
-						})
-					.setNegativeButton("No",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int id) {
-								dialog.cancel();
-							}
-						});
-				dialog = builder.create();
-				break;
-			case CLEAR_DATA_DIALOG:
-				builder.setMessage("You had already entered data. Clear form?")
-					.setCancelable(false)
-					.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int id) {
-								teamInfoT.setText("");
-								clearData();
-							}
-						})
-					.setNegativeButton("No",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-												int id) {
-								dialog.cancel();
-							}
-						});
-				dialog = builder.create();
-				break;
-			default:
-				dialog = null;
-		}
-
-		return dialog;
+	@Override
+	public String getHelpMessage() {
+		return HELPMESSAGE;
 	}
 
 	private class SubmitListener implements View.OnClickListener {
@@ -296,9 +172,19 @@ public class PitsActivity extends DBActivity {
 
 		tstr = teamT.getText().toString().trim();
 		if (tstr.length() > 0)
-			stats.team_id = Integer.valueOf(tstr);
+			stats.team_id = Integer.parseInt(tstr);
 		else {
-			showDialog(NOTEAM_DIALOG);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+			builder.setMessage(
+					"No team number entered, please enter a team number")
+					.setCancelable(true)
+					.setPositiveButton("OK",
+							(dialog, which) -> {
+								dialog.cancel();
+								teamT.requestFocus();
+							});
+			builder.show();
 			return;
 		}
 
@@ -306,19 +192,19 @@ public class PitsActivity extends DBActivity {
 
 		tstr = weightT.getText().toString().trim();
 		if (tstr.length() > 0)
-			stats.robot_gross_weight_lbs = Integer.valueOf(tstr);
+			stats.robot_gross_weight_lbs = Integer.parseInt(tstr);
 		else
 			stats.robot_gross_weight_lbs = 0;
 
 		tstr = batteryT.getText().toString().trim();
 		if (tstr.length() > 0)
-			stats.team_batteries = Integer.valueOf(tstr);
+			stats.team_batteries = Integer.parseInt(tstr);
 		else
 			stats.team_batteries = 0;
 
 		tstr = chargersT.getText().toString().trim();
 		if (tstr.length() > 0)
-			stats.team_battery_chargers = Integer.valueOf(tstr);
+			stats.team_battery_chargers = Integer.parseInt(tstr);
 		else
 			stats.team_battery_chargers = 0;
 
@@ -344,23 +230,6 @@ public class PitsActivity extends DBActivity {
 
 
 		////// 2020 START //////
-		tstr = capacityT.getText().toString().trim();
-		if (tstr.length() > 0)
-			stats.power_cell_capacity = Integer.valueOf(tstr);
-		else
-			stats.power_cell_capacity = 0;
-		stats.auto_move = autoMoveC.isChecked();
-		stats.auto_score_low = autoLowC.isChecked();
-		stats.auto_score_outer = autoOuterC.isChecked();
-		stats.auto_score_inner = autoInnerC.isChecked();
-
-		stats.score_low = lowC.isChecked();
-		stats.score_outer = outerC.isChecked();
-		stats.score_inner = innerC.isChecked();
-		stats.position_control = posControlC.isChecked();
-		stats.rotation_control = rotControlC.isChecked();
-		stats.generator_hang = genHangC.isChecked();
-		stats.trench_run = trenchC.isChecked();
 		////// 2020 END //////
 
 
@@ -402,20 +271,21 @@ public class PitsActivity extends DBActivity {
 
 
 		////// 2020 START //////
-		capacityT.setText("");
-		autoMoveC.setChecked(false);
-		autoLowC.setChecked(false);
-		autoOuterC.setChecked(false);
-		autoInnerC.setChecked(false);
-
-		lowC.setChecked(false);
-		outerC.setChecked(false);
-		innerC.setChecked(false);
-		posControlC.setChecked(false);
-		rotControlC.setChecked(false);
-		genHangC.setChecked(false);
-		trenchC.setChecked(false);
 		////// 2020 END //////
+	}
+
+	private void clearDataDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(PitsActivity.this);
+		builder.setMessage("You had already entered data. Clear form?")
+				.setCancelable(false)
+				.setPositiveButton("Yes",
+						(dialog, id) -> {
+							teamInfoT.setText("");
+							clearData();
+						})
+				.setNegativeButton("No",
+						(dialog, id) -> dialog.cancel());
+		builder.show();
 	}
 
 	private class teamTextListener implements TextWatcher {
@@ -424,11 +294,12 @@ public class PitsActivity extends DBActivity {
 			if (s.length() > 0) {
 				TeamNumTask task = new TeamNumTask();
 				tasks.add(task);
-				task.teamNum = Integer.valueOf(s.toString());
+				task.teamNum = Integer.parseInt(s.toString());
 				timer.postDelayed(task, DELAY);
 			} else {
-				if (!dataClear())
-					showDialog(CLEAR_DATA_DIALOG);
+				if (!dataClear()) {
+					clearDataDialog();
+				}
 				else
 					clearData();
 			}
@@ -451,19 +322,30 @@ public class PitsActivity extends DBActivity {
 		String date = db.getTeamPitInfo(String.valueOf(teamNum));
 		if (date.length() > 0) {
 			if (dataClear()) {
-				teamInfoT.setText("Last Updated: " + date.trim());
+				teamInfoT.setText(getString(R.string.last_updated, date.trim()));
 				getTeamStats(teamNum);
 			} else {
 				teamLoad = teamNum;
 				dateLoad = date;
-				showDialog(OVERWRITE_DATA_DIALOG);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(
+						"Data for this team exists. Overwrite current form?")
+						.setCancelable(false)
+						.setPositiveButton("Yes",
+								(dialog, id) -> {
+									teamInfoT.setText(getString(R.string.last_updated, dateLoad.trim()));
+									getTeamStats(teamLoad);
+								})
+						.setNegativeButton("No",
+								(dialog, id) -> dialog.cancel());
+				builder.show();
 			}
 		} else {
 			if (dataClear()) {
 				teamInfoT.setText("");
 				clearData();
 			} else
-				showDialog(CLEAR_DATA_DIALOG);
+				clearDataDialog();
 		}
 	}
 
@@ -472,7 +354,7 @@ public class PitsActivity extends DBActivity {
 
 		public void run() {
 			if (teamT.getText().length() > 0
-				&& Integer.valueOf(teamT.getText().toString()) == teamNum) {
+				&& Integer.parseInt(teamT.getText().toString()) == teamNum) {
 				setTeam(teamNum);
 			}
 		}
@@ -514,19 +396,6 @@ public class PitsActivity extends DBActivity {
 			elecC[stats.electrical_appearance-1].setChecked(true);
 
 		////// 2020 START //////
-		capacityT.setText(String.valueOf(stats.power_cell_capacity));
-		autoMoveC.setChecked(stats.auto_move);
-		autoLowC.setChecked(stats.auto_score_low);
-		autoOuterC.setChecked(stats.auto_score_outer);
-		autoInnerC.setChecked(stats.auto_score_inner);
-
-		lowC.setChecked(stats.score_low);
-		outerC.setChecked(stats.score_outer);
-		innerC.setChecked(stats.score_inner);
-		posControlC.setChecked(stats.position_control);
-		rotControlC.setChecked(stats.rotation_control);
-		genHangC.setChecked(stats.generator_hang);
-		trenchC.setChecked(stats.trench_run);
 		////// 2020 END //////
 	}
 
@@ -553,18 +422,6 @@ public class PitsActivity extends DBActivity {
 			|| !ratingClear
 
 			////// 2020 START //////
-			|| capacityT.getText().toString().length() > 0
-			|| autoMoveC.isChecked()
-			|| autoLowC.isChecked()
-			|| autoOuterC.isChecked()
-			|| autoInnerC.isChecked()
-			|| lowC.isChecked()
-			|| outerC.isChecked()
-			|| innerC.isChecked()
-			|| posControlC.isChecked()
-			|| rotControlC.isChecked()
-			|| genHangC.isChecked()
-			|| trenchC.isChecked()
 			////// 2020 END //////
 		);
 	}
@@ -578,7 +435,7 @@ public class PitsActivity extends DBActivity {
 		teamT.setAdapter(adapter);
 	}
 
-	private class RatingChangeListener implements CompoundButton.OnCheckedChangeListener {
+	private static class RatingChangeListener implements CompoundButton.OnCheckedChangeListener {
 
 		CheckBox[] m_list;
 		int m_index;
