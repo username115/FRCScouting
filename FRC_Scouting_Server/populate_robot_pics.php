@@ -21,15 +21,15 @@ if ($handle = opendir($dir)) {
             echo "$entry<br>";
             
             $query = "SELECT id FROM robot_lu WHERE team_id=".$team;
-            $result = mysql_query($query);
-            $row = mysql_fetch_array($result);
+            $result = mysqli_query($query);
+            $row = mysqli_fetch_array($result);
             $id = $row["id"];
-            if (mysql_num_rows($result) == 0) {
+            if (mysqli_num_rows($result) == 0) {
                 $query = 'INSERT INTO robot_lu(team_id, robot_photo) VALUES ('.$team.',"'.$url.$entry.'")';
-                $result = mysql_query($query);
+                $result = mysqli_query($query);
             } else {
                 $query = 'UPDATE robot_lu SET robot_photo="'.$url.$entry.'" WHERE id = '.$id;
-                $result = mysql_query($query);
+                $result = mysqli_query($query);
             }
         }
         
