@@ -27,101 +27,6 @@
 			android:orientation="vertical">
 
 
-			<RelativeLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:cropToPadding="false">
-
-				<ImageButton
-					android:id="@+id/imageButtonTraverse"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_hanger_side_traverse_toggle" />
-
-				<ImageButton
-					android:id="@+id/imageButtonHigh"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_hanger_side_high_toggle" />
-
-				<ImageButton
-					android:id="@+id/imageButtonMiddle"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_hanger_side_middle_toggle" />
-
-				<ImageButton
-					android:id="@+id/imageButtonLow"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_hanger_side_low_toggle" />
-
-				<ImageView
-					android:id="@+id/fieldimage"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:contentDescription="@string/side_view_of_field"
-					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_hanger_side_base" />
-
-			</RelativeLayout>
-
-			<RadioGroup
-				android:id="@+id/hangRadioGroup"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<RadioButton
-					android:id="@+id/hangNone"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:checked="true"
-					android:text="@string/no_hang" />
-
-				<RadioButton
-					android:id="@+id/hangAttempt"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/attempted_hang" />
-
-				<RadioButton
-					android:id="@+id/hangLow"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/low_hang" />
-
-				<RadioButton
-					android:id="@+id/hangMid"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/mid_hang" />
-
-				<RadioButton
-					android:id="@+id/hangHigh"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/high_hang" />
-
-				<RadioButton
-					android:id="@+id/hangTraverse"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/traverse_hang" />
-			</RadioGroup>
-
 			<TableLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
@@ -192,6 +97,104 @@
 				</TableRow>
 
 			</TableLayout>
+
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:cropToPadding="false">
+
+				<org.growingstems.scouting.TransparentImageButton
+					android:id="@+id/imageButtonTraverse"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_traverse_toggle" />
+
+				<org.growingstems.scouting.TransparentImageButton
+					android:id="@+id/imageButtonHigh"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_high_toggle" />
+
+				<org.growingstems.scouting.TransparentImageButton
+					android:id="@+id/imageButtonMiddle"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_middle_toggle" />
+
+				<org.growingstems.scouting.TransparentImageButton
+					android:id="@+id/imageButtonLow"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_low_toggle" />
+
+				<org.growingstems.scouting.SuperImageButton
+					android:id="@+id/fieldimage"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:contentDescription="@string/side_view_of_field"
+					android:scaleType="fitXY"
+					android:src="@drawable/fieldimage_hanger_side_base" />
+
+
+			</RelativeLayout>
+
+			<RadioGroup
+				android:id="@+id/hangRadioGroup"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<RadioButton
+					android:id="@+id/hangNone"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:checked="true"
+					android:text="@string/no_hang" />
+
+				<RadioButton
+					android:id="@+id/hangAttempt"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/attempted_hang" />
+
+				<RadioButton
+					android:id="@+id/hangLow"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/low_hang" />
+
+				<RadioButton
+					android:id="@+id/hangMid"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/mid_hang" />
+
+				<RadioButton
+					android:id="@+id/hangHigh"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/high_hang" />
+
+				<RadioButton
+					android:id="@+id/hangTraverse"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/traverse_hang" />
+			</RadioGroup>
 
 		</LinearLayout>
 	</ScrollView>
