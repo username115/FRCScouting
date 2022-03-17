@@ -26,6 +26,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
 import org.growingstems.scouting.R;
@@ -122,8 +124,8 @@ public class EndMatchFragment extends MatchFragment {
 	}
 
 	@Override
-	public void saveData(MatchStatsStruct data) {
-		if (getView() == null || data == null || !displayed)
+	public void saveData(@NonNull MatchStatsStruct data) {
+		if (getView() == null || !displayed)
 			return;
 		data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
 		data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
@@ -140,8 +142,8 @@ public class EndMatchFragment extends MatchFragment {
 	}
 
 	@Override
-	public void loadData(MatchStatsStruct data) {
-		if (getView() == null || data == null || !displayed)
+	public void loadData(@NonNull MatchStatsStruct data) {
+		if (getView() == null || !displayed)
 			return;
 		((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
 		((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);

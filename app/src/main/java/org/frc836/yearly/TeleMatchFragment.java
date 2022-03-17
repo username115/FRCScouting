@@ -95,8 +95,8 @@ public class TeleMatchFragment extends MatchFragment {
     }
 
     @Override
-    public void saveData(MatchStatsStruct data) {
-        if (getView() == null || data == null || !displayed)
+    public void saveData(@NonNull MatchStatsStruct data) {
+        if (getView() == null || !displayed)
             return;
 
         MatchStatsYearly.clearTele(data);
@@ -109,9 +109,9 @@ public class TeleMatchFragment extends MatchFragment {
     }
 
     @Override
-    public void loadData(MatchStatsStruct data) {
+    public void loadData(@NonNull MatchStatsStruct data) {
         tempData = data;
-        if (getView() == null || data == null || !displayed)
+        if (getView() == null || !displayed)
             return;
 
 		highSuccess.setSelection(data.high_score);
