@@ -52,7 +52,7 @@ class DashboardActivity : DBActivity() {
     private val beeLogo: ImageView? by lazy { findViewById(R.id.beeLogo) }
     private val stemsLogo: ImageView? by lazy { findViewById(R.id.stemsLogo) }
     private val fmsApiLink: TextView? by lazy { findViewById(R.id.fmsApiLink) }
-    private val HELPMESSAGE: String? by lazy {
+    override val helpMessage: String by lazy {
 		"""
             Version: ${getString(R.string.VersionID)}
             Date: ${getString(R.string.VersionDate)}
@@ -150,10 +150,6 @@ class DashboardActivity : DBActivity() {
         if (intent.getBooleanExtra("ExitApp", false)) {
             finish()
         }
-    }
-
-	override fun getHelpMessage(): String {
-        return HELPMESSAGE!!
     }
 
     private inner class VersionCallback : HttpCallback {
