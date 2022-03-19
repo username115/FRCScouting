@@ -76,9 +76,8 @@
         android:summary="Don't prompt to associate with a server."
         android:title="Don't Prompt for URL" />
 
-    <CheckBoxPreference android:defaultValue="true"
-        android:enabled="false"
-        android:visibility="gone"
+    <CheckBoxPreference android:defaultValue="false"
+        android:enabled="true"
         android:key="redLeft"
         android:summary="Red on left, Blue on right"
         android:title="Red on Left" />

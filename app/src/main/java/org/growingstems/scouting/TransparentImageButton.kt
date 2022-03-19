@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.MotionEvent
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
 import android.util.AttributeSet
 import androidx.core.graphics.drawable.toBitmapOrNull
@@ -22,32 +23,14 @@ class TransparentImageButton : AppCompatImageButton {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val d = drawable
-        if (d is BitmapDrawable) {
-            return if (isPixelTransparent(d, event.x.toInt(), event.y.toInt())) {
-                false
-            } else {
-                super.onTouchEvent(event)
-            }
-        } else if (d is VectorDrawable) {
-            return if (isPixelTransparent(d, event.x.toInt(), event.y.toInt())) {
-                false
-            } else {
-                super.onTouchEvent(event)
-            }
-        }
-        return super.onTouchEvent(event)
+		return if (isPixelTransparent(d, event.x.toInt(), event.y.toInt())) {
+			false
+		} else {
+			super.onTouchEvent(event)
+		}
     }
 
-    private fun isPixelTransparent(d: BitmapDrawable, x: Int, y: Int): Boolean {
-        try {
-            return d.bitmap.getPixel(x, y) == Color.TRANSPARENT
-        } catch (e: Exception) {
-            //TODO
-        }
-        return true
-    }
-
-    private fun isPixelTransparent(d: VectorDrawable, x: Int, y: Int): Boolean {
+    private fun isPixelTransparent(d: Drawable, x: Int, y: Int): Boolean {
 		try {
 			d.toBitmapOrNull(width, height, null)?.let {
 				return it.getPixel(x, y) == Color.TRANSPARENT;
