@@ -160,37 +160,13 @@ public class EndMatchFragment extends MatchFragment {
 		transparentField.addImageButton(rightOutfieldRegion);
 		transparentField.addImageButton(rightTarmacRegion);
 
-		allyOutfield.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			if (allyOnLeft) {
-				leftOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			} else {
-				rightOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			}
-		});
+		allyOutfield.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(true, false, isChecked));
 
-		allyTarmac.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			if (allyOnLeft) {
-				leftTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			} else {
-				rightTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			}
-		});
+		allyTarmac.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(true, true, isChecked));
 
-		oppOutfield.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			if (!allyOnLeft) {
-				leftOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			} else {
-				rightOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			}
-		});
+		oppOutfield.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(false, false, isChecked));
 
-		oppTarmac.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			if (!allyOnLeft) {
-				leftTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			} else {
-				rightTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-			}
-		});
+		oppTarmac.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(false, true, isChecked));
 
 	}
 
@@ -281,10 +257,15 @@ public class EndMatchFragment extends MatchFragment {
 		((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
 		((CheckBox) getView().findViewById(R.id.tech_foul)).setChecked(data.tech_foul);
 
-		((CheckBox) getView().findViewById(R.id.opp_tarmac)).setChecked(data.opp_tarmac);
-		((CheckBox) getView().findViewById(R.id.opp_outfield)).setChecked(data.opp_outfield);
-		((CheckBox) getView().findViewById(R.id.ally_tarmac)).setChecked(data.ally_tarmac);
-		((CheckBox) getView().findViewById(R.id.ally_outfield)).setChecked(data.ally_outfield);
+		oppTarmac.setChecked(data.opp_tarmac);
+		oppOutfield.setChecked(data.opp_outfield);
+		allyTarmac.setChecked(data.ally_tarmac);
+		allyOutfield.setChecked(data.ally_outfield);
+		//need to manually update field images because onChecked callbacks are not called if checked status did not change
+		updateFieldImage(false, false, data.opp_outfield);
+		updateFieldImage(false, true, data.opp_tarmac);
+		updateFieldImage(true, false, data.ally_outfield);
+		updateFieldImage(true, true, data.ally_tarmac);
 
 		((CheckBox) getView().findViewById(R.id.fender_usage)).setChecked(data.fender_usage);
 		((CheckBox) getView().findViewById(R.id.launchpad_usage)).setChecked(data.launchpad_usage);
@@ -310,6 +291,39 @@ public class EndMatchFragment extends MatchFragment {
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
+		}
+
+	}
+
+	private void updateFieldImage(boolean ally, boolean tarmac, boolean isChecked) {
+		if (ally) {
+			if (tarmac) {
+				if (allyOnLeft) {
+					leftTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				} else {
+					rightTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				}
+			} else {
+				if (allyOnLeft) {
+					leftOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				} else {
+					rightOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				}
+			}
+		} else {
+			if (tarmac) {
+				if (!allyOnLeft) {
+					leftTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				} else {
+					rightTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				}
+			} else {
+				if (!allyOnLeft) {
+					leftOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				} else {
+					rightOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+				}
+			}
 		}
 
 	}
