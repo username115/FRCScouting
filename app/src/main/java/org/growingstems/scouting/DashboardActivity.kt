@@ -20,27 +20,18 @@ import org.frc836.database.DBActivity
 import android.widget.TextView
 import android.widget.CheckBox
 import android.os.Bundle
-import org.growingstems.scouting.R
 import android.content.Intent
-import org.growingstems.scouting.MatchStartActivity
-import org.growingstems.scouting.DashboardActivity
 import org.frc836.yearly.PitsActivity
 import org.growingstems.scouting.data.DataActivity
-import org.growingstems.scouting.PickActivity
 import android.preference.PreferenceManager
-import org.growingstems.scouting.Prefs
-import org.growingstems.scouting.DashboardActivity.VersionCallback
 import android.view.LayoutInflater
 import android.content.DialogInterface
-import org.growingstems.scouting.MainMenuSelection
 import org.frc836.database.HttpCallback
 import com.android.volley.VolleyError
-import org.growingstems.scouting.MatchSchedule
-import android.content.SharedPreferences
 import android.net.Uri
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import org.frc836.database.DB
 import java.lang.Exception
 
@@ -74,22 +65,22 @@ class DashboardActivity : DBActivity() {
 				baseContext,
 				MatchStartActivity::class.java
 			)
-			startActivityForResult(intent, MATCH_ACTIVITY_CODE)
+			getResultForVersionCallback.launch(intent)
 		}
 		pits?.setOnClickListener {
 			val intent = Intent(
 				baseContext,
 				PitsActivity::class.java
 			)
-			startActivityForResult(intent, PITS_ACTIVITY_CODE)
+			getResultForVersionCallback.launch(intent)
 		}
 		data?.setOnClickListener {
 			val intent = Intent(baseContext, DataActivity::class.java)
-			startActivityForResult(intent, DATA_ACTIVITY_CODE)
+			getResultForVersionCallback.launch(intent)
 		}
 		picklist?.setOnClickListener {
 			val intent = Intent(baseContext, PickActivity::class.java)
-			startActivityForResult(intent, PICK_ACTIVITY_CODE)
+			getResultForVersionCallback.launch(intent)
 		}
 		beeLogo?.setOnClickListener {
 			val uri = Uri.parse("http://robobees.org")
@@ -204,31 +195,26 @@ class DashboardActivity : DBActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            Prefs.PREFS_ACTIVITY_CODE -> {
-                val schedule = MatchSchedule()
-                val prefs = PreferenceManager
-                    .getDefaultSharedPreferences(baseContext)
-                schedule.updateSchedule(
-                    prefs.getString("eventPref", "Chesapeake Regional"), this,
-                    false
-                )
-            }
-            PITS_ACTIVITY_CODE, MATCH_ACTIVITY_CODE, PICK_ACTIVITY_CODE, DATA_ACTIVITY_CODE -> {
-                val db = DB(baseContext, binder)
-                db.checkVersion(VersionCallback())
-            }
-            else -> {}
-        }
-    }
+	override val resultForPrefs = registerForActivityResult(
+		ActivityResultContracts.StartActivityForResult()
+	) {
+		val schedule = MatchSchedule()
+		val prefs = PreferenceManager
+			.getDefaultSharedPreferences(baseContext)
+		schedule.updateSchedule(
+			prefs.getString("eventPref", "Chesapeake Regional"), this,
+			false
+		)
+	}
+
+	private val getResultForVersionCallback = registerForActivityResult(
+		ActivityResultContracts.StartActivityForResult()
+	) {
+		val db = DB(baseContext, binder)
+		db.checkVersion(VersionCallback())
+	}
 
     companion object {
-        private const val PITS_ACTIVITY_CODE = 4639
-        private const val MATCH_ACTIVITY_CODE = 4640
-        private const val DATA_ACTIVITY_CODE = 4641
-        private const val PICK_ACTIVITY_CODE = 4642
         private const val URL_MESSAGE =
             "You have not set a web site for this app to interface with.\nWould you like to do so now?"
         private var VERSION_MESSAGE: String? = null

@@ -1,6 +1,7 @@
 package org.frc836.yearly;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 
 import org.frc836.database.DBActivity;
 import org.frc836.database.PitStats;
@@ -62,6 +67,7 @@ public class PitsActivity extends DBActivity {
 	private static final int DELAY = 500;
 
 	private final List<TeamNumTask> tasks = new ArrayList<>(3);
+	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -154,9 +160,16 @@ public class PitsActivity extends DBActivity {
 		builder.show();
 	}
 
+	@NonNull
 	@Override
 	public String getHelpMessage() {
 		return HELPMESSAGE;
+	}
+
+	@NonNull
+	@Override
+	public ActivityResultLauncher<Intent> getResultForPrefs() {
+		return resultForPrefs;
 	}
 
 	private class SubmitListener implements View.OnClickListener {

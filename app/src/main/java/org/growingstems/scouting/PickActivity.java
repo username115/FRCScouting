@@ -1,5 +1,6 @@
 package org.growingstems.scouting;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,6 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 
 import com.android.TouchInterceptor;
 
@@ -23,8 +28,9 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
 
     TouchInterceptor mPickList;
     SimpleCursorAdapter mAdapter;
+	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick);
@@ -107,9 +113,16 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
         return mPickList;
     }
 
+	@NonNull
 	@Override
 	public String getHelpMessage() {
 		return "";
+	}
+
+	@NonNull
+	@Override
+	public ActivityResultLauncher<Intent> getResultForPrefs() {
+		return resultForPrefs;
 	}
 
 	private class PickLongClick implements AdapterView.OnItemLongClickListener {

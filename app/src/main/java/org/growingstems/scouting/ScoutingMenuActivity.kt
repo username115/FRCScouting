@@ -15,11 +15,13 @@
  */
 package org.growingstems.scouting
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import android.content.pm.PackageManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
 
 abstract class ScoutingMenuActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,6 +56,8 @@ abstract class ScoutingMenuActivity : AppCompatActivity(), OnRequestPermissionsR
     }
 
     abstract val helpMessage: String
+
+    abstract val resultForPrefs: ActivityResultLauncher<Intent>
 
     companion object {
         const val MY_FILE_REQUEST = 7024

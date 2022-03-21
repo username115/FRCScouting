@@ -39,6 +39,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.android.volley.RequestQueue;
@@ -60,11 +62,31 @@ public class MatchStartActivity extends DBActivity {
 
     private MatchSchedule schedule;
 
-    private static final int MATCH_ACTIVITY_REQUEST = 0;
-
     private ProgressDialog pd;
 
 	private RequestQueue reqQueue = null;
+
+
+	@NonNull
+	private final ActivityResultLauncher<Intent> resultForMatch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+		if (result.getResultCode() > 0) {
+			matchNum.setText(String.valueOf(result.getResultCode()));
+		}
+	});
+
+	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+		MatchSchedule schedule = new MatchSchedule();
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		schedule.updateSchedule(
+				prefs.getString("eventPref", "Chesapeake Regional"), this,
+				false);
+
+		updatePosition();
+
+		if (matchNum.getText().length() > 0)
+			setMatch(Integer.parseInt(matchNum.getText().toString()));
+	});
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +133,16 @@ public class MatchStartActivity extends DBActivity {
 
     }
 
+	@NonNull
 	@Override
 	public String getHelpMessage() {
 		return HELPMESSAGE;
+	}
+
+	@NonNull
+	@Override
+	public ActivityResultLauncher<Intent> getResultForPrefs() {
+		return resultForPrefs;
 	}
 
 	private class positionClickListener implements OnClickListener {
@@ -172,7 +201,7 @@ public class MatchStartActivity extends DBActivity {
                     MatchActivity.class);
             intent.putExtra("team", teamNum.getText().toString());
             intent.putExtra("match", matchNum.getText().toString());
-            startActivityForResult(intent, MATCH_ACTIVITY_REQUEST);
+			resultForMatch.launch(intent);
         }
 
     }
@@ -190,26 +219,6 @@ public class MatchStartActivity extends DBActivity {
             position.setTextColor(Color.BLUE);
         else
             position.setTextColor(Color.RED);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Prefs.PREFS_ACTIVITY_CODE) {
-            MatchSchedule schedule = new MatchSchedule();
-            SharedPreferences prefs = PreferenceManager
-                    .getDefaultSharedPreferences(getBaseContext());
-            schedule.updateSchedule(
-                    prefs.getString("eventPref", "Chesapeake Regional"), this,
-                    false);
-
-            updatePosition();
-
-            if (matchNum.getText().length() > 0)
-                setMatch(Integer.parseInt(matchNum.getText().toString()));
-        }
-        if (requestCode == MATCH_ACTIVITY_REQUEST && resultCode > 0) {
-            matchNum.setText(String.valueOf(resultCode));
-        }
     }
 
     private void setMatch(int matchNum) {
