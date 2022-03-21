@@ -23,8 +23,7 @@ class SuperImageButton : AppCompatImageButton {
         memberImgs.clear()
     }
 
-    fun addImageButton(img: ImageButton?) {
-        if (img == null) return
+    fun addImageButton(img: ImageButton) {
         memberImgs.add(img)
     }
 
