@@ -31,26 +31,26 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.volley.VolleyError;
 
-public class Prefs extends PreferenceActivity {
-
-    public static final int PREFS_ACTIVITY_CODE = 64738;
+public class Prefs extends PreferenceFragmentCompat {
 
     private EditTextPreference passP;
 
     private EditTextPreference urlP;
 
-    private CheckBoxPreference syncPreference;
+    private SwitchPreferenceCompat syncPreference;
 
     private ListPreference eventP;
 
@@ -59,44 +59,45 @@ public class Prefs extends PreferenceActivity {
     private DB db;
 
     private LocalBinder binder;
-    private ServiceWatcher watcher = new ServiceWatcher();
+    private final ServiceWatcher watcher = new ServiceWatcher();
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.mainprefs);
+	@Override
+	public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+		setPreferencesFromResource(R.xml.mainprefs, rootKey);
 
-        passP = (EditTextPreference) findPreference("passPref");
-        urlP = (EditTextPreference) findPreference("databaseURLPref");
-        syncPreference = (CheckBoxPreference) findPreference("enableSyncPref");
+		passP = findPreference("passPref");
+		urlP = findPreference("databaseURLPref");
+		syncPreference = findPreference("enableSyncPref");
 
-        passP.setOnPreferenceChangeListener(new onPassChangeListener(true));
-        urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
-        syncPreference
-                .setOnPreferenceChangeListener(new OnSyncChangeListener());
+		passP.setOnPreferenceChangeListener(new onPassChangeListener(true));
+		urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
+		syncPreference
+				.setOnPreferenceChangeListener(new OnSyncChangeListener());
 
-        findPreference("syncFreqPref").setEnabled(
-                getAutoSync(getApplicationContext(), false));
+		findPreference("syncFreqPref").setEnabled(
+				getAutoSync(getPreferenceManager().getContext(), false));
 
-        eventP = (ListPreference) findPreference("eventPref");
+		eventP = findPreference("eventPref");
 
-        db = new DB(this, binder);
+		db = new DB(getPreferenceManager().getContext(), binder);
 
-        List<String> events = db.getEventList();
-        if (events != null)
-            updateEventPreference(events);
+		List<String> events = db.getEventList();
+		if (events != null)
+			updateEventPreference(events);
 
-        Intent intent = new Intent(getApplicationContext(), DBSyncService.class);
-        bindService(intent, watcher, Context.BIND_AUTO_CREATE);
-    }
+		Intent intent = new Intent(getPreferenceManager().getContext(), DBSyncService.class);
+		getPreferenceManager().getContext().bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindDB();
-    }
+	}
+
+	@Override
+    public void onDestroyView() {
+		super.onDestroyView();
+		unbindDB();
+	}
 
     public void unbindDB() {
-        unbindService(watcher);
+		getPreferenceManager().getContext().unbindService(watcher);
     }
 
     protected class ServiceWatcher implements ServiceConnection {
@@ -123,37 +124,36 @@ public class Prefs extends PreferenceActivity {
         }
     }
 
-    private class onPassChangeListener implements OnPreferenceChangeListener {
+    private class onPassChangeListener implements Preference.OnPreferenceChangeListener {
 
-        private boolean isPass = true;
+        private final boolean isPass;
 
         public onPassChangeListener(boolean pass) {
             isPass = pass;
         }
 
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
+        public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
             if (isPass) {
-                DB db = new DB(getBaseContext(), null); // does not perform
+                DB db = new DB(getPreferenceManager().getContext(), null); // does not perform
                 // database
                 // sync operations
-                db.checkPass(newValue.toString(), new PasswordCallback(isPass));
-                return true;
-            } else {
+                db.checkPass(newValue.toString(), new PasswordCallback(true));
+			} else {
                 String ret = newValue.toString();
                 if (ret.length() > 0 && !ret.contains("://")) {
                     ret = "https://" + ret;
                 }
                 binder.refreshNotification(ret);
-                return true;
-            }
-        }
+			}
+			return true;
+		}
 
     }
 
-    private class OnSyncChangeListener implements OnPreferenceChangeListener {
+    private class OnSyncChangeListener implements Preference.OnPreferenceChangeListener {
 
         @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
+        public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
             if (!(newValue instanceof Boolean))
                 return false;
             Boolean checked = (Boolean) newValue;
@@ -165,28 +165,28 @@ public class Prefs extends PreferenceActivity {
 
     protected class PasswordCallback implements HttpCallback {
 
-        private boolean isPass = true;
+        private final boolean isPass;
 
         public PasswordCallback(boolean pass) {
             isPass = pass;
         }
 
         @Override
-        public void onResponse(String resp) {
+        public void onResponse(@NonNull String resp) {
             Toast toast;
             try {
                 if (resp.contains("success")) {
-                    toast = Toast.makeText(getBaseContext(),
+                    toast = Toast.makeText(getPreferenceManager().getContext(),
                             "Password confirmed", Toast.LENGTH_SHORT);
                     if (binder != null) {
-                        binder.setPassword(getSavedPassword(getApplicationContext()));
+                        binder.setPassword(getSavedPassword(getPreferenceManager().getContext()));
                         binder.initSync();
                     }
                 } else
-                    toast = Toast.makeText(getBaseContext(),
+                    toast = Toast.makeText(getPreferenceManager().getContext(),
                             "Invalid password", Toast.LENGTH_SHORT);
             } catch (Exception e) {
-                toast = Toast.makeText(getBaseContext(), "Invalid password",
+                toast = Toast.makeText(getPreferenceManager().getContext(), "Invalid password",
                         Toast.LENGTH_SHORT);
             }
             if (isPass)
@@ -194,8 +194,8 @@ public class Prefs extends PreferenceActivity {
         }
 
         @Override
-        public void onError(VolleyError e) {
-            Toast toast = Toast.makeText(getBaseContext(),
+        public void onError(@NonNull VolleyError e) {
+            Toast toast = Toast.makeText(getPreferenceManager().getContext(),
                     "Cannot connect to Server", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -301,11 +301,11 @@ public class Prefs extends PreferenceActivity {
             String val = PreferenceManager.getDefaultSharedPreferences(context)
                     .getString("syncFreqPref", "");
 
-            int secs = defaultValue;
+            int secs;
             if (val == null || val.length() == 0)
                 return defaultValue;
             try {
-                secs = Integer.valueOf(val.split(" ")[0]) * 60 * 1000;
+                secs = Integer.parseInt(val.split(" ")[0]) * 60 * 1000;
             } catch (NumberFormatException e) {
                 return defaultValue;
             }

@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.content.Intent
 import org.frc836.yearly.PitsActivity
 import org.growingstems.scouting.data.DataActivity
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.content.DialogInterface
 import org.frc836.database.HttpCallback

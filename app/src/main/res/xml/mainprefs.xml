@@ -34,14 +34,14 @@
         android:summary="(Optional) name of this device"
         android:title="Device Name" />
 
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         android:enabled="true"
         android:key="robotPicPref"
         android:summary="Automatically download pictures of robots?"
         android:title="Download Pictures" />
 
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:enabled="true"
         android:key="practiceMatchPref"
@@ -54,7 +54,7 @@
         android:summary="Enter your team number"
         android:title="Team Number" />
 
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         android:enabled="true"
         android:key="enableSyncPref"
@@ -70,13 +70,13 @@
         android:summary="Select how often the app should sync"
         android:title="Auto Sync Frequency" />
 
-    <CheckBoxPreference android:defaultValue="false"
+    <SwitchPreferenceCompat android:defaultValue="false"
         android:enabled="true"
         android:key="doNotAskURL"
         android:summary="Don't prompt to associate with a server."
         android:title="Don't Prompt for URL" />
 
-    <CheckBoxPreference android:defaultValue="false"
+    <SwitchPreferenceCompat android:defaultValue="false"
         android:enabled="true"
         android:key="redLeft"
         android:summary="Red on left, Blue on right"

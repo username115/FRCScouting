@@ -25,8 +25,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.activity.result.ActivityResultLauncher;
-
 import org.frc836.database.DB;
 import org.frc836.database.DBSyncService.LocalBinder;
 import org.growingstems.scouting.MenuSelections.Refreshable;
@@ -60,7 +58,7 @@ public class MainMenuSelection {
 	}
 
 	public static void openSettings(ScoutingMenuActivity context) {
-		Intent intent = new Intent(context.getBaseContext(), Prefs.class);
+		Intent intent = new Intent(context.getBaseContext(), PrefsActivity.class);
 		context.getResultForPrefs().launch(intent);
 	}
 
