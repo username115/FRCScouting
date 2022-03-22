@@ -170,7 +170,7 @@
     <string name="miss">miss</string>
     <string name="low">low</string>
     <string name="team_num_short">Team #</string>
-    <string name="title_activity_prefs">PrefsActivity</string>
+    <string name="title_activity_prefs">Settings</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

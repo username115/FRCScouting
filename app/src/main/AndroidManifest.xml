@@ -26,7 +26,6 @@
             android:name=".MatchStartActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/waiting" />
-        <activity android:name=".Prefs" />
         <activity
             android:name=".DashboardActivity"
             android:configChanges="orientation"
