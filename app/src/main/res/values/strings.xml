@@ -160,16 +160,32 @@
     <string name="match_change_button_prematch">Pre-Match</string>
     <string name="match_change_button_auto">Autonomous</string>
     <string name="match_change_button_tele">Tele-Op</string>
-	<string name="match_change_button_climb">Climb</string>
+    <string name="match_change_button_climb">Climb</string>
     <string name="match_change_button_end">End Game</string>
     <string name="match_change_button_submit">Submit</string>
 
     <string name="prematch_input_text">Pre-Match</string>
-	<string name="starting_position">Starting Position</string>
-	<string name="high">high</string>
-	<string name="miss">miss</string>
-	<string name="low">low</string>
+    <string name="starting_position">Starting Position</string>
+    <string name="high">high</string>
+    <string name="miss">miss</string>
+    <string name="low">low</string>
     <string name="team_num_short">Team #</string>
+    <string name="title_activity_prefs">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 
 </resources>

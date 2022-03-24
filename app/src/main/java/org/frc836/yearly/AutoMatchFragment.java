@@ -98,8 +98,8 @@ public class AutoMatchFragment extends MatchFragment {
 	}
 
 	@Override
-	public void saveData(MatchStatsStruct data) {
-		if (getView() == null || data == null || !displayed)
+	public void saveData(@NonNull MatchStatsStruct data) {
+		if (getView() == null || !displayed)
 			return;
 
 		MatchStatsYearly.clearAuto(data);
@@ -113,9 +113,9 @@ public class AutoMatchFragment extends MatchFragment {
 	}
 
 	@Override
-	public void loadData(MatchStatsStruct data) {
+	public void loadData(@NonNull MatchStatsStruct data) {
 		tempData = data;
-		if (getView() == null || data == null || !displayed)
+		if (getView() == null || !displayed)
 			return;
 
 		taxi.setChecked(data.auto_taxi);

@@ -57,9 +57,9 @@ public class MainMenuSelection {
 		}
 	}
 
-	public static void openSettings(Activity context) {
-		Intent intent = new Intent(context.getBaseContext(), Prefs.class);
-		context.startActivityForResult(intent, Prefs.PREFS_ACTIVITY_CODE);
+	public static void openSettings(ScoutingMenuActivity context) {
+		Intent intent = new Intent(context.getBaseContext(), PrefsActivity.class);
+		context.getResultForPrefs().launch(intent);
 	}
 
 	public static void refresh(Activity context) {

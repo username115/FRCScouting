@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.frc836.database
 
-package org.frc836.database;
+import com.android.volley.VolleyError
 
-import com.android.volley.VolleyError;
-
-public interface HttpCallback {
-
-	void onResponse(String resp);
-	void onError(VolleyError e);
-
-
+interface HttpCallback {
+    fun onResponse(resp: String)
+    fun onError(e: VolleyError)
 }

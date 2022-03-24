@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
@@ -32,6 +31,8 @@ import androidx.annotation.NonNull;
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
 import org.growingstems.scouting.R;
+import org.growingstems.scouting.SuperImageButton;
+import org.growingstems.scouting.TransparentImageButton;
 
 
 public class ClimbFragment extends MatchFragment {
@@ -43,10 +44,13 @@ public class ClimbFragment extends MatchFragment {
 
 	private RadioGroup hangGroup;
 
-	private ImageButton imgLow;
-	private ImageButton imgMid;
-	private ImageButton imgHigh;
-	private ImageButton imgTraverse;
+	private TransparentImageButton imgLow;
+	private TransparentImageButton imgMid;
+	private TransparentImageButton imgHigh;
+	private TransparentImageButton imgTraverse;
+
+	private SuperImageButton fieldImage;
+
 
 	private EditText hangTime;
 
@@ -124,8 +128,8 @@ public class ClimbFragment extends MatchFragment {
 	}
 
 	@Override
-	public void saveData(MatchStatsStruct data) {
-		if (getView() == null || data == null || !displayed)
+	public void saveData(@NonNull MatchStatsStruct data) {
+		if (getView() == null || !displayed)
 			return;
 
 		data.hang_level = getHangLevelFromResId(hangGroup.getCheckedRadioButtonId());
@@ -138,9 +142,9 @@ public class ClimbFragment extends MatchFragment {
 	}
 
 	@Override
-	public void loadData(MatchStatsStruct data) {
+	public void loadData(@NonNull MatchStatsStruct data) {
 		tempData = data;
-		if (getView() == null || data == null || !displayed)
+		if (getView() == null || !displayed)
 			return;
 
 
@@ -190,6 +194,8 @@ public class ClimbFragment extends MatchFragment {
 		imgHigh = view.findViewById(R.id.imageButtonHigh);
 		imgTraverse = view.findViewById(R.id.imageButtonTraverse);
 
+		fieldImage = view.findViewById(R.id.fieldimage);
+
 		hangTime = view.findViewById(R.id.hangSeconds);
 
 		timerStartStop = view.findViewById(R.id.triggerHangTimerStartStop);
@@ -237,7 +243,16 @@ public class ClimbFragment extends MatchFragment {
 			}
 		});
 
-		//TODO set up listeners
+		imgLow.setOnClickListener(v -> hangGroup.check(R.id.hangLow));
+		imgMid.setOnClickListener(v -> hangGroup.check(R.id.hangMid));
+		imgHigh.setOnClickListener(v -> hangGroup.check(R.id.hangHigh));
+		imgTraverse.setOnClickListener(v -> hangGroup.check(R.id.hangTraverse));
+
+		fieldImage.clearImageButtons();
+		fieldImage.addImageButton(imgLow);
+		fieldImage.addImageButton(imgMid);
+		fieldImage.addImageButton(imgHigh);
+		fieldImage.addImageButton(imgTraverse);
 	}
 
 	private int getHangLevelFromResId(int resId) {

@@ -30,6 +30,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -77,6 +83,8 @@ public class MatchActivity extends DBActivity {
 
     private final Handler timer = new Handler();
     private static final int DELAY = 16000;
+
+	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 
     private final Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
@@ -181,6 +189,12 @@ public class MatchActivity extends DBActivity {
 	@Override
 	public String getHelpMessage() {
 		return HELPMESSAGE;
+	}
+
+	@NonNull
+	@Override
+	public ActivityResultLauncher<Intent> getResultForPrefs() {
+		return resultForPrefs;
 	}
 
 	private class positionClickListener implements View.OnClickListener {
@@ -329,11 +343,12 @@ public class MatchActivity extends DBActivity {
         SparseArray<MatchFragment> fragments;
 
          MatchViewAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             fragments = new SparseArray<>(NUM_SCREENS);
         }
 
-        @Override
+        @NonNull
+		@Override
         public Fragment getItem(int i) {
             return getMatchFragment(i);
 
