@@ -140,8 +140,8 @@
 
 				<ImageView
 					android:id="@+id/hub_image_tele"
-					android:layout_width="300dp"
-					android:layout_height="300dp"
+					android:layout_width="250dp"
+					android:layout_height="250dp"
 					android:layout_centerHorizontal="true"
 					android:src="@drawable/fieldimage_hub_side_raster" />
 			</RelativeLayout>
