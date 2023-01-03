@@ -16,13 +16,6 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.growingstems.scouting.MatchSchedule;
-import org.growingstems.scouting.Prefs;
-import org.growingstems.scouting.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,6 +29,13 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import org.growingstems.scouting.MatchSchedule;
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TeamListFragment extends DataFragment {
 
@@ -60,7 +60,7 @@ public class TeamListFragment extends DataFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
-                View.VISIBLE);
+            View.VISIBLE);
 
         loadB.setOnClickListener(new LoadClick());
         autoText.setOnItemClickListener(new TeamClick());
@@ -90,14 +90,14 @@ public class TeamListFragment extends DataFragment {
             teams.add("No Data for any Team");
         } else {
             if (ourTeam.length() > 0 && TextUtils.isDigitsOnly(ourTeam)
-                    && teams.contains(ourTeam)) {
+                && teams.contains(ourTeam)) {
                 teams.remove(ourTeam);
                 teams.add(0, ourTeam);
             }
             setTeamList(teams);
         }
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-				getActivity(), defaultListResource, teams);
+            getActivity(), defaultListResource, teams);
         dataList.setAdapter(adapter);
         dataList.setOnItemClickListener(new TeamClick());
         dataList.setOnItemLongClickListener(new TeamLongClick());
@@ -107,7 +107,7 @@ public class TeamListFragment extends DataFragment {
         if (teams.isEmpty() || getActivity() == null)
             return;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-				android.R.layout.simple_dropdown_item_1line, teams);
+            android.R.layout.simple_dropdown_item_1line, teams);
 
         autoText.setAdapter(adapter);
     }
@@ -122,7 +122,7 @@ public class TeamListFragment extends DataFragment {
                 try {
                     loadTeam(Integer.parseInt(team));
                 } catch (NumberFormatException e) {
-					//TODO
+                    //TODO
                 }
             }
         }
@@ -191,7 +191,7 @@ public class TeamListFragment extends DataFragment {
     private void loadTeam(int team) {
         Intent intent = new Intent(mParent, DataActivity.class);
         intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
-                DataActivity.ACTIVITY_TYPE_TEAM);
+            DataActivity.ACTIVITY_TYPE_TEAM);
         intent.putExtra(DataActivity.EVENT_ARG, eventName);
         intent.putExtra(DataActivity.TEAM_ARG, team);
         mParent.startActivity(intent);

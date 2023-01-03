@@ -2,37 +2,37 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-	compileSdkVersion 32
+    compileSdkVersion 33
 
-	defaultConfig {
-		applicationId "org.growingstems.scouting"
-		minSdkVersion 23
-		targetSdkVersion 32
-	}
+    defaultConfig {
+        applicationId "org.growingstems.scouting"
+        minSdkVersion 23
+        targetSdkVersion 33
+    }
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-		}
-	}
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
-	buildToolsVersion '32.0.0'
-	namespace 'org.growingstems.scouting'
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '32.0.0'
+    namespace 'org.growingstems.scouting'
 }
 
 dependencies {
-	implementation files('libs/achartengine-1.2.0.jar')
-	implementation 'androidx.appcompat:appcompat:1.5.1'
-	implementation 'androidx.preference:preference-ktx:1.2.0'
-	implementation 'com.android.volley:volley:1.2.1'
-	implementation "androidx.core:core-ktx:1.9.0"
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-	implementation 'com.google.android.material:material:1.7.0'
+    implementation files('libs/achartengine-1.2.0.jar')
+    implementation 'androidx.appcompat:appcompat:1.6.0-rc01'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.android.material:material:1.7.0'
 }
 repositories {
-	mavenCentral()
+    mavenCentral()
 }

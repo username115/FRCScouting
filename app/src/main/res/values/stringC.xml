@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="climb">Climb</string>
-	<string name="attempted_hang">Attempted Hang</string>
-	<string name="side_view_of_field">Side view of field</string>
-	<string name="no_hang">No Hang</string>
-	<string name="low_hang">Low hang</string>
-	<string name="mid_hang">Mid hang</string>
-	<string name="high_hang">High hang</string>
-	<string name="traverse_hang">Traverse hang</string>
-	<string name="time_to_hang">Time to Hang</string>
-	<string name="seconds">Seconds</string>
-	<string name="start">Start</string>
-	<string name="stop">Stop</string>
-	<string name="reset">Reset</string>
+    <string name="climb">Climb</string>
+    <string name="attempted_hang">Attempted Hang</string>
+    <string name="side_view_of_field">Side view of field</string>
+    <string name="no_hang">No Hang</string>
+    <string name="low_hang">Low hang</string>
+    <string name="mid_hang">Mid hang</string>
+    <string name="high_hang">High hang</string>
+    <string name="traverse_hang">Traverse hang</string>
+    <string name="time_to_hang">Time to Hang</string>
+    <string name="seconds">Seconds</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
 </resources>

@@ -6,9 +6,7 @@
  */
 package org.frc836.samsung.fileselector;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
+import static org.growingstems.scouting.ScoutingMenuActivity.MY_FILE_REQUEST;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,12 +29,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.growingstems.scouting.*;
-
-import static org.growingstems.scouting.ScoutingMenuActivity.MY_FILE_REQUEST;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import org.growingstems.scouting.R;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Create the file selection dialog. This class will create a custom dialog for
@@ -114,27 +114,27 @@ public class FileSelector {
 
 
         if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
 
 
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(context,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
-                            , Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_FILE_REQUEST);
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
+                    , Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                MY_FILE_REQUEST);
 
             // MY_FILE_REQUEST is an
             // app-defined int constant. The callback method gets the
             // result of the request.
         } else if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
 
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(context,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_FILE_REQUEST);
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                MY_FILE_REQUEST);
 
             // MY_FILE_REQUEST is an
             // app-defined int constant. The callback method gets the
@@ -182,7 +182,7 @@ public class FileSelector {
      * This method prepares a filter's list with the String's array
      *
      * @param filesFilter - array of filters, the elements of the array will be used as
-     *                     elements of the spinner
+     *                    elements of the spinner
      */
     private void prepareFilterSpinner(String[] filesFilter) {
         mFilterSpinner = (Spinner) mDialog.findViewById(R.id.fileFilter);
@@ -194,7 +194,7 @@ public class FileSelector {
             mFilterSpinner.setEnabled(false);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,
-                R.layout.file_spinner_item, filesFilter);
+            R.layout.file_spinner_item, filesFilter);
 
         mFilterSpinner.setAdapter(adapter);
         OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
@@ -232,7 +232,7 @@ public class FileSelector {
                     final String parentLocation = mCurrentLocation.getParent();
                     if (parentLocation != null) { // text == "../"
                         String fileFilter = ((TextView) mFilterSpinner
-                                .getSelectedView()).getText().toString();
+                            .getSelectedView()).getText().toString();
                         mCurrentLocation = new File(parentLocation);
                         mDialog.setTitle(mCurrentLocation.getAbsolutePath());
                         makeList(mCurrentLocation, fileFilter);
@@ -269,9 +269,9 @@ public class FileSelector {
                 File tempFile = listFiles[index];
                 if (FileUtils.accept(tempFile, fitlesFilter)) {
                     int type = tempFile.isDirectory() ? FileData.DIRECTORY
-                            : FileData.FILE;
+                        : FileData.FILE;
                     fileDataList.add(new FileData(listFiles[index].getName(),
-                            type));
+                        type));
                 }
             }
             fileList.addAll(fileDataList);
@@ -299,23 +299,23 @@ public class FileSelector {
      */
     private void onItemSelect(final AdapterView<?> parent, final int position) {
         final String itemText = ((FileData) parent.getItemAtPosition(position))
-                .getFileName();
+            .getFileName();
         final String itemPath = mCurrentLocation.getAbsolutePath()
-                + File.separator + itemText;
+            + File.separator + itemText;
         final File itemLocation = new File(itemPath);
 
         if (!itemLocation.canRead()) {
             Toast.makeText(mContext, "Access denied!!!", Toast.LENGTH_SHORT)
-                    .show();
+                .show();
         } else if (itemLocation.isDirectory()) {
             mCurrentLocation = itemLocation;
             mDialog.setTitle(mCurrentLocation.getAbsolutePath());
             String fileFilter = ((TextView) mFilterSpinner.getSelectedView())
-                    .getText().toString();
+                .getText().toString();
             makeList(mCurrentLocation, fileFilter);
         } else if (itemLocation.isFile()) {
             final EditText fileName = (EditText) mDialog
-                    .findViewById(R.id.fileName);
+                .findViewById(R.id.fileName);
             fileName.setText(itemText);
         }
     }
@@ -332,13 +332,13 @@ public class FileSelector {
                 mSaveLoadButton.setText(R.string.saveButtonText);
                 mDialog.findViewById(R.id.fileName).setVisibility(View.VISIBLE);
                 mDialog.findViewById(R.id.fileTextView1)
-                        .setVisibility(View.VISIBLE);
+                    .setVisibility(View.VISIBLE);
                 break;
             case LOAD:
                 mSaveLoadButton.setText(R.string.loadButtonText);
                 mDialog.findViewById(R.id.fileName).setVisibility(View.VISIBLE);
                 mDialog.findViewById(R.id.fileTextView1)
-                        .setVisibility(View.VISIBLE);
+                    .setVisibility(View.VISIBLE);
                 break;
             case SELECTDIR:
                 mSaveLoadButton.setText(R.string.dirButtonText);
@@ -347,7 +347,7 @@ public class FileSelector {
                 break;
         }
         mSaveLoadButton.setOnClickListener(new SaveLoadClickListener(operation,
-                this, mContext));
+            this, mContext));
     }
 
     /**
@@ -385,30 +385,30 @@ public class FileSelector {
         final EditText input = new EditText(mContext);
         alert.setView(input);
         alert.setPositiveButton(R.string.createButtonText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(final DialogInterface dialog,
-                                        final int whichButton) {
-                        File file = new File(mCurrentLocation.getAbsolutePath()
-                                + File.separator + input.getText().toString());
-                        if (file.mkdir()) {
-                            Toast t = Toast.makeText(mContext,
-                                    R.string.folderCreationOk,
-                                    Toast.LENGTH_SHORT);
-                            t.setGravity(Gravity.CENTER, 0, 0);
-                            t.show();
-                        } else {
-                            Toast t = Toast.makeText(mContext,
-                                    R.string.folderCreationError,
-                                    Toast.LENGTH_SHORT);
-                            t.setGravity(Gravity.CENTER, 0, 0);
-                            t.show();
-                        }
-                        String fileFilter = ((TextView) mFilterSpinner
-                                .getSelectedView()).getText().toString();
-                        makeList(mCurrentLocation, fileFilter);
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialog,
+                                    final int whichButton) {
+                    File file = new File(mCurrentLocation.getAbsolutePath()
+                        + File.separator + input.getText().toString());
+                    if (file.mkdir()) {
+                        Toast t = Toast.makeText(mContext,
+                            R.string.folderCreationOk,
+                            Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        t.show();
+                    } else {
+                        Toast t = Toast.makeText(mContext,
+                            R.string.folderCreationError,
+                            Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        t.show();
                     }
-                });
+                    String fileFilter = ((TextView) mFilterSpinner
+                        .getSelectedView()).getText().toString();
+                    makeList(mCurrentLocation, fileFilter);
+                }
+            });
         alert.show();
     }
 
@@ -427,7 +427,7 @@ public class FileSelector {
 
     public String getSelectedFileName() {
         final EditText fileName = (EditText) mDialog
-                .findViewById(R.id.fileName);
+            .findViewById(R.id.fileName);
         return fileName.getText().toString();
     }
 

@@ -201,7 +201,7 @@ public class DataSource {
 
             Map<String, SparseArray<MatchStatsStruct>> eventMap = params[0]._input.getMatches();
 
-            params[0]._avgs= new HashMap<>(eventMap.size());
+            params[0]._avgs = new HashMap<>(eventMap.size());
 
             int count = 0;
 
@@ -218,7 +218,7 @@ public class DataSource {
                         avg += score;
                         count++;
                     }
-                    avgs.put(MatchStatsYearly.getGraphNames().get(j), (matches.size() > 0) ? ((double)avg / (double)matches.size()) : 0.0);
+                    avgs.put(MatchStatsYearly.getGraphNames().get(j), (matches.size() > 0) ? ((double) avg / (double) matches.size()) : 0.0);
                 }
                 params[0]._avgs.put(event.getKey(), avgs);
             }

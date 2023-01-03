@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/startMatchNum"
@@ -16,7 +16,7 @@
             android:layout_gravity="left"
             android:layout_weight="1"
             android:hint="Match#"
-            android:inputType="number" >
+            android:inputType="number">
 
             <requestFocus />
         </EditText>
@@ -40,8 +40,7 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:hint="Team#"
-            android:inputType="number" >
-        </EditText>
+            android:inputType="number"></EditText>
     </LinearLayout>
 
     <Button
@@ -54,19 +53,21 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/startMatchTeamT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textSize="50sp"
-                android:text=""/>
+                android:text="" />
+
             <ImageView
                 android:id="@+id/robotPic"
                 android:layout_width="match_parent"

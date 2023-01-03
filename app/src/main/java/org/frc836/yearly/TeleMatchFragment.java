@@ -35,19 +35,19 @@ public class TeleMatchFragment extends MatchFragment {
 
     private boolean displayed = false;
 
-	private Button highSuccessIncrement;
-	private Button highSuccessDecrement;
-	private Button highFailureIncrement;
-	private Button highFailureDecrement;
-	private Button lowSuccessIncrement;
-	private Button lowSuccessDecrement;
-	private Button lowFailureIncrement;
-	private Button lowFailureDecrement;
+    private Button highSuccessIncrement;
+    private Button highSuccessDecrement;
+    private Button highFailureIncrement;
+    private Button highFailureDecrement;
+    private Button lowSuccessIncrement;
+    private Button lowSuccessDecrement;
+    private Button lowFailureIncrement;
+    private Button lowFailureDecrement;
 
-	private Spinner highSuccess;
-	private Spinner highFailure;
-	private Spinner lowSuccess;
-	private Spinner lowFailure;
+    private Spinner highSuccess;
+    private Spinner highFailure;
+    private Spinner lowSuccess;
+    private Spinner lowFailure;
 
 
     public TeleMatchFragment() {
@@ -101,10 +101,10 @@ public class TeleMatchFragment extends MatchFragment {
 
         MatchStatsYearly.clearTele(data);
 
-		data.high_score = highSuccess.getSelectedItemPosition();
-		data.high_miss = highFailure.getSelectedItemPosition();
-		data.low_score = lowSuccess.getSelectedItemPosition();
-		data.low_miss = lowFailure.getSelectedItemPosition();
+        data.high_score = highSuccess.getSelectedItemPosition();
+        data.high_miss = highFailure.getSelectedItemPosition();
+        data.low_score = lowSuccess.getSelectedItemPosition();
+        data.low_miss = lowFailure.getSelectedItemPosition();
 
     }
 
@@ -114,38 +114,38 @@ public class TeleMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
 
-		highSuccess.setSelection(data.high_score);
-		highFailure.setSelection(data.high_miss);
-		lowSuccess.setSelection(data.low_score);
-		lowFailure.setSelection(data.low_miss);
+        highSuccess.setSelection(data.high_score);
+        highFailure.setSelection(data.high_miss);
+        lowSuccess.setSelection(data.low_score);
+        lowFailure.setSelection(data.low_miss);
     }
 
     private void getGUIRefs(View view) {
 
-		highSuccessIncrement = view.findViewById(R.id.increment_tele_high_success);
-		highSuccessDecrement = view.findViewById(R.id.decrement_tele_high_success);
-		highFailureIncrement = view.findViewById(R.id.increment_tele_high_failure);
-		highFailureDecrement = view.findViewById(R.id.decrement_tele_high_failure);
-		lowSuccessIncrement = view.findViewById(R.id.increment_tele_low_success);
-		lowSuccessDecrement = view.findViewById(R.id.decrement_tele_low_success);
-		lowFailureIncrement = view.findViewById(R.id.increment_tele_low_failure);
-		lowFailureDecrement = view.findViewById(R.id.decrement_tele_low_failure);
+        highSuccessIncrement = view.findViewById(R.id.increment_tele_high_success);
+        highSuccessDecrement = view.findViewById(R.id.decrement_tele_high_success);
+        highFailureIncrement = view.findViewById(R.id.increment_tele_high_failure);
+        highFailureDecrement = view.findViewById(R.id.decrement_tele_high_failure);
+        lowSuccessIncrement = view.findViewById(R.id.increment_tele_low_success);
+        lowSuccessDecrement = view.findViewById(R.id.decrement_tele_low_success);
+        lowFailureIncrement = view.findViewById(R.id.increment_tele_low_failure);
+        lowFailureDecrement = view.findViewById(R.id.decrement_tele_low_failure);
 
-		highSuccess = view.findViewById(R.id.tele_high_success_spinner);
-		highFailure = view.findViewById(R.id.tele_high_failure_spinner);
-		lowSuccess = view.findViewById(R.id.tele_low_success_spinner);
-		lowFailure = view.findViewById(R.id.tele_low_failure_spinner);
+        highSuccess = view.findViewById(R.id.tele_high_success_spinner);
+        highFailure = view.findViewById(R.id.tele_high_failure_spinner);
+        lowSuccess = view.findViewById(R.id.tele_low_success_spinner);
+        lowFailure = view.findViewById(R.id.tele_low_failure_spinner);
     }
 
     private void setListeners() {
-		highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
-		highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
-		highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
-		highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
-		lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
-		lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
-		lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
-		lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
+        highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
+        highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
+        highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
+        highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
+        lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
+        lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
+        lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
+        lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
 
     }
 

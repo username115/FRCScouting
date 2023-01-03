@@ -70,7 +70,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
         if (eventName == null)
             eventName = Prefs.getEvent(mParent, null);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
-                View.GONE);
+            View.GONE);
         dataList.setVisibility(View.GONE);
         dataTable.setVisibility(View.VISIBLE);
         dataTable.setStretchAllColumns(true);
@@ -128,8 +128,8 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
         TableRow titles = new TableRow(mParent);
         titles.setId(id);
         TableLayout.LayoutParams rowParams =
-                new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                        TableLayout.LayoutParams.WRAP_CONTENT);
+            new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT);
         rowParams.setMargins(1, 1, 1, 1);
         titles.setPadding(0, 0, 0, 0);
         titles.setLayoutParams(rowParams);
@@ -163,7 +163,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
                     TextView datum = new TextView(mParent);
                     if (num != null) {
                         String s = String.valueOf(num);
-                        datum.setText(s.substring(0, Math.min(5, s.length()-1)));
+                        datum.setText(s.substring(0, Math.min(5, s.length() - 1)));
                     } else {
                         datum.setText("");
                     }
@@ -181,7 +181,9 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
 
         private final int teamId;
 
-        public OnTeamClickListener(int team) { teamId = team; }
+        public OnTeamClickListener(int team) {
+            teamId = team;
+        }
 
         @Override
         public void onClick(View v) {
@@ -193,7 +195,7 @@ public class MatchInfoFragment extends DataFragment implements DataSource.DataCa
     private void loadTeam(int team) {
         Intent intent = new Intent(mParent, DataActivity.class);
         intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
-                DataActivity.ACTIVITY_TYPE_TEAM);
+            DataActivity.ACTIVITY_TYPE_TEAM);
         intent.putExtra(DataActivity.EVENT_ARG, eventName);
         intent.putExtra(DataActivity.TEAM_ARG, team);
         mParent.startActivity(intent);

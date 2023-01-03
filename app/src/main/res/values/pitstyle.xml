@@ -3,7 +3,7 @@
 
     <color name="pits_seperator_color">#ff777777</color>
 
-	<string name="last_updated">Last Updated: %1$s</string>
+    <string name="last_updated">Last Updated: %1$s</string>
 
     <string name="header_text_auto">Autonomous Mode</string>
     <string name="header_text_teleop">Tele-Op Mode</string>
@@ -11,31 +11,31 @@
     <string name="robot_speed_text">Max Speed</string>
     <string name="robot_speed_hint">ft/s</string>
 
-	<string name="programming_text">Language</string>
-	<string name="pits_batteries_text">Team Batteries</string>
-	<string name="pits_batteries_hint"># of Batteries</string>
-	<string name="team_chargers">Team Chargers</string>
-	<string name="battery_chargers_hint">Battery Chargers</string>
-	<string name="capacity_text">Capacity</string>
-	<string name="power_cells_hint"># of Power Cells (Game Pieces)</string>
-	<string name="pits_drive_train">Drive Train</string>
-	<string name="traction_name">Traction</string>
-	<string name="pneumatic_name">Pneumatic</string>
-	<string name="tank_name">Tank</string>
-	<string name="omni_name">Omni</string>
-	<string name="mecanum_name">Mecanum</string>
-	<string name="swerve_name">Swerve</string>
-	<string name="other_text">Other</string>
-	<string name="pits_appearance_text">Appearance (Scout\'s opinion)</string>
-	<string name="pits_mechanical">Mechanical:</string>
-	<string name="pits_electrical">Electrical:</string>
+    <string name="programming_text">Language</string>
+    <string name="pits_batteries_text">Team Batteries</string>
+    <string name="pits_batteries_hint"># of Batteries</string>
+    <string name="team_chargers">Team Chargers</string>
+    <string name="battery_chargers_hint">Battery Chargers</string>
+    <string name="capacity_text">Capacity</string>
+    <string name="power_cells_hint"># of Power Cells (Game Pieces)</string>
+    <string name="pits_drive_train">Drive Train</string>
+    <string name="traction_name">Traction</string>
+    <string name="pneumatic_name">Pneumatic</string>
+    <string name="tank_name">Tank</string>
+    <string name="omni_name">Omni</string>
+    <string name="mecanum_name">Mecanum</string>
+    <string name="swerve_name">Swerve</string>
+    <string name="other_text">Other</string>
+    <string name="pits_appearance_text">Appearance (Scout\'s opinion)</string>
+    <string name="pits_mechanical">Mechanical:</string>
+    <string name="pits_electrical">Electrical:</string>
 
-	<string-array name="programming">
-		<item>LabView</item>
-		<item>Java</item>
-		<item>C++</item>
-		<item>Python</item>
-		<item>Other</item>
-	</string-array>
+    <string-array name="programming">
+        <item>LabView</item>
+        <item>Java</item>
+        <item>C++</item>
+        <item>Python</item>
+        <item>Other</item>
+    </string-array>
 
 </resources>

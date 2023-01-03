@@ -25,9 +25,9 @@ public class ScoutingDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		for (int i = 0; i < FRCScoutingContract.SQL_DELETE_ENTRIES.length; i++)
-			db.execSQL(FRCScoutingContract.SQL_DELETE_ENTRIES[i]);
-		onCreate(db);
+        for (int i = 0; i < FRCScoutingContract.SQL_DELETE_ENTRIES.length; i++)
+            db.execSQL(FRCScoutingContract.SQL_DELETE_ENTRIES[i]);
+        onCreate(db);
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -1,107 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<ImageView
-		android:id="@+id/banner"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_gravity="top"
-		android:adjustViewBounds="true"
-		android:contentDescription="Banner"
-		android:src="@drawable/banner" />
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:adjustViewBounds="true"
+        android:contentDescription="Banner"
+        android:src="@drawable/banner" />
 
-	<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-		<Button
-			android:id="@+id/matchB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="left"
-			android:text="Match" />
+        <Button
+            android:id="@+id/matchB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Match" />
 
-		<View
-			android:layout_width="0dp"
-			android:layout_height="1dp"
-			android:layout_weight="1" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-		<Button
-			android:id="@+id/dataB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:enabled="true"
-			android:text="Data Lookup\n(BETA)" />
+        <Button
+            android:id="@+id/dataB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:enabled="true"
+            android:text="Data Lookup\n(BETA)" />
 
-		<View
-			android:layout_width="0dp"
-			android:layout_height="1dp"
-			android:layout_weight="1" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-		<Button
-			android:id="@+id/pitB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="right"
-			android:enabled="false"
-			android:text="Pits" />
-	</LinearLayout>
+        <Button
+            android:id="@+id/pitB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:enabled="false"
+            android:text="Pits" />
+    </LinearLayout>
 
-	<Button
-		android:id="@+id/picklistB"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal"
-		android:text="Pick List (BETA)" />
+    <Button
+        android:id="@+id/picklistB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Pick List (BETA)" />
 
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center_horizontal"
-		android:text="Brought to you by:"
-		android:textSize="15sp" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Brought to you by:"
+        android:textSize="15sp" />
 
-	<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-		<ImageView
-			android:id="@+id/beeLogo"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="left"
-			android:layout_weight="1"
-			android:adjustViewBounds="true"
-			android:clickable="true"
-			android:contentDescription="RoboBees"
-			android:src="@drawable/robobees_title" />
+        <ImageView
+            android:id="@+id/beeLogo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:contentDescription="RoboBees"
+            android:src="@drawable/robobees_title" />
 
-		<ImageView
-			android:id="@+id/stemsLogo"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="right"
-			android:layout_weight="1"
-			android:adjustViewBounds="true"
-			android:clickable="true"
-			android:contentDescription="growingSTEMS"
-			android:src="@drawable/growingstemslogo_small" />
-	</LinearLayout>
+        <ImageView
+            android:id="@+id/stemsLogo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:contentDescription="growingSTEMS"
+            android:src="@drawable/growingstemslogo_small" />
+    </LinearLayout>
 
-	<TextView
-		android:id="@+id/fmsApiLink"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:clickable="true"
-		android:gravity="center_horizontal"
-		android:text="Event Data provided by FIRST"
-		android:textColor="#1a0dab"
-		android:textSize="20sp" />
+    <TextView
+        android:id="@+id/fmsApiLink"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:text="Event Data provided by FIRST"
+        android:textColor="#1a0dab"
+        android:textSize="20sp" />
 
 </LinearLayout>

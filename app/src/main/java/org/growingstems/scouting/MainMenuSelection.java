@@ -31,38 +31,38 @@ import org.growingstems.scouting.MenuSelections.Refreshable;
 
 public class MainMenuSelection {
 
-	private static LocalBinder mBinder;
+    private static LocalBinder mBinder;
 
-	public static boolean onOptionsItemSelected(MenuItem item, ScoutingMenuActivity context) {
-		switch (item.getItemId()) {
-		case R.id.settingsitem:
-			openSettings(context);
-			return true;
-		case R.id.refreshMatchesItem:
-			refresh(context);
-			return true;
-		case R.id.helpitem:
-			showHelp(context);
-			return true;
-		case R.id.exportItem:
-			exportDB(context);
-			return true;
-		case R.id.exitItem:
-			exit(context);
-			return true;
-		case R.id.syncItem:
-			return forceSync(context);
-		default:
-			return false;
-		}
-	}
+    public static boolean onOptionsItemSelected(MenuItem item, ScoutingMenuActivity context) {
+        switch (item.getItemId()) {
+            case R.id.settingsitem:
+                openSettings(context);
+                return true;
+            case R.id.refreshMatchesItem:
+                refresh(context);
+                return true;
+            case R.id.helpitem:
+                showHelp(context);
+                return true;
+            case R.id.exportItem:
+                exportDB(context);
+                return true;
+            case R.id.exitItem:
+                exit(context);
+                return true;
+            case R.id.syncItem:
+                return forceSync(context);
+            default:
+                return false;
+        }
+    }
 
-	public static void openSettings(ScoutingMenuActivity context) {
-		Intent intent = new Intent(context.getBaseContext(), PrefsActivity.class);
-		context.getResultForPrefs().launch(intent);
-	}
+    public static void openSettings(ScoutingMenuActivity context) {
+        Intent intent = new Intent(context.getBaseContext(), PrefsActivity.class);
+        context.getResultForPrefs().launch(intent);
+    }
 
-	public static void refresh(Activity context) {
+    public static void refresh(Activity context) {
 
 		/*if (context instanceof DataActivity) {
 			DataActivity act = (DataActivity) context;
@@ -71,55 +71,55 @@ public class MainMenuSelection {
 			MatchStatsActivity act = (MatchStatsActivity) context;
 			act.refreshStats();
 		} else {*/
-		if (context instanceof Refreshable) {
-			((Refreshable) context).refresh();
-		} else {
-			MatchSchedule schedule = new MatchSchedule();
-			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(context.getBaseContext());
-			schedule.updateSchedule(
-					prefs.getString("eventPref", "Chesapeake Regional"),
-					context, true);
-		}
-	}
+        if (context instanceof Refreshable) {
+            ((Refreshable) context).refresh();
+        } else {
+            MatchSchedule schedule = new MatchSchedule();
+            SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context.getBaseContext());
+            schedule.updateSchedule(
+                prefs.getString("eventPref", "Chesapeake Regional"),
+                context, true);
+        }
+    }
 
-	public static void showHelp(ScoutingMenuActivity context) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setMessage(context.getHelpMessage())
-				.setCancelable(true)
-				.setPositiveButton("OK",
-						(dialog, which) -> dialog.cancel());
-		builder.show();
-	}
+    public static void showHelp(ScoutingMenuActivity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getHelpMessage())
+            .setCancelable(true)
+            .setPositiveButton("OK",
+                (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
 
-	public static void setRefreshItem(Menu menu, int item) {
-		MenuItem i = menu.findItem(R.id.refreshMatchesItem);
-		i.setTitle(item);
-	}
+    public static void setRefreshItem(Menu menu, int item) {
+        MenuItem i = menu.findItem(R.id.refreshMatchesItem);
+        i.setTitle(item);
+    }
 
-	public static void exportDB(ScoutingMenuActivity context) {
-		DB.exportToCSV(context);
-	}
+    public static void exportDB(ScoutingMenuActivity context) {
+        DB.exportToCSV(context);
+    }
 
-	public static void exit(Activity context) {
-		if (!(context instanceof DashboardActivity)) {
-			Intent intent = new Intent(context, DashboardActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.putExtra("ExitApp", true);
-			context.startActivity(intent);
-		}
-		context.finish();
-	}
+    public static void exit(Activity context) {
+        if (!(context instanceof DashboardActivity)) {
+            Intent intent = new Intent(context, DashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("ExitApp", true);
+            context.startActivity(intent);
+        }
+        context.finish();
+    }
 
-	public static void setBinder(LocalBinder binder) {
-		mBinder = binder;
-	}
+    public static void setBinder(LocalBinder binder) {
+        mBinder = binder;
+    }
 
-	public static boolean forceSync(Activity context) {
-		if (mBinder != null) {
-			mBinder.forceSync();
-			return true;
-		}
-		return false;
-	}
+    public static boolean forceSync(Activity context) {
+        if (mBinder != null) {
+            mBinder.forceSync();
+            return true;
+        }
+        return false;
+    }
 }

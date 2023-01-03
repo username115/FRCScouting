@@ -16,9 +16,6 @@
 
 package org.growingstems.scouting;
 
-import org.frc836.database.DBActivity;
-import org.frc836.yearly.MatchActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +44,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.frc836.database.DBActivity;
+import org.frc836.yearly.MatchActivity;
+
 
 public class MatchStartActivity extends DBActivity {
 
@@ -64,41 +64,41 @@ public class MatchStartActivity extends DBActivity {
 
     private ProgressDialog pd;
 
-	private RequestQueue reqQueue = null;
+    private RequestQueue reqQueue = null;
 
 
-	@NonNull
-	private final ActivityResultLauncher<Intent> resultForMatch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-		if (result.getResultCode() > 0) {
-			matchNum.setText(String.valueOf(result.getResultCode()));
-		}
-	});
+    @NonNull
+    private final ActivityResultLauncher<Intent> resultForMatch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() > 0) {
+            matchNum.setText(String.valueOf(result.getResultCode()));
+        }
+    });
 
-	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-		MatchSchedule schedule = new MatchSchedule();
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		schedule.updateSchedule(
-				prefs.getString("eventPref", "Chesapeake Regional"), this,
-				false);
+    private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        MatchSchedule schedule = new MatchSchedule();
+        SharedPreferences prefs = PreferenceManager
+            .getDefaultSharedPreferences(getBaseContext());
+        schedule.updateSchedule(
+            prefs.getString("eventPref", "Chesapeake Regional"), this,
+            false);
 
-		updatePosition();
+        updatePosition();
 
-		if (matchNum.getText().length() > 0)
-			setMatch(Integer.parseInt(matchNum.getText().toString()));
-	});
+        if (matchNum.getText().length() > 0)
+            setMatch(Integer.parseInt(matchNum.getText().toString()));
+    });
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.matchstart);
         if (reqQueue == null) {
-			reqQueue = Volley.newRequestQueue(this);
-			reqQueue.start();
-		}
+            reqQueue = Volley.newRequestQueue(this);
+            reqQueue.start();
+        }
 
         HELPMESSAGE = "Ensure correct Event and Position are selected in Settings.\n\n"
-                + "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
-                + "Match number and team number will automatically update upon successful submission of match data.";
+            + "Enter the upcoming match number, and the team number and picture will auto-populate if available.\n\n"
+            + "Match number and team number will automatically update upon successful submission of match data.";
 
         teamNum = findViewById(R.id.startTeamNum);
         position = findViewById(R.id.startPos);
@@ -122,30 +122,30 @@ public class MatchStartActivity extends DBActivity {
     public void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
+            .getDefaultSharedPreferences(getBaseContext());
         updatePosition();
 
         if (!schedule.isValid(this)) {
             schedule.updateSchedule(
-                    prefs.getString("eventPref", "Chesapeake Regional"), this,
-                    false);
+                prefs.getString("eventPref", "Chesapeake Regional"), this,
+                false);
         }
 
     }
 
-	@NonNull
-	@Override
-	public String getHelpMessage() {
-		return HELPMESSAGE;
-	}
+    @NonNull
+    @Override
+    public String getHelpMessage() {
+        return HELPMESSAGE;
+    }
 
-	@NonNull
-	@Override
-	public ActivityResultLauncher<Intent> getResultForPrefs() {
-		return resultForPrefs;
-	}
+    @NonNull
+    @Override
+    public ActivityResultLauncher<Intent> getResultForPrefs() {
+        return resultForPrefs;
+    }
 
-	private class positionClickListener implements OnClickListener {
+    private class positionClickListener implements OnClickListener {
 
         public void onClick(View v) {
             MainMenuSelection.openSettings(MatchStartActivity.this);
@@ -198,21 +198,21 @@ public class MatchStartActivity extends DBActivity {
         public void onClick(View v) {
             Intent intent;
             intent = new Intent(MatchStartActivity.this,
-                    MatchActivity.class);
+                MatchActivity.class);
             intent.putExtra("team", teamNum.getText().toString());
             intent.putExtra("match", matchNum.getText().toString());
-			resultForMatch.launch(intent);
+            resultForMatch.launch(intent);
         }
 
     }
 
     private void updatePosition() {
         SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
+            .getDefaultSharedPreferences(getBaseContext());
         String pos = prefs.getString("positionPref", "Red 1");
 
         if (pos == null)
-        	return;
+            return;
 
         position.setText(pos);
         if (pos.contains("Blue"))
@@ -231,7 +231,7 @@ public class MatchStartActivity extends DBActivity {
             def = "";
         }
         teamNum.setText(schedule.getTeam(matchNum, position.getText()
-                .toString(), this, def));
+            .toString(), this, def));
         if (Prefs.getRobotPicPref(getApplicationContext(), false)) {
             loadPicture();
         }
@@ -241,7 +241,7 @@ public class MatchStartActivity extends DBActivity {
 
         public void onClick(View v) {
             pd = ProgressDialog.show(MatchStartActivity.this, "Busy",
-                    "Retrieving Team Robot Photo", false);
+                "Retrieving Team Robot Photo", false);
             pd.setCancelable(true);
             loadPicture();
         }
@@ -255,7 +255,7 @@ public class MatchStartActivity extends DBActivity {
             return;
         }
         String pictureURL = db.getPictureURL(Integer.parseInt(teamNum.getText()
-                .toString()));
+            .toString()));
         if (pictureURL.length() < 5) {
             if (pd != null)
                 pd.dismiss();
@@ -264,13 +264,13 @@ public class MatchStartActivity extends DBActivity {
             return;
         }
 
-		reqQueue.add(new ImageRequest(pictureURL,
-				this::onFinished,
-				Resources.getSystem().getDisplayMetrics().widthPixels,
-				0,
-				ImageView.ScaleType.FIT_XY,
-				Bitmap.Config.ARGB_8888,
-				null));
+        reqQueue.add(new ImageRequest(pictureURL,
+            this::onFinished,
+            Resources.getSystem().getDisplayMetrics().widthPixels,
+            0,
+            ImageView.ScaleType.FIT_XY,
+            Bitmap.Config.ARGB_8888,
+            null));
     }
 
     public void onFinished(Bitmap bitmap) {
@@ -293,7 +293,7 @@ public class MatchStartActivity extends DBActivity {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation != orient)
-            scaleImage(robotPic, ((BitmapDrawable)robotPic.getDrawable()).getBitmap());
+            scaleImage(robotPic, ((BitmapDrawable) robotPic.getDrawable()).getBitmap());
         orient = newConfig.orientation;
     }
 
@@ -309,7 +309,7 @@ public class MatchStartActivity extends DBActivity {
 
         // Now change ImageView's dimensions to match the scaled image
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view
-                .getLayoutParams();
+            .getLayoutParams();
         params.width = width;
         params.height = height;
         view.setLayoutParams(params);

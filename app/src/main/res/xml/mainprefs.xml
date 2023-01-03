@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
         android:defaultValue="Red 1"
@@ -70,13 +70,15 @@
         android:summary="Select how often the app should sync"
         android:title="Auto Sync Frequency" />
 
-    <SwitchPreferenceCompat android:defaultValue="false"
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
         android:enabled="true"
         android:key="doNotAskURL"
         android:summary="Don't prompt to associate with a server."
         android:title="Don't Prompt for URL" />
 
-    <SwitchPreferenceCompat android:defaultValue="false"
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
         android:enabled="true"
         android:key="redLeft"
         android:summary="Red on left, Blue on right"

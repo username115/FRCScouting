@@ -16,12 +16,6 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.growingstems.scouting.Prefs;
-import org.growingstems.scouting.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,56 +26,62 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventListFragment extends DataFragment {
 
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		rootView.findViewById(R.id.data_team_input_layout).setVisibility(
-				View.GONE);
+        super.onCreateView(inflater, container, savedInstanceState);
+        rootView.findViewById(R.id.data_team_input_layout).setVisibility(
+            View.GONE);
 
-		return rootView;
-	}
+        return rootView;
+    }
 
-	@Override
-	protected void refreshData() {
-		if (!isDisplayed() || getActivity() == null)
-			return;
-		List<String> events = mParent.getDB().getEventsWithData();
-		String curEvent = Prefs.getEvent(getActivity(), "");
-		if (events == null) {
-			events = new ArrayList<>(1);
-		}
-		if (curEvent.length() > 0) {
-			events.remove(curEvent);
-			events.add(0, curEvent);
-		}
-		final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-				getActivity(), defaultListResource, events);
-		dataList.setAdapter(adapter);
-		dataList.setOnItemClickListener(new EventClick());
+    @Override
+    protected void refreshData() {
+        if (!isDisplayed() || getActivity() == null)
+            return;
+        List<String> events = mParent.getDB().getEventsWithData();
+        String curEvent = Prefs.getEvent(getActivity(), "");
+        if (events == null) {
+            events = new ArrayList<>(1);
+        }
+        if (curEvent.length() > 0) {
+            events.remove(curEvent);
+            events.add(0, curEvent);
+        }
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
+            getActivity(), defaultListResource, events);
+        dataList.setAdapter(adapter);
+        dataList.setOnItemClickListener(new EventClick());
 
-	}
+    }
 
-	private class EventClick implements AdapterView.OnItemClickListener {
+    private class EventClick implements AdapterView.OnItemClickListener {
 
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			String event = (String) parent.getItemAtPosition(position);
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            String event = (String) parent.getItemAtPosition(position);
 
-			loadEvent(event);
-		}
+            loadEvent(event);
+        }
 
-	}
+    }
 
-	private void loadEvent(String event) {
-		Intent intent = new Intent(mParent, DataActivity.class);
-		intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
-				DataActivity.ACTIVITY_TYPE_EVENT);
-		intent.putExtra(DataActivity.EVENT_ARG, event);
-		mParent.startActivity(intent);
-	}
+    private void loadEvent(String event) {
+        Intent intent = new Intent(mParent, DataActivity.class);
+        intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
+            DataActivity.ACTIVITY_TYPE_EVENT);
+        intent.putExtra(DataActivity.EVENT_ARG, event);
+        mParent.startActivity(intent);
+    }
 
 }

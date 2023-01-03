@@ -2,23 +2,26 @@
     android:id="@+id/saveFileDialog"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <ListView
         android:id="@+id/fileList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
-        android:padding="10dp" /><ScrollView
+        android:padding="10dp" />
+
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5" >
+        android:layout_weight="0.5">
 
         <LinearLayout
             android:id="@+id/fileLinearLayout2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp" >
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/fileTextView1"
@@ -40,7 +43,7 @@
                 android:id="@+id/fileLinearLayout3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/fileSaveLoad"
