@@ -16,16 +16,16 @@
 
 package org.frc836.database;
 
-import org.frc836.database.DBSyncService.LocalBinder;
-import org.growingstems.scouting.MainMenuSelection;
-import org.growingstems.scouting.ScoutingMenuActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+
+import org.frc836.database.DBSyncService.LocalBinder;
+import org.growingstems.scouting.MainMenuSelection;
+import org.growingstems.scouting.ScoutingMenuActivity;
 
 public abstract class DBActivity extends ScoutingMenuActivity implements ScoutingDBHelper.DBInstantiatedCallback {
     protected DB db;

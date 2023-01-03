@@ -28,9 +28,10 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
 
     TouchInterceptor mPickList;
     SimpleCursorAdapter mAdapter;
-	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
+    private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    });
 
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick);
@@ -47,8 +48,8 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
         String[] fromColumns = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED};
         int[] toViews = {R.id.line1, R.id.line2};
         setListAdapter(new SimpleCursorAdapter(this,
-                R.layout.pick_item, null,
-                fromColumns, toViews, 0));
+            R.layout.pick_item, null,
+            fromColumns, toViews, 0));
         mPickList.setOnItemLongClickListener(new PickLongClick());
 
     }
@@ -67,7 +68,7 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
     private void RefreshData() {
 
         SQLiteDatabase data = ScoutingDBHelper.getInstance()
-                .getReadableDatabase();
+            .getReadableDatabase();
         Cursor teams = db.getPickListCursor(Prefs.getEvent(this, "CHS District Central Virginia Event"), data);
         mAdapter.swapCursor(teams);
         ScoutingDBHelper.getInstance().close();
@@ -75,22 +76,22 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
 
 
     private final TouchInterceptor.DropListener mDropListener =
-			(from, to) -> {
-				boolean fromFirst = from < to;
-				String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
-				List<String> teams = db.getPickList(eventName);
-				Collections.rotate(teams.subList(fromFirst ? from : to, (fromFirst ? to : from) + 1), to - from);
-				db.updateSort(teams, eventName);
-				RefreshData();
-			};
+        (from, to) -> {
+            boolean fromFirst = from < to;
+            String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
+            List<String> teams = db.getPickList(eventName);
+            Collections.rotate(teams.subList(fromFirst ? from : to, (fromFirst ? to : from) + 1), to - from);
+            db.updateSort(teams, eventName);
+            RefreshData();
+        };
 
     private final TouchInterceptor.RemoveListener mRemoveListener =
-			which -> {
-				String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
-				List<String> teams = db.getPickList(eventName);
-				db.removeTeamFromPickList(Integer.parseInt(teams.get(which)), eventName);
-				RefreshData();
-			};
+        which -> {
+            String eventName = Prefs.getEvent(PickActivity.this, "CHS District Central Virginia Event");
+            List<String> teams = db.getPickList(eventName);
+            db.removeTeamFromPickList(Integer.parseInt(teams.get(which)), eventName);
+            RefreshData();
+        };
 
     public void setListAdapter(SimpleCursorAdapter adapter) {
         synchronized (this) {
@@ -113,19 +114,19 @@ public class PickActivity extends DBActivity implements View.OnCreateContextMenu
         return mPickList;
     }
 
-	@NonNull
-	@Override
-	public String getHelpMessage() {
-		return "";
-	}
+    @NonNull
+    @Override
+    public String getHelpMessage() {
+        return "";
+    }
 
-	@NonNull
-	@Override
-	public ActivityResultLauncher<Intent> getResultForPrefs() {
-		return resultForPrefs;
-	}
+    @NonNull
+    @Override
+    public ActivityResultLauncher<Intent> getResultForPrefs() {
+        return resultForPrefs;
+    }
 
-	private class PickLongClick implements AdapterView.OnItemLongClickListener {
+    private class PickLongClick implements AdapterView.OnItemLongClickListener {
 
         /**
          * Callback method to be invoked when an item in this view has been

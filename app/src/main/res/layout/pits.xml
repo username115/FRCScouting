@@ -1,427 +1,427 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/team_text"
-				android:textSize="20sp"
-				android:textStyle="bold" />
-
-			<AutoCompleteTextView
-				android:id="@+id/pits_teamT"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:hint="@string/team_hint"
-				android:inputType="number">
-
-				<requestFocus />
-			</AutoCompleteTextView>
-
-		</LinearLayout>
-
-		<TextView
-			android:id="@+id/pits_teamInfo"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:text=""
-			android:textSize="14sp" />
-
-		<TableLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/programming_text"
-					android:textStyle="bold" />
-
-				<Spinner
-					android:id="@+id/pits_languageS"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:entries="@array/programming" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/robot_weight_text"
-					android:textStyle="bold" />
-
-				<EditText
-					android:id="@+id/robot_gross_weightT"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:ems="10"
-					android:hint="@string/robot_weight_hint"
-					android:importantForAutofill="no"
-					android:inputType="number" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/pits_batteries_text"
-					android:textStyle="bold" />
-
-				<EditText
-					android:id="@+id/team_batteriesT"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:ems="10"
-					android:hint="@string/pits_batteries_hint"
-					android:importantForAutofill="no"
-					android:inputType="number" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/team_chargers"
-					android:textStyle="bold" />
-
-				<EditText
-					android:id="@+id/team_chargersT"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:ems="10"
-					android:hint="@string/battery_chargers_hint"
-					android:importantForAutofill="no"
-					android:inputType="number" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/capacity_text"
-					android:textStyle="bold" />
-
-				<EditText
-					android:id="@+id/team_capacityT"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:ems="10"
-					android:hint="@string/power_cells_hint"
-					android:importantForAutofill="no"
-					android:inputType="number" />
-			</TableRow>
-		</TableLayout>
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="2dip"
-			android:background="@color/pits_seperator_color" />
-
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:text="@string/pits_drive_train"
-			android:textSize="20sp"
-			android:textStyle="bold" />
-
-		<TableLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingLeft="25dp">
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<CheckBox
-					android:id="@+id/tractionC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/traction_name" />
-
-				<CheckBox
-					android:id="@+id/pneumaticC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/pneumatic_name" />
-
-				<CheckBox
-					android:id="@+id/tankC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/tank_name" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<CheckBox
-					android:id="@+id/omniC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/omni_name" />
-
-				<CheckBox
-					android:id="@+id/mecanumC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/mecanum_name" />
-
-				<CheckBox
-					android:id="@+id/swerveC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/swerve_name" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<View android:layout_weight="1" />
-
-				<CheckBox
-					android:id="@+id/wheelOtherC"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="@string/other_text" />
-
-				<View android:layout_weight="1" />
-			</TableRow>
-		</TableLayout>
-
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="2dip"
-			android:background="@color/pits_seperator_color" />
-
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/header_text_auto"
-			android:textSize="20sp"
-			android:textStyle="bold" />
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="2dip"
-			android:background="@color/pits_seperator_color" />
-
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/header_text_teleop"
-			android:textSize="20sp"
-			android:textStyle="bold" />
-
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="2dip"
-			android:background="@color/pits_seperator_color" />
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/pits_appearance_text"
-			android:textSize="20sp"
-			android:textStyle="bold" />
-
-		<TableLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/pits_mechanical"
-					android:textColor="@color/red"
-					android:textStyle="bold" />
-
-				<CheckBox
-					android:id="@+id/pits_mech_1"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="1"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_mech_2"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="2"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_mech_3"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="3"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_mech_4"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="4"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_mech_5"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="5"
-					tools:ignore="HardcodedText" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:text="@string/pits_electrical"
-					android:textColor="@color/red"
-					android:textStyle="bold" />
-
-				<CheckBox
-					android:id="@+id/pits_elec_1"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="1"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_elec_2"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="2"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_elec_3"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="3"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_elec_4"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="4"
-					tools:ignore="HardcodedText" />
-
-				<CheckBox
-					android:id="@+id/pits_elec_5"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="5"
-					tools:ignore="HardcodedText" />
-			</TableRow>
-		</TableLayout>
-
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="2dip"
-			android:background="@color/pits_seperator_color" />
-
-		<TableLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/comments__text"
-				android:textSize="20sp"
-				android:textStyle="bold" />
-
-			<EditText
-				android:id="@+id/pits_commentsT"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:importantForAutofill="no"
-				android:inputType="textMultiLine" />
-		</TableLayout>
-
-		<Button
-			android:id="@+id/pits_submitB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:text="@string/submit_text" />
-	</LinearLayout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/team_text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/pits_teamT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/team_hint"
+                android:inputType="number">
+
+                <requestFocus />
+            </AutoCompleteTextView>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/pits_teamInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:textSize="14sp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/programming_text"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/pits_languageS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/programming" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/robot_weight_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/robot_gross_weightT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/robot_weight_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/pits_batteries_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/team_batteriesT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/pits_batteries_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/team_chargers"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/team_chargersT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/battery_chargers_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/capacity_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/team_capacityT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/power_cells_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+            </TableRow>
+        </TableLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="@color/pits_seperator_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/pits_drive_train"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="25dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/tractionC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/traction_name" />
+
+                <CheckBox
+                    android:id="@+id/pneumaticC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/pneumatic_name" />
+
+                <CheckBox
+                    android:id="@+id/tankC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tank_name" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/omniC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/omni_name" />
+
+                <CheckBox
+                    android:id="@+id/mecanumC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mecanum_name" />
+
+                <CheckBox
+                    android:id="@+id/swerveC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/swerve_name" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View android:layout_weight="1" />
+
+                <CheckBox
+                    android:id="@+id/wheelOtherC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/other_text" />
+
+                <View android:layout_weight="1" />
+            </TableRow>
+        </TableLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="@color/pits_seperator_color" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/header_text_auto"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="@color/pits_seperator_color" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/header_text_teleop"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="@color/pits_seperator_color" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pits_appearance_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/pits_mechanical"
+                    android:textColor="@color/red"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/pits_mech_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_mech_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_mech_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_mech_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_mech_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5"
+                    tools:ignore="HardcodedText" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/pits_electrical"
+                    android:textColor="@color/red"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/pits_elec_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_elec_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_elec_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_elec_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4"
+                    tools:ignore="HardcodedText" />
+
+                <CheckBox
+                    android:id="@+id/pits_elec_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5"
+                    tools:ignore="HardcodedText" />
+            </TableRow>
+        </TableLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="@color/pits_seperator_color" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comments__text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/pits_commentsT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine" />
+        </TableLayout>
+
+        <Button
+            android:id="@+id/pits_submitB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/submit_text" />
+    </LinearLayout>
 
 </ScrollView>

@@ -16,21 +16,10 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.growingstems.scouting.MatchSchedule;
-import org.growingstems.scouting.Prefs;
-import org.growingstems.scouting.R;
-import org.frc836.yearly.MatchActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,6 +29,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import org.frc836.yearly.MatchActivity;
+import org.growingstems.scouting.MatchSchedule;
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 public class MatchListFragment extends DataFragment {
 
@@ -97,7 +96,7 @@ public class MatchListFragment extends DataFragment {
         if (futureMatches && eventName == null)
             eventName = Prefs.getEvent(mParent, null);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
-                View.GONE);
+            View.GONE);
 
         return rootView;
     }
@@ -118,7 +117,7 @@ public class MatchListFragment extends DataFragment {
 
         if (matches == null || matches.isEmpty()) {
             StringBuilder message = new StringBuilder(
-                    "No Matches for selected ");
+                "No Matches for selected ");
             if (teamNum > 0 && eventName != null) {
                 message.append("Team/Event combination");
             } else if (teamNum > 0) {
@@ -134,7 +133,7 @@ public class MatchListFragment extends DataFragment {
         }
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-				getActivity(), defaultListResource, matches);
+            getActivity(), defaultListResource, matches);
         matchList = matches;
         dataList.setAdapter(adapter);
         dataList.setOnItemClickListener(new MatchClick());
@@ -178,7 +177,7 @@ public class MatchListFragment extends DataFragment {
         List<String> matches = null;
         if (eventName != null)
             matches = mParent.getDB().getMatchesWithData(eventName, prac,
-                    teamNum);
+                teamNum);
 
         if (matches == null)
             matches = new ArrayList<>(1);
@@ -190,20 +189,19 @@ public class MatchListFragment extends DataFragment {
     }
 
     private List<String> getFutureMatchesForEvent(String eventName, int teamNum) {
-        if(eventName == null || !eventName.equals(Prefs.getEvent(mParent, "")))
+        if (eventName == null || !eventName.equals(Prefs.getEvent(mParent, "")))
             return null;
 
         List<String> matches = getMatchesForEvent(eventName, false, teamNum);
         int lastmatch = 0;
-        if (matches != null && !matches.isEmpty())
-        {
+        if (matches != null && !matches.isEmpty()) {
             //match list is guaranteed sorted from previous call
-            lastmatch = Integer.parseInt(matches.get(matches.size()-1));
+            lastmatch = Integer.parseInt(matches.get(matches.size() - 1));
         }
 
         if (!schedule.isValid(mParent)) {
             schedule.updateSchedule(eventName, mParent,
-                    false);
+                false);
         }
 
         List<Integer> matchNums = schedule.getMatchesForTeam(teamNum, mParent);
@@ -213,10 +211,8 @@ public class MatchListFragment extends DataFragment {
         Collections.sort(matchNums);
 
         matches.clear();
-        for (Integer mat : matchNums)
-        {
-            if (mat > lastmatch)
-            {
+        for (Integer mat : matchNums) {
+            if (mat > lastmatch) {
                 matches.add(String.valueOf(mat));
             }
         }
@@ -247,10 +243,10 @@ public class MatchListFragment extends DataFragment {
                                     //TODO handle this
                                 }
                             popup.setOnMenuItemClickListener(item -> {
-								int team = Integer.parseInt(item.getTitle().toString().split(":")[1]);
-								loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
-								return true;
-							});
+                                int team = Integer.parseInt(item.getTitle().toString().split(":")[1]);
+                                loadMatch(mat, event, prac, team, mParent.getDB().getPosition(event, mat, prac, team));
+                                return true;
+                            });
                             popup.show();
                         }
                     } else {
@@ -293,7 +289,7 @@ public class MatchListFragment extends DataFragment {
     private void loadMatch(int match, String event, boolean prac, int team, String position) {
         if (team > 0) {
             Intent intent = new Intent(getActivity(),
-                    MatchActivity.class);
+                MatchActivity.class);
             intent.putExtra("team", String.valueOf(team));
             intent.putExtra("match", String.valueOf(match));
             intent.putExtra("readOnly", true);
@@ -311,7 +307,7 @@ public class MatchListFragment extends DataFragment {
     private void loadMatchInfo(int match, String event) {
         Intent intent = new Intent(mParent, DataActivity.class);
         intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
-                DataActivity.ACTIVITY_TYPE_FUTUREMATCH);
+            DataActivity.ACTIVITY_TYPE_FUTUREMATCH);
         intent.putExtra(DataActivity.EVENT_ARG, event);
         intent.putExtra(DataActivity.MATCH_ARG, match);
         mParent.startActivity(intent);

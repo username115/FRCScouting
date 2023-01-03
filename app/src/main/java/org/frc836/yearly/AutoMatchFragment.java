@@ -32,144 +32,144 @@ import org.growingstems.scouting.R;
 
 public class AutoMatchFragment extends MatchFragment {
 
-	private MatchStatsStruct tempData = new MatchStatsStruct();
+    private MatchStatsStruct tempData = new MatchStatsStruct();
 
-	private boolean displayed = false;
+    private boolean displayed = false;
 
-	private ToggleButton taxi;
+    private ToggleButton taxi;
 
-	private Button highSuccessIncrement;
-	private Button highSuccessDecrement;
-	private Button highFailureIncrement;
-	private Button highFailureDecrement;
-	private Button lowSuccessIncrement;
-	private Button lowSuccessDecrement;
-	private Button lowFailureIncrement;
-	private Button lowFailureDecrement;
+    private Button highSuccessIncrement;
+    private Button highSuccessDecrement;
+    private Button highFailureIncrement;
+    private Button highFailureDecrement;
+    private Button lowSuccessIncrement;
+    private Button lowSuccessDecrement;
+    private Button lowFailureIncrement;
+    private Button lowFailureDecrement;
 
-	private Spinner highSuccess;
-	private Spinner highFailure;
-	private Spinner lowSuccess;
-	private Spinner lowFailure;
+    private Spinner highSuccess;
+    private Spinner highFailure;
+    private Spinner lowSuccess;
+    private Spinner lowFailure;
 
 
-	public AutoMatchFragment() {
-		// Required empty public constructor
-	}
+    public AutoMatchFragment() {
+        // Required empty public constructor
+    }
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @return A new instance of fragment PreMatch.
-	 */
-	public static AutoMatchFragment newInstance() {
-		return new AutoMatchFragment();
-	}
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment PreMatch.
+     */
+    public static AutoMatchFragment newInstance() {
+        return new AutoMatchFragment();
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_auto, container, false);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_auto, container, false);
+    }
 
-	@Override
-	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-		getGUIRefs(view);
-		setListeners();
-		displayed = true;
-	}
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        getGUIRefs(view);
+        setListeners();
+        displayed = true;
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		loadData(tempData);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData(tempData);
+    }
 
-	public void onPause() {
-		super.onPause();
-		saveData(tempData);
-	}
+    public void onPause() {
+        super.onPause();
+        saveData(tempData);
+    }
 
-	@Override
-	public void saveData(@NonNull MatchStatsStruct data) {
-		if (getView() == null || !displayed)
-			return;
+    @Override
+    public void saveData(@NonNull MatchStatsStruct data) {
+        if (getView() == null || !displayed)
+            return;
 
-		MatchStatsYearly.clearAuto(data);
+        MatchStatsYearly.clearAuto(data);
 
-		data.auto_taxi = taxi.isChecked();
+        data.auto_taxi = taxi.isChecked();
 
-		data.auto_high_score = highSuccess.getSelectedItemPosition();
-		data.auto_high_miss = highFailure.getSelectedItemPosition();
-		data.auto_low_score = lowSuccess.getSelectedItemPosition();
-		data.auto_low_miss = lowFailure.getSelectedItemPosition();
-	}
+        data.auto_high_score = highSuccess.getSelectedItemPosition();
+        data.auto_high_miss = highFailure.getSelectedItemPosition();
+        data.auto_low_score = lowSuccess.getSelectedItemPosition();
+        data.auto_low_miss = lowFailure.getSelectedItemPosition();
+    }
 
-	@Override
-	public void loadData(@NonNull MatchStatsStruct data) {
-		tempData = data;
-		if (getView() == null || !displayed)
-			return;
+    @Override
+    public void loadData(@NonNull MatchStatsStruct data) {
+        tempData = data;
+        if (getView() == null || !displayed)
+            return;
 
-		taxi.setChecked(data.auto_taxi);
+        taxi.setChecked(data.auto_taxi);
 
-		highSuccess.setSelection(data.auto_high_score);
-		highFailure.setSelection(data.auto_high_miss);
-		lowSuccess.setSelection(data.auto_low_score);
-		lowFailure.setSelection(data.auto_low_miss);
-	}
+        highSuccess.setSelection(data.auto_high_score);
+        highFailure.setSelection(data.auto_high_miss);
+        lowSuccess.setSelection(data.auto_low_score);
+        lowFailure.setSelection(data.auto_low_miss);
+    }
 
-	private void getGUIRefs(View view) {
+    private void getGUIRefs(View view) {
 
-		taxi = view.findViewById(R.id.taxiToggle);
+        taxi = view.findViewById(R.id.taxiToggle);
 
-		highSuccessIncrement = view.findViewById(R.id.increment_auto_high_success);
-		highSuccessDecrement = view.findViewById(R.id.decrement_auto_high_success);
-		highFailureIncrement = view.findViewById(R.id.increment_auto_high_failure);
-		highFailureDecrement = view.findViewById(R.id.decrement_auto_high_failure);
-		lowSuccessIncrement = view.findViewById(R.id.increment_auto_low_success);
-		lowSuccessDecrement = view.findViewById(R.id.decrement_auto_low_success);
-		lowFailureIncrement = view.findViewById(R.id.increment_auto_low_failure);
-		lowFailureDecrement = view.findViewById(R.id.decrement_auto_low_failure);
+        highSuccessIncrement = view.findViewById(R.id.increment_auto_high_success);
+        highSuccessDecrement = view.findViewById(R.id.decrement_auto_high_success);
+        highFailureIncrement = view.findViewById(R.id.increment_auto_high_failure);
+        highFailureDecrement = view.findViewById(R.id.decrement_auto_high_failure);
+        lowSuccessIncrement = view.findViewById(R.id.increment_auto_low_success);
+        lowSuccessDecrement = view.findViewById(R.id.decrement_auto_low_success);
+        lowFailureIncrement = view.findViewById(R.id.increment_auto_low_failure);
+        lowFailureDecrement = view.findViewById(R.id.decrement_auto_low_failure);
 
-		highSuccess = view.findViewById(R.id.auto_high_success_spinner);
-		highFailure = view.findViewById(R.id.auto_high_failure_spinner);
-		lowSuccess = view.findViewById(R.id.auto_low_success_spinner);
-		lowFailure = view.findViewById(R.id.auto_low_failure_spinner);
-	}
+        highSuccess = view.findViewById(R.id.auto_high_success_spinner);
+        highFailure = view.findViewById(R.id.auto_high_failure_spinner);
+        lowSuccess = view.findViewById(R.id.auto_low_success_spinner);
+        lowFailure = view.findViewById(R.id.auto_low_failure_spinner);
+    }
 
-	private void setListeners() {
-		highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
-		highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
-		highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
-		highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
-		lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
-		lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
-		lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
-		lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
-	}
+    private void setListeners() {
+        highSuccessIncrement.setOnClickListener(new OnIncrementListener(highSuccess, 1));
+        highSuccessDecrement.setOnClickListener(new OnIncrementListener(highSuccess, -1));
+        highFailureIncrement.setOnClickListener(new OnIncrementListener(highFailure, 1));
+        highFailureDecrement.setOnClickListener(new OnIncrementListener(highFailure, -1));
+        lowSuccessIncrement.setOnClickListener(new OnIncrementListener(lowSuccess, 1));
+        lowSuccessDecrement.setOnClickListener(new OnIncrementListener(lowSuccess, -1));
+        lowFailureIncrement.setOnClickListener(new OnIncrementListener(lowFailure, 1));
+        lowFailureDecrement.setOnClickListener(new OnIncrementListener(lowFailure, -1));
+    }
 
-	private static class OnIncrementListener implements View.OnClickListener {
+    private static class OnIncrementListener implements View.OnClickListener {
 
-		int m_increment;
-		Spinner m_spinner;
+        int m_increment;
+        Spinner m_spinner;
 
-		OnIncrementListener(Spinner view, int inc) {
-			super();
-			m_increment = inc;
-			m_spinner = view;
-		}
+        OnIncrementListener(Spinner view, int inc) {
+            super();
+            m_increment = inc;
+            m_spinner = view;
+        }
 
-		@Override
-		public void onClick(View v) {
-			m_spinner.setSelection(m_spinner.getSelectedItemPosition() + m_increment);
-		}
-	}
+        @Override
+        public void onClick(View v) {
+            m_spinner.setSelection(m_spinner.getSelectedItemPosition() + m_increment);
+        }
+    }
 }

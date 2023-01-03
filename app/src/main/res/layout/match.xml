@@ -36,16 +36,16 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:hint="Team#"
-            android:inputType="number"/>
+            android:inputType="number" />
     </LinearLayout>
     <!-- header layout -->
 
-	<androidx.viewpager.widget.ViewPager
-		android:id="@+id/matchPager"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_above="@+id/matchFooter"
-		android:layout_below="@+id/matchHeaderLayout" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/matchPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/matchFooter"
+        android:layout_below="@+id/matchHeaderLayout" />
 
     <LinearLayout
         android:id="@+id/matchFooter"

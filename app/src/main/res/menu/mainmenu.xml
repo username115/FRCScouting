@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/settingsitem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/menu_settings"
-        android:visible="true">
-    </item>
+        android:visible="true"></item>
     <item
         android:id="@+id/refreshMatchesItem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_rotate"
         android:title="Refresh Match Schedule"
-        android:visible="true">
-    </item>
+        android:visible="true"></item>
     <item
         android:id="@+id/helpitem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_help"
         android:title="Help"
-        android:visible="true">
-    </item>
+        android:visible="true"></item>
     <item
         android:id="@+id/syncItem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_rotate"
         android:title="Force Sync"
-        android:visible="true">
-    </item>
+        android:visible="true"></item>
     <item
         android:id="@+id/exportItem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_save"
         android:title="Export"
-        android:visible="true">
-    </item>
+        android:visible="true"></item>
     <item
         android:id="@+id/exitItem"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:title="Exit"
-        android:visible="true">
-    </item>
+        android:visible="true"></item>
 
 </menu>

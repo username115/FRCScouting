@@ -16,10 +16,6 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.Locale;
-
-import org.growingstems.scouting.R;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,6 +28,10 @@ import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import org.growingstems.scouting.R;
+
+import java.util.Locale;
 
 public abstract class DataFragment extends Fragment {
     public static final int PT_EVENTS = 0;
@@ -80,8 +80,7 @@ public abstract class DataFragment extends Fragment {
 
 
     public static DataFragment newInstance(int section_title,
-                                           DataActivity parent, int teamNumber, String event_name)
-    {
+                                           DataActivity parent, int teamNumber, String event_name) {
         return newInstance(section_title, parent, teamNumber, event_name, -1);
     }
 
@@ -126,16 +125,16 @@ public abstract class DataFragment extends Fragment {
         switch (section_title) {
             case PT_EVENTS:
                 return context.getString(R.string.title_event_section).toUpperCase(
-                        l);
+                    l);
             case PT_TEAMS:
                 return context.getString(R.string.title_team_section)
-                        .toUpperCase(l);
+                    .toUpperCase(l);
             case PT_MATCHES:
                 return context.getString(R.string.title_match_section).toUpperCase(
-                        l);
+                    l);
             case PT_PITS:
                 return context.getString(R.string.title_pits_section)
-                        .toUpperCase(l);
+                    .toUpperCase(l);
             case PT_MATCHLINEGRAPH:
                 return context.getString(R.string.title_match_graphs_section).toUpperCase(l);
             case PT_FUTUREMATCHES:
@@ -150,14 +149,14 @@ public abstract class DataFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         rootView = inflater.inflate(default_layout_resource, container, false);
         if (default_layout_resource == R.layout.fragment_data) {
             dataList = (ListView) rootView.findViewById(R.id.dataList);
             dataTable = (TableLayout) rootView.findViewById(R.id.dataTable);
             autoText = (AutoCompleteTextView) rootView
-                    .findViewById(R.id.data_team_id);
+                .findViewById(R.id.data_team_id);
             loadB = (Button) rootView.findViewById(R.id.data_teamB);
         }
 

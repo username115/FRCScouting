@@ -6,14 +6,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.growingstems.scouting.DataActivity$PlaceholderFragment" >
+    tools:context="org.growingstems.scouting.DataActivity$PlaceholderFragment">
 
     <LinearLayout
         android:id="@+id/data_team_input_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <AutoCompleteTextView
             android:id="@+id/data_team_id"
@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/data_team_input_layout" />
+
     <TableLayout
         android:id="@+id/dataTable"
         android:layout_width="wrap_content"

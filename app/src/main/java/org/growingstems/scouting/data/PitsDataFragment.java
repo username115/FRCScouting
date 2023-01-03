@@ -16,13 +16,13 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import android.widget.ArrayAdapter;
 
 import org.frc836.database.PitStats;
 
-import android.widget.ArrayAdapter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class PitsDataFragment extends DataFragment {
 
@@ -71,7 +71,7 @@ public class PitsDataFragment extends DataFragment {
         //}
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-				getActivity(), defaultListResource, data);
+            getActivity(), defaultListResource, data);
         dataList.setAdapter(adapter);
     }
 
