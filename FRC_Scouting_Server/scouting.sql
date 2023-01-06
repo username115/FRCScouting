@@ -361,6 +361,25 @@ CREATE TABLE IF NOT EXISTS `scout_pit_data_2022` (
   KEY `invalid` (`invalid`),
   KEY `timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `superscout_data_2023` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `event_id` int(4) UNSIGNED NOT NULL,
+  `team_id` int(5) UNSIGNED NOT NULL,
+  `match_id` int(4) UNSIGNED NOT NULL,
+  `practice_match` tinyint(1) NOT NULL DEFAULT '0',
+  `position_id` int(3) UNSIGNED NOT NULL,
+  `offense_rank` int(1) UNSIGNED NOT NULL,
+  `defense_rank` int(1) UNSIGNED NOT NULL,
+  `driver_rank` int(1) UNSIGNED NOT NULL,
+  `caused_foul` tinyint(1) NOT NULL DEFAULT '0',
+  `notes` text COLLATE utf8_unicode_ci NOT NULL,
+  `invalid` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `event_id` (`event_id`,`team_id`,`match_id`,`practice_match`,`position_id`),
+  KEY `invalid` (`invalid`,`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

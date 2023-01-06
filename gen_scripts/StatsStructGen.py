@@ -122,14 +122,14 @@ class SqlToJavaStruct():
 		self.programming = None
 
 		ret = ""
-		ret += "public "+ self.className +"() {\n\tinit();\n}\n"
+		ret += "public "+ self.className +"() {\n    init();\n}\n"
 		ret += "\n"
 		ret += "public void init() {\n"
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			for column in self.tables[tableindex].columns:
 				if not 'id'== column.name and not 'timestamp'==column.name and not 'invalid'==column.name:
-					ret += "\t" + column.name + " = "
+					ret += "    " + column.name + " = "
 					if (column.type == 'boolean'):
 						ret += "false;"
 					elif (column.type == 'String'):
@@ -160,74 +160,74 @@ class SqlToJavaStruct():
 
 		if self.match and self.event and self.team:
 			ret += "\n"
-			ret += "public " + self.className +"(int team, String event, int match) {\n\tinit();\n"
-			ret += "\tthis." + self.team + " = team;\n"
-			ret += "\tthis." + self.event + " = event;\n"
-			ret += "\tthis." + self.match + " = match;\n"
+			ret += "public " + self.className +"(int team, String event, int match) {\n    init();\n"
+			ret += "    this." + self.team + " = team;\n"
+			ret += "    this." + self.event + " = event;\n"
+			ret += "    this." + self.match + " = match;\n"
 			ret += "}"
 			if self.practice:
 				ret += "\n\n"
-				ret += "public " + self.className +"(int team, String event, int match, boolean practice) {\n\tinit();\n"
-				ret += "\tthis." + self.team + " = team;\n"
-				ret += "\tthis." + self.event + " = event;\n"
-				ret += "\tthis." + self.match + " = match;\n"
-				ret += "\tthis." + self.practice + " = practice;\n"
+				ret += "public " + self.className +"(int team, String event, int match, boolean practice) {\n    init();\n"
+				ret += "    this." + self.team + " = team;\n"
+				ret += "    this." + self.event + " = event;\n"
+				ret += "    this." + self.match + " = match;\n"
+				ret += "    this." + self.practice + " = practice;\n"
 				ret += "}"
 		return ret
 
 	def createStr_getValues(self):
 		ret = "public ContentValues getValues(DB db, SQLiteDatabase database) {\n"
-		ret += "\tContentValues vals = new ContentValues();\n"
+		ret += "    ContentValues vals = new ContentValues();\n"
 
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			if self.event:
-				ret += "\tlong ev = db.getEventIDFromName(" + self.event + ", database);\n"
+				ret += "    long ev = db.getEventIDFromName(" + self.event + ", database);\n"
 
 
 			for column in self.tables[tableindex].columns:
 				if 'id'==column.name and self.event:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", ev * 10000000 + match_id * 10000 + team_id);\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", ev * 10000000 + match_id * 10000 + team_id);\n"
 				elif 'id'==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", team_id * team_id);\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", team_id * team_id);\n"
 				elif self.event==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", ev);\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", ev);\n"
 				elif self.position==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getPosIDFromName(" + column.name + ", database));\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", db.getPosIDFromName(" + column.name + ", database));\n"
 				elif self.programming==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", db.getProgrammingIDFromName(" + column.name + ", database));\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", db.getProgrammingIDFromName(" + column.name + ", database));\n"
 				elif "invalid"==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", 1);\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", 1);\n"
 				elif not 'timestamp'==column.name:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", " + column.name
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", " + column.name
 					if column.type=="boolean":
 						ret += " ? 1 : 0"
 					ret += ");\n"
-		ret += "\n\treturn vals;\n}"
+		ret += "\n    return vals;\n}"
 
 		return ret
 
 	def createStr_fromCursor(self):
 		ret = "public void fromCursor(Cursor c, DB db, SQLiteDatabase database) {\n"
-		ret += "\tfromCursor(c, db, database, 0);\n}\n\n"
+		ret += "    fromCursor(c, db, database, 0);\n}\n\n"
 		ret += "public void fromCursor(Cursor c, DB db, SQLiteDatabase database, int pos) {\n"
-		ret += "\tc.moveToPosition(pos);\n"
+		ret += "    c.moveToPosition(pos);\n"
 
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 
 			for column in self.tables[tableindex].columns:
 				if self.event==column.name:
-					ret += "\t" + column.name + " = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+					ret += "    " + column.name + " = DB.getEventNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
 				elif self.position==column.name:
-					ret += "\t" + column.name + " = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+					ret += "    " + column.name + " = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
 				elif self.programming==column.name:
-					ret += "\t" + column.name + " = DB.getProgrammingNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
+					ret += "    " + column.name + " = DB.getProgrammingNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + ")), database);\n"
 				elif not 'timestamp'==column.name and not 'id'==column.name and not 'invalid'==column.name:
 					if column.type== "String":
-						ret += "\t" + column.name + " = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "));\n"
+						ret += "    " + column.name + " = c.getString(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "));\n"
 					else:
-						ret += "\t" + column.name + " = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "))"
+						ret += "    " + column.name + " = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_" + column.name.upper() + "))"
 						if column.type=="boolean":
 							ret += " != 0"
 						ret += ";\n"
@@ -239,14 +239,14 @@ class SqlToJavaStruct():
 		ret = "public String[] getProjection() {\n"
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
-			ret += "\tList<String> temp = new ArrayList<String>(" + str(len(self.tables[tableindex].columns)-3) + ");\n"
+			ret += "    List<String> temp = new ArrayList<String>(" + str(len(self.tables[tableindex].columns)-3) + ");\n"
 
 
 			for column in self.tables[tableindex].columns:
 				if not 'timestamp'==column.name and not 'id'==column.name and not 'invalid'==column.name:
-					ret += "\ttemp.add(COLUMN_NAME_" + column.name.upper() + ");\n"
-		ret += "\tString[] projection = new String[temp.size()];\n"
-		ret += "\treturn temp.toArray(projection);\n}"
+					ret += "    temp.add(COLUMN_NAME_" + column.name.upper() + ");\n"
+		ret += "    String[] projection = new String[temp.size()];\n"
+		ret += "    return temp.toArray(projection);\n}"
 
 		return ret
 
@@ -257,8 +257,8 @@ class SqlToJavaStruct():
 		if tableindex:
 			for column in self.tables[tableindex].columns:
 				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.programming):
-					ret += "\tif (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
-		ret += "\treturn false;\n}"
+					ret += "    if (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
+		ret += "    return false;\n}"
 
 		return ret
 
@@ -269,45 +269,45 @@ class SqlToJavaStruct():
 		if tableindex:
 			for column in self.tables[tableindex].columns:
 				if (column.name == self.event or column.name == self.position or column.name == self.programming):
-					ret += "\tif (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
-		ret += "\treturn false;\n}"
+					ret += "    if (COLUMN_NAME_" + column.name.upper() + ".equalsIgnoreCase(column_name)) return true;\n\n"
+		ret += "    return false;\n}"
 
 		return ret
 
 	def createStr_jsonToCV(self):
 		ret = "public ContentValues jsonToCV(JSONObject json) throws JSONException {\n"
-		ret += "\tContentValues vals = new ContentValues();\n"
+		ret += "    ContentValues vals = new ContentValues();\n"
 
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			for column in self.tables[tableindex].columns:
 				if (column.type=="String" and not column.name == self.event and not column.name == self.position and not column.name == self.programming):
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getString(COLUMN_NAME_" + column.name.upper() + ') : "");\n'
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getString(COLUMN_NAME_" + column.name.upper() + ') : "");\n'
 				elif column.name == "timestamp":
-					ret += "\tvals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));\n"
+					ret += "    vals.put(COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(json.getLong(COLUMN_NAME_TIMESTAMP) * 1000)));\n"
 				elif column.name == "invalid":
-					ret += "\tvals.put(COLUMN_NAME_INVALID, 0);\n"
+					ret += "    vals.put(COLUMN_NAME_INVALID, 0);\n"
 				else:
-					ret += "\tvals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getInt(COLUMN_NAME_" + column.name.upper() + ") : 0);\n"
+					ret += "    vals.put(COLUMN_NAME_" + column.name.upper() + ", json.has(COLUMN_NAME_" + column.name.upper() + ") ? json.getInt(COLUMN_NAME_" + column.name.upper() + ") : 0);\n"
 
-		ret += "\treturn vals;\n}"
+		ret += "    return vals;\n}"
 		return ret
 
 	def createStr_getDisplayData(self):
 		ret = "public LinkedHashMap<String,String> getDisplayData() {\n"
-		ret += "\tLinkedHashMap<String,String> vals = new LinkedHashMap<String,String>();\n"
+		ret += "    LinkedHashMap<String,String> vals = new LinkedHashMap<String,String>();\n"
 
 		tableindex = self.findTableName(self.tableName)
 		if tableindex:
 			for column in self.tables[tableindex].columns:
 				if (column.type=="String"):
-					ret += "\tvals.put( COLUMN_NAME_" + column.name.upper() + ", " + column.name + ");\n"
+					ret += "    vals.put( COLUMN_NAME_" + column.name.upper() + ", " + column.name + ");\n"
 				if (column.type=="int"):
-					ret += "\tvals.put( COLUMN_NAME_" + column.name.upper() + ", String.valueOf(" + column.name + "));\n"
+					ret += "    vals.put( COLUMN_NAME_" + column.name.upper() + ", String.valueOf(" + column.name + "));\n"
 				if (column.type=="boolean" and not column.name=="invalid"):
-					ret += "\tvals.put( COLUMN_NAME_" + column.name.upper() + ", String.valueOf(" + column.name + " ? 1 : 0));\n"
+					ret += "    vals.put( COLUMN_NAME_" + column.name.upper() + ", String.valueOf(" + column.name + " ? 1 : 0));\n"
 
-		ret += "\treturn vals;\n}"
+		ret += "    return vals;\n}"
 		return ret;
 
 

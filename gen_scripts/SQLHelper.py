@@ -12,7 +12,7 @@ def indent(s_in="", lvl=1):
 	ret = ""
 	tabstr = ""
 	for i in range(0,lvl):
-		tabstr += "\t"
+		tabstr += "    "
 	for ln in s_in.split('\n'):
 		ret += tabstr + ln + "\n"
 	return chopnewline(ret)
