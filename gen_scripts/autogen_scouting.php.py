@@ -44,8 +44,7 @@ from scouting_php__writer import write_php
 outfile = normpath("{}/{}/scouting.php".format(ProjRootPath, args.out))
 post_tables = [
 	('match', tables[args.match_table], ['event_id','match_id','team_id','practice_match']),
-	('pits', tables[args.pit_table], ['team_id']),
-	('picklist', tables['picklist'], ['event_id','team_id'])
+	('pits', tables[args.pit_table], ['team_id'])
 ]
 
 with open(outfile, 'w') as f:
