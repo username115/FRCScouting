@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `fact_match_data_2023` (
   `match_id` int(4) UNSIGNED NOT NULL,
   `practice_match` tinyint(1) NOT NULL DEFAULT '0',
   `position_id` int(3) UNSIGNED NOT NULL,
-  `auto_mobilitiy` tinyint(1) NOT NULL DEFAULT '0',
+  `auto_mobility` tinyint(1) NOT NULL DEFAULT '0',
   `auto_substn_grid_top_substn` tinyint(1) NOT NULL DEFAULT '0',
   `auto_substn_grid_top_mid` tinyint(1) NOT NULL DEFAULT '0',
   `auto_substn_grid_top_wall` tinyint(1) NOT NULL DEFAULT '0',

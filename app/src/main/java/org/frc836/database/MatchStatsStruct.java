@@ -33,7 +33,7 @@ public class MatchStatsStruct {
 	public int match_id;
 	public boolean practice_match;
 	public String position_id;
-	public boolean auto_mobilitiy;
+	public boolean auto_mobility;
 	public boolean auto_substn_grid_top_substn;
 	public boolean auto_substn_grid_top_mid;
 	public boolean auto_substn_grid_top_wall;
@@ -106,7 +106,7 @@ public class MatchStatsStruct {
 	public static final String COLUMN_NAME_MATCH_ID = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_MATCH_ID;
 	public static final String COLUMN_NAME_PRACTICE_MATCH = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_PRACTICE_MATCH;
 	public static final String COLUMN_NAME_POSITION_ID = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_POSITION_ID;
-	public static final String COLUMN_NAME_AUTO_MOBILITIY = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_AUTO_MOBILITIY;
+	public static final String COLUMN_NAME_AUTO_MOBILITY = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_AUTO_MOBILITY;
 	public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN;
 	public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID;
 	public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL = FACT_MATCH_DATA_2023_Entry.COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL;
@@ -184,7 +184,7 @@ public class MatchStatsStruct {
 		match_id = 0;
 		practice_match = false;
 		position_id = "Red 1";
-		auto_mobilitiy = false;
+		auto_mobility = false;
 		auto_substn_grid_top_substn = false;
 		auto_substn_grid_top_mid = false;
 		auto_substn_grid_top_wall = false;
@@ -274,7 +274,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_MATCH_ID, match_id);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, practice_match ? 1 : 0);
 		vals.put(COLUMN_NAME_POSITION_ID, db.getPosIDFromName(position_id, database));
-		vals.put(COLUMN_NAME_AUTO_MOBILITIY, auto_mobilitiy ? 1 : 0);
+		vals.put(COLUMN_NAME_AUTO_MOBILITY, auto_mobility ? 1 : 0);
 		vals.put(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN, auto_substn_grid_top_substn ? 1 : 0);
 		vals.put(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID, auto_substn_grid_top_mid ? 1 : 0);
 		vals.put(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL, auto_substn_grid_top_wall ? 1 : 0);
@@ -354,7 +354,7 @@ public class MatchStatsStruct {
 		match_id = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_MATCH_ID));
 		practice_match = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_PRACTICE_MATCH)) != 0;
 		position_id = DB.getPosNameFromID(c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_POSITION_ID)), database);
-		auto_mobilitiy = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_MOBILITIY)) != 0;
+		auto_mobility = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_MOBILITY)) != 0;
 		auto_substn_grid_top_substn = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN)) != 0;
 		auto_substn_grid_top_mid = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID)) != 0;
 		auto_substn_grid_top_wall = c.getInt(c.getColumnIndexOrThrow(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL)) != 0;
@@ -427,7 +427,7 @@ public class MatchStatsStruct {
 		temp.add(COLUMN_NAME_MATCH_ID);
 		temp.add(COLUMN_NAME_PRACTICE_MATCH);
 		temp.add(COLUMN_NAME_POSITION_ID);
-		temp.add(COLUMN_NAME_AUTO_MOBILITIY);
+		temp.add(COLUMN_NAME_AUTO_MOBILITY);
 		temp.add(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN);
 		temp.add(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID);
 		temp.add(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL);
@@ -517,7 +517,7 @@ public class MatchStatsStruct {
 		vals.put(COLUMN_NAME_MATCH_ID, json.has(COLUMN_NAME_MATCH_ID) ? json.getInt(COLUMN_NAME_MATCH_ID) : 0);
 		vals.put(COLUMN_NAME_PRACTICE_MATCH, json.has(COLUMN_NAME_PRACTICE_MATCH) ? json.getInt(COLUMN_NAME_PRACTICE_MATCH) : 0);
 		vals.put(COLUMN_NAME_POSITION_ID, json.has(COLUMN_NAME_POSITION_ID) ? json.getInt(COLUMN_NAME_POSITION_ID) : 0);
-		vals.put(COLUMN_NAME_AUTO_MOBILITIY, json.has(COLUMN_NAME_AUTO_MOBILITIY) ? json.getInt(COLUMN_NAME_AUTO_MOBILITIY) : 0);
+		vals.put(COLUMN_NAME_AUTO_MOBILITY, json.has(COLUMN_NAME_AUTO_MOBILITY) ? json.getInt(COLUMN_NAME_AUTO_MOBILITY) : 0);
 		vals.put(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN, json.has(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN) ? json.getInt(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN) : 0);
 		vals.put(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID, json.has(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID) ? json.getInt(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID) : 0);
 		vals.put(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL, json.has(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL) ? json.getInt(COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL) : 0);
@@ -593,7 +593,7 @@ public class MatchStatsStruct {
 		vals.put( COLUMN_NAME_MATCH_ID, String.valueOf(match_id));
 		vals.put( COLUMN_NAME_PRACTICE_MATCH, String.valueOf(practice_match ? 1 : 0));
 		vals.put( COLUMN_NAME_POSITION_ID, position_id);
-		vals.put( COLUMN_NAME_AUTO_MOBILITIY, String.valueOf(auto_mobilitiy ? 1 : 0));
+		vals.put( COLUMN_NAME_AUTO_MOBILITY, String.valueOf(auto_mobility ? 1 : 0));
 		vals.put( COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN, String.valueOf(auto_substn_grid_top_substn ? 1 : 0));
 		vals.put( COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID, String.valueOf(auto_substn_grid_top_mid ? 1 : 0));
 		vals.put( COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL, String.valueOf(auto_substn_grid_top_wall ? 1 : 0));

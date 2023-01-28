@@ -37,7 +37,7 @@ public final class FRCScoutingContract {
 		public static final String COLUMN_NAME_MATCH_ID = "match_id";
 		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
 		public static final String COLUMN_NAME_POSITION_ID = "position_id";
-		public static final String COLUMN_NAME_AUTO_MOBILITIY = "auto_mobilitiy";
+		public static final String COLUMN_NAME_AUTO_MOBILITY = "auto_mobility";
 		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN = "auto_substn_grid_top_substn";
 		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID = "auto_substn_grid_top_mid";
 		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL = "auto_substn_grid_top_wall";
@@ -353,7 +353,7 @@ public final class FRCScoutingContract {
 		"	match_id int(4) NOT NULL,\n" +
 		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	position_id int(3) NOT NULL,\n" +
-		"	auto_mobilitiy tinyint(1) NOT NULL DEFAULT '0',\n" +
+		"	auto_mobility tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	auto_substn_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	auto_substn_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
 		"	auto_substn_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +

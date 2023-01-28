@@ -168,7 +168,7 @@ elseif ($_POST['password'] == $pass) {
 		$match_id = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0')));
 		$practice_match = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0')));
 		$position_id = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0')));
-		$auto_mobilitiy = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['auto_mobilitiy']) ? $_POST['auto_mobilitiy'] : '0')));
+		$auto_mobility = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['auto_mobility']) ? $_POST['auto_mobility'] : '0')));
 		$auto_substn_grid_top_substn = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['auto_substn_grid_top_substn']) ? $_POST['auto_substn_grid_top_substn'] : '0')));
 		$auto_substn_grid_top_mid = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['auto_substn_grid_top_mid']) ? $_POST['auto_substn_grid_top_mid'] : '0')));
 		$auto_substn_grid_top_wall = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['auto_substn_grid_top_wall']) ? $_POST['auto_substn_grid_top_wall'] : '0')));
@@ -236,13 +236,13 @@ elseif ($_POST['password'] == $pass) {
 		$result = mysqli_query($link,"SELECT id FROM fact_match_data_2023 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
 		$row = mysqli_fetch_array($result);
 		$match_row_id = $row["id"];
-		if (mysqli_num_rows($result) == 0) {			$query = "INSERT INTO fact_match_data_2023(event_id,team_id,match_id,practice_match,position_id,auto_mobilitiy,auto_substn_grid_top_substn,auto_substn_grid_top_mid,auto_substn_grid_top_wall,auto_substn_grid_mid_substn,auto_substn_grid_mid_mid,auto_substn_grid_mid_wall,auto_substn_grid_hyb_substn,auto_substn_grid_hyb_mid,auto_substn_grid_hyb_wall,auto_coop_grid_top_substn,auto_coop_grid_top_mid,auto_coop_grid_top_wall,auto_coop_grid_mid_substn,auto_coop_grid_mid_mid,auto_coop_grid_mid_wall,auto_coop_grid_hyb_substn,auto_coop_grid_hyb_mid,auto_coop_grid_hyb_wall,auto_wall_grid_top_substn,auto_wall_grid_top_mid,auto_wall_grid_top_wall,auto_wall_grid_mid_substn,auto_wall_grid_mid_mid,auto_wall_grid_mid_wall,auto_wall_grid_hyb_substn,auto_wall_grid_hyb_mid,auto_wall_grid_hyb_wall,auto_charge_station,substn_grid_top_substn,substn_grid_top_mid,substn_grid_top_wall,substn_grid_mid_substn,substn_grid_mid_mid,substn_grid_mid_wall,substn_grid_hyb_substn,substn_grid_hyb_mid,substn_grid_hyb_wall,coop_grid_top_substn,coop_grid_mid_substn,coop_grid_mid_mid,coop_grid_mid_wall,coop_grid_hyb_substn,coop_grid_hyb_mid,coop_grid_hyb_wall,wall_grid_top_substn,wall_grid_top_mid,wall_grid_top_wall,coop_grid_top_mid,coop_grid_top_wall,wall_grid_mid_substn,wall_grid_mid_mid,wall_grid_mid_wall,wall_grid_hyb_substn,wall_grid_hyb_mid,wall_grid_hyb_wall,dropped_gp_count,charge_station,feeder,defense,foul_count,yellow_card,red_card,notes,invalid) VALUES("
+		if (mysqli_num_rows($result) == 0) {			$query = "INSERT INTO fact_match_data_2023(event_id,team_id,match_id,practice_match,position_id,auto_mobility,auto_substn_grid_top_substn,auto_substn_grid_top_mid,auto_substn_grid_top_wall,auto_substn_grid_mid_substn,auto_substn_grid_mid_mid,auto_substn_grid_mid_wall,auto_substn_grid_hyb_substn,auto_substn_grid_hyb_mid,auto_substn_grid_hyb_wall,auto_coop_grid_top_substn,auto_coop_grid_top_mid,auto_coop_grid_top_wall,auto_coop_grid_mid_substn,auto_coop_grid_mid_mid,auto_coop_grid_mid_wall,auto_coop_grid_hyb_substn,auto_coop_grid_hyb_mid,auto_coop_grid_hyb_wall,auto_wall_grid_top_substn,auto_wall_grid_top_mid,auto_wall_grid_top_wall,auto_wall_grid_mid_substn,auto_wall_grid_mid_mid,auto_wall_grid_mid_wall,auto_wall_grid_hyb_substn,auto_wall_grid_hyb_mid,auto_wall_grid_hyb_wall,auto_charge_station,substn_grid_top_substn,substn_grid_top_mid,substn_grid_top_wall,substn_grid_mid_substn,substn_grid_mid_mid,substn_grid_mid_wall,substn_grid_hyb_substn,substn_grid_hyb_mid,substn_grid_hyb_wall,coop_grid_top_substn,coop_grid_mid_substn,coop_grid_mid_mid,coop_grid_mid_wall,coop_grid_hyb_substn,coop_grid_hyb_mid,coop_grid_hyb_wall,wall_grid_top_substn,wall_grid_top_mid,wall_grid_top_wall,coop_grid_top_mid,coop_grid_top_wall,wall_grid_mid_substn,wall_grid_mid_mid,wall_grid_mid_wall,wall_grid_hyb_substn,wall_grid_hyb_mid,wall_grid_hyb_wall,dropped_gp_count,charge_station,feeder,defense,foul_count,yellow_card,red_card,notes,invalid) VALUES("
 				. $event_id . ","
 				. $team_id . ","
 				. $match_id . ","
 				. $practice_match . ","
 				. $position_id . ","
-				. $auto_mobilitiy . ","
+				. $auto_mobility . ","
 				. $auto_substn_grid_top_substn . ","
 				. $auto_substn_grid_top_mid . ","
 				. $auto_substn_grid_top_wall . ","
@@ -316,7 +316,7 @@ elseif ($_POST['password'] == $pass) {
 				. "match_id=" . $match_id . ","
 				. "practice_match=" . $practice_match . ","
 				. "position_id=" . $position_id . ","
-				. "auto_mobilitiy=" . $auto_mobilitiy . ","
+				. "auto_mobility=" . $auto_mobility . ","
 				. "auto_substn_grid_top_substn=" . $auto_substn_grid_top_substn . ","
 				. "auto_substn_grid_top_mid=" . $auto_substn_grid_top_mid . ","
 				. "auto_substn_grid_top_wall=" . $auto_substn_grid_top_wall . ","
