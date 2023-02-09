@@ -6,3 +6,5 @@ python3 gen_scripts/StatsStructGen.py --packagename=org.frc836.database --classn
 
 python3 gen_scripts/StatsStructGen.py --packagename=org.frc836.database --classname=PitStats --tablename=scout_pit_data_2023 --infile=FRC_Scouting_Server/scouting.sql --outfile=app/src/main/java/org/frc836/database/PitStats.java
 
+python3 gen_scripts/StatsStructGen.py --packagename=org.frc836.database --classname=SuperScoutStats --tablename=superscout_data_2023 --infile=FRC_Scouting_Server/scouting.sql --outfile=app/src/main/java/org/frc836/database/SuperScoutStats.java
+

@@ -7,6 +7,7 @@ parser = argparse.ArgumentParser(description='Output server files based on sql')
 parser.add_argument("-l", "--legacy", help="use legacy mysql syntax", action="store_true")
 parser.add_argument("-m", "--match_table", help="match table name", required=True)
 parser.add_argument("-p", "--pit_table", help="Pits table name", required=True)
+parser.add_argument("-s", "--superscout_table", help="Superscout table name", required=True)
 parser.add_argument("-o", "--out", help="Output folder relative to project root", required=True)
 
 args = parser.parse_args()
@@ -44,6 +45,7 @@ from scouting_php__writer import write_php
 outfile = normpath("{}/{}/scouting.php".format(ProjRootPath, args.out))
 post_tables = [
 	('match', tables[args.match_table], ['event_id','match_id','team_id','practice_match']),
+	('superscout', tables[args.superscout_table], ['event_id','match_id','team_id','practice_match']),
 	('pits', tables[args.pit_table], ['team_id'])
 ]
 

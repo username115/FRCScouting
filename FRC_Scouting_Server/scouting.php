@@ -154,7 +154,13 @@ elseif ($_POST['password'] == $pass) {
 		//scout_pit_data_2023
 		$query = "SELECT * FROM scout_pit_data_2023" . $suffix;
 		$result = mysqli_query($link,$query);
-		$json .= genJSON($result, "scout_pit_data_2023") . "}";
+		$json .= genJSON($result, "scout_pit_data_2023") . ",";
+		mysqli_free_result($result);
+
+		//superscout_data_2023
+		$query = "SELECT * FROM superscout_data_2023" . $suffix;
+		$result = mysqli_query($link,$query);
+		$json .= genJSON($result, "superscout_data_2023") . "}";
 		mysqli_free_result($result);
 
 		$resp = $json;
@@ -387,6 +393,60 @@ elseif ($_POST['password'] == $pass) {
 		}
 		if ($success) {
 			$result = mysqli_query($link,"SELECT id, timestamp FROM fact_match_data_2023 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
+			$row = mysqli_fetch_array($result);
+			$resp = $row["id"] . "," . strtotime($row["timestamp"]);
+		} else {
+			$resp = 'Database Query Failed : \n' . $query;
+		}
+	}
+	else if ($_POST['type'] == 'superscout') {
+		$event_id = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['event_id']) ? $_POST['event_id'] : '0')));
+		$team_id = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['team_id']) ? $_POST['team_id'] : '0')));
+		$match_id = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['match_id']) ? $_POST['match_id'] : '0')));
+		$practice_match = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['practice_match']) ? $_POST['practice_match'] : '0')));
+		$position_id = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['position_id']) ? $_POST['position_id'] : '0')));
+		$offense_rank = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['offense_rank']) ? $_POST['offense_rank'] : '0')));
+		$defense_rank = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['defense_rank']) ? $_POST['defense_rank'] : '0')));
+		$driver_rank = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['driver_rank']) ? $_POST['driver_rank'] : '0')));
+		$caused_foul = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['caused_foul']) ? $_POST['caused_foul'] : '0')));
+		$notes = mysqli_real_escape_string($link,stripslashes(trim(isset($_POST['notes']) ? $_POST['notes'] : '0')));
+
+		$result = mysqli_query($link,"SELECT id FROM superscout_data_2023 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
+		$row = mysqli_fetch_array($result);
+		$match_row_id = $row["id"];
+		if (mysqli_num_rows($result) == 0) {			$query = "INSERT INTO superscout_data_2023(event_id,team_id,match_id,practice_match,position_id,offense_rank,defense_rank,driver_rank,caused_foul,notes,invalid) VALUES("
+				. $event_id . ","
+				. $team_id . ","
+				. $match_id . ","
+				. $practice_match . ","
+				. $position_id . ","
+				. $offense_rank . ","
+				. $defense_rank . ","
+				. $driver_rank . ","
+				. $caused_foul . ","
+				. "'" . $notes . "',"
+				. "0);";
+			$success = mysqli_query($link,$query);
+		}
+		else {
+			$query = "UPDATE superscout_data_2023 SET "
+				. "event_id=" . $event_id . ","
+				. "team_id=" . $team_id . ","
+				. "match_id=" . $match_id . ","
+				. "practice_match=" . $practice_match . ","
+				. "position_id=" . $position_id . ","
+				. "offense_rank=" . $offense_rank . ","
+				. "defense_rank=" . $defense_rank . ","
+				. "driver_rank=" . $driver_rank . ","
+				. "caused_foul=" . $caused_foul . ","
+				. "notes='" . $notes . "',"
+				. "invalid=0"
+				. " WHERE id=" . $match_row_id;
+
+			$success = mysqli_query($link,$query);
+		}
+		if ($success) {
+			$result = mysqli_query($link,"SELECT id, timestamp FROM superscout_data_2023 WHERE event_id=" . $event_id . " AND match_id=" . $match_id . " AND team_id=" . $team_id . " AND practice_match=" . $practice_match);
 			$row = mysqli_fetch_array($result);
 			$resp = $row["id"] . "," . strtotime($row["timestamp"]);
 		} else {

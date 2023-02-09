@@ -19,495 +19,529 @@ import android.provider.BaseColumns;
 public final class FRCScoutingContract {
 	public FRCScoutingContract() {}
 
-	public static abstract class EVENT_LU_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "event_lu";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_EVENT_NAME = "event_name";
-		public static final String COLUMN_NAME_EVENT_CODE = "event_code";
-		public static final String COLUMN_NAME_DATE_START = "date_start";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-	}
-	
-	public static abstract class FACT_MATCH_DATA_2023_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "fact_match_data_2023";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_EVENT_ID = "event_id";
-		public static final String COLUMN_NAME_TEAM_ID = "team_id";
-		public static final String COLUMN_NAME_MATCH_ID = "match_id";
-		public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
-		public static final String COLUMN_NAME_POSITION_ID = "position_id";
-		public static final String COLUMN_NAME_AUTO_MOBILITY = "auto_mobility";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN = "auto_substn_grid_top_substn";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID = "auto_substn_grid_top_mid";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL = "auto_substn_grid_top_wall";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_MID_SUBSTN = "auto_substn_grid_mid_substn";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_MID_MID = "auto_substn_grid_mid_mid";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_MID_WALL = "auto_substn_grid_mid_wall";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_HYB_SUBSTN = "auto_substn_grid_hyb_substn";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_HYB_MID = "auto_substn_grid_hyb_mid";
-		public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_HYB_WALL = "auto_substn_grid_hyb_wall";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_TOP_SUBSTN = "auto_coop_grid_top_substn";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_TOP_MID = "auto_coop_grid_top_mid";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_TOP_WALL = "auto_coop_grid_top_wall";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_MID_SUBSTN = "auto_coop_grid_mid_substn";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_MID_MID = "auto_coop_grid_mid_mid";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_MID_WALL = "auto_coop_grid_mid_wall";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_HYB_SUBSTN = "auto_coop_grid_hyb_substn";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_HYB_MID = "auto_coop_grid_hyb_mid";
-		public static final String COLUMN_NAME_AUTO_COOP_GRID_HYB_WALL = "auto_coop_grid_hyb_wall";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_TOP_SUBSTN = "auto_wall_grid_top_substn";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_TOP_MID = "auto_wall_grid_top_mid";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_TOP_WALL = "auto_wall_grid_top_wall";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_MID_SUBSTN = "auto_wall_grid_mid_substn";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_MID_MID = "auto_wall_grid_mid_mid";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_MID_WALL = "auto_wall_grid_mid_wall";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_HYB_SUBSTN = "auto_wall_grid_hyb_substn";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_HYB_MID = "auto_wall_grid_hyb_mid";
-		public static final String COLUMN_NAME_AUTO_WALL_GRID_HYB_WALL = "auto_wall_grid_hyb_wall";
-		public static final String COLUMN_NAME_AUTO_CHARGE_STATION = "auto_charge_station";
-		public static final String COLUMN_NAME_SUBSTN_GRID_TOP_SUBSTN = "substn_grid_top_substn";
-		public static final String COLUMN_NAME_SUBSTN_GRID_TOP_MID = "substn_grid_top_mid";
-		public static final String COLUMN_NAME_SUBSTN_GRID_TOP_WALL = "substn_grid_top_wall";
-		public static final String COLUMN_NAME_SUBSTN_GRID_MID_SUBSTN = "substn_grid_mid_substn";
-		public static final String COLUMN_NAME_SUBSTN_GRID_MID_MID = "substn_grid_mid_mid";
-		public static final String COLUMN_NAME_SUBSTN_GRID_MID_WALL = "substn_grid_mid_wall";
-		public static final String COLUMN_NAME_SUBSTN_GRID_HYB_SUBSTN = "substn_grid_hyb_substn";
-		public static final String COLUMN_NAME_SUBSTN_GRID_HYB_MID = "substn_grid_hyb_mid";
-		public static final String COLUMN_NAME_SUBSTN_GRID_HYB_WALL = "substn_grid_hyb_wall";
-		public static final String COLUMN_NAME_COOP_GRID_TOP_SUBSTN = "coop_grid_top_substn";
-		public static final String COLUMN_NAME_COOP_GRID_MID_SUBSTN = "coop_grid_mid_substn";
-		public static final String COLUMN_NAME_COOP_GRID_MID_MID = "coop_grid_mid_mid";
-		public static final String COLUMN_NAME_COOP_GRID_MID_WALL = "coop_grid_mid_wall";
-		public static final String COLUMN_NAME_COOP_GRID_HYB_SUBSTN = "coop_grid_hyb_substn";
-		public static final String COLUMN_NAME_COOP_GRID_HYB_MID = "coop_grid_hyb_mid";
-		public static final String COLUMN_NAME_COOP_GRID_HYB_WALL = "coop_grid_hyb_wall";
-		public static final String COLUMN_NAME_WALL_GRID_TOP_SUBSTN = "wall_grid_top_substn";
-		public static final String COLUMN_NAME_WALL_GRID_TOP_MID = "wall_grid_top_mid";
-		public static final String COLUMN_NAME_WALL_GRID_TOP_WALL = "wall_grid_top_wall";
-		public static final String COLUMN_NAME_COOP_GRID_TOP_MID = "coop_grid_top_mid";
-		public static final String COLUMN_NAME_COOP_GRID_TOP_WALL = "coop_grid_top_wall";
-		public static final String COLUMN_NAME_WALL_GRID_MID_SUBSTN = "wall_grid_mid_substn";
-		public static final String COLUMN_NAME_WALL_GRID_MID_MID = "wall_grid_mid_mid";
-		public static final String COLUMN_NAME_WALL_GRID_MID_WALL = "wall_grid_mid_wall";
-		public static final String COLUMN_NAME_WALL_GRID_HYB_SUBSTN = "wall_grid_hyb_substn";
-		public static final String COLUMN_NAME_WALL_GRID_HYB_MID = "wall_grid_hyb_mid";
-		public static final String COLUMN_NAME_WALL_GRID_HYB_WALL = "wall_grid_hyb_wall";
-		public static final String COLUMN_NAME_DROPPED_GP_COUNT = "dropped_gp_count";
-		public static final String COLUMN_NAME_CHARGE_STATION = "charge_station";
-		public static final String COLUMN_NAME_FEEDER = "feeder";
-		public static final String COLUMN_NAME_DEFENSE = "defense";
-		public static final String COLUMN_NAME_FOUL_COUNT = "foul_count";
-		public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
-		public static final String COLUMN_NAME_RED_CARD = "red_card";
-		public static final String COLUMN_NAME_NOTES = "notes";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-	}
-	
-	public static abstract class GAME_INFO_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "game_info";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_KEYSTRING = "keystring";
-		public static final String COLUMN_NAME_INTVALUE = "intvalue";
-		public static final String COLUMN_NAME_STRINGVAL = "stringval";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-	}
-	
-	public static abstract class NOTES_OPTIONS_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "notes_options";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_OPTION_TEXT = "option_text";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-	}
-	
-	public static abstract class POSITION_LU_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "position_lu";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_POSITION = "position";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-	}
-	
-	public static abstract class PROGRAMMING_LU_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "programming_lu";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_LANGUAGE_NAME = "language_name";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-	}
-	
-	public static abstract class ROBOT_LU_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "robot_lu";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_TEAM_ID = "team_id";
-		public static final String COLUMN_NAME_ROBOT_PHOTO = "robot_photo";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-	}
-	
-	public static abstract class SCOUT_PIT_DATA_2023_Entry implements BaseColumns {
-		public static final String TABLE_NAME = "scout_pit_data_2023";
-		public static final String COLUMN_NAME_ID = "id";
-		public static final String COLUMN_NAME_TEAM_ID = "team_id";
-		public static final String COLUMN_NAME_TRACTION_WHEELS = "traction_wheels";
-		public static final String COLUMN_NAME_PNEUMATIC_WHEELS = "pneumatic_wheels";
-		public static final String COLUMN_NAME_OMNI_WHEELS = "omni_wheels";
-		public static final String COLUMN_NAME_MECANUM_WHEELS = "mecanum_wheels";
-		public static final String COLUMN_NAME_SWERVE_DRIVE = "swerve_drive";
-		public static final String COLUMN_NAME_TANK_DRIVE = "tank_drive";
-		public static final String COLUMN_NAME_OTHER_DRIVE_WHEELS = "other_drive_wheels";
-		public static final String COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS = "robot_gross_weight_lbs";
-		public static final String COLUMN_NAME_ROBOT_GROSS_WIDTH_IN = "robot_gross_width_in";
-		public static final String COLUMN_NAME_ROBOT_GROSS_LENGTH_IN = "robot_gross_length_in";
-		public static final String COLUMN_NAME_NOTES = "notes";
-		public static final String COLUMN_NAME_INVALID = "invalid";
-		public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-	}
+    public static abstract class EVENT_LU_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "event_lu";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_EVENT_NAME = "event_name";
+        public static final String COLUMN_NAME_EVENT_CODE = "event_code";
+        public static final String COLUMN_NAME_DATE_START = "date_start";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+    }
+    
+    public static abstract class FACT_MATCH_DATA_2023_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "fact_match_data_2023";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_EVENT_ID = "event_id";
+        public static final String COLUMN_NAME_TEAM_ID = "team_id";
+        public static final String COLUMN_NAME_MATCH_ID = "match_id";
+        public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
+        public static final String COLUMN_NAME_POSITION_ID = "position_id";
+        public static final String COLUMN_NAME_AUTO_MOBILITY = "auto_mobility";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_SUBSTN = "auto_substn_grid_top_substn";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_MID = "auto_substn_grid_top_mid";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_TOP_WALL = "auto_substn_grid_top_wall";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_MID_SUBSTN = "auto_substn_grid_mid_substn";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_MID_MID = "auto_substn_grid_mid_mid";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_MID_WALL = "auto_substn_grid_mid_wall";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_HYB_SUBSTN = "auto_substn_grid_hyb_substn";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_HYB_MID = "auto_substn_grid_hyb_mid";
+        public static final String COLUMN_NAME_AUTO_SUBSTN_GRID_HYB_WALL = "auto_substn_grid_hyb_wall";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_TOP_SUBSTN = "auto_coop_grid_top_substn";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_TOP_MID = "auto_coop_grid_top_mid";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_TOP_WALL = "auto_coop_grid_top_wall";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_MID_SUBSTN = "auto_coop_grid_mid_substn";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_MID_MID = "auto_coop_grid_mid_mid";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_MID_WALL = "auto_coop_grid_mid_wall";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_HYB_SUBSTN = "auto_coop_grid_hyb_substn";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_HYB_MID = "auto_coop_grid_hyb_mid";
+        public static final String COLUMN_NAME_AUTO_COOP_GRID_HYB_WALL = "auto_coop_grid_hyb_wall";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_TOP_SUBSTN = "auto_wall_grid_top_substn";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_TOP_MID = "auto_wall_grid_top_mid";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_TOP_WALL = "auto_wall_grid_top_wall";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_MID_SUBSTN = "auto_wall_grid_mid_substn";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_MID_MID = "auto_wall_grid_mid_mid";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_MID_WALL = "auto_wall_grid_mid_wall";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_HYB_SUBSTN = "auto_wall_grid_hyb_substn";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_HYB_MID = "auto_wall_grid_hyb_mid";
+        public static final String COLUMN_NAME_AUTO_WALL_GRID_HYB_WALL = "auto_wall_grid_hyb_wall";
+        public static final String COLUMN_NAME_AUTO_CHARGE_STATION = "auto_charge_station";
+        public static final String COLUMN_NAME_SUBSTN_GRID_TOP_SUBSTN = "substn_grid_top_substn";
+        public static final String COLUMN_NAME_SUBSTN_GRID_TOP_MID = "substn_grid_top_mid";
+        public static final String COLUMN_NAME_SUBSTN_GRID_TOP_WALL = "substn_grid_top_wall";
+        public static final String COLUMN_NAME_SUBSTN_GRID_MID_SUBSTN = "substn_grid_mid_substn";
+        public static final String COLUMN_NAME_SUBSTN_GRID_MID_MID = "substn_grid_mid_mid";
+        public static final String COLUMN_NAME_SUBSTN_GRID_MID_WALL = "substn_grid_mid_wall";
+        public static final String COLUMN_NAME_SUBSTN_GRID_HYB_SUBSTN = "substn_grid_hyb_substn";
+        public static final String COLUMN_NAME_SUBSTN_GRID_HYB_MID = "substn_grid_hyb_mid";
+        public static final String COLUMN_NAME_SUBSTN_GRID_HYB_WALL = "substn_grid_hyb_wall";
+        public static final String COLUMN_NAME_COOP_GRID_TOP_SUBSTN = "coop_grid_top_substn";
+        public static final String COLUMN_NAME_COOP_GRID_MID_SUBSTN = "coop_grid_mid_substn";
+        public static final String COLUMN_NAME_COOP_GRID_MID_MID = "coop_grid_mid_mid";
+        public static final String COLUMN_NAME_COOP_GRID_MID_WALL = "coop_grid_mid_wall";
+        public static final String COLUMN_NAME_COOP_GRID_HYB_SUBSTN = "coop_grid_hyb_substn";
+        public static final String COLUMN_NAME_COOP_GRID_HYB_MID = "coop_grid_hyb_mid";
+        public static final String COLUMN_NAME_COOP_GRID_HYB_WALL = "coop_grid_hyb_wall";
+        public static final String COLUMN_NAME_WALL_GRID_TOP_SUBSTN = "wall_grid_top_substn";
+        public static final String COLUMN_NAME_WALL_GRID_TOP_MID = "wall_grid_top_mid";
+        public static final String COLUMN_NAME_WALL_GRID_TOP_WALL = "wall_grid_top_wall";
+        public static final String COLUMN_NAME_COOP_GRID_TOP_MID = "coop_grid_top_mid";
+        public static final String COLUMN_NAME_COOP_GRID_TOP_WALL = "coop_grid_top_wall";
+        public static final String COLUMN_NAME_WALL_GRID_MID_SUBSTN = "wall_grid_mid_substn";
+        public static final String COLUMN_NAME_WALL_GRID_MID_MID = "wall_grid_mid_mid";
+        public static final String COLUMN_NAME_WALL_GRID_MID_WALL = "wall_grid_mid_wall";
+        public static final String COLUMN_NAME_WALL_GRID_HYB_SUBSTN = "wall_grid_hyb_substn";
+        public static final String COLUMN_NAME_WALL_GRID_HYB_MID = "wall_grid_hyb_mid";
+        public static final String COLUMN_NAME_WALL_GRID_HYB_WALL = "wall_grid_hyb_wall";
+        public static final String COLUMN_NAME_DROPPED_GP_COUNT = "dropped_gp_count";
+        public static final String COLUMN_NAME_CHARGE_STATION = "charge_station";
+        public static final String COLUMN_NAME_FEEDER = "feeder";
+        public static final String COLUMN_NAME_DEFENSE = "defense";
+        public static final String COLUMN_NAME_FOUL_COUNT = "foul_count";
+        public static final String COLUMN_NAME_YELLOW_CARD = "yellow_card";
+        public static final String COLUMN_NAME_RED_CARD = "red_card";
+        public static final String COLUMN_NAME_NOTES = "notes";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+    }
+    
+    public static abstract class GAME_INFO_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "game_info";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_KEYSTRING = "keystring";
+        public static final String COLUMN_NAME_INTVALUE = "intvalue";
+        public static final String COLUMN_NAME_STRINGVAL = "stringval";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+    }
+    
+    public static abstract class NOTES_OPTIONS_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "notes_options";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_OPTION_TEXT = "option_text";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+    }
+    
+    public static abstract class POSITION_LU_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "position_lu";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_POSITION = "position";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+    }
+    
+    public static abstract class PROGRAMMING_LU_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "programming_lu";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_LANGUAGE_NAME = "language_name";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+    }
+    
+    public static abstract class ROBOT_LU_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "robot_lu";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_TEAM_ID = "team_id";
+        public static final String COLUMN_NAME_ROBOT_PHOTO = "robot_photo";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+    }
+    
+    public static abstract class SCOUT_PIT_DATA_2023_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "scout_pit_data_2023";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_TEAM_ID = "team_id";
+        public static final String COLUMN_NAME_TRACTION_WHEELS = "traction_wheels";
+        public static final String COLUMN_NAME_PNEUMATIC_WHEELS = "pneumatic_wheels";
+        public static final String COLUMN_NAME_OMNI_WHEELS = "omni_wheels";
+        public static final String COLUMN_NAME_MECANUM_WHEELS = "mecanum_wheels";
+        public static final String COLUMN_NAME_SWERVE_DRIVE = "swerve_drive";
+        public static final String COLUMN_NAME_TANK_DRIVE = "tank_drive";
+        public static final String COLUMN_NAME_OTHER_DRIVE_WHEELS = "other_drive_wheels";
+        public static final String COLUMN_NAME_ROBOT_GROSS_WEIGHT_LBS = "robot_gross_weight_lbs";
+        public static final String COLUMN_NAME_ROBOT_GROSS_WIDTH_IN = "robot_gross_width_in";
+        public static final String COLUMN_NAME_ROBOT_GROSS_LENGTH_IN = "robot_gross_length_in";
+        public static final String COLUMN_NAME_NOTES = "notes";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+    }
+    
+    public static abstract class SUPERSCOUT_DATA_2023_Entry implements BaseColumns {
+        public static final String TABLE_NAME = "superscout_data_2023";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_EVENT_ID = "event_id";
+        public static final String COLUMN_NAME_TEAM_ID = "team_id";
+        public static final String COLUMN_NAME_MATCH_ID = "match_id";
+        public static final String COLUMN_NAME_PRACTICE_MATCH = "practice_match";
+        public static final String COLUMN_NAME_POSITION_ID = "position_id";
+        public static final String COLUMN_NAME_OFFENSE_RANK = "offense_rank";
+        public static final String COLUMN_NAME_DEFENSE_RANK = "defense_rank";
+        public static final String COLUMN_NAME_DRIVER_RANK = "driver_rank";
+        public static final String COLUMN_NAME_CAUSED_FOUL = "caused_foul";
+        public static final String COLUMN_NAME_NOTES = "notes";
+        public static final String COLUMN_NAME_INVALID = "invalid";
+        public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
+    }
 
-	public static final String[] SQL_CREATE_ENTRIES = {
-		"CREATE TABLE IF NOT EXISTS event_lu (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	event_name text NOT NULL,\n" +
-		"	event_code text NOT NULL,\n" +
-		"	date_start datetime NOT NULL,\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
-		");",
-	
-		"INSERT INTO event_lu\n" +
-		"SELECT 1 AS id, 'Rocket City Regional' AS event_name, 'ALHU' AS event_code, '2023-04-05 00:00:00' AS date_start, '2023-01-16 19:47:42' AS timestamp, 0 AS invalid\n" +
-		"UNION SELECT 2, 'Arkansas Regional', 'ARLI', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 3, 'Southern Cross Regional', 'AUSC', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 4, 'Arizona West Regional', 'AZGL', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 5, 'Arizona East Regional', 'AZVA', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 6, 'Canadian Pacific Regional', 'BCVI', '2023-02-28 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 7, 'Brazil Regional', 'BRBR', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 8, 'Aerospace Valley Regional', 'CAAV', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 9, 'Sacramento Regional', 'CADA', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 10, 'Central Valley Regional', 'CAFR', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 11, 'Los Angeles Regional', 'CALA', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 12, 'Monterey Bay Regional', 'CAMB', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 13, 'Orange County Regional', 'CAOC', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 14, 'Hueneme Port Regional', 'CAPH', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 15, 'San Diego Regional presented by Qualcomm', 'CASD', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 16, 'San Francisco Regional', 'CASF', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 17, 'Silicon Valley Regional', 'CASJ', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 18, 'Ventura County Regional', 'CAVE', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 19, 'FIRST Chesapeake District Championship', 'CHCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 20, 'FIRST Championship - FIRST Robotics Competition', 'CMPTX', '2023-04-19 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 21, 'Colorado Regional', 'CODE', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 22, 'NE District Hartford Event', 'CTHAR', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 23, 'NE District Waterbury Event', 'CTWAT', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 24, 'Orlando Regional', 'FLOR', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 25, 'Tallahassee Regional', 'FLTA', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 26, 'South Florida Regional', 'FLWP', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 27, 'PCH District Albany Event', 'GAALB', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 28, 'PCH District Carrollton Event', 'GACAR', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 29, 'Peachtree District Championship', 'GACMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 30, 'PCH District Dalton Event', 'GADAL', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 31, 'PCH District Gwinnett Event', 'GAGWI', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 32, 'PCH District Macon Event', 'GAMAC', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 33, 'Hawaii Regional', 'HIHO', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 34, 'Iowa Regional', 'IACF', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 35, 'Idaho Regional', 'IDBO', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 36, 'Midwest Regional', 'ILCH', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 37, 'Central Illinois Regional', 'ILPE', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 38, 'FIRST Indiana State Championship', 'INCMP', '2023-04-06 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 39, 'FIN District Greenwood Event', 'INGRE', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 40, 'FIN District Mishawaka Event', 'INMIS', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 41, 'FIN District Princeton Event presented by Toyota', 'INPRI', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 42, 'FIN District Tippecanoe Event', 'INWLA', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 43, 'FIRST Israel District Championship', 'ISCMP', '2023-03-20 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 44, 'ISR District Event #1', 'ISDE1', '2023-02-26 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 45, 'ISR District Event #2', 'ISDE2', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 46, 'ISR District Event #3', 'ISDE3', '2023-03-12 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 47, 'ISR District Event #4', 'ISDE4', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 48, 'Heartland Regional', 'KSLA', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 49, 'Bayou Regional', 'LAKE', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 50, 'NE District Greater Boston Event', 'MABOS', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 51, 'NE District SE Mass Event', 'MABRI', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 52, 'NE District North Shore Event', 'MAREA', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 53, 'NE District Western NE Event', 'MAWNE', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 54, 'NE District WPI Event', 'MAWOR', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 55, 'CHS District Bethesda MD Event', 'MDBET', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 56, 'CHS District Timonium MD Event', 'MDTIM', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 57, 'FIM District Belleville Event', 'MIBEL', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 58, 'FIRST in Michigan State Championship', 'MICMP', '2023-04-06 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 59, 'FIM District Detroit Event', 'MIDET', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 60, 'FIM District Wayne State University Event', 'MIDTR', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 61, 'FIM District Escanaba Event', 'MIESC', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 62, 'FIM District Calvin University Event', 'MIFOR', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 63, 'FIM District Jackson Event', 'MIJAC', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 64, 'FIM District Kettering University Event #2', 'MIKE2', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 65, 'FIM District Kentwood Event', 'MIKEN', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 66, 'FIM District Kettering University Event #1', 'MIKET', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 67, 'FIM District Lakeview Event #2', 'MILA2', '2023-03-25 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 68, 'FIM District Lakeview Event #1', 'MILAK', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 69, 'FIM District Lansing Event', 'MILAN', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 70, 'FIM District Livonia Event', 'MILIV', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 71, 'FIM District LSSU Event', 'MILSU', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 72, 'FIM District Macomb Community College Event', 'MIMCC', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 73, 'FIM District Midland Event', 'MIMID', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 74, 'FIM District Milford Event', 'MIMIL', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 75, 'FIM District Muskegon Event', 'MIMUS', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 76, 'FIM District Saline Event', 'MISAL', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 77, 'FIM District St. Joseph Event', 'MISJO', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 78, 'FIM District Standish-Sterling Event', 'MISTA', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 79, 'FIM District Troy Event #2', 'MITR2', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 80, 'FIM District Troy Event #1', 'MITRY', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 81, 'FIM District Traverse City Event', 'MITVC', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 82, 'FIM District West Michigan Event', 'MIWMI', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 83, 'Lake Superior Regional', 'MNDU', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 84, 'Northern Lights Regional', 'MNDU2', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 85, 'Minnesota 10,000 Lakes Regional presented by Medtronic', 'MNMI', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 86, 'Minnesota North Star Regional at La Crosse', 'MNMI2', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 87, 'Greater Kansas City Regional', 'MOKC', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 88, 'Central Missouri Regional', 'MOSE', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 89, 'St. Louis Regional', 'MOSL', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 90, 'FIRST Mid-Atlantic District Championship', 'MRCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 91, 'Magnolia Regional', 'MSLR', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 92, 'Regional Monterrey', 'MXMO', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 93, 'Regional Puebla', 'MXPU', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 94, 'Regional Laguna', 'MXTO', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 95, 'FNC District UNC Asheville Event', 'NCASH', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 96, 'FIRST North Carolina District State Championship', 'NCCMP', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 97, 'FNC District Johnston County Event', 'NCJOH', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 98, 'FNC District Mecklenburg County Event', 'NCMEC', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 99, 'FNC District UNC Pembroke Event', 'NCPEM', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 100, 'FNC District Wake County Event', 'NCWAK', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 101, 'Great Northern Regional', 'NDGF', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 102, 'New England FIRST District Championship', 'NECMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 103, 'NE District UNH Event', 'NHDUR', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 104, 'NE District Granite State Event', 'NHGRS', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 105, 'FMA District Mount Olive Event', 'NJFLA', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 106, 'FMA District Robbinsville Event', 'NJROB', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 107, 'FMA District Montgomery Event', 'NJSKI', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 108, 'FMA District Seneca Event', 'NJTAB', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 109, 'FMA District Warren Hills Event', 'NJWAS', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 110, 'Las Vegas Regional', 'NVLV', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 111, 'FIRST Long Island Regional #1', 'NYLI', '2023-03-20 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 112, 'FIRST Long Island Regional #2', 'NYLI2', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 113, 'New York City Regional', 'NYNY', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 114, 'Finger Lakes Regional', 'NYRO', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 115, 'New York Tech Valley Regional', 'NYTR', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 116, 'Buckeye Regional', 'OHCL', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 117, 'Miami Valley Regional', 'OHMV', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 118, 'Oklahoma Regional', 'OKOK', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 119, 'Green Country Regional', 'OKTU', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 120, 'ONT District Georgian Event', 'ONBAR', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 121, 'FIRST Ontario Provincial Championship', 'ONCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 122, 'ONT District McMaster University', 'ONHAM', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 123, 'ONT District Western University Engineering Event', 'ONLON', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 124, 'ONT District Newmarket Complex Event', 'ONNEW', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 125, 'ONT District North Bay Event', 'ONNOB', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 126, 'ONT District Humber College Event', 'ONTOR', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 127, 'ONT District University of Waterloo Event', 'ONWAT', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 128, 'ONT District Windsor Essex Great Lakes Event', 'ONWIN', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 129, 'PNW District Clackamas Academy Event', 'ORORE', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 130, 'PNW District Oregon State Fairgrounds Event', 'ORSAL', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 131, 'PNW District Wilsonville Event', 'ORWIL', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 132, 'FMA District Bensalem Event', 'PABEN', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 133, 'Greater Pittsburgh Regional presented by Argo AI', 'PACA', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 134, 'FMA District Hatboro-Horsham Event', 'PAHAT', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 135, 'FMA District Springside Chestnut Hill Academy Event', 'PAPHI', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 136, 'Pacific Northwest FIRST District Championship', 'PNCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 137, 'Festival de Robotique Regional', 'QCMO', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 138, 'NE District Rhode Island Event', 'RINSC', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 139, 'PCH District Anderson Event', 'SCAND', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 140, 'PCH District Hartsville Event', 'SCHAR', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 141, 'Smoky Mountains Regional', 'TNKN', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 142, 'Istanbul Regional', 'TUIS', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 143, 'Bosphorus Regional', 'TUIS2', '2023-03-27 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 144, 'Izmir Regional', 'TUIS3', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 145, 'Mersin Regional', 'TUME', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 146, 'FIT District Amarillo Event', 'TXAMA', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 147, 'FIT District Belton Event', 'TXBEL', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 148, 'FIT District Channelview Event', 'TXCHA', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 149, 'FIT District Space City @ Clear Lake Event', 'TXCLE', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 150, 'FIRST In Texas District Championship sponsored by Phillips 66', 'TXCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 151, 'FIT District Dallas Event', 'TXDAL', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 152, 'FIT District Fort Worth Event', 'TXFOR', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 153, 'FIT District Houston Event', 'TXHOU', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 154, 'FIT District San Antonio Event', 'TXSAN', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 155, 'FIT District Waco Event', 'TXWAC', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 156, 'Utah Regional', 'UTWV', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 157, 'CHS District Alexandria VA Event', 'VAALE', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 158, 'CHS District Blacksburg VA Event', 'VABLA', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 159, 'CHS District Glen Allen VA Event', 'VAGLE', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 160, 'CHS District Portsmouth VA Event', 'VAPOR', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 161, 'PNW District Auburn Event', 'WAAHS', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 162, 'PNW District Bonney Lake Event', 'WABON', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 163, 'PNW District Sammamish Event', 'WASAM', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 164, 'PNW District Glacier Peak Event', 'WASNO', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 165, 'PNW District SunDome Event', 'WAYAK', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 166, 'Seven Rivers Regional', 'WILA', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
-		"UNION SELECT 167, 'Wisconsin Regional', 'WIMI', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0;",
-	
-		"CREATE TABLE IF NOT EXISTS fact_match_data_2023 (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	event_id int(4) NOT NULL,\n" +
-		"	team_id int(5) NOT NULL,\n" +
-		"	match_id int(4) NOT NULL,\n" +
-		"	practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	position_id int(3) NOT NULL,\n" +
-		"	auto_mobility tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_substn_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_coop_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_wall_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	auto_charge_station int(2) NOT NULL,\n" +
-		"	substn_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	substn_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	coop_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	wall_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	dropped_gp_count int(3) NOT NULL,\n" +
-		"	charge_station int(2) NOT NULL,\n" +
-		"	feeder tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	defense tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	foul_count int(3) NOT NULL,\n" +
-		"	yellow_card tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	red_card tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	notes text NOT NULL,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
-		");",
-	
-		"CREATE TABLE IF NOT EXISTS game_info (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	keystring text NOT NULL,\n" +
-		"	intvalue int(15) NOT NULL,\n" +
-		"	stringval text NOT NULL,\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
-		");",
-	
-		"CREATE TABLE IF NOT EXISTS notes_options (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	option_text text NOT NULL,\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
-		");",
-	
-		"INSERT INTO notes_options\n" +
-		"SELECT 1 AS id, 'No Show' AS option_text, '2014-01-25 15:21:36' AS timestamp, 0 AS invalid\n" +
-		"UNION SELECT 2, 'Non-functional', '2014-01-25 15:21:36', 0\n" +
-		"UNION SELECT 10, 'Stopped responding mid-match', '2016-03-17 23:53:21', 0\n" +
-		"UNION SELECT 3, 'Defender', '2016-01-15 16:30:02', 0;",
-	
-		"CREATE TABLE IF NOT EXISTS position_lu (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	position text NOT NULL,\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
-		");",
-	
-		"INSERT INTO position_lu\n" +
-		"SELECT 1 AS id, 'Red 1' AS position, '2015-02-12 00:30:10' AS timestamp, 0 AS invalid\n" +
-		"UNION SELECT 2, 'Red 2', '2015-02-12 00:30:10', 0\n" +
-		"UNION SELECT 3, 'Red 3', '2015-02-12 00:30:36', 0\n" +
-		"UNION SELECT 4, 'Blue 1', '2015-02-12 00:30:36', 0\n" +
-		"UNION SELECT 5, 'Blue 2', '2015-02-12 00:30:50', 0\n" +
-		"UNION SELECT 6, 'Blue 3', '2015-02-12 00:30:50', 0;",
-	
-		"CREATE TABLE IF NOT EXISTS programming_lu (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	language_name text NOT NULL,\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
-		");",
-	
-		"INSERT INTO programming_lu\n" +
-		"SELECT 1 AS id, 'LabView' AS language_name, '2020-01-20 15:21:36' AS timestamp, 0 AS invalid\n" +
-		"UNION SELECT 2, 'Java', '2020-01-20 15:21:36', 0\n" +
-		"UNION SELECT 3, 'C++', '2020-01-20 15:53:21', 0\n" +
-		"UNION SELECT 4, 'Python', '2020-01-20 16:30:02', 0\n" +
-		"UNION SELECT 5, 'Other', '2020-01-20 16:30:02', 0;",
-	
-		"CREATE TABLE IF NOT EXISTS robot_lu (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	team_id int(5) NOT NULL,\n" +
-		"	robot_photo text NOT NULL,\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
-		");",
-	
-		"CREATE TABLE IF NOT EXISTS scout_pit_data_2023 (\n" +
-		"	id integer primary key autoincrement,\n" +
-		"	team_id int(5) NOT NULL,\n" +
-		"	traction_wheels tinyint(1) NOT NULL,\n" +
-		"	pneumatic_wheels tinyint(1) NOT NULL,\n" +
-		"	omni_wheels tinyint(1) NOT NULL,\n" +
-		"	mecanum_wheels tinyint(1) NOT NULL,\n" +
-		"	swerve_drive tinyint(1) NOT NULL,\n" +
-		"	tank_drive tinyint(1) NOT NULL,\n" +
-		"	other_drive_wheels tinyint(1) NOT NULL,\n" +
-		"	robot_gross_weight_lbs int(4) NOT NULL,\n" +
-		"	robot_gross_width_in int(4) NOT NULL,\n" +
-		"	robot_gross_length_in int(4) NOT NULL,\n" +
-		"	notes text NOT NULL,\n" +
-		"	invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
-		"	timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
-		");"
-	};
+    public static final String[] SQL_CREATE_ENTRIES = {
+        "CREATE TABLE IF NOT EXISTS event_lu (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    event_name text NOT NULL,\n" +
+        "    event_code text NOT NULL,\n" +
+        "    date_start datetime NOT NULL,\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+        ");",
+    
+        "INSERT INTO event_lu\n" +
+        "SELECT 1 AS id, 'Rocket City Regional' AS event_name, 'ALHU' AS event_code, '2023-04-05 00:00:00' AS date_start, '2023-01-16 19:47:42' AS timestamp, 0 AS invalid\n" +
+        "UNION SELECT 2, 'Arkansas Regional', 'ARLI', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 3, 'Southern Cross Regional', 'AUSC', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 4, 'Arizona West Regional', 'AZGL', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 5, 'Arizona East Regional', 'AZVA', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 6, 'Canadian Pacific Regional', 'BCVI', '2023-02-28 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 7, 'Brazil Regional', 'BRBR', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 8, 'Aerospace Valley Regional', 'CAAV', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 9, 'Sacramento Regional', 'CADA', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 10, 'Central Valley Regional', 'CAFR', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 11, 'Los Angeles Regional', 'CALA', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 12, 'Monterey Bay Regional', 'CAMB', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 13, 'Orange County Regional', 'CAOC', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 14, 'Hueneme Port Regional', 'CAPH', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 15, 'San Diego Regional presented by Qualcomm', 'CASD', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 16, 'San Francisco Regional', 'CASF', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 17, 'Silicon Valley Regional', 'CASJ', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 18, 'Ventura County Regional', 'CAVE', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 19, 'FIRST Chesapeake District Championship', 'CHCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 20, 'FIRST Championship - FIRST Robotics Competition', 'CMPTX', '2023-04-19 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 21, 'Colorado Regional', 'CODE', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 22, 'NE District Hartford Event', 'CTHAR', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 23, 'NE District Waterbury Event', 'CTWAT', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 24, 'Orlando Regional', 'FLOR', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 25, 'Tallahassee Regional', 'FLTA', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 26, 'South Florida Regional', 'FLWP', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 27, 'PCH District Albany Event', 'GAALB', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 28, 'PCH District Carrollton Event', 'GACAR', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 29, 'Peachtree District Championship', 'GACMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 30, 'PCH District Dalton Event', 'GADAL', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 31, 'PCH District Gwinnett Event', 'GAGWI', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 32, 'PCH District Macon Event', 'GAMAC', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 33, 'Hawaii Regional', 'HIHO', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 34, 'Iowa Regional', 'IACF', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 35, 'Idaho Regional', 'IDBO', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 36, 'Midwest Regional', 'ILCH', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 37, 'Central Illinois Regional', 'ILPE', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 38, 'FIRST Indiana State Championship', 'INCMP', '2023-04-06 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 39, 'FIN District Greenwood Event', 'INGRE', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 40, 'FIN District Mishawaka Event', 'INMIS', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 41, 'FIN District Princeton Event presented by Toyota', 'INPRI', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 42, 'FIN District Tippecanoe Event', 'INWLA', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 43, 'FIRST Israel District Championship', 'ISCMP', '2023-03-20 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 44, 'ISR District Event #1', 'ISDE1', '2023-02-26 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 45, 'ISR District Event #2', 'ISDE2', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 46, 'ISR District Event #3', 'ISDE3', '2023-03-12 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 47, 'ISR District Event #4', 'ISDE4', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 48, 'Heartland Regional', 'KSLA', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 49, 'Bayou Regional', 'LAKE', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 50, 'NE District Greater Boston Event', 'MABOS', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 51, 'NE District SE Mass Event', 'MABRI', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 52, 'NE District North Shore Event', 'MAREA', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 53, 'NE District Western NE Event', 'MAWNE', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 54, 'NE District WPI Event', 'MAWOR', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 55, 'CHS District Bethesda MD Event', 'MDBET', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 56, 'CHS District Timonium MD Event', 'MDTIM', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 57, 'FIM District Belleville Event', 'MIBEL', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 58, 'FIRST in Michigan State Championship', 'MICMP', '2023-04-06 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 59, 'FIM District Detroit Event', 'MIDET', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 60, 'FIM District Wayne State University Event', 'MIDTR', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 61, 'FIM District Escanaba Event', 'MIESC', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 62, 'FIM District Calvin University Event', 'MIFOR', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 63, 'FIM District Jackson Event', 'MIJAC', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 64, 'FIM District Kettering University Event #2', 'MIKE2', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 65, 'FIM District Kentwood Event', 'MIKEN', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 66, 'FIM District Kettering University Event #1', 'MIKET', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 67, 'FIM District Lakeview Event #2', 'MILA2', '2023-03-25 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 68, 'FIM District Lakeview Event #1', 'MILAK', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 69, 'FIM District Lansing Event', 'MILAN', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 70, 'FIM District Livonia Event', 'MILIV', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 71, 'FIM District LSSU Event', 'MILSU', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 72, 'FIM District Macomb Community College Event', 'MIMCC', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 73, 'FIM District Midland Event', 'MIMID', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 74, 'FIM District Milford Event', 'MIMIL', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 75, 'FIM District Muskegon Event', 'MIMUS', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 76, 'FIM District Saline Event', 'MISAL', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 77, 'FIM District St. Joseph Event', 'MISJO', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 78, 'FIM District Standish-Sterling Event', 'MISTA', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 79, 'FIM District Troy Event #2', 'MITR2', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 80, 'FIM District Troy Event #1', 'MITRY', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 81, 'FIM District Traverse City Event', 'MITVC', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 82, 'FIM District West Michigan Event', 'MIWMI', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 83, 'Lake Superior Regional', 'MNDU', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 84, 'Northern Lights Regional', 'MNDU2', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 85, 'Minnesota 10,000 Lakes Regional presented by Medtronic', 'MNMI', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 86, 'Minnesota North Star Regional at La Crosse', 'MNMI2', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 87, 'Greater Kansas City Regional', 'MOKC', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 88, 'Central Missouri Regional', 'MOSE', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 89, 'St. Louis Regional', 'MOSL', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 90, 'FIRST Mid-Atlantic District Championship', 'MRCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 91, 'Magnolia Regional', 'MSLR', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 92, 'Regional Monterrey', 'MXMO', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 93, 'Regional Puebla', 'MXPU', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 94, 'Regional Laguna', 'MXTO', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 95, 'FNC District UNC Asheville Event', 'NCASH', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 96, 'FIRST North Carolina District State Championship', 'NCCMP', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 97, 'FNC District Johnston County Event', 'NCJOH', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 98, 'FNC District Mecklenburg County Event', 'NCMEC', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 99, 'FNC District UNC Pembroke Event', 'NCPEM', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 100, 'FNC District Wake County Event', 'NCWAK', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 101, 'Great Northern Regional', 'NDGF', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 102, 'New England FIRST District Championship', 'NECMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 103, 'NE District UNH Event', 'NHDUR', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 104, 'NE District Granite State Event', 'NHGRS', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 105, 'FMA District Mount Olive Event', 'NJFLA', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 106, 'FMA District Robbinsville Event', 'NJROB', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 107, 'FMA District Montgomery Event', 'NJSKI', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 108, 'FMA District Seneca Event', 'NJTAB', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 109, 'FMA District Warren Hills Event', 'NJWAS', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 110, 'Las Vegas Regional', 'NVLV', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 111, 'FIRST Long Island Regional #1', 'NYLI', '2023-03-20 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 112, 'FIRST Long Island Regional #2', 'NYLI2', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 113, 'New York City Regional', 'NYNY', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 114, 'Finger Lakes Regional', 'NYRO', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 115, 'New York Tech Valley Regional', 'NYTR', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 116, 'Buckeye Regional', 'OHCL', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 117, 'Miami Valley Regional', 'OHMV', '2023-03-15 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 118, 'Oklahoma Regional', 'OKOK', '2023-03-08 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 119, 'Green Country Regional', 'OKTU', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 120, 'ONT District Georgian Event', 'ONBAR', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 121, 'FIRST Ontario Provincial Championship', 'ONCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 122, 'ONT District McMaster University', 'ONHAM', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 123, 'ONT District Western University Engineering Event', 'ONLON', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 124, 'ONT District Newmarket Complex Event', 'ONNEW', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 125, 'ONT District North Bay Event', 'ONNOB', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 126, 'ONT District Humber College Event', 'ONTOR', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 127, 'ONT District University of Waterloo Event', 'ONWAT', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 128, 'ONT District Windsor Essex Great Lakes Event', 'ONWIN', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 129, 'PNW District Clackamas Academy Event', 'ORORE', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 130, 'PNW District Oregon State Fairgrounds Event', 'ORSAL', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 131, 'PNW District Wilsonville Event', 'ORWIL', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 132, 'FMA District Bensalem Event', 'PABEN', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 133, 'Greater Pittsburgh Regional presented by Argo AI', 'PACA', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 134, 'FMA District Hatboro-Horsham Event', 'PAHAT', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 135, 'FMA District Springside Chestnut Hill Academy Event', 'PAPHI', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 136, 'Pacific Northwest FIRST District Championship', 'PNCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 137, 'Festival de Robotique Regional', 'QCMO', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 138, 'NE District Rhode Island Event', 'RINSC', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 139, 'PCH District Anderson Event', 'SCAND', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 140, 'PCH District Hartsville Event', 'SCHAR', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 141, 'Smoky Mountains Regional', 'TNKN', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 142, 'Istanbul Regional', 'TUIS', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 143, 'Bosphorus Regional', 'TUIS2', '2023-03-27 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 144, 'Izmir Regional', 'TUIS3', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 145, 'Mersin Regional', 'TUME', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 146, 'FIT District Amarillo Event', 'TXAMA', '2023-03-30 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 147, 'FIT District Belton Event', 'TXBEL', '2023-03-09 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 148, 'FIT District Channelview Event', 'TXCHA', '2023-03-10 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 149, 'FIT District Space City @ Clear Lake Event', 'TXCLE', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 150, 'FIRST In Texas District Championship sponsored by Phillips 66', 'TXCMP', '2023-04-05 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 151, 'FIT District Dallas Event', 'TXDAL', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 152, 'FIT District Fort Worth Event', 'TXFOR', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 153, 'FIT District Houston Event', 'TXHOU', '2023-03-23 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 154, 'FIT District San Antonio Event', 'TXSAN', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 155, 'FIT District Waco Event', 'TXWAC', '2023-03-02 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 156, 'Utah Regional', 'UTWV', '2023-03-01 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 157, 'CHS District Alexandria VA Event', 'VAALE', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 158, 'CHS District Blacksburg VA Event', 'VABLA', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 159, 'CHS District Glen Allen VA Event', 'VAGLE', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 160, 'CHS District Portsmouth VA Event', 'VAPOR', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 161, 'PNW District Auburn Event', 'WAAHS', '2023-03-31 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 162, 'PNW District Bonney Lake Event', 'WABON', '2023-03-17 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 163, 'PNW District Sammamish Event', 'WASAM', '2023-03-24 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 164, 'PNW District Glacier Peak Event', 'WASNO', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 165, 'PNW District SunDome Event', 'WAYAK', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 166, 'Seven Rivers Regional', 'WILA', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0\n" +
+        "UNION SELECT 167, 'Wisconsin Regional', 'WIMI', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0;",
+    
+        "CREATE TABLE IF NOT EXISTS fact_match_data_2023 (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    event_id int(4) NOT NULL,\n" +
+        "    team_id int(5) NOT NULL,\n" +
+        "    match_id int(4) NOT NULL,\n" +
+        "    practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    position_id int(3) NOT NULL,\n" +
+        "    auto_mobility tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_substn_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_coop_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_wall_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    auto_charge_station int(2) NOT NULL,\n" +
+        "    substn_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    substn_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_top_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_top_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    coop_grid_top_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_mid_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_mid_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_mid_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_hyb_substn tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_hyb_mid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    wall_grid_hyb_wall tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    dropped_gp_count int(3) NOT NULL,\n" +
+        "    charge_station int(2) NOT NULL,\n" +
+        "    feeder tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    defense tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    foul_count int(3) NOT NULL,\n" +
+        "    yellow_card tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    red_card tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    notes text NOT NULL,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
+        ");",
+    
+        "CREATE TABLE IF NOT EXISTS game_info (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    keystring text NOT NULL,\n" +
+        "    intvalue int(15) NOT NULL,\n" +
+        "    stringval text NOT NULL,\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+        ");",
+    
+        "CREATE TABLE IF NOT EXISTS notes_options (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    option_text text NOT NULL,\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+        ");",
+    
+        "INSERT INTO notes_options\n" +
+        "SELECT 1 AS id, 'No Show' AS option_text, '2014-01-25 15:21:36' AS timestamp, 0 AS invalid\n" +
+        "UNION SELECT 2, 'Non-functional', '2014-01-25 15:21:36', 0\n" +
+        "UNION SELECT 10, 'Stopped responding mid-match', '2016-03-17 23:53:21', 0\n" +
+        "UNION SELECT 3, 'Defender', '2016-01-15 16:30:02', 0;",
+    
+        "CREATE TABLE IF NOT EXISTS position_lu (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    position text NOT NULL,\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+        ");",
+    
+        "INSERT INTO position_lu\n" +
+        "SELECT 1 AS id, 'Red 1' AS position, '2015-02-12 00:30:10' AS timestamp, 0 AS invalid\n" +
+        "UNION SELECT 2, 'Red 2', '2015-02-12 00:30:10', 0\n" +
+        "UNION SELECT 3, 'Red 3', '2015-02-12 00:30:36', 0\n" +
+        "UNION SELECT 4, 'Blue 1', '2015-02-12 00:30:36', 0\n" +
+        "UNION SELECT 5, 'Blue 2', '2015-02-12 00:30:50', 0\n" +
+        "UNION SELECT 6, 'Blue 3', '2015-02-12 00:30:50', 0;",
+    
+        "CREATE TABLE IF NOT EXISTS programming_lu (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    language_name text NOT NULL,\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+        ");",
+    
+        "INSERT INTO programming_lu\n" +
+        "SELECT 1 AS id, 'LabView' AS language_name, '2020-01-20 15:21:36' AS timestamp, 0 AS invalid\n" +
+        "UNION SELECT 2, 'Java', '2020-01-20 15:21:36', 0\n" +
+        "UNION SELECT 3, 'C++', '2020-01-20 15:53:21', 0\n" +
+        "UNION SELECT 4, 'Python', '2020-01-20 16:30:02', 0\n" +
+        "UNION SELECT 5, 'Other', '2020-01-20 16:30:02', 0;",
+    
+        "CREATE TABLE IF NOT EXISTS robot_lu (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    team_id int(5) NOT NULL,\n" +
+        "    robot_photo text NOT NULL,\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0'\n" +
+        ");",
+    
+        "CREATE TABLE IF NOT EXISTS scout_pit_data_2023 (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    team_id int(5) NOT NULL,\n" +
+        "    traction_wheels tinyint(1) NOT NULL,\n" +
+        "    pneumatic_wheels tinyint(1) NOT NULL,\n" +
+        "    omni_wheels tinyint(1) NOT NULL,\n" +
+        "    mecanum_wheels tinyint(1) NOT NULL,\n" +
+        "    swerve_drive tinyint(1) NOT NULL,\n" +
+        "    tank_drive tinyint(1) NOT NULL,\n" +
+        "    other_drive_wheels tinyint(1) NOT NULL,\n" +
+        "    robot_gross_weight_lbs int(4) NOT NULL,\n" +
+        "    robot_gross_width_in int(4) NOT NULL,\n" +
+        "    robot_gross_length_in int(4) NOT NULL,\n" +
+        "    notes text NOT NULL,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
+        ");",
+    
+        "CREATE TABLE IF NOT EXISTS superscout_data_2023 (\n" +
+        "    id integer primary key autoincrement,\n" +
+        "    event_id int(4) NOT NULL,\n" +
+        "    team_id int(5) NOT NULL,\n" +
+        "    match_id int(4) NOT NULL,\n" +
+        "    practice_match tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    position_id int(3) NOT NULL,\n" +
+        "    offense_rank int(1) NOT NULL,\n" +
+        "    defense_rank int(1) NOT NULL,\n" +
+        "    driver_rank int(1) NOT NULL,\n" +
+        "    caused_foul tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    notes text NOT NULL,\n" +
+        "    invalid tinyint(1) NOT NULL DEFAULT '0',\n" +
+        "    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
+        ");"
+    };
 
-	public static final String[] SQL_DELETE_ENTRIES = {
-		"DROP TABLE IF EXISTS event_lu;",
-		"DROP TABLE IF EXISTS fact_match_data_2023;",
-		"DROP TABLE IF EXISTS game_info;",
-		"DROP TABLE IF EXISTS notes_options;",
-		"DROP TABLE IF EXISTS position_lu;",
-		"DROP TABLE IF EXISTS programming_lu;",
-		"DROP TABLE IF EXISTS robot_lu;",
-		"DROP TABLE IF EXISTS scout_pit_data_2023;"
-	};
+    public static final String[] SQL_DELETE_ENTRIES = {
+        "DROP TABLE IF EXISTS event_lu;",
+        "DROP TABLE IF EXISTS fact_match_data_2023;",
+        "DROP TABLE IF EXISTS game_info;",
+        "DROP TABLE IF EXISTS notes_options;",
+        "DROP TABLE IF EXISTS position_lu;",
+        "DROP TABLE IF EXISTS programming_lu;",
+        "DROP TABLE IF EXISTS robot_lu;",
+        "DROP TABLE IF EXISTS scout_pit_data_2023;",
+        "DROP TABLE IF EXISTS superscout_data_2023;"
+    };
 
 }
