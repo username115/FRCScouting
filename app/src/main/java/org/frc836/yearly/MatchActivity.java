@@ -50,11 +50,10 @@ import java.util.List;
 
 public class MatchActivity extends DBActivity {
 
-    public static final int NUM_SCREENS = 4;
+    public static final int NUM_SCREENS = 3;
     public static final int AUTO_SCREEN = 0;
     public static final int TELE_SCREEN = 1;
-    public static final int CLIMB_SCREEN = 2;
-    public static final int END_SCREEN = 3;
+    public static final int END_SCREEN = 2;
 
     private MatchViewAdapter mMatchViewAdapter;
 
@@ -117,6 +116,7 @@ public class MatchActivity extends DBActivity {
             "Input hang location, and how long it took to reach final hang position.\n" +
             "A timer has been provided to assist with this.\n" +
             "During the match, observe where cargo was scored from, and mark the locations the robot tended to use.";
+        //TODO fix help message
 
         getGUIRefs();
 
@@ -261,9 +261,6 @@ public class MatchActivity extends DBActivity {
             case TELE_SCREEN:
                 saveTele();
                 break;
-            case CLIMB_SCREEN:
-                saveClimb();
-                break;
             case END_SCREEN:
                 saveEnd();
                 break;
@@ -280,18 +277,12 @@ public class MatchActivity extends DBActivity {
             case TELE_SCREEN:
                 loadTele();
                 lastB.setText(getString(R.string.match_change_button_auto));
-                nextB.setText(getString(R.string.match_change_button_climb));
-                timer.removeCallbacks(mUpdateTimeTask);
-                break;
-            case CLIMB_SCREEN:
-                loadClimb();
-                lastB.setText(getString(R.string.match_change_button_tele));
                 nextB.setText(getString(R.string.match_change_button_end));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
             case END_SCREEN:
                 loadEnd();
-                lastB.setText(getString(R.string.match_change_button_climb));
+                lastB.setText(getString(R.string.match_change_button_tele));
                 nextB.setText(readOnly ? getString(R.string.match_change_button_cancel) : getString(R.string.match_change_button_submit));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
@@ -366,10 +357,6 @@ public class MatchActivity extends DBActivity {
                     fragment = TeleMatchFragment.newInstance();
                     fragments.put(i, fragment);
                     return fragment;
-                case CLIMB_SCREEN:
-                    fragment = ClimbFragment.newInstance();
-                    fragments.put(i, fragment);
-                    return fragment;
                 case END_SCREEN:
                 default:
                     fragment = EndMatchFragment.newInstance();
@@ -393,15 +380,6 @@ public class MatchActivity extends DBActivity {
         lastB = findViewById(R.id.backB);
         nextB = findViewById(R.id.nextB);
 
-    }
-
-    private void loadClimb() {
-        mMatchViewAdapter.getMatchFragment(CLIMB_SCREEN).loadData(teamData);
-    }
-
-    private void saveClimb() {
-        saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(CLIMB_SCREEN).saveData(teamData);
     }
 
     private void loadAuto() {
