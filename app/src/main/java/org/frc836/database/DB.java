@@ -211,219 +211,6 @@ public class DB {
         }
     }
 
-    private int getNextSortID(long eventID, SQLiteDatabase db) {
-        String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT};
-        String[] where = {String.valueOf(eventID), "0"};
-        Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME, // from the event_lu
-            // table
-            projection, // select
-            FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " +
-                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED + "=?", // where
-            where,
-            null, // don't group
-            null, // don't filter
-            FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, null);
-        int ret = -1;
-        try {
-            if (c.getCount() > 0) {
-                c.moveToLast();
-                ret = c.getInt(c
-                    .getColumnIndexOrThrow(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT)) + 1;
-            } else
-                ret = 1;
-        } finally {
-            if (c != null)
-                c.close();
-        }
-
-        return ret;
-    }
-
-    public boolean addTeamToPickList(int team, String eventName) {
-        try {
-            long eventID;
-            int sortNum;
-            synchronized (ScoutingDBHelper.lock) {
-                SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
-                eventID = getEventIDFromName(eventName, db);
-                sortNum = getNextSortID(eventID, db);
-                ScoutingDBHelper.getInstance().close();
-            }
-
-            ContentValues values = new ContentValues();
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, team);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID, eventID);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED, 0);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, 0);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, sortNum);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID, team * eventID);
-
-            String[] where = {String.valueOf(team),
-                String.valueOf(eventID)};
-
-            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
-                null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
-                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
-                where);
-
-            startSync();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
-    public boolean removeTeamFromPickList(int team, String eventName) {
-        try {
-            long eventID;
-            List<String> t = getPickList(eventName);
-            if (t == null || !t.contains(String.valueOf(team)))
-                return true;
-            synchronized (ScoutingDBHelper.lock) {
-                SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
-                eventID = getEventIDFromName(eventName, db);
-                ScoutingDBHelper.getInstance().close();
-            }
-
-            ContentValues values = new ContentValues();
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, team);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID, eventID);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED, 1);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, 0);
-
-            String[] where = {String.valueOf(team),
-                String.valueOf(eventID)};
-
-            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
-                null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
-                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
-                where);
-
-            t.remove(t.indexOf(String.valueOf(team)));
-
-            int i = 1;
-            for (String teamNum : t) {
-                updateSort(teamNum, i, eventID);
-                i++;
-            }
-
-            startSync();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
-    private int getTeamPicked(int team, long eventID, SQLiteDatabase db) {
-        String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED};
-        String[] where = {String.valueOf(team), String.valueOf(eventID)};
-        Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
-            projection, // select
-            FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
-            where,
-            null, // don't group
-            null, // don't filter
-            null, // don't order
-            "0,1"); // limit to 1
-        int ret = -1;
-        try {
-            c.moveToFirst();
-            ret = c.getInt(c
-                .getColumnIndexOrThrow(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED));
-        } finally {
-            if (c != null)
-                c.close();
-        }
-
-        return ret;
-    }
-
-    public boolean teamPickToggle(int team, String eventName) {
-        try {
-            long eventID;
-            boolean picked;
-            List<String> t = getPickList(eventName);
-            if (t == null || !t.contains(String.valueOf(team)))
-                return true;
-            synchronized (ScoutingDBHelper.lock) {
-                SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
-                eventID = getEventIDFromName(eventName, db);
-                picked = getTeamPicked(team, eventID, db) != 0;
-                ScoutingDBHelper.getInstance().close();
-            }
-
-            ContentValues values = new ContentValues();
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, picked ? 0 : 1);
-
-            String[] where = {String.valueOf(team),
-                String.valueOf(eventID)};
-
-            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
-                null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
-                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
-                where);
-
-            t.remove(t.indexOf(String.valueOf(team)));
-
-            int i = 1;
-            for (String teamNum : t) {
-                updateSort(teamNum, i, eventID);
-                i++;
-            }
-
-            startSync();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
-    public void updateSort(List<String> teams, String eventName) {
-        long eventID;
-        synchronized (ScoutingDBHelper.lock) {
-            SQLiteDatabase db = ScoutingDBHelper.getInstance().getWritableDatabase();
-            eventID = getEventIDFromName(eventName, db);
-            ScoutingDBHelper.getInstance().close();
-        }
-
-        int sort = 1;
-        for (String team : teams) {
-            updateSort(team, sort, eventID);
-            sort++;
-        }
-    }
-
-    private boolean updateSort(String team, int sort, long eventID) {
-        try {
-            ContentValues values = new ContentValues();
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, Integer.valueOf(team));
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID, eventID);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED, 0);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_INVALID, 1);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED, 0);
-            values.put(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, sort);
-
-            String[] where = {String.valueOf(team),
-                String.valueOf(eventID)};
-
-            insertOrUpdate(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME,
-                null, values, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID,
-                FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?",
-                where);
-
-            startSync();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public void setPass(String pass) {
         password = pass;
     }
@@ -1208,72 +995,6 @@ public class DB {
         }
     }
 
-    public Cursor getPickListCursor(String eventName, SQLiteDatabase db) {
-        synchronized (ScoutingDBHelper.lock) {
-
-            try {
-                String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_ID + " AS _id", FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_PICKED};
-                String[] where = {
-                    String.valueOf(getEventIDFromName(eventName, db)), "0"};
-
-                Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME, projection,
-                    FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID
-                        + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED + "=?",
-                    where, null, null, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT);
-
-
-                return c;
-
-            } catch (Exception e) {
-                return null;
-            }
-
-        }
-    }
-
-    public List<String> getPickList(String eventName) {
-        synchronized (ScoutingDBHelper.lock) {
-
-            try {
-
-                SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                    .getReadableDatabase();
-
-                String[] projection = {FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID};
-                String[] where = {
-                    String.valueOf(getEventIDFromName(eventName, db)), "0"};
-
-                Cursor c = db.query(FRCScoutingContract.PICKLIST_Entry.TABLE_NAME, projection,
-                    FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_EVENT_ID
-                        + "=? AND " + FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_REMOVED + "=?",
-                    where, null, null, FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_SORT);
-                List<String> ret;
-                try {
-
-                    ret = new ArrayList<String>(c.getCount());
-
-                    if (c.moveToFirst())
-                        do {
-                            ret.add(c.getString(c
-                                .getColumnIndexOrThrow(FRCScoutingContract.PICKLIST_Entry.COLUMN_NAME_TEAM_ID)));
-                        } while (c.moveToNext());
-                    else
-                        ret = null;
-                } finally {
-                    if (c != null)
-                        c.close();
-                    ScoutingDBHelper.getInstance().close();
-                }
-
-                return ret;
-
-            } catch (Exception e) {
-                return null;
-            }
-
-        }
-    }
-
     public String getPosition(String eventName, int match,
                               boolean practice, int team) {
         synchronized (ScoutingDBHelper.lock) {
@@ -1613,7 +1334,7 @@ public class DB {
                     defenses.put(0, "None");
 
                     Cursor c = null;
-                    StringBuilder match_data = null, pit_data = null;
+                    StringBuilder match_data = null, pit_data = null, superscout_data = null;
                     // export matches
                     try {
 
@@ -1714,9 +1435,9 @@ public class DB {
                             if (PitStats.COLUMN_NAME_INVALID.equalsIgnoreCase(c
                                 .getColumnName(i)) && !debug)
                                 i++;
-                            if (PitStats.COLUMN_NAME_PROGRAMMING_ID
+                            /*if (PitStats.COLUMN_NAME_PROGRAMMING_ID
                                 .equalsIgnoreCase(c.getColumnName(i)))
-                                pit_data.append("programming_language");
+                                pit_data.append("programming_language"); */
                             else
                                 pit_data.append(c.getColumnName(i));
                         }
@@ -1740,7 +1461,7 @@ public class DB {
                                             .append("\"");
                                         // wanted to encapsulate the following, but
                                         // doing so would slow down the export.
-                                    else if (PitStats.COLUMN_NAME_PROGRAMMING_ID
+                                    /*else if (PitStats.COLUMN_NAME_PROGRAMMING_ID
                                         .equalsIgnoreCase(c
                                             .getColumnName(j))) {
                                         String config = configs
@@ -1751,7 +1472,8 @@ public class DB {
                                             configs.append(c.getInt(j), config);
                                         }
                                         pit_data.append(config);
-                                    } else
+                                    } */
+                                    else
                                         pit_data.append(c.getString(j));
                                 }
                                 pit_data.append("\n");
@@ -1770,12 +1492,101 @@ public class DB {
                         ScoutingDBHelper.getInstance().close();
                     }
 
+                    // export superscout
+                    try {
+
+                        c = db.rawQuery("SELECT * FROM "
+                            + SuperScoutStats.TABLE_NAME, null);
+                        // decent estimate for how big the output will be. will
+                        // definitely be too small, but will keep it from having
+                        // to resize too many times
+                        superscout_data = new StringBuilder(c.getCount()
+                            * c.getColumnCount() * 2);
+
+                        for (int i = 0; i < c.getColumnCount(); i++) {
+                            if (i > 0)
+                                superscout_data.append(",");
+                            if (SuperScoutStats.COLUMN_NAME_INVALID
+                                .equalsIgnoreCase(c.getColumnName(i))
+                                && !debug)
+                                i++;
+                            if (SuperScoutStats.COLUMN_NAME_EVENT_ID
+                                .equalsIgnoreCase(c.getColumnName(i)))
+                                superscout_data
+                                    .append(EVENT_LU_Entry.COLUMN_NAME_EVENT_CODE);
+                            else if (SuperScoutStats.COLUMN_NAME_POSITION_ID
+                                .equalsIgnoreCase(c.getColumnName(i)))
+                                superscout_data
+                                    .append(POSITION_LU_Entry.COLUMN_NAME_POSITION);
+                            else
+                                superscout_data.append(c.getColumnName(i));
+                        }
+                        superscout_data.append("\n");
+                        int rowCount = c.getCount();
+                        int progress = 0;
+                        if (c.moveToFirst())
+                            do {
+                                for (int j = 0; j < c.getColumnCount(); j++) {
+                                    if (j > 0)
+                                        superscout_data.append(",");
+                                    if (SuperScoutStats.COLUMN_NAME_INVALID
+                                        .equalsIgnoreCase(c
+                                            .getColumnName(j))
+                                        && !debug)
+                                        j++;
+                                    if (new SuperScoutStats()
+                                        .isTextField(c.getColumnName(j)))
+                                        superscout_data.append("\"")
+                                            .append(c.getString(j).replace("\"", "'"))
+                                            .append("\"");
+                                    else if (SuperScoutStats.COLUMN_NAME_EVENT_ID
+                                        .equalsIgnoreCase(c
+                                            .getColumnName(j))) {
+                                        String event = events.get(c.getInt(j));
+                                        if (event == null) {
+                                            event = getEventCodeFromID(
+                                                c.getInt(j), db);
+                                            events.append(c.getInt(j), event);
+                                        }
+                                        superscout_data.append(event);
+                                    } else if (SuperScoutStats.COLUMN_NAME_POSITION_ID
+                                        .equalsIgnoreCase(c
+                                            .getColumnName(j))) {
+                                        String position = positions.get(c
+                                            .getInt(j));
+                                        if (position == null) {
+                                            position = getPosNameFromID(
+                                                c.getInt(j), db);
+                                            positions.append(c.getInt(j),
+                                                position);
+                                        }
+                                        superscout_data.append(position);
+                                    } else
+                                        superscout_data.append(c.getString(j));
+                                }
+                                superscout_data.append("\n");
+                                progress++;
+                                mBuilder.setProgress(300,
+                                    (int) (((double) progress)
+                                        / ((double) rowCount) * 100), //2017
+                                    false);
+                                notManager.notify(notifyId, mBuilder.build());
+
+                            } while (c.moveToNext());
+                    } finally {
+                        if (c != null)
+                            c.close();
+                        ScoutingDBHelper.getInstance().close();
+                    }
+
+
                     File sd = new File(callback.filename);
                     String filename_append = Prefs.getDeviceName(callback.context, "");
                     if (filename_append.length() > 0)
                         filename_append = "_" + filename_append;
                     File match = new File(sd, "matches" + filename_append + ".csv");
                     File pits = new File(sd, "pits" + filename_append + ".csv");
+                    File superscout = new File(sd, "superscout" + filename_append + ".csv");
                     FileOutputStream destination;
                     if (match_data != null) {
                         destination = new FileOutputStream(match);
@@ -1787,6 +1598,11 @@ public class DB {
                         destination.write(pit_data.toString().getBytes());
                         destination.close();
                     }
+                    if (superscout_data != null) {
+                        destination = new FileOutputStream(superscout);
+                        destination.write(superscout_data.toString().getBytes());
+                        destination.close();
+                    }
                     try {
                         FileOutputStream fos = callback.context.openFileOutput(
                             FILENAME, Context.MODE_PRIVATE);
@@ -1796,7 +1612,7 @@ public class DB {
 
                     }
                     try {
-                        MediaScannerConnection.scanFile(callback.context, new String[]{match.getPath(), pits.getPath()}, null, null);
+                        MediaScannerConnection.scanFile(callback.context, new String[]{match.getPath(), pits.getPath(), superscout.getPath()}, null, null);
                     } catch (Exception e) {
 
                     }

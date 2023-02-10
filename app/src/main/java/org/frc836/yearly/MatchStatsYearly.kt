@@ -3,37 +3,151 @@ package org.frc836.yearly
 import org.frc836.database.MatchStatsStruct
 
 object MatchStatsYearly {
-    const val NUM_GRAPHS = 5
+    const val NUM_GRAPHS = 4
     const val TOTAL_SCORE = 0
     const val AUTO = 1
-    const val TOTAL_HIGH = 2
-    const val TOTAL_LOW = 3
-    const val CLIMB_LEVEL = 4
+    const val TELEOP = 2
+    const val ENGAGE = 3
 
+    @JvmStatic
     fun getTotalScore(stats: MatchStatsStruct): Int {
-        return getAutoScore(stats) + getTeleScore(stats) + getClimbScore(stats)
+        return getAutoScore(stats) + getTeleScore(stats) + getEndEngageScore(stats)
     }
 
+    @JvmStatic
     fun getAutoScore(stats: MatchStatsStruct): Int {
-        return ((if (stats.auto_taxi) 2 else 0)
-            + stats.auto_high_score * 4
-            + stats.auto_low_score * 4)
+        return ((if (stats.auto_mobility) 3 else 0)
+            + getAutoHybScore(stats)
+            + getAutoMidScore(stats)
+            + getAutoTopScore(stats)
+            + getAutoEngageScore(stats))
     }
 
+    @JvmStatic
     fun getTeleScore(stats: MatchStatsStruct): Int {
-        return (stats.high_score * 4
-            + stats.low_score * 4)
+        return (getLinkScore(stats)
+            + getTeleHybScore(stats)
+            + getTeleMidScore(stats)
+            + getTeleTopScore(stats))
     }
 
-    fun getClimbScore(stats: MatchStatsStruct): Int {
-        return when (stats.hang_level) {
-            1 -> 4
-            2 -> 6
-            3 -> 10
-            4 -> 16
-            0 -> 0
+    @JvmStatic
+    fun getEngageScore(stats: MatchStatsStruct): Int {
+        return (getAutoEngageScore(stats) + getEndEngageScore(stats))
+    }
+
+    @JvmStatic
+    fun getAutoEngageScore(stats: MatchStatsStruct): Int {
+        return when (stats.auto_charge_station) {
+            2 -> 8
+            3 -> 12
             else -> 0
         }
+    }
+
+    @JvmStatic
+    fun getEndEngageScore(stats: MatchStatsStruct): Int {
+        return when (stats.charge_station) {
+            2 -> 6
+            3 -> 10
+            else -> 0
+        }
+    }
+
+    @JvmStatic
+    fun getAutoHybScore(stats: MatchStatsStruct): Int {
+        return ((
+              if (stats.auto_wall_grid_hyb_wall) 1 else 0
+            + if (stats.auto_wall_grid_hyb_mid) 1 else 0
+            + if (stats.auto_wall_grid_hyb_substn) 1 else 0
+            + if (stats.auto_coop_grid_hyb_wall) 1 else 0
+            + if (stats.auto_coop_grid_hyb_mid) 1 else 0
+            + if (stats.auto_coop_grid_hyb_substn) 1 else 0
+            + if (stats.auto_substn_grid_hyb_wall) 1 else 0
+            + if (stats.auto_substn_grid_hyb_mid) 1 else 0
+            + if (stats.auto_substn_grid_hyb_substn) 1 else 0)
+            * 3)
+    }
+
+    @JvmStatic
+    fun getAutoMidScore(stats: MatchStatsStruct): Int {
+        return ((
+              if (stats.auto_wall_grid_mid_wall) 1 else 0
+            + if (stats.auto_wall_grid_mid_mid) 1 else 0
+            + if (stats.auto_wall_grid_mid_substn) 1 else 0
+            + if (stats.auto_coop_grid_mid_wall) 1 else 0
+            + if (stats.auto_coop_grid_mid_mid) 1 else 0
+            + if (stats.auto_coop_grid_mid_substn) 1 else 0
+            + if (stats.auto_substn_grid_mid_wall) 1 else 0
+            + if (stats.auto_substn_grid_mid_mid) 1 else 0
+            + if (stats.auto_substn_grid_mid_substn) 1 else 0)
+            * 4)
+    }
+
+    @JvmStatic
+    fun getAutoTopScore(stats: MatchStatsStruct): Int {
+        return ((
+              if (stats.auto_wall_grid_top_wall) 1 else 0
+            + if (stats.auto_wall_grid_top_mid) 1 else 0
+            + if (stats.auto_wall_grid_top_substn) 1 else 0
+            + if (stats.auto_coop_grid_top_wall) 1 else 0
+            + if (stats.auto_coop_grid_top_mid) 1 else 0
+            + if (stats.auto_coop_grid_top_substn) 1 else 0
+            + if (stats.auto_substn_grid_top_wall) 1 else 0
+            + if (stats.auto_substn_grid_top_mid) 1 else 0
+            + if (stats.auto_substn_grid_top_substn) 1 else 0)
+            * 6)
+    }
+
+    @JvmStatic
+    fun getTeleHybScore(stats: MatchStatsStruct): Int {
+        return ((
+              if (stats.wall_grid_hyb_wall) 1 else 0
+            + if (stats.wall_grid_hyb_mid) 1 else 0
+            + if (stats.wall_grid_hyb_substn) 1 else 0
+            + if (stats.coop_grid_hyb_wall) 1 else 0
+            + if (stats.coop_grid_hyb_mid) 1 else 0
+            + if (stats.coop_grid_hyb_substn) 1 else 0
+            + if (stats.substn_grid_hyb_wall) 1 else 0
+            + if (stats.substn_grid_hyb_mid) 1 else 0
+            + if (stats.substn_grid_hyb_substn) 1 else 0)
+            * 2)
+    }
+
+    @JvmStatic
+    fun getTeleMidScore(stats: MatchStatsStruct): Int {
+        return ((
+              if (stats.wall_grid_mid_wall) 1 else 0
+            + if (stats.wall_grid_mid_mid) 1 else 0
+            + if (stats.wall_grid_mid_substn) 1 else 0
+            + if (stats.coop_grid_mid_wall) 1 else 0
+            + if (stats.coop_grid_mid_mid) 1 else 0
+            + if (stats.coop_grid_mid_substn) 1 else 0
+            + if (stats.substn_grid_mid_wall) 1 else 0
+            + if (stats.substn_grid_mid_mid) 1 else 0
+            + if (stats.substn_grid_mid_substn) 1 else 0)
+            * 3)
+    }
+
+    @JvmStatic
+    fun getTeleTopScore(stats: MatchStatsStruct): Int {
+        return ((
+              if (stats.wall_grid_top_wall) 1 else 0
+            + if (stats.wall_grid_top_mid) 1 else 0
+            + if (stats.wall_grid_top_substn) 1 else 0
+            + if (stats.coop_grid_top_wall) 1 else 0
+            + if (stats.coop_grid_top_mid) 1 else 0
+            + if (stats.coop_grid_top_substn) 1 else 0
+            + if (stats.substn_grid_top_wall) 1 else 0
+            + if (stats.substn_grid_top_mid) 1 else 0
+            + if (stats.substn_grid_top_substn) 1 else 0)
+            * 5)
+    }
+
+    @JvmStatic
+    fun getLinkScore(stats:MatchStatsStruct): Int {
+        return 0
+        //TODO
     }
 
     @JvmStatic
@@ -41,9 +155,8 @@ object MatchStatsYearly {
         val ret: MutableList<String> = ArrayList(NUM_GRAPHS)
         ret.add(TOTAL_SCORE, "Total Score")
         ret.add(AUTO, "Total Autonomous Score")
-        ret.add(TOTAL_HIGH, "Total High Goals Scored")
-        ret.add(TOTAL_LOW, "Total High Goals Scored")
-        ret.add(CLIMB_LEVEL, "Hang Level")
+        ret.add(TELEOP, "Total Tele-Op score (without Charge Station)")
+        ret.add(ENGAGE, "Total Charge Station Score")
         ret
     }
 
@@ -52,9 +165,8 @@ object MatchStatsYearly {
         val ret: MutableList<String> = ArrayList(NUM_GRAPHS)
         ret.add(TOTAL_SCORE, "TS")
         ret.add(AUTO, "AS")
-        ret.add(TOTAL_HIGH, "HG")
-        ret.add(TOTAL_LOW, "LG")
-        ret.add(CLIMB_LEVEL, "HL")
+        ret.add(TELEOP, "TE")
+        ret.add(ENGAGE, "EN")
         ret
     }
 
@@ -63,27 +175,74 @@ object MatchStatsYearly {
         return when (statNum) {
             TOTAL_SCORE -> getTotalScore(stats)
             AUTO -> getAutoScore(stats)
-            TOTAL_HIGH -> stats.auto_high_score + stats.high_score
-            TOTAL_LOW -> stats.auto_low_score + stats.low_score
-            CLIMB_LEVEL -> stats.hang_level
-            else -> stats.hang_level
+            TELEOP -> getTeleScore(stats)
+            ENGAGE -> getEngageScore(stats)
+            else -> getTotalScore(stats)
         }
     }
 
     @JvmStatic
     fun clearAuto(stats: MatchStatsStruct) {
-        stats.auto_taxi = false
-        stats.auto_low_score = 0
-        stats.auto_low_miss = 0
-        stats.auto_high_score = 0
-        stats.auto_high_miss = 0
+        stats.auto_charge_station = 0
+        stats.auto_mobility = false
+        stats.auto_wall_grid_hyb_wall = false
+        stats.auto_wall_grid_hyb_mid = false
+        stats.auto_wall_grid_hyb_substn = false
+        stats.auto_coop_grid_hyb_wall = false
+        stats.auto_coop_grid_hyb_mid = false
+        stats.auto_coop_grid_hyb_substn = false
+        stats.auto_substn_grid_hyb_wall = false
+        stats.auto_substn_grid_hyb_mid = false
+        stats.auto_substn_grid_hyb_substn = false
+        stats.auto_wall_grid_mid_wall = false
+        stats.auto_wall_grid_mid_mid = false
+        stats.auto_wall_grid_mid_substn = false
+        stats.auto_coop_grid_mid_wall = false
+        stats.auto_coop_grid_mid_mid = false
+        stats.auto_coop_grid_mid_substn = false
+        stats.auto_substn_grid_mid_wall = false
+        stats.auto_substn_grid_mid_mid = false
+        stats.auto_substn_grid_mid_substn = false
+        stats.auto_wall_grid_top_wall = false
+        stats.auto_wall_grid_top_mid = false
+        stats.auto_wall_grid_top_substn = false
+        stats.auto_coop_grid_top_wall = false
+        stats.auto_coop_grid_top_mid = false
+        stats.auto_coop_grid_top_substn = false
+        stats.auto_substn_grid_top_wall = false
+        stats.auto_substn_grid_top_mid = false
+        stats.auto_substn_grid_top_substn = false
     }
 
     @JvmStatic
     fun clearTele(stats: MatchStatsStruct) {
-        stats.low_score = 0
-        stats.low_miss = 0
-        stats.high_score = 0
-        stats.high_miss = 0
+        stats.wall_grid_hyb_wall = false
+        stats.wall_grid_hyb_mid = false
+        stats.wall_grid_hyb_substn = false
+        stats.coop_grid_hyb_wall = false
+        stats.coop_grid_hyb_mid = false
+        stats.coop_grid_hyb_substn = false
+        stats.substn_grid_hyb_wall = false
+        stats.substn_grid_hyb_mid = false
+        stats.substn_grid_hyb_substn = false
+        stats.wall_grid_mid_wall = false
+        stats.wall_grid_mid_mid = false
+        stats.wall_grid_mid_substn = false
+        stats.coop_grid_mid_wall = false
+        stats.coop_grid_mid_mid = false
+        stats.coop_grid_mid_substn = false
+        stats.substn_grid_mid_wall = false
+        stats.substn_grid_mid_mid = false
+        stats.substn_grid_mid_substn = false
+        stats.wall_grid_top_wall = false
+        stats.wall_grid_top_mid = false
+        stats.wall_grid_top_substn = false
+        stats.coop_grid_top_wall = false
+        stats.coop_grid_top_mid = false
+        stats.coop_grid_top_substn = false
+        stats.substn_grid_top_wall = false
+        stats.substn_grid_top_mid = false
+        stats.substn_grid_top_substn = false
+        stats.dropped_gp_count = 0
     }
 }

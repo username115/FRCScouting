@@ -68,14 +68,6 @@
             android:name="org.frc836.yearly.PitsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/pits_label" />
-        <activity
-            android:name=".PickActivity"
-            android:label="@string/title_activity_pick"
-            android:parentActivityName=".DashboardActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.growingstems.scouting.DashboardActivity" />
-        </activity>
     </application>
 
 </manifest>
