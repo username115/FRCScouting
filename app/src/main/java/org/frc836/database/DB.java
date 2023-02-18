@@ -1643,7 +1643,7 @@ public class DB {
         void onFinish(DBData data);
     }
 
-    public class DBData {
+    public static class DBData {
         protected RequestType _type = RequestType.None;
 
         protected DBCallback _callback;
