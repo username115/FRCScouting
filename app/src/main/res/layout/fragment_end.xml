@@ -37,7 +37,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/chargeStationT"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -45,7 +45,7 @@
                         android:text="Charge Station" />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/cardsT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -59,18 +59,18 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/chargeStationB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Button" />
+                        android:text="No Attempt" />
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/cardsB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Button" />
+                        android:text="None" />
 
                 </TableRow>
 
@@ -79,7 +79,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/feederT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -87,7 +87,7 @@
                         android:text="Feeder Bot" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/defenseT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -101,14 +101,14 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button3"
+                        android:id="@+id/feederB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Button" />
 
                     <Button
-                        android:id="@+id/button4"
+                        android:id="@+id/defenseB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

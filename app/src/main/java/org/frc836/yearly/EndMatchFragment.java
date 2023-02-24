@@ -142,8 +142,8 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
         data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
-        data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
-        data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
+        //data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
+        //data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
         //TODO savedata
     }
 
@@ -165,8 +165,8 @@ public class EndMatchFragment extends MatchFragment {
         boolean blue = pos.contains("Blue");
 
         ((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
-        ((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
-        ((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
+        //((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
+        //((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
 
         //TODO load data
 
