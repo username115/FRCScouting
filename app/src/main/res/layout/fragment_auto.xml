@@ -115,21 +115,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridTopTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridTopTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -143,21 +143,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridTopMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridTopMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -171,21 +171,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridTopBotMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridTopBotRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                 </TableLayout>
@@ -267,21 +267,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridMidTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridMidTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -295,21 +295,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridMidMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridMidMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -323,21 +323,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridMidBotMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridMidBotRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                 </TableLayout>
@@ -402,21 +402,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp"/>
+                            android:src="@drawable/selection_square_none"/>
 
                         <ImageButton
                             android:id="@+id/autoGridBotTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridBotTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -430,21 +430,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridBotMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridBotMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -458,21 +458,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridBotBotMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridBotBotRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                 </TableLayout>

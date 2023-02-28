@@ -265,6 +265,79 @@ public class MatchStatsStruct {
         this.practice_match = practice;
     }
 
+    public void copyFrom(MatchStatsStruct other) {
+        this.event_id = other.event_id;
+        this.team_id = other.team_id;
+        this.match_id = other.match_id;
+        this.practice_match = other.practice_match;
+        this.position_id = other.position_id;
+        this.auto_mobility = other.auto_mobility;
+        this.auto_substn_grid_top_substn = other.auto_substn_grid_top_substn;
+        this.auto_substn_grid_top_mid = other.auto_substn_grid_top_mid;
+        this.auto_substn_grid_top_wall = other.auto_substn_grid_top_wall;
+        this.auto_substn_grid_mid_substn = other.auto_substn_grid_mid_substn;
+        this.auto_substn_grid_mid_mid = other.auto_substn_grid_mid_mid;
+        this.auto_substn_grid_mid_wall = other.auto_substn_grid_mid_wall;
+        this.auto_substn_grid_hyb_substn = other.auto_substn_grid_hyb_substn;
+        this.auto_substn_grid_hyb_mid = other.auto_substn_grid_hyb_mid;
+        this.auto_substn_grid_hyb_wall = other.auto_substn_grid_hyb_wall;
+        this.auto_coop_grid_top_substn = other.auto_coop_grid_top_substn;
+        this.auto_coop_grid_top_mid = other.auto_coop_grid_top_mid;
+        this.auto_coop_grid_top_wall = other.auto_coop_grid_top_wall;
+        this.auto_coop_grid_mid_substn = other.auto_coop_grid_mid_substn;
+        this.auto_coop_grid_mid_mid = other.auto_coop_grid_mid_mid;
+        this.auto_coop_grid_mid_wall = other.auto_coop_grid_mid_wall;
+        this.auto_coop_grid_hyb_substn = other.auto_coop_grid_hyb_substn;
+        this.auto_coop_grid_hyb_mid = other.auto_coop_grid_hyb_mid;
+        this.auto_coop_grid_hyb_wall = other.auto_coop_grid_hyb_wall;
+        this.auto_wall_grid_top_substn = other.auto_wall_grid_top_substn;
+        this.auto_wall_grid_top_mid = other.auto_wall_grid_top_mid;
+        this.auto_wall_grid_top_wall = other.auto_wall_grid_top_wall;
+        this.auto_wall_grid_mid_substn = other.auto_wall_grid_mid_substn;
+        this.auto_wall_grid_mid_mid = other.auto_wall_grid_mid_mid;
+        this.auto_wall_grid_mid_wall = other.auto_wall_grid_mid_wall;
+        this.auto_wall_grid_hyb_substn = other.auto_wall_grid_hyb_substn;
+        this.auto_wall_grid_hyb_mid = other.auto_wall_grid_hyb_mid;
+        this.auto_wall_grid_hyb_wall = other.auto_wall_grid_hyb_wall;
+        this.auto_charge_station = other.auto_charge_station;
+        this.substn_grid_top_substn = other.substn_grid_top_substn;
+        this.substn_grid_top_mid = other.substn_grid_top_mid;
+        this.substn_grid_top_wall = other.substn_grid_top_wall;
+        this.substn_grid_mid_substn = other.substn_grid_mid_substn;
+        this.substn_grid_mid_mid = other.substn_grid_mid_mid;
+        this.substn_grid_mid_wall = other.substn_grid_mid_wall;
+        this.substn_grid_hyb_substn = other.substn_grid_hyb_substn;
+        this.substn_grid_hyb_mid = other.substn_grid_hyb_mid;
+        this.substn_grid_hyb_wall = other.substn_grid_hyb_wall;
+        this.coop_grid_top_substn = other.coop_grid_top_substn;
+        this.coop_grid_mid_substn = other.coop_grid_mid_substn;
+        this.coop_grid_mid_mid = other.coop_grid_mid_mid;
+        this.coop_grid_mid_wall = other.coop_grid_mid_wall;
+        this.coop_grid_hyb_substn = other.coop_grid_hyb_substn;
+        this.coop_grid_hyb_mid = other.coop_grid_hyb_mid;
+        this.coop_grid_hyb_wall = other.coop_grid_hyb_wall;
+        this.wall_grid_top_substn = other.wall_grid_top_substn;
+        this.wall_grid_top_mid = other.wall_grid_top_mid;
+        this.wall_grid_top_wall = other.wall_grid_top_wall;
+        this.coop_grid_top_mid = other.coop_grid_top_mid;
+        this.coop_grid_top_wall = other.coop_grid_top_wall;
+        this.wall_grid_mid_substn = other.wall_grid_mid_substn;
+        this.wall_grid_mid_mid = other.wall_grid_mid_mid;
+        this.wall_grid_mid_wall = other.wall_grid_mid_wall;
+        this.wall_grid_hyb_substn = other.wall_grid_hyb_substn;
+        this.wall_grid_hyb_mid = other.wall_grid_hyb_mid;
+        this.wall_grid_hyb_wall = other.wall_grid_hyb_wall;
+        this.dropped_gp_count = other.dropped_gp_count;
+        this.charge_station = other.charge_station;
+        this.feeder = other.feeder;
+        this.defense = other.defense;
+        this.foul_count = other.foul_count;
+        this.yellow_card = other.yellow_card;
+        this.red_card = other.red_card;
+        this.notes = other.notes;
+    
+    }
+
     public ContentValues getValues(DB db, SQLiteDatabase database) {
         ContentValues vals = new ContentValues();
         long ev = db.getEventIDFromName(event_id, database);

@@ -11,3 +11,6 @@ indent_brace_style = Allman
 
 [*.yml]
 indent_size = 2
+
+[*.py]
+indent_style= tab

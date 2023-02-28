@@ -175,6 +175,18 @@ class SqlToJavaStruct():
 				ret += "}"
 		return ret
 
+	def createStr_Clone(self):
+		ret = "public void copyFrom("+ self.className +" other) {\n"
+
+		tableindex = self.findTableName(self.tableName)
+		if tableindex:
+			for column in self.tables[tableindex].columns:
+				if not 'id'==column.name and not "invalid"==column.name and not 'timestamp'==column.name:
+					ret += "    this." + column.name + " = other." + column.name + ";\n"
+		ret += "\n}"
+
+		return ret
+
 	def createStr_getValues(self):
 		ret = "public ContentValues getValues(DB db, SQLiteDatabase database) {\n"
 		ret += "    ContentValues vals = new ContentValues();\n"
@@ -320,6 +332,8 @@ class SqlToJavaStruct():
 		s += SQLHelper.indent(self.createStr_Constants()) + "\n"
 		s += "\n"
 		s += SQLHelper.indent(self.createStr_Init()) + "\n"
+		s += "\n"
+		s += SQLHelper.indent(self.createStr_Clone()) + "\n"
 		s += "\n"
 		s += SQLHelper.indent(self.createStr_getValues()) + "\n"
 		s += "\n"

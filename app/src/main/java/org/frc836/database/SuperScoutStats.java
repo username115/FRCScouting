@@ -88,6 +88,20 @@ public class SuperScoutStats {
         this.practice_match = practice;
     }
 
+    public void copyFrom(SuperScoutStats other) {
+        this.event_id = other.event_id;
+        this.team_id = other.team_id;
+        this.match_id = other.match_id;
+        this.practice_match = other.practice_match;
+        this.position_id = other.position_id;
+        this.offense_rank = other.offense_rank;
+        this.defense_rank = other.defense_rank;
+        this.driver_rank = other.driver_rank;
+        this.caused_foul = other.caused_foul;
+        this.notes = other.notes;
+    
+    }
+
     public ContentValues getValues(DB db, SQLiteDatabase database) {
         ContentValues vals = new ContentValues();
         long ev = db.getEventIDFromName(event_id, database);

@@ -25,8 +25,7 @@ object MatchStatsYearly {
 
     @JvmStatic
     fun getTeleScore(stats: MatchStatsStruct): Int {
-        return (getLinkScore(stats)
-            + getTeleHybScore(stats)
+        return (getTeleHybScore(stats)
             + getTeleMidScore(stats)
             + getTeleTopScore(stats))
     }
@@ -145,12 +144,6 @@ object MatchStatsYearly {
     }
 
     @JvmStatic
-    fun getLinkScore(stats:MatchStatsStruct): Int {
-        return 0
-        //TODO
-    }
-
-    @JvmStatic
     val graphNames: List<String> by lazy {
         val ret: MutableList<String> = ArrayList(NUM_GRAPHS)
         ret.add(TOTAL_SCORE, "Total Score")
@@ -212,6 +205,39 @@ object MatchStatsYearly {
         stats.auto_substn_grid_top_wall = false
         stats.auto_substn_grid_top_mid = false
         stats.auto_substn_grid_top_substn = false
+    }
+
+    @JvmStatic
+    fun copyAuto(from: MatchStatsStruct, to: MatchStatsStruct) {
+        to.auto_charge_station          = from.auto_charge_station
+        to.auto_mobility                = from.auto_mobility
+        to.auto_wall_grid_hyb_wall      = from.auto_wall_grid_hyb_wall
+        to.auto_wall_grid_hyb_mid       = from.auto_wall_grid_hyb_mid
+        to.auto_wall_grid_hyb_substn    = from.auto_wall_grid_hyb_substn
+        to.auto_coop_grid_hyb_wall      = from.auto_coop_grid_hyb_wall
+        to.auto_coop_grid_hyb_mid       = from.auto_coop_grid_hyb_mid
+        to.auto_coop_grid_hyb_substn    = from.auto_coop_grid_hyb_substn
+        to.auto_substn_grid_hyb_wall    = from.auto_substn_grid_hyb_wall
+        to.auto_substn_grid_hyb_mid     = from.auto_substn_grid_hyb_mid
+        to.auto_substn_grid_hyb_substn  = from.auto_substn_grid_hyb_substn
+        to.auto_wall_grid_mid_wall      = from.auto_wall_grid_mid_wall
+        to.auto_wall_grid_mid_mid       = from.auto_wall_grid_mid_mid
+        to.auto_wall_grid_mid_substn    = from.auto_wall_grid_mid_substn
+        to.auto_coop_grid_mid_wall      = from.auto_coop_grid_mid_wall
+        to.auto_coop_grid_mid_mid       = from.auto_coop_grid_mid_mid
+        to.auto_coop_grid_mid_substn    = from.auto_coop_grid_mid_substn
+        to.auto_substn_grid_mid_wall    = from.auto_substn_grid_mid_wall
+        to.auto_substn_grid_mid_mid     = from.auto_substn_grid_mid_mid
+        to.auto_substn_grid_mid_substn  = from.auto_substn_grid_mid_substn
+        to.auto_wall_grid_top_wall      = from.auto_wall_grid_top_wall
+        to.auto_wall_grid_top_mid       = from.auto_wall_grid_top_mid
+        to.auto_wall_grid_top_substn    = from.auto_wall_grid_top_substn
+        to.auto_coop_grid_top_wall      = from.auto_coop_grid_top_wall
+        to.auto_coop_grid_top_mid       = from.auto_coop_grid_top_mid
+        to.auto_coop_grid_top_substn    = from.auto_coop_grid_top_substn
+        to.auto_substn_grid_top_wall    = from.auto_substn_grid_top_wall
+        to.auto_substn_grid_top_mid     = from.auto_substn_grid_top_mid
+        to.auto_substn_grid_top_substn  = from.auto_substn_grid_top_substn
     }
 
     @JvmStatic

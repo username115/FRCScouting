@@ -80,6 +80,22 @@ public class PitStats {
     }
     
 
+    public void copyFrom(PitStats other) {
+        this.team_id = other.team_id;
+        this.traction_wheels = other.traction_wheels;
+        this.pneumatic_wheels = other.pneumatic_wheels;
+        this.omni_wheels = other.omni_wheels;
+        this.mecanum_wheels = other.mecanum_wheels;
+        this.swerve_drive = other.swerve_drive;
+        this.tank_drive = other.tank_drive;
+        this.other_drive_wheels = other.other_drive_wheels;
+        this.robot_gross_weight_lbs = other.robot_gross_weight_lbs;
+        this.robot_gross_width_in = other.robot_gross_width_in;
+        this.robot_gross_length_in = other.robot_gross_length_in;
+        this.notes = other.notes;
+    
+    }
+
     public ContentValues getValues(DB db, SQLiteDatabase database) {
         ContentValues vals = new ContentValues();
         vals.put(COLUMN_NAME_ID, team_id * team_id);

@@ -128,21 +128,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton11"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton12"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -156,21 +156,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton14"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton15"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -184,21 +184,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton17"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton18"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                 </TableLayout>
@@ -270,21 +270,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton3"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -298,21 +298,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton5"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton6"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -326,21 +326,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton8"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton9"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                 </TableLayout>
@@ -376,21 +376,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton20"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton21"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -404,21 +404,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton23"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton24"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                     <TableRow
@@ -432,21 +432,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton26"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/imageButton27"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_transp" />
+                            android:src="@drawable/selection_square_none" />
                     </TableRow>
 
                 </TableLayout>
