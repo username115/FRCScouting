@@ -37,6 +37,7 @@
                 android:orientation="horizontal">
 
                 <Space
+                    android:id="@+id/autoSpaceLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="3" />
@@ -64,6 +65,13 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/top_grid_abbr" />
+
+                <Space
+                    android:id="@+id/autoSpaceRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -382,14 +390,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/fieldimage_grid_side_vector"
-                    android:contentDescription="@string/grid_view_description" />
+                    android:contentDescription="@string/grid_view_description"
+                    android:src="@drawable/fieldimage_grid_side_vector" />
 
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    tools:ignore="ContentDescription" >
+                    tools:ignore="ContentDescription">
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -402,7 +410,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/selection_square_none"/>
+                            android:src="@drawable/selection_square_none" />
 
                         <ImageButton
                             android:id="@+id/autoGridBotTopMid"
@@ -482,10 +490,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/fieldimage_grid_side_vector"
+                    android:contentDescription="@string/grid_view_description"
                     android:scaleX="-1.0"
-                    android:visibility="gone"
-                    android:contentDescription="@string/grid_view_description" />
+                    android:src="@drawable/fieldimage_grid_side_vector"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

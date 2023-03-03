@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,7 +46,9 @@ public class AutoMatchFragment extends MatchFragment {
     private boolean displayed = false;
 
     private TextView autoGridLeftTitle;
+    private Space autoSpaceLeft;
     private TextView autoGridRightTitle;
+    private Space autoSpaceRight;
 
     private LinearLayout autoMobilityLeftL;
     private LinearLayout autoMobilityRightL;
@@ -199,7 +202,9 @@ public class AutoMatchFragment extends MatchFragment {
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
             //Left side layout
             autoGridLeftTitle.setText(R.string.top_grid_abbr);
+            autoSpaceLeft.setVisibility(View.GONE);
             autoGridRightTitle.setText(R.string.hybrid_grid_abbr);
+            autoSpaceRight.setVisibility(View.VISIBLE);
             autoMobilityLeftL.setVisibility(View.GONE);
             autoChargeLeftL.setVisibility(View.GONE);
             autoGridviewL.setVisibility(View.GONE);
@@ -278,7 +283,9 @@ public class AutoMatchFragment extends MatchFragment {
         } else {
             //Right side layout
             autoGridLeftTitle.setText(R.string.hybrid_grid_abbr);
+            autoSpaceLeft.setVisibility(View.VISIBLE);
             autoGridRightTitle.setText(R.string.top_grid_abbr);
+            autoSpaceRight.setVisibility(View.GONE);
             autoMobilityLeftL.setVisibility(View.VISIBLE);
             autoChargeLeftL.setVisibility(View.VISIBLE);
             autoGridviewL.setVisibility(View.VISIBLE);
@@ -359,7 +366,9 @@ public class AutoMatchFragment extends MatchFragment {
     private void getBaseGUIRefs(View view) {
 
         autoGridLeftTitle = view.findViewById(R.id.autoGridLeftTitle);
+        autoSpaceLeft = view.findViewById(R.id.autoSpaceLeft);
         autoGridRightTitle = view.findViewById(R.id.autoGridRightTitle);
+        autoSpaceRight = view.findViewById(R.id.autoSpaceRight);
         autoMobilityLeftL = view.findViewById(R.id.autoMobilityLL);
         autoMobilityRightL = view.findViewById(R.id.autoMobilityRL);
         autoChargeLeftL = view.findViewById(R.id.autoChargeLL);

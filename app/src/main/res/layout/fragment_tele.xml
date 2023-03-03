@@ -6,7 +6,7 @@
     tools:context="org.frc836.yearly.AutoMatchFragment">
 
     <TextView
-        android:id="@+id/AutoText"
+        android:id="@+id/TeleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -17,8 +17,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/AutoText"
-        android:fillViewport="true">
+        android:layout_below="@id/TeleText"
+        android:fillViewport="true"
+        tools:ignore="NestedWeights">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,33 +34,41 @@
                 android:orientation="horizontal">
 
                 <Space
+                    android:id="@+id/spaceLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="3" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/gridLeftTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="H" />
+                    android:text="@string/hybrid_grid_abbr" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/gridMidTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="M" />
+                    android:text="@string/mid_grid_abbr" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/gridRightTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="T" />
+                    android:text="@string/top_grid_abbr" />
+
+                <Space
+                    android:id="@+id/spaceRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -70,21 +79,21 @@
                 android:orientation="horizontal">
 
                 <TableLayout
+                    android:id="@+id/foulsLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Fouls" />
+                            android:text="@string/fouls" />
                     </TableRow>
 
                     <TableRow
@@ -92,7 +101,7 @@
                         android:layout_height="match_parent">
 
                         <Spinner
-                            android:id="@+id/auto_fouls"
+                            android:id="@+id/foulsLeftCount"
                             style="@style/SpinnerAsEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -102,11 +111,11 @@
                             android:textAlignment="center" />
 
                         <Button
-                            android:id="@+id/increment_auto_fouls"
+                            android:id="@+id/foulsLeftButton"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="+" />
+                            android:text="@string/normal_plus" />
 
                     </TableRow>
 
@@ -124,21 +133,21 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton10"
+                            android:id="@+id/gridTopTopLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton11"
+                            android:id="@+id/gridTopTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton12"
+                            android:id="@+id/gridTopTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -152,21 +161,21 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton13"
+                            android:id="@+id/gridTopMidLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton14"
+                            android:id="@+id/gridTopMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton15"
+                            android:id="@+id/gridTopMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -180,25 +189,69 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton16"
+                            android:id="@+id/gridTopBotLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton17"
+                            android:id="@+id/gridTopBotMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton18"
+                            android:id="@+id/gridTopBotRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/foulsRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/fouls" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Spinner
+                            android:id="@+id/foulsRightCount"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:entries="@array/numbers"
+                            android:gravity="center"
+                            android:textAlignment="center" />
+
+                        <Button
+                            android:id="@+id/foulsRightButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/normal_plus" />
+
                     </TableRow>
 
                 </TableLayout>
@@ -212,6 +265,7 @@
                 android:orientation="horizontal">
 
                 <TableLayout
+                    android:id="@+id/gpLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -221,12 +275,11 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="GP Dropped" />
+                            android:text="@string/gp_dropped" />
                     </TableRow>
 
                     <TableRow
@@ -234,7 +287,7 @@
                         android:layout_height="match_parent">
 
                         <Spinner
-                            android:id="@+id/gp_dropped"
+                            android:id="@+id/gpDroppedLeftCount"
                             style="@style/SpinnerAsEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -244,11 +297,11 @@
                             android:textAlignment="center" />
 
                         <Button
-                            android:id="@+id/increment_auto_gp_dropped"
+                            android:id="@+id/gpDroppedLeftButton"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="+" />
+                            android:text="@string/normal_plus" />
 
                     </TableRow>
 
@@ -266,21 +319,21 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton1"
+                            android:id="@+id/gridMidTopLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton2"
+                            android:id="@+id/gridMidTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton3"
+                            android:id="@+id/gridMidTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -294,21 +347,21 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton4"
+                            android:id="@+id/gridMidMidLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton5"
+                            android:id="@+id/gridMidMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton6"
+                            android:id="@+id/gridMidMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -322,25 +375,69 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton7"
+                            android:id="@+id/gridMidBotLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton8"
+                            android:id="@+id/gridMidBotMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton9"
+                            android:id="@+id/gridMidBotRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/gpRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/gp_dropped" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Spinner
+                            android:id="@+id/gpDroppedRightCount"
+                            style="@style/SpinnerAsEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:entries="@array/numbers"
+                            android:gravity="center"
+                            android:textAlignment="center" />
+
+                        <Button
+                            android:id="@+id/gpDroppedRightButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/normal_plus" />
+
                     </TableRow>
 
                 </TableLayout>
@@ -354,11 +451,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/gridViewL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/fieldimage_grid_side_vector" />
+                    android:src="@drawable/fieldimage_grid_side_vector"
+                    tools:ignore="ContentDescription" />
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -372,49 +470,21 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton19"
+                            android:id="@+id/gridBotTopLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton20"
+                            android:id="@+id/gridBotTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton21"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/selection_square_none" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal">
-
-                        <ImageButton
-                            android:id="@+id/imageButton22"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/selection_square_none" />
-
-                        <ImageButton
-                            android:id="@+id/imageButton23"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/selection_square_none" />
-
-                        <ImageButton
-                            android:id="@+id/imageButton24"
+                            android:id="@+id/gridBotTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -428,21 +498,49 @@
                         android:gravity="center_horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton25"
+                            android:id="@+id/gridBotMidLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton26"
+                            android:id="@+id/gridBotMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:src="@drawable/selection_square_none" />
 
                         <ImageButton
-                            android:id="@+id/imageButton27"
+                            android:id="@+id/gridBotMidRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/gridBotBotLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/gridBotBotMid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/gridBotBotRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -450,6 +548,16 @@
                     </TableRow>
 
                 </TableLayout>
+
+                <ImageView
+                    android:id="@+id/gridViewR"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleX="-1.0"
+                    android:src="@drawable/fieldimage_grid_side_vector"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
 

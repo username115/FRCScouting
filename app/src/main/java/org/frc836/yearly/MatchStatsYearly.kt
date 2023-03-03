@@ -270,5 +270,39 @@ object MatchStatsYearly {
         stats.substn_grid_top_mid = false
         stats.substn_grid_top_substn = false
         stats.dropped_gp_count = 0
+        stats.foul_count = 0
+    }
+
+    @JvmStatic
+    fun copyTele(from: MatchStatsStruct, to: MatchStatsStruct) {
+        to.wall_grid_hyb_wall       = from.wall_grid_hyb_wall
+        to.wall_grid_hyb_mid        = from.wall_grid_hyb_mid
+        to.wall_grid_hyb_substn     = from.wall_grid_hyb_substn
+        to.coop_grid_hyb_wall       = from.coop_grid_hyb_wall
+        to.coop_grid_hyb_mid        = from.coop_grid_hyb_mid
+        to.coop_grid_hyb_substn     = from.coop_grid_hyb_substn
+        to.substn_grid_hyb_wall     = from.substn_grid_hyb_wall
+        to.substn_grid_hyb_mid      = from.substn_grid_hyb_mid
+        to.substn_grid_hyb_substn   = from.substn_grid_hyb_substn
+        to.wall_grid_mid_wall       = from.wall_grid_mid_wall
+        to.wall_grid_mid_mid        = from.wall_grid_mid_mid
+        to.wall_grid_mid_substn     = from.wall_grid_mid_substn
+        to.coop_grid_mid_wall       = from.coop_grid_mid_wall
+        to.coop_grid_mid_mid        = from.coop_grid_mid_mid
+        to.coop_grid_mid_substn     = from.coop_grid_mid_substn
+        to.substn_grid_mid_wall     = from.substn_grid_mid_wall
+        to.substn_grid_mid_mid      = from.substn_grid_mid_mid
+        to.substn_grid_mid_substn   = from.substn_grid_mid_substn
+        to.wall_grid_top_wall       = from.wall_grid_top_wall
+        to.wall_grid_top_mid        = from.wall_grid_top_mid
+        to.wall_grid_top_substn     = from.wall_grid_top_substn
+        to.coop_grid_top_wall       = from.coop_grid_top_wall
+        to.coop_grid_top_mid        = from.coop_grid_top_mid
+        to.coop_grid_top_substn     = from.coop_grid_top_substn
+        to.substn_grid_top_wall     = from.substn_grid_top_wall
+        to.substn_grid_top_mid      = from.substn_grid_top_mid
+        to.substn_grid_top_substn   = from.substn_grid_top_substn
+        to.dropped_gp_count         = from.dropped_gp_count
+        to.foul_count               = from.foul_count
     }
 }
