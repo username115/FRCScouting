@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,7 +64,7 @@ public class PitsActivity extends DBActivity {
     ////// 2020 END //////
 
 
-    private final Handler timer = new Handler();
+    private final Handler timer = new Handler(Looper.getMainLooper());
     private static final int DELAY = 500;
 
     private final List<TeamNumTask> tasks = new ArrayList<>(3);

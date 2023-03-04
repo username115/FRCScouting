@@ -14,19 +14,31 @@
         android:text="@string/super_scout"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <EditText
+        android:id="@+id/ssMatchNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ssTextView"
+        android:layout_alignParentStart="true"
+        android:hint="@string/match_hint"
+        android:importantForAutofill="no"
+        android:inputType="number" />
+
     <TextView
         android:id="@+id/ssPos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ssTextView"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="9dp"
+        android:layout_marginEnd="9dp"
         android:text="@string/red"
         android:textColor="#FF0000"
         android:textSize="25sp" />
 
 
     <ScrollView
+        android:id="@+id/ssScrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ssPos">
@@ -240,5 +252,13 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/ssSubmitB"
+        android:layout_below="@id/ssScrollview"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_text" />
 
 </RelativeLayout>
