@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.frc836.yearly.EndMatchFragment">
+    tools:context="org.growingstems.scouting.SuperScoutActivity">
 
     <TextView
-        android:id="@+id/endTextView"
+        android:id="@+id/ssTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -15,14 +15,12 @@
 
 
     <ScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:layout_below="@+id/endTextView">
+        android:layout_below="@+id/ssTextView">
 
         <LinearLayout
-            android:id="@+id/endGameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
