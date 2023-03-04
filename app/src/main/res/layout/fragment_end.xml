@@ -42,7 +42,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="Charge Station" />
+                        android:text="@string/charge_station" />
 
                     <TextView
                         android:id="@+id/cardsT"
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="Cards" />
+                        android:text="@string/cards" />
                 </TableRow>
 
                 <TableRow
@@ -63,14 +63,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="No Attempt" />
+                        android:text="@string/station_no_attempt" />
 
                     <Button
                         android:id="@+id/cardsB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="None" />
+                        android:text="@string/none" />
 
                 </TableRow>
 
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="Feeder Bot" />
+                        android:text="@string/feeder_bot" />
 
                     <TextView
                         android:id="@+id/defenseT"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="Defense Bot" />
+                        android:text="@string/defense_bot" />
                 </TableRow>
 
                 <TableRow
@@ -104,15 +104,13 @@
                         android:id="@+id/feederB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                     <Button
                         android:id="@+id/defenseB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                 </TableRow>
 

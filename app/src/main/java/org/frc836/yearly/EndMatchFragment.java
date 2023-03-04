@@ -16,25 +16,23 @@
 package org.frc836.yearly;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
-import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
-import org.growingstems.scouting.SuperImageButton;
-import org.growingstems.scouting.TransparentImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +50,12 @@ public class EndMatchFragment extends MatchFragment {
 
     private EditText teamNotes;
 
-    //TODO store GUI references
+    private Drawable checkmarks;
+
+    private Button chargeB;
+    private Button cardsB;
+    private Button feederB;
+    private Button defenseB;
 
     public EndMatchFragment() {
         // Required empty public constructor
@@ -91,7 +94,16 @@ public class EndMatchFragment extends MatchFragment {
         commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
         pastNotes.setOnItemSelectedListener(new NotesSelectedListener());
 
-        //TODO get GUI references
+        chargeB = view.findViewById(R.id.chargeStationB);
+        chargeB.setOnClickListener(new ChargeStationClickListener());
+        cardsB = view.findViewById(R.id.cardsB);
+        cardsB.setOnClickListener(new CardsClickListener());
+        feederB = view.findViewById(R.id.feederB);
+        feederB.setOnClickListener(new FeederClickListener());
+        defenseB = view.findViewById(R.id.defenseB);
+        defenseB.setOnClickListener(new DefenseClickListener());
+
+        checkmarks = getActivity() == null ? null : AppCompatResources.getDrawable(getActivity(), R.drawable.icon_awesome_check_double);
 
     }
 
@@ -142,9 +154,10 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
         data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
-        //data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
-        //data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
-        //TODO savedata
+        data.charge_station = tempData.charge_station;
+        data.red_card = tempData.red_card;
+        data.yellow_card = tempData.yellow_card;
+        data.defense = tempData.defense;
     }
 
     @Override
@@ -152,24 +165,67 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
 
-        // which side are we using
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
+        //// which side are we using
+        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
 
-        Activity act = getActivity();
-        String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity) act).getPosition();
-        else
-            pos = Prefs.getPosition(getActivity(), "Red 1");
+        //Activity act = getActivity();
+        //String pos;
+        //if (act instanceof MatchActivity)
+        //    pos = ((MatchActivity) act).getPosition();
+        //else
+        //    pos = Prefs.getPosition(getActivity(), "Red 1");
 
-        boolean blue = pos.contains("Blue");
+        //boolean blue = pos.contains("Blue");
 
         ((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
-        //((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
-        //((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
 
-        //TODO load data
+        tempData.charge_station = data.charge_station;
+        setChargeStation(data);
+        tempData.yellow_card = data.yellow_card;
+        tempData.red_card = data.red_card;
+        setFouls(data);
+        tempData.feeder = data.feeder;
+        setFeeder(data);
+        tempData.defense = data.defense;
+        setDefense(data);
 
+    }
+
+    private void setChargeStation(@NonNull MatchStatsStruct data) {
+        switch (data.charge_station) {
+            case 1:
+                chargeB.setText(R.string.station_attempt);
+                break;
+            case 2:
+                chargeB.setText(R.string.station_docked);
+                break;
+            case 3:
+                chargeB.setText(R.string.station_engaged);
+                break;
+            case 0:
+            default:
+                data.charge_station = 0;
+                chargeB.setText(R.string.station_no_attempt);
+                break;
+        }
+    }
+
+    private void setFouls(@NonNull MatchStatsStruct data) {
+        if (data.red_card) {
+            cardsB.setText(R.string.redcard);
+        } else if (data.yellow_card) {
+            cardsB.setText(R.string.yellowcard);
+        } else {
+            cardsB.setText(R.string.none);
+        }
+    }
+
+    private void setFeeder(@NonNull MatchStatsStruct data) {
+        feederB.setForeground(data.feeder ? checkmarks : null);
+    }
+
+    private void setDefense(@NonNull MatchStatsStruct data) {
+        defenseB.setForeground(data.defense ? checkmarks : null);
     }
 
     public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -193,6 +249,53 @@ public class EndMatchFragment extends MatchFragment {
         public void onNothingSelected(AdapterView<?> parent) {
         }
 
+    }
+
+    private class ChargeStationClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            tempData.charge_station++;
+            setChargeStation(tempData);
+        }
+    }
+
+    private class CardsClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (tempData.red_card) {
+                tempData.red_card = false;
+                tempData.yellow_card = false;
+            } else if (tempData.yellow_card) {
+                tempData.yellow_card = false;
+                tempData.red_card = true;
+            } else {
+                tempData.yellow_card = true;
+            }
+
+            setFouls(tempData);
+        }
+    }
+
+    private class FeederClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            tempData.feeder = !tempData.feeder;
+
+            setFeeder(tempData);
+        }
+    }
+
+    private class DefenseClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            tempData.defense = !tempData.defense;
+
+            setDefense(tempData);
+        }
     }
 
 }

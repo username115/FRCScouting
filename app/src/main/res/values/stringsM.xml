@@ -9,4 +9,6 @@
     <string name="station_attempt">Attempted</string>
     <string name="station_docked">Docked</string>
     <string name="station_engaged">Engaged</string>
+    <string name="fouls">Fouls</string>
+    <string name="cards">Cards</string>
 </resources>

@@ -254,6 +254,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
+                        android:text="@string/station_no_attempt"
                         android:layout_weight="1" />
 
                 </LinearLayout>

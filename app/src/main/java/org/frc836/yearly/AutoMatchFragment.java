@@ -153,7 +153,9 @@ public class AutoMatchFragment extends MatchFragment {
         updateSide(view);
         setListeners();
 
+        tempData.auto_mobility = data.auto_mobility;
         setMobility(data);
+        tempData.charge_station = data.charge_station;
         setChargeStation(data);
 
         Activity act = getActivity();
