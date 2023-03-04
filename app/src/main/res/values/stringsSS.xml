@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="super_scout">Super Scout</string>
+    <string name="driver">Driver</string>
+    <string name="offense">Offense</string>
+    <string name="defense">Defense</string>
+    <string name="team1">Team1</string>
+    <string name="team2">Team2</string>
+    <string name="team3">Team3</string>
+</resources>

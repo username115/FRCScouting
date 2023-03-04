@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Super Scout"
+        android:text="@string/super_scout"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -42,28 +42,25 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/textView13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Overall" />
+                        android:text="@string/offense" />
 
                     <TextView
-                        android:id="@+id/textView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Offensive" />
+                        android:text="@string/defense" />
 
                     <TextView
-                        android:id="@+id/textView15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Defensive" />
+                        android:text="@string/driver" />
                 </TableRow>
 
                 <TableRow
@@ -72,67 +69,29 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/ssTeam1RankingsT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Team1" />
+                        android:text="@string/team1" />
 
                     <Button
-                        android:id="@+id/button6"
+                        android:id="@+id/ssTeam1OffenseB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                     <Button
-                        android:id="@+id/button7"
+                        android:id="@+id/ssTeam1DefenseB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                     <Button
-                        android:id="@+id/button8"
+                        android:id="@+id/ssTeam1DriverB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView17"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Team2" />
-
-                    <Button
-                        android:id="@+id/button9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
-
-                    <Button
-                        android:id="@+id/button10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
-
-                    <Button
-                        android:id="@+id/button11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                 </TableRow>
 
@@ -142,32 +101,61 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView18"
+                        android:id="@+id/ssTeam2RankingsT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Team3" />
+                        android:text="@string/team2" />
 
                     <Button
-                        android:id="@+id/button12"
+                        android:id="@+id/ssTeam2OffenseB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                     <Button
-                        android:id="@+id/button13"
+                        android:id="@+id/ssTeam2DefenseB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
+                        android:layout_weight="1" />
 
                     <Button
-                        android:id="@+id/button16"
+                        android:id="@+id/ssTeam2DriverB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ssTeam3RankingsT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Button" />
+                        android:text="@string/team3" />
+
+                    <Button
+                        android:id="@+id/ssTeam3OffenseB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/ssTeam3DefenseB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/ssTeam3DriverB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </TableRow>
 
@@ -178,19 +166,20 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/ssTeam1NotesLabelT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:text="Team1" />
+                    android:text="@string/team1" />
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine3"
+                    android:id="@+id/ssTeam1NotesT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:ems="10"
                     android:gravity="start|top"
+                    android:hint="@string/notes"
                     android:inputType="textMultiLine" />
             </LinearLayout>
 
@@ -199,19 +188,20 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/ssTeam2NotesLabelT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:text="Team2" />
+                    android:text="@string/team2" />
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine4"
+                    android:id="@+id/ssTeam2NotesT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:ems="10"
                     android:gravity="start|top"
+                    android:hint="@string/notes"
                     android:inputType="textMultiLine" />
             </LinearLayout>
 
@@ -221,19 +211,20 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/ssTeam3NotesLabelT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:text="Team3" />
+                    android:text="@string/team3" />
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine5"
+                    android:id="@+id/ssTeam3NotesT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:ems="10"
                     android:gravity="start|top"
+                    android:hint="@string/notes"
                     android:inputType="textMultiLine" />
             </LinearLayout>
 
