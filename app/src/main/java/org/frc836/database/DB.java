@@ -1493,6 +1493,7 @@ public class DB {
                     }
 
                     // export superscout
+                    db = ScoutingDBHelper.getInstance().getReadableDatabase();
                     try {
 
                         c = db.rawQuery("SELECT * FROM "

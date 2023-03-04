@@ -158,6 +158,7 @@ public class EndMatchFragment extends MatchFragment {
         data.red_card = tempData.red_card;
         data.yellow_card = tempData.yellow_card;
         data.defense = tempData.defense;
+        data.feeder = tempData.feeder;
     }
 
     @Override
