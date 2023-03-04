@@ -45,7 +45,6 @@ import com.android.volley.toolbox.Volley;
 import org.frc836.database.FRCScoutingContract.EVENT_LU_Entry;
 import org.frc836.database.FRCScoutingContract.GAME_INFO_Entry;
 import org.frc836.database.FRCScoutingContract.NOTES_OPTIONS_Entry;
-import org.frc836.database.FRCScoutingContract.PICKLIST_Entry;
 import org.frc836.database.FRCScoutingContract.POSITION_LU_Entry;
 import org.frc836.database.FRCScoutingContract.PROGRAMMING_LU_Entry;
 import org.frc836.database.FRCScoutingContract.ROBOT_LU_Entry;
@@ -183,7 +182,7 @@ public class DBSyncService extends Service {
                 openFileInput(FILENAME));
             byte[] buffer = new byte[bis.available()];
             bis.read(buffer, 0, buffer.length);
-            lastSync = new Timestamp(Long.valueOf(new String(buffer)));
+            lastSync = new Timestamp(Long.parseLong(new String(buffer)));
             return true;
         } catch (Exception e) {
             if (lastSync == null)
@@ -350,11 +349,11 @@ public class DBSyncService extends Service {
                 processPositions(json
                     .getJSONArray(POSITION_LU_Entry.TABLE_NAME));
 
-                if (json.has(PICKLIST_Entry.TABLE_NAME))
-                    processPicklist(json.getJSONArray(PICKLIST_Entry.TABLE_NAME));
-
                 if (json.has(GAME_INFO_Entry.TABLE_NAME))
                     processGameInfo(json.getJSONArray(GAME_INFO_Entry.TABLE_NAME));
+
+                if (json.has(SuperScoutStats.TABLE_NAME))
+                    processSuperScout(json.getJSONArray(SuperScoutStats.TABLE_NAME));
 
                 if (!running)
                     return -1;
@@ -365,8 +364,8 @@ public class DBSyncService extends Service {
                     return -1;
                 sendMatches();
                 sendPits();
-                if (json.has(PICKLIST_Entry.TABLE_NAME))
-                    sendPicklist();
+                if (json.has(SuperScoutStats.TABLE_NAME))
+                    sendSuperScout();
 
             } catch (Exception e) {
                 return -1;
@@ -548,7 +547,7 @@ public class DBSyncService extends Service {
             try {
                 int match = -1, event = -1, team = -1, practice = -1;
                 boolean picklist = false;
-                boolean pilot = false;
+                boolean superscout = false;
                 Map<String, String> sent = params[0].getParams();
                 if (params[0].getResponseString().contains("Failed"))
                     return null;
@@ -591,12 +590,31 @@ public class DBSyncService extends Service {
                                 .get(PitStats.COLUMN_NAME_TEAM_ID));
                             outgoing.remove(i);
                             break;
-                        } else if (sent.get("type").equalsIgnoreCase("picklist")
-                            && sent.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID).equalsIgnoreCase(args.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID))
-                            && sent.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID).equalsIgnoreCase(args.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID))) {
-                            picklist = true;
-                            team = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_TEAM_ID));
-                            event = Integer.valueOf(sent.get(PICKLIST_Entry.COLUMN_NAME_EVENT_ID));
+                        } else if (sent.get("type").equalsIgnoreCase("superscout")
+                            && sent.get(SuperScoutStats.COLUMN_NAME_EVENT_ID)
+                            .equalsIgnoreCase(
+                                args.get(SuperScoutStats.COLUMN_NAME_EVENT_ID))
+                            && sent.get(SuperScoutStats.COLUMN_NAME_MATCH_ID)
+                            .equalsIgnoreCase(
+                                args.get(SuperScoutStats.COLUMN_NAME_MATCH_ID))
+                            && sent.get(SuperScoutStats.COLUMN_NAME_TEAM_ID)
+                            .equalsIgnoreCase(
+                                args.get(SuperScoutStats.COLUMN_NAME_TEAM_ID))
+                            && sent.get(
+                                SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH)
+                            .equalsIgnoreCase(
+                                args.get(SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH))) {
+
+                            superscout = true;
+                            match = Integer.valueOf(sent
+                                .get(SuperScoutStats.COLUMN_NAME_MATCH_ID));
+                            event = Integer.valueOf(sent
+                                .get(SuperScoutStats.COLUMN_NAME_EVENT_ID));
+                            team = Integer.valueOf(sent
+                                .get(SuperScoutStats.COLUMN_NAME_TEAM_ID));
+                            practice = Integer
+                                .valueOf(sent
+                                    .get(SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH));
                             outgoing.remove(i);
                         }
                     }
@@ -609,7 +627,7 @@ public class DBSyncService extends Service {
                     ContentValues values = new ContentValues();
 
                     // TODO could probably be abstracted further
-                    if (match > 0 && !pilot) { // match was updated
+                    if (match > 0 && !superscout) { // match was updated
                         values.put(MatchStatsStruct.COLUMN_NAME_ID,
                             Integer.valueOf(r[0].trim()));
                         values.put(MatchStatsStruct.COLUMN_NAME_TIMESTAMP,
@@ -631,7 +649,7 @@ public class DBSyncService extends Service {
                                 + "=? AND "
                                 + MatchStatsStruct.COLUMN_NAME_PRACTICE_MATCH
                                 + "=?", selectionArgs);
-                    } else if (team > 0 && !picklist && !pilot) { // pits were updated
+                    } else if (team > 0 && !picklist && !superscout) { // pits were updated
                         values.put(PitStats.COLUMN_NAME_ID,
                             Integer.valueOf(r[0].trim()));
                         values.put(PitStats.COLUMN_NAME_TIMESTAMP, DB.dateParser
@@ -641,13 +659,28 @@ public class DBSyncService extends Service {
                         String[] selectionArgs = {String.valueOf(team)};
                         db.update(PitStats.TABLE_NAME, values,
                             PitStats.COLUMN_NAME_TEAM_ID + "=?", selectionArgs);
-                    } else if (picklist) { // picklist was updated
-                        values.put(PICKLIST_Entry.COLUMN_NAME_ID, Integer.valueOf(r[0].trim()));
-                        values.put(PICKLIST_Entry.COLUMN_NAME_TIMESTAMP, DB.dateParser.format(new Date(Long.valueOf(r[1].trim()) * 1000)));
-                        values.put(PICKLIST_Entry.COLUMN_NAME_INVALID, 0);
+                    } else if (superscout) { // superscout was updated
+                        values.put(SuperScoutStats.COLUMN_NAME_ID,
+                            Integer.valueOf(r[0].trim()));
+                        values.put(SuperScoutStats.COLUMN_NAME_TIMESTAMP,
+                            DB.dateParser.format(new Date(Long.valueOf(r[1]
+                                .trim()) * 1000)));
+                        values.put(SuperScoutStats.COLUMN_NAME_INVALID, 0);
 
-                        String[] selectionArgs = {String.valueOf(team), String.valueOf(event)};
-                        db.update(PICKLIST_Entry.TABLE_NAME, values, PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=?", selectionArgs);
+                        String[] selectionArgs = {String.valueOf(event),
+                            String.valueOf(match), String.valueOf(team),
+                            String.valueOf(practice)};
+                        db.update(
+                            SuperScoutStats.TABLE_NAME,
+                            values,
+                            SuperScoutStats.COLUMN_NAME_EVENT_ID
+                                + "=? AND "
+                                + SuperScoutStats.COLUMN_NAME_MATCH_ID
+                                + "=? AND "
+                                + SuperScoutStats.COLUMN_NAME_TEAM_ID
+                                + "=? AND "
+                                + SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH
+                                + "=?", selectionArgs);
                     }
                     ScoutingDBHelper.getInstance().close();
                 }
@@ -1236,6 +1269,96 @@ public class DBSyncService extends Service {
         }
     }
 
+    private void processSuperScout(JSONArray superScout) {
+        updateNotificationText(getString(R.string.notify_table) + " "
+            + SuperScoutStats.TABLE_NAME);
+        // TODO could be abstracted further
+        try {
+            for (int i = 0; i < superScout.length(); i++) {
+                JSONObject row = superScout.getJSONObject(i);
+                Action action = Action.UPDATE;
+                if (row.getInt(SuperScoutStats.COLUMN_NAME_INVALID) != 0) {
+                    action = Action.DELETE;
+                }
+                ContentValues vals = new SuperScoutStats()
+                    .jsonToCV(row);
+
+                // check if this entry exists already
+                String[] projection = {SuperScoutStats.COLUMN_NAME_ID,
+                    SuperScoutStats.COLUMN_NAME_INVALID};
+                String[] where = {
+                    vals.getAsString(SuperScoutStats.COLUMN_NAME_EVENT_ID),
+                    vals.getAsString(SuperScoutStats.COLUMN_NAME_MATCH_ID),
+                    vals.getAsString(SuperScoutStats.COLUMN_NAME_TEAM_ID),
+                    vals.getAsString(SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH)};
+
+                synchronized (ScoutingDBHelper.lock) {
+                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                        .getWritableDatabase();
+
+                    Cursor c = db
+                        .query(SuperScoutStats.TABLE_NAME,
+                            projection, // select
+                            SuperScoutStats.COLUMN_NAME_EVENT_ID
+                                + "=? AND "
+                                + SuperScoutStats.COLUMN_NAME_MATCH_ID
+                                + "=? AND "
+                                + SuperScoutStats.COLUMN_NAME_TEAM_ID
+                                + "=? AND "
+                                + SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH
+                                + "=?", where, null, // don't
+                            // group
+                            null, // don't filter
+                            null, // don't order
+                            "0,1"); // limit to 1
+                    try {
+                        int id = 0, invalid = 0;
+                        if (!c.moveToFirst()) {
+                            if (action == Action.UPDATE)
+                                action = Action.INSERT;
+                            else if (action == Action.DELETE)
+                                action = Action.NOTHING;
+                        } else {
+                            id = c.getInt(c
+                                .getColumnIndexOrThrow(SuperScoutStats.COLUMN_NAME_ID));
+                            invalid = c
+                                .getInt(c
+                                    .getColumnIndexOrThrow(SuperScoutStats.COLUMN_NAME_INVALID));
+                            if (invalid > 0) // this field has not been sent to
+                                // server yet.
+                                action = Action.NOTHING;
+                        }
+
+                        String[] where2 = {String.valueOf(id)};
+
+                        switch (action) {
+                            case UPDATE:
+                                db.update(SuperScoutStats.TABLE_NAME, vals,
+                                    SuperScoutStats.COLUMN_NAME_ID + " = ?",
+                                    where2);
+                                break;
+                            case INSERT:
+                                db.insert(SuperScoutStats.TABLE_NAME, null, vals);
+                                break;
+                            case DELETE:
+                                db.delete(SuperScoutStats.TABLE_NAME,
+                                    SuperScoutStats.COLUMN_NAME_ID + " = ?",
+                                    where2);
+                                break;
+                            default:
+                        }
+                    } finally {
+                        if (c != null)
+                            c.close();
+                        ScoutingDBHelper.getInstance().close();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            // TODO handle error
+        }
+    }
+
     private void processProgramming(JSONArray wheelBase) {
         updateNotificationText(getString(R.string.notify_table) + " "
             + PROGRAMMING_LU_Entry.TABLE_NAME);
@@ -1391,91 +1514,6 @@ public class DBSyncService extends Service {
         }
     }
 
-    private void processPicklist(JSONArray picklist) {
-        updateNotificationText(getString(R.string.notify_table) + " "
-            + PICKLIST_Entry.TABLE_NAME);
-        try {
-            for (int i = 0; i < picklist.length(); i++) {
-                JSONObject row = picklist.getJSONObject(i);
-                Action action = Action.UPDATE;
-                if (row.getInt(PICKLIST_Entry.COLUMN_NAME_REMOVED) != 0 || row.getInt(PICKLIST_Entry.COLUMN_NAME_INVALID) != 0) {
-                    action = Action.DELETE;
-                }
-                ContentValues vals = new ContentValues();
-                vals.put(PICKLIST_Entry.COLUMN_NAME_ID,
-                    row.getInt(PICKLIST_Entry.COLUMN_NAME_ID));
-                vals.put(PICKLIST_Entry.COLUMN_NAME_EVENT_ID,
-                    row.getInt(PICKLIST_Entry.COLUMN_NAME_EVENT_ID));
-                vals.put(PICKLIST_Entry.COLUMN_NAME_TEAM_ID,
-                    row.getInt(PICKLIST_Entry.COLUMN_NAME_TEAM_ID));
-                vals.put(PICKLIST_Entry.COLUMN_NAME_SORT,
-                    row.getInt(PICKLIST_Entry.COLUMN_NAME_SORT));
-                vals.put(PICKLIST_Entry.COLUMN_NAME_PICKED,
-                    row.getInt(PICKLIST_Entry.COLUMN_NAME_PICKED));
-                vals.put(PICKLIST_Entry.COLUMN_NAME_REMOVED,
-                    row.getInt(PICKLIST_Entry.COLUMN_NAME_REMOVED));
-                vals.put(
-                    PICKLIST_Entry.COLUMN_NAME_TIMESTAMP,
-                    DB.dateParser.format(new Date(
-                        row.getLong(PICKLIST_Entry.COLUMN_NAME_TIMESTAMP) * 1000)));
-
-                // check if this entry exists already
-                String[] projection = {PICKLIST_Entry.COLUMN_NAME_ID};
-                String[] where = {vals
-                    .getAsString(PICKLIST_Entry.COLUMN_NAME_EVENT_ID),
-                    vals.getAsString(PICKLIST_Entry.COLUMN_NAME_TEAM_ID)};
-
-                synchronized (ScoutingDBHelper.lock) {
-
-                    SQLiteDatabase db = ScoutingDBHelper.getInstance()
-                        .getWritableDatabase();
-
-                    Cursor c = db.query(
-                        PICKLIST_Entry.TABLE_NAME,
-                        projection, // select
-                        PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=?", where,
-                        null, // don't
-                        // group
-                        null, // don't filter
-                        null, // don't order
-                        "0,1"); // limit to 1
-                    try {
-                        if (!c.moveToFirst()) {
-                            if (action == Action.UPDATE)
-                                action = Action.INSERT;
-                            else if (action == Action.DELETE)
-                                action = Action.NOTHING;
-
-                        }
-
-                        switch (action) {
-                            case UPDATE:
-                                db.update(PICKLIST_Entry.TABLE_NAME, vals,
-                                    PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=?",
-                                    where);
-                                break;
-                            case INSERT:
-                                db.insert(PICKLIST_Entry.TABLE_NAME, null, vals);
-                                break;
-                            case DELETE:
-                                db.delete(PICKLIST_Entry.TABLE_NAME,
-                                    PICKLIST_Entry.COLUMN_NAME_EVENT_ID + "=? AND " + PICKLIST_Entry.COLUMN_NAME_TEAM_ID + "=?",
-                                    where);
-                                break;
-                            default:
-                        }
-                    } finally {
-                        if (c != null)
-                            c.close();
-                        ScoutingDBHelper.getInstance().close();
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            // TODO handle error
-        }
-    }
-
     private void sendMatches() {
         // TODO could be abstracted further?
 
@@ -1555,21 +1593,20 @@ public class DBSyncService extends Service {
         }
     }
 
-    private void sendPicklist() {
+    private void sendSuperScout() {
+        // TODO could be abstracted further?
+
         // repurposed invalid flag for marking fields that need to be uploaded
-        String[] pickProjection = {PICKLIST_Entry.COLUMN_NAME_EVENT_ID,
-            PICKLIST_Entry.COLUMN_NAME_TEAM_ID,
-            PICKLIST_Entry.COLUMN_NAME_SORT,
-            PICKLIST_Entry.COLUMN_NAME_PICKED,
-            PICKLIST_Entry.COLUMN_NAME_REMOVED};
+        String[] superScoutProjection = new SuperScoutStats()
+            .getProjection();
 
         synchronized (ScoutingDBHelper.lock) {
 
             SQLiteDatabase db = ScoutingDBHelper.getInstance()
                 .getReadableDatabase();
 
-            Cursor c = db.query(PICKLIST_Entry.TABLE_NAME, pickProjection,
-                PICKLIST_Entry.COLUMN_NAME_INVALID + "<>0", null, null,
+            Cursor c = db.query(SuperScoutStats.TABLE_NAME, superScoutProjection,
+                SuperScoutStats.COLUMN_NAME_INVALID + "<>0", null, null,
                 null, null);
             try {
 
@@ -1579,9 +1616,9 @@ public class DBSyncService extends Service {
                         do {
                             Map<String, String> args = new HashMap<String, String>();
                             args.put("password", password);
-                            args.put("type", "picklist");
+                            args.put("type", "superscout");
                             args.put("version", version);
-                            for (String colName : pickProjection) {
+                            for (String colName : superScoutProjection) {
                                 int col = c.getColumnIndex(colName);
                                 if (col >= 0)
                                     args.put(colName, c.getString(col));

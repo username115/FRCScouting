@@ -3,15 +3,11 @@
     <string name="notes">Notes</string>
     <string name="common_notes" />
     <string name="techfoul">Tech Foul</string>
-    <string name="yellowcard">Yellow Card</string>
-    <string name="redcard">Red Card</string>
+    <string name="yellowcard">Yellow</string>
+    <string name="redcard">Red</string>
     <string name="end_input_text">End Game</string>
     <string name="climb_time_hint">seconds</string>
-    <string name="opp_tarmac_string">Scored from tarmac on opponent alliances side of field</string>
-    <string name="ally_tarmac_string">Scored from tarmac on own alliances side of field</string>
-    <string name="ally_outfield_string">Scored from outfield on own alliances side of field</string>
-    <string name="opp_outfield_string">Scored from outfield on opponent alliances side of field</string>
-    <string name="fender_string">Robot tended to line up on the fender</string>
-    <string name="launchpad_string">Robot utilized the alliance launchpad</string>
+    <string name="feeder_bot">Feeder Bot</string>
+    <string name="defense_bot">Defense Bot</string>
 
 </resources>

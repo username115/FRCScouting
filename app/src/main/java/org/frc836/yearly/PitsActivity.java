@@ -202,7 +202,7 @@ public class PitsActivity extends DBActivity {
             return;
         }
 
-        stats.programming_id = languageS.getSelectedItem().toString();
+        //stats.programming_id = languageS.getSelectedItem().toString();
 
         tstr = weightT.getText().toString().trim();
         if (tstr.length() > 0)
@@ -210,17 +210,17 @@ public class PitsActivity extends DBActivity {
         else
             stats.robot_gross_weight_lbs = 0;
 
-        tstr = batteryT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.team_batteries = Integer.parseInt(tstr);
-        else
-            stats.team_batteries = 0;
+//        tstr = batteryT.getText().toString().trim();
+//        if (tstr.length() > 0)
+//            stats.team_batteries = Integer.parseInt(tstr);
+//        else
+//            stats.team_batteries = 0;
 
-        tstr = chargersT.getText().toString().trim();
-        if (tstr.length() > 0)
-            stats.team_battery_chargers = Integer.parseInt(tstr);
-        else
-            stats.team_battery_chargers = 0;
+//        tstr = chargersT.getText().toString().trim();
+//        if (tstr.length() > 0)
+//            stats.team_battery_chargers = Integer.parseInt(tstr);
+//        else
+//            stats.team_battery_chargers = 0;
 
         stats.traction_wheels = tractionC.isChecked();
         stats.pneumatic_wheels = pneumaticC.isChecked();
@@ -230,15 +230,15 @@ public class PitsActivity extends DBActivity {
         stats.swerve_drive = swerveC.isChecked();
         stats.other_drive_wheels = otherDriveC.isChecked();
 
-        stats.mechanical_appearance = 0;
-        stats.electrical_appearance = 0;
-
-        for (int i = 0; i < NUM_RATINGS; i++) {
-            if (mechC[i].isChecked())
-                stats.mechanical_appearance = i + 1;
-            if (elecC[i].isChecked())
-                stats.electrical_appearance = i + 1;
-        }
+//        stats.mechanical_appearance = 0;
+//        stats.electrical_appearance = 0;
+//
+//        for (int i = 0; i < NUM_RATINGS; i++) {
+//            if (mechC[i].isChecked())
+//                stats.mechanical_appearance = i + 1;
+//            if (elecC[i].isChecked())
+//                stats.electrical_appearance = i + 1;
+//        }
 
         stats.notes = commentsT.getText().toString();
 
@@ -381,15 +381,15 @@ public class PitsActivity extends DBActivity {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void populateData(PitStats stats) {
-        int index = ((ArrayAdapter) languageS.getAdapter())
-            .getPosition(stats.programming_id);
-        languageS.setSelection(index);
+//        int index = ((ArrayAdapter) languageS.getAdapter())
+//            .getPosition(stats.programming_id);
+//        languageS.setSelection(index);
 
         commentsT.setText(stats.notes);
 
         weightT.setText(String.valueOf(stats.robot_gross_weight_lbs));
-        batteryT.setText(String.valueOf(stats.team_batteries));
-        chargersT.setText(String.valueOf(stats.team_battery_chargers));
+//        batteryT.setText(String.valueOf(stats.team_batteries));
+//        chargersT.setText(String.valueOf(stats.team_battery_chargers));
 
         tractionC.setChecked(stats.traction_wheels);
         pneumaticC.setChecked(stats.pneumatic_wheels);
@@ -403,10 +403,10 @@ public class PitsActivity extends DBActivity {
             mechC[i].setChecked(false);
             elecC[i].setChecked(false);
         }
-        if (stats.mechanical_appearance > 0 && stats.mechanical_appearance <= NUM_RATINGS)
-            mechC[stats.mechanical_appearance - 1].setChecked(true);
-        if (stats.electrical_appearance > 0 && stats.electrical_appearance <= NUM_RATINGS)
-            elecC[stats.electrical_appearance - 1].setChecked(true);
+//        if (stats.mechanical_appearance > 0 && stats.mechanical_appearance <= NUM_RATINGS)
+//            mechC[stats.mechanical_appearance - 1].setChecked(true);
+//        if (stats.electrical_appearance > 0 && stats.electrical_appearance <= NUM_RATINGS)
+//            elecC[stats.electrical_appearance - 1].setChecked(true);
 
         ////// 2020 START //////
         ////// 2020 END //////

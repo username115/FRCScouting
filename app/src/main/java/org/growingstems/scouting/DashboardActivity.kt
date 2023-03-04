@@ -38,7 +38,7 @@ class DashboardActivity : DBActivity() {
     private val match: Button? by lazy { findViewById(R.id.matchB) }
     private val pits: Button? by lazy { findViewById(R.id.pitB) }
     private val data: Button? by lazy { findViewById(R.id.dataB) }
-    private val picklist: Button? by lazy { findViewById(R.id.picklistB) }
+    private val superscout: Button? by lazy { findViewById(R.id.superscoutB) }
     private val beeLogo: ImageView? by lazy { findViewById(R.id.beeLogo) }
     private val stemsLogo: ImageView? by lazy { findViewById(R.id.stemsLogo) }
     private val fmsApiLink: TextView? by lazy { findViewById(R.id.fmsApiLink) }
@@ -77,8 +77,8 @@ class DashboardActivity : DBActivity() {
             val intent = Intent(baseContext, DataActivity::class.java)
             getResultForVersionCallback.launch(intent)
         }
-        picklist?.setOnClickListener {
-            val intent = Intent(baseContext, PickActivity::class.java)
+        superscout?.setOnClickListener {
+            val intent = Intent(baseContext, SuperScoutActivity::class.java)
             getResultForVersionCallback.launch(intent)
         }
         beeLogo?.setOnClickListener {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.frc836.yearly.AutoMatchFragment">
 
@@ -17,254 +18,484 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/AutoText">
+        android:layout_below="@+id/AutoText"
+        android:fillViewport="true"
+        tools:ignore="NestedWeights">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:gravity="center"
             android:orientation="vertical">
 
-            <ToggleButton
-                android:id="@+id/taxiToggle"
-                android:layout_width="94dp"
-                android:layout_height="74dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/icon_toggleautobutton"
-                android:textOff=""
-                android:textOn=""
-                tools:layout_centerHorizontal="true" />
-
-
-            <TableLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
-                <TableRow
+                <Space
+                    android:id="@+id/autoSpaceLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3" />
+
+                <TextView
+                    android:id="@+id/autoGridLeftTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/hybrid_grid_abbr" />
+
+                <TextView
+                    android:id="@+id/autoGridMidTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/mid_grid_abbr" />
+
+                <TextView
+                    android:id="@+id/autoGridRightTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/top_grid_abbr" />
+
+                <Space
+                    android:id="@+id/autoSpaceRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/autoMobilityLL"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/mobilityLT"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/mobility"
+                        app:autoSizeTextType="uniform" />
+
+                    <Button
+                        android:id="@+id/mobilityLB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:ignore="ContentDescription">
+
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:gravity="center_horizontal">
 
-                        <ImageView
-                            android:id="@+id/decrement_auto_high_success_image"
+                        <ImageButton
+                            android:id="@+id/autoGridTopTopLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/icon_awesome_check_double" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Button
-                            android:id="@+id/decrement_auto_high_success"
+                        <ImageButton
+                            android:id="@+id/autoGridTopTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="-" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Spinner
-                            android:id="@+id/auto_high_success_spinner"
-                            style="@style/SpinnerAsEditText"
+                        <ImageButton
+                            android:id="@+id/autoGridTopTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/numbers"
-                            android:gravity="center"
-                            android:textAlignment="center" />
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
 
-                        <Button
-                            android:id="@+id/increment_auto_high_success"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="+" />
-
-                        <ImageView
-                            android:id="@+id/increment_auto_high_success_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/icon_awesome_check_double" />
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:gravity="center_horizontal">
 
-                        <ImageView
-                            android:id="@+id/decrement_auto_high_failure_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@drawable/icon_metro_cross" />
-
-                        <Button
-                            android:id="@+id/decrement_auto_high_failure"
+                        <ImageButton
+                            android:id="@+id/autoGridTopMidLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="-" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Spinner
-                            android:id="@+id/auto_high_failure_spinner"
-                            style="@style/SpinnerAsEditText"
+                        <ImageButton
+                            android:id="@+id/autoGridTopMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/numbers"
-                            android:gravity="center"
-                            android:textAlignment="center" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Button
-                            android:id="@+id/increment_auto_high_failure"
+                        <ImageButton
+                            android:id="@+id/autoGridTopMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="+" />
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
 
-                        <ImageView
-                            android:id="@+id/increment_auto_high_failure_image"
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/autoGridTopBotLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/icon_metro_cross" />
+                            android:src="@drawable/selection_square_none" />
 
-                    </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/autoGridTopBotMid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
 
-                </TableRow>
+                        <ImageButton
+                            android:id="@+id/autoGridTopBotRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
 
-            </TableLayout>
+                </TableLayout>
 
-            <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/autoMobilityRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/mobilityRT"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/mobility"
+                        app:autoSizeTextType="uniform" />
+
+                    <Button
+                        android:id="@+id/mobilityRB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/autoChargeLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/autoChargeLT"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/charge_station"
+                        app:autoSizeTextType="uniform" />
+
+                    <Button
+                        android:id="@+id/autoChargeLB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/station_no_attempt"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:ignore="ContentDescription">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidTopLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidTopMid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidTopRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidMidLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidMidMid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidMidRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidBotLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidBotMid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+
+                        <ImageButton
+                            android:id="@+id/autoGridMidBotRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/autoChargeRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/autoChargeRT"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/charge_station"
+                        app:autoSizeTextType="uniform" />
+
+                    <Button
+                        android:id="@+id/autoChargeRB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/hub_image_auto"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/fieldimage_hub_side_raster" />
-            </RelativeLayout>
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow
+                    android:id="@+id/autoGridViewL"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/grid_view_description"
+                    android:src="@drawable/fieldimage_grid_side_vector" />
 
-                    <LinearLayout
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:ignore="ContentDescription">
+
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:gravity="center_horizontal">
 
-                        <ImageView
-                            android:id="@+id/decrement_auto_low_success_image"
+                        <ImageButton
+                            android:id="@+id/autoGridBotTopLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/icon_awesome_check_double" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Button
-                            android:id="@+id/decrement_auto_low_success"
+                        <ImageButton
+                            android:id="@+id/autoGridBotTopMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="-" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Spinner
-                            android:id="@+id/auto_low_success_spinner"
-                            style="@style/SpinnerAsEditText"
+                        <ImageButton
+                            android:id="@+id/autoGridBotTopRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/numbers"
-                            android:gravity="center"
-                            android:textAlignment="center" />
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
 
-                        <Button
-                            android:id="@+id/increment_auto_low_success"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="+" />
-
-                        <ImageView
-                            android:id="@+id/increment_auto_low_success_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/icon_awesome_check_double" />
-
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:gravity="center_horizontal">
 
-                        <ImageView
-                            android:id="@+id/decrement_auto_low_failure_image"
+                        <ImageButton
+                            android:id="@+id/autoGridBotMidLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/icon_metro_cross" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Button
-                            android:id="@+id/decrement_auto_low_failure"
+                        <ImageButton
+                            android:id="@+id/autoGridBotMidMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="-" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <Spinner
-                            android:id="@+id/auto_low_failure_spinner"
-                            style="@style/SpinnerAsEditText"
+                        <ImageButton
+                            android:id="@+id/autoGridBotMidRight"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/numbers"
-                            android:gravity="center"
-                            android:textAlignment="center" />
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
 
-                        <Button
-                            android:id="@+id/increment_auto_low_failure"
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/autoGridBotBotLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="+" />
+                            android:src="@drawable/selection_square_none" />
 
-                        <ImageView
-                            android:id="@+id/increment_auto_low_failure_image"
+                        <ImageButton
+                            android:id="@+id/autoGridBotBotMid"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/icon_metro_cross" />
+                            android:src="@drawable/selection_square_none" />
 
-                    </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/autoGridBotBotRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/selection_square_none" />
+                    </TableRow>
 
-                </TableRow>
+                </TableLayout>
 
-            </TableLayout>
+                <ImageView
+                    android:id="@+id/autoGridViewR"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/grid_view_description"
+                    android:scaleX="-1.0"
+                    android:src="@drawable/fieldimage_grid_side_vector"
+                    android:visibility="gone" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

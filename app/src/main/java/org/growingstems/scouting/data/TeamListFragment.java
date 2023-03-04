@@ -100,7 +100,6 @@ public class TeamListFragment extends DataFragment {
             getActivity(), defaultListResource, teams);
         dataList.setAdapter(adapter);
         dataList.setOnItemClickListener(new TeamClick());
-        dataList.setOnItemLongClickListener(new TeamLongClick());
     }
 
     private void setTeamList(List<String> teams) {
@@ -129,54 +128,6 @@ public class TeamListFragment extends DataFragment {
 
     }
 
-    private class TeamLongClick implements AdapterView.OnItemLongClickListener {
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (view instanceof TextView) {
-                String team = ((TextView) view).getText().toString();
-                try {
-                    Integer.valueOf(team);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                PopupMenu popup = new PopupMenu(getActivity(), view);
-                List<String> t = mParent.getDB().getPickList(Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
-                if (t != null && t.contains(team))
-                    popup.getMenu().add(REMOVETEAMPICK);
-                else
-                    popup.getMenu().add(PICKLISTITEM);
-                popup.setOnMenuItemClickListener(new TeamMenuItemListener(team));
-                popup.show();
-            }
-            return true;
-        }
-    }
-
-    private static final String PICKLISTITEM = "Add Team to Pick List";
-    private static final String REMOVETEAMPICK = "Remove Team from Pick List";
-
-    private class TeamMenuItemListener implements PopupMenu.OnMenuItemClickListener {
-
-        String teamNum;
-
-        public TeamMenuItemListener(String team) {
-            teamNum = team;
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            try {
-                if (item.getTitle().toString().compareTo(PICKLISTITEM) == 0)
-                    mParent.getDB().addTeamToPickList(Integer.parseInt(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
-                else if (item.getTitle().toString().compareTo(REMOVETEAMPICK) == 0)
-                    mParent.getDB().removeTeamFromPickList(Integer.parseInt(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
-            } catch (NumberFormatException e) {
-                return false;
-            }
-            return true;
-        }
-    }
 
     private class LoadClick implements View.OnClickListener {
 

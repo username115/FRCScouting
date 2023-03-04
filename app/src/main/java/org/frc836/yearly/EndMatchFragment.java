@@ -16,25 +16,23 @@
 package org.frc836.yearly;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import org.frc836.database.MatchStatsStruct;
 import org.growingstems.scouting.MatchFragment;
-import org.growingstems.scouting.Prefs;
 import org.growingstems.scouting.R;
-import org.growingstems.scouting.SuperImageButton;
-import org.growingstems.scouting.TransparentImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,19 +50,12 @@ public class EndMatchFragment extends MatchFragment {
 
     private EditText teamNotes;
 
-    private CheckBox allyOutfield;
-    private CheckBox allyTarmac;
-    private CheckBox oppOutfield;
-    private CheckBox oppTarmac;
+    private Drawable checkmarks;
 
-    private ImageView fieldView;
-
-    private ImageView leftOutfieldSelect;
-    private ImageView leftTarmacSelect;
-    private ImageView rightOutfieldSelect;
-    private ImageView rightTarmacSelect;
-
-    private boolean allyOnLeft = false;
+    private Button chargeB;
+    private Button cardsB;
+    private Button feederB;
+    private Button defenseB;
 
     public EndMatchFragment() {
         // Required empty public constructor
@@ -103,70 +94,16 @@ public class EndMatchFragment extends MatchFragment {
         commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
         pastNotes.setOnItemSelectedListener(new NotesSelectedListener());
 
-        allyOutfield = view.findViewById(R.id.ally_outfield);
-        allyTarmac = view.findViewById(R.id.ally_tarmac);
-        oppOutfield = view.findViewById(R.id.opp_outfield);
-        oppTarmac = view.findViewById(R.id.opp_tarmac);
+        chargeB = view.findViewById(R.id.chargeStationB);
+        chargeB.setOnClickListener(new ChargeStationClickListener());
+        cardsB = view.findViewById(R.id.cardsB);
+        cardsB.setOnClickListener(new CardsClickListener());
+        feederB = view.findViewById(R.id.feederB);
+        feederB.setOnClickListener(new FeederClickListener());
+        defenseB = view.findViewById(R.id.defenseB);
+        defenseB.setOnClickListener(new DefenseClickListener());
 
-        fieldView = view.findViewById(R.id.fieldView);
-
-        TransparentImageButton leftOutfieldRegion = view.findViewById(R.id.leftOutfieldRegion);
-        TransparentImageButton leftTarmacRegion = view.findViewById(R.id.leftTarmacRegion);
-        TransparentImageButton rightOutfieldRegion = view.findViewById(R.id.rightOutfieldRegion);
-        TransparentImageButton rightTarmacRegion = view.findViewById(R.id.rightTarmacRegion);
-
-        SuperImageButton transparentField = view.findViewById(R.id.fieldimage_transparent);
-
-        leftOutfieldSelect = view.findViewById(R.id.leftOutfieldSelect);
-        leftTarmacSelect = view.findViewById(R.id.leftTarmacSelect);
-        rightOutfieldSelect = view.findViewById(R.id.rightOutfieldSelect);
-        rightTarmacSelect = view.findViewById(R.id.rightTarmacSelect);
-
-        leftOutfieldRegion.setOnClickListener(v -> {
-            if (allyOnLeft) {
-                allyOutfield.toggle();
-            } else {
-                oppOutfield.toggle();
-            }
-        });
-
-        leftTarmacRegion.setOnClickListener(v -> {
-            if (allyOnLeft) {
-                allyTarmac.toggle();
-            } else {
-                oppTarmac.toggle();
-            }
-        });
-
-        rightOutfieldRegion.setOnClickListener(v -> {
-            if (!allyOnLeft) {
-                allyOutfield.toggle();
-            } else {
-                oppOutfield.toggle();
-            }
-        });
-
-        rightTarmacRegion.setOnClickListener(v -> {
-            if (!allyOnLeft) {
-                allyTarmac.toggle();
-            } else {
-                oppTarmac.toggle();
-            }
-        });
-
-        transparentField.clearImageButtons();
-        transparentField.addImageButton(leftOutfieldRegion);
-        transparentField.addImageButton(leftTarmacRegion);
-        transparentField.addImageButton(rightOutfieldRegion);
-        transparentField.addImageButton(rightTarmacRegion);
-
-        allyOutfield.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(true, false, isChecked));
-
-        allyTarmac.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(true, true, isChecked));
-
-        oppOutfield.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(false, false, isChecked));
-
-        oppTarmac.setOnCheckedChangeListener((buttonView, isChecked) -> updateFieldImage(false, true, isChecked));
+        checkmarks = getActivity() == null ? null : AppCompatResources.getDrawable(getActivity(), R.drawable.icon_awesome_check_double);
 
     }
 
@@ -217,17 +154,10 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
         data.notes = ((EditText) getView().findViewById(R.id.notes)).getText().toString();
-        data.yellow_card = ((CheckBox) getView().findViewById(R.id.yellow_card)).isChecked();
-        data.red_card = ((CheckBox) getView().findViewById(R.id.red_card)).isChecked();
-        data.tech_foul = ((CheckBox) getView().findViewById(R.id.tech_foul)).isChecked();
-
-        data.opp_tarmac = oppTarmac.isChecked();
-        data.opp_outfield = oppOutfield.isChecked();
-        data.ally_tarmac = allyTarmac.isChecked();
-        data.ally_outfield = allyOutfield.isChecked();
-
-        data.fender_usage = ((CheckBox) getView().findViewById(R.id.fender_usage)).isChecked();
-        data.launchpad_usage = ((CheckBox) getView().findViewById(R.id.launchpad_usage)).isChecked();
+        data.charge_station = tempData.charge_station;
+        data.red_card = tempData.red_card;
+        data.yellow_card = tempData.yellow_card;
+        data.defense = tempData.defense;
     }
 
     @Override
@@ -235,41 +165,67 @@ public class EndMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
 
-        // which side are we using
-        boolean redLeft = Prefs.getRedLeft(getActivity(), true);
+        //// which side are we using
+        //boolean redLeft = Prefs.getRedLeft(getActivity(), true);
 
-        Activity act = getActivity();
-        String pos;
-        if (act instanceof MatchActivity)
-            pos = ((MatchActivity) act).getPosition();
-        else
-            pos = Prefs.getPosition(getActivity(), "Red 1");
+        //Activity act = getActivity();
+        //String pos;
+        //if (act instanceof MatchActivity)
+        //    pos = ((MatchActivity) act).getPosition();
+        //else
+        //    pos = Prefs.getPosition(getActivity(), "Red 1");
 
-        boolean blue = pos.contains("Blue");
-
-        allyOnLeft = blue ^ redLeft;
-
-        fieldView.setScaleY(redLeft ? -1f : 1f);
-        fieldView.setScaleX(redLeft ? -1f : 1f);
+        //boolean blue = pos.contains("Blue");
 
         ((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
-        ((CheckBox) getView().findViewById(R.id.red_card)).setChecked(data.red_card);
-        ((CheckBox) getView().findViewById(R.id.yellow_card)).setChecked(data.yellow_card);
-        ((CheckBox) getView().findViewById(R.id.tech_foul)).setChecked(data.tech_foul);
 
-        oppTarmac.setChecked(data.opp_tarmac);
-        oppOutfield.setChecked(data.opp_outfield);
-        allyTarmac.setChecked(data.ally_tarmac);
-        allyOutfield.setChecked(data.ally_outfield);
-        //need to manually update field images because onChecked callbacks are not called if checked status did not change
-        updateFieldImage(false, false, data.opp_outfield);
-        updateFieldImage(false, true, data.opp_tarmac);
-        updateFieldImage(true, false, data.ally_outfield);
-        updateFieldImage(true, true, data.ally_tarmac);
+        tempData.charge_station = data.charge_station;
+        setChargeStation(data);
+        tempData.yellow_card = data.yellow_card;
+        tempData.red_card = data.red_card;
+        setFouls(data);
+        tempData.feeder = data.feeder;
+        setFeeder(data);
+        tempData.defense = data.defense;
+        setDefense(data);
 
-        ((CheckBox) getView().findViewById(R.id.fender_usage)).setChecked(data.fender_usage);
-        ((CheckBox) getView().findViewById(R.id.launchpad_usage)).setChecked(data.launchpad_usage);
+    }
 
+    private void setChargeStation(@NonNull MatchStatsStruct data) {
+        switch (data.charge_station) {
+            case 1:
+                chargeB.setText(R.string.station_attempt);
+                break;
+            case 2:
+                chargeB.setText(R.string.station_docked);
+                break;
+            case 3:
+                chargeB.setText(R.string.station_engaged);
+                break;
+            case 0:
+            default:
+                data.charge_station = 0;
+                chargeB.setText(R.string.station_no_attempt);
+                break;
+        }
+    }
+
+    private void setFouls(@NonNull MatchStatsStruct data) {
+        if (data.red_card) {
+            cardsB.setText(R.string.redcard);
+        } else if (data.yellow_card) {
+            cardsB.setText(R.string.yellowcard);
+        } else {
+            cardsB.setText(R.string.none);
+        }
+    }
+
+    private void setFeeder(@NonNull MatchStatsStruct data) {
+        feederB.setForeground(data.feeder ? checkmarks : null);
+    }
+
+    private void setDefense(@NonNull MatchStatsStruct data) {
+        defenseB.setForeground(data.defense ? checkmarks : null);
     }
 
     public class NotesSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -295,37 +251,51 @@ public class EndMatchFragment extends MatchFragment {
 
     }
 
-    private void updateFieldImage(boolean ally, boolean tarmac, boolean isChecked) {
-        if (ally) {
-            if (tarmac) {
-                if (allyOnLeft) {
-                    leftTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                } else {
-                    rightTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                }
-            } else {
-                if (allyOnLeft) {
-                    leftOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                } else {
-                    rightOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                }
-            }
-        } else {
-            if (tarmac) {
-                if (!allyOnLeft) {
-                    leftTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                } else {
-                    rightTarmacSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                }
-            } else {
-                if (!allyOnLeft) {
-                    leftOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                } else {
-                    rightOutfieldSelect.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-                }
-            }
-        }
+    private class ChargeStationClickListener implements View.OnClickListener {
 
+        @Override
+        public void onClick(View v) {
+            tempData.charge_station++;
+            setChargeStation(tempData);
+        }
+    }
+
+    private class CardsClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (tempData.red_card) {
+                tempData.red_card = false;
+                tempData.yellow_card = false;
+            } else if (tempData.yellow_card) {
+                tempData.yellow_card = false;
+                tempData.red_card = true;
+            } else {
+                tempData.yellow_card = true;
+            }
+
+            setFouls(tempData);
+        }
+    }
+
+    private class FeederClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            tempData.feeder = !tempData.feeder;
+
+            setFeeder(tempData);
+        }
+    }
+
+    private class DefenseClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            tempData.defense = !tempData.defense;
+
+            setDefense(tempData);
+        }
     }
 
 }
