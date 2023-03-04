@@ -7,4 +7,6 @@
     <string name="team1">Team1</string>
     <string name="team2">Team2</string>
     <string name="team3">Team3</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
 </resources>
