@@ -27,4 +27,13 @@ object SuperScoutStatsYearly {
         to.notes = from.notes
         to.offense_rank = from.offense_rank
     }
+
+    @JvmStatic
+    fun clearContents(stats: SuperScoutStats) {
+        stats.offense_rank = 0
+        stats.defense_rank = 0
+        stats.driver_rank = 0
+        stats.caused_foul = false
+        stats.notes = ""
+    }
 }

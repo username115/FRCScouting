@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.util.SparseArray;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.android.volley.Request;
@@ -911,8 +912,8 @@ public class DB {
         }
     }
 
-    public SuperScoutStats getSuperScoutStats(String eventName, int match,
-                                          int team, boolean practice) {
+    public @Nullable SuperScoutStats getSuperScoutStats(String eventName, int match,
+                                        int team, boolean practice) {
         synchronized (ScoutingDBHelper.lock) {
 
             try {
