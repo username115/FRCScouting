@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.util.SparseArray;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.android.volley.Request;
@@ -186,6 +187,45 @@ public class DB {
             return false;
         }
 
+    }
+
+    public boolean submitSuperScout(SuperScoutStats team1Data, SuperScoutStats team2Data, SuperScoutStats team3Data) {
+        if (submitIndividualSuperScout(team1Data) && submitIndividualSuperScout(team2Data) && submitIndividualSuperScout(team3Data)) {
+            startSync();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean submitIndividualSuperScout(SuperScoutStats teamData) {
+            try {
+            String where = SuperScoutStats.COLUMN_NAME_EVENT_ID + "=? AND "
+                + SuperScoutStats.COLUMN_NAME_MATCH_ID + "=? AND "
+                + SuperScoutStats.COLUMN_NAME_TEAM_ID + "=? AND "
+                + SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH + "=?";
+            ContentValues values;
+            synchronized (ScoutingDBHelper.lock) {
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                    .getReadableDatabase();
+
+                values = teamData.getValues(this, db);
+
+                ScoutingDBHelper.getInstance().close();
+            }
+            String[] whereArgs = {
+                values.getAsString(SuperScoutStats.COLUMN_NAME_EVENT_ID),
+                values.getAsString(SuperScoutStats.COLUMN_NAME_MATCH_ID),
+                values.getAsString(SuperScoutStats.COLUMN_NAME_TEAM_ID),
+                values.getAsString(SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH)};
+
+            insertOrUpdate(SuperScoutStats.TABLE_NAME, null, values,
+                SuperScoutStats.COLUMN_NAME_ID, where, whereArgs);
+
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean submitPits(PitStats stats) {
@@ -865,6 +905,44 @@ public class DB {
                 }
 
                 return stats;
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
+
+    public @Nullable SuperScoutStats getSuperScoutStats(String eventName, int match,
+                                        int team, boolean practice) {
+        synchronized (ScoutingDBHelper.lock) {
+
+            try {
+                SuperScoutStats stats = new SuperScoutStats();
+
+                SQLiteDatabase db = ScoutingDBHelper.getInstance()
+                    .getReadableDatabase();
+
+                String[] projection = stats.getProjection();
+                String[] where = {String.valueOf(match),
+                    String.valueOf(getEventIDFromName(eventName, db)),
+                    String.valueOf(team), practice ? "1" : "0"};
+
+                Cursor c = db.query(SuperScoutStats.TABLE_NAME, projection,
+                    SuperScoutStats.COLUMN_NAME_MATCH_ID + "=? AND "
+                        + SuperScoutStats.COLUMN_NAME_EVENT_ID
+                        + "=? AND "
+                        + SuperScoutStats.COLUMN_NAME_TEAM_ID
+                        + "=? AND "
+                        + SuperScoutStats.COLUMN_NAME_PRACTICE_MATCH
+                        + "=?", where, null, null, null, "0,1");
+
+                stats.fromCursor(c, this, db);
+                if (c != null)
+                    c.close();
+                ScoutingDBHelper.getInstance().close();
+
+                return stats;
+
             } catch (Exception e) {
                 return null;
             }
