@@ -432,7 +432,6 @@ class SuperScoutActivity : DBActivity() {
             .setPositiveButton(
                 "Yes"
             ) { _: DialogInterface?, _: Int ->
-                matchT?.setText("")
                 clearData()
             }
             .setNegativeButton(
