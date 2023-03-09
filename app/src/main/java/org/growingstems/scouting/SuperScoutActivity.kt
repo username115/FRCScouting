@@ -15,6 +15,7 @@
  */
 package org.growingstems.scouting
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
@@ -28,6 +29,7 @@ import android.view.View.OnClickListener
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import org.frc836.database.DBActivity
@@ -358,9 +360,34 @@ class SuperScoutActivity : DBActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun submit() {
-        //TODO
-        //If submission successful, clear data then set match to next value
+        saveData()
+
+        if (team1Data.match_id <= 0) {
+            val builder = AlertDialog.Builder(this)
+
+            builder.setMessage(
+                "No match number entered, please enter a match number\n This will cause you to lose data"
+            )
+                .setCancelable(true)
+                .setPositiveButton(
+                    "OK"
+                ) { dialog: DialogInterface, _: Int ->
+                    dialog.cancel()
+                    matchT?.requestFocus()
+                }
+            builder.show()
+            return
+        }
+
+        if (db.submitSuperScout(team1Data, team2Data, team3Data)) {
+            clear()
+            matchT?.setText((team1Data.match_id + 1).toString())
+        } else {
+            Toast.makeText(applicationContext, "Error in local database", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     private fun clear() {
@@ -444,8 +471,16 @@ class SuperScoutActivity : DBActivity() {
                 timer.postDelayed(task, loadDelay)
             } else if (dataClear()) {
                 clearData()
+                for (task in tasks) {
+                    timer.removeCallbacks(task)
+                }
+                tasks.clear()
             } else {
                 clearDataDialog()
+                for (task in tasks) {
+                    timer.removeCallbacks(task)
+                }
+                tasks.clear()
             }
         }
     }
