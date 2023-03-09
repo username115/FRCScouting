@@ -90,21 +90,84 @@ class SuperScoutActivity : DBActivity() {
         setContentView(R.layout.activity_superscout)
         updateAlliance()
 
-        posText?.setOnClickListener{ MainMenuSelection.openSettings(this) }
+        posText?.setOnClickListener { MainMenuSelection.openSettings(this) }
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         submitB.setOnClickListener { submit() }
 
-        team1OffenseB.setOnClickListener(OnRankPressed(team1Data, team2Data, team3Data, RankType.OFFENSE))
-        team1DefenseB.setOnClickListener(OnRankPressed(team1Data, team2Data, team3Data, RankType.DEFENSE))
-        team1DriverB.setOnClickListener(OnRankPressed(team1Data, team2Data, team3Data, RankType.DRIVER))
-        team2OffenseB.setOnClickListener(OnRankPressed(team2Data, team1Data, team3Data, RankType.OFFENSE))
-        team2DefenseB.setOnClickListener(OnRankPressed(team2Data, team1Data, team3Data, RankType.DEFENSE))
-        team2DriverB.setOnClickListener(OnRankPressed(team2Data, team1Data, team3Data, RankType.DRIVER))
-        team3OffenseB.setOnClickListener(OnRankPressed(team3Data, team1Data, team2Data, RankType.OFFENSE))
-        team3DefenseB.setOnClickListener(OnRankPressed(team3Data, team1Data, team2Data, RankType.DEFENSE))
-        team3DriverB.setOnClickListener(OnRankPressed(team3Data, team1Data, team2Data, RankType.DRIVER))
+        team1OffenseB.setOnClickListener(
+            OnRankPressed(
+                team1Data,
+                team2Data,
+                team3Data,
+                RankType.OFFENSE
+            )
+        )
+        team1DefenseB.setOnClickListener(
+            OnRankPressed(
+                team1Data,
+                team2Data,
+                team3Data,
+                RankType.DEFENSE
+            )
+        )
+        team1DriverB.setOnClickListener(
+            OnRankPressed(
+                team1Data,
+                team2Data,
+                team3Data,
+                RankType.DRIVER
+            )
+        )
+        team2OffenseB.setOnClickListener(
+            OnRankPressed(
+                team2Data,
+                team1Data,
+                team3Data,
+                RankType.OFFENSE
+            )
+        )
+        team2DefenseB.setOnClickListener(
+            OnRankPressed(
+                team2Data,
+                team1Data,
+                team3Data,
+                RankType.DEFENSE
+            )
+        )
+        team2DriverB.setOnClickListener(
+            OnRankPressed(
+                team2Data,
+                team1Data,
+                team3Data,
+                RankType.DRIVER
+            )
+        )
+        team3OffenseB.setOnClickListener(
+            OnRankPressed(
+                team3Data,
+                team1Data,
+                team2Data,
+                RankType.OFFENSE
+            )
+        )
+        team3DefenseB.setOnClickListener(
+            OnRankPressed(
+                team3Data,
+                team1Data,
+                team2Data,
+                RankType.DEFENSE
+            )
+        )
+        team3DriverB.setOnClickListener(
+            OnRankPressed(
+                team3Data,
+                team1Data,
+                team2Data,
+                RankType.DRIVER
+            )
+        )
 
 
         matchT?.addTextChangedListener(MatchTextChangeListener())
@@ -132,9 +195,21 @@ class SuperScoutActivity : DBActivity() {
         team2Data.practice_match = team1Data.practice_match
         team3Data.practice_match = team1Data.practice_match
 
-        team1Data.position_id = if (redAlliance) { "Red 1" } else { "Blue 1" }
-        team2Data.position_id = if (redAlliance) { "Red 2" } else { "Blue 2" }
-        team3Data.position_id = if (redAlliance) { "Red 3" } else { "Blue 3" }
+        team1Data.position_id = if (redAlliance) {
+            "Red 1"
+        } else {
+            "Blue 1"
+        }
+        team2Data.position_id = if (redAlliance) {
+            "Red 2"
+        } else {
+            "Blue 2"
+        }
+        team3Data.position_id = if (redAlliance) {
+            "Red 3"
+        } else {
+            "Blue 3"
+        }
 
         if (matchT?.text?.length?.let { it > 0 } == true) {
             setMatch(matchT?.text.toString().toInt())
@@ -143,11 +218,13 @@ class SuperScoutActivity : DBActivity() {
         }
     }
 
-    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            backDialog()
+    private val onBackPressedCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backDialog()
+            }
         }
-    }
+
     fun backDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Cancel Data Entry?\nChanges will not be saved.")
@@ -169,8 +246,10 @@ class SuperScoutActivity : DBActivity() {
     override val resultForPrefs = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        schedule.updateSchedule(Prefs.getEvent(this, defaultEvent),
-            this, false)
+        schedule.updateSchedule(
+            Prefs.getEvent(this, defaultEvent),
+            this, false
+        )
         updateAlliance()
     }
 
@@ -178,27 +257,39 @@ class SuperScoutActivity : DBActivity() {
         redAlliance = !(Prefs.getPosition(this, "Red 1").contains("Blue"))
 
         posText?.setTextColor(
-            if (redAlliance) { Color.RED }
-            else { Color.BLUE }
+            if (redAlliance) {
+                Color.RED
+            } else {
+                Color.BLUE
+            }
         )
         posText?.setText(
-            if (redAlliance) { R.string.red }
-            else { R.string.blue }
+            if (redAlliance) {
+                R.string.red
+            } else {
+                R.string.blue
+            }
         )
     }
 
     private fun loadData() {
-        team1OffenseB.text = if(team1Data.offense_rank > 0) team1Data.offense_rank.toString() else ""
-        team1DefenseB.text = if(team1Data.defense_rank > 0) team1Data.defense_rank.toString() else ""
-        team1DriverB.text = if(team1Data.driver_rank > 0) team1Data.driver_rank.toString() else ""
+        team1OffenseB.text =
+            if (team1Data.offense_rank > 0) team1Data.offense_rank.toString() else ""
+        team1DefenseB.text =
+            if (team1Data.defense_rank > 0) team1Data.defense_rank.toString() else ""
+        team1DriverB.text = if (team1Data.driver_rank > 0) team1Data.driver_rank.toString() else ""
         team1NotesT.setText(team1Data.notes)
-        team2OffenseB.text = if(team2Data.offense_rank > 0) team2Data.offense_rank.toString() else ""
-        team2DefenseB.text = if(team2Data.defense_rank > 0) team2Data.defense_rank.toString() else ""
-        team2DriverB.text = if(team2Data.driver_rank > 0) team2Data.driver_rank.toString() else ""
+        team2OffenseB.text =
+            if (team2Data.offense_rank > 0) team2Data.offense_rank.toString() else ""
+        team2DefenseB.text =
+            if (team2Data.defense_rank > 0) team2Data.defense_rank.toString() else ""
+        team2DriverB.text = if (team2Data.driver_rank > 0) team2Data.driver_rank.toString() else ""
         team2NotesT.setText(team2Data.notes)
-        team3OffenseB.text = if(team3Data.offense_rank > 0) team3Data.offense_rank.toString() else ""
-        team3DefenseB.text = if(team3Data.defense_rank > 0) team3Data.defense_rank.toString() else ""
-        team3DriverB.text = if(team3Data.driver_rank > 0) team3Data.driver_rank.toString() else ""
+        team3OffenseB.text =
+            if (team3Data.offense_rank > 0) team3Data.offense_rank.toString() else ""
+        team3DefenseB.text =
+            if (team3Data.defense_rank > 0) team3Data.defense_rank.toString() else ""
+        team3DriverB.text = if (team3Data.driver_rank > 0) team3Data.driver_rank.toString() else ""
         team3NotesT.setText(team3Data.notes)
     }
 
@@ -211,13 +302,17 @@ class SuperScoutActivity : DBActivity() {
         team3Data.notes = team3NotesT.text.toString()
     }
 
-    private fun setMatch(match :Int) {
+    private fun setMatch(match: Int) {
 
         team1Data.match_id = match
         team2Data.match_id = match
         team3Data.match_id = match
 
-        val alliance = if (redAlliance) { "Red" } else { "Blue" }
+        val alliance = if (redAlliance) {
+            "Red"
+        } else {
+            "Blue"
+        }
 
         val team1S = schedule.getTeam(match, "$alliance 1", this, "0")
         team1Data.team_id = team1S?.toInt() ?: 0
@@ -233,13 +328,31 @@ class SuperScoutActivity : DBActivity() {
         team3RankingsT?.text = team3S
         team3NotesLabelT?.text = team3S
 
-        val stats1 = db.getSuperScoutStats(team1Data.event_id, match, team1Data.team_id, team1Data.practice_match)
-        val stats2 = db.getSuperScoutStats(team2Data.event_id, match, team2Data.team_id, team2Data.practice_match)
-        val stats3 = db.getSuperScoutStats(team3Data.event_id, match, team3Data.team_id, team3Data.practice_match)
+        val stats1 = db.getSuperScoutStats(
+            team1Data.event_id,
+            match,
+            team1Data.team_id,
+            team1Data.practice_match
+        )
+        val stats2 = db.getSuperScoutStats(
+            team2Data.event_id,
+            match,
+            team2Data.team_id,
+            team2Data.practice_match
+        )
+        val stats3 = db.getSuperScoutStats(
+            team3Data.event_id,
+            match,
+            team3Data.team_id,
+            team3Data.practice_match
+        )
 
-        stats1?.let {SuperScoutStatsYearly.copyData(it, team1Data) } ?: SuperScoutStatsYearly.clearContents(team1Data)
-        stats2?.let {SuperScoutStatsYearly.copyData(it, team2Data) } ?: SuperScoutStatsYearly.clearContents(team2Data)
-        stats3?.let {SuperScoutStatsYearly.copyData(it, team3Data) } ?: SuperScoutStatsYearly.clearContents(team3Data)
+        stats1?.let { SuperScoutStatsYearly.copyData(it, team1Data) }
+            ?: SuperScoutStatsYearly.clearContents(team1Data)
+        stats2?.let { SuperScoutStatsYearly.copyData(it, team2Data) }
+            ?: SuperScoutStatsYearly.clearContents(team2Data)
+        stats3?.let { SuperScoutStatsYearly.copyData(it, team3Data) }
+            ?: SuperScoutStatsYearly.clearContents(team3Data)
 
         loadData()
 
@@ -271,18 +384,18 @@ class SuperScoutActivity : DBActivity() {
     }
 
     private fun dataClear(): Boolean {
-        return team1OffenseB.text?.length?.let{ it == 0 } == true
-            && team1DefenseB.text?.length?.let{ it == 0 } == true
-            && team1DriverB.text?.length?.let{ it == 0 } == true
-            && team1NotesT.text?.length?.let{ it == 0 } == true
-            && team2OffenseB.text?.length?.let{ it == 0 } == true
-            && team2DefenseB.text?.length?.let{ it == 0 } == true
-            && team2DriverB.text?.length?.let{ it == 0 } == true
-            && team2NotesT.text?.length?.let{ it == 0 } == true
-            && team3OffenseB.text?.length?.let{ it == 0 } == true
-            && team3DefenseB.text?.length?.let{ it == 0 } == true
-            && team3DriverB.text?.length?.let{ it == 0 } == true
-            && team3NotesT.text?.length?.let{ it == 0 } == true
+        return team1OffenseB.text?.length?.let { it == 0 } == true
+            && team1DefenseB.text?.length?.let { it == 0 } == true
+            && team1DriverB.text?.length?.let { it == 0 } == true
+            && team1NotesT.text?.length?.let { it == 0 } == true
+            && team2OffenseB.text?.length?.let { it == 0 } == true
+            && team2DefenseB.text?.length?.let { it == 0 } == true
+            && team2DriverB.text?.length?.let { it == 0 } == true
+            && team2NotesT.text?.length?.let { it == 0 } == true
+            && team3OffenseB.text?.length?.let { it == 0 } == true
+            && team3DefenseB.text?.length?.let { it == 0 } == true
+            && team3DriverB.text?.length?.let { it == 0 } == true
+            && team3NotesT.text?.length?.let { it == 0 } == true
     }
 
     private fun clearDataDialog() {
@@ -301,14 +414,13 @@ class SuperScoutActivity : DBActivity() {
         builder.show()
     }
 
-    private inner class MatchNumTask(match_num : Int) : Runnable {
+    private inner class MatchNumTask(match_num: Int) : Runnable {
 
         val matchNum: Int = match_num
 
         override fun run() {
             if (matchT?.text?.length?.let { it > 0 } == true
-                && matchT?.text?.toString()?.toInt()?.let { it == matchNum } == true)
-            {
+                && matchT?.text?.toString()?.toInt()?.let { it == matchNum } == true) {
                 setMatch(matchNum)
             }
         }
@@ -330,7 +442,7 @@ class SuperScoutActivity : DBActivity() {
                 val task = MatchNumTask(s.toString().toInt())
                 tasks.add(task)
                 timer.postDelayed(task, loadDelay)
-            } else if (dataClear()){
+            } else if (dataClear()) {
                 clearData()
             } else {
                 clearDataDialog()
@@ -338,12 +450,13 @@ class SuperScoutActivity : DBActivity() {
         }
     }
 
-    private enum class RankType {OFFENSE, DEFENSE, DRIVER}
+    private enum class RankType { OFFENSE, DEFENSE, DRIVER }
 
-    private inner class OnRankPressed(val myTeam: SuperScoutStats,
-                                      val otherTeam1: SuperScoutStats,
-                                      val otherTeam2: SuperScoutStats,
-                                      val rankType: RankType
+    private inner class OnRankPressed(
+        val myTeam: SuperScoutStats,
+        val otherTeam1: SuperScoutStats,
+        val otherTeam2: SuperScoutStats,
+        val rankType: RankType
     ) : OnClickListener {
 
         override fun onClick(v: View?) {
@@ -358,8 +471,17 @@ class SuperScoutActivity : DBActivity() {
                         if ((otherTeamsHigh == 0 && otherTeamsLow == 0) || otherTeamsLow > 1) {
                             myTeam.offense_rank = 1
                             (v as Button).text = "1"
-                        } else if (otherTeamsHigh < 3) {
-                            myTeam.offense_rank = otherTeamsHigh + 1
+                        } else if (otherTeamsHigh == 1 && otherTeamsLow == 0) {
+                            myTeam.offense_rank = 2
+                            (v as Button).text = myTeam.offense_rank.toString()
+                        } else if (otherTeamsLow == 0) {
+                            myTeam.offense_rank = 1
+                            (v as Button).text = myTeam.offense_rank.toString()
+                        } else if (otherTeamsHigh == 2 && otherTeamsLow == 1) {
+                            myTeam.offense_rank = 3
+                            (v as Button).text = myTeam.offense_rank.toString()
+                        } else if (otherTeamsLow == 1) {
+                            myTeam.offense_rank = 2
                             (v as Button).text = myTeam.offense_rank.toString()
                         }
                     }
@@ -374,8 +496,17 @@ class SuperScoutActivity : DBActivity() {
                         if ((otherTeamsHigh == 0 && otherTeamsLow == 0) || otherTeamsLow > 1) {
                             myTeam.defense_rank = 1
                             (v as Button).text = "1"
-                        } else if (otherTeamsHigh < 3) {
-                            myTeam.defense_rank = otherTeamsHigh + 1
+                        } else if (otherTeamsHigh == 1 && otherTeamsLow == 0) {
+                            myTeam.defense_rank = 2
+                            (v as Button).text = myTeam.defense_rank.toString()
+                        } else if (otherTeamsLow == 0) {
+                            myTeam.defense_rank = 1
+                            (v as Button).text = myTeam.defense_rank.toString()
+                        } else if (otherTeamsHigh == 2 && otherTeamsLow == 1) {
+                            myTeam.defense_rank = 3
+                            (v as Button).text = myTeam.defense_rank.toString()
+                        } else if (otherTeamsLow == 1) {
+                            myTeam.defense_rank = 2
                             (v as Button).text = myTeam.defense_rank.toString()
                         }
                     }
@@ -390,8 +521,17 @@ class SuperScoutActivity : DBActivity() {
                         if ((otherTeamsHigh == 0 && otherTeamsLow == 0) || otherTeamsLow > 1) {
                             myTeam.driver_rank = 1
                             (v as Button).text = "1"
-                        } else if (otherTeamsHigh < 3) {
-                            myTeam.driver_rank = otherTeamsHigh + 1
+                        } else if (otherTeamsHigh == 1 && otherTeamsLow == 0) {
+                            myTeam.driver_rank = 2
+                            (v as Button).text = myTeam.driver_rank.toString()
+                        } else if (otherTeamsLow == 0) {
+                            myTeam.driver_rank = 1
+                            (v as Button).text = myTeam.driver_rank.toString()
+                        } else if (otherTeamsHigh == 2 && otherTeamsLow == 1) {
+                            myTeam.driver_rank = 3
+                            (v as Button).text = myTeam.driver_rank.toString()
+                        } else if (otherTeamsLow == 1) {
+                            myTeam.driver_rank = 2
                             (v as Button).text = myTeam.driver_rank.toString()
                         }
                     }
