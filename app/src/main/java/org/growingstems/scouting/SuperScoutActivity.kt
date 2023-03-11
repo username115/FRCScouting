@@ -83,7 +83,12 @@ class SuperScoutActivity : DBActivity() {
 
     override val helpMessage: String by lazy {
         """
-            FIXME
+            Watch the assigned alliance for offense, defense, and driver skill.
+            Enter the match number before the match begins. Team numbers will automatically populate.
+            Rank each team in each category from 1 to 3, compared to the other teams in the same alliance.
+            Rank 1 means the best of that alliance for that match.
+            Tap the buttons in the order in which the teams should be ranked, Tapping a button a second time clears it.
+            Record any pertinent notes about each team in the provided text boxes.
             """.trimIndent()
     }
 
