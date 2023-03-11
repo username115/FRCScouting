@@ -178,6 +178,7 @@ public class EndMatchFragment extends MatchFragment {
 
         //boolean blue = pos.contains("Blue");
 
+        tempData.notes = data.notes;
         ((EditText) getView().findViewById(R.id.notes)).setText(data.notes);
 
         tempData.charge_station = data.charge_station;
