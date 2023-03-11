@@ -112,11 +112,11 @@ public class MatchActivity extends DBActivity {
         setContentView(R.layout.match);
 
         HELPMESSAGE = "Record Match Data here.\n" +
-            "Input number of cargo scored in both Autonomous and Tele-op periods.\n" +
-            "Input hang location, and how long it took to reach final hang position.\n" +
-            "A timer has been provided to assist with this.\n" +
-            "During the match, observe where cargo was scored from, and mark the locations the robot tended to use.";
-        //TODO fix help message
+            "Input where game pieces are scored on the grid for autonomous and tele-op periods\n" +
+            "along with mobility, charge station, dropped game pieces and fouls.\n" +
+            "On the end-game screen, record charge station, and yellow/red flags\n" +
+            "If the robot was primarily feeding game pieces to other robots, check the \"Feeder Bot\" button\n" +
+            "If the robot played a lot of defense, check the \"Defense Bot\" button";
 
         getGUIRefs();
 
