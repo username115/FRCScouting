@@ -287,7 +287,9 @@ public class TeleMatchFragment extends MatchFragment {
         } else {
             //Right side layout
             gridLeftTitle.setText(R.string.hybrid_grid_abbr);
+            spaceLeft.setVisibility(View.VISIBLE);
             gridRightTitle.setText(R.string.top_grid_abbr);
+            spaceRight.setVisibility(View.GONE);
             foulsLayoutL.setVisibility(View.VISIBLE);
             gpLayoutL.setVisibility(View.VISIBLE);
             gridViewL.setVisibility(View.VISIBLE);
