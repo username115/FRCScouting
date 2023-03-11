@@ -2,5 +2,6 @@
 <resources>
 
     <string name="tele_input_text">Tele-op Mode</string>
+    <string name="gp_dropped">GP Dropped</string>
 
 </resources>

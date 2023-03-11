@@ -1,25 +1,24 @@
 package org.growingstems.scouting
 
-import androidx.appcompat.widget.AppCompatImageButton
-import android.widget.ImageButton
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import java.util.ArrayList
+import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatImageButton
 
 class SuperImageButton : AppCompatImageButton {
     private val memberImgs: MutableList<ImageButton> = ArrayList()
 
     constructor(context: Context) : super(context)
-	constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-	constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
     )
 
-	fun clearImageButtons() {
+    fun clearImageButtons() {
         memberImgs.clear()
     }
 

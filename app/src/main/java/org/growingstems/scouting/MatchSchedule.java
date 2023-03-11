@@ -44,179 +44,179 @@ import java.util.Map;
 
 public class MatchSchedule {
 
-	private static final String FILENAME = "FRCscoutingschedule";
-	private static final String SCHEDULE_URL = "https://growingstems.org/schedule.php?request=schedule";
+    private static final String FILENAME = "FRCscoutingschedule";
+    private static final String SCHEDULE_URL = "https://growingstems.org/schedule.php?request=schedule";
 
-	private final boolean offseason = false;
-	private boolean toastComplete;
+    private final boolean offseason = false;
+    private boolean toastComplete;
 
-	private DB db = null;
+    private DB db = null;
 
-	private Context _parent;
+    private Context _parent;
 
-	private RequestQueue reqQueue = null;
+    private RequestQueue reqQueue = null;
 
-	private static class ScheduleResponse {
-		String resp;
-		int statusCode;
+    private static class ScheduleResponse {
+        String resp;
+        int statusCode;
 
-	}
+    }
 
-	private static class ScheduleRequest extends Request<ScheduleResponse> {
+    private static class ScheduleRequest extends Request<ScheduleResponse> {
 
-		private final Object mLock = new Object();
+        private final Object mLock = new Object();
 
-		@GuardedBy("mLock")
-		Response.Listener<ScheduleResponse> callback;
+        @GuardedBy("mLock")
+        Response.Listener<ScheduleResponse> callback;
 
-		public ScheduleRequest(String eventCode, boolean practiceMatch, Response.Listener<ScheduleResponse> listener, @Nullable Response.ErrorListener errorListener) {
-			super(Request.Method.GET, SCHEDULE_URL + "&event=" + eventCode + (practiceMatch ? "&tournamentLevel=Practice" : "&tournamentLevel=Qualification"), errorListener);
-			callback = listener;
-		}
+        public ScheduleRequest(String eventCode, boolean practiceMatch, Response.Listener<ScheduleResponse> listener, @Nullable Response.ErrorListener errorListener) {
+            super(Request.Method.GET, SCHEDULE_URL + "&event=" + eventCode + (practiceMatch ? "&tournamentLevel=Practice" : "&tournamentLevel=Qualification"), errorListener);
+            callback = listener;
+        }
 
-		@Override
-		public void cancel() {
-			super.cancel();
-			synchronized (mLock) {
-				callback = null;
-			}
-		}
+        @Override
+        public void cancel() {
+            super.cancel();
+            synchronized (mLock) {
+                callback = null;
+            }
+        }
 
-		@Override
-		protected Response<ScheduleResponse> parseNetworkResponse(NetworkResponse response) {
-			String parsed;
-			try {
-				parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-			} catch (UnsupportedEncodingException e) {
-				parsed = new String(response.data);
-			}
-			ScheduleResponse schResp = new ScheduleResponse();
-			schResp.resp = parsed;
-			schResp.statusCode = response.statusCode;
-			return Response.success(schResp, HttpHeaderParser.parseCacheHeaders(response));
-		}
+        @Override
+        protected Response<ScheduleResponse> parseNetworkResponse(NetworkResponse response) {
+            String parsed;
+            try {
+                parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            } catch (UnsupportedEncodingException e) {
+                parsed = new String(response.data);
+            }
+            ScheduleResponse schResp = new ScheduleResponse();
+            schResp.resp = parsed;
+            schResp.statusCode = response.statusCode;
+            return Response.success(schResp, HttpHeaderParser.parseCacheHeaders(response));
+        }
 
-		@Override
-		protected void deliverResponse(ScheduleResponse response) {
-			Response.Listener<ScheduleResponse> listener;
-			synchronized (mLock) {
-				listener = callback;
-			}
-			if (listener != null) {
-				listener.onResponse(response);
-			}
-		}
+        @Override
+        protected void deliverResponse(ScheduleResponse response) {
+            Response.Listener<ScheduleResponse> listener;
+            synchronized (mLock) {
+                listener = callback;
+            }
+            if (listener != null) {
+                listener.onResponse(response);
+            }
+        }
 
-		@Override
-		public Map<String, String> getHeaders() {
-			Map<String, String> headers = new HashMap<>(1);
-			headers.put("Accept", "application/json");
-			return headers;
-		}
-	}
+        @Override
+        public Map<String, String> getHeaders() {
+            Map<String, String> headers = new HashMap<>(1);
+            headers.put("Accept", "application/json");
+            return headers;
+        }
+    }
 
-	public void updateSchedule(String event, Context parent,
-			boolean toastWhenComplete) {
-		if (reqQueue == null) {
-			reqQueue = Volley.newRequestQueue(parent);
-			reqQueue.start();
-		}
+    public void updateSchedule(String event, Context parent,
+                               boolean toastWhenComplete) {
+        if (reqQueue == null) {
+            reqQueue = Volley.newRequestQueue(parent);
+            reqQueue.start();
+        }
 
-		_parent = parent;
-		toastComplete = toastWhenComplete;
+        _parent = parent;
+        toastComplete = toastWhenComplete;
 
-		if (db == null)
-			db = new DB(_parent, null);
+        if (db == null)
+            db = new DB(_parent, null);
 
-		reqQueue.add(new ScheduleRequest(db.getCodeFromEventName(event), Prefs.getPracticeMatch(parent, false), this::onResponse, this::onError));
+        reqQueue.add(new ScheduleRequest(db.getCodeFromEventName(event), Prefs.getPracticeMatch(parent, false), this::onResponse, this::onError));
 
-	}
+    }
 
-	public void onResponse(ScheduleResponse resp) {
-		try {
-			String r = resp.resp;
-			if (resp.statusCode == 200) {
-				FileOutputStream fos = _parent.openFileOutput(FILENAME,
-						Context.MODE_PRIVATE);
-				fos.write(r.getBytes());
-				fos.close();
-			} else if (offseason) {
-				FileOutputStream fos = _parent.openFileOutput(FILENAME,
-						Context.MODE_PRIVATE);
-				fos.write("No Schedule".getBytes());
-				fos.close();
-			}
-			if (toastComplete) {
-				Toast.makeText(
-						_parent,
-						r.contains("\"level\"") ? "Schedule Successfully Updated"
-								: "No Schedule Available", Toast.LENGTH_SHORT)
-						.show();
-			}
-		} catch (Exception e) {
-			if (toastComplete)
-				Toast.makeText(_parent,
-						"Error Saving Schedule: " + e.getMessage(),
-						Toast.LENGTH_SHORT).show();
-		}
-	}
+    public void onResponse(ScheduleResponse resp) {
+        try {
+            String r = resp.resp;
+            if (resp.statusCode == 200) {
+                FileOutputStream fos = _parent.openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+                fos.write(r.getBytes());
+                fos.close();
+            } else if (offseason) {
+                FileOutputStream fos = _parent.openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+                fos.write("No Schedule".getBytes());
+                fos.close();
+            }
+            if (toastComplete) {
+                Toast.makeText(
+                        _parent,
+                        r.contains("\"level\"") ? "Schedule Successfully Updated"
+                            : "No Schedule Available", Toast.LENGTH_SHORT)
+                    .show();
+            }
+        } catch (Exception e) {
+            if (toastComplete)
+                Toast.makeText(_parent,
+                    "Error Saving Schedule: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
-	public void onError(VolleyError e) {
-		try {
-			if (toastComplete)
-				Toast.makeText(_parent, "Error Downloading Schedule",
-						Toast.LENGTH_SHORT).show();
-			if (offseason) {
-				FileOutputStream fos = _parent.openFileOutput(FILENAME,
-						Context.MODE_PRIVATE);
-				fos.write("No Schedule".getBytes());
-				fos.close();
-			}
-		} catch (Exception es) {
-			//TODO
-		}
+    public void onError(VolleyError e) {
+        try {
+            if (toastComplete)
+                Toast.makeText(_parent, "Error Downloading Schedule",
+                    Toast.LENGTH_SHORT).show();
+            if (offseason) {
+                FileOutputStream fos = _parent.openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+                fos.write("No Schedule".getBytes());
+                fos.close();
+            }
+        } catch (Exception es) {
+            //TODO
+        }
 
-	}
+    }
 
-	public String getTeam(int match, String pos, Context parent) {
-		return getTeam(match, pos, parent, "");
-	}
+    public String getTeam(int match, String pos, Context parent) {
+        return getTeam(match, pos, parent, "");
+    }
 
-	public String getTeam(int match, String pos, Context parent,
-			String defaultVal) {
-		try {
-			String schedule = getSchedule(parent);
-			if (schedule.compareTo("No Schedule") == 0)
-				return defaultVal;
+    public String getTeam(int match, String pos, Context parent,
+                          String defaultVal) {
+        try {
+            String schedule = getSchedule(parent);
+            if (schedule.compareTo("No Schedule") == 0)
+                return defaultVal;
 
-			String position = pos.replaceAll("\\s+", "");
+            String position = pos.replaceAll("\\s+", "");
 
-			String ret = "";
-			JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
+            String ret = "";
+            JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
 
-			for (int i = 0; i < sched.length(); i++) {
-				if (sched.getJSONObject(i).getInt("matchNumber") == match) {
-					JSONArray teams = sched.getJSONObject(i).getJSONArray(
-							"Teams");
-					for (int j = 0; j < teams.length(); j++) {
-						if (teams.getJSONObject(j).getString("station")
-								.compareToIgnoreCase(position) == 0)
-							ret = String.valueOf(teams.getJSONObject(j).getInt(
-									"teamNumber"));
-					}
-				}
-			}
-			if (ret.length() < 10 && Integer.parseInt(ret) > 0)
-				return ret;
-			else
-				return defaultVal;
+            for (int i = 0; i < sched.length(); i++) {
+                if (sched.getJSONObject(i).getInt("matchNumber") == match) {
+                    JSONArray teams = sched.getJSONObject(i).getJSONArray(
+                        "Teams");
+                    for (int j = 0; j < teams.length(); j++) {
+                        if (teams.getJSONObject(j).getString("station")
+                            .compareToIgnoreCase(position) == 0)
+                            ret = String.valueOf(teams.getJSONObject(j).getInt(
+                                "teamNumber"));
+                    }
+                }
+            }
+            if (ret.length() < 10 && Integer.parseInt(ret) > 0)
+                return ret;
+            else
+                return defaultVal;
 
-		} catch (Exception e) {
-			return defaultVal;
-		}
-	}
+        } catch (Exception e) {
+            return defaultVal;
+        }
+    }
 
-	public List<Integer> getMatchesForTeam(int team, Context parent) {
+    public List<Integer> getMatchesForTeam(int team, Context parent) {
         try {
             String schedule = getSchedule(parent);
             if (schedule.compareTo("No Schedule") == 0)
@@ -227,7 +227,7 @@ public class MatchSchedule {
 
             for (int i = 0; i < sched.length(); i++) {
                 JSONArray teams = sched.getJSONObject(i).getJSONArray(
-                        "Teams");
+                    "Teams");
                 for (int j = 0; j < teams.length(); j++) {
                     if (teams.getJSONObject(j).getInt("teamNumber") == team)
                         matches.add(sched.getJSONObject(i).getInt("matchNumber"));
@@ -241,47 +241,47 @@ public class MatchSchedule {
     }
 
     public List<Integer> getTeamList(Context parent) {
-		try {
-			String schedule = getSchedule(parent);
-			if (schedule.compareTo("No Schedule") == 0)
-				return null;
-			List<Integer> teamList = new ArrayList<>(16);
+        try {
+            String schedule = getSchedule(parent);
+            if (schedule.compareTo("No Schedule") == 0)
+                return null;
+            List<Integer> teamList = new ArrayList<>(16);
 
-			JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
+            JSONArray sched = new JSONObject(schedule).getJSONArray("Schedule");
 
-			for (int i = 0; i < sched.length(); i++) {
-				JSONArray teams = sched.getJSONObject(i).getJSONArray(
-						"Teams");
-				for (int j = 0; j < teams.length(); j++) {
-					if (!teamList.contains(teams.getJSONObject(j).getInt("number")))
-						teamList.add(teams.getJSONObject(j).getInt("number"));
-				}
-			}
-			return teamList;
+            for (int i = 0; i < sched.length(); i++) {
+                JSONArray teams = sched.getJSONObject(i).getJSONArray(
+                    "Teams");
+                for (int j = 0; j < teams.length(); j++) {
+                    if (!teamList.contains(teams.getJSONObject(j).getInt("number")))
+                        teamList.add(teams.getJSONObject(j).getInt("number"));
+                }
+            }
+            return teamList;
 
-		} catch (Exception e) {
-			return null;
-		}
-	}
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	private String getSchedule(Context parent) {
-		try {
-			BufferedInputStream bis = new BufferedInputStream(
-					parent.openFileInput(FILENAME));
-			byte[] buffer = new byte[bis.available()];
-			//noinspection ResultOfMethodCallIgnored
-			bis.read(buffer, 0, buffer.length);
-			return new String(buffer);
-		} catch (Exception e) {
-			return "";
-		}
-	}
+    private String getSchedule(Context parent) {
+        try {
+            BufferedInputStream bis = new BufferedInputStream(
+                parent.openFileInput(FILENAME));
+            byte[] buffer = new byte[bis.available()];
+            //noinspection ResultOfMethodCallIgnored
+            bis.read(buffer, 0, buffer.length);
+            return new String(buffer);
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-	public boolean isValid(Context parent) {
-		String schedule = getSchedule(parent);
-		// if there is no schedule released yet, will still have valid json, but
-		// not any entries
-		return schedule.contains("\"level\"");
-	}
+    public boolean isValid(Context parent) {
+        String schedule = getSchedule(parent);
+        // if there is no schedule released yet, will still have valid json, but
+        // not any entries
+        return schedule.contains("\"level\"");
+    }
 
 }

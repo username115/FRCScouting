@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "org.growingstems.scouting"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -16,22 +16,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
-	buildToolsVersion '32.0.0'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '32.0.0'
+    namespace 'org.growingstems.scouting'
 }
 
 dependencies {
     implementation files('libs/achartengine-1.2.0.jar')
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-	implementation 'androidx.preference:preference-ktx:1.2.0'
-	implementation 'com.android.volley:volley:1.2.1'
-    implementation "androidx.core:core-ktx:1.9.0-alpha01"
+    implementation 'androidx.appcompat:appcompat:1.7.0-alpha02'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.preference:preference:1.2.0'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }
 repositories {
     mavenCentral()

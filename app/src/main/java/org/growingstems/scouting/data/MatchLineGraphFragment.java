@@ -62,7 +62,7 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
     private static final int NUMGRAPHS = 15;
 
     private static final int[] COLORS = {Color.GREEN, Color.CYAN, Color.RED,
-            Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.BLUE, Color.DKGRAY, Color.GRAY, Color.LTGRAY}; //ALL THE COLORS
+        Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.BLUE, Color.DKGRAY, Color.GRAY, Color.LTGRAY}; //ALL THE COLORS
 
     public static MatchLineGraphFragment getInstance(int team_num, String event_name) {
         MatchLineGraphFragment fragment = new MatchLineGraphFragment();
@@ -108,11 +108,11 @@ public class MatchLineGraphFragment extends DataFragment implements DataSource.D
             mRenderer.setLegendTextSize(val);
             mRenderer.setPointSize(val / 4.0f);
             mChart = ChartFactory.getCubeLineChartView(getActivity(), mDataset, mRenderer,
-                    0.0f);
+                0.0f);
             mChart.setBackgroundColor(Color.BLACK);
             layout.addView(mChart, new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
         } else {
             mChart.repaint();
         }

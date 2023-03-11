@@ -16,35 +16,34 @@
 package org.growingstems.scouting
 
 import android.app.AlertDialog
-import org.frc836.database.DBActivity
-import android.widget.TextView
-import android.widget.CheckBox
-import android.os.Bundle
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.PreferenceManager
+import com.android.volley.VolleyError
+import org.frc836.database.DB
+import org.frc836.database.DBActivity
+import org.frc836.database.HttpCallback
 import org.frc836.yearly.PitsActivity
 import org.growingstems.scouting.data.DataActivity
-import androidx.preference.PreferenceManager
-import android.view.LayoutInflater
-import android.content.DialogInterface
-import org.frc836.database.HttpCallback
-import com.android.volley.VolleyError
-import android.net.Uri
-import android.widget.Button
-import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
-import org.frc836.database.DB
-import java.lang.Exception
 
 class DashboardActivity : DBActivity() {
     private val match: Button? by lazy { findViewById(R.id.matchB) }
     private val pits: Button? by lazy { findViewById(R.id.pitB) }
     private val data: Button? by lazy { findViewById(R.id.dataB) }
-    private val picklist: Button? by lazy { findViewById(R.id.picklistB) }
+    private val superscout: Button? by lazy { findViewById(R.id.superscoutB) }
     private val beeLogo: ImageView? by lazy { findViewById(R.id.beeLogo) }
     private val stemsLogo: ImageView? by lazy { findViewById(R.id.stemsLogo) }
     private val fmsApiLink: TextView? by lazy { findViewById(R.id.fmsApiLink) }
     override val helpMessage: String by lazy {
-		"""
+        """
             Version: ${getString(R.string.VersionID)}
             Date: ${getString(R.string.VersionDate)}
             Refer all questions or comments to ${getString(R.string.dev_email)}
@@ -61,33 +60,33 @@ class DashboardActivity : DBActivity() {
         }
         versionCode = ""
         match?.setOnClickListener {
-			val intent = Intent(
-				baseContext,
-				MatchStartActivity::class.java
-			)
-			getResultForVersionCallback.launch(intent)
-		}
-		pits?.setOnClickListener {
-			val intent = Intent(
-				baseContext,
-				PitsActivity::class.java
-			)
-			getResultForVersionCallback.launch(intent)
-		}
-		data?.setOnClickListener {
-			val intent = Intent(baseContext, DataActivity::class.java)
-			getResultForVersionCallback.launch(intent)
-		}
-		picklist?.setOnClickListener {
-			val intent = Intent(baseContext, PickActivity::class.java)
-			getResultForVersionCallback.launch(intent)
-		}
-		beeLogo?.setOnClickListener {
-			val uri = Uri.parse("http://robobees.org")
-			val intent = Intent(Intent.ACTION_VIEW, uri)
-			startActivity(intent)
-		}
-		stemsLogo?.setOnClickListener {
+            val intent = Intent(
+                baseContext,
+                MatchStartActivity::class.java
+            )
+            getResultForVersionCallback.launch(intent)
+        }
+        pits?.setOnClickListener {
+            val intent = Intent(
+                baseContext,
+                PitsActivity::class.java
+            )
+            getResultForVersionCallback.launch(intent)
+        }
+        data?.setOnClickListener {
+            val intent = Intent(baseContext, DataActivity::class.java)
+            getResultForVersionCallback.launch(intent)
+        }
+        superscout?.setOnClickListener {
+            val intent = Intent(baseContext, SuperScoutActivity::class.java)
+            getResultForVersionCallback.launch(intent)
+        }
+        beeLogo?.setOnClickListener {
+            val uri = Uri.parse("http://robobees.org")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+        stemsLogo?.setOnClickListener {
             val uri = Uri.parse("http://growingstems.org")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
@@ -195,24 +194,24 @@ class DashboardActivity : DBActivity() {
         }
     }
 
-	override val resultForPrefs = registerForActivityResult(
-		ActivityResultContracts.StartActivityForResult()
-	) {
-		val schedule = MatchSchedule()
-		val prefs = PreferenceManager
-			.getDefaultSharedPreferences(baseContext)
-		schedule.updateSchedule(
-			prefs.getString("eventPref", "Chesapeake Regional"), this,
-			false
-		)
-	}
+    override val resultForPrefs = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val schedule = MatchSchedule()
+        val prefs = PreferenceManager
+            .getDefaultSharedPreferences(baseContext)
+        schedule.updateSchedule(
+            prefs.getString("eventPref", "Chesapeake Regional"), this,
+            false
+        )
+    }
 
-	private val getResultForVersionCallback = registerForActivityResult(
-		ActivityResultContracts.StartActivityForResult()
-	) {
-		val db = DB(baseContext, binder)
-		db.checkVersion(VersionCallback())
-	}
+    private val getResultForVersionCallback = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val db = DB(baseContext, binder)
+        db.checkVersion(VersionCallback())
+    }
 
     companion object {
         private const val URL_MESSAGE =

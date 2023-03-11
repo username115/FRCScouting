@@ -8,7 +8,7 @@
     <style name="SpinnerAsEditTextHalfAlpha" parent="@android:style/Widget.Spinner">
         <item name="android:background">#7f303030</item>
     </style>
-    
+
     <style name="TextViewAsEditText" parent="@android:style/Widget.TextView">
         <item name="android:background">@android:drawable/edit_text</item>
     </style>

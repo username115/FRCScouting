@@ -1,265 +1,145 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context="org.frc836.yearly.EndMatchFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.frc836.yearly.EndMatchFragment">
 
-	<TextView
-		android:id="@+id/endTextView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"
-		android:text="@string/end_input_text"
-		android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
-	<ScrollView
-		android:id="@+id/scrollView"
-		android:layout_width="match_parent"
-
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/endTextView">
-
-		<LinearLayout
-			android:id="@+id/endGameLayout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
+    <TextView
+        android:id="@+id/endTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/end_input_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
-			<RelativeLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:cropToPadding="false">
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
 
-				<org.growingstems.scouting.TransparentImageButton
-					android:id="@+id/leftOutfieldRegion"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/left_outfield_region" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/endTextView">
 
-				<org.growingstems.scouting.TransparentImageButton
-					android:id="@+id/leftTarmacRegion"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/left_tarmac_region" />
-
-				<org.growingstems.scouting.TransparentImageButton
-					android:id="@+id/rightOutfieldRegion"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/right_outfield_region" />
-
-				<org.growingstems.scouting.TransparentImageButton
-					android:id="@+id/rightTarmacRegion"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/right_tarmac_region" />
-
-				<ImageView
-					android:id="@+id/fieldView"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/fieldimage_entire_field_raster"
-					tools:ignore="ContentDescription" />
-
-				<ImageView
-					android:id="@+id/leftOutfieldSelect"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/left_outfield_select"
-					android:visibility="invisible"
-					tools:ignore="ContentDescription" />
-
-				<ImageView
-					android:id="@+id/leftTarmacSelect"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/left_tarmac_select"
-					android:visibility="invisible"
-					tools:ignore="ContentDescription" />
-
-				<ImageView
-					android:id="@+id/rightOutfieldSelect"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/right_outfield_select"
-					android:visibility="invisible"
-					tools:ignore="ContentDescription" />
-
-				<ImageView
-					android:id="@+id/rightTarmacSelect"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/right_tarmac_select"
-					android:visibility="invisible"
-					tools:ignore="ContentDescription" />
+        <LinearLayout
+            android:id="@+id/endGameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
-				<org.growingstems.scouting.SuperImageButton
-					android:id="@+id/fieldimage_transparent"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:adjustViewBounds="true"
-					android:background="#00000000"
-					android:scaleType="fitXY"
-					android:src="@drawable/field_transparent_overlay" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-			</RelativeLayout>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/chargeStationT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/charge_station" />
 
-				<CheckBox
-					android:id="@+id/yellow_card"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:gravity="center_vertical"
-					android:text="@string/yellowcard" />
+                    <TextView
+                        android:id="@+id/cardsT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/cards" />
+                </TableRow>
 
-				<CheckBox
-					android:id="@+id/tech_foul"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:layout_gravity="center_vertical"
-					android:layout_weight="1"
-					android:text="@string/techfoul" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-				<CheckBox
-					android:id="@+id/red_card"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:gravity="center_vertical"
-					android:text="@string/redcard" />
-			</LinearLayout>
+                    <Button
+                        android:id="@+id/chargeStationB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/station_no_attempt" />
 
-			<TableLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/cardsB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/none" />
 
-				<TableRow
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="horizontal">
+                </TableRow>
 
-					<CheckBox
-						android:id="@+id/ally_tarmac"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:gravity="center_vertical"
-						android:text="@string/ally_tarmac_string" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-					<CheckBox
-						android:id="@+id/opp_tarmac"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:gravity="center_vertical"
-						android:text="@string/opp_tarmac_string" />
+                    <TextView
+                        android:id="@+id/feederT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/feeder_bot" />
 
-				</TableRow>
+                    <TextView
+                        android:id="@+id/defenseT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/defense_bot" />
+                </TableRow>
 
-				<TableRow
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="horizontal">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-					<CheckBox
-						android:id="@+id/ally_outfield"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:gravity="center_vertical"
-						android:text="@string/ally_outfield_string" />
+                    <Button
+                        android:id="@+id/feederB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-					<CheckBox
-						android:id="@+id/opp_outfield"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:gravity="center_vertical"
-						android:text="@string/opp_outfield_string" />
-				</TableRow>
+                    <Button
+                        android:id="@+id/defenseB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-				<TableRow
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="horizontal">
+                </TableRow>
 
-					<CheckBox
-						android:id="@+id/fender_usage"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:gravity="center_vertical"
-						android:text="@string/fender_string" />
+            </TableLayout>
 
-					<CheckBox
-						android:id="@+id/launchpad_usage"
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:layout_weight="1"
-						android:gravity="center_vertical"
-						android:text="@string/launchpad_string" />
-				</TableRow>
-			</TableLayout>
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/notes"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine" />
 
-			<EditText
-				android:id="@+id/notes"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:hint="@string/notes"
-				android:importantForAutofill="no"
-				android:inputType="textMultiLine" />
+            <Spinner
+                android:id="@+id/commonNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/match_notes_options"
+                android:gravity="center" />
 
-			<Spinner
-				android:id="@+id/commonNotes"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:entries="@array/match_notes_options"
-				android:gravity="center" />
+            <Spinner
+                android:id="@+id/previousNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:entries="@array/match_prev_notes_options"
+                android:gravity="center" />
+        </LinearLayout>
 
-			<Spinner
-				android:id="@+id/previousNotes"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="10sp"
-				android:entries="@array/match_prev_notes_options"
-				android:gravity="center" />
-		</LinearLayout>
-
-	</ScrollView>
+    </ScrollView>
 
 </RelativeLayout>

@@ -31,11 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -53,11 +50,10 @@ import java.util.List;
 
 public class MatchActivity extends DBActivity {
 
-    public static final int NUM_SCREENS = 4;
+    public static final int NUM_SCREENS = 3;
     public static final int AUTO_SCREEN = 0;
     public static final int TELE_SCREEN = 1;
-	public static final int CLIMB_SCREEN = 2;
-    public static final int END_SCREEN = 3;
+    public static final int END_SCREEN = 2;
 
     private MatchViewAdapter mMatchViewAdapter;
 
@@ -84,26 +80,27 @@ public class MatchActivity extends DBActivity {
     private final Handler timer = new Handler();
     private static final int DELAY = 16000;
 
-	private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
+    private final ActivityResultLauncher<Intent> resultForPrefs = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    });
 
     private final Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
-			AlertDialog.Builder builder = new AlertDialog.Builder(MatchActivity.this);
-			builder.setMessage("Continue to Tele-Op?")
-					.setCancelable(true)
-					.setPositiveButton("Yes",
-							(dialog, id) -> {
-								if (mCurrentPage == AUTO_SCREEN)
-									onNext(nextB);
-							})
-					.setNegativeButton("No",
-							(dialog, id) -> {
-								timer.removeCallbacks(mUpdateTimeTask);
-								if (!readOnly && mCurrentPage == AUTO_SCREEN)
-									timer.postDelayed(mUpdateTimeTask, DELAY);
-								dialog.cancel();
-							});
-			builder.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(MatchActivity.this);
+            builder.setMessage("Continue to Tele-Op?")
+                .setCancelable(true)
+                .setPositiveButton("Yes",
+                    (dialog, id) -> {
+                        if (mCurrentPage == AUTO_SCREEN)
+                            onNext(nextB);
+                    })
+                .setNegativeButton("No",
+                    (dialog, id) -> {
+                        timer.removeCallbacks(mUpdateTimeTask);
+                        if (!readOnly && mCurrentPage == AUTO_SCREEN)
+                            timer.postDelayed(mUpdateTimeTask, DELAY);
+                        dialog.cancel();
+                    });
+            builder.show();
         }
     };
 
@@ -115,10 +112,11 @@ public class MatchActivity extends DBActivity {
         setContentView(R.layout.match);
 
         HELPMESSAGE = "Record Match Data here.\n" +
-				"Input number of cargo scored in both Autonomous and Tele-op periods.\n" +
-				"Input hang location, and how long it took to reach final hang position.\n" +
-				"A timer has been provided to assist with this.\n" +
-				"During the match, observe where cargo was scored from, and mark the locations the robot tended to use.";
+            "Input where game pieces are scored on the grid for autonomous and tele-op periods\n" +
+            "along with mobility, charge station, dropped game pieces and fouls.\n" +
+            "On the end-game screen, record charge station, and yellow/red flags\n" +
+            "If the robot was primarily feeding game pieces to other robots, check the \"Feeder Bot\" button\n" +
+            "If the robot played a lot of defense, check the \"Defense Bot\" button";
 
         getGUIRefs();
 
@@ -186,18 +184,18 @@ public class MatchActivity extends DBActivity {
         }
     }
 
-	@Override
-	public String getHelpMessage() {
-		return HELPMESSAGE;
-	}
+    @Override
+    public String getHelpMessage() {
+        return HELPMESSAGE;
+    }
 
-	@NonNull
-	@Override
-	public ActivityResultLauncher<Intent> getResultForPrefs() {
-		return resultForPrefs;
-	}
+    @NonNull
+    @Override
+    public ActivityResultLauncher<Intent> getResultForPrefs() {
+        return resultForPrefs;
+    }
 
-	private class positionClickListener implements View.OnClickListener {
+    private class positionClickListener implements View.OnClickListener {
         public void onClick(View v) {
             MainMenuSelection.openSettings(MatchActivity.this);
         }
@@ -209,45 +207,45 @@ public class MatchActivity extends DBActivity {
 
         boolean loadData = false;
         if (teamE != null && teamE.length() > 0 && matchE != null
-                && matchE.length() > 0) {
+            && matchE.length() > 0) {
             String team = teamE.toString();
             String match = matchE.toString();
             teamData = db.getMatchStats(event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer
-                    .parseInt(match), Integer.parseInt(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                .parseInt(match), Integer.parseInt(team), readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             if (teamData == null)
                 teamData = new MatchStatsStruct(Integer.parseInt(team),
-                        event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer.parseInt(match),
-                        readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
+                    event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event, Integer.parseInt(match),
+                    readOnly ? prac : Prefs.getPracticeMatch(getApplicationContext(), false));
             else
                 loadData = true;
         } else
             teamData = new MatchStatsStruct();
 
         if (loadData && !readOnly) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("Data for this match exists.\nLoad old match?")
-					.setCancelable(false)
-					.setPositiveButton("Yes",
-							(dialog, id) -> dialog.cancel())
-					.setNegativeButton("No",
-							(dialog, id) -> {
-								if (teamText.getText().toString().length() > 0
-										&& matchT.getText().toString()
-										.length() > 0) {
-									teamData = new MatchStatsStruct(
-											Integer.parseInt(teamText
-													.getText().toString()),
-											event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event,
-											Integer.parseInt(matchT
-													.getText().toString()));
-								} else
-									teamData = new MatchStatsStruct();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Data for this match exists.\nLoad old match?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",
+                    (dialog, id) -> dialog.cancel())
+                .setNegativeButton("No",
+                    (dialog, id) -> {
+                        if (teamText.getText().toString().length() > 0
+                            && matchT.getText().toString()
+                            .length() > 0) {
+                            teamData = new MatchStatsStruct(
+                                Integer.parseInt(teamText
+                                    .getText().toString()),
+                                event == null ? Prefs.getEvent(getApplicationContext(), defaultEvent) : event,
+                                Integer.parseInt(matchT
+                                    .getText().toString()));
+                        } else
+                            teamData = new MatchStatsStruct();
 
-								loadAuto();
-								loadTele();
-								loadEnd();
-							});
-			builder.show();
+                        loadAuto();
+                        loadTele();
+                        loadEnd();
+                    });
+            builder.show();
         }
         mViewPager.setCurrentItem(0, true);
         loadAll();
@@ -263,9 +261,6 @@ public class MatchActivity extends DBActivity {
             case TELE_SCREEN:
                 saveTele();
                 break;
-			case CLIMB_SCREEN:
-				saveClimb();
-				break;
             case END_SCREEN:
                 saveEnd();
                 break;
@@ -274,7 +269,7 @@ public class MatchActivity extends DBActivity {
         switch (page) {
             case AUTO_SCREEN:
                 loadAuto();
-				lastB.setText(getString(R.string.match_change_button_cancel));
+                lastB.setText(getString(R.string.match_change_button_cancel));
                 nextB.setText(getString(R.string.match_change_button_tele));
                 if (!readOnly)
                     timer.postDelayed(mUpdateTimeTask, DELAY);
@@ -282,18 +277,12 @@ public class MatchActivity extends DBActivity {
             case TELE_SCREEN:
                 loadTele();
                 lastB.setText(getString(R.string.match_change_button_auto));
-                nextB.setText(getString(R.string.match_change_button_climb));
+                nextB.setText(getString(R.string.match_change_button_end));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
-			case CLIMB_SCREEN:
-				loadClimb();
-				lastB.setText(getString(R.string.match_change_button_tele));
-				nextB.setText(getString(R.string.match_change_button_end));
-				timer.removeCallbacks(mUpdateTimeTask);
-				break;
             case END_SCREEN:
                 loadEnd();
-                lastB.setText(getString(R.string.match_change_button_climb));
+                lastB.setText(getString(R.string.match_change_button_tele));
                 nextB.setText(readOnly ? getString(R.string.match_change_button_cancel) : getString(R.string.match_change_button_submit));
                 timer.removeCallbacks(mUpdateTimeTask);
                 break;
@@ -313,17 +302,16 @@ public class MatchActivity extends DBActivity {
     public void onBack(View v) {
         if (mCurrentPage == 0 || mCurrentPage >= NUM_SCREENS) {
             if (!readOnly) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(
-						"Cancel Match Entry?\nChanges will not be saved.")
-						.setCancelable(false)
-						.setPositiveButton("Yes",
-								(dialog, id) -> MatchActivity.this.finish())
-						.setNegativeButton("No",
-								(dialog, id) -> dialog.cancel());
-				builder.show();
-			}
-            else
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(
+                        "Cancel Match Entry?\nChanges will not be saved.")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes",
+                        (dialog, id) -> MatchActivity.this.finish())
+                    .setNegativeButton("No",
+                        (dialog, id) -> dialog.cancel());
+                builder.show();
+            } else
                 finish();
         }
         mViewPager.setCurrentItem(mCurrentPage - 1, true);
@@ -342,13 +330,13 @@ public class MatchActivity extends DBActivity {
 
         SparseArray<MatchFragment> fragments;
 
-         MatchViewAdapter(FragmentManager fm) {
+        MatchViewAdapter(FragmentManager fm) {
             super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             fragments = new SparseArray<>(NUM_SCREENS);
         }
 
         @NonNull
-		@Override
+        @Override
         public Fragment getItem(int i) {
             return getMatchFragment(i);
 
@@ -369,10 +357,6 @@ public class MatchActivity extends DBActivity {
                     fragment = TeleMatchFragment.newInstance();
                     fragments.put(i, fragment);
                     return fragment;
-				case CLIMB_SCREEN:
-					fragment = ClimbFragment.newInstance();
-					fragments.put(i, fragment);
-					return fragment;
                 case END_SCREEN:
                 default:
                     fragment = EndMatchFragment.newInstance();
@@ -396,15 +380,6 @@ public class MatchActivity extends DBActivity {
         lastB = findViewById(R.id.backB);
         nextB = findViewById(R.id.nextB);
 
-    }
-
-    private void loadClimb() {
-        mMatchViewAdapter.getMatchFragment(CLIMB_SCREEN).loadData(teamData);
-    }
-
-    private void saveClimb() {
-        saveTeamInfo();
-        mMatchViewAdapter.getMatchFragment(CLIMB_SCREEN).saveData(teamData);
     }
 
     private void loadAuto() {

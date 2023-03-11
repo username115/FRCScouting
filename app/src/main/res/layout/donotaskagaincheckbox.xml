@@ -3,13 +3,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:padding="10dp" >
-    
+    android:padding="10dp">
+
     <CheckBox
         android:id="@+id/donotaskagainC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/donotask" >
-    </CheckBox>
+        android:text="@string/donotask"></CheckBox>
 
 </LinearLayout>

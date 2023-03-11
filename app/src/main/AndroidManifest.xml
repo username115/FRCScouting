@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.growingstems.scouting"
-    android:versionCode="50"
-    android:versionName="2.2022.1.1">
+    android:versionCode="51"
+    android:versionName="2.2023.1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -12,7 +12,14 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat">
+        android:theme="@style/Theme.AppCompat" >
+        <activity
+            android:name=".SuperScoutActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".PrefsActivity"
             android:exported="false"
@@ -30,7 +37,7 @@
             android:name=".DashboardActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +59,7 @@
         <activity
             android:name=".data.DataActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_data">
+            android:label="@string/title_activity_data" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.growingstems.scouting.DashboardActivity" />
@@ -61,14 +68,6 @@
             android:name="org.frc836.yearly.PitsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/pits_label" />
-        <activity
-            android:name=".PickActivity"
-            android:label="@string/title_activity_pick"
-            android:parentActivityName=".DashboardActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.growingstems.scouting.DashboardActivity" />
-        </activity>
     </application>
 
 </manifest>

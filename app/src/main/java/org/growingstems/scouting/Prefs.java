@@ -16,14 +16,6 @@
 
 package org.growingstems.scouting;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.frc836.database.DB;
-import org.frc836.database.DBSyncService;
-import org.frc836.database.DBSyncService.LocalBinder;
-import org.frc836.database.HttpCallback;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +36,14 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.volley.VolleyError;
 
+import org.frc836.database.DB;
+import org.frc836.database.DBSyncService;
+import org.frc836.database.DBSyncService.LocalBinder;
+import org.frc836.database.HttpCallback;
+
+import java.util.Collections;
+import java.util.List;
+
 public class Prefs extends PreferenceFragmentCompat {
 
     private EditTextPreference passP;
@@ -61,43 +61,43 @@ public class Prefs extends PreferenceFragmentCompat {
     private LocalBinder binder;
     private final ServiceWatcher watcher = new ServiceWatcher();
 
-	@Override
-	public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
-		setPreferencesFromResource(R.xml.mainprefs, rootKey);
+    @Override
+    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+        setPreferencesFromResource(R.xml.mainprefs, rootKey);
 
-		passP = findPreference("passPref");
-		urlP = findPreference("databaseURLPref");
-		syncPreference = findPreference("enableSyncPref");
+        passP = findPreference("passPref");
+        urlP = findPreference("databaseURLPref");
+        syncPreference = findPreference("enableSyncPref");
 
-		passP.setOnPreferenceChangeListener(new onPassChangeListener(true));
-		urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
-		syncPreference
-				.setOnPreferenceChangeListener(new OnSyncChangeListener());
+        passP.setOnPreferenceChangeListener(new onPassChangeListener(true));
+        urlP.setOnPreferenceChangeListener(new onPassChangeListener(false));
+        syncPreference
+            .setOnPreferenceChangeListener(new OnSyncChangeListener());
 
-		findPreference("syncFreqPref").setEnabled(
-				getAutoSync(getPreferenceManager().getContext(), false));
+        findPreference("syncFreqPref").setEnabled(
+            getAutoSync(getPreferenceManager().getContext(), false));
 
-		eventP = findPreference("eventPref");
+        eventP = findPreference("eventPref");
 
-		db = new DB(getPreferenceManager().getContext(), binder);
+        db = new DB(getPreferenceManager().getContext(), binder);
 
-		List<String> events = db.getEventList();
-		if (events != null)
-			updateEventPreference(events);
+        List<String> events = db.getEventList();
+        if (events != null)
+            updateEventPreference(events);
 
-		Intent intent = new Intent(getPreferenceManager().getContext(), DBSyncService.class);
-		getPreferenceManager().getContext().bindService(intent, watcher, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent(getPreferenceManager().getContext(), DBSyncService.class);
+        getPreferenceManager().getContext().bindService(intent, watcher, Context.BIND_AUTO_CREATE);
 
-	}
+    }
 
-	@Override
+    @Override
     public void onDestroyView() {
-		super.onDestroyView();
-		unbindDB();
-	}
+        super.onDestroyView();
+        unbindDB();
+    }
 
     public void unbindDB() {
-		getPreferenceManager().getContext().unbindService(watcher);
+        getPreferenceManager().getContext().unbindService(watcher);
     }
 
     protected class ServiceWatcher implements ServiceConnection {
@@ -138,15 +138,15 @@ public class Prefs extends PreferenceFragmentCompat {
                 // database
                 // sync operations
                 db.checkPass(newValue.toString(), new PasswordCallback(true));
-			} else {
+            } else {
                 String ret = newValue.toString();
                 if (ret.length() > 0 && !ret.contains("://")) {
                     ret = "https://" + ret;
                 }
                 binder.refreshNotification(ret);
-			}
-			return true;
-		}
+            }
+            return true;
+        }
 
     }
 
@@ -177,17 +177,17 @@ public class Prefs extends PreferenceFragmentCompat {
             try {
                 if (resp.contains("success")) {
                     toast = Toast.makeText(getPreferenceManager().getContext(),
-                            "Password confirmed", Toast.LENGTH_SHORT);
+                        "Password confirmed", Toast.LENGTH_SHORT);
                     if (binder != null) {
                         binder.setPassword(getSavedPassword(getPreferenceManager().getContext()));
                         binder.initSync();
                     }
                 } else
                     toast = Toast.makeText(getPreferenceManager().getContext(),
-                            "Invalid password", Toast.LENGTH_SHORT);
+                        "Invalid password", Toast.LENGTH_SHORT);
             } catch (Exception e) {
                 toast = Toast.makeText(getPreferenceManager().getContext(), "Invalid password",
-                        Toast.LENGTH_SHORT);
+                    Toast.LENGTH_SHORT);
             }
             if (isPass)
                 toast.show();
@@ -196,19 +196,19 @@ public class Prefs extends PreferenceFragmentCompat {
         @Override
         public void onError(@NonNull VolleyError e) {
             Toast toast = Toast.makeText(getPreferenceManager().getContext(),
-                    "Cannot connect to Server", Toast.LENGTH_SHORT);
+                "Cannot connect to Server", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
 
     public static String getSavedPassword(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("passPref", "");
+            .getString("passPref", "");
     }
 
     public static String getScoutingURL(Context context) {
         String ret = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("databaseURLPref", URL);
+            .getString("databaseURLPref", URL);
         if (ret.length() > 0 && !ret.contains("://")) {
             ret = "https://" + ret;
         }
@@ -217,7 +217,7 @@ public class Prefs extends PreferenceFragmentCompat {
 
     public static String getScoutingURLNoDefault(Context context) {
         String ret = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("databaseURLPref", "");
+            .getString("databaseURLPref", "");
         if (ret.length() > 0 && !ret.contains("://")) {
             ret = "https://" + ret;
         }
@@ -227,7 +227,7 @@ public class Prefs extends PreferenceFragmentCompat {
     public static String getEvent(Context context, String defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("eventPref", defaultValue);
+                .getString("eventPref", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -236,7 +236,7 @@ public class Prefs extends PreferenceFragmentCompat {
     public static boolean getRobotPicPref(Context context, boolean defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("robotPicPref", defaultValue);
+                .getBoolean("robotPicPref", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -245,7 +245,7 @@ public class Prefs extends PreferenceFragmentCompat {
     public static boolean getPracticeMatch(Context context, boolean defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("practiceMatchPref", defaultValue);
+                .getBoolean("practiceMatchPref", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -255,7 +255,7 @@ public class Prefs extends PreferenceFragmentCompat {
                                               String defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("teamPref", defaultValue);
+                .getString("teamPref", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -264,7 +264,7 @@ public class Prefs extends PreferenceFragmentCompat {
     public static boolean getAutoSync(Context context, boolean defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("enableSyncPref", defaultValue);
+                .getBoolean("enableSyncPref", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -273,7 +273,7 @@ public class Prefs extends PreferenceFragmentCompat {
     public static String getPosition(Context context, String defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("positionPref", defaultValue);
+                .getString("positionPref", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -289,7 +289,7 @@ public class Prefs extends PreferenceFragmentCompat {
 
     public static void setRedLeft(Context context, boolean redLeft) {
         SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
+            .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("redLeft", redLeft);
         editor.apply();
@@ -299,7 +299,7 @@ public class Prefs extends PreferenceFragmentCompat {
                                                   final int defaultValue) {
         try {
             String val = PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("syncFreqPref", "");
+                .getString("syncFreqPref", "");
 
             int secs;
             if (val == null || val.length() == 0)
@@ -318,7 +318,7 @@ public class Prefs extends PreferenceFragmentCompat {
     public static boolean getDontPrompt(Context context, boolean defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("doNotAskURL", defaultValue);
+                .getBoolean("doNotAskURL", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }
@@ -326,7 +326,7 @@ public class Prefs extends PreferenceFragmentCompat {
 
     public static void setDontPrompt(Context context, boolean dontPrompt) {
         SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
+            .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("doNotAskURL", dontPrompt);
         editor.apply();
@@ -334,10 +334,10 @@ public class Prefs extends PreferenceFragmentCompat {
 
 
     public static String getDeviceName(Context context,
-                                              String defaultValue) {
+                                       String defaultValue) {
         try {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("deviceName", defaultValue);
+                .getString("deviceName", defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }

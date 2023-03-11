@@ -16,12 +16,12 @@
 package org.growingstems.scouting
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import android.content.pm.PackageManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 
 abstract class ScoutingMenuActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -32,7 +32,7 @@ abstract class ScoutingMenuActivity : AppCompatActivity(), OnRequestPermissionsR
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return MainMenuSelection.onOptionsItemSelected(item, this)
-				|| super.onOptionsItemSelected(item)
+            || super.onOptionsItemSelected(item)
     }
 
     override fun onRequestPermissionsResult(

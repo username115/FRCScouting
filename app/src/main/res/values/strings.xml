@@ -95,8 +95,6 @@
     <string name="submit_text">Submit</string>
     <string name="team_text">"Team #: "</string>
     <string name="team_hint">Team #</string>
-    <string name="yellow_card">YC</string>
-    <string name="red_card">RC</string>
 
     <string-array name="match_notes_options">
         <item>Common Notes</item>
@@ -186,6 +184,11 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
+
+    <string name="none">None</string>
+    <string name="notes">Notes</string>
 
 
 </resources>

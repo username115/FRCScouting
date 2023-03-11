@@ -16,13 +16,6 @@
 
 package org.growingstems.scouting.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.growingstems.scouting.MatchSchedule;
-import org.growingstems.scouting.Prefs;
-import org.growingstems.scouting.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,6 +29,13 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import org.growingstems.scouting.MatchSchedule;
+import org.growingstems.scouting.Prefs;
+import org.growingstems.scouting.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TeamListFragment extends DataFragment {
 
@@ -60,7 +60,7 @@ public class TeamListFragment extends DataFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         rootView.findViewById(R.id.data_team_input_layout).setVisibility(
-                View.VISIBLE);
+            View.VISIBLE);
 
         loadB.setOnClickListener(new LoadClick());
         autoText.setOnItemClickListener(new TeamClick());
@@ -90,24 +90,23 @@ public class TeamListFragment extends DataFragment {
             teams.add("No Data for any Team");
         } else {
             if (ourTeam.length() > 0 && TextUtils.isDigitsOnly(ourTeam)
-                    && teams.contains(ourTeam)) {
+                && teams.contains(ourTeam)) {
                 teams.remove(ourTeam);
                 teams.add(0, ourTeam);
             }
             setTeamList(teams);
         }
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-				getActivity(), defaultListResource, teams);
+            getActivity(), defaultListResource, teams);
         dataList.setAdapter(adapter);
         dataList.setOnItemClickListener(new TeamClick());
-        dataList.setOnItemLongClickListener(new TeamLongClick());
     }
 
     private void setTeamList(List<String> teams) {
         if (teams.isEmpty() || getActivity() == null)
             return;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-				android.R.layout.simple_dropdown_item_1line, teams);
+            android.R.layout.simple_dropdown_item_1line, teams);
 
         autoText.setAdapter(adapter);
     }
@@ -122,61 +121,13 @@ public class TeamListFragment extends DataFragment {
                 try {
                     loadTeam(Integer.parseInt(team));
                 } catch (NumberFormatException e) {
-					//TODO
+                    //TODO
                 }
             }
         }
 
     }
 
-    private class TeamLongClick implements AdapterView.OnItemLongClickListener {
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (view instanceof TextView) {
-                String team = ((TextView) view).getText().toString();
-                try {
-                    Integer.valueOf(team);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                PopupMenu popup = new PopupMenu(getActivity(), view);
-                List<String> t = mParent.getDB().getPickList(Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
-                if (t != null && t.contains(team))
-                    popup.getMenu().add(REMOVETEAMPICK);
-                else
-                    popup.getMenu().add(PICKLISTITEM);
-                popup.setOnMenuItemClickListener(new TeamMenuItemListener(team));
-                popup.show();
-            }
-            return true;
-        }
-    }
-
-    private static final String PICKLISTITEM = "Add Team to Pick List";
-    private static final String REMOVETEAMPICK = "Remove Team from Pick List";
-
-    private class TeamMenuItemListener implements PopupMenu.OnMenuItemClickListener {
-
-        String teamNum;
-
-        public TeamMenuItemListener(String team) {
-            teamNum = team;
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            try {
-                if (item.getTitle().toString().compareTo(PICKLISTITEM) == 0)
-                    mParent.getDB().addTeamToPickList(Integer.parseInt(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
-                else if (item.getTitle().toString().compareTo(REMOVETEAMPICK) == 0)
-                    mParent.getDB().removeTeamFromPickList(Integer.parseInt(teamNum), Prefs.getEvent(mParent, "CHS District Central Virginia Event"));
-            } catch (NumberFormatException e) {
-                return false;
-            }
-            return true;
-        }
-    }
 
     private class LoadClick implements View.OnClickListener {
 
@@ -191,7 +142,7 @@ public class TeamListFragment extends DataFragment {
     private void loadTeam(int team) {
         Intent intent = new Intent(mParent, DataActivity.class);
         intent.putExtra(DataActivity.ACTIVITY_TYPE_STRING,
-                DataActivity.ACTIVITY_TYPE_TEAM);
+            DataActivity.ACTIVITY_TYPE_TEAM);
         intent.putExtra(DataActivity.EVENT_ARG, eventName);
         intent.putExtra(DataActivity.TEAM_ARG, team);
         mParent.startActivity(intent);
