@@ -81,6 +81,9 @@ class SuperScoutActivity : DBActivity() {
 
     private val submitB: Button by lazy { findViewById(R.id.ssSubmitB) }
 
+    private var allianceChanged = false
+    private var firstRun = true
+
     override val helpMessage: String by lazy {
         """
             Watch the assigned alliance for offense, defense, and driver skill.
@@ -183,6 +186,8 @@ class SuperScoutActivity : DBActivity() {
     override fun onResume() {
         super.onResume()
 
+        firstRun = false
+
         for (task in tasks) {
             timer.removeCallbacks(task)
         }
@@ -219,10 +224,12 @@ class SuperScoutActivity : DBActivity() {
         }
 
         if (matchT?.text?.length?.let { it > 0 } == true) {
-            setMatch(matchT?.text.toString().toInt())
+            setMatch(matchT?.text.toString().toInt(), !allianceChanged)
         } else {
             clearData()
         }
+
+        allianceChanged = false
     }
 
     private val onBackPressedCallback: OnBackPressedCallback =
@@ -261,22 +268,29 @@ class SuperScoutActivity : DBActivity() {
     }
 
     private fun updateAlliance() {
-        redAlliance = !(Prefs.getPosition(this, "Red 1").contains("Blue"))
+        val newRedAlliance = !(Prefs.getPosition(this, "Red 1").contains("Blue"))
 
-        posText?.setTextColor(
-            if (redAlliance) {
-                Color.RED
-            } else {
-                Color.BLUE
-            }
-        )
-        posText?.setText(
-            if (redAlliance) {
-                R.string.red
-            } else {
-                R.string.blue
-            }
-        )
+        if (newRedAlliance != redAlliance) {
+
+            allianceChanged = !firstRun //only flag the alliance has changed if it isn't the first run
+
+            redAlliance = newRedAlliance
+
+            posText?.setTextColor(
+                if (redAlliance) {
+                    Color.RED
+                } else {
+                    Color.BLUE
+                }
+            )
+            posText?.setText(
+                if (redAlliance) {
+                    R.string.red
+                } else {
+                    R.string.blue
+                }
+            )
+        }
     }
 
     private fun loadData() {
@@ -309,7 +323,7 @@ class SuperScoutActivity : DBActivity() {
         team3Data.notes = team3NotesT.text.toString()
     }
 
-    private fun setMatch(match: Int) {
+    private fun setMatch(match: Int, resume: Boolean) {
 
         team1Data.match_id = match
         team2Data.match_id = match
@@ -334,6 +348,18 @@ class SuperScoutActivity : DBActivity() {
         team2NotesLabelT?.text = team2S
         team3RankingsT?.text = team3S
         team3NotesLabelT?.text = team3S
+
+        if (resume) {
+            loadData()
+        } else if (!dataClear()) {
+            loadDataDialog(match)
+        } else {
+            loadFromDb(match)
+        }
+
+    }
+
+    private fun loadFromDb(match: Int) {
 
         val stats1 = db.getSuperScoutStats(
             team1Data.event_id,
@@ -362,7 +388,6 @@ class SuperScoutActivity : DBActivity() {
             ?: SuperScoutStatsYearly.clearContents(team3Data)
 
         loadData()
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -430,6 +455,21 @@ class SuperScoutActivity : DBActivity() {
             && team3NotesT.text?.length?.let { it == 0 } == true
     }
 
+    private fun loadDataDialog(match: Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("You had already entered data. Load new data?")
+            .setCancelable(false)
+            .setPositiveButton(
+                "Yes"
+            ) { _: DialogInterface?, _: Int ->
+                loadFromDb(match)
+            }
+            .setNegativeButton(
+                "No"
+            ) { dialog: DialogInterface, _: Int -> dialog.cancel() }
+        builder.show()
+    }
+
     private fun clearDataDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setMessage("You had already entered data. Clear form?")
@@ -452,7 +492,7 @@ class SuperScoutActivity : DBActivity() {
         override fun run() {
             if (matchT?.text?.length?.let { it > 0 } == true
                 && matchT?.text?.toString()?.toInt()?.let { it == matchNum } == true) {
-                setMatch(matchNum)
+                setMatch(matchNum, false)
             }
         }
 
