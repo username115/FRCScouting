@@ -16,6 +16,9 @@
 package org.frc836.yearly;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -161,33 +164,45 @@ public class TeleMatchFragment extends MatchFragment {
         if (act == null)
             return;
 
-        gridSubTopSub.setForeground(data.substn_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubTopMid.setForeground(data.substn_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridSubTopWall.setForeground(data.substn_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubMidSub.setForeground(data.substn_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubMidMid.setForeground(data.substn_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridSubMidWall.setForeground(data.substn_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubHybSub.setForeground(data.substn_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridSubHybMid.setForeground(data.substn_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridSubHybWall.setForeground(data.substn_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridCoopTopSub.setForeground(data.coop_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopTopMid.setForeground(data.coop_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridCoopTopWall.setForeground(data.coop_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopMidSub.setForeground(data.coop_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopMidMid.setForeground(data.coop_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridCoopMidWall.setForeground(data.coop_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopHybSub.setForeground(data.coop_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridCoopHybMid.setForeground(data.coop_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridCoopHybWall.setForeground(data.coop_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridWallTopSub.setForeground(data.wall_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallTopMid.setForeground(data.wall_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridWallTopWall.setForeground(data.wall_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallMidSub.setForeground(data.wall_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallMidMid.setForeground(data.wall_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridWallMidWall.setForeground(data.wall_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallHybSub.setForeground(data.wall_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridWallHybMid.setForeground(data.wall_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridWallHybWall.setForeground(data.wall_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        data.substn_grid_top_substn = updateGridLocation(act, gridSubTopSub,   data.auto_substn_grid_top_substn,  data.substn_grid_top_substn, R.drawable.selection_square_cone);
+        data.substn_grid_top_mid    = updateGridLocation(act, gridSubTopMid,   data.auto_substn_grid_top_mid,     data.substn_grid_top_mid,    R.drawable.selection_square_cube);
+        data.substn_grid_top_wall   = updateGridLocation(act, gridSubTopWall,  data.auto_substn_grid_top_wall,    data.substn_grid_top_wall,   R.drawable.selection_square_cone);
+        data.substn_grid_mid_substn = updateGridLocation(act, gridSubMidSub,   data.auto_substn_grid_mid_substn,  data.substn_grid_mid_substn, R.drawable.selection_square_cone);
+        data.substn_grid_mid_mid    = updateGridLocation(act, gridSubMidMid,   data.auto_substn_grid_mid_mid,     data.substn_grid_mid_mid,    R.drawable.selection_square_cube);
+        data.substn_grid_mid_wall   = updateGridLocation(act, gridSubMidWall,  data.auto_substn_grid_mid_wall,    data.substn_grid_mid_wall,   R.drawable.selection_square_cone);
+        data.substn_grid_hyb_substn = updateGridLocation(act, gridSubHybSub,   data.auto_substn_grid_hyb_substn,  data.substn_grid_hyb_substn, R.drawable.selection_square_hybrid);
+        data.substn_grid_hyb_mid    = updateGridLocation(act, gridSubHybMid,   data.auto_substn_grid_hyb_mid,     data.substn_grid_hyb_mid,    R.drawable.selection_square_hybrid);
+        data.substn_grid_hyb_wall   = updateGridLocation(act, gridSubHybWall,  data.auto_substn_grid_hyb_wall,    data.substn_grid_hyb_wall,   R.drawable.selection_square_hybrid);
+        data.coop_grid_top_substn   = updateGridLocation(act, gridCoopTopSub,  data.auto_coop_grid_top_substn,    data.coop_grid_top_substn,   R.drawable.selection_square_cone);
+        data.coop_grid_top_mid      = updateGridLocation(act, gridCoopTopMid,  data.auto_coop_grid_top_mid,       data.coop_grid_top_mid,      R.drawable.selection_square_cube);
+        data.coop_grid_top_wall     = updateGridLocation(act, gridCoopTopWall, data.auto_coop_grid_top_wall,      data.coop_grid_top_wall,     R.drawable.selection_square_cone);
+        data.coop_grid_mid_substn   = updateGridLocation(act, gridCoopMidSub,  data.auto_coop_grid_mid_substn,    data.coop_grid_mid_substn,   R.drawable.selection_square_cone);
+        data.coop_grid_mid_mid      = updateGridLocation(act, gridCoopMidMid,  data.auto_coop_grid_mid_mid,       data.coop_grid_mid_mid,      R.drawable.selection_square_cube);
+        data.coop_grid_mid_wall     = updateGridLocation(act, gridCoopMidWall, data.auto_coop_grid_mid_wall,      data.coop_grid_mid_wall,     R.drawable.selection_square_cone);
+        data.coop_grid_hyb_substn   = updateGridLocation(act, gridCoopHybSub,  data.auto_coop_grid_hyb_substn,    data.coop_grid_hyb_substn,   R.drawable.selection_square_hybrid);
+        data.coop_grid_hyb_mid      = updateGridLocation(act, gridCoopHybMid,  data.auto_coop_grid_hyb_mid,       data.coop_grid_hyb_mid,      R.drawable.selection_square_hybrid);
+        data.coop_grid_hyb_wall     = updateGridLocation(act, gridCoopHybWall, data.auto_coop_grid_hyb_wall,      data.coop_grid_hyb_wall,     R.drawable.selection_square_hybrid);
+        data.wall_grid_top_substn   = updateGridLocation(act, gridWallTopSub,  data.auto_wall_grid_top_substn,    data.wall_grid_top_substn,   R.drawable.selection_square_cone);
+        data.wall_grid_top_mid      = updateGridLocation(act, gridWallTopMid,  data.auto_wall_grid_top_mid,       data.wall_grid_top_mid,      R.drawable.selection_square_cube);
+        data.wall_grid_top_wall     = updateGridLocation(act, gridWallTopWall, data.auto_wall_grid_top_wall,      data.wall_grid_top_wall,     R.drawable.selection_square_cone);
+        data.wall_grid_mid_substn   = updateGridLocation(act, gridWallMidSub,  data.auto_wall_grid_mid_substn,    data.wall_grid_mid_substn,   R.drawable.selection_square_cone);
+        data.wall_grid_mid_mid      = updateGridLocation(act, gridWallMidMid,  data.auto_wall_grid_mid_mid,       data.wall_grid_mid_mid,      R.drawable.selection_square_cube);
+        data.wall_grid_mid_wall     = updateGridLocation(act, gridWallMidWall, data.auto_wall_grid_mid_wall,      data.wall_grid_mid_wall,     R.drawable.selection_square_cone);
+        data.wall_grid_hyb_substn   = updateGridLocation(act, gridWallHybSub,  data.auto_wall_grid_hyb_substn,    data.wall_grid_hyb_substn,   R.drawable.selection_square_hybrid);
+        data.wall_grid_hyb_mid      = updateGridLocation(act, gridWallHybMid,  data.auto_wall_grid_hyb_mid,       data.wall_grid_hyb_mid,      R.drawable.selection_square_hybrid);
+        data.wall_grid_hyb_wall     = updateGridLocation(act, gridWallHybWall, data.auto_wall_grid_hyb_wall,      data.wall_grid_hyb_wall,     R.drawable.selection_square_hybrid);
+
+    }
+
+    private boolean updateGridLocation(Context context, ImageButton loc, boolean auto_state, boolean tele_state, int resource) {
+        Drawable d = AppCompatResources.getDrawable(context, resource);
+        if (auto_state) {
+            assert d != null;
+            d.setColorFilter(0x76ffffff, PorterDuff.Mode.MULTIPLY );
+        }
+        loc.setForeground(tele_state || auto_state ? d : null);
+        loc.setEnabled(!auto_state);
+        return !auto_state && tele_state;
 
     }
 
