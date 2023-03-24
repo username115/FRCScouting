@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -54,7 +55,14 @@ public class MatchActivity extends DBActivity {
     public static final int AUTO_SCREEN = 0;
     public static final int TELE_SCREEN = 1;
     public static final int END_SCREEN = 2;
-
+    @ColorInt
+    public static final int GRID_DESLECT_CONE = 0x66C5A92E;
+    @ColorInt
+    public static final int GRID_DESELECT_CUBE = 0x66602061;
+    @ColorInt
+    public static final int GRID_DESELECT_HYBRID = 0x66C0C0C0;
+    @ColorInt
+    public static final int GRID_SELECT_BACK = 0x000000;
     private MatchViewAdapter mMatchViewAdapter;
 
     private ViewPager mViewPager;
