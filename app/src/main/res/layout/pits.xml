@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TableRow
+            <!-- TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:entries="@array/programming" />
-            </TableRow>
+            </TableRow -->
 
             <TableRow
                 android:layout_width="match_parent"
@@ -94,6 +94,50 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/robot_width_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/robot_gross_widthT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/robot_width_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/robot_length_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/robot_gross_lengthT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/robot_length_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number" />
+            </TableRow>
+
+            <!-- TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/pits_batteries_text"
                     android:textStyle="bold" />
 
@@ -106,9 +150,9 @@
                     android:hint="@string/pits_batteries_hint"
                     android:importantForAutofill="no"
                     android:inputType="number" />
-            </TableRow>
+            </TableRow -->
 
-            <TableRow
+            <!-- TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -128,9 +172,9 @@
                     android:hint="@string/battery_chargers_hint"
                     android:importantForAutofill="no"
                     android:inputType="number" />
-            </TableRow>
+            </TableRow -->
 
-            <TableRow
+            <!-- TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -150,7 +194,7 @@
                     android:hint="@string/power_cells_hint"
                     android:importantForAutofill="no"
                     android:inputType="number" />
-            </TableRow>
+            </TableRow -->
         </TableLayout>
 
         <View
@@ -246,7 +290,7 @@
             android:background="@color/pits_seperator_color" />
 
 
-        <TextView
+        <!-- TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/header_text_auto"
@@ -394,7 +438,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dip"
-            android:background="@color/pits_seperator_color" />
+            android:background="@color/pits_seperator_color" / -->
 
         <TableLayout
             android:layout_width="match_parent"
