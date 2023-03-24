@@ -163,32 +163,59 @@ public class AutoMatchFragment extends MatchFragment {
             return;
 
         gridSubTopSub.setForeground(data.auto_substn_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridSubTopSub.setBackgroundColor(data.auto_substn_grid_top_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubTopMid.setForeground(data.auto_substn_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
+        gridSubTopMid.setBackgroundColor(data.auto_substn_grid_top_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridSubTopWall.setForeground(data.auto_substn_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridSubTopWall.setBackgroundColor(data.auto_substn_grid_top_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubMidSub.setForeground(data.auto_substn_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridSubMidSub.setBackgroundColor(data.auto_substn_grid_mid_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubMidMid.setForeground(data.auto_substn_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
+        gridSubMidMid.setBackgroundColor(data.auto_substn_grid_mid_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridSubMidWall.setForeground(data.auto_substn_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridSubMidWall.setBackgroundColor(data.auto_substn_grid_mid_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubHybSub.setForeground(data.auto_substn_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridSubHybSub.setBackgroundColor(data.auto_substn_grid_hyb_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridSubHybMid.setForeground(data.auto_substn_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridSubHybMid.setBackgroundColor(data.auto_substn_grid_hyb_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridSubHybWall.setForeground(data.auto_substn_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridSubHybWall.setBackgroundColor(data.auto_substn_grid_hyb_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridCoopTopSub.setForeground(data.auto_coop_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridCoopTopSub.setBackgroundColor(data.auto_coop_grid_top_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopTopMid.setForeground(data.auto_coop_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
+        gridCoopTopMid.setBackgroundColor(data.auto_coop_grid_top_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridCoopTopWall.setForeground(data.auto_coop_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridCoopTopWall.setBackgroundColor(data.auto_coop_grid_top_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopMidSub.setForeground(data.auto_coop_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridCoopMidSub.setBackgroundColor(data.auto_coop_grid_mid_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopMidMid.setForeground(data.auto_coop_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
+        gridCoopMidMid.setBackgroundColor(data.auto_coop_grid_mid_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridCoopMidWall.setForeground(data.auto_coop_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridCoopMidWall.setBackgroundColor(data.auto_coop_grid_mid_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopHybSub.setForeground(data.auto_coop_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridCoopHybSub.setBackgroundColor(data.auto_coop_grid_hyb_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridCoopHybMid.setForeground(data.auto_coop_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridCoopHybMid.setBackgroundColor(data.auto_coop_grid_hyb_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridCoopHybWall.setForeground(data.auto_coop_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridCoopHybWall.setBackgroundColor(data.auto_coop_grid_hyb_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridWallTopSub.setForeground(data.auto_wall_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridWallTopSub.setBackgroundColor(data.auto_wall_grid_top_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallTopMid.setForeground(data.auto_wall_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
+        gridWallTopMid.setBackgroundColor(data.auto_wall_grid_top_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridWallTopWall.setForeground(data.auto_wall_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridWallTopWall.setBackgroundColor(data.auto_wall_grid_top_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallMidSub.setForeground(data.auto_wall_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridWallMidSub.setBackgroundColor(data.auto_wall_grid_mid_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallMidMid.setForeground(data.auto_wall_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
+        gridWallMidMid.setBackgroundColor(data.auto_wall_grid_mid_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridWallMidWall.setForeground(data.auto_wall_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
+        gridWallMidWall.setBackgroundColor(data.auto_wall_grid_mid_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallHybSub.setForeground(data.auto_wall_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridWallHybSub.setBackgroundColor(data.auto_wall_grid_hyb_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridWallHybMid.setForeground(data.auto_wall_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridWallHybMid.setBackgroundColor(data.auto_wall_grid_hyb_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridWallHybWall.setForeground(data.auto_wall_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
+        gridWallHybWall.setBackgroundColor(data.auto_wall_grid_hyb_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
 
     }
 
@@ -200,6 +227,15 @@ public class AutoMatchFragment extends MatchFragment {
             pos = ((MatchActivity) act).getPosition();
         else
             pos = Prefs.getPosition(act, "Red 1");
+        if (pos.contains("Blue")) {
+            view.findViewById(R.id.autoTopGridLayout).setBackgroundResource(R.drawable.blueborder);
+            view.findViewById(R.id.autoMidGridLayout).setBackgroundResource(R.drawable.blueborder);
+            view.findViewById(R.id.autoBotGridLayout).setBackgroundResource(R.drawable.blueborder);
+        } else {
+            view.findViewById(R.id.autoTopGridLayout).setBackgroundResource(R.drawable.redborder);
+            view.findViewById(R.id.autoMidGridLayout).setBackgroundResource(R.drawable.redborder);
+            view.findViewById(R.id.autoBotGridLayout).setBackgroundResource(R.drawable.redborder);
+        }
 
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
             //Left side layout
@@ -392,113 +428,113 @@ public class AutoMatchFragment extends MatchFragment {
 
         gridSubTopSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_top_substn = !tempData.auto_substn_grid_top_substn;
-            return tempData.auto_substn_grid_top_substn ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_substn_grid_top_substn ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridSubTopMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_top_mid = !tempData.auto_substn_grid_top_mid;
-            return tempData.auto_substn_grid_top_mid ? GridContents.CUBE : GridContents.NONE;
+            return tempData.auto_substn_grid_top_mid ? GridContents.CUBE : GridContents.NONE_CUBE;
         }, tempData));
         gridSubTopWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_top_wall = !tempData.auto_substn_grid_top_wall;
-            return tempData.auto_substn_grid_top_wall ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_substn_grid_top_wall ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridSubMidSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_mid_substn = !tempData.auto_substn_grid_mid_substn;
-            return tempData.auto_substn_grid_mid_substn ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_substn_grid_mid_substn ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridSubMidMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_mid_mid = !tempData.auto_substn_grid_mid_mid;
-            return tempData.auto_substn_grid_mid_mid ? GridContents.CUBE : GridContents.NONE;
+            return tempData.auto_substn_grid_mid_mid ? GridContents.CUBE : GridContents.NONE_CUBE;
         }, tempData));
         gridSubMidWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_mid_wall = !tempData.auto_substn_grid_mid_wall;
-            return tempData.auto_substn_grid_mid_wall ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_substn_grid_mid_wall ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridSubHybSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_hyb_substn = !tempData.auto_substn_grid_hyb_substn;
-            return tempData.auto_substn_grid_hyb_substn ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_substn_grid_hyb_substn ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
         gridSubHybMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_hyb_mid = !tempData.auto_substn_grid_hyb_mid;
-            return tempData.auto_substn_grid_hyb_mid ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_substn_grid_hyb_mid ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
         gridSubHybWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_substn_grid_hyb_wall = !tempData.auto_substn_grid_hyb_wall;
-            return tempData.auto_substn_grid_hyb_wall ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_substn_grid_hyb_wall ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
 
         gridCoopTopSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_top_substn = !tempData.auto_coop_grid_top_substn;
-            return tempData.auto_coop_grid_top_substn ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_coop_grid_top_substn ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridCoopTopMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_top_mid = !tempData.auto_coop_grid_top_mid;
-            return tempData.auto_coop_grid_top_mid ? GridContents.CUBE : GridContents.NONE;
+            return tempData.auto_coop_grid_top_mid ? GridContents.CUBE : GridContents.NONE_CUBE;
         }, tempData));
         gridCoopTopWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_top_wall = !tempData.auto_coop_grid_top_wall;
-            return tempData.auto_coop_grid_top_wall ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_coop_grid_top_wall ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridCoopMidSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_mid_substn = !tempData.auto_coop_grid_mid_substn;
-            return tempData.auto_coop_grid_mid_substn ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_coop_grid_mid_substn ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridCoopMidMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_mid_mid = !tempData.auto_coop_grid_mid_mid;
-            return tempData.auto_coop_grid_mid_mid ? GridContents.CUBE : GridContents.NONE;
+            return tempData.auto_coop_grid_mid_mid ? GridContents.CUBE : GridContents.NONE_CUBE;
         }, tempData));
         gridCoopMidWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_mid_wall = !tempData.auto_coop_grid_mid_wall;
-            return tempData.auto_coop_grid_mid_wall ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_coop_grid_mid_wall ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridCoopHybSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_hyb_substn = !tempData.auto_coop_grid_hyb_substn;
-            return tempData.auto_coop_grid_hyb_substn ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_coop_grid_hyb_substn ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
         gridCoopHybMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_hyb_mid = !tempData.auto_coop_grid_hyb_mid;
-            return tempData.auto_coop_grid_hyb_mid ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_coop_grid_hyb_mid ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
         gridCoopHybWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_coop_grid_hyb_wall = !tempData.auto_coop_grid_hyb_wall;
-            return tempData.auto_coop_grid_hyb_wall ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_coop_grid_hyb_wall ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
 
         gridWallTopSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_top_substn = !tempData.auto_wall_grid_top_substn;
-            return tempData.auto_wall_grid_top_substn ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_wall_grid_top_substn ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridWallTopMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_top_mid = !tempData.auto_wall_grid_top_mid;
-            return tempData.auto_wall_grid_top_mid ? GridContents.CUBE : GridContents.NONE;
+            return tempData.auto_wall_grid_top_mid ? GridContents.CUBE : GridContents.NONE_CUBE;
         }, tempData));
         gridWallTopWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_top_wall = !tempData.auto_wall_grid_top_wall;
-            return tempData.auto_wall_grid_top_wall ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_wall_grid_top_wall ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridWallMidSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_mid_substn = !tempData.auto_wall_grid_mid_substn;
-            return tempData.auto_wall_grid_mid_substn ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_wall_grid_mid_substn ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridWallMidMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_mid_mid = !tempData.auto_wall_grid_mid_mid;
-            return tempData.auto_wall_grid_mid_mid ? GridContents.CUBE : GridContents.NONE;
+            return tempData.auto_wall_grid_mid_mid ? GridContents.CUBE : GridContents.NONE_CUBE;
         }, tempData));
         gridWallMidWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_mid_wall = !tempData.auto_wall_grid_mid_wall;
-            return tempData.auto_wall_grid_mid_wall ? GridContents.CONE : GridContents.NONE;
+            return tempData.auto_wall_grid_mid_wall ? GridContents.CONE : GridContents.NONE_CONE;
         }, tempData));
         gridWallHybSub.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_hyb_substn = !tempData.auto_wall_grid_hyb_substn;
-            return tempData.auto_wall_grid_hyb_substn ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_wall_grid_hyb_substn ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
         gridWallHybMid.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_hyb_mid = !tempData.auto_wall_grid_hyb_mid;
-            return tempData.auto_wall_grid_hyb_mid ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_wall_grid_hyb_mid ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
         gridWallHybWall.setOnClickListener(new GridClickListener(act, data -> {
             tempData.auto_wall_grid_hyb_wall = !tempData.auto_wall_grid_hyb_wall;
-            return tempData.auto_wall_grid_hyb_wall ? GridContents.HYBRID : GridContents.NONE;
+            return tempData.auto_wall_grid_hyb_wall ? GridContents.HYBRID : GridContents.NONE_HYBRID;
         }, tempData));
     }
 

@@ -122,6 +122,7 @@
                 </TableLayout>
 
                 <TableLayout
+                    android:id="@+id/topGridLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -308,6 +309,7 @@
                 </TableLayout>
 
                 <TableLayout
+                    android:id="@+id/midGridLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -459,6 +461,7 @@
                     tools:ignore="ContentDescription" />
 
                 <TableLayout
+                    android:id="@+id/botGridLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
