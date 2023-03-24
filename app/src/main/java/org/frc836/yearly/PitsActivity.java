@@ -41,10 +41,12 @@ public class PitsActivity extends DBActivity {
     private AutoCompleteTextView teamT;
     private TextView teamInfoT;
 
-    private Spinner languageS;
+    //private Spinner languageS;
     private EditText weightT;
-    private EditText batteryT;
-    private EditText chargersT;
+    private EditText widthT;
+    private EditText lengthT;
+    //private EditText batteryT;
+    //private EditText chargersT;
 
     private CheckBox tractionC;
     private CheckBox pneumaticC;
@@ -54,9 +56,9 @@ public class PitsActivity extends DBActivity {
     private CheckBox swerveC;
     private CheckBox otherDriveC;
 
-    private static final int NUM_RATINGS = 5;
-    private final CheckBox[] mechC = new CheckBox[NUM_RATINGS];
-    private final CheckBox[] elecC = new CheckBox[NUM_RATINGS];
+    //private static final int NUM_RATINGS = 5;
+    //private final CheckBox[] mechC = new CheckBox[NUM_RATINGS];
+    //private final CheckBox[] elecC = new CheckBox[NUM_RATINGS];
 
     private EditText commentsT;
 
@@ -88,10 +90,12 @@ public class PitsActivity extends DBActivity {
         teamT = findViewById(R.id.pits_teamT);
         teamT.setThreshold(1);
         teamInfoT = findViewById(R.id.pits_teamInfo);
-        languageS = findViewById(R.id.pits_languageS);
+        //languageS = findViewById(R.id.pits_languageS);
         weightT = findViewById(R.id.robot_gross_weightT);
-        batteryT = findViewById(R.id.team_batteriesT);
-        chargersT = findViewById(R.id.team_chargersT);
+        widthT = findViewById(R.id.robot_gross_widthT);
+        lengthT = findViewById(R.id.robot_gross_lengthT);
+        //batteryT = findViewById(R.id.team_batteriesT);
+        //chargersT = findViewById(R.id.team_chargersT);
 
         tractionC = findViewById(R.id.tractionC);
         pneumaticC = findViewById(R.id.pneumaticC);
@@ -101,6 +105,7 @@ public class PitsActivity extends DBActivity {
         swerveC = findViewById(R.id.swerveC);
         otherDriveC = findViewById(R.id.wheelOtherC);
 
+/*
         mechC[0] = findViewById(R.id.pits_mech_1);
         mechC[1] = findViewById(R.id.pits_mech_2);
         mechC[2] = findViewById(R.id.pits_mech_3);
@@ -112,6 +117,7 @@ public class PitsActivity extends DBActivity {
         elecC[2] = findViewById(R.id.pits_elec_3);
         elecC[3] = findViewById(R.id.pits_elec_4);
         elecC[4] = findViewById(R.id.pits_elec_5);
+*/
 
         commentsT = findViewById(R.id.pits_commentsT);
         Button submitB = findViewById(R.id.pits_submitB);
@@ -123,14 +129,17 @@ public class PitsActivity extends DBActivity {
 
         teamT.addTextChangedListener(new teamTextListener());
         submitB.setOnClickListener(new SubmitListener());
+/*
         for (int i = 0; i < NUM_RATINGS; i++) {
             mechC[i].setOnCheckedChangeListener(new RatingChangeListener(mechC, i));
             elecC[i].setOnCheckedChangeListener(new RatingChangeListener(elecC, i));
         }
+*/
     }
 
     public void onResume() {
         super.onResume();
+/*
 
         List<String> config = db.getProgrammingList();
         if (config != null) {
@@ -139,6 +148,7 @@ public class PitsActivity extends DBActivity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             languageS.setAdapter(adapter);
         }
+*/
 
         SharedPreferences prefs = PreferenceManager
             .getDefaultSharedPreferences(getBaseContext());
@@ -210,6 +220,16 @@ public class PitsActivity extends DBActivity {
             stats.robot_gross_weight_lbs = Integer.parseInt(tstr);
         else
             stats.robot_gross_weight_lbs = 0;
+        tstr = widthT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.robot_gross_width_in = Integer.parseInt(tstr);
+        else
+            stats.robot_gross_width_in = 0;
+        tstr = lengthT.getText().toString().trim();
+        if (tstr.length() > 0)
+            stats.robot_gross_length_in = Integer.parseInt(tstr);
+        else
+            stats.robot_gross_length_in = 0;
 
 //        tstr = batteryT.getText().toString().trim();
 //        if (tstr.length() > 0)
@@ -266,10 +286,12 @@ public class PitsActivity extends DBActivity {
         teamInfoT.setText("");
         commentsT.setText("");
 
-        languageS.setSelection(0);
+        //languageS.setSelection(0);
         weightT.setText("");
-        batteryT.setText("");
-        chargersT.setText("");
+        widthT.setText("");
+        lengthT.setText("");
+        //batteryT.setText("");
+        //chargersT.setText("");
 
         tractionC.setChecked(false);
         pneumaticC.setChecked(false);
@@ -279,10 +301,12 @@ public class PitsActivity extends DBActivity {
         swerveC.setChecked(false);
         otherDriveC.setChecked(false);
 
+/*
         for (int i = 0; i < NUM_RATINGS; i++) {
             mechC[i].setChecked(false);
             elecC[i].setChecked(false);
         }
+*/
 
 
         ////// 2020 START //////
@@ -389,6 +413,8 @@ public class PitsActivity extends DBActivity {
         commentsT.setText(stats.notes);
 
         weightT.setText(String.valueOf(stats.robot_gross_weight_lbs));
+        widthT.setText(String.valueOf(stats.robot_gross_width_in));
+        lengthT.setText(String.valueOf(stats.robot_gross_length_in));
 //        batteryT.setText(String.valueOf(stats.team_batteries));
 //        chargersT.setText(String.valueOf(stats.team_battery_chargers));
 
@@ -400,10 +426,12 @@ public class PitsActivity extends DBActivity {
         swerveC.setChecked(stats.swerve_drive);
         otherDriveC.setChecked(stats.other_drive_wheels);
 
+/*
         for (int i = 0; i < NUM_RATINGS; i++) {
             mechC[i].setChecked(false);
             elecC[i].setChecked(false);
         }
+*/
 //        if (stats.mechanical_appearance > 0 && stats.mechanical_appearance <= NUM_RATINGS)
 //            mechC[stats.mechanical_appearance - 1].setChecked(true);
 //        if (stats.electrical_appearance > 0 && stats.electrical_appearance <= NUM_RATINGS)
@@ -414,6 +442,7 @@ public class PitsActivity extends DBActivity {
     }
 
     private boolean dataClear() {
+/*
         boolean ratingClear = true;
         for (int i = 0; i < NUM_RATINGS; i++) {
             if (mechC[i].isChecked())
@@ -421,11 +450,14 @@ public class PitsActivity extends DBActivity {
             if (elecC[i].isChecked())
                 ratingClear = false;
         }
+*/
         return !(commentsT.getText().toString().length() > 0
-            || languageS.getSelectedItemPosition() != 0
+//            || languageS.getSelectedItemPosition() != 0
             || weightT.getText().toString().length() > 0
-            || batteryT.getText().toString().length() > 0
-            || chargersT.getText().toString().length() > 0
+            || widthT.getText().toString().length() > 0
+            || lengthT.getText().toString().length() > 0
+//            || batteryT.getText().toString().length() > 0
+//            || chargersT.getText().toString().length() > 0
             || tractionC.isChecked()
             || pneumaticC.isChecked()
             || tankC.isChecked()
@@ -433,7 +465,7 @@ public class PitsActivity extends DBActivity {
             || mecanumC.isChecked()
             || swerveC.isChecked()
             || otherDriveC.isChecked()
-            || !ratingClear
+//            || !ratingClear
 
             ////// 2020 START //////
             ////// 2020 END //////
@@ -449,6 +481,7 @@ public class PitsActivity extends DBActivity {
         teamT.setAdapter(adapter);
     }
 
+/*
     private static class RatingChangeListener implements CompoundButton.OnCheckedChangeListener {
 
         CheckBox[] m_list;
@@ -469,4 +502,5 @@ public class PitsActivity extends DBActivity {
             }
         }
     }
+*/
 }
