@@ -56,28 +56,18 @@ class GridClickListener implements View.OnClickListener{
         switch (con)
         {
             case NONE_CUBE:
-                v.setForeground(null);
-                v.setBackgroundColor(MatchActivity.GRID_DESELECT_CUBE);
-                break;
             case NONE_CONE:
-                v.setForeground(null);
-                v.setBackgroundColor(MatchActivity.GRID_DESLECT_CONE);
-                break;
             case NONE_HYBRID:
                 v.setForeground(null);
-                v.setBackgroundColor(MatchActivity.GRID_DESELECT_HYBRID);
                 break;
             case CUBE:
                 v.setForeground(AppCompatResources.getDrawable(m_context, R.drawable.selection_square_cube));
-                v.setBackgroundColor(MatchActivity.GRID_SELECT_BACK);
                 break;
             case CONE:
                 v.setForeground(AppCompatResources.getDrawable(m_context, R.drawable.selection_square_cone));
-                v.setBackgroundColor(MatchActivity.GRID_SELECT_BACK);
                 break;
             case HYBRID:
                 v.setForeground(AppCompatResources.getDrawable(m_context, R.drawable.selection_square_hybrid));
-                v.setBackgroundColor(MatchActivity.GRID_SELECT_BACK);
                 break;
         }
     }

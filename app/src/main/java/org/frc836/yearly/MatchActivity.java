@@ -56,13 +56,13 @@ public class MatchActivity extends DBActivity {
     public static final int TELE_SCREEN = 1;
     public static final int END_SCREEN = 2;
     @ColorInt
-    public static final int GRID_DESLECT_CONE = 0x66C5A92E;
+    public static final int GRID_BACK_CONE_ALPHA = 0x66FFFFFF;
     @ColorInt
-    public static final int GRID_DESELECT_CUBE = 0x66602061;
+    public static final int GRID_BACK_CONE_COOP = 0x66D0D0D0;
     @ColorInt
-    public static final int GRID_DESELECT_HYBRID = 0x66C0C0C0;
+    public static final int GRID_BACK_CUBE = 0x66202020;
     @ColorInt
-    public static final int GRID_SELECT_BACK = 0x000000;
+    public static final int GRID_BACK_HYBRID = 0x66C0C0C0;
     private MatchViewAdapter mMatchViewAdapter;
 
     private ViewPager mViewPager;
