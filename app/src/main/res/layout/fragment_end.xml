@@ -38,7 +38,7 @@
 
                     <TextView
                         android:id="@+id/chargeStationT"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
@@ -46,8 +46,8 @@
 
                     <TextView
                         android:id="@+id/cardsT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/cards" />
@@ -58,17 +58,19 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/chargeStationB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <Spinner
+                        android:id="@+id/chargeStationS"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/station_no_attempt" />
+                        android:background="@color/material_dynamic_neutral40"
+                        android:popupBackground="@color/material_dynamic_neutral50"
+                        android:entries="@array/charge_station_options" />
 
                     <Button
                         android:id="@+id/cardsB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/none" />
 
@@ -80,16 +82,16 @@
 
                     <TextView
                         android:id="@+id/feederT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/feeder_bot" />
 
                     <TextView
                         android:id="@+id/defenseT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/defense_bot" />
@@ -102,14 +104,14 @@
 
                     <Button
                         android:id="@+id/feederB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
                     <Button
                         android:id="@+id/defenseB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
                 </TableRow>

@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,7 +61,7 @@ public class AutoMatchFragment extends MatchFragment {
 
     private Drawable checkmarks;
     private Button mobilityB;
-    private Button chargeB;
+    private Spinner chargeS;
 
 
     private ImageButton gridSubTopSub;
@@ -140,6 +141,8 @@ public class AutoMatchFragment extends MatchFragment {
     public void saveData(@NonNull MatchStatsStruct data) {
         if (getView() == null || !displayed)
             return;
+
+        tempData.auto_charge_station = chargeS.getSelectedItemPosition();
 
         MatchStatsYearly.copyAuto(tempData, data);
     }
@@ -251,7 +254,7 @@ public class AutoMatchFragment extends MatchFragment {
             autoGridviewR.setVisibility(View.VISIBLE);
 
             mobilityB = view.findViewById(R.id.mobilityRB);
-            chargeB = view.findViewById(R.id.autoChargeRB);
+            chargeS = view.findViewById(R.id.autoChargeRS);
 
             if (pos.contains("Blue")) {
                 //substation at top of screen, hybrid on right
@@ -332,7 +335,7 @@ public class AutoMatchFragment extends MatchFragment {
             autoGridviewR.setVisibility(View.GONE);
 
             mobilityB = view.findViewById(R.id.mobilityLB);
-            chargeB = view.findViewById(R.id.autoChargeLB);
+            chargeS = view.findViewById(R.id.autoChargeLS);
 
             if (pos.contains("Blue")) {
                 //substation at bottom of screen, hybrid on left
@@ -420,7 +423,6 @@ public class AutoMatchFragment extends MatchFragment {
 
     private void setListeners() {
         mobilityB.setOnClickListener(new MobilityClickListener());
-        chargeB.setOnClickListener(new ChargeStationClickListener());
 
         Activity act = getActivity();
         if (act == null)
@@ -545,18 +547,14 @@ public class AutoMatchFragment extends MatchFragment {
     private void setChargeStation(@NonNull MatchStatsStruct data) {
         switch (data.auto_charge_station) {
             case 1:
-                chargeB.setText(R.string.station_attempt);
-                break;
             case 2:
-                chargeB.setText(R.string.station_docked);
-                break;
             case 3:
-                chargeB.setText(R.string.station_engaged);
+                chargeS.setSelection(data.auto_charge_station);
                 break;
             case 0:
             default:
                 data.auto_charge_station = 0;
-                chargeB.setText(R.string.station_no_attempt);
+                chargeS.setSelection(data.auto_charge_station);
                 break;
         }
     }
@@ -568,15 +566,6 @@ public class AutoMatchFragment extends MatchFragment {
             tempData.auto_mobility = !tempData.auto_mobility;
 
             setMobility(tempData);
-        }
-    }
-
-    private class ChargeStationClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            tempData.auto_charge_station++;
-            setChargeStation(tempData);
         }
     }
 }
