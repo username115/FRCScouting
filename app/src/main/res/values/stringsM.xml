@@ -5,10 +5,12 @@
     <string name="top_grid_abbr">T</string>
     <string name="charge_station">Charge Station</string>
     <string name="grid_view_description">Side View of GRID</string>
-    <string name="station_no_attempt">No Attempt</string>
-    <string name="station_attempt">Attempted</string>
-    <string name="station_docked">Docked</string>
-    <string name="station_engaged">Engaged</string>
+    <string-array name="charge_station_options">
+        <item name="station_no_attempt">No Attempt</item>
+        <item name="station_attempt">Attempted</item>
+        <item name="station_docked">Docked</item>
+        <item name="station_engaged">Engaged</item>
+    </string-array>
     <string name="fouls">Fouls</string>
     <string name="cards">Cards</string>
 </resources>

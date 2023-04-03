@@ -52,7 +52,7 @@ public class EndMatchFragment extends MatchFragment {
 
     private Drawable checkmarks;
 
-    private Button chargeB;
+    private Spinner chargeS;
     private Button cardsB;
     private Button feederB;
     private Button defenseB;
@@ -94,8 +94,7 @@ public class EndMatchFragment extends MatchFragment {
         commonNotes.setOnItemSelectedListener(new NotesSelectedListener());
         pastNotes.setOnItemSelectedListener(new NotesSelectedListener());
 
-        chargeB = view.findViewById(R.id.chargeStationB);
-        chargeB.setOnClickListener(new ChargeStationClickListener());
+        chargeS = view.findViewById(R.id.chargeStationS);
         cardsB = view.findViewById(R.id.cardsB);
         cardsB.setOnClickListener(new CardsClickListener());
         feederB = view.findViewById(R.id.feederB);
@@ -159,6 +158,7 @@ public class EndMatchFragment extends MatchFragment {
         data.yellow_card = tempData.yellow_card;
         data.defense = tempData.defense;
         data.feeder = tempData.feeder;
+        data.charge_station = chargeS.getSelectedItemPosition();
     }
 
     @Override
@@ -196,18 +196,14 @@ public class EndMatchFragment extends MatchFragment {
     private void setChargeStation(@NonNull MatchStatsStruct data) {
         switch (data.charge_station) {
             case 1:
-                chargeB.setText(R.string.station_attempt);
-                break;
             case 2:
-                chargeB.setText(R.string.station_docked);
-                break;
             case 3:
-                chargeB.setText(R.string.station_engaged);
+                chargeS.setSelection(data.charge_station);
                 break;
             case 0:
             default:
                 data.charge_station = 0;
-                chargeB.setText(R.string.station_no_attempt);
+                chargeS.setSelection(data.charge_station);
                 break;
         }
     }
@@ -251,15 +247,6 @@ public class EndMatchFragment extends MatchFragment {
         public void onNothingSelected(AdapterView<?> parent) {
         }
 
-    }
-
-    private class ChargeStationClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            tempData.charge_station++;
-            setChargeStation(tempData);
-        }
     }
 
     private class CardsClickListener implements View.OnClickListener {

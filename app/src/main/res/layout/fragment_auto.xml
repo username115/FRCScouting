@@ -250,13 +250,15 @@
                         android:text="@string/charge_station"
                         app:autoSizeTextType="uniform" />
 
-                    <Button
-                        android:id="@+id/autoChargeLB"
+                    <Spinner
+                        android:id="@+id/autoChargeLS"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/station_no_attempt"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:background="@color/material_dynamic_neutral40"
+                        android:entries="@array/charge_station_options"
+                        android:popupBackground="@color/material_dynamic_neutral50" />
 
                 </LinearLayout>
 
@@ -371,12 +373,15 @@
                         android:text="@string/charge_station"
                         app:autoSizeTextType="uniform" />
 
-                    <Button
-                        android:id="@+id/autoChargeRB"
+                    <Spinner
+                        android:id="@+id/autoChargeRS"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:background="@color/material_dynamic_neutral40"
+                        android:entries="@array/charge_station_options"
+                        android:popupBackground="@color/material_dynamic_neutral50" />
 
                 </LinearLayout>
             </LinearLayout>

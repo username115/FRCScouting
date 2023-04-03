@@ -18,6 +18,7 @@ package org.frc836.yearly;
 import static org.frc836.yearly.GridClickListener.GridContents;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,7 +62,7 @@ public class AutoMatchFragment extends MatchFragment {
 
     private Drawable checkmarks;
     private Button mobilityB;
-    private Button chargeB;
+    private Spinner chargeS;
 
 
     private ImageButton gridSubTopSub;
@@ -141,6 +143,8 @@ public class AutoMatchFragment extends MatchFragment {
         if (getView() == null || !displayed)
             return;
 
+        tempData.auto_charge_station = chargeS.getSelectedItemPosition();
+
         MatchStatsYearly.copyAuto(tempData, data);
     }
 
@@ -163,59 +167,32 @@ public class AutoMatchFragment extends MatchFragment {
             return;
 
         gridSubTopSub.setForeground(data.auto_substn_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubTopSub.setBackgroundColor(data.auto_substn_grid_top_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubTopMid.setForeground(data.auto_substn_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridSubTopMid.setBackgroundColor(data.auto_substn_grid_top_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridSubTopWall.setForeground(data.auto_substn_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubTopWall.setBackgroundColor(data.auto_substn_grid_top_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubMidSub.setForeground(data.auto_substn_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubMidSub.setBackgroundColor(data.auto_substn_grid_mid_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubMidMid.setForeground(data.auto_substn_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridSubMidMid.setBackgroundColor(data.auto_substn_grid_mid_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridSubMidWall.setForeground(data.auto_substn_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridSubMidWall.setBackgroundColor(data.auto_substn_grid_mid_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridSubHybSub.setForeground(data.auto_substn_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridSubHybSub.setBackgroundColor(data.auto_substn_grid_hyb_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridSubHybMid.setForeground(data.auto_substn_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridSubHybMid.setBackgroundColor(data.auto_substn_grid_hyb_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridSubHybWall.setForeground(data.auto_substn_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridSubHybWall.setBackgroundColor(data.auto_substn_grid_hyb_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridCoopTopSub.setForeground(data.auto_coop_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopTopSub.setBackgroundColor(data.auto_coop_grid_top_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopTopMid.setForeground(data.auto_coop_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridCoopTopMid.setBackgroundColor(data.auto_coop_grid_top_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridCoopTopWall.setForeground(data.auto_coop_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopTopWall.setBackgroundColor(data.auto_coop_grid_top_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopMidSub.setForeground(data.auto_coop_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopMidSub.setBackgroundColor(data.auto_coop_grid_mid_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopMidMid.setForeground(data.auto_coop_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridCoopMidMid.setBackgroundColor(data.auto_coop_grid_mid_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridCoopMidWall.setForeground(data.auto_coop_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridCoopMidWall.setBackgroundColor(data.auto_coop_grid_mid_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridCoopHybSub.setForeground(data.auto_coop_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridCoopHybSub.setBackgroundColor(data.auto_coop_grid_hyb_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridCoopHybMid.setForeground(data.auto_coop_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridCoopHybMid.setBackgroundColor(data.auto_coop_grid_hyb_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridCoopHybWall.setForeground(data.auto_coop_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridCoopHybWall.setBackgroundColor(data.auto_coop_grid_hyb_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridWallTopSub.setForeground(data.auto_wall_grid_top_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallTopSub.setBackgroundColor(data.auto_wall_grid_top_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallTopMid.setForeground(data.auto_wall_grid_top_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridWallTopMid.setBackgroundColor(data.auto_wall_grid_top_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridWallTopWall.setForeground(data.auto_wall_grid_top_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallTopWall.setBackgroundColor(data.auto_wall_grid_top_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallMidSub.setForeground(data.auto_wall_grid_mid_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallMidSub.setBackgroundColor(data.auto_wall_grid_mid_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallMidMid.setForeground(data.auto_wall_grid_mid_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cube) : null);
-        gridWallMidMid.setBackgroundColor(data.auto_wall_grid_mid_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_CUBE);
         gridWallMidWall.setForeground(data.auto_wall_grid_mid_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_cone) : null);
-        gridWallMidWall.setBackgroundColor(data.auto_wall_grid_mid_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESLECT_CONE);
         gridWallHybSub.setForeground(data.auto_wall_grid_hyb_substn ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridWallHybSub.setBackgroundColor(data.auto_wall_grid_hyb_substn ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridWallHybMid.setForeground(data.auto_wall_grid_hyb_mid ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridWallHybMid.setBackgroundColor(data.auto_wall_grid_hyb_mid ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
         gridWallHybWall.setForeground(data.auto_wall_grid_hyb_wall ? AppCompatResources.getDrawable(act, R.drawable.selection_square_hybrid) : null);
-        gridWallHybWall.setBackgroundColor(data.auto_wall_grid_hyb_wall ? MatchActivity.GRID_SELECT_BACK : MatchActivity.GRID_DESELECT_HYBRID);
 
     }
 
@@ -227,15 +204,6 @@ public class AutoMatchFragment extends MatchFragment {
             pos = ((MatchActivity) act).getPosition();
         else
             pos = Prefs.getPosition(act, "Red 1");
-        if (pos.contains("Blue")) {
-            view.findViewById(R.id.autoTopGridLayout).setBackgroundResource(R.drawable.blueborder);
-            view.findViewById(R.id.autoMidGridLayout).setBackgroundResource(R.drawable.blueborder);
-            view.findViewById(R.id.autoBotGridLayout).setBackgroundResource(R.drawable.blueborder);
-        } else {
-            view.findViewById(R.id.autoTopGridLayout).setBackgroundResource(R.drawable.redborder);
-            view.findViewById(R.id.autoMidGridLayout).setBackgroundResource(R.drawable.redborder);
-            view.findViewById(R.id.autoBotGridLayout).setBackgroundResource(R.drawable.redborder);
-        }
 
         if ((pos.contains("Blue") && !redLeft) || ((!pos.contains("Blue") && redLeft))) {
             //Left side layout
@@ -251,7 +219,7 @@ public class AutoMatchFragment extends MatchFragment {
             autoGridviewR.setVisibility(View.VISIBLE);
 
             mobilityB = view.findViewById(R.id.mobilityRB);
-            chargeB = view.findViewById(R.id.autoChargeRB);
+            chargeS = view.findViewById(R.id.autoChargeRS);
 
             if (pos.contains("Blue")) {
                 //substation at top of screen, hybrid on right
@@ -332,7 +300,7 @@ public class AutoMatchFragment extends MatchFragment {
             autoGridviewR.setVisibility(View.GONE);
 
             mobilityB = view.findViewById(R.id.mobilityLB);
-            chargeB = view.findViewById(R.id.autoChargeLB);
+            chargeS = view.findViewById(R.id.autoChargeLS);
 
             if (pos.contains("Blue")) {
                 //substation at bottom of screen, hybrid on left
@@ -399,6 +367,46 @@ public class AutoMatchFragment extends MatchFragment {
                 gridWallHybWall = view.findViewById(R.id.autoGridBotBotLeft);
             }
         }
+        int color;
+        if (pos.contains("Blue")) {
+            color = Color.BLUE;
+            view.findViewById(R.id.autoTopGridLayout).setBackgroundResource(R.drawable.blueborder);
+            view.findViewById(R.id.autoMidGridLayout).setBackgroundResource(R.drawable.blueborder);
+            view.findViewById(R.id.autoBotGridLayout).setBackgroundResource(R.drawable.blueborder);
+        } else {
+            color = Color.RED;
+            view.findViewById(R.id.autoTopGridLayout).setBackgroundResource(R.drawable.redborder);
+            view.findViewById(R.id.autoMidGridLayout).setBackgroundResource(R.drawable.redborder);
+            view.findViewById(R.id.autoBotGridLayout).setBackgroundResource(R.drawable.redborder);
+        }
+
+        gridSubTopSub.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridSubTopMid.setBackgroundColor(MatchActivity.GRID_BACK_CUBE);
+        gridSubTopWall.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridSubMidSub.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridSubMidMid.setBackgroundColor(MatchActivity.GRID_BACK_CUBE);
+        gridSubMidWall.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridSubHybSub.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridSubHybMid.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridSubHybWall.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridCoopTopSub.setBackgroundColor(MatchActivity.GRID_BACK_CONE_COOP);
+        gridCoopTopMid.setBackgroundColor(MatchActivity.GRID_BACK_CUBE);
+        gridCoopTopWall.setBackgroundColor(MatchActivity.GRID_BACK_CONE_COOP);
+        gridCoopMidSub.setBackgroundColor(MatchActivity.GRID_BACK_CONE_COOP);
+        gridCoopMidMid.setBackgroundColor(MatchActivity.GRID_BACK_CUBE);
+        gridCoopMidWall.setBackgroundColor(MatchActivity.GRID_BACK_CONE_COOP);
+        gridCoopHybSub.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridCoopHybMid.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridCoopHybWall.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridWallTopSub.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridWallTopMid.setBackgroundColor(MatchActivity.GRID_BACK_CUBE);
+        gridWallTopWall.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridWallMidSub.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridWallMidMid.setBackgroundColor(MatchActivity.GRID_BACK_CUBE);
+        gridWallMidWall.setBackgroundColor(color & MatchActivity.GRID_BACK_CONE_ALPHA);
+        gridWallHybSub.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridWallHybMid.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
+        gridWallHybWall.setBackgroundColor(MatchActivity.GRID_BACK_HYBRID);
     }
 
     private void getBaseGUIRefs(View view) {
@@ -420,7 +428,6 @@ public class AutoMatchFragment extends MatchFragment {
 
     private void setListeners() {
         mobilityB.setOnClickListener(new MobilityClickListener());
-        chargeB.setOnClickListener(new ChargeStationClickListener());
 
         Activity act = getActivity();
         if (act == null)
@@ -545,18 +552,14 @@ public class AutoMatchFragment extends MatchFragment {
     private void setChargeStation(@NonNull MatchStatsStruct data) {
         switch (data.auto_charge_station) {
             case 1:
-                chargeB.setText(R.string.station_attempt);
-                break;
             case 2:
-                chargeB.setText(R.string.station_docked);
-                break;
             case 3:
-                chargeB.setText(R.string.station_engaged);
+                chargeS.setSelection(data.auto_charge_station);
                 break;
             case 0:
             default:
                 data.auto_charge_station = 0;
-                chargeB.setText(R.string.station_no_attempt);
+                chargeS.setSelection(data.auto_charge_station);
                 break;
         }
     }
@@ -568,15 +571,6 @@ public class AutoMatchFragment extends MatchFragment {
             tempData.auto_mobility = !tempData.auto_mobility;
 
             setMobility(tempData);
-        }
-    }
-
-    private class ChargeStationClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            tempData.auto_charge_station++;
-            setChargeStation(tempData);
         }
     }
 }
