@@ -60,11 +60,10 @@
 
                     <Spinner
                         android:id="@+id/chargeStationS"
+                        style="@style/SpinnerAsButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@color/material_dynamic_neutral40"
-                        android:popupBackground="@color/material_dynamic_neutral50"
                         android:entries="@array/charge_station_options" />
 
                     <Button
