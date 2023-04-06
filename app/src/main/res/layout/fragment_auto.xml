@@ -252,13 +252,12 @@
 
                     <Spinner
                         android:id="@+id/autoChargeLS"
+                        style="@style/SpinnerAsButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:background="@color/material_dynamic_neutral40"
-                        android:entries="@array/charge_station_options"
-                        android:popupBackground="@color/material_dynamic_neutral50" />
+                        android:entries="@array/charge_station_options" />
 
                 </LinearLayout>
 
@@ -375,13 +374,12 @@
 
                     <Spinner
                         android:id="@+id/autoChargeRS"
+                        style="@style/SpinnerAsButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:background="@color/material_dynamic_neutral40"
-                        android:entries="@array/charge_station_options"
-                        android:popupBackground="@color/material_dynamic_neutral50" />
+                        android:entries="@array/charge_station_options" />
 
                 </LinearLayout>
             </LinearLayout>
