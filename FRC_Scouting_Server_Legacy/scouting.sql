@@ -190,7 +190,27 @@ INSERT INTO `event_lu` (`id`, `event_name`, `event_code`, `date_start`, `timesta
 (164, 'PNW District Glacier Peak Event', 'WASNO', '2023-03-03 00:00:00', '2023-01-16 19:47:42', 0),
 (165, 'PNW District SunDome Event', 'WAYAK', '2023-03-16 00:00:00', '2023-01-16 19:47:42', 0),
 (166, 'Seven Rivers Regional', 'WILA', '2023-03-29 00:00:00', '2023-01-16 19:47:42', 0),
-(167, 'Wisconsin Regional', 'WIMI', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0);
+(167, 'Wisconsin Regional', 'WIMI', '2023-03-22 00:00:00', '2023-01-16 19:47:42', 0),
+(168, 'FIRST Championship - Archimedes Division', 'ARPKY', '2023-04-19 00:00:00', '2023-04-19 20:16:23', 0),
+(169, 'FIRST Championship - Curie Division', 'CPRA', '2023-04-19 00:00:00', '2023-04-19 20:19:31', 0),
+(170, 'FIRST Championship - Daly Division', 'DCMP', '2023-04-19 00:00:00', '2023-04-19 20:19:31', 0),
+(171, 'FIRST Championship - Galileo Division', 'GCMP', '2023-04-19 00:00:00', '2023-04-19 20:19:31', 0),
+(172, 'FIRST Championship - Hopper Division', 'HCMP', '2023-04-19 00:00:00', '2023-04-19 20:19:31', 0),
+(173, 'FIRST Championship - Johnson Division', 'JCMP', '2023-04-19 00:00:00', '2023-04-19 20:19:31', 0),
+(174, 'FIRST in Michigan State Championship presented by DTE Foundation - DTE ENERGY FOUNDATION Division', 'MICMP1', '2023-04-06 00:00:00', '2023-04-19 20:03:12', 0),
+(175, 'FIRST in Michigan State Championship presented by DTE Foundation - FORD Division', 'MICMP2', '2023-04-06 00:00:00', '2023-04-19 20:03:12', 0),
+(176, 'FIRST in Michigan State Championship presented by DTE Foundation - APTIV Division', 'MICMP3', '2023-04-06 00:00:00', '2023-04-19 20:03:12', 0),
+(177, 'FIRST in Michigan State Championship presented by DTE Foundation - CONSUMERS ENERGY Division', 'MICMP4', '2023-04-06 00:00:00', '2023-04-19 20:03:12', 0),
+(178, 'FIRST Championship - Milstein Division', 'MPCIA', '2023-04-19 00:00:00', '2023-04-19 20:18:04', 0),
+(179, 'New England FIRST District Championship - MEIR Division', 'NECMP1', '2023-04-05 00:00:00', '2023-04-19 20:03:12', 0),
+(180, 'New England FIRST District Championship - WILSON Division', 'NECMP2', '2023-04-05 00:00:00', '2023-04-19 20:03:12', 0),
+(181, 'FIRST Championship - Newton Division', 'NPFCMP', '2023-04-19 00:00:00', '2023-04-19 20:18:04', 0),
+(182, 'FIRST Ontario Provincial Championship - TECHNOLOGY Division', 'ONCMP1', '2023-04-05 00:00:00', '2023-04-19 20:03:12', 0),
+(183, 'FIRST Ontario Provincial Championship - SCIENCE Division', 'ONCMP2', '2023-04-05 00:00:00', '2023-04-19 20:03:12', 0),
+(184, 'Halic Regional', 'TUHC', '2023-03-31 00:00:00', '2023-04-19 20:03:12', 0),
+(185, 'FIRST In Texas District Championship presented by Phillips 66 - APOLLO Division', 'TXCMP1', '2023-04-05 00:00:00', '2023-04-19 20:03:12', 0),
+(186, 'FIRST In Texas District Championship presented by Phillips 66 - MERCURY Division', 'TXCMP2', '2023-04-05 00:00:00', '2023-04-19 20:03:12', 0),
+(187, 'Week 0', 'WEEK0', '2023-02-18 00:00:00', '2023-04-19 20:03:12', 0);
 
 CREATE TABLE IF NOT EXISTS `fact_match_data_2023` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
